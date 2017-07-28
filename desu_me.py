@@ -90,6 +90,10 @@ def download_files(baseroot, images, subfolder: str = ''):
         print('Archive ' + archive + ' exist. Skip')
         return
 
+    _dirname = os.path.dirname(archive)
+    if not os.path.isdir(_dirname):
+        os.makedirs(_dirname)
+
     print('Images count:', images_count)
 
     while i < images_count:
