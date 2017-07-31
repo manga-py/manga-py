@@ -16,7 +16,7 @@ from sys import stderr
 from shutil import rmtree
 
 domainUri = 'http://shakai.ru'
-uriRegex = 'https?://(?:www\.)?shakai\.ru/manga(?:-read)/(\d+)/?'
+uriRegex = 'https?://(?:www\.)?shakai\.ru/manga(?:-read)?/(\d+)/?'
 # imagesDirRegex = 'servers\s?=\s?"(.*)"'
 imagesRegex = 'rm_h\.init.+?(\[\[.+\]\])'
 archivesDir = os.path.join(os.getcwd(), 'manga')
@@ -90,7 +90,7 @@ def get_content(uri: str):
     return result
 
 
-def download_files(images, archiveName: str, subfolder: str = ''):
+def download_files(images, archive_name: str, subfolder: str = ''):
     temp_directory = get_temp_path()
     if os.path.isdir(temp_directory):
         rmtree(temp_directory)
@@ -98,11 +98,14 @@ def download_files(images, archiveName: str, subfolder: str = ''):
     images_count = len(images)
     i = 0
 
-    archive = os.path.join(archivesDir, subfolder, archiveName + '.zip')
+    archive_folder = os.path.join(archivesDir, subfolder, archive_name)
+    archive = archive_folder + '.zip'
 
     if os.path.isfile(archive):
         print('Archive ' + archive + ' exist. Skip')
         return
+
+    create_archive = True
 
     _dirname = os.path.dirname(archive)
     if not os.path.isdir(_dirname):
@@ -119,15 +122,23 @@ def download_files(images, archiveName: str, subfolder: str = ''):
             print('Warning! Don\'t downloaded file. Retry')
             if not _safe_downloader(_url, os.path.join(temp_directory, name)):
                 print('Error downloading %s' % _url, file=stderr)
-                return
+                create_archive = False
+                # return
 
-    archive = zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED)
+    if create_archive:
+        archive = zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED)
 
-    for f in os.listdir(temp_directory):
-        file = os.path.join(temp_directory, f)
-        if os.path.isfile(file):
-            archive.write(file, f)
-    archive.close()
+        for f in os.listdir(temp_directory):
+            file = os.path.join(temp_directory, f)
+            if os.path.isfile(file):
+                archive.write(file, f)
+        archive.close()
+    else:
+        if os.path.isdir(archive_folder):
+            print('Please, move files manually and press enter (src: %s dst: %s' % (temp_directory, archive_folder, ))
+            input()
+        else:
+            os.rename(temp_directory, archive_folder)
 
 
 def get_volumes_links(content: str):

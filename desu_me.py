@@ -84,11 +84,14 @@ def download_files(baseroot, images, subfolder: str = ''):
     i = 0
 
     archive = os.path.basename(baseroot.strip('/'))
-    archive = os.path.join(archivesDir, subfolder, archive + '.zip')
+    archive_folder = os.path.join(archivesDir, subfolder, archive)
+    archive = archive_folder + '.zip'
 
     if os.path.isfile(archive):
         print('Archive ' + archive + ' exist. Skip')
         return
+
+    create_archive = True
 
     _dirname = os.path.dirname(archive)
     if not os.path.isdir(_dirname):
@@ -105,15 +108,24 @@ def download_files(baseroot, images, subfolder: str = ''):
             print('Warning! Don\'t downloaded file. Retry')
             if not _safe_downloader(_url, os.path.join(temp_directory, name)):
                 print('Error downloading %s' % _url, file=stderr)
-                return
+                print('see %s' % _url, file=stderr)
+                create_archive = False
+                # return
 
-    archive = zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED)
+    if create_archive:
+        archive = zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED)
 
-    for f in os.listdir(temp_directory):
-        file = os.path.join(temp_directory, f)
-        if os.path.isfile(file):
-            archive.write(file, f)
-    archive.close()
+        for f in os.listdir(temp_directory):
+            file = os.path.join(temp_directory, f)
+            if os.path.isfile(file):
+                archive.write(file, f)
+        archive.close()
+    else:
+        if os.path.isdir(archive_folder):
+            print('Please, move files manually and press enter (src: %s dst: %s' % (temp_directory, archive_folder, ))
+            input()
+        else:
+            os.rename(temp_directory, archive_folder)
 
 
 def get_manga_images(content):
