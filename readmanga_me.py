@@ -4,15 +4,18 @@
 from requests import get as get_request
 import lxml.html as html
 import zipfile
-from urllib import request as url_request
-from urllib import error as url_error
+from urllib import (
+    request as url_request,
+    error as url_error,
+    parse
+)
 import tempfile
 import os
 import random
 import re
 import json
 from sys import stderr
-from shutil import rmtree
+from shutil import (rmtree, move)
 
 domainUri = 'http://readmanga.me'
 uriRegex = 'https?://(?:www\.)?readmanga\.me/([^/]+)/?'
@@ -101,6 +104,7 @@ def download_files(images, archive_name: str, subfolder: str = ''):
     while i < images_count:
         _url = images[i]
         name = os.path.basename(_url)
+        _url = parse.quote(_url, '/:?')
         i += 1
 
         if not _safe_downloader(_url, os.path.join(temp_directory, name)):
@@ -131,7 +135,7 @@ def download_files(images, archive_name: str, subfolder: str = ''):
             print('Please, move files manually and press enter (src: %s dst: %s' % (temp_directory, archive_folder, ))
             input()
         else:
-            os.rename(temp_directory, archive_folder)
+            move(temp_directory, archive_folder)
 
 
 def get_volumes_links(content: str):
