@@ -4,7 +4,6 @@
 from requests import (get as get_request, post as post_request)
 import lxml.html as html
 import zipfile
-import urllib
 from urllib import (
     request as url_request,
     error as url_error,
