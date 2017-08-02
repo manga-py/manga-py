@@ -140,6 +140,14 @@ def download_files(images, archive_name: str, subfolder: str = ''):
             move(temp_directory, archive_folder)
 
 
+def get_manga_images(content):
+    result = re.search(imagesRegex, content, re.M)
+    if result is None:
+        return []
+    result = [i[1] + i[0] + i[2] for i in json.loads(result.groups()[0].replace("'", '"'))]
+    return result
+
+
 def get_volumes_links(content: str):
     """
     :param content: str
