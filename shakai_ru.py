@@ -72,6 +72,8 @@ def _safe_downloader(url, file_name):
         return True
     except url_error.HTTPError:
         return False
+    except url_error.URLError:
+        return False
 
 
 def get_temp_path(path: str = ''):
