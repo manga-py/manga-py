@@ -6,15 +6,13 @@ import random
 import tempfile
 import shutil
 import atexit
+import requests
+import zipfile
 from sys import stderr
 from argparse import ArgumentParser
 from urllib import (
     request as url_request,
     error as url_error
-)
-from requests import (
-    get as get_request,
-    post as post_request
 )
 from providers import (
     desu_me,
@@ -32,6 +30,9 @@ tty_rows, tty_columns = os.popen('stty size', 'r').read().split()
 rnd_temp_path = str(random.random())
 archivesDir = os.path.join(os.getcwd(), 'manga')
 
+debug_mode = False
+count_reties = 3
+
 
 if not os.path.isdir(archivesDir):
     if not os.access(os.getcwd(), os.W_OK):
@@ -48,7 +49,7 @@ def before_shutdown():
     shutil.rmtree(get_temp_path())
 
 
-def _progress(items_count: int = 0, current_item: int = 0):
+def _progress(items_count: int, current_item: int):
     columns = int(tty_columns)
     one_percent = columns/items_count
     current_position = int(float(current_item) * one_percent)
@@ -64,37 +65,35 @@ def _create_parser():
     parse = ArgumentParser()
 
     parse.add_argument('-u', '--url', type=str, required=False, help='Downloaded url', default='')
+    parse.add_argument('-n', '--name', type=str, required=False, help='Manga name', default='')
     parse.add_argument('-d', '--destination', type=str, required=False, help='Destination folder', default=archivesDir)
+    parse.add_argument('--debug', action='store_const', required=False, const=True, default=False)
 
     return parse
 
 
-def _get(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None):
+def __requests(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data=None, method='get'):
     if not headers:
         headers = {}
     if not cookies:
         cookies = ()
-    response = get_request(filename, headers=headers, cookies=cookies)
+    if not data:
+        data = ()
+    response = getattr(requests, method)(url=filename, headers=headers, cookies=cookies, data=data)
     ret = response.text
     if offset > 0:
         ret = ret[offset:]
     if maxlen > 0:
         ret = ret[:maxlen]
     return ret
+
+
+def _get(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None):
+    return __requests(filename=filename, offset=offset, maxlen=maxlen, headers=headers, cookies=cookies, method='get')
 
 
 def _post(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data: dict = ()):
-    if not headers:
-        headers = {}
-    if not cookies:
-        cookies = ()
-    response = post_request(filename, headers=headers, cookies=cookies, data=data)
-    ret = response.text
-    if offset > 0:
-        ret = ret[offset:]
-    if maxlen > 0:
-        ret = ret[:maxlen]
-    return ret
+    return __requests(filename=filename, offset=offset, maxlen=maxlen, headers=headers, cookies=cookies, method='post', data=data)
 
 
 def _safe_downloader(url, file_name):
@@ -116,38 +115,49 @@ def get_temp_path(path: str = ''):
     return os.path.join(rnd_dir, path)
 
 
-def get_content(uri: str):
-    """
-    :param uri:
-    :return:
-    """
-    result = _get(uri)
-    if result is None:
-        return b''
-    return result
-
-
 class MangaDownloader:
 
     url = ''
+    name = ''
     main_content = ''
     status = False
     downloader = None
 
-    def __init__(self, url):
+    def __init__(self, url: str, name: str = ''):
         self.url = url
+        self.name = name
         self.switcher()
+        if len(name) < 1:
+            self.get_manga_name()
+
+    def _get_destination_directory(self):
+        return os.path.join(arguments.destination, self.name)
 
     def switcher(self):
-        self.status = True # if all ok
+        self.status = True
 
         i = 0
 
-        if self.status:
-            self.downloader = providers_list[i]
+        for d in providers_list:
+            if d.test_url(self.url):
+                break
+            i += 1
 
-    def make_manga_dir(self, path):
-        pass
+        if i >= len(providers_list):
+            self.status = False
+            return
+
+        self.make_manga_dir()
+        self.downloader = providers_list[i]
+
+    def make_manga_dir(self):
+        path = self._get_destination_directory()
+        if os.path.isdir(path):
+            return
+        if os.path.exists(path):
+            print('Destination exist, but it not directory! Exit')
+            exit(1)
+        os.makedirs(path)
 
     def get_manga_name(self):
         """
@@ -155,52 +165,105 @@ class MangaDownloader:
         :param url:
         :return:
         """
-        pass
+        self.name = self.downloader.get_manga_name(self.url)
 
     def get_main_content(self):
         """
-        :param url:
         :return:
         """
-        pass
-        # return self.main_content # future
+        self.main_content = self.downloader.get_main_content(self.url, get=_get, post=_post)
 
-    def get_images(self):
+    def get_volumes(self):
+        volumes = self.downloader.get_volumes(self.main_content)
+        if len(volumes) < 1:
+            print('Volumes not found. Exit')
+            exit(1)
+        return volumes
+
+    def get_images(self, volume):
         """
-        :param url:
         :return:
         """
-        return []
+        images = self.downloader.get_images(main_content=self.main_content, volume=volume, get=_get, post=_post)
+        if len(images) < 1 and debug_mode:
+            print('Images not found')
+        return images
 
-    def download_images(self, images: dict):
-        pass
+    def make_archive(self, archive_name: str):
+        d = os.path.join(self._get_destination_directory(), archive_name + '.zip')
+        archive = zipfile.ZipFile(d, 'w', zipfile.ZIP_DEFLATED)
+
+        temp_directory = get_temp_path()
+        for f in os.listdir(temp_directory):
+            file = os.path.join(temp_directory, f)
+            if os.path.isfile(file):
+                archive.write(file, f)
+        archive.close()
+
+    def __download_image(self, url, path):
+        r = 0
+        while r < count_reties:
+            r += 1
+            if _safe_downloader(url, path):
+                break
+            if debug_mode:
+                mode = 'Skip image'
+                if r < count_reties:
+                    mode = 'Retry'
+                print('Error downloading. %s' % (mode,))
+
+    def download_images(self):
+        volumes = self.get_volumes()
+
+        for v in volumes:
+            temp_path = get_temp_path()
+            images = self.get_images(v)
+            archive_name = self.downloader.get_archive_name(v)
+
+            if debug_mode:
+                print('Start downloading %s' % (archive_name, ))
+            images_len = len(images)
+
+            for i in images:
+                if debug_mode:
+                    _progress(i, images_len)
+                image_full_name = os.path.join(temp_path, os.path.basename(i))
+                self.__download_image(i, image_full_name)
+
+            self.make_archive(archive_name)
+            shutil.rmtree(temp_path)
 
 
-def manual_input():
-    print('Please, paste desu.me manga url.')
-    url = str(input())
+def manual_input(prompt: str):
+    url = str(input(prompt + '\n'))
     if url == 'q':
-        print('Quit command. Exit')
+        if debug_mode:
+            print('Quit command. Exit')
         exit(0)
 
+    return url
 
-def main(url):
-    manga = MangaDownloader(url)
+
+def main(url: str, name: str = ''):
+    if debug_mode:
+        print(url, name)
+    manga = MangaDownloader(url, name)
     if manga.status:
         pass
-        # manga.get_main_content()
-        # manga.get_manga_name()
-        # manga.make_manga_dir()
-        # manga.get_images()
+        manga.get_main_content()
+        manga.download_images()
+    else:
+        print('Status error. Exit')
+        exit(1)
 
 if __name__ == '__main__':
     arguments = _create_parser().parse_args()
-    # print(arguments.destination, )
-    # exit()
+    debug_mode = arguments.debug
+    name = arguments.name
     if arguments.url:
         url = arguments.url
     else:
-        url = manual_input()
-    main(url)
-
-    pass
+        url = manual_input('Please, paste manga url.')
+        if len(name) < 1:
+            name = manual_input('Please, paste manga name')
+    main(url, name)

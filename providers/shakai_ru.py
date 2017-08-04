@@ -26,14 +26,31 @@ archivesDir = os.path.join(os.getcwd(), 'manga')
 rnd_temp_path = str(random.random())
 
 
-if not os.path.isdir(archivesDir):
-    if not os.access(os.getcwd(), os.W_OK):
-        print('Current directory not writeable and manga directory not exist', file=stderr)
-        exit(1)
-    os.makedirs(archivesDir)
-elif not os.access(archivesDir, os.W_OK):
-    print('Manga directory not writable', file=stderr)
-    exit(1)
+def test_url(url):
+    test = re.match(uriRegex, url)
+    if test is None:
+        return False
+    return len(test.groups()) > 0
+
+
+def get_main_content(url, get=None, post=None):
+    name = get_manga_name(url)
+    _ = {
+        'dataRun': 'api-manga',
+        'dataRequest': name
+    }
+    page_content = str(post('http://shakai.ru/take/api-manga/request/shakai', data=_))
+    return page_content
+
+
+def get_volumes(content: str):
+    if not content:
+        return []
+    _ = json.loads(content)
+    if not 'data' in _:
+        return []
+    volumes_links = _['data']
+    return volumes_links
 
 
 def _get(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None):
@@ -146,18 +163,6 @@ def download_files(images, archive_name: str, subfolder: str = ''):
             move(temp_directory, archive_folder)
 
 
-def get_volumes_links(content: str):
-    """
-    :param content: str
-    :return: dict
-    """
-    parser = html.document_fromstring(content)
-    result = parser.cssselect('#mangaBox > div.leftContent div.chapters-link tr > td > a')
-    if result is None:
-        return []
-    return [i.get('href') for i in result]
-
-
 def get_manga_name(url):
     result = re.match(uriRegex, url)
     if result is None:
@@ -213,5 +218,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
-    rmtree(get_temp_path())
+    print('Don\'t run this, please!')

@@ -26,14 +26,67 @@ archivesDir = os.path.join(os.getcwd(), 'manga')
 rnd_temp_path = str(random.random())
 
 
-if not os.path.isdir(archivesDir):
-    if not os.access(os.getcwd(), os.W_OK):
-        print('Current directory not writeable and manga directory not exist', file=stderr)
-        exit(1)
-    os.makedirs(archivesDir)
-elif not os.access(archivesDir, os.W_OK):
-    print('Manga directory not writable', file=stderr)
-    exit(1)
+def test_url(url):
+    test = re.match(uriRegex, url)
+    if test is None:
+        return False
+    return len(test.groups()) > 0
+
+
+def get_main_content(url, get=None, post=None):
+    return get(url)
+
+
+def get_volumes(content=None):
+    """
+    :param content:
+    :param volume:
+    :param get:
+    :param post:
+    :return:
+    """
+    parser = html.document_fromstring(content)
+    result = parser.cssselect('#animeView ul h4 > a.tips')
+    if result is None:
+        return []
+    return [i.get('href') for i in result]
+
+
+def get_archive_name(volume):
+    result = re.search('/manga/(.+?)/', volume)
+    name = result.groups()
+    return name[0]
+
+
+def get_images(main_content=None, volume=None, get=None, post=None):
+    _url = (domainUri + volume) if volume.find(domainUri) < 0 else volume
+    content = get(_url)
+    result = re.search(imagesRegex, content, re.M)
+    if result is None:
+        return []
+    result = [i[0] for i in json.loads(result.groups()[0])]
+    return result
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def _get(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None):
@@ -133,26 +186,6 @@ def download_files(baseroot, images, subfolder: str = ''):
             move(temp_directory, archive_folder)
 
 
-def get_manga_images(content):
-    result = re.search(imagesRegex, content, re.M)
-    if result is None:
-        return []
-    result = [i[0] for i in json.loads(result.groups()[0])]
-    return result
-
-
-def get_volumes_links(content: str):
-    """
-    :param content: str
-    :return: dict
-    """
-    parser = html.document_fromstring(content)
-    result = parser.cssselect('#animeView ul h4 > a.tips')
-    if result is None:
-        return []
-    return [i.get('href') for i in result]
-
-
 def get_manga_name(url):
     result = re.match(uriRegex, url)
     if result is None:
@@ -206,5 +239,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
-    rmtree(get_temp_path())
+    print('Don\'t run this, please!')
