@@ -18,12 +18,15 @@ from providers import (
     desu_me,
     readmanga_me,
     shakai_ru,
+    mangapanda_com,
 )
 providers_list = (
     desu_me,
     readmanga_me,
     shakai_ru,
+    mangapanda_com,
 )
+user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 
 if os.name == 'nt':
     tty_rows = 0
@@ -84,6 +87,8 @@ def __requests(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=
         cookies = ()
     if not data:
         data = ()
+    if 'User-Agent' not in headers:
+        headers['User-Agent'] = user_agent
     response = getattr(requests, method)(url=filename, headers=headers, cookies=cookies, data=data)
     ret = response.text
     if offset > 0:
@@ -103,7 +108,9 @@ def _post(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=None,
 
 def _safe_downloader(url, file_name):
     try:
-        response = url_request.urlopen(url)
+        r = url_request.Request(url)
+        r.add_header('User-Agent', user_agent)
+        response = url_request.urlopen(r)
         out_file = open(file_name, 'wb')
         out_file.write(response.read())
         return True
@@ -218,6 +225,8 @@ class MangaDownloader:
         r = 0
         while r < count_reties:
             r += 1
+            if debug_mode:
+                print('\nDownloading image %s\n\n' % (url, ))
             if _safe_downloader(url, path):
                 break
             if debug_mode:

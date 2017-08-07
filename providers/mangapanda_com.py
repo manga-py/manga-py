@@ -5,9 +5,9 @@ from lxml.html import document_fromstring
 import re
 import json
 
-domainUri = 'http://readmanga.me'
-uriRegex = 'https?://(?:www\.)?readmanga\.me/([^/]+)/?'
-imagesRegex = 'rm_h\.init.+?(\[\[.+\]\])'
+# http://www.mangapanda.com/hunter-x-hunter
+domainUri = 'http://www.mangapanda.com'
+uriRegex = 'https?://(?:www.)?mangapanda.com/([^/]+)'
 
 
 def test_url(url):
@@ -20,30 +20,49 @@ def test_url(url):
 def get_main_content(url, get=None, post=None):
     name = get_manga_name(url)
     url = '{}/{}'.format(domainUri, name)
-    return get(url + '?mature=1')
+    return get(url)
 
 
-def get_volumes(content: str):
+def get_volumes(content=None):
     parser = document_fromstring(content)
-    result = parser.cssselect('#mangaBox > div.leftContent div.chapters-link tr > td > a')
+    result = parser.cssselect('#listing tr > td > a')
     if result is None:
         return []
     return [i.get('href') for i in result]
 
 
 def get_archive_name(volume):
-    result = re.search('/.+?/(.+?/.+)/?', volume)
+    result = re.search('/.+/([^/]+)', volume)
     name = result.groups()
-    return name[0]  # .replace('/', '_')
+    return name[0]
+
+
+def _content2image_url(content):
+    parser = document_fromstring(content)
+    resutl = parser.cssselect('#imgholder img')
+    return resutl[0].get('src')
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
     _url = (domainUri + volume) if volume.find(domainUri) < 0 else volume
+
     content = get(_url)
-    result = re.search(imagesRegex, content, re.M)
-    if result is None:
+    count_pages = document_fromstring(content)
+    count_pages = count_pages.cssselect('#selectpage option')
+
+    if count_pages is None:
         return []
-    return [i[1] + i[0] + i[2] for i in json.loads(result.groups()[0].replace("'", '"'))]
+
+    count_pages = len(count_pages)
+    images = [_content2image_url(content)]
+
+    n = 1
+    while n < count_pages:
+        content = get('{}/{}'.format(_url, n))
+        images.append(_content2image_url(content))
+        n += 1
+
+    return images
 
 
 def get_manga_name(url, get=None):

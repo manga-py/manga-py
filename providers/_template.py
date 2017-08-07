@@ -1,0 +1,60 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+
+def test_url(url):
+    """
+    :param url: str
+    :return: bool
+    """
+    pass
+
+
+def get_main_content(url, get=None, post=None):
+    """
+    :param url: str
+    :param get: request.get
+    :param post: request.post
+    :return: mixed (1)
+    """
+    pass
+
+
+def get_volumes(content=None):
+    """
+    :param content: mixed (1)
+    :return: array (2)
+    """
+    pass
+
+
+def get_archive_name(volume):
+    """
+    :param volume: mixed (2)
+    :return: str
+    """
+    pass
+
+
+def get_images(main_content=None, volume=None, get=None, post=None):
+    """
+    :param main_content: mixed (1)
+    :param volume: mixed (2)
+    :param get: request.get
+    :param post: request.post
+    :return: dict(str)
+    """
+    pass
+
+
+def get_manga_name(url, get=None):
+    """
+    :param url: str
+    :param get: request.get
+    :return: str
+    """
+    pass
+
+
+if __name__ == '__main__':
+    print('Don\'t run this, please!')

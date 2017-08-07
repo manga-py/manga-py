@@ -19,17 +19,12 @@ def test_url(url):
 
 
 def get_main_content(url, get=None, post=None):
+    name = get_manga_name(url)
+    url = '{}/manga/{}'.format(domainUri, name)
     return get(url)
 
 
 def get_volumes(content=None):
-    """
-    :param content:
-    :param volume:
-    :param get:
-    :param post:
-    :return:
-    """
     parser = document_fromstring(content)
     result = parser.cssselect('#animeView ul h4 > a.tips')
     if result is None:
