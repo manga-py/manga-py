@@ -18,7 +18,7 @@ def test_url(url):
 
 
 def get_main_content(url, get=None, post=None):
-    return get(url)
+    return get(url + '?mature=1')
 
 
 def get_volumes(content: str):
@@ -43,6 +43,8 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     _url = (domainUri + volume) if volume.find(domainUri) < 0 else volume
     content = get(_url)
     result = re.search(imagesRegex, content, re.M)
+    print(content, imagesRegex)
+    exit()
     return [i[1] + i[0] + i[2] for i in json.loads(result.groups()[0].replace("'", '"'))]
 
 
