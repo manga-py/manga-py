@@ -134,6 +134,7 @@ class MangaDownloader:
         self.switcher()
         if len(name) < 1:
             self.get_manga_name()
+        self.make_manga_dir()
 
     def _get_destination_directory(self):
         return os.path.join(arguments.destination, self.name)
@@ -152,17 +153,17 @@ class MangaDownloader:
             self.status = False
             return
 
-        self.make_manga_dir()
         self.provider = providers_list[i]
 
     def make_manga_dir(self):
-        path = self._get_destination_directory()
+        path = self._get_destination_directory().rstrip('/')
         if os.path.isdir(path):
             return
-        if os.path.exists(path):
-            print('Destination exist, but it not directory! Exit')
+        try:
+            os.makedirs(path)
+        except NotADirectoryError:
+            print('Destination not exist or not directory! Exit')
             exit(1)
-        os.makedirs(path)
 
     def get_manga_name(self):
         """
