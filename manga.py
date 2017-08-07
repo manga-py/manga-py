@@ -224,9 +224,6 @@ class MangaDownloader:
     def __download_image(self, url, path):
         r = 0
         while r < count_reties:
-            r += 1
-            if debug_mode:
-                print('\nDownloading image %s\n\n' % (url, ))
             if _safe_downloader(url, path):
                 break
             if debug_mode:
