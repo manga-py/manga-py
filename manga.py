@@ -25,13 +25,17 @@ providers_list = (
     shakai_ru,
 )
 
-tty_rows, tty_columns = os.popen('stty size', 'r').read().split()
+if os.name == 'nt':
+    tty_rows = 0
+    tty_columns = 0
+else:
+    tty_rows, tty_columns = os.popen('stty size', 'r').read().split()
 
 rnd_temp_path = str(random.random())
 archivesDir = os.path.join(os.getcwd(), 'manga')
 
 debug_mode = False
-count_reties = 3
+count_reties = 5
 
 
 if not os.path.isdir(archivesDir):
@@ -50,12 +54,13 @@ def before_shutdown():
 
 
 def _progress(items_count: int, current_item: int):
-    columns = int(tty_columns)
-    one_percent = columns/items_count
-    current_position = int(float(current_item) * one_percent)
-    text = ('▓' * current_position)
-    text += (' ' * (columns - current_position))
-    print('\033[1A\033[9D%s' % (text, ), end='\n        \033[9D')
+    if tty_columns:
+        columns = float(tty_columns)
+        one_percent = float(columns)/float(items_count)
+        current_position = int(float(current_item) * one_percent)
+        text = ('▓' * current_position)
+        text += (' ' * (int(columns) - current_position))
+        print('\033[1A\033[9D%s' % (text, ), end='\n        \033[9D')
 
 
 def _create_parser():
@@ -121,7 +126,7 @@ class MangaDownloader:
     name = ''
     main_content = ''
     status = False
-    downloader = None
+    provider = None
 
     def __init__(self, url: str, name: str = ''):
         self.url = url
@@ -148,7 +153,7 @@ class MangaDownloader:
             return
 
         self.make_manga_dir()
-        self.downloader = providers_list[i]
+        self.provider = providers_list[i]
 
     def make_manga_dir(self):
         path = self._get_destination_directory()
@@ -165,32 +170,40 @@ class MangaDownloader:
         :param url:
         :return:
         """
-        self.name = self.downloader.get_manga_name(self.url)
+        if self.status:
+            self.name = self.provider.get_manga_name(self.url, get=_get)
 
     def get_main_content(self):
         """
         :return:
         """
-        self.main_content = self.downloader.get_main_content(self.url, get=_get, post=_post)
+        self.main_content = self.provider.get_main_content(self.url, get=_get, post=_post)
 
     def get_volumes(self):
-        volumes = self.downloader.get_volumes(self.main_content)
+        volumes = self.provider.get_volumes(self.main_content)
         if len(volumes) < 1:
             print('Volumes not found. Exit')
             exit(1)
         return volumes
 
+    def get_archive_destination(self, archive_name: str):
+        d = os.path.join(self._get_destination_directory(), archive_name + '.zip')
+        directory = os.path.dirname(d)
+        if not os.path.isdir(directory):
+            os.makedirs(directory)
+        return d
+
     def get_images(self, volume):
         """
         :return:
         """
-        images = self.downloader.get_images(main_content=self.main_content, volume=volume, get=_get, post=_post)
-        if len(images) < 1 and debug_mode:
+        images = self.provider.get_images(main_content=self.main_content, volume=volume, get=_get, post=_post)
+        if debug_mode and len(images) < 1:
             print('Images not found')
         return images
 
     def make_archive(self, archive_name: str):
-        d = os.path.join(self._get_destination_directory(), archive_name + '.zip')
+        d = self.get_archive_destination(archive_name)
         archive = zipfile.ZipFile(d, 'w', zipfile.ZIP_DEFLATED)
 
         temp_directory = get_temp_path()
@@ -217,18 +230,31 @@ class MangaDownloader:
 
         for v in volumes:
             temp_path = get_temp_path()
+            archive_name = self.provider.get_archive_name(v)
+
+            if not len(archive_name):
+                if debug_mode:
+                    print('Archive name is empty!')
+                exit(1)
+
+            if os.path.isfile(self.get_archive_destination(archive_name)):
+                if debug_mode:
+                    print('Archive %s exists. Skip' % (archive_name, ))
+                continue
+
             images = self.get_images(v)
-            archive_name = self.downloader.get_archive_name(v)
 
             if debug_mode:
-                print('Start downloading %s' % (archive_name, ))
+                print('Start downloading %s\n' % (archive_name, ))
             images_len = len(images)
 
+            n = 1
             for i in images:
                 if debug_mode:
-                    _progress(i, images_len)
+                    _progress(images_len, n)
                 image_full_name = os.path.join(temp_path, os.path.basename(i))
                 self.__download_image(i, image_full_name)
+                n += 1
 
             self.make_archive(archive_name)
             shutil.rmtree(temp_path)
