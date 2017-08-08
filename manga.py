@@ -198,11 +198,6 @@ class MangaDownloader:
             exit(1)
 
     def get_manga_name(self):
-        """
-        получает название манги из url
-        :param url:
-        :return:
-        """
         if self.status:
             self.name = self.provider.get_manga_name(self.url, get=_get)
 
@@ -224,9 +219,6 @@ class MangaDownloader:
         return d
 
     def get_images(self, volume):
-        """
-        :return:
-        """
         images = self.provider.get_images(main_content=self.main_content, volume=volume, get=_get, post=_post)
         if info_mode and len(images) < 1:
             print('Images not found')
