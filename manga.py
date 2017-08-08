@@ -10,6 +10,7 @@ import requests
 import zipfile
 from sys import stderr
 from argparse import ArgumentParser
+from urllib.parse import urlparse
 from urllib import (
     request as url_request,
     error as url_error
@@ -80,7 +81,7 @@ def _create_parser():
     return parse
 
 
-def __requests(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data=None, method='get'):
+def __requests(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data=None, method='get'):
     if not headers:
         headers = {}
     if not cookies:
@@ -89,7 +90,10 @@ def __requests(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=
         data = ()
     if 'User-Agent' not in headers:
         headers['User-Agent'] = user_agent
-    response = getattr(requests, method)(url=filename, headers=headers, cookies=cookies, data=data)
+    if 'Referer' not in headers:
+        ref = urlparse(url)
+        headers['Referer'] = '{}://{}/'.format(ref.scheme, ref.netloc)
+    response = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data)
     ret = response.text
     if offset > 0:
         ret = ret[offset:]
@@ -98,18 +102,20 @@ def __requests(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=
     return ret
 
 
-def _get(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None):
-    return __requests(filename=filename, offset=offset, maxlen=maxlen, headers=headers, cookies=cookies, method='get')
+def _get(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None):
+    return __requests(url=url, offset=offset, maxlen=maxlen, headers=headers, cookies=cookies, method='get')
 
 
-def _post(filename: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data: dict = ()):
-    return __requests(filename=filename, offset=offset, maxlen=maxlen, headers=headers, cookies=cookies, method='post', data=data)
+def _post(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data: dict = ()):
+    return __requests(url=url, offset=offset, maxlen=maxlen, headers=headers, cookies=cookies, method='post', data=data)
 
 
 def _safe_downloader(url, file_name):
     try:
         r = url_request.Request(url)
         r.add_header('User-Agent', user_agent)
+        ref = urlparse(url)
+        r.add_header('Referer', '{}://{}/'.format(ref.scheme, ref.netloc))
         response = url_request.urlopen(r)
         out_file = open(file_name, 'wb')
         out_file.write(response.read())
