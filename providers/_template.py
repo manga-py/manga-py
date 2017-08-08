@@ -56,5 +56,24 @@ def get_manga_name(url, get=None):
     pass
 
 
+# NOT REQUIRED /*
+
+# if True, use zip_list(). get_images() alternative
+download_zip_only = None
+
+
+def get_zip(main_content=None, volume=None, get=None, post=None):
+    """
+    :param main_content: mixed (1)
+    :param volume: mixed (2)
+    :param get: request.get
+    :param post: request.post
+    :return: str|str[]
+    """
+    pass
+
+# */ NOT REQUIRED
+
+
 if __name__ == '__main__':
     print('Don\'t run this, please!')

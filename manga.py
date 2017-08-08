@@ -21,6 +21,7 @@ from providers import (
     shakai_ru,
     mangapanda_com,
     mintmanga_me,
+    manga_online_biz,
 )
 providers_list = (
     desu_me,
@@ -28,8 +29,9 @@ providers_list = (
     shakai_ru,
     mangapanda_com,
     mintmanga_me,
+    manga_online_biz,
 )
-user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 OPR/44.0.2510.1218'
 
 if os.name == 'nt':
     tty_rows = 0
@@ -80,7 +82,7 @@ def _create_parser():
     parse.add_argument('-u', '--url', type=str, required=False, help='Downloaded url', default='')
     parse.add_argument('-n', '--name', type=str, required=False, help='Manga name', default='')
     parse.add_argument('-d', '--destination', type=str, required=False, help='Destination folder', default=archivesDir)
-    parse.add_argument('--info', action='store_const', required=False, const=True, default=False)
+    parse.add_argument('-i', '--info', action='store_const', required=False, const=True, default=False)
 
     return parse
 
@@ -201,9 +203,6 @@ class MangaDownloader:
 
     def get_volumes(self):
         volumes = self.provider.get_volumes(self.main_content)
-        if len(volumes) < 1:
-            print('Volumes not found. Exit')
-            exit(1)
         return volumes
 
     def get_archive_destination(self, archive_name: str):
@@ -244,8 +243,36 @@ class MangaDownloader:
                     mode = 'Retry'
                 print('Error downloading. %s' % (mode,))
 
+    def __download_archive(self, url):
+        archive_name = os.path.basename(url)
+        if archive_name.find('.zip') > 0:
+            archive_name = archive_name[:archive_name.find('.zip')]  # remove .zip
+        dst = self.get_archive_destination(archive_name)
+        if info_mode:
+            print('Downloading archive: %s' % (archive_name,))
+        self.__download_image(url, dst)
+
     def download_images(self):
         volumes = self.get_volumes()
+
+        if getattr(self.provider, 'download_zip_only', False):
+            if len(volumes):
+                for v in volumes:
+                    archive = self.provider.get_zip(volume=v, get=_get)
+                    if archive is not str:
+                        for i in archive:
+                            self.__download_archive(i)
+                    else:
+                        self.__download_archive(archive)
+            else:
+                archives = self.provider.get_zip(main_content=self.main_content, get=_get)
+                for a in archives:
+                    self.__download_archive(a)
+            return
+
+        if len(volumes) < 1:
+            print('Volumes not found. Exit')
+            exit(1)
 
         for v in volumes:
             temp_path = get_temp_path()
