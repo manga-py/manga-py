@@ -15,6 +15,9 @@ from urllib import (
     request as url_request,
     error as url_error
 )
+
+# TODO: move import to providers/__init__.py
+# @link: https://docs.python.org/3/reference/import.html
 from providers import (
     desu_me,
     readmanga_me,
@@ -23,6 +26,7 @@ from providers import (
     mintmanga_me,
     manga_online_biz,
     mangaclub_ru,
+    # ninemanga_com,
 )
 providers_list = (
     desu_me,
@@ -32,7 +36,9 @@ providers_list = (
     mintmanga_me,
     manga_online_biz,
     mangaclub_ru,
+    # ninemanga_com,
 )
+
 user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 OPR/44.0.2510.1218'
 
 if os.name == 'nt':
@@ -119,6 +125,9 @@ def _post(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cook
 
 def _safe_downloader(url, file_name):
     try:
+        # TODO: http://readmanga.me/the_seven_deadly_sins_/vol5/33?mature=1#page=2: /static/800px-Censored.jpg WTF!
+        if url.find('http') != 0:
+            url = referrer_url + url
         r = url_request.Request(url)
         r.add_header('User-Agent', user_agent)
         r.add_header('Referer', referrer_url)
@@ -157,7 +166,7 @@ class MangaDownloader:
 
         global referrer_url
         ref = urlparse(url)
-        referrer_url = '{}://{}/'.format(ref.scheme, ref.netloc)
+        referrer_url = '{}://{}'.format(ref.scheme, ref.netloc)
 
     def _get_destination_directory(self):
         return os.path.join(arguments.destination, self.name)
@@ -204,7 +213,7 @@ class MangaDownloader:
         self.main_content = self.provider.get_main_content(self.url, get=_get, post=_post)
 
     def get_volumes(self):
-        volumes = self.provider.get_volumes(self.main_content)
+        volumes = self.provider.get_volumes(self.main_content, url=self.url)
         return volumes
 
     def get_archive_destination(self, archive_name: str):

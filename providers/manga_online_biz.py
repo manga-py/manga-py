@@ -23,7 +23,7 @@ def get_main_content(url, get=None, post=None):
     return get(url)
 
 
-def get_volumes(content=None):
+def get_volumes(content=None, url=None):
     return []
 
 

@@ -20,10 +20,9 @@ def get_main_content(url, get=None, post=None):
     pass
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None):
     """
     :param content: mixed (1)
-    :param url: str
     :return: array (2)
     """
     pass

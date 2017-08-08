@@ -23,7 +23,7 @@ def get_main_content(url, get=None, post=None):
     return get(url)
 
 
-def get_volumes(content=None):
+def get_volumes(content: str, url=None):
     parser = document_fromstring(content)
     result = parser.cssselect('#listing tr > td > a')
     if result is None:
