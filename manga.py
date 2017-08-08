@@ -41,6 +41,8 @@ archivesDir = os.path.join(os.getcwd(), 'manga')
 debug_mode = False
 count_reties = 5
 
+referrer_url = ''
+
 
 if not os.path.isdir(archivesDir):
     if not os.access(os.getcwd(), os.W_OK):
@@ -91,8 +93,7 @@ def __requests(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None,
     if 'User-Agent' not in headers:
         headers['User-Agent'] = user_agent
     if 'Referer' not in headers:
-        ref = urlparse(url)
-        headers['Referer'] = '{}://{}/'.format(ref.scheme, ref.netloc)
+        headers['Referer'] = referrer_url
     response = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data)
     ret = response.text
     if offset > 0:
@@ -114,8 +115,7 @@ def _safe_downloader(url, file_name):
     try:
         r = url_request.Request(url)
         r.add_header('User-Agent', user_agent)
-        ref = urlparse(url)
-        r.add_header('Referer', '{}://{}/'.format(ref.scheme, ref.netloc))
+        r.add_header('Referer', referrer_url)
         response = url_request.urlopen(r)
         out_file = open(file_name, 'wb')
         out_file.write(response.read())
@@ -148,6 +148,10 @@ class MangaDownloader:
         if len(name) < 1:
             self.get_manga_name()
         self.make_manga_dir()
+
+        global referrer_url
+        ref = urlparse(url)
+        referrer_url = '{}://{}/'.format(ref.scheme, ref.netloc)
 
     def _get_destination_directory(self):
         return os.path.join(arguments.destination, self.name)
