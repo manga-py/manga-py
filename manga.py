@@ -22,6 +22,7 @@ from providers import (
     mangapanda_com,
     mintmanga_me,
     manga_online_biz,
+    mangaclub_ru,
 )
 providers_list = (
     desu_me,
@@ -30,6 +31,7 @@ providers_list = (
     mangapanda_com,
     mintmanga_me,
     manga_online_biz,
+    mangaclub_ru,
 )
 user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 OPR/44.0.2510.1218'
 
