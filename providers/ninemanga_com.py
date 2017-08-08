@@ -1,78 +1,63 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+from lxml.html import document_fromstring
+import re
+from urllib.parse import urlparse
+
+domainUri = 'http://ninemanga.com'
+uriRegex = 'https?://.{0,3}\.?ninemanga\.com/manga/(.+)\.html'
+
 
 def test_url(url):
-    """
-    :param url: str
-    :return: bool
-    """
-    pass
+    test = re.match(uriRegex, url)
+    if test is None:
+        return False
+    return len(test.groups()) > 0
 
 
 def get_main_content(url, get=None, post=None):
-    """
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: mixed (1)
-    """
-    pass
+    return get(url)
 
 
-def get_volumes(content=None):
-    """
-    :param content: mixed (1)
-    :return: array (2)
-    """
-    pass
+def get_volumes(content: str, url=None):
+    parser = document_fromstring(content)
+    result = parser.cssselect('.chapterbox li a.chapter_list_a')
+    if result is None:
+        return []
+    list = []
+    url = urlparse(url)
+    url = '{}://{}'.format(url.scheme, url.netloc)
+    for i in result:
+        u = re.search('(/chapter/.*/\d+)\.html', i.get('href'))
+        if u is not None:
+            img = u.groups()
+            # lifehack
+            list.append('{}{}-500-1.html'.format(url, img[0]))
+    return list
 
 
-def get_archive_name(volume):
-    """
-    :param volume: mixed (2)
-    :return: str
-    """
-    pass
+def get_archive_name(volume, index: int = None):
+    return 'vol_{}'.format(index)
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: dict(str)
-    """
-    pass
+    content = get(volume)
+    parser = document_fromstring(content)
+    result = parser.cssselect('em a.pic_download')
+    if result is None:
+        return []
+    return [i.get('href') for i in result]
 
 
 def get_manga_name(url, get=None):
-    """
-    :param url: str
-    :param get: request.get
-    :return: str
-    """
-    pass
-
-
-# NOT REQUIRED /*
-
-# if True, use zip_list(). get_images() alternative
-download_zip_only = None
-
-
-def get_zip(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: str|str[]
-    """
-    pass
-
-# */ NOT REQUIRED
+    result = re.match(uriRegex, url)
+    if result is None:
+        return ''
+    result = result.groups()
+    if not len(result):
+        return ''
+    return result[0]
 
 
 if __name__ == '__main__':

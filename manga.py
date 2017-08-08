@@ -26,7 +26,7 @@ from providers import (
     mintmanga_me,
     manga_online_biz,
     mangaclub_ru,
-    # ninemanga_com,
+    ninemanga_com,
 )
 providers_list = (
     desu_me,
@@ -36,7 +36,7 @@ providers_list = (
     mintmanga_me,
     manga_online_biz,
     mangaclub_ru,
-    # ninemanga_com,
+    ninemanga_com,
 )
 
 user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 OPR/44.0.2510.1218'
@@ -311,7 +311,9 @@ class MangaDownloader:
             for i in images:
                 if info_mode:
                     _progress(images_len, n)
-                image_full_name = os.path.join(temp_path, os.path.basename(i))
+                # hash name protected
+                basename = '{:0>2}_{}'.format(n, os.path.basename(i))
+                image_full_name = os.path.join(temp_path, basename)
                 self.__download_image(i, image_full_name)
                 n += 1
 
