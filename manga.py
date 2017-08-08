@@ -20,12 +20,14 @@ from providers import (
     readmanga_me,
     shakai_ru,
     mangapanda_com,
+    mintmanga_me,
 )
 providers_list = (
     desu_me,
     readmanga_me,
     shakai_ru,
     mangapanda_com,
+    mintmanga_me,
 )
 user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 
