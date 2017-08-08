@@ -29,11 +29,7 @@ def get_volumes(content=None, url=None):
     pass
 
 
-def get_archive_name(volume):
-    """
-    :param volume: mixed (2)
-    :return: str
-    """
+def get_archive_name(volume, index: int = None):
     pass
 
 

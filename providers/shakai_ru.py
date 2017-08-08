@@ -37,7 +37,7 @@ def get_volumes(content, url=None):
     return volumes_links
 
 
-def get_archive_name(volume):
+def get_archive_name(volume, index: int = None):
     if volume is not None and 'data-second' in volume:
 
         # http://shakai.ru/file/manga/Steins_Gate_Heiji_Kyokusen_no_Epigraph/manga/1_1/l001.jpg

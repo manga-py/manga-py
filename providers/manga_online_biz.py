@@ -27,7 +27,7 @@ def get_volumes(content=None, url=None):
     return []
 
 
-def get_archive_name(volume):
+def get_archive_name(volume, index: int = None):
     return ''
 
 

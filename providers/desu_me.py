@@ -32,7 +32,7 @@ def get_volumes(content: str, url=None):
     return [i.get('href') for i in result]
 
 
-def get_archive_name(volume):
+def get_archive_name(volume, index: int = None):
     result = re.search('/manga/.+?/(.+?/.+)/', volume)
     name = result.groups()
     return name[0]  # .replace('/', '_')

@@ -285,9 +285,11 @@ class MangaDownloader:
             print('Volumes not found. Exit')
             exit(1)
 
+        volume_index = 1
         for v in volumes:
             temp_path = get_temp_path()
-            archive_name = self.provider.get_archive_name(v)
+            archive_name = self.provider.get_archive_name(v, index=volume_index)
+            volume_index += 1
 
             if not len(archive_name):
                 if info_mode:
