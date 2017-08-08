@@ -38,7 +38,7 @@ else:
 rnd_temp_path = str(random.random())
 archivesDir = os.path.join(os.getcwd(), 'manga')
 
-debug_mode = False
+info_mode = False
 count_reties = 5
 
 referrer_url = ''
@@ -78,7 +78,7 @@ def _create_parser():
     parse.add_argument('-u', '--url', type=str, required=False, help='Downloaded url', default='')
     parse.add_argument('-n', '--name', type=str, required=False, help='Manga name', default='')
     parse.add_argument('-d', '--destination', type=str, required=False, help='Destination folder', default=archivesDir)
-    parse.add_argument('--debug', action='store_const', required=False, const=True, default=False)
+    parse.add_argument('--info', action='store_const', required=False, const=True, default=False)
 
     return parse
 
@@ -216,7 +216,7 @@ class MangaDownloader:
         :return:
         """
         images = self.provider.get_images(main_content=self.main_content, volume=volume, get=_get, post=_post)
-        if debug_mode and len(images) < 1:
+        if info_mode and len(images) < 1:
             print('Images not found')
         return images
 
@@ -236,7 +236,7 @@ class MangaDownloader:
         while r < count_reties:
             if _safe_downloader(url, path):
                 break
-            if debug_mode:
+            if info_mode:
                 mode = 'Skip image'
                 if r < count_reties:
                     mode = 'Retry'
@@ -250,24 +250,24 @@ class MangaDownloader:
             archive_name = self.provider.get_archive_name(v)
 
             if not len(archive_name):
-                if debug_mode:
+                if info_mode:
                     print('Archive name is empty!')
                 exit(1)
 
             if os.path.isfile(self.get_archive_destination(archive_name)):
-                if debug_mode:
+                if info_mode:
                     print('Archive %s exists. Skip' % (archive_name, ))
                 continue
 
             images = self.get_images(v)
 
-            if debug_mode:
+            if info_mode:
                 print('Start downloading %s\n' % (archive_name, ))
             images_len = len(images)
 
             n = 1
             for i in images:
-                if debug_mode:
+                if info_mode:
                     _progress(images_len, n)
                 image_full_name = os.path.join(temp_path, os.path.basename(i))
                 self.__download_image(i, image_full_name)
@@ -280,7 +280,7 @@ class MangaDownloader:
 def manual_input(prompt: str):
     url = str(input(prompt + '\n'))
     if url == 'q':
-        if debug_mode:
+        if info_mode:
             print('Quit command. Exit')
         exit(0)
 
@@ -288,7 +288,7 @@ def manual_input(prompt: str):
 
 
 def main(url: str, name: str = ''):
-    if debug_mode:
+    if info_mode:
         print(url, name)
     manga = MangaDownloader(url, name)
     if manga.status:
@@ -301,7 +301,7 @@ def main(url: str, name: str = ''):
 
 if __name__ == '__main__':
     arguments = _create_parser().parse_args()
-    debug_mode = arguments.debug
+    info_mode = arguments.info
     name = arguments.name
     if arguments.url:
         url = arguments.url
