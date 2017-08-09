@@ -33,7 +33,7 @@ def get_volumes(content: str, url=None):
         if u is not None:
             img = u.groups()
             # lifehack
-            list.append('{}{}-500-1.html'.format(url, img[0]))
+            list.append('{}{}-100-1.html'.format(url, img[0]))
     return list
 
 
@@ -42,7 +42,8 @@ def get_archive_name(volume, index: int = None):
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    content = get(volume)
+    # fucking guards :[
+    content = get(volume, headers={'Referer': volume})
     parser = document_fromstring(content)
     result = parser.cssselect('em a.pic_download')
     if result is None:

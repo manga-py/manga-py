@@ -100,8 +100,6 @@ def __requests(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None,
         headers = {}
     if not cookies:
         cookies = site_cookies
-    if not data:
-        data = ()
     if 'User-Agent' not in headers:
         headers['User-Agent'] = user_agent
     if 'Referer' not in headers:
