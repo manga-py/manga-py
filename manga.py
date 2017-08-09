@@ -12,7 +12,6 @@ from sys import stderr
 from argparse import ArgumentParser
 from urllib.parse import urlparse
 from urllib import (
-    request as url_request,
     error as url_error
 )
 
@@ -54,6 +53,7 @@ info_mode = False
 count_reties = 5
 
 referrer_url = ''
+site_cookies = ()
 
 
 if not os.path.isdir(archivesDir):
@@ -99,7 +99,7 @@ def __requests(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None,
     if not headers:
         headers = {}
     if not cookies:
-        cookies = ()
+        cookies = site_cookies
     if not data:
         data = ()
     if 'User-Agent' not in headers:
@@ -123,17 +123,22 @@ def _post(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cook
     return __requests(url=url, offset=offset, maxlen=maxlen, headers=headers, cookies=cookies, method='post', data=data)
 
 
-def _safe_downloader(url, file_name):
+def _safe_downloader(url, file_name, cookies=None):
     try:
         # TODO: http://readmanga.me/the_seven_deadly_sins_/vol5/33?mature=1#page=2: /static/800px-Censored.jpg WTF!
-        if url.find('http') != 0:
+        if url.find('://') < 1:
             url = referrer_url + url
-        r = url_request.Request(url)
-        r.add_header('User-Agent', user_agent)
-        r.add_header('Referer', referrer_url)
-        response = url_request.urlopen(r)
+
+        if not cookies:
+            cookies = site_cookies
+
+        response = requests.get(url, cookies=cookies, headers={
+            'User-Agent': user_agent,
+            'Referer': referrer_url
+        })
+
         out_file = open(file_name, 'wb')
-        out_file.write(response.read())
+        out_file.write(response.content)
         return True
     except url_error.HTTPError:
         return False
@@ -167,9 +172,16 @@ class MangaDownloader:
         global referrer_url
         ref = urlparse(url)
         referrer_url = '{}://{}'.format(ref.scheme, ref.netloc)
+        self._get_cookies(referrer_url)
 
     def _get_destination_directory(self):
         return os.path.join(arguments.destination, self.name)
+
+    def _get_cookies(self, url: str):
+        session = requests.Session()
+        h = session.head(url)
+        global site_cookies
+        site_cookies = h.cookies
 
     def switcher(self):
         self.status = True
