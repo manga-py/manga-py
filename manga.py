@@ -54,6 +54,7 @@ rnd_temp_path = str(random.random())
 archivesDir = os.path.join(os.getcwd(), 'manga')
 
 info_mode = False
+show_progress = False
 count_reties = 5
 
 referrer_url = ''
@@ -95,6 +96,7 @@ def _create_parser():
     parse.add_argument('-n', '--name', type=str, required=False, help='Manga name', default='')
     parse.add_argument('-d', '--destination', type=str, required=False, help='Destination folder', default=archivesDir)
     parse.add_argument('-i', '--info', action='store_const', required=False, const=True, default=False)
+    parse.add_argument('-p', '--progress', action='store_const', required=False, const=True, default=False)
 
     return parse
 
@@ -253,12 +255,13 @@ class MangaDownloader:
         r = 0
         while r < count_reties:
             if _safe_downloader(url, path):
-                break
+                return True
             if info_mode:
                 mode = 'Skip image'
                 if r < count_reties:
                     mode = 'Retry'
                 print('Error downloading. %s' % (mode,))
+        return False
 
     def __download_archive(self, url):
         archive_name = os.path.basename(url)
@@ -310,20 +313,26 @@ class MangaDownloader:
             images = self.get_images(v)
 
             if info_mode:
-                print('Start downloading %s\n' % (archive_name, ))
+                print('Start downloading %s' % (archive_name, ))
             images_len = len(images)
 
             n = 1
+            c = 0
+            if show_progress:
+                print('')
             for i in images:
-                if info_mode:
+                if show_progress:
                     _progress(images_len, n)
                 # hash name protected
                 basename = '{:0>2}_{}'.format(n, os.path.basename(i))
                 image_full_name = os.path.join(temp_path, basename)
-                self.__download_image(i, image_full_name)
+                if self.__download_image(i, image_full_name):
+                    c += 1
                 n += 1
 
-            self.make_archive(archive_name)
+            if c > 0:
+                self.make_archive(archive_name)
+
             shutil.rmtree(temp_path)
 
 
@@ -338,8 +347,6 @@ def manual_input(prompt: str):
 
 
 def main(url: str, name: str = ''):
-    if info_mode:
-        print(url, name)
     manga = MangaDownloader(url, name)
     if manga.status:
         pass
@@ -350,13 +357,18 @@ def main(url: str, name: str = ''):
         exit(1)
 
 if __name__ == '__main__':
-    arguments = _create_parser().parse_args()
-    info_mode = arguments.info
-    name = arguments.name
-    if arguments.url:
-        url = arguments.url
-    else:
-        url = manual_input('Please, paste manga url.')
-        if len(name) < 1:
-            name = manual_input('Please, paste manga name')
-    main(url, name)
+    try:
+        arguments = _create_parser().parse_args()
+        info_mode = arguments.info
+        show_progress = arguments.progress
+        name = arguments.name
+        if arguments.url:
+            url = arguments.url
+        else:
+            url = manual_input('Please, paste manga url.')
+            if len(name) < 1:
+                name = manual_input('Please, paste manga name')
+        main(url, name)
+    except KeyboardInterrupt:
+        print('\033[9DUser interrupt this. Exit')
+        exit(0)
