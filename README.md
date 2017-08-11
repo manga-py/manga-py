@@ -20,6 +20,8 @@
 ```bash
 git clone https://github.com/yuru-yuri/Manga-Downloader.git
 cd Manga-Downloader
+# install requirements
+pip -r requirements.txt
 ```
 ### Downloading
 ```bash
