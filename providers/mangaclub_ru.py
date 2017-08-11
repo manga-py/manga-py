@@ -24,7 +24,11 @@ def get_main_content(url, get=None, post=None):
 def get_volumes(content: str, url=None):
     parser = document_fromstring(content)
     result = parser.cssselect('.manga-ch-list a.col-sm-10')
-    return [i.get('href') for i in result]
+    if result is None:
+        return []
+    list = [i.get('href') for i in result]
+    list.reverse()
+    return list
 
 
 def get_archive_name(volume, index: int = None):

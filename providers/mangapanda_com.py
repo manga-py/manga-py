@@ -3,7 +3,6 @@
 
 from lxml.html import document_fromstring
 import re
-import json
 
 # http://www.mangapanda.com/hunter-x-hunter
 domainUri = 'http://www.mangapanda.com'

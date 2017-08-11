@@ -29,7 +29,9 @@ def get_volumes(content: str, url=None):
     result = parser.cssselect('#animeView ul h4 > a.tips')
     if result is None:
         return []
-    return [i.get('href') for i in result]
+    list = [i.get('href') for i in result]
+    list.reverse()
+    return list
 
 
 def get_archive_name(volume, index: int = None):
