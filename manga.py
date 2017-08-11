@@ -15,34 +15,6 @@ from urllib import (
     error as url_error
 )
 
-# TODO: move import to providers/__init__.py
-# @link: https://docs.python.org/3/reference/import.html
-from providers import (
-    desu_me,
-    readmanga_me,
-    shakai_ru,
-    mangapanda_com,
-    mintmanga_me,
-    manga_online_biz,
-    mangaclub_ru,
-    ninemanga_com,
-    selfmanga_ru,
-    yagami_me,
-    mangarussia_com,
-)
-providers_list = (
-    desu_me,
-    readmanga_me,
-    shakai_ru,
-    mangapanda_com,
-    mintmanga_me,
-    manga_online_biz,
-    mangaclub_ru,
-    ninemanga_com,
-    selfmanga_ru,
-    yagami_me,
-    mangarussia_com,
-)
 
 user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 OPR/44.0.2510.1218'
 
@@ -192,18 +164,14 @@ class MangaDownloader:
     def switcher(self):
         self.status = True
 
-        i = 0
+        import providers
+        __p = providers.get_provider(self.url)
 
-        for d in providers_list:
-            if d.test_url(self.url):
-                break
-            i += 1
-
-        if i >= len(providers_list):
+        if not __p:
             self.status = False
-            return
+            return False
 
-        self.provider = providers_list[i]
+        self.provider = __p
 
     def make_manga_dir(self):
         path = self._get_destination_directory().rstrip('/')
@@ -220,14 +188,10 @@ class MangaDownloader:
             self.name = self.provider.get_manga_name(self.url, get=_get)
 
     def get_main_content(self):
-        """
-        :return:
-        """
         self.main_content = self.provider.get_main_content(self.url, get=_get, post=_post)
 
     def get_volumes(self):
-        volumes = self.provider.get_volumes(self.main_content, url=self.url)
-        return volumes
+        return self.provider.get_volumes(self.main_content, url=self.url)
 
     def get_archive_destination(self, archive_name: str):
         d = os.path.join(self._get_destination_directory(), archive_name + '.zip')
