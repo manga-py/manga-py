@@ -38,10 +38,15 @@ def get_archive_name(volume, index: int = None):
 def get_images(main_content=None, volume=None, get=None, post=None):
     content = get(volume)
     result = re.search('pages\s?=\s?(\[\{.+\}\])', content)
-    if result is None:
-        return []
-    result = json.loads(result.groups()[0])
-    return [i['url'] for i in result]
+    if result is not None:
+        result = json.loads(result.groups()[0])
+        return [i['url'] for i in result]
+    # other images (http://read.yagami.me/read/tower_of_god/)
+    result = document_fromstring(content)
+    images = result.cssselect('.web_pictures img.web_img')
+    if images is not None and len(images) > 0:
+        return [i.get('src') for i in images]
+    return []
 
 
 def get_manga_name(url, get=None):
