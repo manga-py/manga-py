@@ -22,19 +22,33 @@ def get_main_content(url, get=None, post=None):
     return get(url)
 
 
+def fix_volume_url(volume):
+    # http://read.yagami.me/read/school_shock/0/1/0/rikudou_senin_clan/
+    result = re.search(uriRegex + '(\d+/\d+/?\d*/)', volume)
+    if result is None:
+        return volume
+    _ = result.groups()
+    return 'http://read.yagami.me/read/{}/{}page/1'.format(_[0], _[1])
+
+
 def get_volumes(content=None, url=None):
     parser = document_fromstring(content)
     result = parser.cssselect('#midside .list .element .title a')
     if result is None:
         return []
-    list = [i.get('href') for i in result]
+    list = [fix_volume_url(i.get('href')) for i in result]
     list.reverse()
     return list
 
 
 def get_archive_name(volume, index: int = None):
-    result = re.search('/read/.+?/(\d+/\d+)/', volume)
-    return result.groups()[0]
+    result = re.search('/read/.+?/(\d+/\d+)(/\d+)?/', volume)
+    if result is None:
+        return ''
+    _ = result.groups()
+    if _[1] is not None:
+        return '{}_{}'.format(_[0], _[1].lstrip('/'))
+    return _[0]
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
