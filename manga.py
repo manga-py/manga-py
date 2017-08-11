@@ -28,6 +28,7 @@ from providers import (
     ninemanga_com,
     selfmanga_ru,
     yagami_me,
+    mangarussia_com,
 )
 providers_list = (
     desu_me,
@@ -40,6 +41,7 @@ providers_list = (
     ninemanga_com,
     selfmanga_ru,
     yagami_me,
+    mangarussia_com,
 )
 
 user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 OPR/44.0.2510.1218'
