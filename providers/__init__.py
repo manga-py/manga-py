@@ -12,9 +12,10 @@ providers_list = {
     'mintmanga_me': 'mintmanga\.me/.+',
     'ninemanga_com': 'ninemanga\.com/manga',
     'readmanga_me': 'readmanga\.me/.+',
-    'selfmanga_ru': 'selfmanga_ru',
+    'selfmanga_ru': 'selfmanga\.ru/',
     'shakai_ru': 'shakai\.ru/manga.*?/\d+',
     'yagami_me': 'read\.yagami\.me/.+',
+    'yaoichan_me': 'yaoichan\.me/(?:manga|online)',
 }
 
 
