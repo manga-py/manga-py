@@ -25,6 +25,8 @@ git clone --recursive  https://github.com/yuru-yuri/Manga-Downloader.git
 cd Manga-Downloader
 # install requirements
 pip3 -r requirements.txt
+cd helpers/cloudflare_scrape
+python setup.py install
 ```
 ### Downloading
 ```bash
