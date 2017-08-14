@@ -8,6 +8,7 @@ providers_list = {
     'manga_online_biz': 'manga\-online\.biz/.+',
     'mangaclub_ru': 'mangaclub\.ru/.+',
     'mangago_me': 'mangago\.me/read\-manga/',
+    'mangahub_ru': 'mangahub\.ru/.+',
     'mangapanda_com': 'mangapanda.com/.+',
     'mangarussia_com': 'mangarussia\.com/manga',
     'mintmanga_me': 'mintmanga\.me/.+',

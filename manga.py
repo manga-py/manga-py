@@ -159,7 +159,7 @@ class MangaDownloader:
         session = requests.Session()
         h = session.head(url)
         global site_cookies
-        if self.status and getattr(self.provider, 'cookies'):
+        if self.status and hasattr(self.provider, 'cookies') and getattr(self.provider, 'cookies'):
             cookies = getattr(self.provider, 'cookies')
             for i in cookies:
                 if isinstance(i, str):
