@@ -162,7 +162,11 @@ class MangaDownloader:
         if self.status and getattr(self.provider, 'cookies'):
             cookies = getattr(self.provider, 'cookies')
             for i in cookies:
-                h.cookies.set(i['name'], i['value'], domain=i['domain'], path=i['path'])
+                if isinstance(i, str):
+                    global user_agent
+                    user_agent = i
+                else:
+                    h.cookies.set(i['name'], i['value'], domain=i['domain'], path=i['path'])
         site_cookies = h.cookies
 
     def switcher(self):
