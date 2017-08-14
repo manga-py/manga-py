@@ -159,6 +159,10 @@ class MangaDownloader:
         session = requests.Session()
         h = session.head(url)
         global site_cookies
+        if self.status and getattr(self.provider, 'cookies'):
+            cookies = getattr(self.provider, 'cookies')
+            for i in cookies:
+                h.cookies.set(i['name'], i['value'], domain=i['domain'], path=i['path'])
         site_cookies = h.cookies
 
     def switcher(self):

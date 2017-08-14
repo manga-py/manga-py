@@ -10,14 +10,6 @@ uriRegex = 'https?://(?:www\.)yaoichan.me/(?:manga|online)/\d+\-'
 imagesRegex = '"fullimg":\s?\[(.*)?\]'
 
 
-def test_url(url):
-    test = re.match(uriRegex, url)
-    if test is None:
-        return False
-    return len(test.groups()) > 0
-
-
-
 def get_main_content(url, get=None, post=None):
     if re.search('me/online/\d+\-', url):
         content = get(url)

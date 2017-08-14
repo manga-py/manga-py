@@ -10,13 +10,6 @@ uriRegex = 'https?://(?:www\.)?shakai\.ru/manga(?:-read)?/(\d+)/?'
 nameRegex = 'file/manga/([a-zA-Z_]+)/(?:manga|cover)/([^/]+)/?'
 
 
-def test_url(url):
-    test = re.match(uriRegex, url)
-    if test is None:
-        return False
-    return len(test.groups()) > 0
-
-
 def get_main_content(url, get=None, post=None):
     name = _get_manga_number(url)
     _ = {

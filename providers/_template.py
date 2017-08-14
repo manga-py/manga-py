@@ -74,6 +74,10 @@ def get_zip(main_content=None, volume=None, get=None, post=None):
     """
     pass
 
+# if not None - additional cookies
+# cookies = [{'value': 'cookie value','domain': 'asd.domain','path': '/cookie/path/','name': 'cookie_name',}]
+cookies = None
+
 # */ NOT REQUIRED
 
 

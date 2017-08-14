@@ -9,13 +9,6 @@ domainUri = 'http://www.mangarussia.com'
 uriRegex = 'https?://(?:www\.)?mangarussia\.com/manga/([^/]+)\.html'
 
 
-def test_url(url):
-    test = re.match(uriRegex, url)
-    if test is None:
-        return False
-    return len(test.groups()) > 0
-
-
 def get_main_content(url, get=None, post=None):
     return get(url)
 
