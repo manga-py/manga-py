@@ -27,7 +27,7 @@ def get_volumes(content, url=None):
     if not 'data' in _:
         return []
     volumes_links = _['data']
-    volumes_links.reverse()
+    # volumes_links.reverse()
     return volumes_links
 
 

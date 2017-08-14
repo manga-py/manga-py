@@ -344,5 +344,5 @@ if __name__ == '__main__':
                 name = manual_input('Please, paste manga name')
         main(url, name)
     except KeyboardInterrupt:
-        print('\033[9DUser interrupt this. Exit')
+        print('\033[84DUser interrupt this. Exit\t\t')
         exit(0)
