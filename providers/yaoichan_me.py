@@ -32,6 +32,7 @@ def get_volumes(content=None, url=None):
     if not parser:
         return []
     list = [domainUri + i.get('href') for i in parser]
+    list.reverse()
     return list
 
 
