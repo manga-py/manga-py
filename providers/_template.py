@@ -2,14 +2,6 @@
 # -*- coding: utf-8 -*-
 
 
-def test_url(url):
-    """
-    :param url: str
-    :return: bool
-    """
-    pass
-
-
 def get_main_content(url, get=None, post=None):
     """
     :param url: str
