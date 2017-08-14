@@ -4,6 +4,8 @@
 - [x] http://desu.me
 - [x] http://manga-online.biz
 - [x] http://mangaclub.ru
+- [x] http://mangago.me
+- [x] http://mangahub.ru
 - [x] http://mangapanda.com
 - [x] http://mangarussia.com
 - [x] http://mintmanga.me
@@ -12,13 +14,14 @@
 - [x] http://selfmanga.ru
 - [x] http://shakai.ru
 - [x] http://read.yagami.me
+- [x] http://yaoichan.me
 ---
 
 ## How to use
 
 ### Installation
 ```bash
-git clone https://github.com/yuru-yuri/Manga-Downloader.git
+git clone --recursive  https://github.com/yuru-yuri/Manga-Downloader.git
 cd Manga-Downloader
 # install requirements
 pip3 -r requirements.txt
