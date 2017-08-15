@@ -9,9 +9,6 @@ domainUri = 'http://www.zingbox.me'
 
 def get_main_content(url, get=None, post=None):
     id = re.search('/manga/(?:[^/]+/)?(\d+)/', url)
-    if not id:
-        print('Wrong url')
-        exit()
     _ = {
         'url': '/manga/getBookDetail/{}'.format(id.groups()[0]),
         'method': 'GET',
@@ -27,7 +24,7 @@ def get_volumes(content=None, url=None):
 
 
 def get_archive_name(volume, index: int = None):
-    return volume['title']
+    return '{:0>3}'.format(volume['title'])
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
