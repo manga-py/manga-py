@@ -202,6 +202,8 @@ class MangaDownloader:
         return self.provider.get_volumes(self.main_content, url=self.url)
 
     def get_archive_destination(self, archive_name: str):
+        if archive_name.find('?') > 0:
+            archive_name = archive_name[0:archive_name.find('?')]
         d = os.path.join(self._get_destination_directory(), archive_name + '.zip')
         directory = os.path.dirname(d)
         if not os.path.isdir(directory):
@@ -295,7 +297,10 @@ class MangaDownloader:
                 if show_progress:
                     _progress(images_len, n)
                 # hash name protected
-                basename = '{:0>2}_{}'.format(n, os.path.basename(i))
+                name = os.path.basename(i)
+                if name.find('?') > 0:
+                    name = name[0:name.find('?')]
+                basename = '{:0>2}_{}'.format(n, name)
                 image_full_name = os.path.join(temp_path, basename)
                 if self.__download_image(i, image_full_name):
                     c += 1
