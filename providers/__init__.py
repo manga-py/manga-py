@@ -5,6 +5,7 @@ import re
 
 providers_list = {
     'desu_me': 'desu\.me/manga/.+?',
+    'heymanga_me': 'heymanga\.me/manga/.+?',
     'manga_online_biz': 'manga\-online\.biz/.+',
     'mangaclub_ru': 'mangaclub\.ru/.+',
     'mangafreak_net': 'mangafreak\.net/.+',  # with cf-protect
