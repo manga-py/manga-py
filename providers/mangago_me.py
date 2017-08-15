@@ -3,8 +3,6 @@
 
 from lxml.html import document_fromstring
 import re
-import json
-
 from helpers.cloudflare_scrape import cfscrape
 
 domainUri = 'http://www.mangago.me'

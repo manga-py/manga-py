@@ -252,15 +252,12 @@ class MangaDownloader:
         if getattr(self.provider, 'download_zip_only', False):
             if len(volumes):
                 for v in volumes:
-                    archive = self.provider.get_zip(volume=v, get=_get)
-                    if archive is not str:
-                        for i in archive:
-                            self.__download_archive(i)
-                    else:
-                        self.__download_archive(archive)
+                    archive = self.provider.get_zip(volume=v, get=_get, post=_post)
+                    for a in archive:
+                        self.__download_archive(a)
             else:
-                archives = self.provider.get_zip(main_content=self.main_content, get=_get)
-                for a in archives:
+                archive = self.provider.get_zip(main_content=self.main_content, get=_get, post=_post)
+                for a in archive:
                     self.__download_archive(a)
             return
 
