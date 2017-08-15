@@ -11,7 +11,12 @@ providers_list = {
     'mangago_me': 'mangago\.me/read\-manga/',  # with cf-protect
     'mangahere_co': 'mangahere\.co/manga/',
     'mangahub_ru': 'mangahub\.ru/.+',
+
+    # doubles /*
     'mangakakalot_com': 'mangakakalot\.com/(manga|chapter)/.+',
+    'manganel_com': 'manganel\.com/(manga|chapter)/.+',
+    # */ doubles
+
     'mangapanda_com': 'mangapanda.com/.+',
     'mangareader_net': 'mangareader.net/.+',
     'mangarussia_com': 'mangarussia\.com/manga',
