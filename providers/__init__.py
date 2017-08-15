@@ -9,6 +9,7 @@ providers_list = {
     'mangaclub_ru': 'mangaclub\.ru/.+',
     'mangafreak_net': 'mangafreak\.net/.+',  # with cf-protect
     'mangago_me': 'mangago\.me/read\-manga/',  # with cf-protect
+    'mangahere_co': 'mangahere\.co/manga/',
     'mangahub_ru': 'mangahub\.ru/.+',
     'mangakakalot_com': 'mangakakalot\.com/(manga|chapter)/.+',
     'mangapanda_com': 'mangapanda.com/.+',
