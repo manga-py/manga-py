@@ -19,6 +19,7 @@ providers_list = {
     'shakai_ru': 'shakai\.ru/manga.*?/\d+',
     'yagami_me': 'read\.yagami\.me/.+',
     'yaoichan_me': 'yaoichan\.me/(?:manga|online)',
+    'zingbox_me': 'zingbox\.me/.+',
 }
 
 
