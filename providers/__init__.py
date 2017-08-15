@@ -12,6 +12,7 @@ providers_list = {
     'mangahub_ru': 'mangahub\.ru/.+',
     'mangakakalot_com': 'mangakakalot\.com/(manga|chapter)/.+',
     'mangapanda_com': 'mangapanda.com/.+',
+    'mangareader_net': 'mangareader.net/.+',
     'mangarussia_com': 'mangarussia\.com/manga',
     'mintmanga_me': 'mintmanga\.me/.+',
     'ninemanga_com': 'ninemanga\.com/manga',

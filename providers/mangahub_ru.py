@@ -27,7 +27,7 @@ def get_volumes(content=None, url=None):
 def get_archive_name(volume, index: int = None):
     parser = re.search('/[^/]+/read/([^/]+)/([^/]+)/([^/]+)/', volume)
     if parser is None:
-        return ''
+        return 'vol_{}'.format(index)
     groups = parser.groups()
     return '{}_{}/{:0>2}'.format(groups[0], groups[1], groups[2])
 

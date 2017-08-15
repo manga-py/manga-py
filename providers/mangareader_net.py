@@ -3,48 +3,43 @@
 
 from lxml.html import document_fromstring
 import re
-import json
 
-domainUri = 'http://www.mangarussia.com'
-uriRegex = 'https?://(?:www\.)?mangarussia\.com/manga/([^/]+)\.html'
+domainUri = 'http://www.mangareader.net'
+uriRegex = 'https?://(?:www\.)?mangareader\.net/([^/]+)'
 
 
 def get_main_content(url, get=None, post=None):
-    return get(url)
+    name = get_manga_name(url)
+    print('{}/{}'.format(domainUri, name))
+    return get('{}/{}'.format(domainUri, name))
 
 
 def get_volumes(content=None, url=None):
-    parser = document_fromstring(content)
-    result = parser.cssselect('.chapterlist .col1 > a')
-    if result is None:
-        return []
-    list = [i.get('href') for i in result]
-    list.reverse()
+    result = document_fromstring(content).cssselect('#listing a')
+    list = [domainUri + i.get('href') for i in result]
     return list
 
 
 def get_archive_name(volume, index: int = None):
-    # fucking names :[
-    result = re.search('\+(\d+)\+\-\+(\d+)\+.+/(\d+)', volume)
-    if result is None:
+    name = re.search('\.net/.+?/(\d+)', volume)
+    if not name:
         return 'vol_{}'.format(index)
-    _ = result.groups()
-    return '{:0>2}_{:0>3}/{}'.format(_[0], _[1], _[2])
+    return name.groups()[0]
 
 
 def __get_img(parser):
-    return parser.cssselect('img#comicpic')[0].get('src')
+    return parser.cssselect('#img')[0].get('src')
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
     content = get(volume)
     parser = document_fromstring(content)
-    result = parser.cssselect('select#page option')
+    result = parser.cssselect('select#pageMenu option')
     pages_list = [value.get('value') for index, value in enumerate(result) if index]  # skip first page
     first_image = __get_img(parser)
     images = [first_image]
     for i in pages_list:
-        content = get(i)
+        content = get(domainUri + i)
         parser = document_fromstring(content)
         images.append(__get_img(parser))
     return images
@@ -52,9 +47,9 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 def get_manga_name(url, get=None):
     result = re.search(uriRegex, url)
-    if result is not None:
-        return result.groups()[0].replace('+', ' ')
-    return ''
+    if not result:
+        return ''
+    return result.groups()[0]
 
 
 if __name__ == '__main__':

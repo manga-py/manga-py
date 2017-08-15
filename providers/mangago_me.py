@@ -28,7 +28,7 @@ def get_volumes(content=None, url=None):
 def get_archive_name(volume, index: int = None):
     parser = re.search('read\-manga/[^/]+/[^/]+/(c\d+)/', volume)
     if parser is None:
-        return ''
+        return 'vol_{}'.format(index)
     return parser.groups()[0]
 
 

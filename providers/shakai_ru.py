@@ -38,7 +38,7 @@ def get_archive_name(volume, index: int = None):
         url = re.search(nameRegex, volume['data-second'][0])
         return url.groups()[1]
 
-    return ''
+    return 'vol_{}'.format(index)
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
