@@ -6,7 +6,7 @@ import re
 
 # http://www.mangapanda.com/hunter-x-hunter
 domainUri = 'http://www.mangapanda.com'
-uriRegex = 'https?://(?:www.)?mangapanda.com/([^/]+)'
+uriRegex = 'https?://(?:www.)?mangapanda\.com/([^/]+)'
 
 
 def get_main_content(url, get=None, post=None):
@@ -31,8 +31,8 @@ def get_archive_name(volume, index: int = None):
 
 def _content2image_url(content):
     parser = document_fromstring(content)
-    resutl = parser.cssselect('#imgholder img')
-    return resutl[0].get('src')
+    result = parser.cssselect('#imgholder img')
+    return result[0].get('src')
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
@@ -42,11 +42,11 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     count_pages = document_fromstring(content)
     count_pages = count_pages.cssselect('#selectpage option')
 
-    if count_pages is None:
-        return []
-
     count_pages = len(count_pages)
     images = [_content2image_url(content)]
+
+    if count_pages < 2:
+        return images
 
     n = 1
     while n < count_pages:
