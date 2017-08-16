@@ -48,7 +48,9 @@ def get_images(main_content=None, volume=None, get=None, post=None):
         parser = document_fromstring(content)
         _ = __get_img(parser)
         index = len(_) + index
-        images += _
+        for i in _:
+            if i not in images:
+                images.append(i)
     return images
 
 
