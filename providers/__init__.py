@@ -23,6 +23,7 @@ providers_list = {
     'mangapanda_com': 'mangapanda.com/.+',
     'mangareader_net': 'mangareader.net/.+',
     'mangarussia_com': 'mangarussia\.com/manga',
+    'mangatown_com': 'mangatown\.com/manga',
     'mintmanga_me': 'mintmanga\.me/.+',
     'ninemanga_com': 'ninemanga\.com/manga',
     'readmanga_me': 'readmanga\.me/.+',

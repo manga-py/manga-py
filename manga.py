@@ -311,7 +311,7 @@ class MangaDownloader:
                 name = os.path.basename(i)
                 if name.find('?') > 0:
                     name = name[0:name.find('?')]
-                basename = '{:0>2}_{}'.format(n, name)
+                basename = '{:0>3}_{}'.format(n, name)
                 image_full_name = os.path.join(temp_path, basename)
                 if self.__download_image(i, image_full_name):
                     c += 1
