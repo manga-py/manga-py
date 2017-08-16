@@ -29,6 +29,7 @@ archivesDir = os.path.join(os.getcwd(), 'manga')
 
 info_mode = False
 show_progress = False
+add_name = True
 count_reties = 5
 
 referrer_url = ''
@@ -71,6 +72,9 @@ def _create_parser():
     parse.add_argument('-d', '--destination', type=str, required=False, help='Destination folder', default=archivesDir)
     parse.add_argument('-i', '--info', action='store_const', required=False, const=True, default=False)
     parse.add_argument('-p', '--progress', action='store_const', required=False, const=True, default=False)
+    parse.add_argument('-s', '--skip-volumes', type=int, action='store_const', required=False, help='Skip volumes', default=0)
+    parse.add_argument('--no-name', action='store_const', required=False, help='Don\'t added manga name to the path', const=True, default=False)
+    parse.add_argument('--reverse-downloading', action='store_const', required=False, help='Reverse volumes downloading', const=True, default=False)
 
     return parse
 
@@ -143,7 +147,7 @@ class MangaDownloader:
         self.url = url
         self.name = name
         self.switcher()
-        if len(name) < 1:
+        if add_name and len(name) < 1:
             self.get_manga_name()
         self.make_manga_dir()
 
@@ -153,6 +157,8 @@ class MangaDownloader:
         self._get_cookies(referrer_url)
 
     def _get_destination_directory(self):
+        if not add_name:
+            return arguments.destination
         return os.path.join(arguments.destination, self.name)
 
     def _get_cookies(self, url: str):
@@ -199,7 +205,12 @@ class MangaDownloader:
         self.main_content = self.provider.get_main_content(self.url, get=_get, post=_post)
 
     def get_volumes(self):
-        return self.provider.get_volumes(self.main_content, url=self.url)
+        volumes = self.provider.get_volumes(self.main_content, url=self.url)
+        if arguments.reverse_downloading:
+            volumes.reverse()
+        if arguments.skip_volumes > 0:
+            return volumes[arguments.skip_volumes:]
+        return volumes
 
     def get_archive_destination(self, archive_name: str):
         if archive_name.find('?') > 0:
@@ -337,12 +348,13 @@ if __name__ == '__main__':
         arguments = _create_parser().parse_args()
         info_mode = arguments.info
         show_progress = arguments.progress
+        add_name = not arguments.no_name
         name = arguments.name
         if arguments.url:
             url = arguments.url
         else:
             url = manual_input('Please, paste manga url.')
-            if len(name) < 1:
+            if add_name and len(name) < 1:
                 name = manual_input('Please, paste manga name')
         main(url, name)
     except KeyboardInterrupt:
