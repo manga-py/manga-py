@@ -16,13 +16,11 @@ def get_main_content(url, get=None, post=None):
 
 
 def get_volumes(content=None, url=None):
-    parser = document_fromstring(content)
-    result = parser.cssselect('#chapter_table a.chico')
-    if result is None:
+    parser = document_fromstring(content).cssselect('#chapter_table a.chico')
+    if parser is None:
         return []
-    items = [i.get('href') for i in result]
-    items.reverse()
-    return items
+    parser.reverse()
+    return [i.get('href') for i in parser]
 
 
 def get_archive_name(volume, index: int = None):

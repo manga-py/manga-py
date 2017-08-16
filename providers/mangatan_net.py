@@ -18,9 +18,8 @@ def get_volumes(content=None, url=None):
     parser = document_fromstring(content).cssselect('.chapter-list .row a')
     if not parser:
         return []
-    items = [i.get('href') for i in parser]
-    items.reverse()
-    return items
+    parser.reverse()
+    return [i.get('href') for i in parser]
 
 
 def get_archive_name(volume, index: int = None):

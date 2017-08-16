@@ -18,13 +18,11 @@ def get_main_content(url, get=None, post=None):
 
 
 def get_volumes(content: str, url=None):
-    parser = document_fromstring(content)
-    result = parser.cssselect('#animeView ul h4 > a.tips')
-    if result is None:
+    parser = document_fromstring(content).cssselect('#animeView ul h4 > a.tips')
+    if parser is None:
         return []
-    items = [i.get('href') for i in result]
-    items.reverse()
-    return items
+    parser.reverse()
+    return [i.get('href') for i in parser]
 
 
 def get_archive_name(volume, index: int = None):
