@@ -19,6 +19,7 @@ providers_list = {
     'manganel_com': 'manganel\.com/(manga|chapter)/.+',
     # */ doubles
 
+    'mangaonlinehere_com': 'mangaonlinehere.com/manga\-info/.+',
     'mangapanda_com': 'mangapanda.com/.+',
     'mangareader_net': 'mangareader.net/.+',
     'mangarussia_com': 'mangarussia\.com/manga',

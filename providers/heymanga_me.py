@@ -17,9 +17,9 @@ def get_volumes(content=None, url=None):
     result = document_fromstring(content).cssselect('#chapters .ti-heart a')
     if not result:
         return []
-    list = [domainUri + i.get('href') for i in result]
-    list.reverse()
-    return list
+    items = [domainUri + i.get('href') for i in result]
+    items.reverse()
+    return items
 
 
 def get_archive_name(volume, index: int = None):

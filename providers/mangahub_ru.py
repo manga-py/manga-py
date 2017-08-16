@@ -19,9 +19,9 @@ def get_main_content(url, get=None, post=None):
 def get_volumes(content=None, url=None):
     parser = document_fromstring(content)
     parser = parser.cssselect('.b-catalog-list__name a[href^="/"]')
-    list = [domainUri + i.get('href') for i in parser]
-    list.reverse()
-    return list
+    items = [domainUri + i.get('href') for i in parser]
+    items.reverse()
+    return items
 
 
 def get_archive_name(volume, index: int = None):
@@ -40,8 +40,8 @@ def get_images(main_content=None, volume=None, get=None, post=None):
         return []
     result = parser[0].get('data-js-scans')
     result = json.loads(html.unescape(result.replace('\/', '/')))
-    list = [domainUri + i['src'] for i in result]
-    return list
+    items = [domainUri + i['src'] for i in result]
+    return items
 
 
 def get_manga_name(url, get=None):

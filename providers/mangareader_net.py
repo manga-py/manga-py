@@ -16,8 +16,8 @@ def get_main_content(url, get=None, post=None):
 
 def get_volumes(content=None, url=None):
     result = document_fromstring(content).cssselect('#listing a')
-    list = [domainUri + i.get('href') for i in result]
-    return list
+    items = [domainUri + i.get('href') for i in result]
+    return items
 
 
 def get_archive_name(volume, index: int = None):

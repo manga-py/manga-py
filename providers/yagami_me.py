@@ -30,9 +30,9 @@ def get_volumes(content=None, url=None):
     result = parser.cssselect('#midside .list .element .title a')
     if result is None:
         return []
-    list = [fix_volume_url(i.get('href')) for i in result]
-    list.reverse()
-    return list
+    items = [fix_volume_url(i.get('href')) for i in result]
+    items.reverse()
+    return items
 
 
 def get_archive_name(volume, index: int = None):

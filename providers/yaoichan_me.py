@@ -23,9 +23,9 @@ def get_volumes(content=None, url=None):
     parser = document_fromstring(content).cssselect('td .manga > a')
     if not parser:
         return []
-    list = [domainUri + i.get('href') for i in parser]
-    list.reverse()
-    return list
+    items = [domainUri + i.get('href') for i in parser]
+    items.reverse()
+    return items
 
 
 def get_archive_name(volume, index: int = None):
@@ -41,8 +41,8 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     if not parser:
         return []
     parser = parser.groups()[0].rstrip(',')
-    list = json.loads('[' + parser + ']')
-    return list
+    items = json.loads('[' + parser + ']')
+    return items
 
 
 def get_manga_name(url, get=None):

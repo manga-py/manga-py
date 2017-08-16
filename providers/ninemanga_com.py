@@ -18,7 +18,7 @@ def get_volumes(content: str, url=None):
     result = parser.cssselect('.chapterbox li a.chapter_list_a')
     if result is None:
         return []
-    list = []
+    items = []
     url = urlparse(url)
     url = '{}://{}'.format(url.scheme, url.netloc)
     for i in result:
@@ -26,9 +26,9 @@ def get_volumes(content: str, url=None):
         if u is not None:
             img = u.groups()
             # lifehack
-            list.append('{}{}-150-1.html'.format(url, img[0]))
-    list.reverse()
-    return list
+            items.append('{}{}-150-1.html'.format(url, img[0]))
+    items.reverse()
+    return items
 
 
 def get_archive_name(volume, index: int = None):

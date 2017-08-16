@@ -5,7 +5,7 @@ from lxml.html import document_fromstring
 import re
 
 domainUri = 'http://mangafox.me'
-uriRegex = 'https?://mangafox\.me/manga/([^/]+)/?'
+uriRegex = 'https?://(?:www.)?mangafox\.me/manga/([^/]+)/?'
 
 
 def get_main_content(url, get=None, post=None):
@@ -17,9 +17,9 @@ def get_volumes(content=None, url=None):
     result = document_fromstring(content).cssselect('#chapters a.tips')
     if not result:
         return []
-    list = [i.get('href') for i in result]
-    list.reverse()
-    return list
+    items = [i.get('href') for i in result]
+    items.reverse()
+    return items
 
 
 def get_archive_name(volume, index: int = None):

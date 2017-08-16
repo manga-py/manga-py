@@ -20,9 +20,9 @@ def get_volumes(content=None, url=None):
     result = parser.cssselect('#chapter_table a.chico')
     if result is None:
         return []
-    list = [i.get('href') for i in result]
-    list.reverse()
-    return list
+    items = [i.get('href') for i in result]
+    items.reverse()
+    return items
 
 
 def get_archive_name(volume, index: int = None):
