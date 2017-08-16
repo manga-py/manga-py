@@ -10,8 +10,8 @@ providers_list = {
     'mangaclub_ru': 'mangaclub\.ru/.+',
     'mangafox_me': 'mangafox\.me/manga/.+',
     'mangafreak_net': 'mangafreak\.net/.+',  # with cf-protect
-    'mangago_me': 'mangago\.me/read\-manga/',  # with cf-protect
-    'mangahere_co': 'mangahere\.co/manga/',
+    'mangago_me': 'mangago\.me/read\-manga/.+',  # with cf-protect
+    'mangahere_co': 'mangahere\.co/manga/.+',
     'mangahub_ru': 'mangahub\.ru/.+',
 
     # doubles /*
@@ -19,18 +19,19 @@ providers_list = {
     'manganel_com': 'manganel\.com/(manga|chapter)/.+',
     # */ doubles
 
-    'mangaonlinehere_com': 'mangaonlinehere.com/manga\-info/.+',
-    'mangapanda_com': 'mangapanda.com/.+',
-    'mangareader_net': 'mangareader.net/.+',
-    'mangarussia_com': 'mangarussia\.com/manga',
-    'mangatown_com': 'mangatown\.com/manga',
+    'mangaonlinehere_com': 'mangaonlinehere\.com/manga\-info/.+',
+    'mangapanda_com': 'mangapanda\.com/.+',
+    'mangapark_me': 'mangapark\.me/manga/.+',
+    'mangareader_net': 'mangareader\.net/.+',
+    'mangarussia_com': 'mangarussia\.com/manga.+',
+    'mangatown_com': 'mangatown\.com/manga.+',
     'mintmanga_me': 'mintmanga\.me/.+',
-    'ninemanga_com': 'ninemanga\.com/manga',
+    'ninemanga_com': 'ninemanga\.com/manga.+',
     'readmanga_me': 'readmanga\.me/.+',
-    'selfmanga_ru': 'selfmanga\.ru/',
+    'selfmanga_ru': 'selfmanga\.ru/.+',
     'shakai_ru': 'shakai\.ru/manga.*?/\d+',
     'yagami_me': 'read\.yagami\.me/.+',
-    'yaoichan_me': 'yaoichan\.me/(?:manga|online)',
+    'yaoichan_me': 'yaoichan\.me/(?:manga|online).+',
     'zingbox_me': 'zingbox\.me/.+',
 }
 
