@@ -72,7 +72,7 @@ def _create_parser():
     parse.add_argument('-d', '--destination', type=str, required=False, help='Destination folder', default=archivesDir)
     parse.add_argument('-i', '--info', action='store_const', required=False, const=True, default=False)
     parse.add_argument('-p', '--progress', action='store_const', required=False, const=True, default=False)
-    parse.add_argument('-s', '--skip-volumes', type=int, action='store_const', required=False, help='Skip volumes', default=0)
+    parse.add_argument('-s', '--skip-volumes', type=int, required=False, help='Skip volumes', default=0)
     parse.add_argument('--no-name', action='store_const', required=False, help='Don\'t added manga name to the path', const=True, default=False)
     parse.add_argument('--reverse-downloading', action='store_const', required=False, help='Reverse volumes downloading', const=True, default=False)
 
