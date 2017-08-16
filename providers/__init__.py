@@ -24,6 +24,7 @@ providers_list = {
     'mangapark_me': 'mangapark\.me/manga/.+',
     'mangareader_net': 'mangareader\.net/.+',
     'mangarussia_com': 'mangarussia\.com/manga.+',
+    'mangatan_net': 'mangatan\.net/(manga|chapter).+',
     'mangatown_com': 'mangatown\.com/manga.+',
     'mintmanga_me': 'mintmanga\.me/.+',
     'ninemanga_com': 'ninemanga\.com/manga.+',
