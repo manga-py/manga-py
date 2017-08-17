@@ -27,8 +27,8 @@ def get_volumes(content=None, url=None):
 def get_archive_name(volume, index: int = None):
     name = re.search('\-manga/[^/]+/(\d+)', volume)
     if not name:
-        return 'vol_{}'.format(index)
-    return name.groups()[0]
+        return 'vol_{:0>3}'.format(index)
+    return '{:0>3}'.format(name.groups()[0])
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
