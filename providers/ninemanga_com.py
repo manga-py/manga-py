@@ -6,7 +6,7 @@ import re
 from urllib.parse import urlparse
 
 domainUri = 'http://ninemanga.com'
-uriRegex = 'https?://.{0,3}\.?ninemanga\.com/manga/(.+)\.html'
+uriRegex = '\.com/manga/(.+)\.html'
 
 
 def get_main_content(url, get=None, post=None):

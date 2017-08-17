@@ -6,7 +6,7 @@ import re
 import json
 
 domainUri = 'http://mintmanga.com'
-uriRegex = 'https?://(?:www\.)?mintmanga\.com/([^/]+)/?'
+uriRegex = '\.com/([^/]+)/?'
 imagesRegex = 'rm_h\.init.+?(\[\[.+\]\])'
 
 

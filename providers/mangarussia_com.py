@@ -6,7 +6,7 @@ import re
 import json
 
 domainUri = 'http://www.mangarussia.com'
-uriRegex = 'https?://(?:www\.)?mangarussia\.com/manga/([^/]+)\.html'
+uriRegex = '/manga/([^/]+)\.html'
 
 
 def get_main_content(url, get=None, post=None):

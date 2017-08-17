@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 domainUri = 'http://www.mangaeden.com'
-uriRegex = 'https?://(?:www.)?mangaeden\.com/[^/]+/([^/]+\-manga)/([^/]+)/?'
+uriRegex = '/[^/]+/([^/]+\-manga)/([^/]+)/?'
 
 from lxml.html import document_fromstring
 import re

@@ -6,7 +6,7 @@ import re
 import json
 
 domainUri = 'http://shakai.ru'
-uriRegex = 'https?://(?:www\.)?shakai\.ru/manga(?:-read)?/(\d+)/?'
+uriRegex = '/manga(?:-read)?/(\d+)/?'
 nameRegex = 'file/manga/([a-zA-Z_]+)/(?:manga|cover)/([^/]+)/?'
 
 

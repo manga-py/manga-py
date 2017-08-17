@@ -7,7 +7,7 @@ import json
 import html
 
 domainUri = 'http://mangahub.ru'
-uriRegex = 'https?://(?:www\.)?mangahub\.ru/([^/]+)/?'
+uriRegex = '\.ru/([^/]+)/?'
 
 
 def get_main_content(url, get=None, post=None):

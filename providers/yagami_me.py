@@ -7,7 +7,7 @@ import json
 # http://read.yagami.me/series/kubera/
 
 domainUri = 'http://read.yagami.me'
-uriRegex = 'https?://read\.yagami\.me/(?:series|read)/([^/]+)/?'
+uriRegex = '/(?:series|read)/([^/]+)/?'
 
 
 def get_main_content(url, get=None, post=None):

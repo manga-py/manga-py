@@ -5,7 +5,7 @@ from lxml.html import document_fromstring
 import re
 
 domainUri = 'http://www.mangareader.net'
-uriRegex = 'https?://(?:www\.)?mangareader\.net/([^/]+)'
+uriRegex = '/([^/]+)'
 
 
 def get_main_content(url, get=None, post=None):

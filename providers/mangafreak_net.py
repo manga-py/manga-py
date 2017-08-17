@@ -6,7 +6,7 @@ import re
 from helpers.cloudflare_scrape import cfscrape
 
 domainUri = 'http://www3.mangafreak.net'
-uriRegex = 'https?://(?:www3\.)?mangafreak\.net/Manga/([^/]+)/?'
+uriRegex = '/Manga/([^/]+)/?'
 
 
 def get_main_content(url, get=None, post=None):

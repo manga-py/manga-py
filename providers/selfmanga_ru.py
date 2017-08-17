@@ -6,7 +6,7 @@ import re
 import json
 
 domainUri = 'http://selfmanga.ru'
-uriRegex = 'https?://(?:www\.)?selfmanga\.ru/([^/]+)/?'
+uriRegex = '\.ru/([^/]+)/?'
 imagesRegex = 'rm_h\.init.+?(\[\[.+\]\])'
 
 

@@ -6,7 +6,6 @@ import re
 import json
 
 domainUri = 'http://yaoichan.me'
-uriRegex = 'https?://(?:www\.)yaoichan.me/(?:manga|online)/\d+\-'
 imagesRegex = '"fullimg":\s?\[(.*)?\]'
 
 

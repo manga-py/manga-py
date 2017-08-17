@@ -6,7 +6,7 @@ import re
 
 # http://www.mangapanda.com/hunter-x-hunter
 domainUri = 'http://www.mangapanda.com'
-uriRegex = 'https?://(?:www.)?mangapanda\.com/([^/]+)'
+uriRegex = '/([^/]+)'
 
 
 def get_main_content(url, get=None, post=None):
