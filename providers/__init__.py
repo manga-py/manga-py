@@ -7,6 +7,7 @@ providers_list = {
     'desu_me': 'desu\.me/manga/.+?',
     'heymanga_me': 'heymanga\.me/manga/.+?',
     'manga_online_biz': 'manga\-online\.biz/.+',
+    'mangabox_me': 'mangabox\.me/reader/.+',
     'mangaclub_ru': 'mangaclub\.ru/.+',
     'mangafox_me': 'mangafox\.me/manga/.+',
     'mangafreak_net': 'mangafreak\.net/.+',  # with cf-protect
@@ -27,7 +28,7 @@ providers_list = {
     'mangarussia_com': 'mangarussia\.com/manga.+',
     'mangatan_net': 'mangatan\.net/(manga|chapter).+',
     'mangatown_com': 'mangatown\.com/manga.+',
-    'mintmanga_me': 'mintmanga\.me/.+',
+    'mintmanga_com': 'mintmanga\.com/.+',
     'ninemanga_com': 'ninemanga\.com/manga.+',
     'readmanga_me': 'readmanga\.me/.+',
     'selfmanga_ru': 'selfmanga\.ru/.+',

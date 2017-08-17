@@ -5,8 +5,8 @@ from lxml.html import document_fromstring
 import re
 import json
 
-domainUri = 'http://mintmanga.me'
-uriRegex = 'https?://(?:www\.)?mintmanga\.me/([^/]+)/?'
+domainUri = 'http://mintmanga.com'
+uriRegex = 'https?://(?:www\.)?mintmanga\.com/([^/]+)/?'
 imagesRegex = 'rm_h\.init.+?(\[\[.+\]\])'
 
 
