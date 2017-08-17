@@ -22,7 +22,6 @@ def get_volumes(content=None, url=None):
     parser = document_fromstring(content).cssselect('td .manga > a')
     if not parser:
         return []
-    parser.reverse()
     return [domainUri + i.get('href') for i in parser]
 
 

@@ -19,9 +19,10 @@ def get_main_content(url, get=None, post=None):
 
 
 def get_volumes(content=None, url=None):
-    parser = json.loads(content)['child']
-    parser.reverse()
-    return parser
+    try:
+        return json.loads(content)['child']
+    except Exception:
+        return []
 
 
 def get_archive_name(volume, index: int = None):

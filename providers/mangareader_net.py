@@ -16,6 +16,7 @@ def get_main_content(url, get=None, post=None):
 
 def get_volumes(content=None, url=None):
     result = document_fromstring(content).cssselect('#listing a')
+    result.reverse()
     return [domainUri + i.get('href') for i in result]
 
 

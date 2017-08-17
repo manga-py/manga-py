@@ -206,7 +206,7 @@ class MangaDownloader:
 
     def get_volumes(self):
         volumes = self.provider.get_volumes(self.main_content, url=self.url)
-        if arguments.reverse_downloading:
+        if not arguments.reverse_downloading:
             volumes.reverse()
         if arguments.skip_volumes > 0:
             return volumes[arguments.skip_volumes:]
@@ -259,6 +259,17 @@ class MangaDownloader:
             print('Downloading archive: %s' % (archive_name,))
         self.__download_image(url, dst)
 
+    def __archive_helper(self, archive):
+        n = 0
+        if arguments.reverse_downloading:
+            archive.reverse()
+        if arguments.skip_volumes > 0:
+            archive = archive[arguments.skip_volumes:]
+        for a in archive:
+            self.__download_archive(a)
+            n += 1
+
+
     def download_images(self):
         volumes = self.get_volumes()
 
@@ -266,12 +277,10 @@ class MangaDownloader:
             if len(volumes):
                 for v in volumes:
                     archive = self.provider.get_zip(volume=v, get=_get, post=_post)
-                    for a in archive:
-                        self.__download_archive(a)
+                    self.__archive_helper(archive)
             else:
                 archive = self.provider.get_zip(main_content=self.main_content, get=_get, post=_post)
-                for a in archive:
-                    self.__download_archive(a)
+                self.__archive_helper(archive)
             return
 
         if len(volumes) < 1:

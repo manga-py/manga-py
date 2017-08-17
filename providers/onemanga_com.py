@@ -14,7 +14,10 @@ def get_main_content(url, get=None, post=None):
 
 
 def get_volumes(content=None, url=None):
-    return [i.get('href') for i in document_fromstring(content).cssselect('.magaslistslistc .chapter-title-rtl a')]
+    parser = document_fromstring(content).cssselect('.magaslistslistc .chapter-title-rtl a')
+    items = [i.get('href') for i in parser]
+    items.reverse()
+    return items
 
 
 def get_archive_name(volume, index: int = None):

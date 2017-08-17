@@ -19,7 +19,6 @@ def get_main_content(url, get=None, post=None):
 def get_volumes(content=None, url=None):
     parser = document_fromstring(content)
     parser = parser.cssselect('.b-catalog-list__name a[href^="/"]')
-    parser.reverse()
     return [domainUri + i.get('href') for i in parser]
 
 

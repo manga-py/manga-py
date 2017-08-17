@@ -20,6 +20,7 @@ def get_volumes(content: str, url=None):
     result = parser.cssselect('#listing tr > td > a')
     if result is None:
         return []
+    result.reverse()
     return [i.get('href') for i in result]
 
 

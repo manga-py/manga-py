@@ -27,7 +27,6 @@ def get_volumes(content: str, url=None):
             img = u.groups()
             # lifehack
             items.append('{}{}-150-1.html'.format(url, img[0]))
-    items.reverse()
     return items
 
 

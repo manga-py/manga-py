@@ -21,9 +21,7 @@ def get_volumes(content: str, url=None):
     result = parser.cssselect('#mangaBox > div.leftContent div.chapters-link tr > td > a')
     if result is None:
         return []
-    list = [i.get('href') for i in result]
-    list.reverse()
-    return list
+    return [i.get('href') for i in result]
 
 
 def get_archive_name(volume, index: int = None):

@@ -17,7 +17,6 @@ def get_main_content(url, get=None, post=None):
 def get_volumes(content=None, url=None):
     result = document_fromstring(content).cssselect('#chapters a')
     items = [i.get('href') for i in result]
-    items.reverse()
     return items
 
 

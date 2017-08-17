@@ -43,10 +43,7 @@ def get_zip(main_content=None, volume=None, get=None, post=None):
     if result is not None:
         result = result.groups()[0].replace("'", '"')
         result = json.loads(result)
-
-        items = [domainUri + i['downloadUrl'] for i in result]
-        items.reverse()
-        return items
+        return [domainUri + i['downloadUrl'] for i in result]
     return []
 
 

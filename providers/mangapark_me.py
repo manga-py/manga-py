@@ -17,7 +17,6 @@ def get_volumes(content=None, url=None):
     parser = document_fromstring(content).cssselect('#list > div:last-child em a:last-child')
     if not parser:
         return []
-    parser.reverse()
     return [domainUri + i.get('href') for i in parser]
 
 

@@ -15,6 +15,7 @@ def get_main_content(url, get=None, post=None):
 
 def get_volumes(content=None, url=None):
     items = document_fromstring(content).cssselect('#divIslem + table +  div.divThickBorder .BlackLabel14 a')
+    items.reverse()
     return ['https:' + i.get('href') for i in items]
 
 

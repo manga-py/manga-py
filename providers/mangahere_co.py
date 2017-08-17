@@ -16,7 +16,6 @@ def get_main_content(url, get=None, post=None):
 
 def get_volumes(content=None, url=None):
     parser = document_fromstring(content).cssselect('.detail_list .left a')
-    parser.reverse()
     return [i.get('href') for i in parser]
 
 

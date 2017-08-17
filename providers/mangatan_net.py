@@ -18,7 +18,6 @@ def get_volumes(content=None, url=None):
     parser = document_fromstring(content).cssselect('.chapter-list .row a')
     if not parser:
         return []
-    parser.reverse()
     return [i.get('href') for i in parser]
 
 

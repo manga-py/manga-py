@@ -19,9 +19,7 @@ def get_main_content(url, get=None, post=None):
 
 def get_volumes(content=None, url=None):
     volumes = document_fromstring(content).cssselect('a.chapterLink')
-    items = [domainUri + i.get('href') for i in volumes]
-    items.reverse()
-    return items
+    return [domainUri + i.get('href') for i in volumes]
 
 
 def get_archive_name(volume, index: int = None):
