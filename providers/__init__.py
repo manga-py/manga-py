@@ -30,6 +30,7 @@ providers_list = {
     'mangatown_com': 'mangatown\.com/manga.+',
     'mintmanga_com': 'mintmanga\.com/.+',
     'ninemanga_com': 'ninemanga\.com/manga.+',
+    # 'onemanga_com': 'onemanga\.com/manga.+',
     'readmanga_me': 'readmanga\.me/.+',
     'selfmanga_ru': 'selfmanga\.ru/.+',
     'shakai_ru': 'shakai\.ru/manga.*?/\d+',
