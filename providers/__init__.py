@@ -15,6 +15,7 @@ providers_list = {
     'mangahere_co': 'mangahere\.co/manga/.+',
     'mangahome_com': 'mangahome\.com/manga/.+',
     'mangahub_ru': 'mangahub\.ru/.+',
+    'mangainn_net': 'mangainn\.net/manga/.+',
 
     # doubles /*
     'mangakakalot_com': 'mangakakalot\.com/(manga|chapter)/.+',
