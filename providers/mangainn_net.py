@@ -19,9 +19,9 @@ def get_volumes(content=None, url=None):
 
 
 def get_archive_name(volume, index: int = None):
-    idx = volume.find('chapter-')
+    idx = volume.rfind('-chapter-')
     if idx > 0:
-        return volume[idx:]
+        return volume[1+idx:]
     parser = re.search('/chapter/(\d+)', volume)
     if not parser:
         return 'vol_{}'.format(index)

@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+# from lxml.html import document_fromstring
+# import re
+# import json
 
 def get_main_content(url, get=None, post=None):
     """

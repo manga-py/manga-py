@@ -4,9 +4,10 @@
 import re
 
 providers_list = {
-    'desu_me': 'desu\.me/manga/.+?',
-    'heymanga_me': 'heymanga\.me/manga/.+?',
+    'desu_me': 'desu\.me/manga/.+',
+    'heymanga_me': 'heymanga\.me/manga/.+',
     'manga_online_biz': 'manga\-online\.biz/.+',
+    'mangabb_co': 'mangabb\.co/.+',
     'mangabox_me': 'mangabox\.me/reader/.+',
     'mangaclub_ru': 'mangaclub\.ru/.+',
     'mangaeden_com': 'mangaeden.com/[^/]+/[^/]+\-manga/.+',
