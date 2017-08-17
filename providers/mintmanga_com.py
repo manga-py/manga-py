@@ -46,10 +46,7 @@ def get_manga_name(url, get=None):
     result = re.match(uriRegex, url)
     if result is None:
         return ''
-    result = result.groups()
-    if not len(result):
-        return ''
-    return result[0]
+    return result.groups()[0]
 
 
 if __name__ == '__main__':

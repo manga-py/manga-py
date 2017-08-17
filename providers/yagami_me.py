@@ -35,7 +35,7 @@ def get_volumes(content=None, url=None):
 
 def get_archive_name(volume, index: int = None):
     result = re.search('/read/.+?/(\d+/\d+)(/\d+)?/', volume)
-    if result is None:
+    if not result:
         return 'vol_{}'.format(index)
     _ = result.groups()
     if _[1] is not None:

@@ -33,11 +33,8 @@ def get_volumes(content, url=None):
 
 def get_archive_name(volume, index: int = None):
     if volume is not None and 'data-second' in volume:
-
-        # http://shakai.ru/file/manga/Steins_Gate_Heiji_Kyokusen_no_Epigraph/manga/1_1/l001.jpg
         url = re.search(nameRegex, volume['data-second'][0])
         return url.groups()[1]
-
     return 'vol_{}'.format(index)
 
 

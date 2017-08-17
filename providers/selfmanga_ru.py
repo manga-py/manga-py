@@ -27,8 +27,9 @@ def get_volumes(content: str, url=None):
 
 def get_archive_name(volume, index: int = None):
     result = re.search('/.+?/(.+?/.+)/?', volume)
-    name = result.groups()
-    return name[0]  # .replace('/', '_')
+    if not result:
+        return 'vol_{}'.format(index)
+    return result.groups()[0]
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
