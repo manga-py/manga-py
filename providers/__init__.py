@@ -5,6 +5,7 @@ import re
 
 providers_list = {
     'desu_me': 'desu\.me/manga/.+',
+    'gogomanga_co': 'gogomanga\.co/.+',
     'heymanga_me': 'heymanga\.me/manga/.+',
     'manga_online_biz': 'manga\-online\.biz/.+',
     'mangabb_co': 'mangabb\.co/.+',
