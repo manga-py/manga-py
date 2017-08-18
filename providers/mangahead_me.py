@@ -8,8 +8,8 @@ domainUri = 'http://mangahead.me'
 
 
 def get_main_content(url, get=None, post=None):
-    name = get_manga_name(url)
-    return get('{}/Manga-Raw-Scan/{}'.format(domainUri, name))
+    parser = re.search('\.me/(?:index.php/)?(Manga-\w+-Scan/)([^/]+)', url).groups()
+    return get('{}/{}/{}'.format(domainUri, parser[1], parser[1]))
 
 
 def get_volumes(content=None, url=None):
