@@ -21,12 +21,9 @@ providers_list = {
     'mangahome_com': 'mangahome\.com/manga/.+',
     'mangahub_ru': 'mangahub\.ru/.+',
     'mangainn_net': 'mangainn\.net/manga/.+',
-
-    # doubles /*
     'mangakakalot_com': 'mangakakalot\.com/(manga|chapter)/.+',
+    'mangaleader_com': 'mangaleader\.com/read\-.+',
     'manganel_com': 'manganel\.com/(manga|chapter)/.+',
-    # */ doubles
-
     'mangaonlinehere_com': 'mangaonlinehere\.com/manga\-info/.+',
     'mangapanda_com': 'mangapanda\.com/.+',
     'mangapark_me': 'mangapark\.me/manga/.+',
