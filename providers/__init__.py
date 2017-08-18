@@ -5,6 +5,7 @@ import re
 
 providers_list = {
     'desu_me': 'desu\.me/manga/.+',
+    'eatmanga_me': 'eatmanga\.me/.+',
     'gogomanga_co': 'gogomanga\.co/.+',
     'heymanga_me': 'heymanga\.me/manga/.+',
     'manga_online_biz': 'manga\-online\.biz/.+',
@@ -15,7 +16,7 @@ providers_list = {
     'mangafox_me': 'mangafox\.me/manga/.+',
     'mangafreak_net': 'mangafreak\.net/.+',  # with cf-protect
     'mangago_me': 'mangago\.me/read\-manga/.+',  # with cf-protect
-    'mangahead_me': 'mangahead\.me/.+',
+    'mangahead_me': 'mangahead\.me/.*Manga-\w+-Scan/.+',
     'mangahere_co': 'mangahere\.co/manga/.+',
     'mangahome_com': 'mangahome\.com/manga/.+',
     'mangahub_ru': 'mangahub\.ru/.+',
