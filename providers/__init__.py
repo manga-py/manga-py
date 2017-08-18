@@ -30,6 +30,7 @@ providers_list = {
     'mangapark_me': 'mangapark\.me/manga/.+',
     'mangareader_net': 'mangareader\.net/.+',
     'mangarussia_com': 'mangarussia\.com/manga.+',
+    'mangasaurus_com': 'mangasaurus\.com/manga.+',
     'mangatan_net': 'mangatan\.net/(manga|chapter).+',
     'mangatown_com': 'mangatown\.com/manga.+',
     'mintmanga_com': 'mintmanga\.com/.+',
