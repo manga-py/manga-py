@@ -35,7 +35,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    name = re.search('\.me/(?:index.php/)?(?:Manga-Raw-Scan/)?([^/]+)', url)
+    name = re.search('\.me/(?:index.php/)?(?:Manga-\w+-Scan/)?([^/]+)', url)
     if not name:
         return ''
     return name.groups()[0]
