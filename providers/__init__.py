@@ -34,6 +34,7 @@ providers_list = {
     'mangatan_net': 'mangatan\.net/(manga|chapter).+',
     'mangatown_com': 'mangatown\.com/manga.+',
     'mintmanga_com': 'mintmanga\.com/.+',
+    'myreadingmanga_info': 'myreadingmanga\.info/.+',  # with cf-protect
     'ninemanga_com': 'ninemanga\.com/manga.+',
     # 'onemanga_com': 'onemanga\.com/manga.+',
     'readmanga_me': 'readmanga\.me/.+',
