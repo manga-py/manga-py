@@ -24,7 +24,7 @@ if os.name == 'nt':
 else:
     tty_rows, tty_columns = os.popen('stty size', 'r').read().split()
 
-rnd_temp_path = str(random.random())
+rnd_temp_path = 'manga-donloader_{}'.format(random.random()*10)
 archivesDir = os.path.join(os.getcwd(), 'manga')
 
 info_mode = False
