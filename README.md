@@ -1,8 +1,10 @@
 # Manga-Downloader
 
-## Supported resources (32)
+## Supported resources (40)
 
 - [x] http://desu.me
+- [x] http://eatmanga.me
+- [x] http://gogomanga.co
 - [x] http://heymanga.me
 - [x] http://manga-online.biz
 - [x] http://mangabb.co
@@ -12,24 +14,30 @@
 - [x] http://mangafox.me
 - [x] http://mangafreak.net
 - [x] http://mangago.me
+- [x] http://mangahead.me
+- [x] http://mangamove.com
 - [x] http://mangahere.co
 - [x] http://mangahome.com
 - [x] http://mangahub.ru
 - [x] http://mangainn.net
 - [x] http://mangakakalot.com
+- [x] http://mangaleader.com
 - [x] http://manganel.com
 - [x] http://mangaonlinehere.com
 - [x] http://mangapanda.com
 - [x] http://mangapark.me
 - [x] http://mangareader.net
 - [x] http://mangarussia.com
+- [x] http://mangasaurus.com
 - [x] http://mangatan.net
 - [x] http://mangatown.com
 - [x] http://mintmanga.com
+- [x] http://myreadingmanga.info
 - [x] http://ninemanga.com
 - [x] http://readmanga.me
 - [x] http://selfmanga.ru
 - [x] http://shakai.ru
+- [x] http://tenmanga.com
 - [x] http://unixmanga.nl
 - [x] http://read.yagami.me
 - [x] http://yaoichan.me
