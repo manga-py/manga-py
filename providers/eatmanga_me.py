@@ -3,7 +3,6 @@
 
 from lxml.html import document_fromstring
 import re
-from os.path import basename
 
 domainUri = 'http://eatmanga.me'
 
