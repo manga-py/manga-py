@@ -4,34 +4,33 @@
 from lxml.html import document_fromstring
 import re
 
-domainUri = 'http://wmanga.ru'
+domainUri = 'http://somanga.net'
 
 
 def get_main_content(url, get=None, post=None):
     name = get_manga_name(url)
-    return get('{}/starter/manga_byid/{}'.format(domainUri, name))
+    return get('{}/manga/{}'.format(domainUri, name))
 
 
 def get_volumes(content=None, url=None):
-    parser = document_fromstring(content).cssselect('td div div div td > a')
-    parser.reverse()
-    return [domainUri + i.get('href') for i in parser]
+    parser = document_fromstring(content).cssselect('ul.capitulos li > a')
+    return [i.get('href') for i in parser]
 
 
 def get_archive_name(volume, index: int = None):
-    name = re.search('\.ru/starter/manga_[^/]+/[^/]+/([^/]+/[^/]+)', volume)
+    name = re.search('\.net/[^/]+/[^/]+/([^/]+)', volume)
     if not name:
-        return 'vol_{:0>3}'.format(index)
+        return ''
     return name.groups()[0]
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    parser = document_fromstring(get(volume)).cssselect('td a.gallery')
-    return [i.get('href') for i in parser]
+    parser = document_fromstring(get(volume)).cssselect('img.img-manga')
+    return [i.get('src') for i in parser]
 
 
 def get_manga_name(url, get=None):
-    name = re.search('\.ru/starter/manga_[^/]+/([^/]+)', url)
+    name = re.search('\.net/[^/]+/([^/]+)', url)
     if not name:
         return ''
     return name.groups()[0]

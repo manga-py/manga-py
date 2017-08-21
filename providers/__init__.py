@@ -40,6 +40,7 @@ providers_list = {
     'readmanga_me': 'readmanga\.me/.+',
     'selfmanga_ru': 'selfmanga\.ru/.+',
     'shakai_ru': 'shakai\.ru/manga.*?/\d+',
+    'somanga_net': 'somanga\.net/.+',
     'tenmanga_com': 'tenmanga\.com/(book|chapter)/.+',
     'unixmanga_nl': 'unixmanga\.nl/onlinereading/.+\.html',
     'wmanga_ru': 'wmanga\.ru/starter/manga_.+',
