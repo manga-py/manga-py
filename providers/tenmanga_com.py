@@ -25,6 +25,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     items = document_fromstring(get(volume)).cssselect('.pic_box img.manga_pic')
     return [i.get('src') for i in items]
 
+
 def __get_name(test):
     test = test.groups()[0]
     if test.rfind('.html') > 0:
@@ -42,7 +43,7 @@ def get_manga_name(url, get=None):
         test = document_fromstring(get(url)).cssselect('.read-page nav a[href*="/book/"]')
         if len(test):
             test = re.search(_, test[0].get('href'))
-            return __get_name(test)
+            return __get_name(test) if test else ''
     return ''
 
 

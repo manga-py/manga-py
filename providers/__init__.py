@@ -42,6 +42,7 @@ providers_list = {
     'shakai_ru': 'shakai\.ru/manga.*?/\d+',
     'tenmanga_com': 'tenmanga\.com/(book|chapter)/.+',
     'unixmanga_nl': 'unixmanga\.nl/onlinereading/.+\.html',
+    'wmanga_ru': 'wmanga\.ru/starter/manga_.+',
     'yagami_me': 'read\.yagami\.me/.+',
     'yaoichan_me': 'yaoichan\.me/(?:manga|online).+',
     'zingbox_me': 'zingbox\.me/.+',
