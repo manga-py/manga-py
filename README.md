@@ -8,6 +8,7 @@
 - [x] http://heymanga.me
 - [x] http://inmanga.com
 - [x] http://manga-online.biz
+- [x] http://manga-online.com.ua
 - [x] http://mangabb.co
 - [x] http://mangabox.me
 - [x] http://mangaclub.ru

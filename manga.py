@@ -15,6 +15,7 @@ from urllib import (
     error as url_error
 )
 
+downloader_uri = 'https://github.com/yuru-yuri/Manga-Downloader'
 user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 OPR/44.0.2510.1218'
 
 if os.name == 'nt':
@@ -235,6 +236,7 @@ class MangaDownloader:
             file = os.path.join(temp_directory, f)
             if os.path.isfile(file):
                 archive.write(file, f)
+        archive.writestr('info.txt', 'Site: {}\nDownloader: {}'.format(self.url, downloader_uri))
         archive.close()
 
     def __download_image(self, url, path):

@@ -10,6 +10,7 @@ providers_list = {
     'heymanga_me': 'heymanga\.me/manga/.+',
     'inmanga_com': 'inmanga\.com/ver/manga/.+',
     'manga_online_biz': 'manga\-online\.biz/.+',
+    'manga_online_com_ua': 'manga\-online\.com\.ua/.+',
     'mangabb_co': 'mangabb\.co/.+',
     'mangabox_me': 'mangabox\.me/reader/.+',
     'mangaclub_ru': 'mangaclub\.ru/.+',
