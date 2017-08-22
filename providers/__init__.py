@@ -8,6 +8,7 @@ providers_list = {
     'eatmanga_me': 'eatmanga\.me/.+',
     'gogomanga_co': 'gogomanga\.co/.+',
     'heymanga_me': 'heymanga\.me/manga/.+',
+    'inmanga_com': 'inmanga\.com/ver/manga/.+',
     'manga_online_biz': 'manga\-online\.biz/.+',
     'mangabb_co': 'mangabb\.co/.+',
     'mangabox_me': 'mangabox\.me/reader/.+',
