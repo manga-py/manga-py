@@ -18,13 +18,13 @@ providers_list = {
     'mangafreak_net': 'mangafreak\.net/.+',  # with cf-protect
     'mangago_me': 'mangago\.me/read\-manga/.+',  # with cf-protect
     'mangahead_me': 'mangahead\.me/.*Manga-\w+-Scan/.+',
-    'mangamove_com': 'mangamove\.com/manga/.+',
     'mangahere_co': 'mangahere\.co/manga/.+',
     'mangahome_com': 'mangahome\.com/manga/.+',
     'mangahub_ru': 'mangahub\.ru/.+',
     'mangainn_net': 'mangainn\.net/manga/.+',
     'mangakakalot_com': 'mangakakalot\.com/(manga|chapter)/.+',
     'mangaleader_com': 'mangaleader\.com/read\-.+',
+    'mangamove_com': 'mangamove\.com/manga/.+',
     'manganel_com': 'manganel\.com/(manga|chapter)/.+',
     'mangaonlinehere_com': 'mangaonlinehere\.com/manga\-info/.+',
     'mangapanda_com': 'mangapanda\.com/.+',
