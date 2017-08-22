@@ -15,7 +15,6 @@ from urllib import (
     error as url_error
 )
 
-
 user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 OPR/44.0.2510.1218'
 
 if os.name == 'nt':
