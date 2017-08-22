@@ -38,6 +38,7 @@ providers_list = {
     'myreadingmanga_info': 'myreadingmanga\.info/.+',  # with cf-protect
     'ninemanga_com': 'ninemanga\.com/manga.+',
     # 'onemanga_com': 'onemanga\.com/manga.+',
+    'read_yagami_me': 'read\.yagami\.me/.+',
     'readmanga_me': 'readmanga\.me/.+',
     'selfmanga_ru': 'selfmanga\.ru/.+',
     'shakai_ru': 'shakai\.ru/manga.*?/\d+',
@@ -45,7 +46,6 @@ providers_list = {
     'tenmanga_com': 'tenmanga\.com/(book|chapter)/.+',
     'unixmanga_nl': 'unixmanga\.nl/onlinereading/.+\.html',
     'wmanga_ru': 'wmanga\.ru/starter/manga_.+',
-    'yagami_me': 'read\.yagami\.me/.+',
     'yaoichan_me': 'yaoichan\.me/(?:manga|online).+',
     'zingbox_me': 'zingbox\.me/.+',
 }
