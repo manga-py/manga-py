@@ -9,8 +9,8 @@ manga_name = ''
 
 
 def get_main_content(url, get=None, post=None):
-    name = get_manga_name(url)
-    return get('{}/katalog\-mangi/{}.html'.format(domainUri, name))
+    get_manga_name(url)
+    return get('{}/katalog\-mangi/{}.html'.format(domainUri, manga_name))
 
 
 def get_volumes(content=None, url=None):
@@ -42,15 +42,14 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 def get_manga_name(url, get=None):
     global manga_name
-    if len(manga_name):
-        return manga_name
-    if re.search('\.ua/manga/.+\.html', url):
-        url = document_fromstring(get(url)).cssselect('.fullstory_main center > a')[0].get('href')
-    name = re.search('\.ua/katalog\-mangi/([^/]+)\.html', url)
-    if not name:
-        return ''
-    manga_name = name.groups()[0]
-    return manga_name
+    if not len(manga_name):
+        if re.search('\.ua/manga/.+\.html', url):
+            url = document_fromstring(get(url)).cssselect('.fullstory_main center > a')[0].get('href')
+        name = re.search('\.ua/katalog\-mangi/([^/]+)\.html', url)
+        if not name:
+            return ''
+        manga_name = name.groups()[0]
+    return manga_name.split('-', 1)[1]
 
 
 if __name__ == '__main__':
