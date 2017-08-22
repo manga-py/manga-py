@@ -1,7 +1,8 @@
 # Manga-Downloader
 
-## Supported resources (43)
+## Supported resources (45)
 
+- [ ] http://bwahahacomics.ru - Very little content. Possibly, will be done in the future.
 - [x] http://desu.me
 - [x] http://eatmanga.me
 - [x] http://gogomanga.co
@@ -11,6 +12,7 @@
 - [x] http://manga-online.com.ua
 - [x] http://mangabb.co
 - [x] http://mangabox.me
+- [x] http://mangachan.me
 - [x] http://mangaclub.ru
 - [x] http://mangaeden.com
 - [x] http://mangafox.me

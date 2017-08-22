@@ -74,6 +74,7 @@ def _create_parser():
     parse.add_argument('-p', '--progress', action='store_const', required=False, const=True, default=False)
     parse.add_argument('-s', '--skip-volumes', type=int, required=False, help='Skip volumes', default=0)
     parse.add_argument('--no-name', action='store_const', required=False, help='Don\'t added manga name to the path', const=True, default=False)
+    parse.add_argument('--allow-webp', action='store_const', required=False, help='Allow downloading webp images', const=True, default=False)
     parse.add_argument('--reverse-downloading', action='store_const', required=False, help='Reverse volumes downloading', const=True, default=False)
 
     return parse
@@ -86,6 +87,8 @@ def __requests(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None,
         cookies = site_cookies
     if 'User-Agent' not in headers:
         headers['User-Agent'] = user_agent
+    if arguments.allow_webp:
+        headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
     if 'Referer' not in headers:
         headers['Referer'] = referrer_url
     response = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data)

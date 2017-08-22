@@ -4,6 +4,7 @@
 import re
 
 providers_list = {
+    # 'bwahahacomics_ru': 'bwahahacomics\.ru/.+',
     'desu_me': 'desu\.me/manga/.+',
     'eatmanga_me': 'eatmanga\.me/.+',
     'gogomanga_co': 'gogomanga\.co/.+',
@@ -13,6 +14,7 @@ providers_list = {
     'manga_online_com_ua': 'manga\-online\.com\.ua/.+',
     'mangabb_co': 'mangabb\.co/.+',
     'mangabox_me': 'mangabox\.me/reader/.+',
+    'mangachan_me': 'mangachan\.me/[^/]+/.+',
     'mangaclub_ru': 'mangaclub\.ru/.+',
     'mangaeden_com': 'mangaeden.com/[^/]+/[^/]+\-manga/.+',
     'mangafox_me': 'mangafox\.me/manga/.+',
