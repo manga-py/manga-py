@@ -1,12 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-domainUri = 'http://www.mangabb.co'
-uriRegex = '\.co/(?:manga/)?([^/]+)'
-
 from lxml.html import document_fromstring
 import re
-# import json
+
+domainUri = 'http://www.mangabb.co'
 
 
 def get_main_content(url, get=None, post=None):
@@ -56,7 +54,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.search(uriRegex, url)
+    result = re.search('\.co/(?:manga/)?([^/]+)', url)
     if not result:
         return ''
     return result.groups()[0]

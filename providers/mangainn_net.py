@@ -5,7 +5,7 @@ from lxml.html import document_fromstring
 import re
 
 domainUri = 'https://www.mangainn.net'
-uriRegex = '/manga/(\d+_[^/]+)'
+manga_name = ''
 
 
 def get_main_content(url, get=None, post=None):
@@ -48,13 +48,17 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
+    global manga_name
+    if len(manga_name):
+        return manga_name
     if url.find('/chapter/') > 0:
         content = get(url)
         url = 'https:' + document_fromstring(content).cssselect('a#gotoMangaInfo')[0].get('href')
-    name = re.search(uriRegex, url)
+    name = re.search('\.net/manga/(\d+_[^/]+)', url)
     if not name:
         return ''
-    return name.groups()[0]
+    manga_name = name.groups()[0]
+    return manga_name
 
 
 if __name__ == '__main__':

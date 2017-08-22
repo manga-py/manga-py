@@ -10,6 +10,8 @@ uriRegex = '/Manga/([^/]+)/?'
 
 
 def get_main_content(url, get=None, post=None):
+    if not cookies:
+        get_manga_name(url)
     _ = '{}/Manga/{}'.format(domainUri, get_manga_name(url))
     return get(_)
 

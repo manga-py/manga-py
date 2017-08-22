@@ -7,7 +7,6 @@ import json
 import html
 
 domainUri = 'http://mangahub.ru'
-uriRegex = '\.ru/([^/]+)/?'
 
 
 def get_main_content(url, get=None, post=None):
@@ -43,7 +42,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    parser = re.search(uriRegex, url)
+    parser = re.search('\.ru/([^/]+)/?', url)
     if parser is None:
         return ''
     return parser.groups()[0]

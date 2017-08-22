@@ -5,6 +5,7 @@ from lxml.html import document_fromstring
 import re
 
 domainUri = 'http://tenmanga.com'
+manga_name = ''
 
 
 def get_main_content(url, get=None, post=None):
@@ -30,10 +31,14 @@ def __get_name(test):
     test = test.groups()[0]
     if test.rfind('.html') > 0:
         test = test[0:test.rfind('.html')]
-    return test.replace('+', ' ')
+    global manga_name
+    manga_name = test.replace('+', ' ')
+    return manga_name
 
 
 def get_manga_name(url, get=None):
+    if len(manga_name):
+        return manga_name
     _ = '\.com/book/([^/]+)'
     test = re.search(_, url)
     if test:

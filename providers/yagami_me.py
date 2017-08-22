@@ -7,7 +7,7 @@ import json
 # http://read.yagami.me/series/kubera/
 
 domainUri = 'http://read.yagami.me'
-uriRegex = '/(?:series|read)/([^/]+)/?'
+uriRegex = '\.me/(?:series|read)/([^/]+)/?'
 
 
 def get_main_content(url, get=None, post=None):
@@ -19,7 +19,7 @@ def get_main_content(url, get=None, post=None):
 def fix_volume_url(volume):
     # http://read.yagami.me/read/school_shock/0/1/0/rikudou_senin_clan/
     result = re.search(uriRegex + '(\d+/\d+/?\d*/)', volume)
-    if result is None:
+    if not result:
         return volume
     _ = result.groups()
     return 'http://read.yagami.me/read/{}/{}page/1'.format(_[0], _[1])
@@ -57,7 +57,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.match(uriRegex, url).groups()
+    result = re.search(uriRegex, url).groups()
     return result[0]
 
 

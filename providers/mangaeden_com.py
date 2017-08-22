@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-domainUri = 'http://www.mangaeden.com'
-uriRegex = '/[^/]+/([^/]+\-manga)/([^/]+)/?'
-
 from lxml.html import document_fromstring
 import re
 import json
+
+domainUri = 'http://www.mangaeden.com'
+uriRegex = '/[^/]+/([^/]+\-manga)/([^/]+)/?'
 
 
 def get_main_content(url, get=None, post=None):

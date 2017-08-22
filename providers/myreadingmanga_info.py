@@ -7,7 +7,6 @@ from helpers.cloudflare_scrape import cfscrape
 # import json
 
 domainUri = 'https://myreadingmanga.info'
-uriRegex = '\.info/([^/]+)'
 
 
 def get_main_content(url, get=None, post=None):
@@ -16,8 +15,6 @@ def get_main_content(url, get=None, post=None):
 
 
 def get_volumes(content=None, url=None):
-    # trying find chapters
-    # document.querySelectorAll('.entry-content p > a')
     v = [url]  # current chapter
     parser = document_fromstring(content).cssselect('.entry-content p > a')
     v += [i.get('href') for i in parser]
@@ -50,7 +47,7 @@ def get_manga_name(url, get=None):
                 })
             cookies.append(scraper[1])
 
-    name = re.search(uriRegex, url)
+    name = re.search('\.info/([^/]+)', url)
     if not name:
         return ''
     return name.groups()[0]

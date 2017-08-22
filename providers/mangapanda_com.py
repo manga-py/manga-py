@@ -4,9 +4,7 @@
 from lxml.html import document_fromstring
 import re
 
-# http://www.mangapanda.com/hunter-x-hunter
 domainUri = 'http://www.mangapanda.com'
-uriRegex = '/([^/]+)'
 
 
 def get_main_content(url, get=None, post=None):
@@ -59,7 +57,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.match(uriRegex, url)
+    result = re.match('\.com/([^/]+)', url)
     if result is None:
         return ''
     result = result.groups()

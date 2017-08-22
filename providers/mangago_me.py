@@ -40,27 +40,25 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 def get_manga_name(url, get=None):
     result = re.match(uriRegex, url)
-
-    # anti-"cloudflare anti-bot protection"
-    scraper = cfscrape.get_tokens(url)
     global cookies
-    if scraper is not None:
-        cookies = []
-        for i in scraper[0]:
-            cookies.append({
-                'value': scraper[0][i],
-                'domain': '.mangago.me',
-                'path': '/',
-                'name': i,
-            })
-        cookies.append(scraper[1])
 
-    if result is None:
+    if not cookies:
+        # anti-"cloudflare anti-bot protection"
+        scraper = cfscrape.get_tokens(url)
+        if scraper is not None:
+            cookies = []
+            for i in scraper[0]:
+                cookies.append({
+                    'value': scraper[0][i],
+                    'domain': '.mangago.me',
+                    'path': '/',
+                    'name': i,
+                })
+            cookies.append(scraper[1])
+
+    if not result:
         return ''
-    result = result.groups()
-    if not len(result):
-        return ''
-    return result[0]
+    return result.groups()[0]
 
 
 cookies = None

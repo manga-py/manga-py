@@ -6,9 +6,6 @@ import re
 import json
 
 domainUri = 'http://desu.me'
-uriRegex = '/manga/([^/]+)/?'
-imagesDirRegex = 'dir:\s?"(.*)"'
-imagesRegex = 'images:\s?(\[\[.+\]\])'
 
 
 def get_main_content(url, get=None, post=None):
@@ -33,8 +30,8 @@ def get_archive_name(volume, index: int = None):
 def get_images(main_content=None, volume=None, get=None, post=None):
     _url = (domainUri + volume) if volume.find(domainUri) < 0 else volume
     content = get(_url)
-    result = re.search(imagesRegex, content, re.M)
-    root_url = re.search(imagesDirRegex, content, re.M)
+    result = re.search('images:\s?(\[\[.+\]\])', content, re.M)
+    root_url = re.search('dir:\s?"(.*)"', content, re.M)
     if result is None:
         return []
     root_url = root_url.groups()[0].replace('\\/', '/')
@@ -43,7 +40,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.match(uriRegex, url)
+    result = re.match('\.me/manga/([^/]+)/?', url)
     if result is None:
         return ''
     result = result.groups()

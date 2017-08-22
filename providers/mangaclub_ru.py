@@ -35,7 +35,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 def get_manga_name(url, get=None):
     test = re.search(uriRegex + '\.html', url)
-    if test is not None:
+    if test:
         return test.groups()[0]
     return re.search(uriRegex, url).groups()[0]
 

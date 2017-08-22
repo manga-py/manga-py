@@ -18,11 +18,11 @@ def get_volumes(content=None, url=None):
 
 
 def get_archive_name(volume, index: int = None):
-    _ = get_manga_name(volume)
+    name = get_manga_name(volume)
     idx = volume.strip('/').rfind('/')
     if idx < 0:
         return 'vol_{:0>3}'.format(index)
-    return volume[idx + len(_) + 2:-1]
+    return volume[idx + len(name) + 2:-1]
 
 
 def __get_img(parser):

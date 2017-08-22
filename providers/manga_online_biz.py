@@ -6,7 +6,6 @@ import json
 
 domainUri = 'http://manga-online.biz'
 nameRegex = '\.biz/([^/]+)'
-imagesRegex = 'MangaChapter\((\[.+\])\)'
 
 
 def get_main_content(url, get=None, post=None):
@@ -29,7 +28,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 def get_manga_name(url, get=None):
     test_name = re.search(nameRegex + '\.html', url)
-    if test_name is not None:
+    if test_name:
         return test_name.groups()[0]
     return re.search(nameRegex, url).groups()[0]
 
@@ -39,7 +38,7 @@ download_zip_only = True
 
 def get_zip(main_content=None, volume=None, get=None, post=None):
 
-    result = re.search(imagesRegex, main_content)
+    result = re.search('MangaChapter\((\[.+\])\)', main_content)
     if result is not None:
         result = result.groups()[0].replace("'", '"')
         result = json.loads(result)

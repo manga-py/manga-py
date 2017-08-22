@@ -5,7 +5,6 @@ from lxml.html import document_fromstring
 import re
 
 domainUri = 'http://www.onemanga.com'
-uriRegex = '\.com/manga/([^/]+)'
 
 
 def get_main_content(url, get=None, post=None):
@@ -28,12 +27,12 @@ def get_archive_name(volume, index: int = None):
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    # TODO! Now site crashed
+    # TODO! Site crashed now
     pass
 
 
 def get_manga_name(url, get=None):
-    result = re.match(uriRegex, url)
+    result = re.match('\.com/manga/([^/]+)', url)
     if result is None:
         return ''
     return result.groups()[0]

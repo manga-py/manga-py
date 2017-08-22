@@ -6,7 +6,6 @@ import re
 import json
 
 domainUri = 'http://shakai.ru'
-uriRegex = '/manga(?:-read)?/(\d+)/?'
 nameRegex = 'file/manga/([a-zA-Z_]+)/(?:manga|cover)/([^/]+)/?'
 
 
@@ -45,7 +44,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def _get_manga_number(url):
-    result = re.match(uriRegex, url)
+    result = re.match('\.ru/manga(?:-read)?/(\d+)/?', url)
     if result is None:
         return ''
     result = result.groups()

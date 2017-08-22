@@ -5,7 +5,6 @@ import re
 import json
 
 domainUri = 'http://www.zingbox.me'
-uriRegex = '/manga/(?:\d+/)?([^/]+)'
 
 
 def get_main_content(url, get=None, post=None):
@@ -40,7 +39,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    name = re.search(uriRegex, url)
+    name = re.search('\.me/manga/(?:\d+/)?([^/]+)', url)
     if not name:
         return ''
     return name.groups()[0].replace('+', ' ')

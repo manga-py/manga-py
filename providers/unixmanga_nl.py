@@ -5,11 +5,11 @@ from lxml.html import document_fromstring
 import re
 
 domainUri = 'http://unixmanga.nl'
-uriRegex = '/onlinereading/([^/.]+)(?:/[^/]\.html|)?'
 
 
 def get_main_content(url, get=None, post=None):
     name = get_manga_name(url)
+    print(name, '\n', '{}/onlinereading/{}.html'.format(domainUri, name))
     return get('{}/onlinereading/{}.html'.format(domainUri, name))
 
 
@@ -38,7 +38,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    parser = re.search(uriRegex, url)
+    parser = re.search('\.nl/onlinereading/([^/.]+)(?:/[^/])?\.html', url)
     if not parser:
         return ''
     return parser.groups()[0]

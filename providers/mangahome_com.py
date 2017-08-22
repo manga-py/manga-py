@@ -5,7 +5,6 @@ from lxml.html import document_fromstring
 import re
 
 domainUri = 'http://www.mangahome.com'
-uriRegex = '/manga/([^/]+)'
 
 
 def get_main_content(url, get=None, post=None):
@@ -35,7 +34,8 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     _url = (domainUri + volume) if volume.find(domainUri) < 0 else volume
     content = get(_url)
     pages = document_fromstring(content)
-    pages = [i.get('value') for n, i in enumerate(pages.cssselect('.mangaread-top .mangaread-pagenav select option')) if n > 0]
+    items = pages.cssselect('.mangaread-top .mangaread-pagenav select option')
+    pages = [i.get('value') for n, i in enumerate(items) if n > 0]
 
     images = [_content2image_url(content)]
 
@@ -47,7 +47,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    name = re.search(uriRegex, url)
+    name = re.search('\.com/manga/([^/]+)', url)
     if not name:
         return ''
     return name.groups()[0]

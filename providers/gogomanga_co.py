@@ -6,6 +6,7 @@ import re
 
 domainUri = 'https://gogomanga.co'
 
+
 def get_main_content(url, get=None, post=None):
     name = get_manga_name(url)
     return get('{}/manga/{}.html'.format(domainUri, name))
@@ -20,7 +21,7 @@ def get_archive_name(volume, index: int = None):
     _ = get_manga_name(volume)
     name = re.search('/([^/]+)?\.html', volume)
     if not name:
-        return 'vol_{:0>2}'.format(index)
+        return 'vol_{:0>3}'.format(index)
     name = name.groups()[0]
     return 'vol_{}'.format(name[1 + len(_):])
 

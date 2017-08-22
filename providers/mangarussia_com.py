@@ -6,7 +6,6 @@ import re
 import json
 
 domainUri = 'http://www.mangarussia.com'
-uriRegex = '/manga/([^/]+)\.html'
 
 
 def get_main_content(url, get=None, post=None):
@@ -48,7 +47,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.search(uriRegex, url)
+    result = re.search('\.com/manga/([^/]+)\.html', url)
     if result is not None:
         return result.groups()[0].replace('+', ' ')
     return ''

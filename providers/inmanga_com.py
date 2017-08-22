@@ -4,6 +4,7 @@
 from lxml.html import document_fromstring
 import re
 import json
+
 uri_hex = ''
 manga_name = ''
 
@@ -11,6 +12,8 @@ domainUri = 'http://inmanga.com'
 
 
 def get_main_content(url, get=None, post=None):
+    if not uri_hex:
+        get_manga_name(url)
     uri = '{}/chapter/getall?mangaIdentification={}'.format(domainUri, uri_hex)
     return json.loads(json.loads(get(uri))['data'])
 
