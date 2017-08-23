@@ -1,59 +1,12 @@
 # Manga-Downloader
 
-## Supported resources (45)
+## Supported resources
 
-- [ ] http://bwahahacomics.ru - Very little content. Possibly, will be done in the future.
-- [x] http://desu.me
-- [x] http://eatmanga.me
-- [x] http://gogomanga.co
-- [x] http://heymanga.me
-- [x] http://inmanga.com
-- [x] http://manga-online.biz
-- [x] http://manga-online.com.ua
-- [x] http://mangabb.co
-- [x] http://mangabox.me
-- [x] http://mangachan.me
-- [x] http://mangaclub.ru
-- [x] http://mangaeden.com
-- [x] http://mangafox.me
-- [x] http://mangafreak.net
-- [x] http://mangago.me
-- [x] http://mangahead.me
-- [x] http://mangahere.co
-- [x] http://mangahome.com
-- [x] http://mangahub.ru
-- [x] http://mangainn.net
-- [x] http://mangakakalot.com
-- [x] http://mangaleader.com
-- [x] http://mangamove.com
-- [x] http://manganel.com
-- [x] http://mangaonlinehere.com
-- [x] http://mangapanda.com
-- [x] http://mangapark.me
-- [x] http://mangareader.net
-- [x] http://mangarussia.com
-- [x] http://mangasaurus.com
-- [x] http://mangatan.net
-- [x] http://mangatown.com
-- [x] http://mintmanga.com
-- [x] http://myreadingmanga.info
-- [x] http://ninemanga.com
-- [ ] http://onemanga.com - site chashed now
-- [x] http://read.yagami.me
-- [x] http://readmanga.me
-- [x] http://selfmanga.ru
-- [x] http://shakai.ru
-- [x] http://somanga.net
-- [x] http://tenmanga.com
-- [x] http://unixmanga.nl
-- [x] http://wmanga.ru
-- [x] http://yaoichan.me
-- [x] http://zingbox.me
+see <a href="https://yuru-yuri.github.com/Manga-Downloader/#resources-list">https://yuru-yuri.github.com/Manga-Downloader/</a>
 
----
 
 ## How to use
-
+ 
 ### Installation
 
 ```bash
@@ -66,9 +19,9 @@ python setup.py install
 ```
 
 ### Downloading
-__:warning:Notice! The name of the manga is always added to the path!__
+___:warning:Notice! The name of the manga is always added to the path!___
 
-__To change this behavior, add the key --no-name__
+___To change this behavior, add the key --no-name___
 
 ```bash
 # download to ./manga directory
