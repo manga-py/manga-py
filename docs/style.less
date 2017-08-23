@@ -87,6 +87,10 @@ h6 {
 a[href] {
   color: #7bc7ff;
   font-size: 1.1rem;
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
 }
 .links {
   a {
@@ -120,6 +124,24 @@ hr {
 }
 .questions {
   font-size: 1.4rem;
+  li {
+    padding-left: 1rem;
+    & + li {
+      padding-top: 1rem;
+    }
+  }
+  .quest {
+    font-weight: bold;
+    padding-bottom: .3rem;
+  }
+}
+ul.list li {
+  & + li {
+    padding-top: .2rem;
+  }
+  a {
+    color: #63a7d2;
+  }
 }
 
 .container {
