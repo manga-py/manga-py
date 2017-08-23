@@ -143,6 +143,26 @@ ul.list li {
     color: #63a7d2;
   }
 }
+.header {
+  position: relative;
+}
+.download-links {
+  position: absolute;
+  top: .5rem;
+  right: 1rem;
+  a {
+    background: url('https://pages-themes.github.io/slate/assets/images/sprite_download.png');
+    background-position-y: bottom;
+    display: inline-block;
+    width: 90px;
+    height: 70px;
+    text-indent: -5000px;
+    overflow: hidden;
+    & + a {
+      background-position-x: right;
+    }
+  }
+}
 
 .container {
   width: 100%;
@@ -151,6 +171,11 @@ ul.list li {
 }
 
 // Small devices (landscape phones, 576px and up)
+@media (max-width: 575px) {
+  .header h1.panel {
+      padding-top: 3rem;
+  }
+}
 @media (min-width: 576px) {
   .container {
     width: 550px;
