@@ -2,7 +2,7 @@
 
 ## Supported resources
 
-see <a href="https://yuru-yuri.github.com/Manga-Downloader/#resources-list">https://yuru-yuri.github.com/Manga-Downloader/</a>
+see <a href="https://yuru-yuri.github.io/Manga-Downloader/#resources-list">https://yuru-yuri.github.com/Manga-Downloader/</a>
 
 
 ## How to use
