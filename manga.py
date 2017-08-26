@@ -15,7 +15,7 @@ from urllib import (
     error as url_error
 )
 
-downloader_uri = 'https://github.com/yuru-yuri/Manga-Downloader'
+_downloader_uri = 'https://github.com/yuru-yuri/Manga-Downloader'
 user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 OPR/44.0.2510.1218'
 
 if os.name == 'nt':
@@ -76,6 +76,7 @@ def _create_parser():
     parse.add_argument('--no-name', action='store_const', required=False, help='Don\'t added manga name to the path', const=True, default=False)
     parse.add_argument('--allow-webp', action='store_const', required=False, help='Allow downloading webp images', const=True, default=False)
     parse.add_argument('--reverse-downloading', action='store_const', required=False, help='Reverse volumes downloading', const=True, default=False)
+    parse.add_argument('--rewrite-exists-archives', action='store_const', required=False, const=True, default=False)
 
     return parse
 
@@ -110,9 +111,13 @@ def _post(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cook
 
 def _safe_downloader(url, file_name, cookies=None):
     try:
-        # TODO: http://readmanga.me/the_seven_deadly_sins_/vol5/33?mature=1#page=2: /static/800px-Censored.jpg WTF!
         if url.find('://') < 1:
-            url = referrer_url + url
+            if url.find('/') == 0:
+                _url = urlparse(referrer_url)
+                _url = '{}://{}'.format(_url.scheme, _url.netloc)
+            else:
+                _url = referrer_url
+            url = _url + url
 
         if not cookies:
             cookies = site_cookies
@@ -125,9 +130,7 @@ def _safe_downloader(url, file_name, cookies=None):
         out_file = open(file_name, 'wb')
         out_file.write(response.content)
         return True
-    except url_error.HTTPError:
-        return False
-    except url_error.URLError:
+    except OSError:
         return False
 
 
@@ -239,7 +242,7 @@ class MangaDownloader:
             file = os.path.join(temp_directory, f)
             if os.path.isfile(file):
                 archive.write(file, f)
-        archive.writestr('info.txt', 'Site: {}\nDownloader: {}'.format(self.url, downloader_uri))
+        archive.writestr('info.txt', 'Site: {}\nDownloader: {}'.format(self.url, _downloader_uri))
         archive.close()
 
     def __download_image(self, url, path):
@@ -302,7 +305,7 @@ class MangaDownloader:
                     print('Archive name is empty!')
                 exit(1)
 
-            if os.path.isfile(self.get_archive_destination(archive_name)):
+            if not arguments.rewrite_exists_archives and os.path.isfile(self.get_archive_destination(archive_name)):
                 if info_mode:
                     print('Archive %s exists. Skip' % (archive_name, ))
                 continue
