@@ -16,7 +16,7 @@ from urllib import (
 )
 
 _downloader_uri = 'https://github.com/yuru-yuri/Manga-Downloader'
-user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 OPR/44.0.2510.1218'
+user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36'
 
 if os.name == 'nt':
     tty_rows = 0
