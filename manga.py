@@ -11,12 +11,10 @@ import zipfile
 from sys import stderr
 from argparse import ArgumentParser
 from urllib.parse import urlparse
-from urllib import (
-    error as url_error
-)
+
 
 _downloader_uri = 'https://github.com/yuru-yuri/Manga-Downloader'
-user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 OPR/44.0.2510.1218'
+user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36'
 
 if os.name == 'nt':
     tty_rows = 0
@@ -77,6 +75,9 @@ def _create_parser():
     parse.add_argument('--allow-webp', action='store_const', required=False, help='Allow downloading webp images', const=True, default=False)
     parse.add_argument('--reverse-downloading', action='store_const', required=False, help='Reverse volumes downloading', const=True, default=False)
     parse.add_argument('--rewrite-exists-archives', action='store_const', required=False, const=True, default=False)
+    parse.add_argument('--crop-blank', action='store_const', required=False, help='Crop white lines on image', const=True, default=False)
+    parse.add_argument('--crop-blank-factor', required=False, help='Find factor 0..255. Default: 100', default=100)
+    parse.add_argument('--crop-blank-max-size', required=False, help='Maximum crop size (px). Default: 30', default=30)
 
     return parse
 
@@ -233,6 +234,16 @@ class MangaDownloader:
             print('Images not found')
         return images
 
+    def _crop_image(self, path):
+        name_without_ext = path[0:path.rfind('.')]
+        ext = path[path.rfind('.'):]
+        _path = os.path.join(os.path.dirname(path), '{}_{}'.format(name_without_ext, ext))
+        result = cropper.process(path, _path, int(arguments.crop_blank_factor), int(arguments.crop_blank_max_size))
+        if result:
+            shutil.move(_path, path)
+        else:
+            os.unlink(_path)
+
     def make_archive(self, archive_name: str):
         d = self.get_archive_destination(archive_name)
         archive = zipfile.ZipFile(d, 'w', zipfile.ZIP_DEFLATED)
@@ -333,6 +344,10 @@ class MangaDownloader:
                 image_full_name = os.path.join(temp_path, basename)
                 if self.__download_image(i, image_full_name):
                     c += 1
+
+                    if arguments.crop_blank:
+                        self._crop_image(image_full_name)
+
                 n += 1
 
             if c > 0:
@@ -368,6 +383,8 @@ if __name__ == '__main__':
         show_progress = arguments.progress
         add_name = not arguments.no_name
         name = arguments.name
+        if arguments.crop_blank:
+            import helpers.remove_void as cropper
         if arguments.url:
             url = arguments.url
         else:
