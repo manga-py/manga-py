@@ -33,7 +33,8 @@ def _test_pixel(max_s_s: int, factor: int, mode: int):
                 S = a + b + c
                 if S < (((255 + factor) // 2) * 3):
                     return i
-    if mode == 2:  # right
+
+    elif mode == 2:  # right
         for j in range(max_s_s):
             for i in range(height):
                 w = width - j - 1
@@ -44,6 +45,7 @@ def _test_pixel(max_s_s: int, factor: int, mode: int):
                 S = a + b + c
                 if S < (((255 + factor) // 2) * 3):
                     return w
+
     elif mode == 3:  # bottom
         for i in range(max_s_s):
             for j in range(width):
@@ -55,7 +57,16 @@ def _test_pixel(max_s_s: int, factor: int, mode: int):
                 S = a + b + c
                 if S < (((255 + factor) // 2) * 3):
                     return h
-    return 0
+
+    else:
+        raise ValueError('Error mode value')
+
+    if mode < 2:
+        return max_s_s
+    if mode == 2:
+        return width - max_s_s - 1
+    if mode == 3:
+        return height - max_s_s - 1
 
 
 def _get_crop_sizes(factor: int, max_s_s: int):
@@ -63,6 +74,11 @@ def _get_crop_sizes(factor: int, max_s_s: int):
     top = _test_pixel(max_s_s, factor, 1)
     right = _test_pixel(max_s_s, factor, 2)
     bottom = _test_pixel(max_s_s, factor, 3)
+    # add 1px white line
+    left = left - 1 if left > 0 else left
+    top = top - 1 if top > 0 else top
+    right = right + 1 if right < _image.size[0] - 1 else right
+    bottom = bottom - 1 if bottom < _image.size[1] - 1 else bottom
     return left, top, right, bottom
 
 
@@ -81,11 +97,17 @@ def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 
     if not _open_image(img_path):
         return False
     _ = _image.load()
-    sizes = _get_crop_sizes(factor, maximum_side_size)
-    if sizes[2] == 0 or sizes[3] == 0:
+    ss = _get_crop_sizes(factor, maximum_side_size)
+    if ss[2] == 0 or ss[3] == 0:
         return False
-    image = _image.crop(sizes)
-    image.save(img_out_path)
+    if ss[0] == 0 and ss[1] == 0 and ss[2] == _image.size[0] and ss[3] == _image.size[1]:
+        # original size
+        return False
+    try:
+        image = _image.crop(ss)
+        image.save(img_out_path)
+    except (IOError, KeyError):
+        return False
     return True
 
 
