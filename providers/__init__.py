@@ -5,6 +5,7 @@ import re
 
 providers_list = {
     # 'bwahahacomics_ru': 'bwahahacomics\.ru/.+',
+    # 'com_x_life': 'col-x\.life/.+\.html',
     'desu_me': 'desu\.me/manga/.+',
     'eatmanga_me': 'eatmanga\.me/.+',
     'gogomanga_co': 'gogomanga\.co/.+',

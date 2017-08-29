@@ -13,7 +13,7 @@ see https://yuru-yuri.github.io/Manga-Downloader/#resources-list
 git clone --recursive  https://github.com/yuru-yuri/Manga-Downloader.git
 cd Manga-Downloader
 # install requirements
-pip3 -r requirements.txt
+pip3 install -r requirements.txt
 cd helpers/cloudflare_scrape
 python setup.py install
 ```
