@@ -4,58 +4,47 @@
 from PIL import Image
 
 _image = None
+epsilon = 0
 
 
 # I'm writing this crap because i can not think of anything better at this moment
 def _test_pixel(max_s_s: int, factor: int, mode: int):
+
     width = _image.size[0]
     height = _image.size[1]
     if height < max_s_s or width < max_s_s:
         return 0
+
+    def calculate_color(color_mask):
+        color_sum = (color_mask[0] + color_mask[1] + color_mask[2])
+        return color_sum < ((255 + factor) // 2) * 3
+
     pix = _image.load()
+
     if mode == 0:  # left
-        for j in range(max_s_s):
-            for i in range(height):
-                _ = pix[j, i]
-                a = _[0]
-                b = _[1]
-                c = _[2]
-                S = a + b + c
-                if S < (((255 + factor) // 2) * 3):
-                    return j
+        for width_iterator in range(max_s_s):
+            for height_iterator in range(height):
+                if calculate_color(pix[width_iterator, height_iterator]):
+                    return width_iterator
+
     elif mode == 1:  # top
-        for i in range(max_s_s):
-            for j in range(width):
-                _ = pix[j, i]
-                a = _[0]
-                b = _[1]
-                c = _[2]
-                S = a + b + c
-                if S < (((255 + factor) // 2) * 3):
-                    return i
+        for height_iterator in range(max_s_s):
+            for width_iterator in range(width):
+                if calculate_color(pix[width_iterator, height_iterator]):
+                    return height_iterator
 
     elif mode == 2:  # right
-        for j in range(max_s_s):
-            for i in range(height):
-                w = width - j - 1
-                _ = pix[w, i]
-                a = _[0]
-                b = _[1]
-                c = _[2]
-                S = a + b + c
-                if S < (((255 + factor) // 2) * 3):
+        for width_iterator in range(max_s_s):
+            for height_iterator in range(height):
+                w = width - width_iterator - 1
+                if calculate_color(pix[w, height_iterator]):
                     return w
 
     elif mode == 3:  # bottom
-        for i in range(max_s_s):
-            for j in range(width):
-                h = height - i - 1
-                _ = pix[j, h]
-                a = _[0]
-                b = _[1]
-                c = _[2]
-                S = a + b + c
-                if S < (((255 + factor) // 2) * 3):
+        for height_iterator in range(max_s_s):
+            for width_iterator in range(width):
+                h = height - height_iterator - 1
+                if calculate_color(pix[width_iterator, h]):
                     return h
 
     else:
@@ -100,7 +89,10 @@ def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 
     ss = _get_crop_sizes(factor, maximum_side_size)
     if ss[2] == 0 or ss[3] == 0:
         return False
-    if ss[0] == 0 and ss[1] == 0 and ss[2] == _image.size[0] and ss[3] == _image.size[1]:
+    if ss[0] <= epsilon\
+            and ss[1] <= epsilon\
+            and _image.size[0] - ss[2] <= epsilon\
+            and _image.size[1] - ss[3] <= epsilon:
         # original size
         return False
     try:
