@@ -1,12 +1,18 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+__author__ = 'Sergey Zharkov'
+__license__ = 'MIT'
+__email__ = 'sttv-pc@mail.ru'
+__version__ = '0.1.5.2'
+
 import os
 import random
 import tempfile
 import shutil
 import atexit
 import requests
+from requests.exceptions import TooManyRedirects
 import zipfile
 from sys import stderr
 from argparse import ArgumentParser
@@ -82,18 +88,26 @@ def _create_parser():
     return parse
 
 
+# fast fixed #5
+def __requests_helper(method: str, url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data=None, files=None, max_redirects: int = 10):
+    response = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data, files=files, allow_redirects=False)
+    if response.is_redirect:
+        if max_redirects < 1:
+            raise TooManyRedirects('Too many redirects', response=response)
+        return __requests_helper(method, response.headers['location'], offset, maxlen, headers, cookies, data, files, max_redirects-1)
+    return response
+
+
 def __requests(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data=None, method='get', files=None):
     if not headers:
         headers = {}
     if not cookies:
         cookies = site_cookies
-    if 'User-Agent' not in headers:
-        headers['User-Agent'] = user_agent
+    headers.setdefault('User-Agent', user_agent)
+    headers.setdefault('Referer', referrer_url)
     if arguments.allow_webp:
         headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
-    if 'Referer' not in headers:
-        headers['Referer'] = referrer_url
-    response = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data, files=files)
+    response = __requests_helper(method=method, url=url, headers=headers, cookies=cookies, data=data, files=files)
     ret = response.text
     if offset > 0:
         ret = ret[offset:]
