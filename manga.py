@@ -82,7 +82,7 @@ def _create_parser():
     return parse
 
 
-def __requests(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data=None, method='get'):
+def __requests(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data=None, method='get', files=None):
     if not headers:
         headers = {}
     if not cookies:
@@ -93,7 +93,7 @@ def __requests(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None,
         headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
     if 'Referer' not in headers:
         headers['Referer'] = referrer_url
-    response = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data)
+    response = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data, files=files)
     ret = response.text
     if offset > 0:
         ret = ret[offset:]
@@ -106,8 +106,8 @@ def _get(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cooki
     return __requests(url=url, offset=offset, maxlen=maxlen, headers=headers, cookies=cookies, method='get')
 
 
-def _post(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data: dict = ()):
-    return __requests(url=url, offset=offset, maxlen=maxlen, headers=headers, cookies=cookies, method='post', data=data)
+def _post(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data: dict = (), files=None):
+    return __requests(url=url, offset=offset, maxlen=maxlen, headers=headers, cookies=cookies, method='post', data=data, files=files)
 
 
 def _safe_downloader(url, file_name, cookies=None):
