@@ -1,11 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-__author__ = 'Sergey Zharkov'
-__license__ = 'MIT'
-__email__ = 'sttv-pc@mail.ru'
-__version__ = '0.1.5.2'
-
 import os
 import random
 import tempfile
@@ -17,6 +12,11 @@ import zipfile
 from sys import stderr
 from argparse import ArgumentParser
 from urllib.parse import urlparse
+
+__author__ = 'Sergey Zharkov'
+__license__ = 'MIT'
+__email__ = 'sttv-pc@mail.ru'
+__version__ = '0.1.5.2'
 
 
 _downloader_uri = 'https://github.com/yuru-yuri/Manga-Downloader'
@@ -89,16 +89,16 @@ def _create_parser():
 
 
 # fast fixed #5
-def __requests_helper(method: str, url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data=None, files=None, max_redirects: int = 10):
-    response = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data, files=files, allow_redirects=False)
-    if response.is_redirect:
+def __requests_helper(method, url, headers=None, cookies=None, data=None, files=None, max_redirects=10):
+    r = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data, files=files, allow_redirects=False)
+    if r.is_redirect:
         if max_redirects < 1:
-            raise TooManyRedirects('Too many redirects', response=response)
-        return __requests_helper(method, response.headers['location'], offset, maxlen, headers, cookies, data, files, max_redirects-1)
-    return response
+            raise TooManyRedirects('Too many redirects', response=r)
+        return __requests_helper(method, r.headers['location'], headers, cookies, data, files, max_redirects-1)
+    return r
 
 
-def __requests(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data=None, method='get', files=None):
+def __requests(url: str, headers: dict=None, cookies: dict=None, data=None, method='get', files=None):
     if not headers:
         headers = {}
     if not cookies:
@@ -107,7 +107,11 @@ def __requests(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None,
     headers.setdefault('Referer', referrer_url)
     if arguments.allow_webp:
         headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
-    response = __requests_helper(method=method, url=url, headers=headers, cookies=cookies, data=data, files=files)
+    return __requests_helper(method=method, url=url, headers=headers, cookies=cookies, data=data, files=files)
+
+
+def _get(url: str, headers: dict=None, cookies: dict=None, offset: int = -1, maxlen: int = -1):
+    response = __requests(url=url, headers=headers, cookies=cookies, method='get')
     ret = response.text
     if offset > 0:
         ret = ret[offset:]
@@ -116,31 +120,23 @@ def __requests(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None,
     return ret
 
 
-def _get(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None):
-    return __requests(url=url, offset=offset, maxlen=maxlen, headers=headers, cookies=cookies, method='get')
+def _post(url: str, headers: dict=None, cookies: dict=None, data: dict = (), files=None):
+    response = __requests(url=url, headers=headers, cookies=cookies, method='post', data=data, files=files)
+    return response.text
 
 
-def _post(url: str, offset: int = -1, maxlen: int = -1, headers: dict=None, cookies: dict=None, data: dict = (), files=None):
-    return __requests(url=url, offset=offset, maxlen=maxlen, headers=headers, cookies=cookies, method='post', data=data, files=files)
-
-
-def _safe_downloader(url, file_name, cookies=None):
+def _safe_downloader(url, file_name):
     try:
-        if url.find('://') < 1:
+        if url.find('//') == 0:
+            url = 'http:' + url
+        elif url.find('://') < 1:
+            _ = referrer_url
             if url.find('/') == 0:
-                _url = urlparse(referrer_url)
-                _url = '{}://{}'.format(_url.scheme, _url.netloc)
-            else:
-                _url = referrer_url
-            url = _url + url
+                _ = urlparse(referrer_url)
+                _ = '{}://{}'.format(_.scheme, _.netloc)
+            url = _ + url
 
-        if not cookies:
-            cookies = site_cookies
-
-        response = requests.get(url, cookies=cookies, headers={
-            'User-Agent': user_agent,
-            'Referer': referrer_url
-        })
+        response = _get(url)
 
         out_file = open(file_name, 'wb')
         out_file.write(response.content)
