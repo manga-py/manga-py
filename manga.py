@@ -136,7 +136,7 @@ def _safe_downloader(url, file_name):
                 _ = '{}://{}'.format(_.scheme, _.netloc)
             url = _ + url
 
-        response = _get(url)
+        response = __requests(url, method='get')
 
         out_file = open(file_name, 'wb')
         out_file.write(response.content)
