@@ -137,10 +137,50 @@ hr {
 }
 ul.list li {
   & + li {
-    padding-top: .2rem;
+    padding-top: .5rem;
   }
   a {
     color: #63a7d2;
+    line-height: 1.7rem;
+  }
+  @blue: rgba(66, 145, 219, 0.53);
+  @active-blue: rgba(186, 214, 241, 0.53);
+  label {
+    position: relative;
+    cursor: pointer;
+    padding-left: 1em;
+  }
+  input[type=checkbox] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    border: 0 none;
+    background: transparent;
+    margin: 0;
+    margin-top: 5px;
+    & + label {
+      background: #fff;
+      display: inline-block;
+      width: 1rem;
+      height: 1.25rem;
+      top: -.01rem;
+      position: relative;
+      border-radius: 3px;
+      border: 2px solid @active-blue;
+      //transition: border .3s ease;
+      font-size: 1rem;
+      box-sizing: border-box;
+      margin-right: .4rem;
+    }
+    &:checked {
+      & + label {
+        background-image: data-uri('ok_flag.svg');
+        background-repeat: no-repeat;
+        background-position: center left 2px;
+        background-size: 75%;
+        border-color: @blue;
+      }
+    }
   }
 }
 .header {
@@ -151,7 +191,7 @@ ul.list li {
   top: .5rem;
   right: 1rem;
   a {
-    background: url('https://pages-themes.github.io/slate/assets/images/sprite_download.png');
+    background: data-uri('sprite_download.png');
     background-position-y: bottom;
     display: inline-block;
     width: 90px;
@@ -173,7 +213,12 @@ ul.list li {
 // Small devices (landscape phones, 576px and up)
 @media (max-width: 575px) {
   .header h1.panel {
+      max-width: 16rem;
       padding-top: 3rem;
+  }
+  .download-links {
+    right: .1rem;
+    transform: scale(.9);
   }
 }
 @media (min-width: 576px) {
@@ -200,5 +245,17 @@ ul.list li {
 @media (min-width: 1200px) {
   .container {
     width: 750px;
+  }
+}
+
+// touch devices
+@media (pointer:coarse) {
+  ul.list li {
+    a {
+      font-size: 1.4rem;
+    }
+    & + li {
+      padding-top: 1rem;
+    }
   }
 }

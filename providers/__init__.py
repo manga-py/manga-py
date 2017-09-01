@@ -39,6 +39,7 @@ providers_list = {
     'mangareader_net': 'mangareader\.net/.+',
     'mangarussia_com': 'mangarussia\.com/manga.+',
     'mangasaurus_com': 'mangasaurus\.com/manga.+',
+    'mangasupa_com': 'mangasupa\.com/(manga|chapter).+',
     'mangatan_net': 'mangatan\.net/(manga|chapter).+',
     'mangatown_com': 'mangatown\.com/manga.+',
     'mintmanga_com': 'mintmanga\.com/.+',
@@ -53,7 +54,7 @@ providers_list = {
     'tenmanga_com': 'tenmanga\.com/(book|chapter)/.+',
     'unixmanga_nl': 'unixmanga\.nl/onlinereading/.+\.html',
     'wmanga_ru': 'wmanga\.ru/starter/manga_.+',
-    'yaoichan_me': 'yaoichan\.me/(?:manga|online).+',
+    'yaoichan_me': 'yaoichan\.me/(manga|online).+',
     'zingbox_me': 'zingbox\.me/.+',
 }
 
