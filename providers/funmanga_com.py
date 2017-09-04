@@ -1,79 +1,38 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# from lxml.html import document_fromstring
-# import re
-# import json
+from lxml.html import document_fromstring
+import re
+
+domainUri = 'http://funmanga.com'
+
 
 def get_main_content(url, get=None, post=None):
-    """
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: mixed (1)
-    """
-    pass
+    return get('{}/{}'.format(domainUri, get_manga_name(url, get)))
 
 
 def get_volumes(content=None, url=None):
-    """
-    :param content: mixed (1)
-    :param url: str
-    :return: array (2)
-    """
-    pass
+    items = document_fromstring(content).cssselect('.chapter-list li > a')
+    return [i.get('href') + '/all-pages' for i in items]
 
 
 def get_archive_name(volume, index: int = None):
-    """
-    :param volume: mixed (2)
-    :param index: int
-    :return: str
-    """
-    pass
+    name = re.search('\.com/[^/]+/([^/]+)', volume)
+    if not name:
+        return 'vol_{:0>3}'.format(index)
+    return name.groups()[0]
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: dict(str)
-    """
-    pass
+    parser = document_fromstring(get(volume))
+    return [i.get('src') for i in parser.cssselect('.content-inner > img.img-responsive')]
 
 
 def get_manga_name(url, get=None):
-    """
-    :param url: str
-    :param get: request.get
-    :return: str
-    """
-    pass
-
-
-# NOT REQUIRED /*
-
-# if True, use zip_list(). get_images() alternative
-download_zip_only = None
-
-
-def get_zip(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: str|str[]
-    """
-    pass
-
-# if not None - additional cookies
-# cookies = [{'value': 'cookie value','domain': 'asd.domain','path': '/cookie/path/','name': 'cookie_name',}, 'Browser']
-cookies = None
-
-# */ NOT REQUIRED
+    name = re.search('\.com/([^/]+)', url)
+    if not name:
+        return ''
+    return name.groups()[0]
 
 
 if __name__ == '__main__':

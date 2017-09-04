@@ -11,6 +11,7 @@ providers_list = {
     # 'comic_walker_com': 'comic\-walker\.com/contents/detail/.+',
     'desu_me': 'desu\.me/manga/.+',
     'eatmanga_me': 'eatmanga\.me/.+',
+    'funmanga_com': 'funmanga\.com/.+',
     'gogomanga_co': 'gogomanga\.co/.+',
     'heymanga_me': 'heymanga\.me/manga/.+',
     'inmanga_com': 'inmanga\.com/ver/manga/.+',
