@@ -12,7 +12,7 @@ def get_main_content(url, get=None, post=None):
     return get('{}/manga/{}'.format(domainUri, name))
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     items = document_fromstring(content).cssselect('.chapter-list .row a')
     return [i.get('href') for i in items]
 

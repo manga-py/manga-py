@@ -18,7 +18,7 @@ def get_main_content(url, get=None, post=None):
     return json.loads(json.loads(get(uri))['data'])
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     items = content['result']
     items.reverse()
     return items

@@ -14,7 +14,7 @@ def get_main_content(url, get=None, post=None):
     return get('{}/manga/{}.html'.format(domainUri, manga_name))
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     parser = document_fromstring(content).cssselect('div.manga a')
     return [domainUri + i.get('href') for i in parser]
 

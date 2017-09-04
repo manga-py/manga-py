@@ -17,7 +17,7 @@ def get_main_content(url, get=None, post=None):
     return post(domainUri + '/api', data=_)
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     try:
         return json.loads(content)['child']
     except Exception:

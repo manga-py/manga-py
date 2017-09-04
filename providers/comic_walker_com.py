@@ -18,7 +18,7 @@ def get_main_content(url, get=None, post=None):
     return _content
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     items = document_fromstring(content).cssselect('.readableLinkColor')
     return [domainUri + i.get('href') for i in items]
 

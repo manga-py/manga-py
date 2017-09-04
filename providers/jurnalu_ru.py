@@ -16,7 +16,7 @@ def get_main_content(url, get=None, post=None):
     return get(domainUri + content)
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     name = re.search('(online\-reading/[^/]+/[^/]+)', url)
     if not name:
         return []

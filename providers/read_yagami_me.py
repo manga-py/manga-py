@@ -25,7 +25,7 @@ def fix_volume_url(volume):
     return 'http://read.yagami.me/read/{}/{}page/1'.format(_[0], _[1])
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     parser = document_fromstring(content).cssselect('#midside .list .element .title a')
     if parser is None:
         return []

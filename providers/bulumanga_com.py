@@ -6,17 +6,14 @@ import re
 import json
 
 domainUri = 'http://bulumanga.com'
-_get = None
 manga_id = 0
 _content = ''
 
 
 def get_main_content(url, get=None, post=None):
-    global _get
     global manga_id
     global _content
 
-    _get = get
     _id = re.search('id=(\d+)', url).groups()[0]
     manga_id = _id
 
@@ -37,8 +34,8 @@ def get_main_content(url, get=None, post=None):
         print('Error. Please, select resource')
 
 
-def get_volumes(content=None, url=None):
-    items = _get('{}/detail/{}?source={}'.format(domainUri, content[0], content[1]['source']))
+def get_volumes(content=None, url=None, get=None, post=None):
+    items = get('{}/detail/{}?source={}'.format(domainUri, content[0], content[1]['source']))
     items = json.loads(items)['chapters']
     items.reverse()
     return items

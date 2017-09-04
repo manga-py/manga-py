@@ -13,7 +13,7 @@ def get_main_content(url, get=None, post=None):
     return get('{}/book/{}.html'.format(domainUri, name))
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     items = document_fromstring(content).cssselect('.chapter-name.long > a')
     return [i.get('href') + '1-150-1.html' for i in items]
 

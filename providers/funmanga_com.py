@@ -11,7 +11,7 @@ def get_main_content(url, get=None, post=None):
     return get('{}/{}'.format(domainUri, get_manga_name(url, get)))
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     items = document_fromstring(content).cssselect('.chapter-list li > a')
     return [i.get('href') + '/all-pages' for i in items]
 

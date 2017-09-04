@@ -15,7 +15,7 @@ def get_main_content(url, get=None, post=None):
     return get(url)
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     parser = document_fromstring(content).cssselect('#chapter_table a.chico')
     if parser is None:
         return []

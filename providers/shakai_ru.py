@@ -19,7 +19,7 @@ def get_main_content(url, get=None, post=None):
     return page_content
 
 
-def get_volumes(content, url=None):
+def get_volumes(content, url=None, get=None, post=None):
     if not content:
         return []
     _ = json.loads(content)

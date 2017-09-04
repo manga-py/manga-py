@@ -12,7 +12,7 @@ def get_main_content(url, get=None, post=None):
     return get('{}/{}/{}'.format(domainUri, parser[1], parser[1]))
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     parser = document_fromstring(content).cssselect('table table table a[href^="/"]')
     return [domainUri + i.get('href') for i in parser]
 

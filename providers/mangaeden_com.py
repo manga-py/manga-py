@@ -17,7 +17,7 @@ def get_main_content(url, get=None, post=None):
     return get('{}/en/{}/{}/'.format(domainUri, groups[0], groups[1]))
 
 
-def get_volumes(content=None, url=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     volumes = document_fromstring(content).cssselect('a.chapterLink')
     return [domainUri + i.get('href') for i in volumes]
 
