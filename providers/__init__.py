@@ -13,6 +13,7 @@ providers_list = {
     'eatmanga_me': 'eatmanga\.me/.+',
     'funmanga_com': 'funmanga\.com/.+',
     'gogomanga_co': 'gogomanga\.co/.+',
+    'goodmanga_net': 'goodmanga\.net/.+',
     'heymanga_me': 'heymanga\.me/manga/.+',
     'inmanga_com': 'inmanga\.com/ver/manga/.+',
     'jurnalu_ru': 'jurnalu\.ru/online\-reading/.+',
