@@ -16,7 +16,7 @@ def get_main_content(url, get=None, post=None):
 
 def get_volumes(content: str, url=None):
     parser = document_fromstring(content)
-    parser = parser.cssselect('#mangaBox > div.leftContent div.chapters-link tr > td > a')
+    parser = parser.cssselect('div.chapters-link tr > td > a')
     if parser is None:
         return []
     return [i.get('href') for i in parser]
@@ -41,7 +41,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.match('\.me/([^/]+)/?', url)
+    result = re.search('\.me/([^/]+)', url)
     if result is None:
         return ''
     result = result.groups()
