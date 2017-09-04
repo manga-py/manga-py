@@ -18,6 +18,8 @@ cd helpers/cloudflare_scrape
 python setup.py install
 ```
 
+####If you using windows, require http://landinghub.visualstudio.com/visual-cpp-build-tools   
+
 ### Downloading
 ___:warning:Notice! The name of the manga is always added to the path!___
 
