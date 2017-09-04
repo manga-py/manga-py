@@ -3,14 +3,14 @@
 
 from lxml.html import document_fromstring
 import re
-# import json
+from helpers.cloudflare_scrape import cfscrape
 
 domainUri = 'http://kissmanga.com'
 
 
 def get_main_content(url, get=None, post=None):
     name = get_manga_name(url)
-    return get('{}/Manga/{}'.format(domainUri, url))
+    return get('{}/Manga/{}'.format(domainUri, name))
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
@@ -26,21 +26,33 @@ def get_archive_name(volume, index: int = None):
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: dict(str)
-    """
+    # see storage/1.js
     pass
 
 
 def get_manga_name(url, get=None):
     name = re.search('\.com/Manga/([^/]+)', url)
+    global cookies
+
+    if not cookies:
+        # anti-"cloudflare anti-bot protection"
+        scraper = cfscrape.get_tokens(url)
+        if scraper is not None:
+            cookies = []
+            for i in scraper[0]:
+                cookies.append({
+                    'value': scraper[0][i],
+                    'domain': '.kissmanga.com',
+                    'path': '/',
+                    'name': i,
+                })
+            cookies.append(scraper[1])
     if not name:
         return ''
     return name.groups()[0]
+
+
+cookies = None
 
 
 if __name__ == '__main__':
