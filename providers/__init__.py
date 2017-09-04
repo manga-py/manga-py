@@ -4,6 +4,7 @@
 import re
 
 providers_list = {
+    'bulumanga_com': 'bulumanga\.com/.+',
     # 'bwahahacomics_ru': 'bwahahacomics\.ru/.+',
     'com_x_life': 'com\-x\.life/.+\.html',
     'bato_to': 'bato\.to/(comic|reader)/?.+',

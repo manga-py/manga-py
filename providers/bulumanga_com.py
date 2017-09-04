@@ -1,79 +1,72 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# from lxml.html import document_fromstring
-# import re
-# import json
+from lxml.html import document_fromstring
+import re
+import json
+
+domainUri = 'http://bulumanga.com'
+_get = None
+manga_id = 0
+_content = ''
+
 
 def get_main_content(url, get=None, post=None):
-    """
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: mixed (1)
-    """
-    pass
+    global _get
+    global manga_id
+    global _content
+
+    _get = get
+    _id = re.search('id=(\d+)', url).groups()[0]
+    manga_id = _id
+
+    if not len(_content):
+        _url = '{}/detail/{}'.format(domainUri, _id)
+        content = get(_url)
+        _content = content
+    else:
+        content = _content
+    resources = json.loads(content)['sources']
+    print('Please, select resource:')
+    for n, i in enumerate(resources):
+        print('{} - {}'.format(n+1, i['source']))
+    while True:
+        n = int(input())
+        if len(resources) >= n > 0:
+            return [_id, resources[n - 1]]
+        print('Error. Please, select resource')
 
 
 def get_volumes(content=None, url=None):
-    """
-    :param content: mixed (1)
-    :param url: str
-    :return: array (2)
-    """
-    pass
+    items = _get('{}/detail/{}?source={}'.format(domainUri, content[0], content[1]['source']))
+    items = json.loads(items)['chapters']
+    items.reverse()
+    return items
 
 
 def get_archive_name(volume, index: int = None):
-    """
-    :param volume: mixed (2)
-    :param index: int
-    :return: str
-    """
-    pass
+    return 'vol_{:0>3}'.format(index)
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: dict(str)
-    """
-    pass
+    if not manga_id or 'cid' not in volume:
+        return []
+    content = json.loads(get('{}/page/mangareader/{}/{}'.format(domainUri, manga_id, volume['cid'])))
+    return [i['link'] for i in content['pages']]
 
 
 def get_manga_name(url, get=None):
-    """
-    :param url: str
-    :param get: request.get
-    :return: str
-    """
-    pass
+    global _content
 
+    if not len(_content):
+        _id = re.search('id=(\d+)', url).groups()[0]
+        _url = '{}/detail/{}'.format(domainUri, _id)
+        content = get(_url)
+        _content = content
+    else:
+        content = _content
 
-# NOT REQUIRED /*
-
-# if True, use zip_list(). get_images() alternative
-download_zip_only = None
-
-
-def get_zip(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: str|str[]
-    """
-    pass
-
-# if not None - additional cookies
-# cookies = [{'value': 'cookie value','domain': 'asd.domain','path': '/cookie/path/','name': 'cookie_name',}, 'Browser']
-cookies = None
-
-# */ NOT REQUIRED
+    return json.loads(content)['name']
 
 
 if __name__ == '__main__':
