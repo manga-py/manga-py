@@ -66,7 +66,9 @@ def get_manga_name(url, get=None):
     else:
         content = _content
 
-    return json.loads(content)['name']
+    name = json.loads(content)['name']
+    name = re.sub('[@$:/\\\]', '_', name)
+    return name
 
 
 if __name__ == '__main__':
