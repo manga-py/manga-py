@@ -5,6 +5,7 @@
 # import re
 # import json
 
+
 def get_main_content(url, get=None, post=None):
     """
     :param url: str
@@ -15,10 +16,12 @@ def get_main_content(url, get=None, post=None):
     pass
 
 
-def get_volumes(content=None, url=None, get=None, post=None, get=None, post=None):
+def get_volumes(content=None, url=None, get=None, post=None):
     """
     :param content: mixed (1)
     :param url: str
+    :param get: request.get
+    :param post: request.post
     :return: array (2)
     """
     pass
