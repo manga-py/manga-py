@@ -10,8 +10,10 @@ see https://yuru-yuri.github.io/Manga-Downloader/#resources-list
 ### Installation
 
 ```bash
-git clone --recursive  https://github.com/yuru-yuri/Manga-Downloader.git
+git clone --progress --prune --recurse-submodules=no origin  https://github.com/yuru-yuri/Manga-Downloader.git
 cd Manga-Downloader
+git submodule init
+git submodule update --recursive --remote
 # install requirements
 pip3 install -r requirements.txt
 cd helpers/cloudflare_scrape
