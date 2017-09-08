@@ -397,7 +397,7 @@ if __name__ == '__main__':
         show_progress = arguments.progress
         add_name = not arguments.no_name
         name = arguments.name
-        if le(arguments.user_agent):
+        if len(arguments.user_agent):
             user_agent = arguments.user_agent
         if arguments.crop_blank:
             import helpers.remove_void as cropper
