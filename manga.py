@@ -16,7 +16,7 @@ from urllib.parse import urlparse
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
 __email__ = 'sttv-pc@mail.ru'
-__version__ = '0.1.5.2'
+__version__ = '0.2.0.1'
 
 
 _downloader_uri = 'https://github.com/yuru-yuri/Manga-Downloader'
@@ -74,16 +74,20 @@ def _create_parser():
     parse.add_argument('-u', '--url', type=str, required=False, help='Downloaded url', default='')
     parse.add_argument('-n', '--name', type=str, required=False, help='Manga name', default='')
     parse.add_argument('-d', '--destination', type=str, required=False, help='Destination folder', default=archivesDir)
+
     parse.add_argument('-i', '--info', action='store_const', required=False, const=True, default=False)
     parse.add_argument('-p', '--progress', action='store_const', required=False, const=True, default=False)
+
     parse.add_argument('-s', '--skip-volumes', type=int, required=False, help='Skip volumes', default=0)
+    parse.add_argument('--user-agent', required=False, type=str, default='')
     parse.add_argument('--no-name', action='store_const', required=False, help='Don\'t added manga name to the path', const=True, default=False)
     parse.add_argument('--allow-webp', action='store_const', required=False, help='Allow downloading webp images', const=True, default=False)
     parse.add_argument('--reverse-downloading', action='store_const', required=False, help='Reverse volumes downloading', const=True, default=False)
     parse.add_argument('--rewrite-exists-archives', action='store_const', required=False, const=True, default=False)
+
     parse.add_argument('--crop-blank', action='store_const', required=False, help='Crop white lines on image', const=True, default=False)
-    parse.add_argument('--crop-blank-factor', required=False, help='Find factor 0..255. Default: 100', default=100)
-    parse.add_argument('--crop-blank-max-size', required=False, help='Maximum crop size (px). Default: 30', default=30)
+    parse.add_argument('--crop-blank-factor', required=False, type=int, help='Find factor 0..255. Default: 100', default=100)
+    parse.add_argument('--crop-blank-max-size', required=False, type=int, help='Maximum crop size (px). Default: 30', default=30)
 
     return parse
 
@@ -393,6 +397,8 @@ if __name__ == '__main__':
         show_progress = arguments.progress
         add_name = not arguments.no_name
         name = arguments.name
+        if le(arguments.user_agent):
+            user_agent = arguments.user_agent
         if arguments.crop_blank:
             import helpers.remove_void as cropper
         if arguments.url:

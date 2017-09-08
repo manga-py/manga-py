@@ -15,37 +15,68 @@ def _test_pixel(max_s_s: int, factor: int, mode: int):
     if height < max_s_s or width < max_s_s:
         return 0
 
-    def calculate_color(color_mask):
-        color_sum = (color_mask[0] + color_mask[1] + color_mask[2])
-        return color_sum < ((255 + factor) // 2) * 3
-
     pix = _image.load()
+
+    def calculate_color(x, y):
+
+        def calc_factor(col):
+            _col = (col[0] + col[1] + col[2])
+            return _col < ((255 + factor) // 2) * 3
+
+        if calc_factor(pix[x, y]):
+            if mode % 2:  # top, bottom
+                if calc_factor(pix[x - 1, y]) or calc_factor(pix[x + 1, y]):
+                    return True
+            else:  # left, right
+                if calc_factor(pix[x, y - 1]) or calc_factor(pix[x, y + 1]):
+                    return True
+        return False
 
     if mode == 0:  # left
         for width_iterator in range(max_s_s):
+            if width_iterator < 1 or width_iterator > (max_s_s - 2):
+                continue
             for height_iterator in range(height):
-                if calculate_color(pix[width_iterator, height_iterator]):
-                    return width_iterator
+                xor = (width_iterator % 2) ^ (height_iterator % 2)
+                if xor or (height_iterator < 1 or height_iterator > (height - 2)):
+                    continue
+                if calculate_color(width_iterator, height_iterator):
+                    return width_iterator - 2
 
     elif mode == 1:  # top
         for height_iterator in range(max_s_s):
+            if height_iterator < 1 or height_iterator > (max_s_s - 2):
+                continue
             for width_iterator in range(width):
-                if calculate_color(pix[width_iterator, height_iterator]):
-                    return height_iterator
+                xor = (width_iterator % 2) ^ (height_iterator % 2)
+                if xor or width_iterator < 1 or width_iterator > (height - 2):
+                    continue
+                if calculate_color(width_iterator, height_iterator):
+                    return height_iterator - 2
 
     elif mode == 2:  # right
         for width_iterator in range(max_s_s):
+            if width_iterator < 1 or width_iterator > (max_s_s - 2):
+                continue
             for height_iterator in range(height):
+                xor = (width_iterator % 2) ^ (height_iterator % 2)
+                if xor or height_iterator < 1 or height_iterator > (height - 2):
+                    continue
                 w = width - width_iterator - 1
-                if calculate_color(pix[w, height_iterator]):
-                    return w
+                if calculate_color(w, height_iterator):
+                    return w + 2
 
     elif mode == 3:  # bottom
         for height_iterator in range(max_s_s):
+            if height_iterator < 1 or height_iterator > (max_s_s - 2):
+                continue
             for width_iterator in range(width):
+                xor = (width_iterator % 2) ^ (height_iterator % 2)
+                if xor or width_iterator < 1 or width_iterator > (height - 2):
+                    continue
                 h = height - height_iterator - 1
-                if calculate_color(pix[width_iterator, h]):
-                    return h
+                if calculate_color(width_iterator, h):
+                    return h + 2
 
     else:
         raise ValueError('Error mode value')
@@ -53,9 +84,9 @@ def _test_pixel(max_s_s: int, factor: int, mode: int):
     if mode < 2:
         return max_s_s
     if mode == 2:
-        return width - max_s_s - 1
+        return width - max_s_s
     if mode == 3:
-        return height - max_s_s - 1
+        return height - max_s_s
 
 
 def _get_crop_sizes(factor: int, max_s_s: int):
@@ -64,10 +95,10 @@ def _get_crop_sizes(factor: int, max_s_s: int):
     right = _test_pixel(max_s_s, factor, 2)
     bottom = _test_pixel(max_s_s, factor, 3)
     # add 1px white line
-    left = left - 1 if left > 0 else left
-    top = top - 1 if top > 0 else top
-    right = right + 1 if right < _image.size[0] - 1 else right
-    bottom = bottom - 1 if bottom < _image.size[1] - 1 else bottom
+    left = left - 1 if left > 0 else 0
+    top = top - 1 if top > 0 else 0
+    right = right + 1 if right < _image.size[0] else right
+    bottom = bottom + 1 if _image.size[1] < bottom > 0 else bottom
     return left, top, right, bottom
 
 
