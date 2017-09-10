@@ -6,7 +6,6 @@ import re
 from helpers.cloudflare_scrape import cfscrape
 
 domainUri = 'http://www.mangago.me'
-uriRegex = '/read\-manga/([^/]+)/?'
 
 
 def get_main_content(url, get=None, post=None):
@@ -39,7 +38,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.match(uriRegex, url)
+    result = re.search('/read\-manga/([^/]+)/?', url)
     global cookies
 
     if not cookies:

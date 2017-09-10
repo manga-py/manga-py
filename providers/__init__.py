@@ -17,6 +17,7 @@ providers_list = {
     'heymanga_me': 'heymanga\.me/manga/.+',
     'inmanga_com': 'inmanga\.com/ver/manga/.+',
     'jurnalu_ru': 'jurnalu\.ru/online\-reading/.+',
+    'kissmanga_com': 'kissmanga\.com/Manga/.+',
     'manga_online_biz': 'manga\-online\.biz/.+',
     'manga_online_com_ua': 'manga\-online\.com\.ua/.+',
     'mangabb_co': 'mangabb\.co/.+',
