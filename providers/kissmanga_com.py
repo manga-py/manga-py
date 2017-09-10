@@ -35,7 +35,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     need = re.search('\["([^"]+)"\].+chko.?=.?chko', content)
     key = _key
     if need:
-        print('Change key')
+        # print('Change key')
         _ = crypt.decode_escape(need.groups()[0])
         key = _key + _
 

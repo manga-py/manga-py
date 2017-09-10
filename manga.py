@@ -40,13 +40,20 @@ referrer_url = ''
 site_cookies = ()
 
 
+def _print(text, *args, **kwargs):
+    __encode = 'utf-8'
+    if os.name == 'nt':
+        __encode = 'cp866'
+    print(text.encode().decode(__encode, 'ignore'), *args, **kwargs)
+
+
 if not os.path.isdir(archivesDir):
     if not os.access(os.getcwd(), os.W_OK):
-        print('Current directory not writeable and manga directory not exist', file=stderr)
+        _print('Current directory not writeable and manga directory not exist', file=stderr)
         exit(1)
     os.makedirs(archivesDir)
 elif not os.access(archivesDir, os.W_OK):
-    print('Manga directory not writable', file=stderr)
+    _print('Manga directory not writable', file=stderr)
     exit(1)
 
 
@@ -62,7 +69,7 @@ def _progress(items_count: int, current_item: int):
         current_position = int(float(current_item) * one_percent)
         text = ('▓' * current_position)
         text += (' ' * (int(columns) - current_position))
-        print('\033[1A\033[9D%s' % (text, ), end='\n        \033[9D')
+        _print('\033[1A\033[9D%s' % (text, ), end='\n        \033[9D')
 
 
 def _create_parser():
@@ -211,7 +218,7 @@ class MangaDownloader:
         try:
             os.makedirs(path)
         except NotADirectoryError:
-            print('Destination not exist or not directory! Exit')
+            _print('Destination not exist or not directory! Exit')
             exit(1)
 
     def get_manga_name(self):
@@ -241,7 +248,7 @@ class MangaDownloader:
     def get_images(self, volume):
         images = self.provider.get_images(main_content=self.main_content, volume=volume, get=_get, post=_post)
         if info_mode and len(images) < 1:
-            print('Images not found')
+            _print('Images not found')
         return images
 
     def _crop_image(self, path):
@@ -275,7 +282,7 @@ class MangaDownloader:
                 mode = 'Skip image'
                 if r < count_reties:
                     mode = 'Retry'
-                print('Error downloading. %s' % (mode,))
+                _print('Error downloading. %s' % (mode,))
         return False
 
     def __download_archive(self, url):
@@ -284,7 +291,7 @@ class MangaDownloader:
             archive_name = archive_name[:archive_name.find('.zip')]  # remove .zip
         dst = self.get_archive_destination(archive_name)
         if info_mode:
-            print('Downloading archive: %s' % (archive_name,))
+            _print('Downloading archive: %s' % (archive_name,))
         self.__download_image(url, dst)
 
     def __archive_helper(self, archive):
@@ -312,7 +319,7 @@ class MangaDownloader:
             return
 
         if len(volumes) < 1:
-            print('Volumes not found. Exit')
+            _print('Volumes not found. Exit')
             exit(1)
 
         volume_index = 1
@@ -323,24 +330,24 @@ class MangaDownloader:
 
             if not len(archive_name):
                 if info_mode:
-                    print('Archive name is empty!')
+                    _print('Archive name is empty!')
                 exit(1)
 
             if not arguments.rewrite_exists_archives and os.path.isfile(self.get_archive_destination(archive_name)):
                 if info_mode:
-                    print('Archive %s exists. Skip' % (archive_name, ))
+                    _print('Archive %s exists. Skip' % (archive_name, ))
                 continue
 
             images = self.get_images(v)
 
             if info_mode:
-                print('Start downloading %s' % (archive_name, ))
+                _print('Start downloading %s' % (archive_name, ))
             images_len = len(images)
 
             n = 1
             c = 0
             if show_progress:
-                print('')
+                _print('')
             for i in images:
                 if show_progress:
                     _progress(images_len, n)
@@ -370,7 +377,7 @@ def manual_input(prompt: str):
     url = str(input(prompt + '\n'))
     if url == 'q':
         if info_mode:
-            print('Quit command. Exit')
+            _print('Quit command. Exit')
         exit(0)
 
     return url
@@ -383,7 +390,7 @@ def main(url: str, name: str = ''):
         manga.get_main_content()
         manga.download_images()
     else:
-        print('Status error. Exit')
+        _print('Status error. Exit')
         exit(1)
 
 if __name__ == '__main__':
@@ -403,5 +410,5 @@ if __name__ == '__main__':
                 name = manual_input('Please, paste manga name')
         main(url, name)
     except KeyboardInterrupt:
-        print('\033[84DUser interrupt this. Exit\t\t')
+        _print('\033[84DUser interrupt this. Exit\t\t')
         exit(0)
