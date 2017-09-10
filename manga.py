@@ -42,7 +42,7 @@ site_cookies = ()
 
 def _print(text, *args, **kwargs):
     __encode = 'utf-8'
-    if os.name == 'nt':
+    if os.name == 'nt':  # patch for issue#2
         __encode = 'cp866'
     print(text.encode().decode(__encode, 'ignore'), *args, **kwargs)
 
