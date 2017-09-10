@@ -1,22 +1,45 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import Crypto.Cipher as Cipher
-import Crypto.Hash as Hash
+from Crypto.Cipher import AES
+from Crypto.Hash import SHA256
 import base64
 import codecs
 
-# a = AES.new(_toSha256, AES.MODE_CBC, codecs.decode('a5e8e2e9c2721be0a84ad660c472c1f3', 'hex'))
+
+def decode_escape(data):
+    if isinstance(data, str):
+        data = data.encode()
+    try:
+        data = codecs.escape_decode(data)
+        return data[0]
+    except Exception:
+        return False
+
+
+def encode_hex(data):
+    return codecs.decode(data, 'hex')
 
 
 def _toSha256(data):
-    return Hash.SHA256.new(Hash.SHA256.tobytes('mshsdf832nsdbash20asdm')).digest()
+    if isinstance(data, str):
+        data = data.encode()
+    sha = SHA256.new()
+    sha.update(data)
+    return sha.digest()
 
 
-def _toAES(iv, key, data):
-    pass
+def _decryptAES(iv, key, data):
+    aes = AES.new(key, AES.MODE_CBC, iv)
+    return aes.decrypt(data)
 
 
-def kissmanga(data):
-    d = base64.b64decode(data)
-    return _toSha256(d)
+def kissmanga(iv, key, data):
+    iv = encode_hex(iv)
+    key = _toSha256(key)
+    data = base64.b64decode(data)
+
+    try:
+        return _decryptAES(iv, key, data).decode('utf-8').strip()
+    except Exception:
+        return False

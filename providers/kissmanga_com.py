@@ -4,8 +4,11 @@
 from lxml.html import document_fromstring
 import re
 from helpers.cloudflare_scrape import cfscrape
+from helpers.main import crypt
 
 domainUri = 'http://kissmanga.com'
+_iv = b'a5e8e2e9c2721be0a84ad660c472c1f3'
+_key = b'mshsdf832nsdbash20asdm'
 
 
 def get_main_content(url, get=None, post=None):
@@ -26,8 +29,28 @@ def get_archive_name(volume, index: int = None):
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    # see storage/1.js
-    pass
+    content = get(volume)
+
+    # if need change key
+    need = re.search('\["([^"]+)"\].+chko.?=.?chko', content)
+    key = _key
+    if need:
+        print('Change key')
+        _ = crypt.decode_escape(need.groups()[0])
+        key = _key + _
+
+    hexes = re.findall('lstImages.push\(wrapKA\(["\']([^"\']+?)["\']\)', content)
+
+    if not hexes:
+        return []
+
+    images = []
+    # print('Images exists {}'.format(len(hexes)))
+    for i in hexes:
+        img = crypt.kissmanga(_iv, key, i)
+        # print(img)
+        images.append(img)
+    return images
 
 
 def get_manga_name(url, get=None):
