@@ -20,7 +20,7 @@ cd helpers/cloudflare_scrape
 python setup.py install
 ```
 
-####Если используется Windows, обязательно к установке: http://landinghub.visualstudio.com/visual-cpp-build-tools
+#### Если используется Windows, обязательно к установке: http://landinghub.visualstudio.com/visual-cpp-build-tools
 
 ### Загрузка манги
 
