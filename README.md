@@ -20,6 +20,8 @@ cd helpers/cloudflare_scrape
 python setup.py install
 ```
 
+_If you use Windows, see 'https://github.com/sfbahr/PyCrypto-Wheels'_
+
 ####If you using windows, require http://landinghub.visualstudio.com/visual-cpp-build-tools
 
 ### Downloading
