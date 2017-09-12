@@ -17,7 +17,17 @@ def get_volumes(content=None, url=None, get=None, post=None):
     return [i.get('href') for i in items]
 
 
+def _get_jav_zip_id(uri):
+    n = re.search('/\?p=(\d+)', uri)
+    if not n:
+        return 0
+    return n.groups()[0]
+
+
 def get_archive_name(volume, index: int = None):
+    n = _get_jav_zip_id(volume)
+    if n:
+        return 'vol_{:0>3}_{}'.format(index, n)
     return 'vol_{:0>3}'.format(index)
 
 
@@ -27,8 +37,8 @@ def get_images(main_content=None, volume=None, get=None, post=None):
         allow_more = True
         domain = 'http://jav-zip.org'
         step = 0
+        _id = _get_jav_zip_id(volume)
         while allow_more:
-            _id = ''
             _uri = '{}/wp-admin/admin-ajax.php?post={}&action=get_content&step={}'
             content = json.loads(get(_uri.format(domain, _id, step)))
             content = document_fromstring(content['mes'])
