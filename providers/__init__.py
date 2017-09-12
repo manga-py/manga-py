@@ -62,6 +62,7 @@ providers_list = {
     'wmanga_ru': 'wmanga\.ru/starter/manga_.+',
     'yaoichan_me': 'yaoichan\.me/(manga|online).+',
     'zingbox_me': 'zingbox\.me/.+',
+    'zip_read_com': 'zip\-read\.com/.+',
 }
 
 
