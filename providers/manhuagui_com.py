@@ -26,8 +26,20 @@ def get_main_content(url, get=None, post=None):
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
-    parser = document_fromstring(content).cssselect('.chapter-list li > a')
-    return [domainUri + i.get('href') for i in parser]
+    parser = document_fromstring(content)
+    chapters = parser.cssselect('.chapter-list li > a')
+    if len(chapters) < 1:
+        chapters = parser.cssselect('#__VIEWSTATE')[0].get('value')
+
+        try:
+            js = execjs.compile(LZjs).eval('LZString.decompressFromBase64("' + chapters + '")')
+            if not js:
+                return []
+            chapters = document_fromstring(js).cssselect('.chapter-list li > a')
+        except Exception:
+            return []
+
+    return [domainUri + i.get('href') for i in chapters]
 
 
 def get_archive_name(volume, index: int = None):
