@@ -132,7 +132,7 @@
                         list[i][0] + '">' +
                         list[i][0] + '</a>' +
                         list[i][2] + '</span></li>';
-                    done += (list[i][0] ? 1 : 0);
+                    done += parseInt(list[i][0]);
                 }
 
                 document.querySelector('ul.list').innerHTML = html + ('<!-- ' + list.length + ' ( ' + done + ' ) -->');
