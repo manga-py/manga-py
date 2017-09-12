@@ -26,7 +26,7 @@ _If you use Windows, see 'https://github.com/sfbahr/PyCrypto-Wheels'_
 
 ### Downloading
 
-___:info:For sites with cloudflare protect need installed Node.js___
+___:warning:For sites with cloudflare protect need installed Node.js___
 
 
 ___:warning:Notice! The name of the manga is always added to the path!___
