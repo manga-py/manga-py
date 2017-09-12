@@ -1,4 +1,6 @@
 # Manga-Downloader
+[![Maintainability](https://api.codeclimate.com/v1/badges/26dd2dcc32bcd9c90916/maintainability)](https://codeclimate.com/repos/59b80b63ae27120270000646/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/26dd2dcc32bcd9c90916/test_coverage)](https://codeclimate.com/repos/59b80b63ae27120270000646/test_coverage)
 
 ## Supported resources
 
