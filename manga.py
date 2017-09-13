@@ -60,7 +60,6 @@ elif not os.access(archivesDir, os.W_OK):
 
 @atexit.register
 def before_shutdown():
-    return False
     shutil.rmtree(get_temp_path())
 
 
