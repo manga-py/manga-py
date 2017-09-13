@@ -12,6 +12,7 @@ import zipfile
 from sys import stderr
 from argparse import ArgumentParser
 from urllib.parse import urlparse
+from helpers import remove_void
 
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
@@ -59,6 +60,7 @@ elif not os.access(archivesDir, os.W_OK):
 
 @atexit.register
 def before_shutdown():
+    return False
     shutil.rmtree(get_temp_path())
 
 
@@ -91,6 +93,11 @@ def _create_parser():
     parse.add_argument('--allow-webp', action='store_const', required=False, help='Allow downloading webp images', const=True, default=False)
     parse.add_argument('--reverse-downloading', action='store_const', required=False, help='Reverse volumes downloading', const=True, default=False)
     parse.add_argument('--rewrite-exists-archives', action='store_const', required=False, const=True, default=False)
+
+    parse.add_argument('-xt', required=False, type=int, help='Manual image crop with top side', default=0)
+    parse.add_argument('-xr', required=False, type=int, help='Manual image crop with right side', default=0)
+    parse.add_argument('-xb', required=False, type=int, help='Manual image crop with bottom side', default=0)
+    parse.add_argument('-xl', required=False, type=int, help='Manual image crop with left side', default=0)
 
     parse.add_argument('--crop-blank', action='store_const', required=False, help='Crop white lines on image', const=True, default=False)
     parse.add_argument('--crop-blank-factor', required=False, type=int, help='Find factor 0..255. Default: 100', default=100)
@@ -259,11 +266,19 @@ class MangaDownloader:
         name_without_ext = path[0:path.rfind('.')]
         ext = path[path.rfind('.'):]
         _path = os.path.join(os.path.dirname(path), '{}_{}'.format(name_without_ext, ext))
-        result = cropper.process(path, _path, int(arguments.crop_blank_factor), int(arguments.crop_blank_max_size))
+        result = remove_void.process(path, _path, int(arguments.crop_blank_factor), int(arguments.crop_blank_max_size))
         if result:
             shutil.move(_path, path)
         else:
             os.unlink(_path)
+
+    def _crop_manual(self, patch):
+        remove_void.crop(patch, {
+            'left': arguments.xl,
+            'top': arguments.xt,
+            'bottom': arguments.xb,
+            'right': arguments.xr,
+        })
 
     def make_archive(self, archive_name: str):
         d = self.get_archive_destination(archive_name)
@@ -366,6 +381,8 @@ class MangaDownloader:
                 if self.__download_image(i, image_full_name):
                     c += 1
 
+                    self._crop_manual(image_full_name)
+
                     if arguments.crop_blank:
                         self._crop_image(image_full_name)
 
@@ -406,8 +423,6 @@ if __name__ == '__main__':
         name = arguments.name
         if len(arguments.user_agent):
             user_agent = arguments.user_agent
-        if arguments.crop_blank:
-            import helpers.remove_void as cropper
         if arguments.url:
             url = arguments.url
         else:
