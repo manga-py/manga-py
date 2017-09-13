@@ -21,6 +21,7 @@ python setup.py install
 ```
 
 #### Если используется Windows, обязательно к установке: http://landinghub.visualstudio.com/visual-cpp-build-tools
+_Если в процессе установки пакета pycrypto возникает ошибка на Windows, смотреть 'https://github.com/sfbahr/PyCrypto-Wheels'_
 
 ### Загрузка манги
 

@@ -1,0 +1,15 @@
+exclude_paths
+ - 'docs/'
+ - 'storage/'
+ - 'providers/_template.py'
+ - 'helpers/main/*.js'
+
+engines:
+ radon:
+  enabled: true
+ config:
+  python_version: 3.5
+
+ratings:
+  paths:
+    - "**.py"
