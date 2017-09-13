@@ -23,15 +23,22 @@ def get_main_content(url, get=None, post=None):
         _content = content
     else:
         content = _content
+
+    source = re.search('source=(\w+)', url)
     resources = json.loads(content)['sources']
-    print('Please, select resource:')
-    for n, i in enumerate(resources):
-        print('{} - {}'.format(n+1, i['source']))
-    while True:
-        n = int(input())
-        if len(resources) >= n > 0:
-            return [_id, resources[n - 1]]
-        print('Error. Please, select resource')
+    if not source:
+        print('Please, select resource:')
+        for n, i in enumerate(resources):
+            print('{} - {}'.format(n+1, i['source']))
+        while True:
+            n = int(input())
+            if len(resources) >= n > 0:
+                return [_id, resources[n - 1]]
+            print('Error. Please, select resource')
+    else:
+        for n, i in enumerate(resources):
+            if i['source'] == source.groups()[0]:
+                return [_id, resources[n]]
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
@@ -56,7 +63,10 @@ def get_manga_name(url, get=None):
     global _content
 
     if not len(_content):
-        _id = re.search('id=(\d+)', url).groups()[0]
+        _id = re.search('id=(\d+)', url)
+        if not _id:
+            raise AttributeError('Manga id not found')
+        _id = _id.groups()[0]
         _url = '{}/detail/{}'.format(domainUri, _id)
         content = get(_url)
         _content = content
