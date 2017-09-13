@@ -1,0 +1,5 @@
+exclude_paths
+ - 'docs/'
+ - 'storage/'
+ - 'providers/_template.py'
+ - 'helpers/main/*.js'
