@@ -1,8 +1,13 @@
+JavaScript: false
+Ruby: false
+Python: true
+PHP: false
+
 exclude_paths:
- - 'docs/'
- - 'storage/'
- - 'providers/_template.py'
- - 'helpers/main/*.js'
+- 'docs/'
+- 'storage/'
+- 'providers/_template.py'
+- 'helpers/main/*.js'
 
 engines:
  radon:
@@ -12,4 +17,4 @@ engines:
 
 ratings:
   paths:
-    - "**.py"
+  - "**.py"
