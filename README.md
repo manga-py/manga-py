@@ -1,6 +1,10 @@
 # Manga-Downloader
 [![Maintainability](https://api.codeclimate.com/v1/badges/26dd2dcc32bcd9c90916/maintainability)](https://codeclimate.com/repos/59b80b63ae27120270000646/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/26dd2dcc32bcd9c90916/test_coverage)](https://codeclimate.com/repos/59b80b63ae27120270000646/test_coverage)
+[![GitHub issues](https://img.shields.io/github/issues/yuru-yuri/Manga-Downloader.svg)](https://github.com/yuru-yuri/Manga-Downloader/issues)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/yuru-yuri/Manga-Downloader/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/yuru-yuri/Manga-Downloader.svg)](https://github.com/yuru-yuri/Manga-Downloader/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/yuru-yuri/Manga-Downloader.svg)](https://github.com/yuru-yuri/Manga-Downloader/network)
 
 ## Supported resources
 
