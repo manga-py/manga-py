@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from PIL import Image
+from os import path, rename, remove
 
 _image = None
 epsilon = 0
@@ -111,6 +112,35 @@ def _open_image(path: str):
     except OSError:
         return False
     return True
+
+
+def crop(img_path, sizes=None):
+    if isinstance(sizes, dict) and path.isfile(img_path):
+        try:
+            _sizes = [0, 0, 0, 0]  # (left, top, right, bottom)
+            if sizes.get('left') and sizes.get('left') > 0:
+                _sizes[0] = int(sizes['left'])
+            if sizes.get('top') and sizes.get('top') > 0:
+                _sizes[1] = int(sizes['top'])
+            if sizes.get('right') and sizes.get('right') > 0:
+                _sizes[2] = int(sizes['right'])
+            if sizes.get('bottom') and sizes.get('bottom') > 0:
+                _sizes[3] = int(sizes['bottom'])
+
+            _allow = False
+            for i in _sizes:
+                if i > 0:
+                    _allow = True
+                    break
+            if _allow:
+                img = Image.open(img_path)
+                _sizes[2] = img.size[0] - _sizes[2]  # right
+                _sizes[3] = img.size[1] - _sizes[3]  # bottom
+                img = img.crop(_sizes)
+                img.save(img_path)
+        except (IOError, KeyError):
+            return False
+        return True
 
 
 def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 30):
