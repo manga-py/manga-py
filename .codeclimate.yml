@@ -1,15 +1,15 @@
-exclude_paths
- - 'docs/'
- - 'storage/'
- - 'providers/_template.py'
- - 'helpers/main/*.js'
-
-engines:
- radon:
+exclude_paths:
+- 'docs/'
+- 'tests/'
+- 'storage/'
+- 'providers/_template.py'
+- 'helpers/main/*.js'
+- "LICENSE"
+- "*.yml"
+languages:
+   Python: true
+pep8:
   enabled: true
- config:
-  python_version: 3.5
-
-ratings:
-  paths:
-    - "**.py"
+  checks:
+    E501:
+      enabled: false
