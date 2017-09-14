@@ -32,7 +32,7 @@ else:
 rnd_temp_path = 'manga-donloader_{}'.format(random.random()*10)
 archivesDir = os.path.join(os.getcwd(), 'manga')
 
-count_reties = 5
+count_retries = 5
 
 referrer_url = ''
 site_cookies = ()
@@ -84,6 +84,7 @@ def _create_parser():
     parse.add_argument('-p', '--progress', action='store_const', required=False, const=True, default=False)
 
     parse.add_argument('-s', '--skip-volumes', type=int, required=False, help='Skip volumes', default=0)
+    parse.add_argument('--max-volumes', type=int, required=False, help='Maximum volumes for downloading 0=All', default=0)
     parse.add_argument('--user-agent', required=False, type=str, default='')
     parse.add_argument('--no-name', action='store_const', required=False, help='Don\'t added manga name to the path', const=True, default=False)
     parse.add_argument('--allow-webp', action='store_const', required=False, help='Allow downloading webp images', const=True, default=False)
@@ -236,7 +237,9 @@ class MangaDownloader:
         if not arguments.reverse_downloading:
             volumes.reverse()
         if arguments.skip_volumes > 0:
-            return volumes[arguments.skip_volumes:]
+            volumes = volumes[arguments.skip_volumes:]
+        if arguments.max_volumes > 0:
+            volumes = volumes[:arguments.max_volumes]
         return volumes
 
     def get_archive_destination(self, archive_name: str):
@@ -286,12 +289,12 @@ class MangaDownloader:
 
     def __download_image(self, url, path):
         r = 0
-        while r < count_reties:
+        while r < count_retries:
             if _safe_downloader(url, path):
                 return True
             if info_mode:
                 mode = 'Skip image'
-                if r < count_reties:
+                if r < count_retries:
                     mode = 'Retry'
                 _print('Error downloading. %s' % (mode,))
         return False
@@ -418,16 +421,16 @@ def main(url: str, name: str = ''):
         exit(1)
 
 
-arguments = _create_parser().parse_args()
-info_mode = arguments.info
-show_progress = arguments.progress
-add_name = not arguments.no_name
-name = arguments.name
-if len(arguments.user_agent):
-    user_agent = arguments.user_agent
-
 if __name__ == '__main__':
     try:
+        arguments = _create_parser().parse_args()
+        info_mode = arguments.info
+        show_progress = arguments.progress
+        add_name = not arguments.no_name
+        name = arguments.name
+        if len(arguments.user_agent):
+            user_agent = arguments.user_agent
+
         if arguments.url:
             url = arguments.url
         else:

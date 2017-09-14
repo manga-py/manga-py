@@ -3,12 +3,49 @@
 
 
 import unittest
+from os import path, mkdir
+import shutil
 
 
-class Test(unittest.TestCase):
+class Arguments:
+    def setArgument(self, name, value):
+        setattr(self, name, value)
+
+    def setArguments(self, arguments):
+        for name, value in arguments:
+            self.setArgument(name, value)
+
+
+class TestCase(unittest.TestCase):
     def setUp(self):
+        import manga
         self.current_id = ''
-        pass
+        self.path = path.join(path.dirname(path.realpath(__file__)), 'temp')
+        if not path.isdir(self.path):
+            mkdir(self.path)
+
+        self.arguments = Arguments()
+        self.arguments.setArguments([  # default arguments
+            # ('url', None),
+            ('name', 'Manga'),
+            ('destination', self.path),
+            ('info', False),
+            ('progress', False),
+            ('skip_volumes', 0),
+            ('user_agent', False),
+            ('no_name', False),
+            ('allow_webp', False),
+            ('reverse_downloading', False),
+            ('rewrite_exists_archives', False),
+            ('xt', 0),
+            ('xr', 0),
+            ('xb', 0),
+            ('xl', 0),
+            ('crop_blank', False),
+            ('crop_blank_factor', 100),
+            ('crop_blank_max_size', 30),
+            ('max_volumes', 1),
+        ])
 
     def _error_url(self, url):
         pass
@@ -17,6 +54,9 @@ class Test(unittest.TestCase):
         pass
 
     def _next_url_false(self, url):
+        pass
+
+    def _next_test(self, config):
         pass
 
     def test_balumanga_com(self):
@@ -52,3 +92,6 @@ class Test(unittest.TestCase):
                 'https://bato.to/comic/omics/mousou-telepathy-r19915'
             ],
         }
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,11 +1,13 @@
 language: python
 python:
-  - "3.4"
-  - "3.5"
-  - "3.6"
-# command to install dependencies
+- "3.4"
+- "3.5"
+- "3.6"
 install:
-  - pip install -r requirements.txt
-# command to run tests
+- pip install coverage
+- pip install codeclimate-test-reporter
+- pip install -r requirements.txt
 script:
-  - tests/pytest.py # or py.test for Python versions 3.5 and below
+- coverage run tests/pytest.py
+after_script:
+- codeclimate-test-reporter --file .coverage
