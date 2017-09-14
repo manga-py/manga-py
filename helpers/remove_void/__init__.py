@@ -13,7 +13,10 @@ def _test_pixel(max_s_s: int, factor: int, mode: int):
 
     width = _image.size[0]
     height = _image.size[1]
-    if height < max_s_s or width < max_s_s:
+    not_height = height < max_s_s
+    not_width = width < max_s_s
+
+    if not_height or not_width:
         return 0
 
     pix = _image.load()
@@ -114,30 +117,28 @@ def _open_image(path: str):
     return True
 
 
+def prepare_crop_sizes(sizes):
+    _sizes = [0, 0, 0, 0]  # (left, top, right, bottom)
+    allow = False
+    for n, i in enumerate(['left', 'top', 'right', 'bottom']):
+        if sizes.get(i) and sizes.get(i) > 0:
+            allow = True
+            _sizes[n] = int(sizes[i])
+
+    return _sizes, allow
+
+
 def crop(img_path, sizes=None):
     if isinstance(sizes, dict) and path.isfile(img_path):
         try:
-            _sizes = [0, 0, 0, 0]  # (left, top, right, bottom)
-            if sizes.get('left') and sizes.get('left') > 0:
-                _sizes[0] = int(sizes['left'])
-            if sizes.get('top') and sizes.get('top') > 0:
-                _sizes[1] = int(sizes['top'])
-            if sizes.get('right') and sizes.get('right') > 0:
-                _sizes[2] = int(sizes['right'])
-            if sizes.get('bottom') and sizes.get('bottom') > 0:
-                _sizes[3] = int(sizes['bottom'])
-
-            _allow = False
-            for i in _sizes:
-                if i > 0:
-                    _allow = True
-                    break
+            _sizes, _allow = prepare_crop_sizes(sizes)
             if _allow:
                 img = Image.open(img_path)
                 _sizes[2] = img.size[0] - _sizes[2]  # right
                 _sizes[3] = img.size[1] - _sizes[3]  # bottom
-                img = img.crop(_sizes)
-                img.save(img_path)
+                out_img = img.crop(_sizes)
+                img.close()
+                out_img.save(img_path)
         except (IOError, KeyError):
             return False
         return True
@@ -146,16 +147,17 @@ def crop(img_path, sizes=None):
 def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 30):
     if not _open_image(img_path):
         return False
-    _ = _image.load()
+
     ss = _get_crop_sizes(factor, maximum_side_size)
+
     if ss[2] == 0 or ss[3] == 0:
         return False
-    if ss[0] <= epsilon\
-            and ss[1] <= epsilon\
-            and _image.size[0] - ss[2] <= epsilon\
-            and _image.size[1] - ss[3] <= epsilon:
-        # original size
-        return False
+
+    conditions = (ss[0], ss[1], _image.size[0] - ss[2], _image.size[1] - ss[3],)
+    for i in conditions:
+        if i < epsilon:
+            return False
+
     try:
         image = _image.crop(ss)
         image.save(img_out_path)

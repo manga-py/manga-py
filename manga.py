@@ -32,9 +32,6 @@ else:
 rnd_temp_path = 'manga-donloader_{}'.format(random.random()*10)
 archivesDir = os.path.join(os.getcwd(), 'manga')
 
-info_mode = False
-show_progress = False
-add_name = True
 count_reties = 5
 
 referrer_url = ''
@@ -43,7 +40,7 @@ site_cookies = ()
 
 def _print(text, *args, **kwargs):
     __encode = 'utf-8'
-    if os.name == 'nt':  # patch for issue#2
+    if os.name == 'nt':  # patch for issue #2 #6
         __encode = 'cp866'
     print(text.encode().decode(__encode, 'ignore'), *args, **kwargs)
 
@@ -182,7 +179,7 @@ class MangaDownloader:
         self.name = name
         self.switcher()
         if add_name and len(name) < 1:
-            self.get_manga_name()
+            self.name = self.provider.get_manga_name(self.url, get=_get)
         self.make_manga_dir()
 
         global referrer_url
@@ -230,10 +227,6 @@ class MangaDownloader:
         except NotADirectoryError:
             _print('Destination not exist or not directory! Exit')
             exit(1)
-
-    def get_manga_name(self):
-        if self.status:
-            self.name = self.provider.get_manga_name(self.url, get=_get)
 
     def get_main_content(self):
         self.main_content = self.provider.get_main_content(self.url, get=_get, post=_post)
@@ -322,18 +315,57 @@ class MangaDownloader:
             self.__download_archive(a)
             n += 1
 
+    def _download_zip_only(self, volumes):
+        if len(volumes):
+            for v in volumes:
+                archive = self.provider.get_zip(volume=v, get=_get, post=_post)
+                self.__archive_helper(archive)
+        else:
+            archive = self.provider.get_zip(main_content=self.main_content, get=_get, post=_post)
+            self.__archive_helper(archive)
+        pass
+
+    def _download_images(self, images, archive_name, temp_path):
+
+        if info_mode:
+            _print('Start downloading %s' % (archive_name,))
+        images_len = len(images)
+
+        n = 1
+        c = 0
+        if show_progress:
+            _print('')
+
+        for i in images:
+
+            if show_progress:
+                _progress(images_len, n)
+
+            # hash name protected
+            name = os.path.basename(i)
+            if name.find('?') > 0:
+                name = name[0:name.find('?')]
+
+            basename = '{:0>3}_{}'.format(n, name)
+            if name.find('?') == 0 or len(name) < 4 or name.find('.') < 1:
+                basename = '{:0>3}.png'.format(n)
+            image_full_name = os.path.join(temp_path, basename)
+            if self.__download_image(i, image_full_name):
+                c += 1
+
+                self._crop_manual(image_full_name)
+
+                if arguments.crop_blank:
+                    self._crop_image(image_full_name)
+
+            n += 1
+        return c
 
     def download_images(self):
         volumes = self.get_volumes()
 
         if getattr(self.provider, 'download_zip_only', False):
-            if len(volumes):
-                for v in volumes:
-                    archive = self.provider.get_zip(volume=v, get=_get, post=_post)
-                    self.__archive_helper(archive)
-            else:
-                archive = self.provider.get_zip(main_content=self.main_content, get=_get, post=_post)
-                self.__archive_helper(archive)
+            self._download_zip_only(volumes)
             return
 
         if len(volumes) < 1:
@@ -357,35 +389,7 @@ class MangaDownloader:
                 continue
 
             images = self.get_images(v)
-
-            if info_mode:
-                _print('Start downloading %s' % (archive_name, ))
-            images_len = len(images)
-
-            n = 1
-            c = 0
-            if show_progress:
-                _print('')
-            for i in images:
-                if show_progress:
-                    _progress(images_len, n)
-                # hash name protected
-                name = os.path.basename(i)
-                if name.find('?') > 0:
-                    name = name[0:name.find('?')]
-                basename = '{:0>3}_{}'.format(n, name)
-                if name.find('?') == 0 or len(name) < 4 or name.find('.') < 1:
-                    basename = '{:0>3}.png'.format(n)
-                image_full_name = os.path.join(temp_path, basename)
-                if self.__download_image(i, image_full_name):
-                    c += 1
-
-                    self._crop_manual(image_full_name)
-
-                    if arguments.crop_blank:
-                        self._crop_image(image_full_name)
-
-                n += 1
+            c = self._download_images(images, archive_name, temp_path)
 
             if c > 0:
                 self.make_archive(archive_name)
@@ -413,15 +417,17 @@ def main(url: str, name: str = ''):
         _print('Status error. Exit')
         exit(1)
 
+
+arguments = _create_parser().parse_args()
+info_mode = arguments.info
+show_progress = arguments.progress
+add_name = not arguments.no_name
+name = arguments.name
+if len(arguments.user_agent):
+    user_agent = arguments.user_agent
+
 if __name__ == '__main__':
     try:
-        arguments = _create_parser().parse_args()
-        info_mode = arguments.info
-        show_progress = arguments.progress
-        add_name = not arguments.no_name
-        name = arguments.name
-        if len(arguments.user_agent):
-            user_agent = arguments.user_agent
         if arguments.url:
             url = arguments.url
         else:

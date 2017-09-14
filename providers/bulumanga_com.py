@@ -1,13 +1,32 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from lxml.html import document_fromstring
 import re
 import json
 
 domainUri = 'http://bulumanga.com'
 manga_id = 0
 _content = ''
+
+
+def _check_source(url, _id):
+    source = re.search('source=(\w+)', url)
+    resources = json.loads(_content)['sources']
+    if source:
+        source = source.groups()[0]
+        for n, i in enumerate(resources):
+            if i['source'] == source:
+                return [_id, resources[n]]
+
+    print('Please, select resource:')
+    for n, i in enumerate(resources):
+        print('{} - {}'.format(n+1, i['source']))
+
+    while True:
+        n = int(input())
+        if len(resources) >= n > 0:
+            return [_id, resources[n - 1]]
+        print('Error. Please, select resource')
 
 
 def get_main_content(url, get=None, post=None):
@@ -21,24 +40,8 @@ def get_main_content(url, get=None, post=None):
         _url = '{}/detail/{}'.format(domainUri, _id)
         content = get(_url)
         _content = content
-    else:
-        content = _content
 
-    source = re.search('source=(\w+)', url)
-    resources = json.loads(content)['sources']
-    if not source:
-        print('Please, select resource:')
-        for n, i in enumerate(resources):
-            print('{} - {}'.format(n+1, i['source']))
-        while True:
-            n = int(input())
-            if len(resources) >= n > 0:
-                return [_id, resources[n - 1]]
-            print('Error. Please, select resource')
-    else:
-        for n, i in enumerate(resources):
-            if i['source'] == source.groups()[0]:
-                return [_id, resources[n]]
+    return _check_source(url, _id)
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
