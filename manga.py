@@ -128,6 +128,7 @@ def __requests(url: str, headers: dict=None, cookies: dict=None, data=None, meth
 def _get(url: str, headers: dict=None, cookies: dict=None, offset: int = -1, maxlen: int = -1):
     response = __requests(url=url, headers=headers, cookies=cookies, method='get')
     ret = response.text
+    response.close()
     if offset > 0:
         ret = ret[offset:]
     if maxlen > 0:
@@ -137,7 +138,9 @@ def _get(url: str, headers: dict=None, cookies: dict=None, offset: int = -1, max
 
 def _post(url: str, headers: dict=None, cookies: dict=None, data: dict = (), files=None):
     response = __requests(url=url, headers=headers, cookies=cookies, method='post', data=data, files=files)
-    return response.text
+    text = response.text
+    response.close()
+    return text
 
 
 def _safe_downloader(url, file_name):
@@ -153,8 +156,9 @@ def _safe_downloader(url, file_name):
 
         response = __requests(url, method='get')
 
-        out_file = open(file_name, 'wb')
-        out_file.write(response.content)
+        with open(file_name, 'wb') as out_file:
+            out_file.write(response.content)
+        response.close()
         return True
     except OSError:
         return False
@@ -205,6 +209,7 @@ class MangaDownloader:
                     user_agent = i
                 else:
                     h.cookies.set(i['name'], i['value'], domain=i['domain'], path=i['path'])
+        session.close()
         site_cookies = h.cookies
 
     def switcher(self):
@@ -399,6 +404,10 @@ class MangaDownloader:
 
             shutil.rmtree(temp_path)
 
+    def process(self):
+        self.get_main_content()
+        self.download_images()
+
 
 def manual_input(prompt: str):
     url = str(input(prompt + '\n'))
@@ -413,11 +422,9 @@ def manual_input(prompt: str):
 def main(url: str, name: str = ''):
     manga = MangaDownloader(url, name)
     if manga.status:
-        pass
-        manga.get_main_content()
-        manga.download_images()
+        manga.process()
     else:
-        _print('Status error. Exit')
+        _print('\nStatus error. Exit\n')
         exit(1)
 
 

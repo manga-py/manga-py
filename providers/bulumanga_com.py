@@ -45,10 +45,16 @@ def get_main_content(url, get=None, post=None):
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
-    items = get('{}/detail/{}?source={}'.format(domainUri, content[0], content[1]['source']))
-    items = json.loads(items)['chapters']
-    items.reverse()
-    return items
+    uri = '{}/detail/{}?source={}'.format(domainUri, content[0], content[1]['source'])
+    response = get(uri)
+    try:
+        items = json.loads(response)['chapters']
+        items.reverse()
+        return items
+    except json.decoder.JSONDecodeError:
+        print(response)
+        print(uri)
+        return []
 
 
 def get_archive_name(volume, index: int = None):
