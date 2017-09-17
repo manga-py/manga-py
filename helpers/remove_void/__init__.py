@@ -145,6 +145,9 @@ def crop(img_path, sizes=None):
 
 
 def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 30):
+    if maximum_side_size < 1:
+        return False
+
     if not _open_image(img_path):
         return False
 
