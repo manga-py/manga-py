@@ -6,6 +6,9 @@ python:
 before_install:
 - sudo apt-get -y install nodejs
 install:
+- git submodule init
+- git submodule update --recursive --remote
+- sudo python3 helpers/cloudflare_scrape/setup.py install
 - pip3 install coverage
 - pip3 install codeclimate-test-reporter
 - pip3 install -r requirements.txt
