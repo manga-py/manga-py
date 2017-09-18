@@ -317,6 +317,8 @@ class MangaDownloader:
             archive.reverse()
         if arguments.skip_volumes > 0:
             archive = archive[arguments.skip_volumes:]
+        if arguments.max_volumes > 0:
+            archive = archive[:arguments.max_volumes]
         for a in archive:
             self.__download_archive(a)
             n += 1
