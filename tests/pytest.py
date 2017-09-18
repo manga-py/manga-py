@@ -11,6 +11,7 @@ __dirname__ = path.dirname(path.realpath(__file__))
 sys_path.append(path.realpath(path.join(__dirname__, '..')))
 import manga
 from helpers import remove_void as cropper
+from helpers import exceptions
 
 
 class Arguments:
@@ -75,8 +76,6 @@ class TestCase(unittest.TestCase):
         downloader.process()
 
         _files = [name for name in listdir(path.join(self.path, 'Manga'))]
-        print(url)
-        print(_files)
         count_files = len(_files)
         return count_files > 0
 
@@ -98,7 +97,7 @@ class TestCase(unittest.TestCase):
             try:
                 result = True
                 self.__test_url(url)
-            except SystemExit:  # TODO!!
+            except exceptions.VolumesNotFound:
                 result = False
             self.assertFalse(result)
 
@@ -235,52 +234,140 @@ class TestCase(unittest.TestCase):
         source_sizes = source_image.size
         tested_sizes = tested_image.size
 
-        print(source_sizes, tested_sizes)
-
         self.assertTrue(source_sizes[0] > tested_sizes[0])
         self.assertTrue(source_sizes[1] > tested_sizes[1])
 
-
-    # def test_balumanga_com(self):
-    #     urls = {
-    #         'success': [  # Site bad! There may be errors
-    #             'http://bulumanga.com/mangaView.html?id=1&cid=34701&page=1&source=mangareader',
-    #             'http://bulumanga.com/introduce.html?id=34701&source=mangareader',
-    #         ],
-    #         'error': [
-    #             'http://bulumanga.com/introduce.html?id=0'
-    #         ],
-    #     }
-    #     # self._urls_true(urls['success'])
-    #     # self._urls_false(urls['error'])
-
-    # def test_com_x_life(self):
-    #     urls = {
-    #         'success': [  # Site bad! There may be errors
-    #             'https://com-x.life/4156-teenage-mutant-ninja-turtles-universe.html',
-    #             'https://com-x.life/3882-grendel.html',
-    #         ],
-    #         'error': [
-    #             'https://com-x.life/0-none.html'
-    #             'https://com-x.life/0-false.html'
-    #         ],
-    #     }
-    #     self._urls_true(urls['success'])
-    #     self._urls_false(urls['error'])
-
     def test_bato_to(self):
         urls = {
-            'success': [  # Site bad! There may be errors
+            'success': [
                 'https://bato.to/comic/_/comics/karakai-jouzu-no-takagi-san-r13108',
-                'https://bato.to/comic/_/comics/mousou-telepathy-r19915',
             ],
             'error': [
-                'https://bato.to/comic/omics/mousou-telepathy-r0'
+                'https://bato.to/comic/omics/mousou-telepathy-r0',
             ],
         }
-
         self._urls_true(urls['success'])
         self._urls_false(urls['error'])
+
+    def test_balumanga_com(self):
+        urls = {
+            'success': [  # Site bad! There may be errors
+                'http://bulumanga.com/mangaView.html?id=1&cid=34701&page=1&source=mangareader',
+            ],
+            'error': [
+                'http://bulumanga.com/introduce.html?id=0&source=mangareader',
+            ],
+        }
+        self._urls_true(urls['success'])
+        self._urls_false(urls['error'])
+
+    def test_com_x_life(self):
+        urls = {
+            'success': [
+                'https://com-x.life/4156-teenage-mutant-ninja-turtles-universe.html',
+            ],
+            'error': [
+                'https://com-x.life/0-none.html',
+            ],
+        }
+        self._urls_true(urls['success'])
+        self._urls_false(urls['error'])
+
+    def test_desu_me(self):
+        urls = {
+            'success': [
+                'http://desu.me/manga/horimiya.369/',
+            ],
+            'error': [
+                'http://desu.me/manga/horimiya.0/',
+            ]
+        }
+        self._urls_true(urls['success'])
+        self._urls_false(urls['error'])
+
+    def test_funmanga_com(self):
+        urls = {
+            'success': [
+                'http://www.funmanga.com/Koi-to-Uso/',
+            ],
+            'error': [
+                'http://www.funmanga.com/False-name-manga',
+            ]
+        }
+        self._urls_true(urls['success'])
+        self._urls_false(urls['error'])
+
+    def test_gogomanga_co(self):
+        urls = {
+            'success': [
+                'https://gogomanga.co/manga/in-bura.html',
+            ],
+            'error': [
+                'http://www.funmanga.com/False-name-manga',
+            ]
+        }
+        self._urls_true(urls['success'])
+        self._urls_false(urls['error'])
+
+    def test_goodmanga_net(self):
+        urls = {
+            'success': [
+                'http://goodmanga.net/16315/hakwonmul',
+            ],
+            'error': [
+                'http://goodmanga.net/0',
+            ]
+        }
+        self._urls_true(urls['success'])
+        self._urls_false(urls['error'])
+
+    def test_heymanga_me(self):
+        urls = {
+            'success': [
+                'https://www.heymanga.me/manga/Minamotokun_Monogatari',
+            ],
+            'error': [
+                'https://www.heymanga.me/manga/False-name-manga'
+            ]
+        }
+        self._urls_true(urls['success'])
+        self._urls_false(urls['error'])
+
+    def test_inmanga_me(self):
+        urls = {
+            'success': [
+                'http://inmanga.com/ver/manga/Boku-no-Hero-Academia/dda0c17a-83da-4ef6-8c65-4763e8fbe436',
+            ],
+            'error': [
+                'https://www.heymanga.me/manga/False-name-manga',
+            ]
+        }
+        self._urls_true(urls['success'])
+        self._urls_false(urls['error'])
+
+
+    def test_jurnalu_ru(self):
+        urls = {
+            'success': [
+                'http://inmanga.com/ver/manga/Boku-no-Hero-Academia/dda0c17a-83da-4ef6-8c65-4763e8fbe436',
+            ],
+            'error': [
+                'https://www.heymanga.me/manga/False-name-manga',
+            ]
+        }
+        self._urls_true(urls['success'])
+        self._urls_false(urls['error'])
+
+    def test_kissmanga_com(self):
+        urls = {
+            'success': [
+                'http://kissmanga.com/Manga/Kami-sama-Drop',
+            ],
+            'error': [
+                ''
+            ]
+        }
+
 
 if __name__ == '__main__':
     unittest.main()

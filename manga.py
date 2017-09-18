@@ -9,10 +9,11 @@ import atexit
 import requests
 from requests.exceptions import TooManyRedirects
 import zipfile
-from sys import stderr
+from sys import exc_info, stderr
 from argparse import ArgumentParser
 from urllib.parse import urlparse
 from helpers import remove_void
+from helpers.exceptions import *
 
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
@@ -47,12 +48,10 @@ def _print(text, *args, **kwargs):
 
 if not os.path.isdir(archivesDir):
     if not os.access(os.getcwd(), os.W_OK):
-        _print('Current directory not writeable and manga directory not exist', file=stderr)
-        exit(1)
+        raise DirectoryNotWritable('Current directory not writeable and manga directory not exist')
     os.makedirs(archivesDir)
 elif not os.access(archivesDir, os.W_OK):
-    _print('Manga directory not writable', file=stderr)
-    exit(1)
+    raise DirectoryNotWritable('Manga directory not writable')
 
 
 @atexit.register
@@ -231,8 +230,7 @@ class MangaDownloader:
         try:
             os.makedirs(path)
         except NotADirectoryError:
-            _print('Destination not exist or not directory! Exit')
-            exit(1)
+            raise DirectoryNotExists('Destination not exist or not directory! Exit')
 
     def get_main_content(self):
         self.main_content = self.provider.get_main_content(self.url, get=_get, post=_post)
@@ -377,8 +375,7 @@ class MangaDownloader:
             return
 
         if len(volumes) < 1:
-            _print('Volumes not found. Exit')
-            exit(1)
+            raise VolumesNotFound('Volumes not found. Exit')
 
         volume_index = 1
         for v in volumes:
@@ -387,9 +384,7 @@ class MangaDownloader:
             volume_index += 1
 
             if not len(archive_name):
-                if info_mode:
-                    _print('Archive name is empty!')
-                exit(1)
+                raise VolumesNotFound('Archive name is empty!')
 
             if not arguments.rewrite_exists_archives and os.path.isfile(self.get_archive_destination(archive_name)):
                 if info_mode:
@@ -424,8 +419,7 @@ def main(url: str, name: str = ''):
     if manga.status:
         manga.process()
     else:
-        _print('\nStatus error. Exit\n')
-        exit(1)
+        raise StatusError('\nStatus error. Exit\n')
 
 
 if __name__ == '__main__':
@@ -444,7 +438,10 @@ if __name__ == '__main__':
             url = manual_input('Please, paste manga url.')
             if add_name and len(name) < 1:
                 name = manual_input('Please, paste manga name')
-        main(url, name)
+        try:
+            main(url, name)
+        except (StatusError, DirectoryNotWritable, DirectoryNotExists, VolumesNotFound):
+            _print(exc_info()[0], file=stderr)
     except KeyboardInterrupt:
         _print('\033[84DUser interrupt this. Exit\t\t')
         exit(0)
