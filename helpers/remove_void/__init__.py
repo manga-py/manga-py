@@ -144,13 +144,7 @@ def crop(img_path, sizes=None):
         return True
 
 
-def __process_helper(maximum_side_size, img_path, factor):
-    if maximum_side_size < 1:
-        return False
-
-    if not _open_image(img_path):
-        return False
-
+def __process_test_ss(factor, maximum_side_size):
     ss = _get_crop_sizes(factor, maximum_side_size)
 
     if ss[2] == 0 or ss[3] == 0:
@@ -161,10 +155,19 @@ def __process_helper(maximum_side_size, img_path, factor):
         if i < epsilon:
             return False
 
+    return ss
+
 
 def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 30):
 
-    ss = __process_helper(maximum_side_size, img_path, factor)
+    if maximum_side_size < 1:
+        return False
+
+    if not _open_image(img_path):
+        return False
+
+    ss = __process_test_ss(factor, maximum_side_size)
+
     if not ss:
         return False
 
@@ -173,6 +176,7 @@ def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 
         image.save(img_out_path)
     except (IOError, KeyError):
         return False
+
     return True
 
 
