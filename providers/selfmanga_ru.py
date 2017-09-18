@@ -39,7 +39,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.match('\.ru/([^/]+)/?', url)
+    result = re.search('\.ru/([^/]+)/?', url)
     if result is None:
         return ''
     result = result.groups()

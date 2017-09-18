@@ -44,7 +44,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def _get_manga_number(url):
-    result = re.match('\.ru/manga(?:-read)?/(\d+)/?', url)
+    result = re.search('\.ru/manga(?:-read)?/(\d+)/?', url)
     if result is None:
         return ''
     result = result.groups()
