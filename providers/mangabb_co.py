@@ -9,12 +9,24 @@ domainUri = 'http://www.mangabb.co'
 
 def get_main_content(url, get=None, post=None):
     name = get_manga_name(url)
-    return get('{}/manga/{}'.format(domainUri, name))
+    content = get('{}/manga/{}'.format(domainUri, name))
+    parser = document_fromstring(content)
+    result = parser.cssselect('#chapters a')
+
+    return result[0].get('href') if len(result) else False
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
-    result = document_fromstring(content).cssselect('#chapters a')
-    items = [i.get('href') for i in result]
+    if not content:
+        return []
+
+    downloaded_content = get(content)
+
+    selector = '#manga_nav_top select.chapter_select > option'
+    result = document_fromstring(downloaded_content).cssselect(selector)
+
+    items = [i.get('value') for i in result]
+
     return items
 
 
