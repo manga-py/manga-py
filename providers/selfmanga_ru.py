@@ -17,7 +17,7 @@ def get_main_content(url, get=None, post=None):
 def get_volumes(content: str, url=None, get=None, post=None):
     parser = document_fromstring(content)
     parser = parser.cssselect('#mangaBox > div.leftContent div.chapters-link tr > td > a')
-    if parser is None:
+    if not parser:
         return []
     return [i.get('href') for i in parser]
 

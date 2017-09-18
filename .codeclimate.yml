@@ -4,6 +4,8 @@ exclude_paths:
 - 'storage/'
 - 'providers/_template.py'
 - 'helpers/main/*.js'
+- 'helpers/inmanga_com.py'
+- 'helpers/unixmanga_nl.sh'
 - "LICENSE"
 - "*.yml"
 languages:

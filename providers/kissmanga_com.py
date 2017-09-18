@@ -35,7 +35,6 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     need = re.search('\["([^"]+)"\].+chko.?=.?chko', content)
     key = _key
     if need:
-        # print('Change key')
         _ = crypt.decode_escape(need.groups()[0])
         key = _key + _
 
@@ -45,10 +44,8 @@ def get_images(main_content=None, volume=None, get=None, post=None):
         return []
 
     images = []
-    # print('Images exists {}'.format(len(hexes)))
     for i in hexes:
         img = crypt.kissmanga(_iv, key, i)
-        # print(img)
         images.append(img)
     return images
 
@@ -59,17 +56,19 @@ def get_manga_name(url, get=None):
 
     if not cookies:
         # anti-"cloudflare anti-bot protection"
-        scraper = cfscrape.get_tokens(url)
-        if scraper is not None:
-            cookies = []
-            for i in scraper[0]:
-                cookies.append({
-                    'value': scraper[0][i],
-                    'domain': '.kissmanga.com',
-                    'path': '/',
-                    'name': i,
-                })
-            cookies.append(scraper[1])
+        with cfscrape.get_tokens(url) as scraper:
+            scraper = cfscrape.get_tokens(url)
+            if scraper is not None:
+                cookies = []
+                for i in scraper[0]:
+                    cookies.append({
+                        'value': scraper[0][i],
+                        'domain': '.kissmanga.com',
+                        'path': '/',
+                        'name': i,
+                    })
+                cookies.append(scraper[1])
+
     if not name:
         return ''
     return name.groups()[0]

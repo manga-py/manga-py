@@ -64,7 +64,6 @@ def get_manga_name(url, get=None):
     name = re.search('.com/([^/]+)', url)
     if not name:
         return ''
-    print(name.groups()[0])
     return name.groups()[0]
 
 

@@ -1,0 +1,20 @@
+language: python
+python:
+- "3.4"
+- "3.5"
+- "3.6"
+before_install:
+- sudo apt-get -y install nodejs
+install:
+- git submodule init
+- git submodule update --recursive --remote
+- sudo python3 helpers/cloudflare_scrape/setup.py install
+- pip3 install coverage
+- pip3 install codeclimate-test-reporter
+- pip3 install -r requirements.txt
+script:
+- coverage run tests/pytest.py
+after_script:
+- codeclimate-test-reporter --file .coverage
+env:
+- CODECLIMATE_REPO_TOKEN: 38a5edd667c0f4d8964133b358eb6427b02e7cb3b4cdd92fe4d55986d9fd82da

@@ -29,8 +29,8 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     images = []
     while True:
         n += 1
-        if n > 99:
-            print('More 99 pages error!')
+        if n > 199:
+            print('More 199 pages error!')
             break
         content = get('{}/engine/ajax/sof_fullstory.php?id={}&page={}'.format(domainUri, manga_id, n))
         parser = document_fromstring(content)
