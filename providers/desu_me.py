@@ -16,7 +16,7 @@ def get_main_content(url, get=None, post=None):
 
 def get_volumes(content: str, url=None, get=None, post=None):
     parser = document_fromstring(content).cssselect('#animeView ul h4 > a.tips')
-    if parser is None:
+    if not parser:
         return []
     return [i.get('href') for i in parser]
 
@@ -32,7 +32,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     content = get(_url)
     result = re.search('images:\s?(\[\[.+\]\])', content, re.M)
     root_url = re.search('dir:\s?"(.*)"', content, re.M)
-    if result is None:
+    if not result:
         return []
     root_url = root_url.groups()[0].replace('\\/', '/')
     result = [root_url + i[0] for i in json.loads(result.groups()[0])]
@@ -41,7 +41,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 def get_manga_name(url, get=None):
     result = re.search('\.me/manga/([^/]+)', url)
-    if result is None:
+    if not result:
         return ''
     result = result.groups()
     if not len(result):

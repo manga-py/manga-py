@@ -16,7 +16,7 @@ def get_main_content(url, get=None, post=None):
 
 def get_volumes(content=None, url=None, get=None, post=None):
     parser = document_fromstring(content).cssselect('#chapter_table a.chico')
-    if parser is None:
+    if not parser:
         return []
     return [i.get('href') for i in parser]
 
@@ -31,7 +31,7 @@ def get_archive_name(volume, index: int = None):
 def get_images(main_content=None, volume=None, get=None, post=None):
     content = get(volume)
     parser = re.search("imgsrcs.+[^.]+?var.+?=\s?'(.+)'", content, re.M)
-    if parser is None:
+    if not parser:
         return []
     imgs = parser.groups()[0]
     return imgs.split(',')

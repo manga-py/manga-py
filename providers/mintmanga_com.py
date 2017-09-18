@@ -17,7 +17,7 @@ def get_main_content(url, get=None, post=None):
 def get_volumes(content: str, url=None, get=None, post=None):
     parser = document_fromstring(content)
     result = parser.cssselect('#mangaBox > div.leftContent div.chapters-link tr > td > a')
-    if result is None:
+    if not result:
         return []
     return [i.get('href') for i in result]
 
@@ -35,14 +35,14 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     _url = (domainUri + volume) if volume.find(domainUri) < 0 else volume
     content = get(_url)
     result = re.search('rm_h\.init.+?(\[\[.+\]\])', content, re.M)
-    if result is None:
+    if not result:
         return []
     return [i[1] + i[0] + i[2] for i in json.loads(result.groups()[0].replace("'", '"'))]
 
 
 def get_manga_name(url, get=None):
     result = re.search('\.com/([^/]+)/?', url)
-    if result is None:
+    if not result:
         return ''
     return result.groups()[0]
 

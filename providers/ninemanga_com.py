@@ -15,7 +15,7 @@ def get_main_content(url, get=None, post=None):
 def get_volumes(content: str, url=None, get=None, post=None):
     parser = document_fromstring(content)
     result = parser.cssselect('.chapterbox li a.chapter_list_a')
-    if result is None:
+    if not result:
         return []
     items = []
     url = urlparse(url)
@@ -38,14 +38,14 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     content = get(volume, headers={'Referer': volume})
     parser = document_fromstring(content)
     result = parser.cssselect('em a.pic_download')
-    if result is None:
+    if not result:
         return []
     return [i.get('href') for i in result]
 
 
 def get_manga_name(url, get=None):
     result = re.search('\.com/manga/(.+)\.html', url)
-    if result is None:
+    if not result:
         return ''
     result = result.groups()
     if not len(result):
