@@ -22,7 +22,7 @@ def get_volumes(content=None, url=None, get=None, post=None):
 def get_archive_name(volume, index: int = None):
     # fucking names :[
     result = re.search('\+(\d+)\+\-\+(\d+)\+.+/(\d+)', volume)
-    if result is None:
+    if not result:
         return 'vol_{}'.format(index)
     _ = result.groups()
     return '{:0>2}_{:0>3}/{}'.format(_[0], _[1], _[2])
