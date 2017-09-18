@@ -9,13 +9,18 @@ domainUri = 'http://unixmanga.nl'
 
 def get_main_content(url, get=None, post=None):
     name = get_manga_name(url)
-    print(name, '\n', '{}/onlinereading/{}.html'.format(domainUri, name))
+    # print(name, '\n', '{}/onlinereading/{}.html'.format(domainUri, name))
     return get('{}/onlinereading/{}.html'.format(domainUri, name))
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
     parser = document_fromstring(content).cssselect('#mycontent table td a[href*="html"]')
-    return [i.get('href') for i in parser]
+    items = []
+    for i in parser:
+        url = i.get('href')  # http://unixmanga.nl/onlinereading/13_Club/13_Club_c005.html
+        if re.search('/onlinereading/[^/]+/[^/]+\.html', url):
+            items.append(url)
+    return items
 
 
 def get_archive_name(volume, index: int = None):

@@ -43,17 +43,17 @@ def get_manga_name(url, get=None):
 
     if not cookies:
         # anti-"cloudflare anti-bot protection"
-        scraper = cfscrape.get_tokens(url)
-        if scraper is not None:
-            cookies = []
-            for i in scraper[0]:
-                cookies.append({
-                    'value': scraper[0][i],
-                    'domain': '.mangago.me',
-                    'path': '/',
-                    'name': i,
-                })
-            cookies.append(scraper[1])
+        with cfscrape.get_tokens(url) as scraper:
+            if scraper is not None:
+                cookies = []
+                for i in scraper[0]:
+                    cookies.append({
+                        'value': scraper[0][i],
+                        'domain': '.mangago.me',
+                        'path': '/',
+                        'name': i,
+                    })
+                cookies.append(scraper[1])
 
     if not result:
         return ''

@@ -50,7 +50,6 @@ def get_manga_name(url, get=None):
         parser = document_fromstring(get(url)).cssselect('#dle-speedbar > a')
         url = '.life' + parser[0].get('href')
     href = re.search('\.life/\d+\-(.+)\.html', url)
-    print(href)
     if not href:
         return ''
     return href.groups()[0]

@@ -52,8 +52,6 @@ def get_volumes(content=None, url=None, get=None, post=None):
         items.reverse()
         return items
     except json.decoder.JSONDecodeError:
-        # print(response)
-        # print(uri)
         return []
 
 
