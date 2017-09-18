@@ -43,7 +43,7 @@ def _print(text, *args, **kwargs):
     __encode = 'utf-8'
     if os.name == 'nt':  # patch for issue #2 #6
         __encode = 'cp866'
-    print(text.encode().decode(__encode, 'ignore'), *args, **kwargs)
+    print(str(text).encode().decode(__encode, 'ignore'), *args, **kwargs)
 
 
 if not os.path.isdir(archivesDir):
@@ -443,7 +443,7 @@ if __name__ == '__main__':
         try:
             main(url, name)
         except (StatusError, DirectoryNotWritable, DirectoryNotExists, VolumesNotFound):
-            _print(exc_info()[0], file=stderr)
+            _print(exc_info()[1], file=stderr)
     except KeyboardInterrupt:
         _print('\033[84DUser interrupt this. Exit\t\t')
         exit(0)
