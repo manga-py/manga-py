@@ -9,25 +9,16 @@ domainUri = 'https://com-x.life'
 
 
 def get_main_content(url, get=None, post=None):
-    manga_id = re.search('\.life.+?(\d+)', url).groups()[0]
-    links_url = domainUri + '/engine/mods/comix/listPages.php'
-    _data = {
-        'newsid': manga_id,
-        'page': 1
-    }
-    links = []
-    while True:
-        content = post(links_url, data=_data, headers={'content-type': 'application/x-www-form-urlencoded'})
-        result = document_fromstring(content).cssselect('.comix-list li > a:not([style])')
-        if not len(result):
-            break
-        _data['page'] += 1
-        links += [i.get('href') for i in result]
-    return links
+    manga_id = re.search('\.life/readcomix/\d+', url)
+    if manga_id:
+        content = document_fromstring(get(url)).cssselect('#dle-speedbar > a')
+        return get(content[0].get('href'))
+    return get(url)
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
-    return content
+    items = document_fromstring(content).cssselect('#dle-content ul.comix-list li a:not([style])')
+    return [i.get('href') for i in items]
 
 
 def get_archive_name(volume, index: int = None):
