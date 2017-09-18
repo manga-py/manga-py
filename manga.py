@@ -142,17 +142,21 @@ def _post(url: str, headers: dict=None, cookies: dict=None, data: dict = (), fil
     return text
 
 
+def __safe_downloader_url_helper(url):
+    if url.find('//') == 0:
+        return 'http:' + url
+    if url.find('://') < 1:
+        _ = referrer_url
+        if url.find('/') == 0:
+            _ = urlparse(referrer_url)
+            _ = '{}://{}'.format(_.scheme, _.netloc)
+        return _ + url
+    return url
+
+
 def _safe_downloader(url, file_name):
     try:
-        if url.find('//') == 0:
-            url = 'http:' + url
-        elif url.find('://') < 1:
-            _ = referrer_url
-            if url.find('/') == 0:
-                _ = urlparse(referrer_url)
-                _ = '{}://{}'.format(_.scheme, _.netloc)
-            url = _ + url
-
+        url = __safe_downloader_url_helper(url)
         response = __requests(url, method='get')
 
         with open(file_name, 'wb') as out_file:
@@ -200,7 +204,8 @@ class MangaDownloader:
         session = requests.Session()
         h = session.head(url)
         global site_cookies
-        if self.status and hasattr(self.provider, 'cookies') and getattr(self.provider, 'cookies'):
+        cookies_exists = hasattr(self.provider, 'cookies') and getattr(self.provider, 'cookies')
+        if self.status and cookies_exists:
             cookies = getattr(self.provider, 'cookies')
             for i in cookies:
                 if isinstance(i, str):
@@ -333,6 +338,19 @@ class MangaDownloader:
             self.__archive_helper(archive)
         pass
 
+    @staticmethod
+    def _download_image_name_helper(temp_path, i, n):
+        name = os.path.basename(i)
+        if name.find('?') > 0:
+            name = name[0:name.find('?')]
+        basename = '{:0>3}_{}'.format(n, name)
+        name_question = name.find('?') == 0
+        name_len = len(name) < 4
+        name_dot = name.find('.') < 1
+        if name_question or name_len or name_dot:
+            basename = '{:0>3}.png'.format(n)
+        return os.path.join(temp_path, basename)
+
     def _download_images(self, images, archive_name, temp_path):
 
         if info_mode:
@@ -349,15 +367,8 @@ class MangaDownloader:
             if show_progress:
                 _progress(images_len, n)
 
-            # hash name protected
-            name = os.path.basename(i)
-            if name.find('?') > 0:
-                name = name[0:name.find('?')]
+            image_full_name = self._download_image_name_helper(temp_path, i, n)
 
-            basename = '{:0>3}_{}'.format(n, name)
-            if name.find('?') == 0 or len(name) < 4 or name.find('.') < 1:
-                basename = '{:0>3}.png'.format(n)
-            image_full_name = os.path.join(temp_path, basename)
             if self.__download_image(i, image_full_name):
                 c += 1
 
@@ -368,6 +379,27 @@ class MangaDownloader:
 
             n += 1
         return c
+
+    def _download_images_helper(self, v, volume_index):
+
+        temp_path = get_temp_path()
+        archive_name = self.provider.get_archive_name(v, index=volume_index)
+
+        if not len(archive_name):
+            raise VolumesNotFound('Archive name is empty!')
+
+        if not arguments.rewrite_exists_archives and os.path.isfile(self.get_archive_destination(archive_name)):
+            if info_mode:
+                _print('Archive %s exists. Skip' % (archive_name,))
+            return False
+
+        images = self.get_images(v)
+        c = self._download_images(images, archive_name, temp_path)
+
+        if c > 0:
+            self.make_archive(archive_name)
+
+        shutil.rmtree(temp_path)
 
     def download_images(self):
         volumes = self.get_volumes()
@@ -381,25 +413,8 @@ class MangaDownloader:
 
         volume_index = 1
         for v in volumes:
-            temp_path = get_temp_path()
-            archive_name = self.provider.get_archive_name(v, index=volume_index)
+            self._download_images_helper(v, volume_index)
             volume_index += 1
-
-            if not len(archive_name):
-                raise VolumesNotFound('Archive name is empty!')
-
-            if not arguments.rewrite_exists_archives and os.path.isfile(self.get_archive_destination(archive_name)):
-                if info_mode:
-                    _print('Archive %s exists. Skip' % (archive_name, ))
-                continue
-
-            images = self.get_images(v)
-            c = self._download_images(images, archive_name, temp_path)
-
-            if c > 0:
-                self.make_archive(archive_name)
-
-            shutil.rmtree(temp_path)
 
     def process(self):
         self.get_main_content()

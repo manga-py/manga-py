@@ -144,7 +144,7 @@ def crop(img_path, sizes=None):
         return True
 
 
-def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 30):
+def __process_helper(maximum_side_size, img_path, factor):
     if maximum_side_size < 1:
         return False
 
@@ -160,6 +160,13 @@ def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 
     for i in conditions:
         if i < epsilon:
             return False
+
+
+def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 30):
+
+    ss = __process_helper(maximum_side_size, img_path, factor)
+    if not ss:
+        return False
 
     try:
         image = _image.crop(ss)
