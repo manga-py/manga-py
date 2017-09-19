@@ -21,12 +21,17 @@ see https://yuru-yuri.github.io/Manga-Downloader/#resources-list
 ```bash
 git clone --progress --prune --recurse-submodules=no origin  https://github.com/yuru-yuri/Manga-Downloader.git
 cd Manga-Downloader
-git submodule init
-git submodule update --recursive --remote
 # install requirements
 pip3 install -r requirements.txt
-cd helpers/cloudflare_scrape
-python setup.py install
+```
+
+####Or alternative installation:
+1) Downloading repo: https://github.com/yuru-yuri/Manga-Downloader/archive/master.zip
+2) Extract archive
+3) Install requirements
+```bash
+cd Manga-Downloader
+pip3 install -r requirements.txt
 ```
 
 _If you use Windows, see 'https://github.com/sfbahr/PyCrypto-Wheels'_
