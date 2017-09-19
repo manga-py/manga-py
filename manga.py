@@ -327,16 +327,19 @@ class MangaDownloader:
         for a in archive:
             self.__download_archive(a)
             n += 1
+        return n
 
     def _download_zip_only(self, volumes):
+        n = 0
         if len(volumes):
             for v in volumes:
                 archive = self.provider.get_zip(volume=v, get=_get, post=_post)
-                self.__archive_helper(archive)
+                n += self.__archive_helper(archive)
         else:
             archive = self.provider.get_zip(main_content=self.main_content, get=_get, post=_post)
-            self.__archive_helper(archive)
-        pass
+            n += self.__archive_helper(archive)
+        if n < 1:
+            raise VolumesNotFound('Volumes not found. Exit')
 
     @staticmethod
     def _download_image_name_helper(temp_path, i, n):
