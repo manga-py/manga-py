@@ -41,7 +41,8 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
     n = 99
     while n > 0:
-        if n == 1: print('Error!!!', '{}/{}'.format(base_url, i))
+        if n == 1:
+            print('Error!!!', '{}/{}'.format(base_url, i))
         n -= 1
         parser = document_fromstring(get('{}/{}'.format(base_url, i)))
 

@@ -9,15 +9,21 @@
 
 ### Установка
 
+
 ```bash
 git clone --progress --prune --recurse-submodules=no origin  https://github.com/yuru-yuri/Manga-Downloader.git
 cd Manga-Downloader
-git submodule init
-git submodule update --recursive --remote
 # install requirements
 pip3 install -r requirements.txt
-cd helpers/cloudflare_scrape
-python setup.py install
+```
+
+####Альтернативная установка:
+1) Загрузить исходные файлы: https://github.com/yuru-yuri/Manga-Downloader/archive/master.zip
+2) Распаковать архив
+3) Установить зависимости:
+```bash
+cd Manga-Downloader
+pip3 install -r requirements.txt
 ```
 
 #### Если используется Windows, обязательно к установке: http://landinghub.visualstudio.com/visual-cpp-build-tools

@@ -32,19 +32,21 @@ def get_manga_name(url, get=None):
     # http://www3.mangafreak.net/Manga/Onepunch_Man
     # http://www3.mangafreak.net/Read1_Onepunch_Man_1
 
-    # anti-"cloudflare anti-bot protection"
-    scraper = cfscrape.get_tokens(url)
     global cookies
-    if scraper is not None:
-        cookies = []
-        for i in scraper[0]:
-            cookies.append({
-                'value': scraper[0][i],
-                'domain': '.mangafreak.net',
-                'path': '/',
-                'name': i,
-            })
-        cookies.append(scraper[1])
+
+    if not cookies:
+        # anti-"cloudflare anti-bot protection"
+        with cfscrape.get_tokens(url) as scraper:
+            if scraper is not None:
+                cookies = []
+                for i in scraper[0]:
+                    cookies.append({
+                        'value': scraper[0][i],
+                        'domain': '.mangafreak.net',
+                        'path': '/',
+                        'name': i,
+                    })
+                cookies.append(scraper[1])
 
     test = re.search(uriRegex, url)
     if test:

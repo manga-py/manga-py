@@ -27,7 +27,7 @@ def fix_volume_url(volume):
 
 def get_volumes(content=None, url=None, get=None, post=None):
     parser = document_fromstring(content).cssselect('#midside .list .element .title a')
-    if parser is None:
+    if not parser:
         return []
     return [fix_volume_url(i.get('href')) for i in parser]
 

@@ -47,7 +47,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
         if img:
             images.append(img)
         else:
-            print(page, '\n  ----- \n')
+            pass
     return images
 
 

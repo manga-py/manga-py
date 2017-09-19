@@ -9,7 +9,6 @@ domainUri = 'http://www.mangahere.co'
 
 def get_main_content(url, get=None, post=None):
     name = get_manga_name(url)
-    print('{}/{}'.format(domainUri, name))
     return get('{}/manga/{}'.format(domainUri, name))
 
 

@@ -1,3 +1,0 @@
-[submodule "helpers/cloudflare_scrape"]
-	path = helpers/cloudflare_scrape
-	url = https://github.com/Anorov/cloudflare-scrape

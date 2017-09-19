@@ -21,6 +21,8 @@ def get_volumes(content=None, url=None, get=None, post=None):
     def get_pages(_parser):
         _pages = _parser.cssselect('#chapters li > a')
         return [i.get('href') for i in _pages]
+    if not content:
+        return []
     parser = document_fromstring(content)
     pages = get_pages(parser)
     pagination = parser.cssselect('.pagination li > button[href]')  # WTF ?!?!?

@@ -23,7 +23,7 @@ def get_volumes(content=None, url=None, get=None, post=None):
 
 def get_archive_name(volume, index: int = None):
     parser = re.search('/[^/]+/read/([^/]+)/([^/]+)/([^/]+)/', volume)
-    if parser is None:
+    if not parser:
         return 'vol_{}'.format(index)
     groups = parser.groups()
     return '{}_{}/{:0>2}'.format(groups[0], groups[1], groups[2])
@@ -33,7 +33,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     content = get(volume)
     parser = document_fromstring(content)
     parser = parser.cssselect('.b-main-container .b-reader__full')
-    if parser is None:
+    if not parser:
         return []
     result = parser[0].get('data-js-scans')
     result = json.loads(html.unescape(result.replace('\/', '/')))
@@ -43,7 +43,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 def get_manga_name(url, get=None):
     parser = re.search('\.ru/([^/]+)/?', url)
-    if parser is None:
+    if not parser:
         return ''
     return parser.groups()[0]
 
