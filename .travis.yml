@@ -4,10 +4,9 @@ python:
 - "3.5"
 - "3.6"
 before_install:
+- sudo apt-get install python3-setuptools
 - sudo apt-get -y install nodejs
 install:
-- git submodule init
-- git submodule update --recursive --remote
 - sudo python3 helpers/cloudflare_scrape/setup.py install
 - pip3 install coverage
 - pip3 install codeclimate-test-reporter
