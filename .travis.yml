@@ -7,7 +7,7 @@ before_install:
 - sudo apt-get install python3-setuptools
 - sudo apt-get -y install nodejs
 install:
-- sudo python3 helpers/cloudflare_scrape/setup.py install
+- python3 helpers/cloudflare_scrape/setup.py install
 - pip3 install coverage
 - pip3 install codeclimate-test-reporter
 - pip3 install -r requirements.txt
