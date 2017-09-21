@@ -6,9 +6,10 @@ import re
 providers_list = {
     'bulumanga_com': 'bulumanga\.com/.+',
     # 'bwahahacomics_ru': 'bwahahacomics\.ru/.+',
-    'com_x_life': 'com\-x\.life/.+\.html',
     'bato_to': 'bato\.to/(comic|reader)/?.+',
+    'com_x_life': 'com\-x\.life/.+\.html',
     # 'comic_walker_com': 'comic\-walker\.com/contents/detail/.+',
+    'comico_jp': 'comico\.jp/(detail|articleList).+titleNo.+',
     'desu_me': 'desu\.me/manga/.+',
     'eatmanga_me': 'eatmanga\.me/.+',
     'funmanga_com': 'funmanga\.com/.+',
@@ -54,6 +55,7 @@ providers_list = {
     # 'onemanga_com': 'onemanga\.com/manga.+',
     'read_yagami_me': 'read\.yagami\.me/.+',
     'readmanga_me': 'readmanga\.me/.+',
+    'readmanga_eu': 'readmanga\.eu/manga/\d+/.+',
     'selfmanga_ru': 'selfmanga\.ru/.+',
     'shakai_ru': 'shakai\.ru/manga.*?/\d+',
     'somanga_net': 'somanga\.net/.+',
@@ -63,6 +65,8 @@ providers_list = {
     'yaoichan_me': 'yaoichan\.me/(manga|online).+',
     'zingbox_me': 'zingbox\.me/.+',
     'zip_read_com': 'zip\-read\.com/.+',
+
+    'otakusmash_com': '(otakusmash\.com|mrsmanga\.com|mentalmanga\.com)'
 }
 
 

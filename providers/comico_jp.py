@@ -1,82 +1,47 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# from lxml.html import document_fromstring
-# import re
-# import json
+from lxml.html import document_fromstring
+import re
+import json
+
+domainUri = 'http://www.comico.jp'
 
 
 def get_main_content(url, get=None, post=None):
-    """
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: mixed (1)
-    """
-    pass
+    title_no = re.search('\.jp/.+titleNo=(\d+)', url)
+    if title_no:
+        content = post('{}/api/getArticleList.nhn'.format(domainUri), data={
+            'titleNo': title_no.groups()[0]
+        })
+        try:
+            return json.loads(content)['result']['list']
+        except TypeError:
+            pass
+    return []
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
-    """
-    :param content: mixed (1)
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: array (2)
-    """
-    pass
+    # see i['freeFlg'] Y = true, W = false #19
+    items = [i['articleDetailUrl'] for i in content]
+    items.reverse()
+    return items
 
 
 def get_archive_name(volume, index: int = None):
-    """
-    :param volume: mixed (2)
-    :param index: int
-    :return: str
-    """
-    pass
+    return 'vol_{:0>3}'.format(index)
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: dict(str)
-    """
-    pass
+    items = document_fromstring(get(volume)).cssselect('.comic-image._comicImage > img.comic-image__image')
+    return [i.get('src') for i in items]
 
 
 def get_manga_name(url, get=None):
-    """
-    :param url: str
-    :param get: request.get
-    :return: str
-    """
-    pass
+    name = document_fromstring(get(url)).cssselect('title')[0].text_content()
+    name = name[:name.rfind('|')].strip(' \n\t\r')
 
-
-# NOT REQUIRED /*
-
-# if True, use zip_list(). get_images() alternative
-download_zip_only = None
-
-
-def get_zip(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: str|str[]
-    """
-    pass
-
-# if not None - additional cookies
-# cookies = [{'value': 'cookie value','domain': 'asd.domain','path': '/cookie/path/','name': 'cookie_name',}, 'Browser']
-cookies = None
-
-# */ NOT REQUIRED
+    return name
 
 
 if __name__ == '__main__':

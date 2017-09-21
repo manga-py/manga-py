@@ -46,12 +46,10 @@ def _print(text, *args, **kwargs):
     print(str(text).encode().decode(__encode, 'ignore'), *args, **kwargs)
 
 
-if not os.path.isdir(archivesDir):
-    if not os.access(os.getcwd(), os.W_OK):
-        raise DirectoryNotWritable('Current directory not writeable and manga directory not exist')
-    os.makedirs(archivesDir)
-elif not os.access(archivesDir, os.W_OK):
-    raise DirectoryNotWritable('Manga directory not writable')
+def prepare_file_name(name):
+    for i in '*|\\:"><?/':
+        name = name.replace(i, '')
+    return name
 
 
 @atexit.register
@@ -387,6 +385,7 @@ class MangaDownloader:
 
         temp_path = get_temp_path()
         archive_name = self.provider.get_archive_name(v, index=volume_index)
+        archive_name = prepare_file_name(archive_name)
 
         if not len(archive_name):
             raise VolumesNotFound('Archive name is empty!')
@@ -437,6 +436,14 @@ def manual_input(prompt: str):
 def main(url: str, name: str = ''):
     manga = MangaDownloader(url, name)
     if manga.status:
+
+        if not os.path.isdir(archivesDir):
+            if not os.access(os.getcwd(), os.W_OK):
+                raise DirectoryNotWritable('Current directory not writeable and manga directory not exist')
+            os.makedirs(prepare_file_name(archivesDir))
+        elif not os.access(archivesDir, os.W_OK):
+            raise DirectoryNotWritable('Manga directory not writable')
+
         manga.process()
     else:
         raise StatusError('\nStatus error. Exit\n')

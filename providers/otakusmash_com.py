@@ -1,79 +1,81 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# from lxml.html import document_fromstring
-# import re
-# import json
+from lxml.html import document_fromstring
+import re
+
+magicRegexp = '(https?://[^/]+)/(?:read\-manga/)?([^/]+)'
+domainUri = ''
+
 
 def get_main_content(url, get=None, post=None):
-    """
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: mixed (1)
-    """
-    pass
+    return get(url)
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
-    """
-    :param content: mixed (1)
-    :param url: str
-    :return: array (2)
-    """
-    pass
+    parser = document_fromstring(content)
+    select = parser.cssselect('.mid .pager select[name="chapter"]')[0]
+    items = select.cssselect('option')
+    volume_root_uri = re.search('({})'.format(magicRegexp), url).groups()[0]
+    return ['{}/{}/'.format(volume_root_uri, i.get('value')) for i in items]
 
 
 def get_archive_name(volume, index: int = None):
-    """
-    :param volume: mixed (2)
-    :param index: int
-    :return: str
-    """
-    pass
+    name = re.search(magicRegexp + '/([^/]+)', volume)
+    if not name:
+        return 'vol_{:0>3}'.format(index)
+    return name.groups()[2]
+
+
+def __images_helper(page, volume):
+
+    image = page.cssselect('a > img.picture')
+
+    if not len(image):
+        return False
+
+    image = image[0].get('src')
+    if image[0] == '/':
+        return domainUri + image
+
+    base_uri = page.cssselect('base')
+    if len(base_uri):
+        base_uri = base_uri[0].get('href')
+    else:
+        base_uri = volume
+
+    return base_uri + image
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: dict(str)
-    """
-    pass
+    content = get(volume)
+    parser = document_fromstring(content)
+    select = parser.cssselect('.mid .pager select[name="page"]')[0]
+
+    images = []
+    _img = __images_helper(parser, volume)
+
+    items = select.cssselect('option + option')
+
+    if _img:
+        images.append(_img)
+    for i in items:
+        page = document_fromstring(get('{}{}/'.format(volume, i.get('value'))))
+
+        _img = __images_helper(page, volume)
+        if _img:
+            images.append(_img)
+
+    return images
 
 
 def get_manga_name(url, get=None):
-    """
-    :param url: str
-    :param get: request.get
-    :return: str
-    """
-    pass
-
-
-# NOT REQUIRED /*
-
-# if True, use zip_list(). get_images() alternative
-download_zip_only = None
-
-
-def get_zip(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: str|str[]
-    """
-    pass
-
-# if not None - additional cookies
-# cookies = [{'value': 'cookie value','domain': 'asd.domain','path': '/cookie/path/','name': 'cookie_name',}, 'Browser']
-cookies = None
-
-# */ NOT REQUIRED
+    parser = re.search(magicRegexp, url)
+    if not parser:
+        raise AttributeError()
+    global domainUri
+    domainUri = parser.groups()[0]
+    return parser.groups()[1]
 
 
 if __name__ == '__main__':
