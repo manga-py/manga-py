@@ -55,6 +55,7 @@ providers_list = {
     # 'onemanga_com': 'onemanga\.com/manga.+',
     'read_yagami_me': 'read\.yagami\.me/.+',
     'readmanga_me': 'readmanga\.me/.+',
+    'readmanga_eu': 'readmanga\.eu/manga/\d+/.+',
     'selfmanga_ru': 'selfmanga\.ru/.+',
     'shakai_ru': 'shakai\.ru/manga.*?/\d+',
     'somanga_net': 'somanga\.net/.+',
