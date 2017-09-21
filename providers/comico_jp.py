@@ -29,7 +29,7 @@ def get_volumes(content=None, url=None, get=None, post=None):
 
 
 def get_archive_name(volume, index: int = None):
-    return '{:0>3}'.format(index)
+    return 'vol_{:0>3}'.format(index)
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):

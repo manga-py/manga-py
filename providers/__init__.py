@@ -65,6 +65,8 @@ providers_list = {
     'yaoichan_me': 'yaoichan\.me/(manga|online).+',
     'zingbox_me': 'zingbox\.me/.+',
     'zip_read_com': 'zip\-read\.com/.+',
+
+    'otakusmash_com': '(otakusmash\.com|mrsmanga\.com|mentalmanga\.com)'
 }
 
 
