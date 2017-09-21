@@ -17,7 +17,7 @@ cd Manga-Downloader
 pip3 install -r requirements.txt
 ```
 
-####Альтернативная установка:
+#### Альтернативная установка:
 1) Загрузить исходные файлы: https://github.com/yuru-yuri/Manga-Downloader/archive/master.zip
 2) Распаковать архив
 3) Установить зависимости:
@@ -26,7 +26,7 @@ cd Manga-Downloader
 pip3 install -r requirements.txt
 ```
 
-#### Если используется Windows, обязательно к установке: http://landinghub.visualstudio.com/visual-cpp-build-tools
+####  Если используется Windows, обязательно к установке: http://landinghub.visualstudio.com/visual-cpp-build-tools
 _Если в процессе установки пакета pycrypto возникает ошибка на Windows, смотреть 'https://github.com/sfbahr/PyCrypto-Wheels'_
 
 ### Загрузка манги

@@ -63,9 +63,9 @@ class TestCase(unittest.TestCase):
         setattr(manga, 'arguments', self.arguments)
 
     def _before_test(self):
-        if path.isdir(self.path):
-            shutil.rmtree(self.path)
-        mkdir(self.path)
+        if not path.isdir(self.path):
+            # shutil.rmtree(self.path)
+            mkdir(self.path)
 
     def __test_url(self, url):
         self.arguments.setArgument('url', url)
@@ -79,12 +79,12 @@ class TestCase(unittest.TestCase):
         count_files = len(_files)
         return count_files > 0
 
-    def test_error_url(self):
-        url = 'http://example.org/manga'
-        self.arguments.setArgument('url', url)
-        self._prepare_arguments()
-        downloader = manga.MangaDownloader(url, self.arguments.name)
-        self.assertFalse(downloader.status)
+    # def test_error_url(self):
+    #     url = 'http://example.org/manga'
+    #     self.arguments.setArgument('url', url)
+    #     self._prepare_arguments()
+    #     downloader = manga.MangaDownloader(url, self.arguments.name)
+    #     self.assertFalse(downloader.status)
 
     def _urls_true(self, urls):
         self._before_test()
@@ -111,116 +111,116 @@ class TestCase(unittest.TestCase):
 
         return source_file, tested_file
 
-    def test_cropper_left(self):
-        source_file, tested_file = self._prepare_cropper()
-
-        cropper.crop(tested_file, {'left': 10})
-        source_image = Image.open(source_file)
-        tested_image = Image.open(tested_file)
-        source_sizes = source_image.size
-        tested_sizes = tested_image.size
-        self.assertTrue((source_sizes[0] - tested_sizes[0]) == 10)
-
-    def test_cropper_right(self):
-        source_file, tested_file = self._prepare_cropper()
-
-        shutil.copyfile(source_file, tested_file)
-        cropper.crop(tested_file, {'right': 10})
-        source_image = Image.open(source_file)
-        tested_image = Image.open(tested_file)
-        source_sizes = source_image.size
-        tested_sizes = tested_image.size
-        self.assertTrue((source_sizes[0] - tested_sizes[0]) == 10)
-
-    def test_cropper_top(self):
-        source_file, tested_file = self._prepare_cropper()
-
-        cropper.crop(tested_file, {'top': 10})
-        source_image = Image.open(source_file)
-        tested_image = Image.open(tested_file)
-        source_sizes = source_image.size
-        tested_sizes = tested_image.size
-        self.assertTrue((source_sizes[1] - tested_sizes[1]) == 10)
-
-    def test_cropper_bottom(self):
-        source_file, tested_file = self._prepare_cropper()
-
-        shutil.copyfile(source_file, tested_file)
-        cropper.crop(tested_file, {'bottom': 10})
-        source_image = Image.open(source_file)
-        tested_image = Image.open(tested_file)
-        source_sizes = source_image.size
-        tested_sizes = tested_image.size
-        self.assertTrue((source_sizes[1] - tested_sizes[1]) == 10)
-
-    def test_cropper_autocrop_default(self):
-        self._before_test()
-        source_file = path.join(self.root_path, 'img1.jpg')
-        tested_file = path.join(self.path, 'img1.jpg')
-
-        cropper.process(source_file, tested_file)
-
-        source_image = Image.open(source_file)
-        tested_image = Image.open(tested_file)
-        source_sizes = source_image.size
-        tested_sizes = tested_image.size
-
-        self.assertTrue(source_sizes[0] > tested_sizes[0])
-        self.assertTrue(source_sizes[1] > tested_sizes[1])
-
-    def test_cropper_autocrop_1(self):
-        self._before_test()
-        source_file = path.join(self.root_path, 'img1.jpg')
-        tested_file = path.join(self.path, 'img1.jpg')
-
-        cropper.process(source_file, tested_file, 1, 1)
-
-        source_image = Image.open(source_file)
-        tested_image = Image.open(tested_file)
-        source_sizes = source_image.size
-        tested_sizes = tested_image.size
-
-        self.assertTrue(source_sizes[0] == tested_sizes[0])
-        self.assertTrue(source_sizes[1] - 1 == tested_sizes[1])
-
-    def test_cropper_autocrop_0(self):
-        self._before_test()
-        source_file = path.join(self.root_path, 'img1.jpg')
-        tested_file = path.join(self.path, 'img1.jpg')
-
-        cropper.process(source_file, tested_file, 1, 0)
-
-        self.assertFalse(path.isfile(tested_file))
-
-    def test_cropper_no_blanks(self):
-        self._before_test()
-        source_file = path.join(self.root_path, 'img2.png')
-        tested_file = path.join(self.path, 'img2.png')
-
-        cropper.process(source_file, tested_file)
-
-        source_image = Image.open(source_file)
-        tested_image = Image.open(tested_file)
-        source_sizes = source_image.size
-        tested_sizes = tested_image.size
-
-        self.assertTrue(source_sizes[0] == tested_sizes[0])
-        self.assertTrue(source_sizes[1] == tested_sizes[1])
-
-    def test_cropper_no_blanks1(self):
-        self._before_test()
-        source_file = path.join(self.root_path, 'img3.jpg')
-        tested_file = path.join(self.path, 'img3.jpg')
-
-        cropper.process(source_file, tested_file, 250)  # don't allow crop gray
-
-        source_image = Image.open(source_file)
-        tested_image = Image.open(tested_file)
-        source_sizes = source_image.size
-        tested_sizes = tested_image.size
-
-        self.assertTrue(source_sizes[0] == tested_sizes[0])
-        self.assertTrue(source_sizes[1] == tested_sizes[1])
+    # def test_cropper_left(self):
+    #     source_file, tested_file = self._prepare_cropper()
+    #
+    #     cropper.crop(tested_file, {'left': 10})
+    #     source_image = Image.open(source_file)
+    #     tested_image = Image.open(tested_file)
+    #     source_sizes = source_image.size
+    #     tested_sizes = tested_image.size
+    #     self.assertTrue((source_sizes[0] - tested_sizes[0]) == 10)
+    #
+    # def test_cropper_right(self):
+    #     source_file, tested_file = self._prepare_cropper()
+    #
+    #     shutil.copyfile(source_file, tested_file)
+    #     cropper.crop(tested_file, {'right': 10})
+    #     source_image = Image.open(source_file)
+    #     tested_image = Image.open(tested_file)
+    #     source_sizes = source_image.size
+    #     tested_sizes = tested_image.size
+    #     self.assertTrue((source_sizes[0] - tested_sizes[0]) == 10)
+    #
+    # def test_cropper_top(self):
+    #     source_file, tested_file = self._prepare_cropper()
+    #
+    #     cropper.crop(tested_file, {'top': 10})
+    #     source_image = Image.open(source_file)
+    #     tested_image = Image.open(tested_file)
+    #     source_sizes = source_image.size
+    #     tested_sizes = tested_image.size
+    #     self.assertTrue((source_sizes[1] - tested_sizes[1]) == 10)
+    #
+    # def test_cropper_bottom(self):
+    #     source_file, tested_file = self._prepare_cropper()
+    #
+    #     shutil.copyfile(source_file, tested_file)
+    #     cropper.crop(tested_file, {'bottom': 10})
+    #     source_image = Image.open(source_file)
+    #     tested_image = Image.open(tested_file)
+    #     source_sizes = source_image.size
+    #     tested_sizes = tested_image.size
+    #     self.assertTrue((source_sizes[1] - tested_sizes[1]) == 10)
+    #
+    # def test_cropper_autocrop_default(self):
+    #     self._before_test()
+    #     source_file = path.join(self.root_path, 'img1.jpg')
+    #     tested_file = path.join(self.path, 'img1.jpg')
+    #
+    #     cropper.process(source_file, tested_file)
+    #
+    #     source_image = Image.open(source_file)
+    #     tested_image = Image.open(tested_file)
+    #     source_sizes = source_image.size
+    #     tested_sizes = tested_image.size
+    #
+    #     self.assertTrue(source_sizes[0] > tested_sizes[0])
+    #     self.assertTrue(source_sizes[1] > tested_sizes[1])
+    #
+    # def test_cropper_autocrop_1(self):
+    #     self._before_test()
+    #     source_file = path.join(self.root_path, 'img1.jpg')
+    #     tested_file = path.join(self.path, 'img1.jpg')
+    #
+    #     cropper.process(source_file, tested_file, 1, 1)
+    #
+    #     source_image = Image.open(source_file)
+    #     tested_image = Image.open(tested_file)
+    #     source_sizes = source_image.size
+    #     tested_sizes = tested_image.size
+    #
+    #     self.assertTrue(source_sizes[0] == tested_sizes[0])
+    #     self.assertTrue(source_sizes[1] - 1 == tested_sizes[1])
+    #
+    # def test_cropper_autocrop_0(self):
+    #     self._before_test()
+    #     source_file = path.join(self.root_path, 'img1.jpg')
+    #     tested_file = path.join(self.path, 'img1.jpg')
+    #
+    #     cropper.process(source_file, tested_file, 1, 0)
+    #
+    #     self.assertFalse(path.isfile(tested_file))
+    #
+    # def test_cropper_no_blanks(self):
+    #     self._before_test()
+    #     source_file = path.join(self.root_path, 'img2.png')
+    #     tested_file = path.join(self.path, 'img2.png')
+    #
+    #     cropper.process(source_file, tested_file)
+    #
+    #     source_image = Image.open(source_file)
+    #     tested_image = Image.open(tested_file)
+    #     source_sizes = source_image.size
+    #     tested_sizes = tested_image.size
+    #
+    #     self.assertTrue(source_sizes[0] == tested_sizes[0])
+    #     self.assertTrue(source_sizes[1] == tested_sizes[1])
+    #
+    # def test_cropper_no_blanks1(self):
+    #     self._before_test()
+    #     source_file = path.join(self.root_path, 'img3.jpg')
+    #     tested_file = path.join(self.path, 'img3.jpg')
+    #
+    #     cropper.process(source_file, tested_file, 250)  # don't allow crop gray
+    #
+    #     source_image = Image.open(source_file)
+    #     tested_image = Image.open(tested_file)
+    #     source_sizes = source_image.size
+    #     tested_sizes = tested_image.size
+    #
+    #     self.assertTrue(source_sizes[0] == tested_sizes[0])
+    #     self.assertTrue(source_sizes[1] == tested_sizes[1])
 
     def test_cropper_no_blanks2(self):
         self._before_test()
@@ -234,28 +234,47 @@ class TestCase(unittest.TestCase):
         source_sizes = source_image.size
         tested_sizes = tested_image.size
 
+        print(source_sizes, tested_sizes)
+
         self.assertTrue(source_sizes[0] > tested_sizes[0])
         self.assertTrue(source_sizes[1] > tested_sizes[1])
 
-    def test_bato_to_true(self):
-        self._urls_true([
-                'https://bato.to/comic/_/comics/karakai-jouzu-no-takagi-san-r13108',
-            ])
+    def test_cropper_no_blanks3(self):
+        self._before_test()
+        source_file = path.join(self.root_path, 'img4.jpg')
+        tested_file = path.join(self.path, 'img4.jpg')
 
-    def test_bato_to_false(self):
-        self._urls_false([
-                'https://bato.to/comic/omics/mousou-telepathy-r0',
-            ])
+        cropper.process(source_file, tested_file, 2)  # allow crop gray
 
-    def test_manga_online_biz_true(self):
-        self._urls_true([
-                'https://manga-online.biz/blood_bank.html'
-            ])
+        source_image = Image.open(source_file)
+        tested_image = Image.open(tested_file)
+        source_sizes = source_image.size
+        tested_sizes = tested_image.size
 
-    def test_manga_online_biz_false(self):
-        self._urls_false([
-                'https://manga-online.biz/False-name-manga.html'
-            ])
+        print(source_sizes, tested_sizes)
+
+        self.assertTrue(source_sizes[0] > tested_sizes[0])
+        self.assertTrue(source_sizes[1] > tested_sizes[1])
+
+    # def test_bato_to_true(self):
+    #     self._urls_true([
+    #             'https://bato.to/comic/_/comics/karakai-jouzu-no-takagi-san-r13108',
+    #         ])
+    #
+    # def test_bato_to_false(self):
+    #     self._urls_false([
+    #             'https://bato.to/comic/omics/mousou-telepathy-r0',
+    #         ])
+    #
+    # def test_manga_online_biz_true(self):
+    #     self._urls_true([
+    #             'https://manga-online.biz/blood_bank.html'
+    #         ])
+    #
+    # def test_manga_online_biz_false(self):
+    #     self._urls_false([
+    #             'https://manga-online.biz/False-name-manga.html'
+    #         ])
 
     # def test_bato_to(self):
     #     urls = {
