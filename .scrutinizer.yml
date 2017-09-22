@@ -8,6 +8,8 @@ build:
     nodes:
         analysis:
             tests:
+                before:
+                    - 'pip3 install coverage'
                 override:
                     -
                         command: 'coverage run tests/pytest.py'
@@ -16,6 +18,11 @@ build:
 #                            config_file: '.coveragerc'
                             format: 'py-cc'
             environment:
+                python:
+                    version:
+                        - '3.4.6'
+                        - '3.5.0'
+                        - '3.6.0'
                 node:
                     version: 6.0.0
 
