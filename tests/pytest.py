@@ -73,7 +73,7 @@ class TestCase(unittest.TestCase):
         downloader = manga.MangaDownloader(url, self.arguments.name)
         self.assertTrue(downloader.status)
 
-        downloader.process()
+        downloader.main()
 
         _files = [name for name in listdir(path.join(self.path, 'Manga'))]
         count_files = len(_files)

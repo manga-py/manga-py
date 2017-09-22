@@ -39,35 +39,7 @@ referrer_url = ''
 site_cookies = ()
 
 
-def _print(text, *args, **kwargs):
-    __encode = 'utf-8'
-    if os.name == 'nt':  # patch for issue #2 #6
-        __encode = 'cp866'
-    print(str(text).encode().decode(__encode, 'ignore'), *args, **kwargs)
-
-
-def prepare_file_name(name):
-    for i in '*|\\:"><?/':
-        name = name.replace(i, '')
-    return name
-
-
-@atexit.register
-def before_shutdown():
-    shutil.rmtree(get_temp_path())
-
-
-def _progress(items_count: int, current_item: int):
-    if tty_columns:
-        columns = float(tty_columns)
-        one_percent = float(columns)/float(items_count)
-        current_position = int(float(current_item) * one_percent)
-        text = ('▓' * current_position)
-        text += (' ' * (int(columns) - current_position))
-        _print('\033[1A\033[9D%s' % (text, ), end='\n        \033[9D')
-
-
-def _create_parser():
+def _arguments_parser():
     """
     Arguments parser helper
     """
@@ -100,69 +72,10 @@ def _create_parser():
     return parse
 
 
-# fast fixed #5
-def __requests_helper(method, url, headers=None, cookies=None, data=None, files=None, max_redirects=10):
-    r = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data, files=files, allow_redirects=False)
-    if r.is_redirect:
-        if max_redirects < 1:
-            raise TooManyRedirects('Too many redirects', response=r)
-        return __requests_helper(method, r.headers['location'], headers, cookies, data, files, max_redirects-1)
-    return r
 
-
-def __requests(url: str, headers: dict=None, cookies: dict=None, data=None, method='get', files=None):
-    if not headers:
-        headers = {}
-    if not cookies:
-        cookies = site_cookies
-    headers.setdefault('User-Agent', user_agent)
-    headers.setdefault('Referer', referrer_url)
-    if arguments.allow_webp:
-        headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
-    return __requests_helper(method=method, url=url, headers=headers, cookies=cookies, data=data, files=files)
-
-
-def _get(url: str, headers: dict=None, cookies: dict=None, offset: int = -1, maxlen: int = -1):
-    response = __requests(url=url, headers=headers, cookies=cookies, method='get')
-    ret = response.text
-    response.close()
-    if offset > 0:
-        ret = ret[offset:]
-    if maxlen > 0:
-        ret = ret[:maxlen]
-    return ret
-
-
-def _post(url: str, headers: dict=None, cookies: dict=None, data: dict = (), files=None):
-    response = __requests(url=url, headers=headers, cookies=cookies, method='post', data=data, files=files)
-    text = response.text
-    response.close()
-    return text
-
-
-def __safe_downloader_url_helper(url):
-    if url.find('//') == 0:
-        return 'http:' + url
-    if url.find('://') < 1:
-        _ = referrer_url
-        if url.find('/') == 0:
-            _ = urlparse(referrer_url)
-            _ = '{}://{}'.format(_.scheme, _.netloc)
-        return _ + url
-    return url
-
-
-def _safe_downloader(url, file_name):
-    try:
-        url = __safe_downloader_url_helper(url)
-        response = __requests(url, method='get')
-
-        with open(file_name, 'wb') as out_file:
-            out_file.write(response.content)
-        response.close()
-        return True
-    except OSError:
-        return False
+@atexit.register
+def before_shutdown():
+    shutil.rmtree(get_temp_path())
 
 
 def get_temp_path(path: str = ''):
@@ -172,7 +85,7 @@ def get_temp_path(path: str = ''):
     return os.path.join(rnd_dir, path)
 
 
-class MangaDownloader:
+class VariablesHelper:
 
     url = ''
     name = ''
@@ -180,23 +93,68 @@ class MangaDownloader:
     status = False
     provider = None
 
-    def __init__(self, url: str, name: str = ''):
-        self.url = url
-        self.name = name
-        self.switcher()
-        if add_name and len(name) < 1:
-            self.name = self.provider.get_manga_name(self.url, get=_get)
-        self.make_manga_dir()
 
-        global referrer_url
-        ref = urlparse(url)
-        referrer_url = '{}://{}'.format(ref.scheme, ref.netloc)
-        self._get_cookies(referrer_url)
+class RequestsHelper(VariablesHelper):
 
-    def _get_destination_directory(self):
-        if not add_name:
-            return arguments.destination
-        return os.path.join(arguments.destination, self.name)
+    @staticmethod
+    def __safe_downloader_url_helper(url):
+        if url.find('//') == 0:
+            return 'http:' + url
+        if url.find('://') < 1:
+            _ = referrer_url
+            if url.find('/') == 0:
+                _ = urlparse(referrer_url)
+                _ = '{}://{}'.format(_.scheme, _.netloc)
+            return _ + url
+        return url
+
+    # fast fixed #5
+    def __requests_helper(self, method, url, headers=None, cookies=None, data=None, files=None, max_redirects=10):
+        r = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data, files=files, allow_redirects=False)
+        if r.is_redirect:
+            if max_redirects < 1:
+                raise TooManyRedirects('Too many redirects', response=r)
+            return self.__requests_helper(method, r.headers['location'], headers, cookies, data, files, max_redirects-1)
+        return r
+
+    def __requests(self, url: str, headers: dict=None, cookies: dict=None, data=None, method='get', files=None):
+        if not headers:
+            headers = {}
+        if not cookies:
+            cookies = site_cookies
+        headers.setdefault('User-Agent', user_agent)
+        headers.setdefault('Referer', referrer_url)
+        if arguments.allow_webp:
+            headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
+        return self.__requests_helper(method=method, url=url, headers=headers, cookies=cookies, data=data, files=files)
+
+    def _get(self, url: str, headers: dict=None, cookies: dict=None, offset: int = -1, maxlen: int = -1):
+        response = self.__requests(url=url, headers=headers, cookies=cookies, method='get')
+        ret = response.text
+        response.close()
+        if offset > 0:
+            ret = ret[offset:]
+        if maxlen > 0:
+            ret = ret[:maxlen]
+        return ret
+
+    def _post(self, url: str, headers: dict=None, cookies: dict=None, data: dict = (), files=None):
+        response = self.__requests(url=url, headers=headers, cookies=cookies, method='post', data=data, files=files)
+        text = response.text
+        response.close()
+        return text
+
+    def _safe_downloader(self, url, file_name):
+        try:
+            url = self.__safe_downloader_url_helper(url)
+            response = self.__requests(url, method='get')
+
+            with open(file_name, 'wb') as out_file:
+                out_file.write(response.content)
+            response.close()
+            return True
+        except OSError:
+            return False
 
     def _get_cookies(self, url: str):
         session = requests.Session()
@@ -214,56 +172,11 @@ class MangaDownloader:
         session.close()
         site_cookies = h.cookies
 
-    def switcher(self):
-        self.status = True
 
-        import providers
-        __p = providers.get_provider(self.url)
+class ImageHelper:
 
-        if not __p:
-            self.status = False
-            return False
-
-        self.provider = __p
-
-    def make_manga_dir(self):
-        path = self._get_destination_directory().rstrip('/')
-        if os.path.isdir(path):
-            return
-        try:
-            os.makedirs(path)
-        except NotADirectoryError:
-            raise DirectoryNotExists('Destination not exist or not directory! Exit')
-
-    def get_main_content(self):
-        self.main_content = self.provider.get_main_content(self.url, get=_get, post=_post)
-
-    def get_volumes(self):
-        volumes = self.provider.get_volumes(self.main_content, url=self.url, get=_get, post=_post)
-        if not arguments.reverse_downloading:
-            volumes.reverse()
-        if arguments.skip_volumes > 0:
-            volumes = volumes[arguments.skip_volumes:]
-        if arguments.max_volumes > 0:
-            volumes = volumes[:arguments.max_volumes]
-        return volumes
-
-    def get_archive_destination(self, archive_name: str):
-        if archive_name.find('?') > 0:
-            archive_name = archive_name[0:archive_name.find('?')]
-        d = os.path.join(self._get_destination_directory(), archive_name + '.zip')
-        directory = os.path.dirname(d)
-        if not os.path.isdir(directory):
-            os.makedirs(directory)
-        return d
-
-    def get_images(self, volume):
-        images = self.provider.get_images(main_content=self.main_content, volume=volume, get=_get, post=_post)
-        if info_mode and len(images) < 1:
-            _print('Images not found')
-        return images
-
-    def _crop_image(self, path):
+    @staticmethod
+    def _crop_image(path):
         name_without_ext = path[0:path.rfind('.')]
         ext = path[path.rfind('.'):]
         _path = os.path.join(os.path.dirname(path), '{}_{}'.format(name_without_ext, ext))
@@ -274,7 +187,8 @@ class MangaDownloader:
         else:
             os.unlink(_path)
 
-    def _crop_manual(self, patch):
+    @staticmethod
+    def _crop_manual(patch):
         cropper = remove_void.Cropper(patch)
         cropper.crop({
             'left': arguments.xl,
@@ -283,41 +197,83 @@ class MangaDownloader:
             'right': arguments.xr,
         })
 
-    def make_archive(self, archive_name: str):
-        d = self.get_archive_destination(archive_name)
-        archive = zipfile.ZipFile(d, 'w', zipfile.ZIP_DEFLATED)
 
-        temp_directory = get_temp_path()
-        for f in os.listdir(temp_directory):
-            file = os.path.join(temp_directory, f)
-            if os.path.isfile(file):
-                archive.write(file, f)
-        archive.writestr('info.txt', 'Site: {}\nDownloader: {}'.format(self.url, _downloader_uri))
-        archive.close()
+class MangaDownloader(RequestsHelper, ImageHelper):
 
     @staticmethod
-    def __download_image(url, path):
+    def _progress(items_count: int, current_item: int):
+        if arguments.progress and tty_columns:
+            columns = float(tty_columns)
+            one_percent = float(columns) / float(items_count)
+            current_position = int(float(current_item) * one_percent)
+            text = ('▓' * current_position)
+            text += (' ' * (int(columns) - current_position))
+            MangaDownloader.print('\033[1A\033[9D%s' % (text,), end='\n        \033[9D')
+
+    @staticmethod
+    def print(text, *args, **kwargs):
+        __encode = 'utf-8'
+        if os.name == 'nt':  # patch for issue #2 #6
+            __encode = 'cp866'
+        print(str(text).encode().decode(__encode, 'ignore'), *args, **kwargs)
+
+    @staticmethod
+    def print_info(text, *args, **kwargs):
+        if arguments.info:
+            MangaDownloader.print(text, *args, **kwargs)
+
+    @staticmethod
+    def prepare_file_name(name):
+        for i in '*|\\:"><?/':
+            name = name.replace(i, '')
+        return name
+
+    @staticmethod
+    def _download_image_name_helper(temp_path, i, n):
+        name = os.path.basename(i)
+        if name.find('?') > 0:
+            name = name[0:name.find('?')]
+        basename = '{:0>3}_{}'.format(n, name)
+        name_question = name.find('?') == 0
+        name_len = len(name) < 4
+        name_dot = name.find('.') < 1
+        if name_question or name_len or name_dot:
+            basename = '{:0>3}.png'.format(n)
+        return os.path.join(temp_path, basename)
+
+    def __init__(self, url: str, name: str = ''):
+        self.url = url
+        self.name = name
+        self.__switcher()
+        if add_name and len(name) < 1:
+            self.name = self.provider.get_manga_name(self.url, get=self._get)
+        self._make_manga_dir()
+
+        global referrer_url
+        ref = urlparse(url)
+        referrer_url = '{}://{}'.format(ref.scheme, ref.netloc)
+        self._get_cookies(referrer_url)
+
+    def _download_image(self, url, path):
         r = 0
         while r < count_retries:
-            if _safe_downloader(url, path):
+            if self._safe_downloader(url, path):
                 return True
-            if info_mode:
-                mode = 'Skip image'
-                if r < count_retries:
-                    mode = 'Retry'
-                _print('Error downloading. %s' % (mode,))
+            mode = 'Skip image'
+            if r < count_retries:
+                mode = 'Retry'
+            MangaDownloader.print_info('Error downloading. %s' % (mode,))
         return False
 
     def __download_archive(self, url):
         archive_name = os.path.basename(url)
         if archive_name.find('.zip') > 0:
             archive_name = archive_name[:archive_name.find('.zip')]  # remove .zip
-        dst = self.get_archive_destination(archive_name)
-        if info_mode:
-            _print('Downloading archive: %s' % (archive_name,))
-        self.__download_image(url, dst)
+        dst = self._get_archive_destination(archive_name)
+        MangaDownloader.print_info('Downloading archive: %s' % (archive_name,))
+        self._download_image(url, dst)
 
-    def __archive_helper(self, archive):
+    def _archive_helper(self, archive):
         n = 0
         if arguments.reverse_downloading:
             archive.reverse()
@@ -334,46 +290,31 @@ class MangaDownloader:
         n = 0
         if len(volumes):
             for v in volumes:
-                archive = self.provider.get_zip(volume=v, get=_get, post=_post)
-                n += self.__archive_helper(archive)
+                archive = self.provider.get_zip(volume=v, get=self._get, post=self._post)
+                n += self._archive_helper(archive)
         else:
-            archive = self.provider.get_zip(main_content=self.main_content, get=_get, post=_post)
-            n += self.__archive_helper(archive)
+            archive = self.provider.get_zip(main_content=self.main_content, get=self._get, post=self._post)
+            n += self._archive_helper(archive)
         if n < 1:
             raise VolumesNotFound('Volumes not found. Exit')
 
-    @staticmethod
-    def _download_image_name_helper(temp_path, i, n):
-        name = os.path.basename(i)
-        if name.find('?') > 0:
-            name = name[0:name.find('?')]
-        basename = '{:0>3}_{}'.format(n, name)
-        name_question = name.find('?') == 0
-        name_len = len(name) < 4
-        name_dot = name.find('.') < 1
-        if name_question or name_len or name_dot:
-            basename = '{:0>3}.png'.format(n)
-        return os.path.join(temp_path, basename)
-
     def _download_images(self, images, archive_name, temp_path):
 
-        if info_mode:
-            _print('Start downloading %s' % (archive_name,))
+        MangaDownloader.print_info('Start downloading %s' % (archive_name,))
         images_len = len(images)
 
         n = 1
         c = 0
-        if show_progress:
-            _print('')
+        if arguments.progress:
+            MangaDownloader.print('')
 
         for i in images:
 
-            if show_progress:
-                _progress(images_len, n)
+            self._progress(images_len, n)
 
             image_full_name = self._download_image_name_helper(temp_path, i, n)
 
-            if self.__download_image(i, image_full_name):
+            if self._download_image(i, image_full_name):
                 c += 1
 
                 self._crop_manual(image_full_name)
@@ -384,30 +325,97 @@ class MangaDownloader:
             n += 1
         return c
 
+    def _make_archive(self, archive_name: str):
+        d = self._get_archive_destination(archive_name)
+        archive = zipfile.ZipFile(d, 'w', zipfile.ZIP_DEFLATED)
+
+        MangaDownloader.print_info('Make archive')
+
+        temp_directory = get_temp_path()
+        for f in os.listdir(temp_directory):
+            file = os.path.join(temp_directory, f)
+            if os.path.isfile(file):
+                archive.write(file, f)
+        archive.writestr('info.txt', 'Site: {}\nDownloader: {}'.format(self.url, _downloader_uri))
+        archive.close()
+
     def _download_images_helper(self, v, volume_index):
 
         temp_path = get_temp_path()
         archive_name = self.provider.get_archive_name(v, index=volume_index)
-        archive_name = prepare_file_name(archive_name)
+        archive_name = self.prepare_file_name(archive_name)
 
         if not len(archive_name):
             raise VolumesNotFound('Archive name is empty!')
 
-        if not arguments.rewrite_exists_archives and os.path.isfile(self.get_archive_destination(archive_name)):
-            if info_mode:
-                _print('Archive %s exists. Skip' % (archive_name,))
+        if not arguments.rewrite_exists_archives and os.path.isfile(self._get_archive_destination(archive_name)):
+            MangaDownloader.print_info('Archive %s exists. Skip' % (archive_name,))
             return False
 
-        images = self.get_images(v)
+        images = self._get_images(v)
         c = self._download_images(images, archive_name, temp_path)
 
         if c > 0:
-            self.make_archive(archive_name)
+            self._make_archive(archive_name)
 
         shutil.rmtree(temp_path)
 
+    def __switcher(self):
+        self.status = True
+
+        import providers
+        __p = providers.get_provider(self.url)
+
+        if not __p:
+            self.status = False
+            return False
+
+        self.provider = __p
+
+    def _get_destination_directory(self):
+        if not add_name:
+            return arguments.destination
+        return os.path.join(arguments.destination, self.name)
+
+    def _make_manga_dir(self):
+        path = self._get_destination_directory().rstrip('/')
+        if os.path.isdir(path):
+            return
+        try:
+            os.makedirs(path)
+        except NotADirectoryError:
+            raise DirectoryNotExists('Destination not exist or not directory! Exit')
+
+    def get_main_content(self):
+        self.main_content = self.provider.get_main_content(self.url, get=self._get, post=self._post)
+
+    def _get_volumes(self):
+        volumes = self.provider.get_volumes(self.main_content, url=self.url, get=self._get, post=self._post)
+        if not arguments.reverse_downloading:
+            volumes.reverse()
+        if arguments.skip_volumes > 0:
+            volumes = volumes[arguments.skip_volumes:]
+        if arguments.max_volumes > 0:
+            volumes = volumes[:arguments.max_volumes]
+        return volumes
+
+    def _get_archive_destination(self, archive_name: str):
+        if archive_name.find('?') > 0:
+            archive_name = archive_name[0:archive_name.find('?')]
+        d = os.path.join(self._get_destination_directory(), archive_name + '.zip')
+        directory = os.path.dirname(d)
+        if not os.path.isdir(directory):
+            os.makedirs(directory)
+        return d
+
+    def _get_images(self, volume):
+        images = self.provider.get_images(main_content=self.main_content, volume=volume, get=self._get, post=self._post)
+        if not len(images):
+            MangaDownloader.print_info('Images not found')
+        return images
+
     def download_images(self):
-        volumes = self.get_volumes()
+        volumes = self._get_volumes()
 
         if getattr(self.provider, 'download_zip_only', False):
             self._download_zip_only(volumes)
@@ -421,7 +429,7 @@ class MangaDownloader:
             self._download_images_helper(v, volume_index)
             volume_index += 1
 
-    def process(self):
+    def main(self):
         self.get_main_content()
         self.download_images()
 
@@ -429,8 +437,7 @@ class MangaDownloader:
 def manual_input(prompt: str):
     url = str(input(prompt + '\n'))
     if url == 'q':
-        if info_mode:
-            _print('Quit command. Exit')
+        MangaDownloader.print_info('Quit command. Exit')
         exit(0)
 
     return url
@@ -439,24 +446,14 @@ def manual_input(prompt: str):
 def main(url: str, name: str = ''):
     manga = MangaDownloader(url, name)
     if manga.status:
-
-        if not os.path.isdir(archivesDir):
-            if not os.access(os.getcwd(), os.W_OK):
-                raise DirectoryNotWritable('Current directory not writeable and manga directory not exist')
-            os.makedirs(prepare_file_name(archivesDir))
-        elif not os.access(archivesDir, os.W_OK):
-            raise DirectoryNotWritable('Manga directory not writable')
-
-        manga.process()
+        manga.main()
     else:
         raise StatusError('\nStatus error. Exit\n')
 
 
 if __name__ == '__main__':
     try:
-        arguments = _create_parser().parse_args()
-        info_mode = arguments.info
-        show_progress = arguments.progress
+        arguments = _arguments_parser().parse_args()
         add_name = not arguments.no_name
         name = arguments.name
         if len(arguments.user_agent):
@@ -471,7 +468,7 @@ if __name__ == '__main__':
         try:
             main(url, name)
         except (StatusError, DirectoryNotWritable, DirectoryNotExists, VolumesNotFound):
-            _print(exc_info()[1], file=stderr)
+            MangaDownloader.print(exc_info()[1], file=stderr)
     except KeyboardInterrupt:
-        _print('\033[84DUser interrupt this. Exit\t\t')
+        MangaDownloader.print('\033[84DUser interrupt this. Exit\t\t')
         exit(0)
