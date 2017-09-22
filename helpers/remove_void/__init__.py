@@ -5,24 +5,11 @@ from os import path
 from PIL import Image
 
 
-class Cropper:
+class Pixel:
 
     original_image_path = None
     image = None
     epsilon = 2
-
-    def __init__(self, file_path: str = None):
-        if file_path:
-            self.set_sourced_file(file_path)
-
-    def set_sourced_file(self, file_path):
-        if not path.isfile(file_path):
-            raise AttributeError('Error image path')
-        self.original_image_path = file_path
-        self.image = self._open_image(file_path)
-
-    def set_epsilon(self, epsilon: int):
-        self.epsilon = epsilon
 
     @staticmethod
     def __calculate_color(pix, factor, mode, offset_x, offset_y):
@@ -50,12 +37,47 @@ class Cropper:
 
         return iterator, width, height
 
-    def __calc_helper(self, factor, mode, max_s_s, height, width):
+    @staticmethod
+    def _pixel_helper(mode, max_s_s, width, height):
+
+        if mode < 2:
+            return max_s_s
+        if mode == 2:
+            return width - max_s_s
+        return height - max_s_s
+
+    @staticmethod
+    def _prepare_crop_sizes(sizes):
+        _sizes = [0, 0, 0, 0]  # (left, top, right, bottom)
+        allow = False
+        for n, i in enumerate(['left', 'top', 'right', 'bottom']):
+            if sizes.get(i) and sizes.get(i) > 0:
+                allow = True
+                _sizes[n] = int(sizes[i])
+
+        return _sizes, allow
+
+    @staticmethod
+    def _get_sides(mode, width, height):
+        if mode % 2:
+            return width, height
+        return height, width
+
+    @staticmethod
+    def _normalize_crop_sizes(left, top, right, bottom, sizes):
+
+        left = left - 1 if left > 0 else 0
+        top = top - 1 if top > 0 else 0
+        right = right + 1 if right < sizes[0] else right
+        bottom = bottom + 1 if sizes[1] < bottom > 0 else bottom
+
+        return left, top, right, bottom
+
+    def _calc_helper(self, factor, mode, max_s_s, width, height):
 
         pix = self.image.load()
 
-        side1 = height if mode % 2 == 0 else width
-        side2 = height if mode % 2 == 1 else width
+        side1, side2 = self._get_sides(mode, width, height)
 
         for out_iterator in range(1, max_s_s - 2):
             for in_iterator in range(1, side1 - 2):
@@ -70,35 +92,21 @@ class Cropper:
                     return iterator
         return 0
 
-    @staticmethod
-    def __pixel(mode, max_s_s, width, height):
 
-        if mode < 2:
-            return max_s_s
-        if mode == 2:
-            return width - max_s_s
-        return height - max_s_s
+class Cropper(Pixel):
 
-    # I'm writing this crap because i can not think of anything better at this moment
-    def _pixel(self, max_s_s: int, factor: int, mode: int):
+    def __init__(self, file_path: str = None):
+        if file_path:
+            self.set_sourced_file(file_path)
 
-        width = self.image.size[0]
-        height = self.image.size[1]
-        not_height = height < max_s_s
-        not_width = width < max_s_s
+    def set_sourced_file(self, file_path):
+        if not path.isfile(file_path):
+            raise AttributeError('Error image path')
+        self.original_image_path = file_path
+        self.image = self._open_image(file_path)
 
-        if not_height or not_width:
-            return 0
-
-        if 0 <= mode < 4:
-            result = self.__calc_helper(factor, mode, max_s_s, height, width)
-            if result > 0:
-                return result
-
-        else:
-            raise ValueError('Error mode value')
-
-        return self.__pixel(mode, max_s_s, width, height)
+    def set_epsilon(self, epsilon: int):
+        self.epsilon = epsilon
 
     def _get_crop_sizes(self, factor: int, max_s_s: int):
         left = self._pixel(max_s_s, factor, 0)
@@ -106,11 +114,7 @@ class Cropper:
         right = self._pixel(max_s_s, factor, 2)
         bottom = self._pixel(max_s_s, factor, 3)
         # add 1px white line
-        left = left - 1 if left > 0 else 0
-        top = top - 1 if top > 0 else 0
-        right = right + 1 if right < self.image.size[0] else right
-        bottom = bottom + 1 if self.image.size[1] < bottom > 0 else bottom
-        return left, top, right, bottom
+        return self._normalize_crop_sizes(left, top, right, bottom, self.image.size)
 
     def _open_image(self, file_path: str):
         try:
@@ -120,17 +124,6 @@ class Cropper:
             return self.image
         except OSError:
             return None
-
-    @staticmethod
-    def _prepare_crop_sizes(sizes):
-        _sizes = [0, 0, 0, 0]  # (left, top, right, bottom)
-        allow = False
-        for n, i in enumerate(['left', 'top', 'right', 'bottom']):
-            if sizes.get(i) and sizes.get(i) > 0:
-                allow = True
-                _sizes[n] = int(sizes[i])
-
-        return _sizes, allow
 
     def __check_epsilon(self, side_sizes):
         width = self.image.size[0]
@@ -142,6 +135,23 @@ class Cropper:
         if side1 and side2:
             return False
         return True
+
+    # I'm writing this crap because i can not think of anything better at this moment
+    def _pixel(self, max_s_s: int, factor: int, mode: int):
+
+        width = self.image.size[0]
+        height = self.image.size[1]
+        not_height = height < max_s_s
+        not_width = width < max_s_s
+
+        if not_height or not_width or abs(mode) > 3:
+            return 0
+
+        result = self._calc_helper(factor, mode, max_s_s, width, height)
+        if result > 0:
+            return result
+
+        return self._pixel_helper(mode, max_s_s, width, height)
 
     def crop(self, sizes=None):
         if not isinstance(sizes, dict):
@@ -156,9 +166,10 @@ class Cropper:
                 out_img = img.crop(_sizes)
                 img.close()
                 out_img.save(self.original_image_path)
+                return True
         except (IOError, KeyError):
-            return False
-        return True
+            pass
+        return False
 
     def process(self, img_out_path, factor: int = 100, maximum_side_size: int = 30):
 
