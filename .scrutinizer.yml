@@ -10,20 +10,15 @@ build:
             tests:
                 override:
                     -
-                        command: pylint-run
-                        use_website_config: true
+                        command: 'coverage run tests/pytest.py'
+                        coverage:
+                            file: '.coverage'
+#                            config_file: '.coveragerc'
+                            format: 'py-cc'
             environment:
                 node:
                     version: 6.0.0
 
-    tests:
-        override:
-            -
-                command: 'coverage run tests/pytest.py'
-                coverage:
-                    file: '.coverage'
-#                    config_file: '.coveragerc'
-                    format: 'py-cc'
 
 filter:
     excluded_paths:
@@ -36,8 +31,3 @@ filter:
         - 'helpers/unixmanga_nl.sh'
         - "LICENSE"
         - "*.yml"
-
-tools:
-    external_code_coverage:
-        timeout: 1200
-        runs: 5
