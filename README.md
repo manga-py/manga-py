@@ -2,8 +2,11 @@
 [![Code Climate](https://codeclimate.com/github/yuru-yuri/Manga-Downloader/badges/gpa.svg)](https://codeclimate.com/github/yuru-yuri/Manga-Downloader)
 [![Test Coverage](https://codeclimate.com/github/yuru-yuri/Manga-Downloader/badges/coverage.svg)](https://codeclimate.com/github/yuru-yuri/Manga-Downloader/coverage)
 [![Issue Count](https://codeclimate.com/github/yuru-yuri/Manga-Downloader/badges/issue_count.svg)](https://codeclimate.com/github/yuru-yuri/Manga-Downloader)
+
 [![Travis CI result](https://travis-ci.org/yuru-yuri/Manga-Downloader.svg?branch=master)](https://travis-ci.org/yuru-yuri/Manga-Downloader)
- 
+[![Scrutinizer CI result](https://scrutinizer-ci.com/g/yuru-yuri/Manga-Downloader/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yuru-yuri/Manga-Downloader)
+[![Scrutinizer CI coverage](https://scrutinizer-ci.com/g/yuru-yuri/Manga-Downloader/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yuru-yuri/Manga-Downloader)
+
 [![GitHub issues](https://img.shields.io/github/issues/yuru-yuri/Manga-Downloader.svg)](https://github.com/yuru-yuri/Manga-Downloader/issues)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/yuru-yuri/Manga-Downloader/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/yuru-yuri/Manga-Downloader.svg)](https://github.com/yuru-yuri/Manga-Downloader/stargazers)

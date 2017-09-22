@@ -18,7 +18,7 @@ from helpers.exceptions import *
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
 __email__ = 'sttv-pc@mail.ru'
-__version__ = '0.2.0.1'
+__version__ = '0.2.1.0'
 
 
 _downloader_uri = 'https://github.com/yuru-yuri/Manga-Downloader'
@@ -267,14 +267,16 @@ class MangaDownloader:
         name_without_ext = path[0:path.rfind('.')]
         ext = path[path.rfind('.'):]
         _path = os.path.join(os.path.dirname(path), '{}_{}'.format(name_without_ext, ext))
-        result = remove_void.process(path, _path, int(arguments.crop_blank_factor), int(arguments.crop_blank_max_size))
+        cropper = remove_void.Cropper(path)
+        result = cropper.process(_path, int(arguments.crop_blank_factor), int(arguments.crop_blank_max_size))
         if result:
             shutil.move(_path, path)
         else:
             os.unlink(_path)
 
     def _crop_manual(self, patch):
-        remove_void.crop(patch, {
+        cropper = remove_void.Cropper(patch)
+        cropper.crop({
             'left': arguments.xl,
             'top': arguments.xt,
             'bottom': arguments.xb,
@@ -293,7 +295,8 @@ class MangaDownloader:
         archive.writestr('info.txt', 'Site: {}\nDownloader: {}'.format(self.url, _downloader_uri))
         archive.close()
 
-    def __download_image(self, url, path):
+    @staticmethod
+    def __download_image(url, path):
         r = 0
         while r < count_retries:
             if _safe_downloader(url, path):

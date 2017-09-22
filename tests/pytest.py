@@ -101,20 +101,27 @@ class TestCase(unittest.TestCase):
                 result = False
             self.assertFalse(result)
 
-    def _prepare_cropper(self, need_copy=True, img_name='img1.jpg'):
+    def _prepare_cropper(self, need_copy=True, source_file='img1.jpg', tested_file=None):
         self._before_test()
-        source_file = path.join(self.root_path, img_name)
-        tested_file = path.join(self.path, img_name)
+
+        if not tested_file:
+            tested_file = source_file
+
+        source_file = path.join(self.root_path, source_file)
+        tested_file = path.join(self.path, tested_file)
 
         if need_copy:
             shutil.copyfile(source_file, tested_file)
 
+        self.cropper = cropper.Cropper()
+
         return source_file, tested_file
 
     def test_cropper_left(self):
-        source_file, tested_file = self._prepare_cropper()
+        source_file, tested_file = self._prepare_cropper(True)
 
-        cropper.crop(tested_file, {'left': 10})
+        self.cropper.set_sourced_file(tested_file)
+        self.cropper.crop({'left': 10})
         source_image = Image.open(source_file)
         tested_image = Image.open(tested_file)
         source_sizes = source_image.size
@@ -122,10 +129,10 @@ class TestCase(unittest.TestCase):
         self.assertTrue((source_sizes[0] - tested_sizes[0]) == 10)
 
     def test_cropper_right(self):
-        source_file, tested_file = self._prepare_cropper()
+        source_file, tested_file = self._prepare_cropper(True)
 
-        shutil.copyfile(source_file, tested_file)
-        cropper.crop(tested_file, {'right': 10})
+        self.cropper.set_sourced_file(tested_file)
+        self.cropper.crop({'right': 10})
         source_image = Image.open(source_file)
         tested_image = Image.open(tested_file)
         source_sizes = source_image.size
@@ -133,9 +140,10 @@ class TestCase(unittest.TestCase):
         self.assertTrue((source_sizes[0] - tested_sizes[0]) == 10)
 
     def test_cropper_top(self):
-        source_file, tested_file = self._prepare_cropper()
+        source_file, tested_file = self._prepare_cropper(True)
 
-        cropper.crop(tested_file, {'top': 10})
+        self.cropper.set_sourced_file(tested_file)
+        self.cropper.crop({'top': 10})
         source_image = Image.open(source_file)
         tested_image = Image.open(tested_file)
         source_sizes = source_image.size
@@ -143,10 +151,10 @@ class TestCase(unittest.TestCase):
         self.assertTrue((source_sizes[1] - tested_sizes[1]) == 10)
 
     def test_cropper_bottom(self):
-        source_file, tested_file = self._prepare_cropper()
+        source_file, tested_file = self._prepare_cropper(True)
 
-        shutil.copyfile(source_file, tested_file)
-        cropper.crop(tested_file, {'bottom': 10})
+        self.cropper.set_sourced_file(tested_file)
+        self.cropper.crop({'bottom': 10})
         source_image = Image.open(source_file)
         tested_image = Image.open(tested_file)
         source_sizes = source_image.size
@@ -155,10 +163,10 @@ class TestCase(unittest.TestCase):
 
     def test_cropper_autocrop_default(self):
         self._before_test()
-        source_file = path.join(self.root_path, 'img1.jpg')
-        tested_file = path.join(self.path, 'img1.jpg')
+        source_file, tested_file = self._prepare_cropper(False, 'img1.jpg')
 
-        cropper.process(source_file, tested_file)
+        self.cropper.set_sourced_file(source_file)
+        self.cropper.process(tested_file)
 
         source_image = Image.open(source_file)
         tested_image = Image.open(tested_file)
@@ -170,13 +178,13 @@ class TestCase(unittest.TestCase):
 
     def test_cropper_autocrop_1(self):
         self._before_test()
-        source_file = path.join(self.root_path, 'img1.jpg')
-        tested_file = path.join(self.path, 'img1.jpg')
+        source_file, tested_file = self._prepare_cropper(False, 'img1.jpg')
 
-        epsilon = cropper.epsilon
-        cropper.epsilon = 0
-        cropper.process(source_file, tested_file, 1, 1)
-        cropper.epsilon = epsilon
+        epsilon = self.cropper.epsilon
+        self.cropper.set_epsilon(0)
+        self.cropper.set_sourced_file(source_file)
+        self.cropper.process(tested_file, 1, 1)
+        self.cropper.set_epsilon(epsilon)
 
         source_image = Image.open(source_file)
         tested_image = Image.open(tested_file)
@@ -188,33 +196,33 @@ class TestCase(unittest.TestCase):
 
     def test_cropper_autocrop_0(self):
         self._before_test()
-        source_file = path.join(self.root_path, 'img1.jpg')
-        tested_file = path.join(self.path, 'img1.jpg')
+        source_file, tested_file = self._prepare_cropper(False, 'img1.jpg')
 
-        cropper.process(source_file, tested_file, 1, 0)
+        self.cropper.set_sourced_file(source_file)
+        self.cropper.process(tested_file, 1, 0)
 
         self.assertFalse(path.isfile(tested_file))
 
     def test_cropper_no_blanks(self):
         self._before_test()
-        source_file = path.join(self.root_path, 'img2.png')
-        tested_file = path.join(self.path, 'img2.png')
+        source_file, tested_file = self._prepare_cropper(False, 'img2.png')
 
-        self.assertFalse(cropper.process(source_file, tested_file))
+        self.cropper.set_sourced_file(source_file)
+        self.assertFalse(self.cropper.process(tested_file))
 
     def test_cropper_no_blanks1(self):
         self._before_test()
-        source_file = path.join(self.root_path, 'img3.jpg')
-        tested_file = path.join(self.path, 'img3.jpg')
+        source_file, tested_file = self._prepare_cropper(False, 'img3.jpg')
 
-        self.assertFalse(cropper.process(source_file, tested_file, 254))  # don't allow crop gray
+        self.cropper.set_sourced_file(source_file)
+        self.assertFalse(self.cropper.process(tested_file, 254))  # don't allow crop gray
 
     def test_cropper_no_blanks2(self):
         self._before_test()
-        source_file = path.join(self.root_path, 'img3.jpg')
-        tested_file = path.join(self.path, 'img3.jpg')
+        source_file, tested_file = self._prepare_cropper(False, 'img3.jpg')
 
-        cropper.process(source_file, tested_file, 2)  # allow crop gray
+        self.cropper.set_sourced_file(source_file)
+        self.cropper.process(tested_file, 2)  # allow crop gray
 
         source_image = Image.open(source_file)
         tested_image = Image.open(tested_file)
@@ -226,10 +234,10 @@ class TestCase(unittest.TestCase):
 
     def test_cropper_no_blanks3(self):
         self._before_test()
-        source_file = path.join(self.root_path, 'img4.jpg')
-        tested_file = path.join(self.path, 'img4.jpg')
+        source_file, tested_file = self._prepare_cropper(False, 'img4.jpg')
 
-        cropper.process(source_file, tested_file, 2)  # allow crop gray
+        self.cropper.set_sourced_file(source_file)
+        self.cropper.process(tested_file, 2)  # allow crop gray
 
         source_image = Image.open(source_file)
         tested_image = Image.open(tested_file)
