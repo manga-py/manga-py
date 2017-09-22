@@ -5,7 +5,7 @@ from PIL import Image
 from os import path
 
 _image = None
-epsilon = 0
+epsilon = 2
 
 
 def __calculate_color(pix, factor, mode, offset_x, offset_y):
@@ -21,26 +21,38 @@ def __calculate_color(pix, factor, mode, offset_x, offset_y):
     return False
 
 
+def __sides_helper(mode, out_iterator, in_iterator, side):
+    iterator = out_iterator
+    if mode > 1:
+        iterator = side - iterator
+
+    if mode % 2:  # top, bottom
+        width, height = in_iterator, iterator
+    else:
+        width, height = iterator, in_iterator
+
+    return iterator, width, height
+
+
 def __calc_helper(factor, mode, max_s_s, height, width):
 
     pix = _image.load()
 
-    side = height if mode % 2 else width
+    side1 = height if mode % 2 == 0 else width
+    side2 = height if mode % 2 == 1 else width
 
     for out_iterator in range(1, max_s_s - 2):
-        for in_iterator in range(1, side - 2):
+        for in_iterator in range(1, side1 - 2):
 
             'Chess table'
             if (out_iterator % 2) ^ (in_iterator % 2):
                 continue
 
-            if mode % 2:  # top, bottom
-                width_iterator, height_iterator = out_iterator, in_iterator
-            else:
-                width_iterator, height_iterator = in_iterator, out_iterator
+            iterator, width_iterator, height_iterator = __sides_helper(mode, out_iterator, in_iterator, side2)
 
             if __calculate_color(pix, factor, mode, width_iterator, height_iterator):
-                return out_iterator
+                return iterator
+    return 0
 
 
 # I'm writing this crap because i can not think of anything better at this moment
@@ -121,18 +133,17 @@ def crop(img_path, sizes=None):
         return True
 
 
-def __process_test_ss(factor, maximum_side_size):
-    ss = _get_crop_sizes(factor, maximum_side_size)
+def __check_epsilon(side_sizes):
+    width = _image.size[0]
+    height = _image.size[1]
 
-    if ss[2] == 0 or ss[3] == 0:
+    side1 = side_sizes[0] <= epsilon >= side_sizes[1]
+    side2 = width - side_sizes[2] <= epsilon >= height - side_sizes[3]
+
+    if side1 and side2:
         return False
 
-    conditions = (ss[0], ss[1], _image.size[0] - ss[2], _image.size[1] - ss[3],)
-    for i in conditions:
-        if i < epsilon:
-            return False
-
-    return ss
+    return True
 
 
 def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 30):
@@ -143,9 +154,9 @@ def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 
     if not _open_image(img_path):
         return False
 
-    ss = __process_test_ss(factor, maximum_side_size)
+    ss = _get_crop_sizes(factor, maximum_side_size)
 
-    if not ss:
+    if not __check_epsilon(ss):
         return False
 
     try:
