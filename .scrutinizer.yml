@@ -18,10 +18,8 @@ build:
 #                            config_file: '.coveragerc'
                             format: 'py-cc'
             environment:
-                python:
-                    version: 3.5.3
-                node:
-                    version: 6.0.0
+                python: 3.5.3
+                node: 6.0.0
 
 
 filter:
