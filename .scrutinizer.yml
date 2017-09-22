@@ -1,0 +1,43 @@
+checks:
+    python:
+        code_rating: true
+        duplicate_code: true
+    javascript: true
+
+build:
+    nodes:
+        analysis:
+            tests:
+                override:
+                    -
+                        command: pylint-run
+                        use_website_config: true
+            environment:
+                node:
+                    version: 6.0.0
+
+    tests:
+        override:
+            -
+                command: 'coverage run tests/pytest.py'
+                coverage:
+                    file: '.coverage'
+#                    config_file: '.coveragerc'
+                    format: 'py-cc'
+
+filter:
+    excluded_paths:
+        - 'docs/'
+        - 'tests/'
+        - 'storage/'
+        - 'providers/_template.py'
+        - 'helpers/main/*.js'
+        - 'helpers/inmanga_com.py'
+        - 'helpers/unixmanga_nl.sh'
+        - "LICENSE"
+        - "*.yml"
+
+tools:
+    external_code_coverage:
+        timeout: 1200
+        runs: 5

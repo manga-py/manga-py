@@ -55,6 +55,15 @@ def __calc_helper(factor, mode, max_s_s, height, width):
     return 0
 
 
+def __pixel(mode, max_s_s, width, height):
+
+    if mode < 2:
+        return max_s_s
+    if mode == 2:
+        return width - max_s_s
+    return height - max_s_s
+
+
 # I'm writing this crap because i can not think of anything better at this moment
 def _pixel(max_s_s: int, factor: int, mode: int):
 
@@ -74,12 +83,7 @@ def _pixel(max_s_s: int, factor: int, mode: int):
     else:
         raise ValueError('Error mode value')
 
-    if mode < 2:
-        return max_s_s
-    if mode == 2:
-        return width - max_s_s
-    if mode == 3:
-        return height - max_s_s
+    return __pixel(mode, max_s_s, width, height)
 
 
 def _get_crop_sizes(factor: int, max_s_s: int):
