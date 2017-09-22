@@ -39,7 +39,7 @@ referrer_url = ''
 site_cookies = ()
 
 
-def _arguments_parser():
+def _arguments_parser():  # pragma: no cover
     """
     Arguments parser helper
     """
@@ -176,7 +176,7 @@ class RequestsHelper(VariablesHelper):
 class ImageHelper:
 
     @staticmethod
-    def _crop_image(path):
+    def _crop_image(path):  # pragma: no cover
         name_without_ext = path[0:path.rfind('.')]
         ext = path[path.rfind('.'):]
         _path = os.path.join(os.path.dirname(path), '{}_{}'.format(name_without_ext, ext))
@@ -188,7 +188,7 @@ class ImageHelper:
             os.unlink(_path)
 
     @staticmethod
-    def _crop_manual(patch):
+    def _crop_manual(patch):  # pragma: no cover
         cropper = remove_void.Cropper(patch)
         cropper.crop({
             'left': arguments.xl,
@@ -201,7 +201,7 @@ class ImageHelper:
 class MangaDownloader(RequestsHelper, ImageHelper):
 
     @staticmethod
-    def _progress(items_count: int, current_item: int):
+    def _progress(items_count: int, current_item: int):  # pragma: no cover
         if arguments.progress and tty_columns:
             columns = float(tty_columns)
             one_percent = float(columns) / float(items_count)
@@ -218,7 +218,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         print(str(text).encode().decode(__encode, 'ignore'), *args, **kwargs)
 
     @staticmethod
-    def print_info(text, *args, **kwargs):
+    def print_info(text, *args, **kwargs):  # pragma: no cover
         if arguments.info:
             MangaDownloader.print(text, *args, **kwargs)
 
@@ -434,7 +434,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         self.download_images()
 
 
-def manual_input(prompt: str):
+def manual_input(prompt: str):  # pragma: no cover
     url = str(input(prompt + '\n'))
     if url == 'q':
         MangaDownloader.print_info('Quit command. Exit')
@@ -443,7 +443,7 @@ def manual_input(prompt: str):
     return url
 
 
-def main(url: str, name: str = ''):
+def main(url: str, name: str = ''):  # pragma: no cover
     manga = MangaDownloader(url, name)
     if manga.status:
         manga.main()
@@ -451,7 +451,7 @@ def main(url: str, name: str = ''):
         raise StatusError('\nStatus error. Exit\n')
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     try:
         arguments = _arguments_parser().parse_args()
         add_name = not arguments.no_name
