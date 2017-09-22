@@ -25,7 +25,7 @@ cd Manga-Downloader
 pip3 install -r requirements.txt
 ```
 
-####Or alternative installation:
+#### Or alternative installation:
 1) Downloading repo: https://github.com/yuru-yuri/Manga-Downloader/archive/master.zip
 2) Extract archive
 3) Install requirements
@@ -36,7 +36,7 @@ pip3 install -r requirements.txt
 
 _If you use Windows, see 'https://github.com/sfbahr/PyCrypto-Wheels'_
 
-####If you using windows, require http://landinghub.visualstudio.com/visual-cpp-build-tools
+#### If you using windows, require http://landinghub.visualstudio.com/visual-cpp-build-tools
 
 ### Downloading
 

@@ -2,14 +2,61 @@
 # -*- coding: utf-8 -*-
 
 from PIL import Image
-from os import path, rename, remove
+from os import path
 
 _image = None
-epsilon = 0
+epsilon = 2
+
+
+def __calculate_color(pix, factor, mode, offset_x, offset_y):
+    def calc_factor(col):
+        _col = (col[0] + col[1] + col[2])
+        return _col < ((255 + factor) // 2) * 3
+
+    if calc_factor(pix[offset_x, offset_y]):
+        if mode % 2:  # top, bottom
+            return calc_factor(pix[offset_x - 1, offset_y]) or calc_factor(pix[offset_x + 1, offset_y])
+        # left, right
+        return calc_factor(pix[offset_x, offset_y - 1]) or calc_factor(pix[offset_x, offset_y + 1])
+    return False
+
+
+def __sides_helper(mode, out_iterator, in_iterator, side):
+    iterator = out_iterator
+    if mode > 1:
+        iterator = side - iterator
+
+    if mode % 2:  # top, bottom
+        width, height = in_iterator, iterator
+    else:
+        width, height = iterator, in_iterator
+
+    return iterator, width, height
+
+
+def __calc_helper(factor, mode, max_s_s, height, width):
+
+    pix = _image.load()
+
+    side1 = height if mode % 2 == 0 else width
+    side2 = height if mode % 2 == 1 else width
+
+    for out_iterator in range(1, max_s_s - 2):
+        for in_iterator in range(1, side1 - 2):
+
+            'Chess table'
+            if (out_iterator % 2) ^ (in_iterator % 2):
+                continue
+
+            iterator, width_iterator, height_iterator = __sides_helper(mode, out_iterator, in_iterator, side2)
+
+            if __calculate_color(pix, factor, mode, width_iterator, height_iterator):
+                return iterator
+    return 0
 
 
 # I'm writing this crap because i can not think of anything better at this moment
-def _test_pixel(max_s_s: int, factor: int, mode: int):
+def _pixel(max_s_s: int, factor: int, mode: int):
 
     width = _image.size[0]
     height = _image.size[1]
@@ -19,68 +66,10 @@ def _test_pixel(max_s_s: int, factor: int, mode: int):
     if not_height or not_width:
         return 0
 
-    pix = _image.load()
-
-    def calculate_color(x, y):
-
-        def calc_factor(col):
-            _col = (col[0] + col[1] + col[2])
-            return _col < ((255 + factor) // 2) * 3
-
-        if calc_factor(pix[x, y]):
-            if mode % 2:  # top, bottom
-                if calc_factor(pix[x - 1, y]) or calc_factor(pix[x + 1, y]):
-                    return True
-            else:  # left, right
-                if calc_factor(pix[x, y - 1]) or calc_factor(pix[x, y + 1]):
-                    return True
-        return False
-
-    if mode == 0:  # left
-        for width_iterator in range(max_s_s):
-            if width_iterator < 1 or width_iterator > (max_s_s - 2):
-                continue
-            for height_iterator in range(height):
-                xor = (width_iterator % 2) ^ (height_iterator % 2)
-                if xor or (height_iterator < 1 or height_iterator > (height - 2)):
-                    continue
-                if calculate_color(width_iterator, height_iterator):
-                    return width_iterator - 2
-
-    elif mode == 1:  # top
-        for height_iterator in range(max_s_s):
-            if height_iterator < 1 or height_iterator > (max_s_s - 2):
-                continue
-            for width_iterator in range(width):
-                xor = (width_iterator % 2) ^ (height_iterator % 2)
-                if xor or width_iterator < 1 or width_iterator > (height - 2):
-                    continue
-                if calculate_color(width_iterator, height_iterator):
-                    return height_iterator - 2
-
-    elif mode == 2:  # right
-        for width_iterator in range(max_s_s):
-            if width_iterator < 1 or width_iterator > (max_s_s - 2):
-                continue
-            for height_iterator in range(height):
-                xor = (width_iterator % 2) ^ (height_iterator % 2)
-                if xor or height_iterator < 1 or height_iterator > (height - 2):
-                    continue
-                w = width - width_iterator - 1
-                if calculate_color(w, height_iterator):
-                    return w + 2
-
-    elif mode == 3:  # bottom
-        for height_iterator in range(max_s_s):
-            if height_iterator < 1 or height_iterator > (max_s_s - 2):
-                continue
-            for width_iterator in range(width):
-                xor = (width_iterator % 2) ^ (height_iterator % 2)
-                if xor or width_iterator < 1 or width_iterator > (height - 2):
-                    continue
-                h = height - height_iterator - 1
-                if calculate_color(width_iterator, h):
-                    return h + 2
+    if 0 <= mode < 4:
+        result = __calc_helper(factor, mode, max_s_s, height, width)
+        if result > 0:
+            return result
 
     else:
         raise ValueError('Error mode value')
@@ -94,10 +83,10 @@ def _test_pixel(max_s_s: int, factor: int, mode: int):
 
 
 def _get_crop_sizes(factor: int, max_s_s: int):
-    left = _test_pixel(max_s_s, factor, 0)
-    top = _test_pixel(max_s_s, factor, 1)
-    right = _test_pixel(max_s_s, factor, 2)
-    bottom = _test_pixel(max_s_s, factor, 3)
+    left = _pixel(max_s_s, factor, 0)
+    top = _pixel(max_s_s, factor, 1)
+    right = _pixel(max_s_s, factor, 2)
+    bottom = _pixel(max_s_s, factor, 3)
     # add 1px white line
     left = left - 1 if left > 0 else 0
     top = top - 1 if top > 0 else 0
@@ -144,18 +133,17 @@ def crop(img_path, sizes=None):
         return True
 
 
-def __process_test_ss(factor, maximum_side_size):
-    ss = _get_crop_sizes(factor, maximum_side_size)
+def __check_epsilon(side_sizes):
+    width = _image.size[0]
+    height = _image.size[1]
 
-    if ss[2] == 0 or ss[3] == 0:
+    side1 = side_sizes[0] <= epsilon >= side_sizes[1]
+    side2 = width - side_sizes[2] <= epsilon >= height - side_sizes[3]
+
+    if side1 and side2:
         return False
 
-    conditions = (ss[0], ss[1], _image.size[0] - ss[2], _image.size[1] - ss[3],)
-    for i in conditions:
-        if i < epsilon:
-            return False
-
-    return ss
+    return True
 
 
 def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 30):
@@ -166,9 +154,9 @@ def process(img_path, img_out_path, factor: int = 100, maximum_side_size: int = 
     if not _open_image(img_path):
         return False
 
-    ss = __process_test_ss(factor, maximum_side_size)
+    ss = _get_crop_sizes(factor, maximum_side_size)
 
-    if not ss:
+    if not __check_epsilon(ss):
         return False
 
     try:
