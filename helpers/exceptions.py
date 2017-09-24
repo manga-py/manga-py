@@ -16,3 +16,7 @@ class VolumesNotFound(AttributeError):
 
 class StatusError(AttributeError):
     pass
+
+
+class UrlParseError(AttributeError):
+    pass

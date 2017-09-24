@@ -40,6 +40,9 @@
         <li>
             <a href="https://github.com/yuru-yuri/Manga-Downloader/blob/master/README.md#manga-downloader">Documentation</a>
         </li>
+        <li>
+            <a href="./improvement.html">Plans for improvement</a>
+        </li>
     </ul>
     <hr>
     <div class="resources-list">
@@ -50,11 +53,11 @@
                 // [ ['url', 'ready_1_0', 'comment'], ]
                 list = [
 ['http://bato.to', 1, ''],
-['http://bulumanga.com', 1, ' - test mode'],
+['http://bulumanga.com', 1, ''],
 ['http://bwahahacomics.ru', 0, ' - Very little content. Possibly, will be done in the future.'],
 ['http://com-x.life', 1, ''],
 ['http://comic-walker.com', 0, ' - Maybe...'],
-['http://comico.jp', 1, ' - test mode, only public downloading now'],
+['http://comico.jp', 1, ', only public downloading now'],
 ['http://comicsandmanga.ru', 0, ' - in develop'],
 ['http://comixology.com', 0, ' - Buy only. Not reading.'],
 ['http://desu.me', 1, ''],
@@ -100,17 +103,17 @@
 ['http://mangatan.net', 1, ' - site renamed to mangashin.com'],
 ['http://mangatown.com', 1, ''],
 ['http://mangaz.com', 0, ' - Maybe...'],
-['http://manhuagui.com', 1, ' - test mode'],
+['http://manhuagui.com', 1, ''],
 ['http://mintmanga.com', 1, ''],
 ['http://myreadingmanga.info', 1, ''],
 ['http://ninemanga.com', 1, ''],
 ['http://onemanga.com', 0, ' - site chashed now'],
-['http://otakusmash.com', 1, ' - test mode'],
-['http://mrsmanga.com', 1, ' - test mode'],
-['http://mentalmanga.com', 1, ' - test mode'],
+['http://otakusmash.com', 1, ''],
+['http://mrsmanga.com', 1, ''],
+['http://mentalmanga.com', 1, ''],
 ['http://read.yagami.me', 1, ''],
 ['http://readmanga.me', 1, ''],
-['http://readmanga.eu', 1, ' - test mode'],
+['http://readmanga.eu', 1, ''],
 ['http://selfmanga.ru', 1, ''],
 ['http://shakai.ru', 1, ''],
 ['http://somanga.net', 1, ''],
@@ -120,7 +123,7 @@
 ['http://wmanga.ru', 1, ''],
 ['http://yaoichan.me', 1, ''],
 ['http://zingbox.me', 1, ''],
-['http:/zip-read.com', 1, ' - test mode']
+['http:/zip-read.com', 1, '']
                 ];
 
                 html = '';
@@ -136,7 +139,7 @@
                         list[i][0] + '">' +
                         list[i][0] + '</a>' +
                         list[i][2] + '</span></li>';
-                    done += parseInt(list[i][0]);
+                    done += parseInt(list[i][1]);
                 }
 
                 document.querySelector('ul.list').innerHTML = html + ('<!-- ' + list.length + ' ( ' + done + ' ) -->');
@@ -149,12 +152,19 @@
         <ul>
             <li>
                 <div class="quest">How to offer more resources?</div>
-                <div class="answer">Very simple. Write to me at sttv-pc@mail.ru or make a pool-request on <a
-                        target="_blank" href="https://github.com/yuru-yuri/Manga-Downloader/pulls">github.com</a></div>
+                <div class="answer">
+                    Very simple. Write to me at sttv-pc@mail.ru or make a pool-request on
+                    <a target="_blank" href="https://github.com/yuru-yuri/Manga-Downloader/pulls">github.com</a>
+                </div>
             </li>
             <li>
                 <div class="quest">How to help?</div>
-                <div class="answer">You can also make a pool-request, or create an issue.<br> You can also crawl more
+                <div class="answer">
+                    You can also make a
+                    <a target="_blank" href="https://github.com/yuru-yuri/Manga-Downloader/pulls">pool-request</a>,
+                    or create an
+                    <a target="_blank" href="https://github.com/yuru-yuri/Manga-Downloader/issues">issue</a>.<br>
+                    You can also crawl more
                     sites that have a manga online reading available.
                 </div>
             </li>

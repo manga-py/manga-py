@@ -8,6 +8,10 @@ Supports more than 60 different resources now.
 see https://yuru-yuri.github.io/Manga-Downloader/#resources-list
 
 
+## Plans for improvement:
+
+see https://yuru-yuri.github.io/Manga-Downloader/improvement.html
+
 ## How to use
 
 ### Installation
@@ -66,4 +70,4 @@ ___To change this behavior, add the key --no-name___
 [![Issue Count](https://codeclimate.com/github/yuru-yuri/Manga-Downloader/badges/issue_count.svg)](https://codeclimate.com/github/yuru-yuri/Manga-Downloader)<br/>
 [![Scrutinizer CI result](https://scrutinizer-ci.com/g/yuru-yuri/Manga-Downloader/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yuru-yuri/Manga-Downloader)
 [![Scrutinizer CI coverage](https://scrutinizer-ci.com/g/yuru-yuri/Manga-Downloader/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yuru-yuri/Manga-Downloader)
-[![GitHub issues](https://img.shields.io/github/issues/yuru-yuri/Manga-Downloader.svg)](https://github.com/yuru-yuri/Manga-Downloader/issues)
+[![GitHub issues](https://img.shields.io/github/issues/yuru-yuri/Manga-Downloader.svg)](https://github.com/yuru-yuri/Manga-Downloader/issues)<br/>

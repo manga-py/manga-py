@@ -448,7 +448,7 @@ def main(url: str, name: str = ''):  # pragma: no cover
     if manga.status:
         manga.main()
     else:
-        raise StatusError('\nStatus error. Exit\n')
+        raise StatusError('\nStatus error.\nProvider not found!\n Exit\n')
 
 
 if __name__ == '__main__':  # pragma: no cover
@@ -467,6 +467,8 @@ if __name__ == '__main__':  # pragma: no cover
                 name = manual_input('Please, paste manga name')
         try:
             main(url, name)
+        except UrlParseError:
+            MangaDownloader.print('Incorrect manga url.\nPlease, recheck url and report there on %s' % __email__)
         except (StatusError, DirectoryNotWritable, DirectoryNotExists, VolumesNotFound):
             MangaDownloader.print(exc_info()[1], file=stderr)
     except KeyboardInterrupt:
