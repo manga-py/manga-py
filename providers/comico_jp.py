@@ -22,7 +22,7 @@ def get_main_content(url, get=None, post=None):
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
-    # see i['freeFlg'] Y = true, W = false #19
+    # TODO: see i['freeFlg'] Y = true, W = false #19
     items = [i['articleDetailUrl'] for i in content]
     items.reverse()
     return items

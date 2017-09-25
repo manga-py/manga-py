@@ -4,6 +4,7 @@
 from lxml.html import document_fromstring
 import re
 import json
+from helpers.exceptions import UrlParseError
 
 domainUri = 'https://com-x.life'
 
@@ -40,10 +41,10 @@ def get_manga_name(url, get=None):
     if test:
         parser = document_fromstring(get(url)).cssselect('#dle-speedbar > a')
         url = '.life' + parser[0].get('href')
-    href = re.search('\.life/\d+\-(.+)\.html', url)
-    if not href:
-        return ''
-    return href.groups()[0]
+    name = re.search('\.life/\d+\-(.+)\.html', url)
+    if not name:
+        raise UrlParseError()
+    return name.groups()[0]
 
 
 if __name__ == '__main__':

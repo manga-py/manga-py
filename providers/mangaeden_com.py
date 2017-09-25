@@ -4,6 +4,7 @@
 from lxml.html import document_fromstring
 import re
 import json
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://www.mangaeden.com'
 uriRegex = '/[^/]+/([^/]+\-manga)/([^/]+)/?'
@@ -11,8 +12,6 @@ uriRegex = '/[^/]+/([^/]+\-manga)/([^/]+)/?'
 
 def get_main_content(url, get=None, post=None):
     result = re.search(uriRegex, url)
-    if not result:
-        return ''
     groups = result.groups()
     return get('{}/en/{}/{}/'.format(domainUri, groups[0], groups[1]))
 
@@ -43,7 +42,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 def get_manga_name(url, get=None):
     result = re.search(uriRegex, url)
     if not result:
-        return ''
+        raise UrlParseError()
     return result.groups()[1]
 
 

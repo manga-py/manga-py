@@ -4,6 +4,7 @@
 from lxml.html import document_fromstring
 import re
 import json
+from helpers.exceptions import UrlParseError
 
 uri_hex = ''
 manga_name = ''
@@ -44,7 +45,7 @@ def get_manga_name(url, get=None):
         url = domainUri + content[0].get('href')
     test = re.search('\.com/ver/manga/([^/]+)/([^/]+)', url)
     if not test:
-        return ''
+        raise UrlParseError()
     groups = test.groups()
     manga_name = groups[0]
     uri_hex = groups[1]

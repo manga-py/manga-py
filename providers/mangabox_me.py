@@ -3,18 +3,16 @@
 
 from lxml.html import document_fromstring
 import re
+from helpers.exceptions import UrlParseError
 
 domainUri = 'https://www.mangabox.me'
-uriRegex = '/reader/(\d+)'
 content = ''
 
 
 def get_main_content(url, get=None, post=None):
     if len(content) > 0:
         return content
-    name = re.search(uriRegex, url)
-    if not name:
-        return ''
+    name = get_manga_name(url, get)
     return get('{}/reader/{}/'.format(domainUri, name.groups()[0]))
 
 
@@ -32,12 +30,13 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 def get_manga_name(url, get=None):
     global content
-    content = get_main_content(url, get)
+    if not len(content):
+        content = get_main_content(url, get)
     name = re.search('\s+?\<h2\>[^.]+?\n?([\w\s-]+?)\n', content)
     if not name:
-        name = re.search(uriRegex, url)
+        name = re.search('/reader/(\d+)', url)
         if not name:
-            return '0'
+            raise UrlParseError()
     return name.groups()[0]
 
 

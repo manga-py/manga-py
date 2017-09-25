@@ -3,6 +3,7 @@
 
 from lxml.html import document_fromstring
 import re
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://www.mangahere.co'
 
@@ -31,8 +32,8 @@ def __get_img(parser):
 def get_images(main_content=None, volume=None, get=None, post=None):
     content = get(volume)
     parser = document_fromstring(content)
-    result = parser.cssselect('.go_page select.wid60 option')
-    pages_list = [value.get('value') for index, value in enumerate(result) if index]  # skip first page
+    result = parser.cssselect('.go_page select.wid60 option + option')
+    pages_list = [value.get('value') for value in result]  # skip first page
     first_image = __get_img(parser)
     images = [first_image]
     for i in pages_list:
@@ -45,7 +46,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 def get_manga_name(url, get=None):
     result = re.search('\.co/manga/([^/]+)', url)
     if not result:
-        return ''
+        raise UrlParseError()
     return result.groups()[0]
 
 

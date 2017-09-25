@@ -3,14 +3,13 @@
 
 from lxml.html import document_fromstring
 import re
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://jurnalu.ru'
 
 
 def get_main_content(url, get=None, post=None):
     name = re.search('(online\-reading/[^/]+/[^/]+)', url)
-    if not name:
-        return ''
     content = document_fromstring(get('{}/{}'.format(domainUri, name.groups()[0])))
     content = content.cssselect('.MagList .MagListLine > a')[0].get('href')
     return get(domainUri + content)
@@ -50,7 +49,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 def get_manga_name(url, get=None):
     name = re.search('\.ru/online\-reading/[^/]+/([^/]+)', url)
     if not name:
-        return ''
+        raise UrlParseError()
     return name.groups()[0]
 
 

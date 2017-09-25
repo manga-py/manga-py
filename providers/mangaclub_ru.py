@@ -33,7 +33,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     return [i.get('data-i') for i in result]
 
 
-def get_manga_name(url, get=None):
+def get_manga_name(url, get=None):  # todo: refactoring it!
     test = re.search(uriRegex + '\.html', url)
     if test:
         return test.groups()[0]

@@ -3,6 +3,7 @@
 
 from lxml.html import document_fromstring
 import re
+from helpers.exceptions import UrlParseError
 
 domainUri = 'https://manga-online.com.ua'
 manga_name = ''
@@ -30,7 +31,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     while True:
         n += 1
         if n > 199:
-            print('More 199 pages error!')
+            print('More 199 pages error!\nPlease, report url on sttv-pc@mail.ru')
             break
         content = get('{}/engine/ajax/sof_fullstory.php?id={}&page={}'.format(domainUri, manga_id, n))
         parser = document_fromstring(content)
@@ -47,7 +48,7 @@ def get_manga_name(url, get=None):
             url = document_fromstring(get(url)).cssselect('.fullstory_main center > a')[0].get('href')
         name = re.search('\.ua/katalog\-mangi/([^/]+)\.html', url)
         if not name:
-            return ''
+            raise UrlParseError()
         manga_name = name.groups()[0]
     return manga_name.split('-', 1)[1]
 

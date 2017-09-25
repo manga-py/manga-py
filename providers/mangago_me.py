@@ -3,7 +3,8 @@
 
 from lxml.html import document_fromstring
 import re
-from helpers.cloudflare_scrape import cfscrape
+import cfscrape
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://www.mangago.me'
 
@@ -39,6 +40,9 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 def get_manga_name(url, get=None):
     result = re.search('/read\-manga/([^/]+)/?', url)
+    if not result:
+        raise UrlParseError()
+
     global cookies
 
     if not cookies:
@@ -55,8 +59,6 @@ def get_manga_name(url, get=None):
                     })
                 cookies.append(scraper[1])
 
-    if not result:
-        return ''
     return result.groups()[0]
 
 

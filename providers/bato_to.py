@@ -3,6 +3,7 @@
 
 from lxml.html import document_fromstring
 import re
+from helpers.exceptions import UrlParseError
 
 domainUri = 'https://bato.to'
 manga_name = None
@@ -51,14 +52,14 @@ def get_manga_name(url, get=None):
             url = _url[0].get('href')
     name = re.search('/comics/([^/]+)', url)
     if not name:
-        return ''
+        raise UrlParseError()
     manga_name = name.groups()[0]
     return manga_name
 
 
 def _get_content(url, get, p=1):
     if url.find('#') < 5:
-        return ''
+        raise UrlParseError()
     _hash = url.split('#')[1]
     if _hash.find('_') > 0:
         _hash = _hash.split('_')[0]

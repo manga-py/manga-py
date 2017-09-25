@@ -3,6 +3,7 @@
 
 from lxml.html import document_fromstring
 import re
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://goodmanga.net'
 
@@ -59,7 +60,7 @@ def get_manga_name(url, get=None):
     name = re.search('\.net/\d+/([^/]+)', url)
     if name:
         return name.groups()[0]
-    return ''
+    raise UrlParseError()
 
 
 if __name__ == '__main__':

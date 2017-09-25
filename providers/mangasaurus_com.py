@@ -4,6 +4,7 @@
 from lxml.html import document_fromstring
 import re
 import json
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://mangasaurus.com'
 manga_name = ''
@@ -47,7 +48,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 def get_manga_name(url, get=None):
     name = re.search('\.com/manga/(\d+)/([^/]+)', url)
     if not name:
-        return ''
+        raise UrlParseError()
     _ = name.groups()
     return '{}_{}'.format(_[0], _[1])
 

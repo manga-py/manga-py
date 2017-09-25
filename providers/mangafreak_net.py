@@ -3,10 +3,10 @@
 
 from lxml.html import document_fromstring
 import re
-from helpers.cloudflare_scrape import cfscrape
+import cfscrape
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://www3.mangafreak.net'
-uriRegex = '/Manga/([^/]+)/?'
 
 
 def get_main_content(url, get=None, post=None):
@@ -48,13 +48,13 @@ def get_manga_name(url, get=None):
                     })
                 cookies.append(scraper[1])
 
-    test = re.search(uriRegex, url)
+    test = re.search('/Manga/([^/]+)/?', url)
     if test:
         return test.groups()[0]
     test = re.search('/Read\d+_(.+)_\d+', url)
     if test:
         return test.groups()[0]
-    return ''
+    raise UrlParseError()
 
 
 download_zip_only = True

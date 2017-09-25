@@ -3,8 +3,9 @@
 
 from lxml.html import document_fromstring
 import re
-from helpers.cloudflare_scrape import cfscrape
+import cfscrape
 from helpers.main import crypt
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://kissmanga.com'
 _iv = b'a5e8e2e9c2721be0a84ad660c472c1f3'
@@ -70,7 +71,7 @@ def get_manga_name(url, get=None):
                 cookies.append(scraper[1])
 
     if not name:
-        return ''
+        raise UrlParseError()
     return name.groups()[0]
 
 

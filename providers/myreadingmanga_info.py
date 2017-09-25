@@ -3,7 +3,8 @@
 
 from lxml.html import document_fromstring
 import re
-from helpers.cloudflare_scrape import cfscrape
+import cfscrape
+from helpers.exceptions import UrlParseError
 # import json
 
 domainUri = 'https://myreadingmanga.info'
@@ -33,6 +34,10 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 def get_manga_name(url, get=None):
     # anti-"cloudflare anti-bot protection"
+    name = re.search('\.info/([^/]+)', url)
+    if not name:
+        raise UrlParseError()
+
     global cookies
     if not cookies:
         scraper = cfscrape.get_tokens(url)
@@ -47,9 +52,6 @@ def get_manga_name(url, get=None):
                 })
             cookies.append(scraper[1])
 
-    name = re.search('\.info/([^/]+)', url)
-    if not name:
-        return ''
     return name.groups()[0]
 
 
