@@ -144,7 +144,7 @@ class MultiThreads:
 
     threads = []
 
-    def addThread(self, target: function, args: tuple):
+    def addThread(self, target: callable, args: tuple):
         self.threads.append(Thread(target, args))
 
     def startAll(self):
@@ -157,14 +157,14 @@ class MultiThreads:
 class RequestsHelper(VariablesHelper):
 
     @staticmethod
-    def remove_file_name_params(name, save_path = True) -> str:
+    def remove_file_name_params(name, save_path: bool = True) -> str:
         file_path = os.path.dirname(name)
         name = os.path.basename(name)
         if name.find('?') > 0:
             name = name[0:name.find('?')]
         return os.path.join(file_path, name) if save_path else name
 
-    def __safe_downloader_url_helper(self, url) -> str:
+    def __safe_downloader_url_helper(self, url: str) -> str:
         if url.find('//') == 0:
             _ = urlparse(self.referrer_url)
             return _.scheme + ':' + url
@@ -177,15 +177,15 @@ class RequestsHelper(VariablesHelper):
         return url
 
     # fast fixed #5
-    def __requests_helper(self, method, url, headers=None, cookies=None, data=None, files=None, max_redirects=10) -> requests.Response:
+    def __requests_helper(self, method, url, headers=None, cookies=None, data=None, files=None, max_redirects=10, timeout=None) -> requests.Response:
         r = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data, files=files, allow_redirects=False)
         if r.is_redirect:
             if max_redirects < 1:
                 raise TooManyRedirects('Too many redirects', response=r)
-            return self.__requests_helper(method, r.headers['location'], headers, cookies, data, files, max_redirects-1)
+            return self.__requests_helper(method, r.headers['location'], headers, cookies, data, files, max_redirects-1, timeout=timeout)
         return r
 
-    def __requests(self, url: str, headers: dict=None, cookies: dict=None, data=None, method='get', files=None) -> requests.Response:
+    def __requests(self, url: str, headers: dict=None, cookies: dict=None, data=None, method='get', files=None, timeout=None) -> requests.Response:
         if not headers:
             headers = {}
         if not cookies:
@@ -194,7 +194,7 @@ class RequestsHelper(VariablesHelper):
         headers.setdefault('Referer', self.referrer_url)
         if arguments.allow_webp:
             headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
-        return self.__requests_helper(method=method, url=url, headers=headers, cookies=cookies, data=data, files=files)
+        return self.__requests_helper(method=method, url=url, headers=headers, cookies=cookies, data=data, files=files, timeout=timeout)
 
     def _get(self, url: str, headers: dict=None, cookies: dict=None, offset: int = -1, maxlen: int = -1) -> str:
         response = self.__requests(url=url, headers=headers, cookies=cookies, method='get')
@@ -215,7 +215,7 @@ class RequestsHelper(VariablesHelper):
     def _safe_downloader(self, url, file_name) -> bool:
         try:
             url = self.__safe_downloader_url_helper(url)
-            response = self.__requests(url, method='get')
+            response = self.__requests(url, method='get', timeout=3)
 
             with open(file_name, 'wb') as out_file:
                 out_file.write(response.content)
@@ -224,7 +224,7 @@ class RequestsHelper(VariablesHelper):
         except OSError:
             return False
 
-    def _multi_threads_downloader(self, params: list, callback: function):
+    def _multi_threads_downloader(self, params: list, callback: callable):
         pass
 
     def _prepare_cookies(self, url: str):
@@ -245,7 +245,7 @@ class RequestsHelper(VariablesHelper):
 class ImageHelper:
 
     @staticmethod
-    def _crop_image(path):  # pragma: no cover
+    def _crop_image(path: str):  # pragma: no cover
         name_without_ext = path[0:path.rfind('.')]
         ext = path[path.rfind('.'):]
         _path = os.path.join(os.path.dirname(path), '{}_{}'.format(name_without_ext, ext))
@@ -257,7 +257,7 @@ class ImageHelper:
             os.unlink(_path)
 
     @staticmethod
-    def _crop_manual(patch):  # pragma: no cover
+    def _crop_manual(patch: str):  # pragma: no cover
         cropper = remove_void.Cropper(patch)
         cropper.crop({
             'left': arguments.xl,
@@ -277,7 +277,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
             current_position = int(float(current_item) * one_percent)
             text = ('▓' * current_position)
             text += (' ' * (int(columns) - current_position))
-            MangaDownloader.print('\033[1A\033[9D%s' % (text,), end='\n        \033[9D')
+            MangaDownloader.print('\033[1A\033[9D%s' % text, end='\n        \033[9D')
 
     @staticmethod
     def print(text, *args, **kwargs):
@@ -299,7 +299,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
 
     @staticmethod
     def _download_image_name_helper(temp_path, i, n) -> str:
-        name = RequestsHelper.remove_file_name_params(i)
+        name = RequestsHelper.remove_file_name_params(i, False)
         basename = '{:0>3}_{}'.format(n, name)
         name_question = name.find('?') == 0
         name_len = len(name) < 4
@@ -323,7 +323,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         self.referrer_url = '{}://{}'.format(ref.scheme, ref.netloc)
         self._prepare_cookies(self.referrer_url)
 
-    def _download_image(self, url, path) -> bool:
+    def _download_image(self, url: str, path: str) -> bool:
         r = 0
         while r < count_retries:
             if self._safe_downloader(url, path):
@@ -334,7 +334,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
             MangaDownloader.print_info('Error downloading. %s' % (mode,))
         return False
 
-    def __download_archive(self, url):
+    def __download_archive(self, url: str):
         archive_name = os.path.basename(url)
         if archive_name.find('.zip') > 0:
             archive_name = archive_name[:archive_name.find('.zip')]  # remove .zip
@@ -342,20 +342,20 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         MangaDownloader.print_info('Downloading archive: %s' % (archive_name,))
         self._download_image(url, dst)
 
-    def _archive_helper(self, archive):
+    def _archive_helper(self, archives: list):
         n = 0
         if arguments.reverse_downloading:
-            archive.reverse()
+            archives.reverse()
         if arguments.skip_volumes > 0:
-            archive = archive[arguments.skip_volumes:]
+            archives = archives[arguments.skip_volumes:]
         if arguments.max_volumes > 0:
-            archive = archive[:arguments.max_volumes]
-        for a in archive:
+            archives = archives[:arguments.max_volumes]
+        for a in archives:
             self.__download_archive(a)
             n += 1
         return n
 
-    def _download_zip_only(self, volumes):
+    def _download_zip_only(self, volumes: list):
         n = 0
         if len(volumes):
             for v in volumes:
@@ -367,7 +367,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         if n < 1:
             raise VolumesNotFound('Volumes not found. Exit')
 
-    def _download_images(self, images, archive_name, temp_path):
+    def _download_images(self, images: list, archive_name: str, temp_path: str):
 
         MangaDownloader.print_info('Start downloading %s' % (archive_name,))
         images_len = len(images)
@@ -408,7 +408,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         archive.writestr('info.txt', 'Site: {}\nDownloader: {}'.format(self.url, __downloader_uri__))
         archive.close()
 
-    def _download_images_helper(self, v, volume_index):
+    def _download_images_helper(self, v: str, volume_index: int):
 
         temp_path = get_temp_path()
         archive_name = self.provider.get_archive_name(v, index=volume_index)
