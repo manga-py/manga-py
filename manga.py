@@ -91,56 +91,6 @@ class VariablesHelper:
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36'
 
 
-class MultiThreadsStorage:
-
-    _urls = []
-    _root_path = None
-
-    def add_url(self, url: str, full_path_name: str):
-        full_path = os.path.dirname(full_path_name)
-        basename = MangaDownloader.prepare_file_name(os.path.basename(full_path_name))
-        self._urls.append({'url': url, 'name': os.path.join(full_path, basename)})
-
-    def set_root_path(self, root_path: str) -> bool:
-        self._root_path = root_path
-        return True
-
-    def _full_path_builder(self, params: dict) -> str:
-        params.setdefault('root', False)
-        _name = RequestsHelper.remove_file_name_params(params['name'])
-        if params['root']:
-            _root_path = self._root_path.rstrip('/')
-        else:
-            _root_path = os.getcwd()
-        return os.path.join(_root_path, _name.lstrip('/'))
-
-    def add_urls(self, params):
-        """
-        :param params: [
-         {url: http://example.org, name: path/to/file.png},  # path = os.getcwd()/path/to/file.png
-         {url: http://example.org, name: /path/to/file.png},  # path = os.getcwd()/path/to/file.png
-         {url: http://example.org, name: /path/to/file.png, root: True}  # path = self.path/path/to/file.png
-         {url: http://example.org, name: file.png, root: True}  # path = self.path/file.png
-        ]
-        :return:
-        """
-        if not isinstance(params, list):
-            return False
-        for i in params:
-            if hasattr(i, 'url'):
-                path = self._full_path_builder(i)
-                self.add_url(i['url'], path)
-
-    def get_urls(self) -> list:
-        """
-        :return: [
-         {url: http://example.org, name: /full/path/to/file.png},
-         url: http://example.org, name: /full/path/to/file2.png}
-        ]
-        """
-        return self._urls
-
-
 class MultiThreads:
 
     threads = []
