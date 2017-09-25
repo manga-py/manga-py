@@ -53,6 +53,7 @@ def _arguments_parser() -> ArgumentParser:  # pragma: no cover
     parse.add_argument('--allow-webp', action='store_const', required=False, help='Allow downloading webp images', const=True, default=False)
     parse.add_argument('--reverse-downloading', action='store_const', required=False, help='Reverse volumes downloading', const=True, default=False)
     parse.add_argument('--rewrite-exists-archives', action='store_const', required=False, const=True, default=False)
+    parse.add_argument('--multi-threads', action='store_const', required=False, help='Allow multi-threads images downloading', const=True, default=False)
 
     parse.add_argument('-xt', required=False, type=int, help='Manual image crop with top side', default=0)
     parse.add_argument('-xr', required=False, type=int, help='Manual image crop with right side', default=0)
@@ -144,8 +145,11 @@ class MultiThreads:
 
     threads = []
 
+    def __init__(self):
+        self.threads = []
+
     def addThread(self, target: callable, args: tuple):
-        self.threads.append(Thread(target, args))
+        self.threads.append(Thread(target=target, args=args))
 
     def startAll(self):
         for t in self.threads:  # starting all threads
@@ -367,6 +371,19 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         if n < 1:
             raise VolumesNotFound('Volumes not found. Exit')
 
+    def __one_thread_downloader(self, temp_path, image, n, callback: callable = None):
+        image_full_name = self._download_image_name_helper(temp_path, image, n)
+        result = 0
+        if self._download_image(image, image_full_name):
+            self._crop_manual(image_full_name)
+            if arguments.crop_blank:
+                self._crop_image(image_full_name)
+            result = 1
+
+        if callback:
+            callback(result)
+        return result
+
     def _download_images(self, images: list, archive_name: str, temp_path: str):
 
         MangaDownloader.print_info('Start downloading %s' % (archive_name,))
@@ -377,21 +394,20 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         if arguments.progress:
             MangaDownloader.print('')
 
-        for i in images:
+        if arguments.multi_threads:
+            threads = MultiThreads()
 
-            self._progress(images_len, n)
+            for i in images:
+                threads.addThread(self.__one_thread_downloader, (temp_path, i, n))
+                n += 1
+            threads.startAll()
 
-            image_full_name = self._download_image_name_helper(temp_path, i, n)
-
-            if self._download_image(i, image_full_name):
-                c += 1
-
-                self._crop_manual(image_full_name)
-
-                if arguments.crop_blank:
-                    self._crop_image(image_full_name)
-
-            n += 1
+            return 1  # todo
+        else:
+            for i in images:
+                self._progress(images_len, n)
+                c += self.__one_thread_downloader(temp_path, i, n)
+                n += 1
         return c
 
     def _make_archive(self, archive_name: str):

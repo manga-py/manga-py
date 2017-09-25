@@ -49,6 +49,7 @@ class TestCase(unittest.TestCase):
             ('crop_blank_factor', 100),
             ('crop_blank_max_size', 30),
             ('max_volumes', 1),
+            ('multi_threads', False),
         ])
 
     def _prepare_arguments(self):
@@ -248,6 +249,12 @@ class TestCase(unittest.TestCase):
         self.assertTrue(source_sizes[1] > tested_sizes[1])
 
     def test_bato_to_true(self):
+        self._urls_true([
+                'https://bato.to/comic/_/comics/karakai-jouzu-no-takagi-san-r13108',
+            ])
+
+    def test_multi_threads(self):
+        self.arguments.setArgument('multi_threads', True)
         self._urls_true([
                 'https://bato.to/comic/_/comics/karakai-jouzu-no-takagi-san-r13108',
             ])
