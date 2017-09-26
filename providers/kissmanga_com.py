@@ -52,7 +52,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    name = re.search('\.com/Manga/([^/]+)', url)
+    name = re.search('\\.com/Manga/([^/]+)', url)
     global cookies
 
     if not cookies:

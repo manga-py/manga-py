@@ -74,7 +74,7 @@ def get_manga_name(url, get=None):
     content = get(url)
 
     selector = 'h1'
-    if re.search('/comic/\d+/\d+\.html', url):
+    if re.search('/comic/\d+/\d+\\.html', url):
         selector = 'h1 > a'
 
     _u = document_fromstring(content).cssselect(selector)

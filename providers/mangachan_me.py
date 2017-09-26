@@ -41,7 +41,7 @@ def get_manga_name(url, get=None):
 
     if re.search('/online/[^/]+', url):
         url = document_fromstring(get(url)).cssselect('.postload a.a-series-title.manga-title')[0].get('href')
-    name = re.search('/[^/]+/(\d+)\-([^/]+)\.html', url)
+    name = re.search('/[^/]+/(\d+)\-([^/]+)\\.html', url)
 
     if not name:
         raise UrlParseError()

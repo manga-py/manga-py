@@ -50,6 +50,7 @@ class TestCase(unittest.TestCase):
             ('crop_blank_max_size', 30),
             ('max_volumes', 1),
             ('multi_threads', False),
+            ('no_multi_threads', False)
         ])
 
     def _prepare_arguments(self):
@@ -72,7 +73,6 @@ class TestCase(unittest.TestCase):
         self.arguments.setArgument('url', url)
         self._prepare_arguments()
         downloader = manga.MangaDownloader(url, self.arguments.name)
-        self.assertTrue(downloader.status)
 
         downloader.main()
 
@@ -80,12 +80,17 @@ class TestCase(unittest.TestCase):
         count_files = len(_files)
         return count_files > 0
 
-    # def test_error_url(self):
-    #     url = 'http://example.org/manga'
-    #     self.arguments.setArgument('url', url)
-    #     self._prepare_arguments()
-    #     downloader = manga.MangaDownloader(url, self.arguments.name)
-    #     self.assertFalse(downloader.status)
+    def test_error_url(self):
+        url = 'http://example.org/manga'
+        self.arguments.setArgument('url', url)
+        self._prepare_arguments()
+        result = False
+        try:
+            manga.MangaDownloader(url, self.arguments.name)
+        except exceptions.ProviderNotFound:
+            result = True
+        self.assertTrue(result)
+
 
     def _urls_true(self, urls):
         self._before_test()
@@ -253,26 +258,26 @@ class TestCase(unittest.TestCase):
                 'https://bato.to/comic/_/comics/karakai-jouzu-no-takagi-san-r13108',
             ])
 
-    def test_multi_threads(self):
-        self.arguments.setArgument('multi_threads', True)
-        self._urls_true([
-                'https://bato.to/comic/_/comics/karakai-jouzu-no-takagi-san-r13108',
-            ])
-
-    def test_bato_to_false(self):
-        self._urls_false([
-                'https://bato.to/comic/omics/mousou-telepathy-r0',
-            ])
-
-    def test_manga_online_biz_true(self):
-        self._urls_true([
-                'https://manga-online.biz/blood_bank.html'
-            ])
-
-    def test_manga_online_biz_false(self):
-        self._urls_false([
-                'https://manga-online.biz/False-name-manga.html'
-            ])
+    # def test_multi_threads(self):
+    #     self.arguments.setArgument('multi_threads', True)
+    #     self._urls_true([
+    #             'https://bato.to/comic/_/comics/karakai-jouzu-no-takagi-san-r13108',
+    #         ])
+    #
+    # def test_bato_to_false(self):
+    #     self._urls_false([
+    #             'https://bato.to/comic/omics/mousou-telepathy-r0',
+    #         ])
+    #
+    # def test_manga_online_biz_true(self):
+    #     self._urls_true([
+    #             'https://manga-online.biz/blood_bank.html'
+    #         ])
+    #
+    # def test_manga_online_biz_false(self):
+    #     self._urls_false([
+    #             'https://manga-online.biz/False-name-manga.html'
+    #         ])
 
 
 if __name__ == '__main__':

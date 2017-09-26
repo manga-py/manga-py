@@ -40,11 +40,11 @@ def __get_name(test):
 def get_manga_name(url, get=None):
     if len(manga_name):
         return manga_name
-    _ = '\.com/book/([^/]+)'
+    _ = '\\.com/book/([^/]+)'
     test = re.search(_, url)
     if test:
         return __get_name(test)
-    test = re.search('\.com/chapter/.+', url)
+    test = re.search('\\.com/chapter/.+', url)
     if test:
         test = document_fromstring(get(url)).cssselect('.read-page nav a[href*="/book/"]')
         if len(test):

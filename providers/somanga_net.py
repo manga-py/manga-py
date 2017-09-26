@@ -19,7 +19,7 @@ def get_volumes(content=None, url=None, get=None, post=None):
 
 
 def get_archive_name(volume, index: int = None):
-    name = re.search('\.net/[^/]+/[^/]+/([^/]+)', volume)
+    name = re.search('\\.net/[^/]+/[^/]+/([^/]+)', volume)
     if not name:
         return ''
     return name.groups()[0]
@@ -31,7 +31,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    name = re.search('\.net/[^/]+/([^/]+)', url)
+    name = re.search('\\.net/[^/]+/([^/]+)', url)
     if not name:
         raise UrlParseError()
     return name.groups()[0]

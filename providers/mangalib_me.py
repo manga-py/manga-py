@@ -19,7 +19,7 @@ def get_volumes(content=None, url=None, get=None, post=None):
 
 
 def get_archive_name(volume, index: int = None):
-    name = re.search('\.me/[^/]+/([^/]+/[^/]+)', volume)
+    name = re.search('\\.me/[^/]+/([^/]+/[^/]+)', volume)
     if not name:
         return 'vol_{}'.format(index)
     return name.groups()[0]
@@ -35,7 +35,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
         items = json.loads(get(uri))
     except Exception:
         return []
-    href = re.search('[\'"](http[^\'"]+)[\'"].+\.page_image', content)
+    href = re.search('[\'"](http[^\'"]+)[\'"].+\\.page_image', content)
     if not href:
         _ = re.search('(\d+)/.?(\d+)', volume).groups()
         href = 'https://img1.mangalib.me/manga/one-piece/chapters/' + _[0] + '-' + _[1]
@@ -45,7 +45,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    name = re.search('\.me/([^/]+)', url)
+    name = re.search('\\.me/([^/]+)', url)
     if not name:
         raise UrlParseError()
     return name.groups()[0]

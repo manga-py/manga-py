@@ -53,7 +53,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    name = re.search('\.me/(?:upcoming/)?(?:Manga-Scan/)?([^/]+)', url)
+    name = re.search('\\.me/(?:upcoming/)?(?:Manga-Scan/)?([^/]+)', url)
     if not name:
         raise UrlParseError()
     return name.groups()[0]

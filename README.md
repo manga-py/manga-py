@@ -41,6 +41,11 @@ _If you use Windows, see 'https://github.com/sfbahr/PyCrypto-Wheels'_
 ___:warning:For sites with cloudflare protect need installed Node.js___
 
 
+___:warning:Notice! By default, the mode of multithreaded image loading is enabled___
+
+___To change this behavior, add the key --no-multi-threads___
+
+
 ___:warning:Notice! The name of the manga is always added to the path!___
 
 ___To change this behavior, add the key --no-name___

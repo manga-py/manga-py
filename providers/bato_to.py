@@ -44,7 +44,7 @@ def get_manga_name(url, get=None):
     global manga_name
     if manga_name:
         return manga_name
-    test = re.search('\.to/reader', url)
+    test = re.search('\\.to/reader', url)
     if test:
         content = _get_content(url, get)
         _url = document_fromstring(content).cssselect('li > a[href*="/comics"]')

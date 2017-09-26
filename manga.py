@@ -19,7 +19,7 @@ from threading import Thread
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
 __email__ = 'sttv-pc@mail.ru'
-__version__ = '0.2.1.1b'
+__version__ = '0.2.1.1'
 __downloader_uri__ = 'https://github.com/yuru-yuri/Manga-Downloader'
 
 if os.name == 'nt':
@@ -53,7 +53,7 @@ def _arguments_parser() -> ArgumentParser:  # pragma: no cover
     parse.add_argument('--allow-webp', action='store_const', required=False, help='Allow downloading webp images', const=True, default=False)
     parse.add_argument('--reverse-downloading', action='store_const', required=False, help='Reverse volumes downloading', const=True, default=False)
     parse.add_argument('--rewrite-exists-archives', action='store_const', required=False, const=True, default=False)
-    parse.add_argument('--multi-threads', action='store_const', required=False, help='Allow multi-threads images downloading', const=True, default=False)
+    parse.add_argument('--no-multi-threads', action='store_const', required=False, help='Disallow multi-threads images downloading', const=True, default=False)
 
     parse.add_argument('-xt', required=False, type=int, help='Manual image crop with top side', default=0)
     parse.add_argument('-xr', required=False, type=int, help='Manual image crop with right side', default=0)
@@ -84,7 +84,6 @@ class VariablesHelper:
     url = ''
     name = ''
     main_content = ''
-    status = False
     provider = None
     site_cookies = {}
     referrer_url = ''
@@ -178,14 +177,11 @@ class RequestsHelper(VariablesHelper):
         except OSError:
             return False
 
-    def _multi_threads_downloader(self, params: list, callback: callable):
-        pass
-
     def _prepare_cookies(self, url: str):
         session = requests.Session()
         h = session.head(url)
         cookies_exists = hasattr(self.provider, 'cookies') and getattr(self.provider, 'cookies')
-        if self.status and cookies_exists:
+        if cookies_exists:
             cookies = getattr(self.provider, 'cookies')
             for i in cookies:
                 if isinstance(i, str):
@@ -321,7 +317,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         if n < 1:
             raise VolumesNotFound('Volumes not found. Exit')
 
-    def __one_thread_downloader(self, temp_path, image, n, callback: callable = None):
+    def __one_thread_downloader(self, temp_path, image, n, callback: callable = None, callback_params=None):
         image_full_name = self._download_image_name_helper(temp_path, image, n)
         result = 0
         if self._download_image(image, image_full_name):
@@ -331,7 +327,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
             result = 1
 
         if callback:
-            callback(result)
+            callback(result, callback_params)
         return result
 
     def _download_images(self, images: list, archive_name: str, temp_path: str):
@@ -340,25 +336,28 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         images_len = len(images)
 
         n = 1
-        c = 0
+        _c = [0]
         if arguments.progress:
             MangaDownloader.print('')
 
-        if arguments.multi_threads:
+        if not arguments.no_multi_threads:
+            def thread_done(result, counter):
+                counter[0] += result
+
             threads = MultiThreads()
 
             for i in images:
-                threads.addThread(self.__one_thread_downloader, (temp_path, i, n))
+                threads.addThread(self.__one_thread_downloader, (temp_path, i, n, thread_done, _c))
                 n += 1
             threads.startAll()
 
-            return 1  # todo
+            return _c[0]
         else:
             for i in images:
                 self._progress(images_len, n)
-                c += self.__one_thread_downloader(temp_path, i, n)
+                _c[0] += self.__one_thread_downloader(temp_path, i, n)
                 n += 1
-        return c
+        return _c[0]
 
     def _make_archive(self, archive_name: str):
         d = self._get_archive_destination(archive_name)
@@ -396,14 +395,12 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         shutil.rmtree(temp_path)
 
     def __switcher(self):
-        self.status = True
 
         import providers
         __p = providers.get_provider(self.url)
 
         if not __p:
-            self.status = False
-            return False
+            raise ProviderNotFound()
 
         self.provider = __p
 
@@ -479,11 +476,15 @@ def manual_input(prompt: str):  # pragma: no cover
 
 
 def main(url: str, name: str = ''):  # pragma: no cover
-    manga = MangaDownloader(url, name)
-    if manga.status:
+    try:
+        manga = MangaDownloader(url, name)
         manga.main()
-    else:
-        raise StatusError('\nStatus error.\nProvider not found!\n Exit\n')
+    except ProviderNotFound:
+        MangaDownloader.print('\nStatus error.\nProvider not found!\n Exit\n')
+    except UrlParseError:
+        MangaDownloader.print('Incorrect manga url.\nPlease, recheck url and report there on %s' % __email__)
+    except (StatusError, DirectoryNotWritable, DirectoryNotExists, VolumesNotFound):
+        MangaDownloader.print(exc_info()[1], file=stderr)
 
 
 if __name__ == '__main__':  # pragma: no cover
@@ -498,12 +499,9 @@ if __name__ == '__main__':  # pragma: no cover
             url = manual_input('Please, paste manga url.')
             if add_name and len(name) < 1:
                 name = manual_input('Please, paste manga name')
-        try:
-            main(url, name)
-        except UrlParseError:
-            MangaDownloader.print('Incorrect manga url.\nPlease, recheck url and report there on %s' % __email__)
-        except (StatusError, DirectoryNotWritable, DirectoryNotExists, VolumesNotFound):
-            MangaDownloader.print(exc_info()[1], file=stderr)
+
+        main(url, name)
+
     except KeyboardInterrupt:
         MangaDownloader.print('\033[84DUser interrupt this. Exit\t\t')
         exit(0)

@@ -25,7 +25,7 @@ def get_archive_name(volume, index: int = None):
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    manga_id = re.search('\.ua/manga/[^/]+/(\d+)', volume).groups()[0]
+    manga_id = re.search('\\.ua/manga/[^/]+/(\d+)', volume).groups()[0]
     n = 0
     images = []
     while True:
@@ -44,9 +44,9 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 def get_manga_name(url, get=None):
     global manga_name
     if not len(manga_name):
-        if re.search('\.ua/manga/.+\.html', url):
+        if re.search('\\.ua/manga/.+\\.html', url):
             url = document_fromstring(get(url)).cssselect('.fullstory_main center > a')[0].get('href')
-        name = re.search('\.ua/katalog\-mangi/([^/]+)\.html', url)
+        name = re.search('\\.ua/katalog\-mangi/([^/]+)\\.html', url)
         if not name:
             raise UrlParseError()
         manga_name = name.groups()[0]

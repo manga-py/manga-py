@@ -55,7 +55,7 @@ def get_manga_name(url, get=None):
     if url.find('/chapter/') > 0:
         content = get(url)
         url = 'https:' + document_fromstring(content).cssselect('a#gotoMangaInfo')[0].get('href')
-    name = re.search('\.net/manga/(\d+_[^/]+)', url)
+    name = re.search('\\.net/manga/(\d+_[^/]+)', url)
     if not name:
         raise UrlParseError()
     manga_name = name.groups()[0]

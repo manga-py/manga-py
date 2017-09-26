@@ -9,7 +9,7 @@ domainUri = 'http://www.comico.jp'
 
 
 def get_main_content(url, get=None, post=None):
-    title_no = re.search('\.jp/.+titleNo=(\d+)', url)
+    title_no = re.search('\\.jp/.+titleNo=(\d+)', url)
     if title_no:
         content = post('{}/api/getArticleList.nhn'.format(domainUri), data={
             'titleNo': title_no.groups()[0]

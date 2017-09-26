@@ -47,7 +47,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    name = re.search('\.ru/online\-reading/[^/]+/([^/]+)', url)
+    name = re.search('\\.ru/online\-reading/[^/]+/([^/]+)', url)
     if not name:
         raise UrlParseError()
     return name.groups()[0]

@@ -58,7 +58,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.search('\.com/([^/]+)', url)
+    result = re.search('\\.com/([^/]+)', url)
     if not result:
         raise UrlParseError()
     return result.groups()

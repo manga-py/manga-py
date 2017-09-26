@@ -34,7 +34,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 def get_manga_name(url, get=None):
     # anti-"cloudflare anti-bot protection"
-    name = re.search('\.info/([^/]+)', url)
+    name = re.search('\\.info/([^/]+)', url)
     if not name:
         raise UrlParseError()
 

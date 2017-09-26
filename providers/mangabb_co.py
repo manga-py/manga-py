@@ -50,7 +50,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     _first_image = __get_img(parser)
     images = [_first_image]
 
-    img = re.search('(.+/)\d(\.\w+)', _first_image)
+    img = re.search('(.+/)\d(\\.\w+)', _first_image)
     if img:  # livehack
         img = img.groups()
         n = 1
@@ -67,7 +67,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.search('\.co/(?:manga/)?([^/]+)', url)
+    result = re.search('\\.co/(?:manga/)?([^/]+)', url)
     if not result:
         raise UrlParseError()
     return result.groups()[0]
