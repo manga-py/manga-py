@@ -5,7 +5,7 @@ import re
 import json
 
 domainUri = 'http://manga-online.biz'
-nameRegex = '\.biz/([^/]+)'
+nameRegex = '\\.biz/([^/]+)'
 
 
 def get_main_content(url, get=None, post=None):
@@ -27,7 +27,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    test_name = re.search(nameRegex + '\.html', url)
+    test_name = re.search(nameRegex + '\\.html', url)
     if test_name:
         return test_name.groups()[0]
     return re.search(nameRegex, url).groups()[0]

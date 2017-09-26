@@ -20,3 +20,7 @@ class StatusError(AttributeError):
 
 class UrlParseError(AttributeError):
     pass
+
+
+class ProviderNotFound(AttributeError):
+    pass

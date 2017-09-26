@@ -3,6 +3,7 @@
 
 from lxml.html import document_fromstring
 import re
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://www.mangareader.net'
 
@@ -19,7 +20,7 @@ def get_volumes(content=None, url=None, get=None, post=None):
 
 
 def get_archive_name(volume, index: int = None):
-    name = re.search('\.net/.+?/(\d+)', volume)
+    name = re.search('\\.net/.+?/(\d+)', volume)
     if not name:
         return 'vol_{}'.format(index)
     return name.groups()[0]
@@ -44,9 +45,9 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.search('\.net/([^/]+)', url)
+    result = re.search('\\.net/([^/]+)', url)
     if not result:
-        return ''
+        raise UrlParseError()
     return result.groups()[0]
 
 

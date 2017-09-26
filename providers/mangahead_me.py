@@ -3,12 +3,13 @@
 
 from lxml.html import document_fromstring
 import re
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://mangahead.me'
 
 
 def get_main_content(url, get=None, post=None):
-    parser = re.search('\.me/(?:index.php/)?(Manga-\w+-Scan/)([^/]+)', url).groups()
+    parser = re.search('\\.me/(?:index.php/)?(Manga-\w+-Scan/)([^/]+)', url).groups()
     return get('{}/{}/{}'.format(domainUri, parser[1], parser[1]))
 
 
@@ -18,7 +19,7 @@ def get_volumes(content=None, url=None, get=None, post=None):
 
 
 def get_archive_name(volume, index: int = None):
-    name = re.search('\.me/(?:Manga-\w+-Scan/)?[^/]+/([^/]+)', volume)
+    name = re.search('\\.me/(?:Manga-\w+-Scan/)?[^/]+/([^/]+)', volume)
     if not name:
         return 'vol_{:0>3}'.format(index)
     return name.groups()[0]
@@ -44,9 +45,9 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    name = re.search('\.me/(?:index.php/)?(?:Manga-\w+-Scan/)?([^/]+)', url)
+    name = re.search('\\.me/(?:index.php/)?(?:Manga-\w+-Scan/)?([^/]+)', url)
     if not name:
-        return ''
+        raise UrlParseError()
     return name.groups()[0]
 
 

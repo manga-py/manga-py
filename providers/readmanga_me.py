@@ -4,6 +4,7 @@
 from lxml.html import document_fromstring
 import re
 import json
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://readmanga.me'
 
@@ -34,20 +35,17 @@ def get_archive_name(volume, index: int = None):
 def get_images(main_content=None, volume=None, get=None, post=None):
     _url = (domainUri + volume) if volume.find(domainUri) < 0 else volume
     content = get(_url)
-    result = re.search('rm_h\.init.+?(\[\[.+\]\])', content, re.M)
+    result = re.search('rm_h\\.init.+?(\[\[.+\]\])', content, re.M)
     if not result:
         return []
     return [i[1] + i[0] + i[2] for i in json.loads(result.groups()[0].replace("'", '"'))]
 
 
 def get_manga_name(url, get=None):
-    result = re.search('\.me/([^/]+)', url)
+    result = re.search('\\.me/([^/]+)', url)
     if not result:
-        return ''
-    result = result.groups()
-    if not len(result):
-        return ''
-    return result[0]
+        raise UrlParseError()
+    return result.groups()[0]
 
 
 if __name__ == '__main__':

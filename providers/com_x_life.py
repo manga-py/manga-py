@@ -4,12 +4,13 @@
 from lxml.html import document_fromstring
 import re
 import json
+from helpers.exceptions import UrlParseError
 
 domainUri = 'https://com-x.life'
 
 
 def get_main_content(url, get=None, post=None):
-    manga_id = re.search('\.life/readcomix/\d+', url)
+    manga_id = re.search('\\.life/readcomix/\d+', url)
     if manga_id:
         content = document_fromstring(get(url)).cssselect('#dle-speedbar > a')
         return get(content[0].get('href'))
@@ -36,14 +37,14 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    test = re.search('\.life/readcomix/.+\.html', url)
+    test = re.search('\\.life/readcomix/.+\\.html', url)
     if test:
         parser = document_fromstring(get(url)).cssselect('#dle-speedbar > a')
         url = '.life' + parser[0].get('href')
-    href = re.search('\.life/\d+\-(.+)\.html', url)
-    if not href:
-        return ''
-    return href.groups()[0]
+    name = re.search('\\.life/\d+\-(.+)\\.html', url)
+    if not name:
+        raise UrlParseError()
+    return name.groups()[0]
 
 
 if __name__ == '__main__':

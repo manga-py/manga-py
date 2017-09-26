@@ -3,6 +3,7 @@
 
 import re
 import json
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://bulumanga.com'
 manga_id = 0
@@ -51,7 +52,7 @@ def get_volumes(content=None, url=None, get=None, post=None):
         items = json.loads(response)['chapters']
         items.reverse()
         return items
-    except json.decoder.JSONDecodeError:
+    except json.JSONDecodeError:
         return []
 
 
@@ -72,7 +73,7 @@ def get_manga_name(url, get=None):
     if not len(_content):
         _id = re.search('id=(\d+)', url)
         if not _id:
-            raise AttributeError('Manga id not found')
+            raise UrlParseError()
         _id = _id.groups()[0]
         _url = '{}/detail/{}'.format(domainUri, _id)
         content = get(_url)

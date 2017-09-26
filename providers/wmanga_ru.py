@@ -3,6 +3,7 @@
 
 from lxml.html import document_fromstring
 import re
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://wmanga.ru'
 
@@ -19,7 +20,7 @@ def get_volumes(content=None, url=None, get=None, post=None):
 
 
 def get_archive_name(volume, index: int = None):
-    name = re.search('\.ru/starter/manga_[^/]+/[^/]+/([^/]+/[^/]+)', volume)
+    name = re.search('\\.ru/starter/manga_[^/]+/[^/]+/([^/]+/[^/]+)', volume)
     if not name:
         return 'vol_{:0>3}'.format(index)
     return name.groups()[0]
@@ -31,9 +32,9 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    name = re.search('\.ru/starter/manga_[^/]+/([^/]+)', url)
+    name = re.search('\\.ru/starter/manga_[^/]+/([^/]+)', url)
     if not name:
-        return ''
+        raise UrlParseError()
     return name.groups()[0]
 
 

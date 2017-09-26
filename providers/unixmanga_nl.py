@@ -3,6 +3,7 @@
 
 from lxml.html import document_fromstring
 import re
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://unixmanga.nl'
 
@@ -18,7 +19,7 @@ def get_volumes(content=None, url=None, get=None, post=None):
     items = []
     for i in parser:
         url = i.get('href')  # http://unixmanga.nl/onlinereading/13_Club/13_Club_c005.html
-        if re.search('/onlinereading/[^/]+/[^/]+\.html', url):
+        if re.search('/onlinereading/[^/]+/[^/]+\\.html', url):
             items.append(url)
     return items
 
@@ -43,9 +44,9 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    parser = re.search('\.nl/onlinereading/([^/.]+)(?:/[^/])?\.html', url)
+    parser = re.search('\\.nl/onlinereading/([^/.]+)(?:/[^/])?\\.html', url)
     if not parser:
-        return ''
+        raise UrlParseError()
     return parser.groups()[0]
 
 

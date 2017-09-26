@@ -4,6 +4,7 @@
 from lxml.html import document_fromstring
 import re
 from urllib.parse import urlparse
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://ninemanga.com'
 
@@ -21,7 +22,7 @@ def get_volumes(content: str, url=None, get=None, post=None):
     url = urlparse(url)
     url = '{}://{}'.format(url.scheme, url.netloc)
     for i in result:
-        u = re.search('(/chapter/.*/\d+)\.html', i.get('href'))
+        u = re.search('(/chapter/.*/\d+)\\.html', i.get('href'))
         if u is not None:
             img = u.groups()
             # lifehack
@@ -44,13 +45,10 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.search('\.com/manga/(.+)\.html', url)
+    result = re.search('\\.com/manga/(.+)\\.html', url)
     if not result:
-        return ''
-    result = result.groups()
-    if not len(result):
-        return ''
-    return result[0]
+        raise UrlParseError
+    return result.groups()[0]
 
 
 if __name__ == '__main__':

@@ -3,6 +3,7 @@
 
 from lxml.html import document_fromstring
 import re
+from helpers.exceptions import UrlParseError
 
 domainUri = 'https://bato.to'
 manga_name = None
@@ -43,7 +44,7 @@ def get_manga_name(url, get=None):
     global manga_name
     if manga_name:
         return manga_name
-    test = re.search('\.to/reader', url)
+    test = re.search('\\.to/reader', url)
     if test:
         content = _get_content(url, get)
         _url = document_fromstring(content).cssselect('li > a[href*="/comics"]')
@@ -51,14 +52,14 @@ def get_manga_name(url, get=None):
             url = _url[0].get('href')
     name = re.search('/comics/([^/]+)', url)
     if not name:
-        return ''
+        raise UrlParseError()
     manga_name = name.groups()[0]
     return manga_name
 
 
 def _get_content(url, get, p=1):
     if url.find('#') < 5:
-        return ''
+        raise UrlParseError()
     _hash = url.split('#')[1]
     if _hash.find('_') > 0:
         _hash = _hash.split('_')[0]

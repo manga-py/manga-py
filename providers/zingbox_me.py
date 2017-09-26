@@ -3,6 +3,7 @@
 
 import re
 import json
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://www.zingbox.me'
 
@@ -20,7 +21,7 @@ def get_main_content(url, get=None, post=None):
 def get_volumes(content=None, url=None, get=None, post=None):
     try:
         return json.loads(content)['child']
-    except Exception:
+    except json.JSONDecodeError:
         return []
 
 
@@ -39,9 +40,9 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    name = re.search('\.me/manga/(?:\d+/)?([^/]+)', url)
+    name = re.search('\\.me/manga/(?:\d+/)?([^/]+)', url)
     if not name:
-        return ''
+        raise UrlParseError()
     return name.groups()[0].replace('+', ' ')
 
 

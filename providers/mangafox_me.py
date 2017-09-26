@@ -3,9 +3,9 @@
 
 from lxml.html import document_fromstring
 import re
+from helpers.exceptions import UrlParseError
 
 domainUri = 'http://mangafox.me'
-uriRegex = '/manga/([^/]+)/?'
 
 
 def get_main_content(url, get=None, post=None):
@@ -54,9 +54,9 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.search(uriRegex, url)
+    result = re.search('/manga/([^/]+)/?', url)
     if not result:
-        return ''
+        raise UrlParseError()
     return result.groups()[0]
 
 
