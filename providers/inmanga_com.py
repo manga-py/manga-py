@@ -50,7 +50,3 @@ def get_manga_name(url, get=None):
     manga_name = groups[0]
     uri_hex = groups[1]
     return groups[0]
-
-
-if __name__ == '__main__':
-    print('Don\'t run this, please!')

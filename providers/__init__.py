@@ -76,7 +76,3 @@ def get_provider(url):
         if result is not None:
             return __import__('providers.{}'.format(i), fromlist=['providers'])
     return False
-
-
-if __name__ == '__main__':
-    print('Don\'t run this, please!')

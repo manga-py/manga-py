@@ -51,7 +51,3 @@ def get_manga_name(url, get=None):
             test = re.search(_, test[0].get('href'))
             return __get_name(test) if test else ''
     raise UrlParseError()
-
-
-if __name__ == '__main__':
-    print('Don\'t run this, please!')

@@ -38,7 +38,3 @@ def get_manga_name(url, get=None):  # todo: refactoring it!
     if test:
         return test.groups()[0]
     return re.search(uriRegex, url).groups()[0]
-
-
-if __name__ == '__main__':
-    print('Don\'t run this, please!')

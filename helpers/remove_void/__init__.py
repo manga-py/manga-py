@@ -188,7 +188,3 @@ class Cropper(Pixel):
             return False
 
         return True
-
-
-if __name__ == '__main__':
-    print('Don\'t run this, please!')

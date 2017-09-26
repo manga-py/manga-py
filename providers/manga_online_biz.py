@@ -45,7 +45,3 @@ def get_zip(main_content=None, volume=None, get=None, post=None):
         result.reverse()
         return [domainUri + i['downloadUrl'] for i in result]
     return []
-
-
-if __name__ == '__main__':
-    print('Don\'t run this, please!')
