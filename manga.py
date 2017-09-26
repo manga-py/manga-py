@@ -31,6 +31,7 @@ else:
 count_retries = 5
 rnd_temp_path = 'manga-donloader_{}'.format(random.random()*10)
 archivesDir = os.path.join(os.getcwd(), 'manga')
+simulate_downloading = False
 
 
 def _arguments_parser() -> ArgumentParser:  # pragma: no cover
@@ -172,6 +173,7 @@ class RequestsHelper(VariablesHelper):
 
             with open(file_name, 'wb') as out_file:
                 out_file.write(response.content)
+                out_file.close()
             response.close()
             return True
         except OSError:
@@ -273,7 +275,16 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         self.referrer_url = '{}://{}'.format(ref.scheme, ref.netloc)
         self._prepare_cookies(self.referrer_url)
 
+    def __simulate_downloading(self, path):
+        with open(path, 'wb') as f:
+            f.write(b'0')
+            f.close()
+        return True
+
     def _download_image(self, url: str, path: str) -> bool:
+        if simulate_downloading:
+            self.__simulate_downloading(path)
+            return True
         r = 0
         while r < count_retries:
             if self._safe_downloader(url, path):

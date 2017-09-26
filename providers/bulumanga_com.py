@@ -10,6 +10,20 @@ manga_id = 0
 _content = ''
 
 
+def _manual_source_select(resources):
+
+    print('Please, select resource:')
+    for n, i in enumerate(resources):
+        print('{} - {}'.format(n+1, i['source']))
+
+    while True:
+        n = int(input())
+        if len(resources) >= n > 0:
+            return resources[n - 1]
+        print('Error. Please, select resource')
+
+
+
 def _check_source(url, _id):
     source = re.search('source=(\w+)', url)
     resources = json.loads(_content)['sources']
@@ -19,15 +33,7 @@ def _check_source(url, _id):
             if i['source'] == source:
                 return [_id, resources[n]]
 
-    print('Please, select resource:')
-    for n, i in enumerate(resources):
-        print('{} - {}'.format(n+1, i['source']))
-
-    while True:
-        n = int(input())
-        if len(resources) >= n > 0:
-            return [_id, resources[n - 1]]
-        print('Error. Please, select resource')
+    return [_id, _manual_source_select(resources)]
 
 
 def get_main_content(url, get=None, post=None):
