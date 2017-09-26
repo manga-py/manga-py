@@ -77,7 +77,3 @@ def get_zip(main_content=None, volume=None, get=None, post=None):
 cookies = None
 
 # */ NOT REQUIRED
-
-
-if __name__ == '__main__':
-    print('Don\'t run this, please!')

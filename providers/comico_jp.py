@@ -42,7 +42,3 @@ def get_manga_name(url, get=None):
     name = name[:name.rfind('|')].strip(' \n\t\r')
 
     return name
-
-
-if __name__ == '__main__':
-    print('Don\'t run this, please!')

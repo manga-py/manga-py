@@ -46,8 +46,3 @@ def get_manga_name(url, get=None):
         name = document_fromstring(_content).cssselect('#mainContent h1')
         title = name[0].text_content()
     return title
-
-
-
-if __name__ == '__main__':
-    print('Don\'t run this, please!')

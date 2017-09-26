@@ -59,7 +59,3 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 def get_manga_name(url, get=None):
     result = re.search(uriRegex, url).groups()
     return result[0]
-
-
-if __name__ == '__main__':
-    print('Don\'t run this, please!')

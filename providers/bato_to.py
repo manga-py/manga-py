@@ -65,7 +65,3 @@ def _get_content(url, get, p=1):
         _hash = _hash.split('_')[0]
     api_uri = 'https://bato.to/areader?id={}&p={}'.format(_hash, p)
     return get(api_uri, headers={'Referer': 'https://bato.to/reader'})
-
-
-if __name__ == '__main__':
-    print('Don\'t run this, please!')

@@ -51,7 +51,3 @@ def get_manga_name(url, get=None):
         raise UrlParseError()
     _ = name.groups()
     return '{}_{}'.format(_[0], _[1])
-
-
-if __name__ == '__main__':
-    print('Don\'t run this, please!')
