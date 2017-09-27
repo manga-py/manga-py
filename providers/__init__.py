@@ -64,6 +64,7 @@ providers_list = {
     'tenmanga_com': 'tenmanga\\.com/(book|chapter)/.+',
     'unixmanga_nl': 'unixmanga\\.nl/onlinereading/.+\\.html',
     'wmanga_ru': 'wmanga\\.ru/starter/manga_.+',
+    'viz_com': 'viz\\.com/shonenjump/chapters/.+',
     'yaoichan_me': 'yaoichan\\.me/(manga|online).+',
     'zingbox_me': 'zingbox\\.me/.+',
     'zip_read_com': 'zip\\-read\\.com/.+',

@@ -1,20 +1,22 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import atexit
 import os
 import random
-import tempfile
 import shutil
-import atexit
+import tempfile
+import zipfile
+from argparse import ArgumentParser
+from sys import exc_info, stderr
+from threading import Thread
+from urllib.parse import urlparse
+
 import requests
 from requests.exceptions import TooManyRedirects
-import zipfile
-from sys import exc_info, stderr
-from argparse import ArgumentParser
-from urllib.parse import urlparse
+
 from helpers import remove_void
 from helpers.exceptions import *
-from threading import Thread
 
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
@@ -65,6 +67,8 @@ def _arguments_parser() -> ArgumentParser:  # pragma: no cover
     parse.add_argument('--crop-blank-factor', required=False, type=int, help='Find factor 0..255. Default: 100', default=100)
     parse.add_argument('--crop-blank-max-size', required=False, type=int, help='Maximum crop size (px). Default: 30', default=30)
 
+    parse.add_argument('--proxy', required=False, type=str, help='Http proxy', default='')
+
     return parse
 
 
@@ -106,6 +110,7 @@ class MultiThreads:
             t.start()
         for t in self.threads:  # joining all threads
             t.join()
+        self.threads = []
 
 
 class RequestsHelper(VariablesHelper):
@@ -131,15 +136,15 @@ class RequestsHelper(VariablesHelper):
         return url
 
     # fast fixed #5
-    def __requests_helper(self, method, url, headers=None, cookies=None, data=None, files=None, max_redirects=10, timeout=None) -> requests.Response:
-        r = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data, files=files, allow_redirects=False)
+    def __requests_helper(self, method, url, headers=None, cookies=None, data=None, files=None, max_redirects=10, timeout=None, proxies=None) -> requests.Response:
+        r = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data, files=files, allow_redirects=False, proxies=proxies)
         if r.is_redirect:
             if max_redirects < 1:
                 raise TooManyRedirects('Too many redirects', response=r)
             return self.__requests_helper(method, r.headers['location'], headers, cookies, data, files, max_redirects-1, timeout=timeout)
         return r
 
-    def __requests(self, url: str, headers: dict=None, cookies: dict=None, data=None, method='get', files=None, timeout=None) -> requests.Response:
+    def __requests(self, url: str, headers: dict=None, cookies: dict=None, data=None, method='get', files=None, timeout=None, proxies=None) -> requests.Response:
         if not headers:
             headers = {}
         if not cookies:
@@ -148,10 +153,13 @@ class RequestsHelper(VariablesHelper):
         headers.setdefault('Referer', self.referrer_url)
         if arguments.allow_webp:
             headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
-        return self.__requests_helper(method=method, url=url, headers=headers, cookies=cookies, data=data, files=files, timeout=timeout)
+        return self.__requests_helper(method=method, url=url, headers=headers, cookies=cookies, data=data, files=files, timeout=timeout, proxies=proxies)
 
     def _get(self, url: str, headers: dict=None, cookies: dict=None, offset: int = -1, maxlen: int = -1) -> str:
-        response = self.__requests(url=url, headers=headers, cookies=cookies, method='get')
+        proxies = None
+        if hasattr(arguments, 'proxy') and arguments.proxy.find('http') == 0:
+            proxies = {'http': arguments.proxy, 'https': arguments.proxy}
+        response = self.__requests(url=url, headers=headers, cookies=cookies, method='get', proxies=proxies)
         ret = response.text
         response.close()
         if offset > 0:
@@ -161,12 +169,17 @@ class RequestsHelper(VariablesHelper):
         return ret
 
     def _post(self, url: str, headers: dict=None, cookies: dict=None, data: dict = (), files=None) -> str:
-        response = self.__requests(url=url, headers=headers, cookies=cookies, method='post', data=data, files=files)
+        proxies = None
+        if hasattr(arguments, 'proxy') and arguments.proxy.find('http') == 0:
+            proxies = {'http': arguments.proxy, 'https': arguments.proxy}
+        response = self.__requests(url=url, headers=headers, cookies=cookies, method='post', data=data, files=files, proxies=proxies)
         text = response.text
         response.close()
         return text
 
     def _safe_downloader(self, url, file_name) -> bool:
+        if url == -1:  # FIXME: viz.com crunch
+            return True
         try:
             url = self.__safe_downloader_url_helper(url)
             response = self.__requests(url, method='get', timeout=3)
@@ -268,6 +281,9 @@ class MangaDownloader(RequestsHelper, ImageHelper):
             self.name = self.provider.get_manga_name(self.url, get=self._get)
         self._make_manga_dir()
 
+        # FIXME: viz.com crunch
+        setattr(self.provider, 'download_one_file', self.download_one_file)
+
         if len(arguments.user_agent):
             self.user_agent = arguments.user_agent
 
@@ -281,13 +297,10 @@ class MangaDownloader(RequestsHelper, ImageHelper):
             f.close()
         return True
 
-    def _download_image(self, url: str, path: str) -> bool:
-        if simulate_downloading:
-            self.__simulate_downloading(path)
-            return True
+    def __download_one_file_helper(self, url, dest):
         r = 0
         while r < count_retries:
-            if self._safe_downloader(url, path):
+            if self._safe_downloader(url, dest):
                 return True
             mode = 'Skip image'
             if r < count_retries:
@@ -295,13 +308,22 @@ class MangaDownloader(RequestsHelper, ImageHelper):
             MangaDownloader.print_info('Error downloading. %s' % (mode,))
         return False
 
+    def download_one_file(self, url: str, dest: str = None) -> bool:
+        if not dest:
+            name = os.path.basename(RequestsHelper.remove_file_name_params(url))
+            dest = os.path.join(get_temp_path(), name)
+        if simulate_downloading:
+            self.__simulate_downloading(dest)
+            return True
+        return self.__download_one_file_helper(url, dest)
+
     def __download_archive(self, url: str):
         archive_name = os.path.basename(url)
         if archive_name.find('.zip') > 0:
             archive_name = archive_name[:archive_name.find('.zip')]  # remove .zip
         dst = self._get_archive_destination(archive_name)
         MangaDownloader.print_info('Downloading archive: %s' % (archive_name,))
-        self._download_image(url, dst)
+        self.download_one_file(url, dst)
 
     def _archive_helper(self, archives: list):
         n = 0
@@ -331,7 +353,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
     def __one_thread_downloader(self, temp_path, image, n, callback: callable = None, callback_params=None):
         image_full_name = self._download_image_name_helper(temp_path, image, n)
         result = 0
-        if self._download_image(image, image_full_name):
+        if self.download_one_file(image, image_full_name):
             self._crop_manual(image_full_name)
             if arguments.crop_blank:
                 self._crop_image(image_full_name)
