@@ -65,6 +65,8 @@ def _arguments_parser() -> ArgumentParser:  # pragma: no cover
     parse.add_argument('--crop-blank-factor', required=False, type=int, help='Find factor 0..255. Default: 100', default=100)
     parse.add_argument('--crop-blank-max-size', required=False, type=int, help='Maximum crop size (px). Default: 30', default=30)
 
+    parse.add_argument('--proxy', required=False, type=str, help='Http proxy', default='')
+
     return parse
 
 
@@ -132,7 +134,10 @@ class RequestsHelper(VariablesHelper):
 
     # fast fixed #5
     def __requests_helper(self, method, url, headers=None, cookies=None, data=None, files=None, max_redirects=10, timeout=None) -> requests.Response:
-        r = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data, files=files, allow_redirects=False)
+        proxy = {}
+        if hasattr(arguments, 'proxy') and arguments.proxy.find('http') == 0:
+            proxy = {'http': arguments.proxy, 'https': arguments.proxy}
+        r = getattr(requests, method)(url=url, headers=headers, cookies=cookies, data=data, files=files, allow_redirects=False, proxies=proxy)
         if r.is_redirect:
             if max_redirects < 1:
                 raise TooManyRedirects('Too many redirects', response=r)
