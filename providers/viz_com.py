@@ -3,9 +3,8 @@
 
 from lxml.html import document_fromstring
 import re
-from threading import Thread
-from os import path
 from helpers.exceptions import UrlParseError
+from manga import MultiThreads
 
 domainUri = 'https://www.viz.com'
 
@@ -25,22 +24,6 @@ def get_archive_name(volume, index: int = None):
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    class MultiThreads:
-
-        threads = []
-
-        def __init__(self):
-            self.threads = []
-
-        def addThread(self, target: callable, args: tuple):
-            self.threads.append(Thread(target=target, args=args))
-
-        def startAll(self):
-            for t in self.threads:  # starting all threads
-                t.start()
-            for t in self.threads:  # joining all threads
-                t.join()
-
     volume_id = re.search('/chapter/[^/]+/(\d+)', volume)
     params = [
         'device%5Fid=3',
@@ -71,7 +54,9 @@ def get_images(main_content=None, volume=None, get=None, post=None):
             if img_url.find('blankpage.jpg') > 0:
                 break
             # see manga.py:280
-            safe_downloader(img_url, path.join(temp_root_path, 'img_{:0>3}.jpg'.format(_img_index)))
+            t.addThread(download_one_file, (img_url,))
+            # safe_downloader(img_url, path.join(temp_root_path, 'img_{:0>3}.jpg'.format(_img_index)))
+        t.startAll()
 
         n += 2
 
