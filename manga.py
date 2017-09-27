@@ -172,6 +172,8 @@ class RequestsHelper(VariablesHelper):
         return text
 
     def _safe_downloader(self, url, file_name) -> bool:
+        if url == -1:  # FIXME: viz.com crunch
+            return True
         try:
             url = self.__safe_downloader_url_helper(url)
             response = self.__requests(url, method='get', timeout=3)
@@ -272,6 +274,10 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         if add_name and len(name) < 1:
             self.name = self.provider.get_manga_name(self.url, get=self._get)
         self._make_manga_dir()
+
+        # FIXME: viz.com crunch
+        setattr(self.provider, 'temp_root_path', get_temp_path())
+        setattr(self.provider, 'safe_downloader', self._safe_downloader)
 
         if len(arguments.user_agent):
             self.user_agent = arguments.user_agent
