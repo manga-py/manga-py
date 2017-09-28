@@ -311,3 +311,35 @@ ul.list li {
     }
   }
 }
+
+h4[data-symbol] {
+  margin-left: 1.3rem;
+  position: relative;
+  &:after {
+    font-weight: 500;
+    font-size: 1.2rem;
+    opacity: .9;
+    font-style: normal;
+    content: attr(data-symbol) ")";
+    position: absolute;
+    left: -1rem;
+    top: 1.05rem;
+  }
+}
+
+.h-ul {
+  padding: 1rem 1rem 0;
+  &.h-ul-two {
+    padding: 1rem 1rem 0 2rem;
+  }
+}
+
+.content-inner-wrapper {
+    padding-left: .4rem;
+}
+
+span.subcontent {
+  font-size: 1rem;
+  font-weight: normal;
+  color: #565656;
+}
