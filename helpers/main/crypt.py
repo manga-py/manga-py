@@ -3,6 +3,9 @@
 
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
+from struct import pack, unpack
+from hashlib import md5
+import re
 import base64
 import codecs
 import execjs
@@ -57,3 +60,65 @@ def manhuagui(js, default=''):
         return default
     except Exception:
         return default
+
+
+class ComicWalker:
+    BASE_KEY = None
+
+    def __init__(self):
+        key = [173, 43, 117, 127, 230, 58, 73, 84, 154, 177, 47, 81, 108, 200, 101, 65]
+        self.BASE_KEY = self.pack(key)
+
+    @staticmethod
+    def pack(int_list) -> bytes:
+        """
+        :param int_list: list
+        :return: str
+        """
+        base_frm = '{}B'.format(len(int_list))
+        return pack(base_frm, *int_list)
+
+    @staticmethod
+    def unpack(string) -> tuple:
+        """
+        :param string: str
+        :return: tuple
+        """
+        return unpack('B', string.encode())
+
+    def decrypt_license(self, bid, u1, license_b64) -> bytes:
+        """
+        :param bid: browser id
+        :param u1: got from cookie
+        :param license_b64: Base64-encoded license object
+        :return: str
+        """
+        h = [ord(i) for i in bid]
+        if u1:
+            h += [ord(i) for i in u1]
+        return self.decrypt_b64(self.pack(h) + self.BASE_KEY, license_b64.encode())
+
+    def decrypt_b64(self, key, b64data) -> bytes:
+        """
+        :param key: key
+        :param b64data: Encrypted Base64-encoded data
+        :return: Decrypted data
+        """
+        data = base64.b64decode(b64data)
+        md5sum = md5()
+        md5sum.update(key + data[8:8])
+        md5sum = md5sum.hexdigest()
+        lt = re.findall('(..)', md5sum)
+        lt = [int(i, 16) for i in lt]
+        rc4 = self.decrypt_rc4(lt + self.unpack(data[-16:]))
+        return self.pack(rc4)
+
+
+    def decrypt_rc4(self, arg):
+        pass
+
+    def gen_rc4_table(key):
+        pass
+
+    def comicwalker(self):
+        pass
