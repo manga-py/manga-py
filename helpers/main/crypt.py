@@ -63,6 +63,9 @@ def manhuagui(js, default=''):
 
 
 class ComicWalker:
+    """
+    @see https://github.com/eagletmt/comic_walker/blob/master/lib/comic_walker/cipher.rb
+    """
     BASE_KEY = None
 
     def __init__(self):
@@ -110,14 +113,23 @@ class ComicWalker:
         md5sum = md5sum.hexdigest()
         lt = re.findall('(..)', md5sum)
         lt = [int(i, 16) for i in lt]
-        rc4 = self.decrypt_rc4(lt + self.unpack(data[-16:]))
+        rc4 = self.decrypt_rc4(lt, self.unpack(data[-16:]))
         return self.pack(rc4)
 
+    def decrypt_rc4(self, key, data) -> list:
+        s = self.gen_rc4_table(key)
+        i = 0
+        j = 0
+        result = []
+        for x in data:
+            i = (i + 1) & 0xff
+            j = (j + s[i]) & 0xff
+            s[i], s[j] = s[j], s[i]
+            k = s[(s[i] + s[j]) & 0xff]
+            result.append(x ^ k)
+        return result
 
-    def decrypt_rc4(self, arg):
-        pass
-
-    def gen_rc4_table(key):
+    def gen_rc4_table(self, key) -> list:
         pass
 
     def comicwalker(self):
