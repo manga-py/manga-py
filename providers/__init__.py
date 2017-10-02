@@ -45,7 +45,8 @@ providers_list = {
     'mangapanda_com': 'mangapanda\\.com/.+',
     'mangapark_me': 'mangapark\\.me/manga/.+',
     'mangareader_net': 'mangareader\\.net/.+',
-    'mangarussia_com': 'mangarussia\\.com/manga.+',
+    'mangaroot_com': 'mangaroot\\.com/manga/.+',
+    'mangarussia_com': 'mangarussia\\.com/manga/.+',
     'mangasaurus_com': 'mangasaurus\\.com/manga.+',
     'mangasupa_com': 'mangasupa\\.com/(manga|chapter).+',
     'mangatan_net': '(mangashin\\.com|mangatan\\.net)/(manga|chapter)',  # site renamed to mangashin.com
