@@ -78,3 +78,6 @@ def get_manga_name(url, get=None):
     :return: str
     """
     pass
+
+
+download_one_file = lambda x: x

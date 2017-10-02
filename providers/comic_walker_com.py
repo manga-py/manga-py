@@ -8,6 +8,8 @@ import json
 domainUri = 'http://comic-walker.com'
 apiUri = 'https://cnts.comic-walker.com/api4js/v1/c'
 
+# see https://github.com/eagletmt/comic_walker
+
 _content = None
 title = ''
 
