@@ -59,6 +59,7 @@ providers_list = {
     'read_yagami_me': 'read\\.yagami\\.me/.+',
     'readmanga_me': 'readmanga\\.me/.+',
     'readmanga_eu': 'readmanga\\.eu/manga/\d+/.+',
+    'readms_net': 'readms\\.net/(r|manga)/.+',
     'selfmanga_ru': 'selfmanga\\.ru/.+',
     'shakai_ru': 'shakai\\.ru/manga.*?/\d+',
     'somanga_net': 'somanga\\.net/.+',
