@@ -42,7 +42,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     :param volume: mixed (2)
     :param get: request.get
     :param post: request.post
-    :return: dict(str)
+    :return: list
     """
     pass
 
