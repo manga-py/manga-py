@@ -21,7 +21,7 @@ from helpers.exceptions import *
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
 __email__ = 'sttv-pc@mail.ru'
-__version__ = '0.2.2.0'
+__version__ = '0.2.2.2'
 __downloader_uri__ = 'https://github.com/yuru-yuri/Manga-Downloader'
 
 if os.name == 'nt':
