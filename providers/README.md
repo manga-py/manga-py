@@ -1,3 +1,10 @@
+# All providers
+
+### For template example, see _template.py
+
+## Functions:
+
+```python
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
@@ -6,7 +13,7 @@
 # import json
 
 
-def get_main_content(url, get=None, post=None):
+def get_main_content(url: str, get: callable, post: callable):
     """
     :param url: str
     :param get: request.get
@@ -16,9 +23,9 @@ def get_main_content(url, get=None, post=None):
     pass
 
 
-def get_volumes(content=None, url=None, get=None, post=None):
+def get_volumes(content=None, url: str, get: callable, post: callable):
     """
-    :param content: mixed (1)
+    :param content: mixed (1) (Content from get_main_content)
     :param url: str
     :param get: request.get
     :param post: request.post
@@ -27,27 +34,27 @@ def get_volumes(content=None, url=None, get=None, post=None):
     pass
 
 
-def get_archive_name(volume, index: int = None):
+def get_archive_name(volume, index: int = None) -> str:
     """
-    :param volume: mixed (2)
+    :param volume: mixed (2) mixed element from get_volumes
     :param index: int
     :return: str
     """
     pass
 
 
-def get_images(main_content=None, volume=None, get=None, post=None):
+def get_images(main_content=None, volume=None, get=None, post=None) -> list:
     """
     :param main_content: mixed (1)
     :param volume: mixed (2)
     :param get: request.get
     :param post: request.post
-    :return: dict(str)
+    :return: list
     """
     pass
 
 
-def get_manga_name(url, get=None):
+def get_manga_name(url, get=callable):
     """
     :param url: str
     :param get: request.get
@@ -62,18 +69,28 @@ def get_manga_name(url, get=None):
 download_zip_only = None
 
 
-def get_zip(main_content=None, volume=None, get=None, post=None):
+def get_zip(main_content=None, volume=None, get: callable, post: callable):
     """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
+    :param main_content: mixed (1) (Content from get_main_content)
+    :param volume: mixed (2) (Mixed element from get_volumes)
     :param get: request.get
     :param post: request.post
-    :return: str|str[]
+    :return: str|list
     """
     pass
 
 # if not None - additional cookies
-# cookies = [{'value': 'cookie value','domain': 'asd.domain','path': '/cookie/path/','name': 'cookie_name',}, 'Browser']
+# cookies = [
+#  {
+#    'value': 'cookie value',
+#    'domain': 'asd.domain',
+#    'path': '/cookie/path/',
+#    'name': 'cookie_name',
+#  },
+#  'Browser'
+# ]
 cookies = None
 
 # */ NOT REQUIRED
+
+```
