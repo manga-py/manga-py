@@ -128,26 +128,27 @@ def _dt_now(timestamp=None):
 
 
 def _login():
-    if path.isfile(cookies_file):
-        with open(cookies_file, 'r+') as c:
-            _cookies = c.read()
-        if not len(_cookies):
-            c.close()
-            with open(cookies_file, 'w+') as c:
-                login_cookies = __login_helper()
-            for i in login_cookies:
-                if i.name == 'REMEMBER':
-                    obj = {
-                        'name': i.name,
-                        'value': i.value,
-                        'path': '/',
-                        'domain': '.lezhin.com',
-                        'expires': i.expires
-                    }
-                    c.write(json.dumps(obj))
-                    c.close()
-        else:
-            _cookies = json.loads(_cookies)
-            now = datetime.datetime.now()
-            if int(_cookies['expires']) < int(now.total_seconds()):
-                __login_helper(_cookies)
+    pass
+    # if path.isfile(cookies_file):
+    #     with open(cookies_file, 'r+') as c:
+    #         _cookies = c.read()
+    #     if not len(_cookies):
+    #         c.close()
+    #         with open(cookies_file, 'w+') as c:
+    #             login_cookies = __login_helper()
+    #         for i in login_cookies:
+    #             if i.name == 'REMEMBER':
+    #                 obj = {
+    #                     'name': i.name,
+    #                     'value': i.value,
+    #                     'path': '/',
+    #                     'domain': '.lezhin.com',
+    #                     'expires': i.expires
+    #                 }
+    #                 c.write(json.dumps(obj))
+    #                 c.close()
+    #     else:
+    #         _cookies = json.loads(_cookies)
+    #         now = datetime.datetime.now()
+    #         if int(_cookies['expires']) < int(now.total_seconds()):
+    #             __login_helper(_cookies)
