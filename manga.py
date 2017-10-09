@@ -32,7 +32,7 @@ else:
 
 count_retries = 5
 rnd_temp_path = 'manga-donloader_{}'.format(random.random()*10)
-archivesDir = os.path.join(os.getcwd(), 'manga')
+archivesDir = os.path.join(os.getcwd(), 'Manga')
 simulate_downloading = False
 
 
