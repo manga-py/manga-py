@@ -188,3 +188,26 @@ class Cropper(Pixel):
             return False
 
         return True
+
+class ImageFormat:
+
+    @staticmethod
+    def convert(file_path: str, format: str = 'png', quality: int = 95):
+        """
+        @ see http://pillow.readthedocs.io/en/3.4.x/handbook/image-file-formats.html
+        :param file_path:
+        :param format:
+        :param quality:
+        :return:
+        """
+        if not path.isfile(file_path):
+            return False
+        try:
+            image = Image.open(file_path)
+            if image.mode != 'RGB':  # fixed image mode
+                image = image.convert('RGB')
+            dest = '{}.{}'.format(file_path[:file_path.rfind('.')], format)
+            image.save(dest, quality=quality)
+            return dest
+        except OSError:
+            return False

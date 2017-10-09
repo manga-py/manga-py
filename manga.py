@@ -54,6 +54,7 @@ def _arguments_parser() -> ArgumentParser:  # pragma: no cover
     parse.add_argument('--user-agent', required=False, type=str, default='')
     parse.add_argument('--no-name', action='store_const', required=False, help='Don\'t added manga name to the path', const=True, default=False)
     parse.add_argument('--allow-webp', action='store_const', required=False, help='Allow downloading webp images', const=True, default=False)
+    parse.add_argument('--force-png', action='store_const', required=False, help='Force conversation images to png format', const=True, default=False)
     parse.add_argument('--reverse-downloading', action='store_const', required=False, help='Reverse volumes downloading', const=True, default=False)
     parse.add_argument('--rewrite-exists-archives', action='store_const', required=False, const=True, default=False)
     parse.add_argument('--no-multi-threads', action='store_const', required=False, help='Disallow multi-threads images downloading', const=True, default=False)
@@ -141,7 +142,8 @@ class RequestsHelper(VariablesHelper):
         if r.is_redirect:
             if max_redirects < 1:
                 raise TooManyRedirects('Too many redirects', response=r)
-            return self.__requests_helper(method, r.headers['location'], headers, cookies, data, files, max_redirects-1, timeout=timeout)
+            location = self.__safe_downloader_url_helper(r.headers['location'])
+            return self.__requests_helper(method, location, headers, cookies, data, files, max_redirects-1, timeout=timeout)
         return r
 
     def __requests(self, url: str, headers: dict=None, cookies: dict=None, data=None, method='get', files=None, timeout=None, proxies=None) -> requests.Response:
@@ -211,6 +213,8 @@ class ImageHelper:
 
     @staticmethod
     def _crop_image(path: str):  # pragma: no cover
+        if not arguments.crop_blank:
+            return False
         name_without_ext = path[0:path.rfind('.')]
         ext = path[path.rfind('.'):]
         _path = os.path.join(os.path.dirname(path), '{}_{}'.format(name_without_ext, ext))
@@ -308,6 +312,13 @@ class MangaDownloader(RequestsHelper, ImageHelper):
             MangaDownloader.print_info('Error downloading. %s' % (mode,))
         return False
 
+    def force_png(self, path):
+        if arguments.force_png:
+            dest = remove_void.ImageFormat.convert(path)
+            shutil.rmtree(path)
+            return dest
+        return False
+
     def download_one_file(self, url: str, dest: str = None) -> bool:
         if not dest:
             name = os.path.basename(RequestsHelper.remove_file_name_params(url))
@@ -355,8 +366,8 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         result = 0
         if self.download_one_file(image, image_full_name):
             self._crop_manual(image_full_name)
-            if arguments.crop_blank:
-                self._crop_image(image_full_name)
+            self._crop_image(image_full_name)
+            self.force_png(image_full_name)
             result = 1
 
         if callback:

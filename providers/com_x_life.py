@@ -13,7 +13,7 @@ def get_main_content(url, get=None, post=None):
     manga_id = re.search('\\.life/readcomix/\d+', url)
     if manga_id:
         content = document_fromstring(get(url)).cssselect('#dle-speedbar > a')
-        return get(content[0].get('href'))
+        url = content[0].get('href')
     return get(url)
 
 
@@ -27,7 +27,7 @@ def get_archive_name(volume, index: int = None):
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    prefix = domainUri + '/comix/'
+    prefix = 'https://img.com-x.life/comix/'
     content = get(domainUri + volume)
     images = re.search('comix_images.*?(\[.+?\])', content)
     if not images:
@@ -40,8 +40,8 @@ def get_manga_name(url, get=None):
     test = re.search('\\.life/readcomix/.+\\.html', url)
     if test:
         parser = document_fromstring(get(url)).cssselect('#dle-speedbar > a')
-        url = '.life' + parser[0].get('href')
-    name = re.search('\\.life/\d+\-(.+)\\.html', url)
+        url = parser[0].get('href')
+    name = re.search('\\.life/[^\d]+?\d+\\-(.+)\\.html', url)
     if not name:
         raise UrlParseError()
     return name.groups()[0]
