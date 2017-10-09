@@ -83,19 +83,21 @@ class ComicWalker:
         return pack(base_frm, *int_list)
 
     @staticmethod
-    def unpack(string) -> tuple:
+    def unpack(string) -> list:
         """
         :param string: str
         :return: tuple
         """
-        return unpack('B', string.encode())
+        if isinstance(string, str):
+            string = string.encode()
+        return [i for i in string]
 
     def decrypt_license(self, bid, u1, license_b64) -> bytes:
         """
         :param bid: browser id
         :param u1: got from cookie
         :param license_b64: Base64-encoded license object
-        :return: str
+        :return: bytes
         """
         h = [ord(i) for i in bid]
         if u1:
