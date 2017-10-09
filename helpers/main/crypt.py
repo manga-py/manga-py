@@ -1,15 +1,16 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from Crypto.Cipher import AES
-from Crypto.Hash import SHA256
-from struct import pack, unpack
-from hashlib import md5
-import re
 import base64
 import codecs
-import execjs
+import re
+from hashlib import md5
 from os import path
+from struct import pack, unpack
+
+import execjs
+from Crypto.Cipher import AES
+from Crypto.Hash import SHA256
 
 
 def decode_escape(data):
@@ -117,6 +118,11 @@ class ComicWalker:
         return self.pack(rc4)
 
     def decrypt_rc4(self, key, data) -> list:
+        """
+        :param key:
+        :param data:
+        :return:
+        """
         s = self.gen_rc4_table(key)
         i = 0
         j = 0
@@ -129,8 +135,11 @@ class ComicWalker:
             result.append(x ^ k)
         return result
 
-    def gen_rc4_table(self, key) -> list:
-        pass
-
-    def comicwalker(self):
-        pass
+    @staticmethod
+    def gen_rc4_table(key) -> list:
+        s = [i for i in range(0, 256)]
+        j = 0
+        for i in range(0, 256):
+            j = (j + s[i] + key[i % len(key)]) & 0xff
+            s[i], s[j] = s[j], s[i]
+        return s

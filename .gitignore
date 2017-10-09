@@ -1,5 +1,5 @@
 .idea/
-manga/
+Manga/
 helpers/cloudflare_scrape/dist/
 helpers/cloudflare_scrape/build/
 helpers/cloudflare_scrape/cfscrape.egg-info/
