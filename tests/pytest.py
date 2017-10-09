@@ -50,7 +50,8 @@ class TestCase(unittest.TestCase):
             ('crop_blank_max_size', 30),
             ('max_volumes', 1),
             ('multi_threads', False),
-            ('no_multi_threads', False)
+            ('no_multi_threads', False),
+            ('force_png', False)
         ])
 
     def _prepare_arguments(self):
