@@ -280,6 +280,13 @@ class TestCase(unittest.TestCase):
     #             'https://manga-online.biz/False-name-manga.html'
     #         ])
 
+    def test_png(self):
+        self._before_test()
+        source_file, tested_file = self._prepare_cropper()
+        dest = cropper.ImageFormat.convert(tested_file)
+        self.assertTrue(path.isfile(dest))
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()
