@@ -27,21 +27,15 @@ def get_archive_name(volume, index: int = None):
 
 def get_images(main_content=None, volume=None, get=None, post=None):
     content = get(volume)
-    _id = re.search('var\s+currentId.+?=.+?(\d+)', content)
-    if not _id:
-        return []
-    try:
-        uri = domainUri + '/pages/' + _id.groups()[0]
-        items = json.loads(get(uri))
-    except Exception:
-        return []
+    items = re.search('var\s+pages.?=.?(\[{.+?\}])', content)
+    items = json.loads(items.groups()[0])
     href = re.search('[\'"](http[^\'"]+)[\'"].+\\.page_image', content)
     if not href:
-        _ = re.search('(\d+)/.?(\d+)', volume).groups()
-        href = 'https://img1.mangalib.me/manga/one-piece/chapters/' + _[0] + '-' + _[1]
+        _ = re.search('([^/]+)/[^/]+/(\d+)/.?(\d+)', volume).groups()
+        href = 'https://img1.mangalib.me/manga/{}/chapters/{}-{}/'.format(_[0],_[1],_[2],)
     else:
         href = href.groups()[0].strip('/') + '/'
-    return [href + i['page_image'] for i in items['pages']]
+    return [href + i['page_image'] for i in items]
 
 
 def get_manga_name(url, get=None):
