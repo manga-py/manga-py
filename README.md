@@ -71,6 +71,14 @@ ___To change this behavior, add the key --no-name___
 ./manga.py --help
 ```
 
+### Docker
+
+```bash
+cd Manga-Downloader
+docker build -t MangaDownloader . # build a docker image
+docker run -v /path/to/store/mangas:/app/Manga MangaDownloader ./manga.py -i -p -u http://manga-url-here/manga-name # run it
+```
+
 [![Code Climate](https://codeclimate.com/github/yuru-yuri/Manga-Downloader/badges/gpa.svg)](https://codeclimate.com/github/yuru-yuri/Manga-Downloader)
 [![Issue Count](https://codeclimate.com/github/yuru-yuri/Manga-Downloader/badges/issue_count.svg)](https://codeclimate.com/github/yuru-yuri/Manga-Downloader)<br/>
 [![Scrutinizer CI result](https://scrutinizer-ci.com/g/yuru-yuri/Manga-Downloader/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yuru-yuri/Manga-Downloader)
