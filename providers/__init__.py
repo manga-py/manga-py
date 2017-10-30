@@ -38,6 +38,7 @@ providers_list = {
     'mangainn_net': 'mangainn\\.net/manga/.+',
     'mangakakalot_com': 'mangakakalot\\.com/(manga|chapter)/.+',
     'mangaleader_com': 'mangaleader\\.com/read\\-.+',
+    'mangalife_us': 'mangalife\\.us/(read-online|manga)/.+',
     'mangalib_me': 'mangalib\\.me/.+',
     'mangamove_com': 'mangamove\\.com/manga/.+',
     'manganel_com': 'manganel\\.com/(manga|chapter)/.+',
