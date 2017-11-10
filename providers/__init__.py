@@ -65,6 +65,7 @@ providers_list = {
     'selfmanga_ru': 'selfmanga\\.ru/.+',
     'shakai_ru': 'shakai\\.ru/manga.*?/\d+',
     'somanga_net': 'somanga\\.net/.+',
+    'tapas_io': 'tapas\\.io/(series|episode)/.+',
     'tenmanga_com': 'tenmanga\\.com/(book|chapter)/.+',
     'unixmanga_nl': 'unixmanga\\.nl/onlinereading/.+\\.html',
     'wmanga_ru': 'wmanga\\.ru/starter/manga_.+',
