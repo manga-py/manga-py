@@ -393,6 +393,8 @@ class MangaDownloader(RequestsHelper, ImageHelper):
             for i in images:
                 threads.addThread(self.__one_thread_downloader, (temp_path, i, n, thread_done, _c))
                 n += 1
+                if n % 20 == 0:
+                    threads.startAll()
             threads.startAll()
 
             return _c[0]
