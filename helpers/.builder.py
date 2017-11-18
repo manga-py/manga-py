@@ -2,11 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import manga
-import providers.__for_make__
+import providers
 
 
 if __name__ == '__main__':  # pragma: no cover
     try:
+        for i in providers.providers_list:
+            __import__('providers.{}'.format(i), fromlist=['providers'])
+
         arguments = manga._arguments_parser().parse_args()
         add_name = not arguments.no_name
         name = arguments.name

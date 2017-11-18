@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QToolTip, QPushButton, QMessa
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import QCoreApplication
 import manga
-import providers.__for_make__
+import providers
 
 
 class Arguments:
@@ -110,6 +110,9 @@ class Example(QWidget):
 
 
 if __name__ == '__main__':
+
+    for i in providers.providers_list:
+        __import__('providers.{}'.format(i), fromlist=['providers'])
 
     app = QApplication(sys.argv)
     ex = Example()
