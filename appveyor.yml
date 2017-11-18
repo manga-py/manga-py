@@ -1,36 +1,47 @@
-branches:
-  except:
-    - test
-    - dev
-
+version: 0.2.{build}
+skip_non_tags: true
+image: Visual Studio 2015
+clone_folder: C:\projects\manga-downloader
 init:
-  - git config --global core.autocrlf false # always use unix lineendings
-
+- ps: git config --global core.autocrlf false
+environment:
+  PIP: C:/Python35/Scripts/pip.exe
+  PYTHON: C:/Python35/python.exe
 install:
-  - cd C:\projects\manga-downloader
-  - cp helpers/.builder.py ./
-  - cp helpers/.gui.py ./
-  - C:/Python35/Scripts/pip.exe install --disable-pip-version-check --user --upgrade pip setuptools
-  - C:/Python35/Scripts/pip.exe install coveralls unittest2 nose nose-testconfig mock wheel
-  - C:/Python35/Scripts/pip.exe install -r requirements.txt
-  - C:/Python35/Scripts/pip.exe install pyinstaller
+- ps: >-
+    cd C:\projects\manga-downloader
 
-build: off  # Not a C# project, build stuff at the test step instead.
+    cp helpers/.builder.py ./
 
+    cp helpers/.gui.py ./
+
+    C:/Python35/Scripts/pip.exe install --disable-pip-version-check --user --upgrade pip setuptools
+
+    C:/Python35/Scripts/pip.exe install coveralls unittest2 nose nose-testconfig mock wheel
+
+    C:/Python35/Scripts/pip.exe install -r requirements.txt
+
+    C:/Python35/Scripts/pip.exe install pyinstaller
+build: off
 test_script:
-  - cd "C:\Python35\Scripts"
-  - dir
-  - cd C:\projects\manga-downloader
-  - C:/Python35/Scripts/pyinstaller.exe .builder.py --exclude-module PyQT4 --log-level CRITICAL --clean -y -F -n manga.exe
+- cmd: >-
+    cd "C:\Python35\Scripts"
 
+    dir
+
+    cd C:\projects\manga-downloader
+
+    C:/Python35/Scripts/pyinstaller.exe .builder.py --exclude-module PyQT4 --log-level CRITICAL --clean -y -F -n manga.exe
 artifacts:
-  - path: dist/manga.exe
-#  - path: dist/mangaGui.exe
-
+- path: dist/manga.exe
+  name: manga.exe
+  type: WebDeployPackage
 deploy:
-  - provider: GitHub
-    tag: v0.2.$(appveyor_build_version)
-    release: v0.2.$(appveyor_build_version)
-    artifact: dist/*.exe
-    on:
-      branch: master
+- provider: GitHub
+  auth_token:
+    secure: aqxOwrvNEIZ2ian/bj0ZyfEzMFNWalV5zDfFqpcxfZX47FAIW9ud6kgCU2jm/fMk
+  draft: true
+  prerelease: true
+  force_update: true
+  on:
+    branch: master
