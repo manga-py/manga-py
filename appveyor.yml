@@ -1,40 +1,36 @@
 branches:
-    except:
-        - docs
-        - tests
+  except:
+    - test
+    - dev
 
-skip_tags: true
-
-environment:
-    matrix:
-        - PYTHON: "C:/Python35/python.exe"
-          PPATH: "C:/Python35"
-          PIP: "%PPATH%/Scripts/pip.exe"
 init:
-  - ps: "git config --global core.autocrlf false" # always use unix lineendings
-  - "ECHO \"%PIP%\" - init"
+  - git config --global core.autocrlf false # always use unix lineendings
 
 install:
-    - "cp helpers/.builder.py ./"
-    - "cp helpers/.gui.py ./"
-    # Upgrade pip and setuptools
-    - "%PIP% install --disable-pip-version-check --user --upgrade pip setuptools"
+  - cd C:\projects\manga-downloader
+  - cp helpers/.builder.py ./
+  - cp helpers/.gui.py ./
+  - C:/Python35/Scripts/pip.exe install --disable-pip-version-check --user --upgrade pip setuptools
+  - C:/Python35/Scripts/pip.exe install coveralls unittest2 nose nose-testconfig mock wheel
+  - C:/Python35/Scripts/pip.exe install -r requirements.txt
+  - C:/Python35/Scripts/pip.exe install pyinstaller
 
-    - powershell ECHO %PIP% - install
-
-    # Install test requirements
-    - "%PIP% install coveralls unittest2 nose nose-testconfig mock wheel pyqt5"
-
-    - "%PIP% install pyinstaller"
-    - "%PIP% install -r requirements.txt"
-
-build: false  # Not a C# project, build stuff at the test step instead.
+build: off  # Not a C# project, build stuff at the test step instead.
 
 test_script:
-    - "ECHO \"%PIP%\" - test"
-    - "rm -rf build dist; pyinstaller .builder.py -F -n manga.exe"
-#    - "rm -rf build dist; pyinstaller .gui.py -F -n mangaGui.exe"
+  - cd "C:\Python35\Scripts"
+  - dir
+  - cd C:\projects\manga-downloader
+  - C:/Python35/Scripts/pyinstaller.exe .builder.py --exclude-module PyQT4 --log-level CRITICAL --clean -y -F -n manga.exe
 
 artifacts:
-    - path: dist/manga.exe
-#    - path: dist/mangaGui.exe
+  - path: dist/manga.exe
+#  - path: dist/mangaGui.exe
+
+deploy:
+  - provider: GitHub
+    tag: v0.2.$(appveyor_build_version)
+    release: v0.2.$(appveyor_build_version)
+    artifact: dist/*.exe
+    on:
+      branch: master
