@@ -3,9 +3,12 @@ python:
 - "3.4"
 - "3.5"
 - "3.6"
+- "nightly"
+cache: pip
 before_install:
 - sudo apt-get -y install nodejs
 - sudo apt-get install python3-setuptools
+- python3 -V
 install:
 - pip3 install coverage
 - pip3 install codeclimate-test-reporter

@@ -1,0 +1,40 @@
+branches:
+    except:
+        - docs
+        - tests
+
+skip_tags: true
+
+environment:
+    matrix:
+        - PYTHON: "C:/Python35/python.exe"
+          PPATH: "C:/Python35"
+          PIP: "%PPATH%/Scripts/pip.exe"
+init:
+  - ps: "git config --global core.autocrlf false" # always use unix lineendings
+  - "ECHO \"%PIP%\" - init"
+
+install:
+    - "cp helpers/.builder.py ./"
+    - "cp helpers/.gui.py ./"
+    # Upgrade pip and setuptools
+    - "%PIP% install --disable-pip-version-check --user --upgrade pip setuptools"
+
+    - powershell ECHO %PIP% - install
+
+    # Install test requirements
+    - "%PIP% install coveralls unittest2 nose nose-testconfig mock wheel pyqt5"
+
+    - "%PIP% install pyinstaller"
+    - "%PIP% install -r requirements.txt"
+
+build: false  # Not a C# project, build stuff at the test step instead.
+
+test_script:
+    - "ECHO \"%PIP%\" - test"
+    - "rm -rf build dist; pyinstaller .builder.py -F -n manga.exe"
+#    - "rm -rf build dist; pyinstaller .gui.py -F -n mangaGui.exe"
+
+artifacts:
+    - path: dist/manga.exe
+#    - path: dist/mangaGui.exe
