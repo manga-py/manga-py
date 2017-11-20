@@ -48,6 +48,7 @@ class ConfigStorage:
                 _json = self.__load_json_config(f)
             except json.JSONDecodeError:
                 _json = {}
+            self.__storage = _json
             self.__storage['lang'] = getattr(_json, 'lang', 'en')
             self.__storage['url'] = getattr(_json, 'lang', '')
 
@@ -81,6 +82,18 @@ class ConfigStorage:
 
     def load_lang(self, key):
         pass
+
+    def get_config(self):
+        if hasattr(self.__storage, 'config'):
+            return self.__storage['config']
+        with open(self.__config_path) as f:
+            config = self.__load_json_config(f)
+            self.__storage['config'] = config['config']
+            return config['config']
+
+    def save_config(self):
+        with open(self.__config_path, 'w') as f:
+            f.write(json.dumps(self.__storage))
 
 
 class MangaDownloader(manga.MangaDownloader):
@@ -182,6 +195,10 @@ class GUI(QWidget):
         manga_link = QLabel('<a href="http://yuru-yuri.sttv.me/#resources-list">MangaDownloader site</a>')
         manga_link.setOpenExternalLinks(True)
         uriGrid.addWidget(manga_link, 0, 1, 1, 1)
+
+        lang_btn = QPushButton('en', self)
+        lang_btn.setFlat(True)
+        uriGrid.addWidget(lang_btn, 0, 1, 1, 1)
 
         globalGrid.addLayout(uriGrid, 0, 0, 1, 6)
         globalGrid.addLayout(logGrid, 1, 1, 2, 5)
