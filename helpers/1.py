@@ -7,9 +7,10 @@ import json
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QCheckBox,
      QDesktopWidget, QMessageBox, QSpinBox, QTextEdit, QGridLayout,
      QApplication, QPushButton)
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QCursor
+from PyQt5.Qt import Qt
 from pathlib import Path
-import manga
+import subprocess
 
 # TODO: Need print messages to GUI from providers
 # FIXME: Balumanga sources
@@ -96,21 +97,6 @@ class ConfigStorage:
             f.write(json.dumps(self.__storage))
 
 
-class MangaDownloader(manga.MangaDownloader):
-
-    # life_hack!
-    def __init__(self, url: str, name: str = ''):
-        super().__init__(url=url, name=name)
-
-    @staticmethod
-    def print(text, *args, **kwargs):
-        text = str(text)
-        gui_widget.gui_params['log'].insertHtml('<span>{}</span><br>'.format(text))
-
-    def set_arguments(self, args):
-        setattr(manga, 'arguments', args)
-
-
 class GUI(QWidget):
 
     window_h = 600
@@ -126,7 +112,7 @@ class GUI(QWidget):
 
     def get_base_grid(self):
 
-        log_label = QLabel('Log')
+        # log_label = QLabel('Log')
         self.gui_params['log'] = QTextEdit()
         self.gui_params['log'].setReadOnly(True)
 
@@ -134,18 +120,18 @@ class GUI(QWidget):
         grid.setSpacing(10)
 
         btn = QPushButton('Run', self)
-        btn.clicked.connect(self.center)
+        btn.clicked.connect(self._run_downloader)
         btn.resize(btn.sizeHint())
 
-        grid.addWidget(log_label, 1, 0, 5, 1)
-        grid.addWidget(self.gui_params['log'], 1, 1, 5, 3)
+        # grid.addWidget(log_label, 1, 0, 5, 1)
+        grid.addWidget(self.gui_params['log'], 0, 0, 5, 3)
 
         # self.gui_params['log'].insertHtml('<span style="color:blue">asdasd</span><br>')
         # self.gui_params['log'].insertHtml('<span style="color:blue">asdasd</span><br>')
         # self.gui_params['log'].insertHtml('<span style="color:red">asdasd</span><br>')
         # self.gui_params['log'].insertHtml('<span style="color:blue">asdasd</span><br>')
 
-        grid.addWidget(btn, 6, 3, 1, 1)
+        grid.addWidget(btn, 6, 1, 1, 1)
 
         return grid
 
@@ -155,6 +141,7 @@ class GUI(QWidget):
         skip_volumes_label = QLabel('Skip vol.')
         max_volumes_label = QLabel('Max vol.')
         reverse_label = QLabel('Reverse')
+        one_thread_label = QLabel('One thread')
 
         self.gui_params['destination'] = QLineEdit()
         self.gui_params['name'] = QLineEdit()
@@ -163,46 +150,61 @@ class GUI(QWidget):
         self.gui_params['max_volumes'] = QSpinBox()
         self.gui_params['max_volumes'].setRange(0, 999)
         self.gui_params['reverse'] = QCheckBox()
+        self.gui_params['one_thread'] = QCheckBox()
 
         grid = QGridLayout()
         grid.setSpacing(10)
 
-        grid.addWidget(destination_label, 1, 0)
-        grid.addWidget(self.gui_params['destination'], 1, 1)
-        grid.addWidget(name_label, 2, 0)
-        grid.addWidget(self.gui_params['name'], 2, 1)
-        grid.addWidget(skip_volumes_label, 3, 0)
-        grid.addWidget(self.gui_params['skip_volumes'], 3, 1)
-        grid.addWidget(max_volumes_label, 4, 0)
-        grid.addWidget(self.gui_params['max_volumes'], 4, 1)
-        grid.addWidget(reverse_label, 5, 0)
-        grid.addWidget(self.gui_params['reverse'], 5, 1)
+        grid.addWidget(destination_label, 1, 0, 1, 1)
+        grid.addWidget(name_label, 2, 0, 1, 1)
+        grid.addWidget(skip_volumes_label, 3, 0, 1, 1)
+        grid.addWidget(max_volumes_label, 4, 0, 1, 1)
+        grid.addWidget(reverse_label, 5, 0, 1, 1)
+        grid.addWidget(one_thread_label, 5, 3, 1, 1)
+
+        grid.addWidget(self.gui_params['destination'], 1, 2, 1, 3)
+        grid.addWidget(self.gui_params['name'], 2, 2, 1, 3)
+        grid.addWidget(self.gui_params['skip_volumes'], 3, 2, 1, 3)
+        grid.addWidget(self.gui_params['max_volumes'], 4, 2, 1, 3)
+        grid.addWidget(self.gui_params['reverse'], 5, 2, 1, 2)
+        grid.addWidget(self.gui_params['one_thread'], 5, 4, 1, 1)
 
         return grid
+
+    def get_uri_grid(self):
+
+        uriGrid = QGridLayout()
+
+        uri_label = QLabel('Url')
+        uri_label.setMaximumWidth(20)
+        uri = QLineEdit()
+        uriGrid.addWidget(uri_label, 0, 0, 1, 1)
+        uriGrid.addWidget(uri, 0, 1, 1, 15)
+
+        manga_link = QLabel('<a href="http://yuru-yuri.sttv.me/#resources-list">MangaDownloader site</a>')
+        manga_link.setOpenExternalLinks(True)
+        manga_link.resize(manga_link.sizeHint())
+        uriGrid.addWidget(manga_link, 0, 16, 1, 1)
+
+        lang_btn = QPushButton('en', self)
+        lang_btn.setFlat(True)
+        lang_btn.setStyleSheet('border: 1px solid #555; background-color: #8f8; padding: 2px')
+        lang_btn.setCursor(QCursor(Qt.PointingHandCursor))
+        lang_btn.setMaximumWidth(22)
+        uriGrid.addWidget(lang_btn, 0, 17, 1, 1)
+
+        return uriGrid
 
     def init_ui(self):
         globalGrid = QGridLayout()
 
         logGrid = self.get_base_grid()
         configGrid = self.get_config_grid()
-        uriGrid = QGridLayout()
+        uriGrid = self.get_uri_grid()
 
-        uri_label = QLabel('Url')
-        uri = QLineEdit()
-        uriGrid.addWidget(uri_label, 1, 0, 1, 4)
-        uriGrid.addWidget(uri, 1, 1, 1, 1)
-
-        manga_link = QLabel('<a href="http://yuru-yuri.sttv.me/#resources-list">MangaDownloader site</a>')
-        manga_link.setOpenExternalLinks(True)
-        uriGrid.addWidget(manga_link, 0, 1, 1, 1)
-
-        lang_btn = QPushButton('en', self)
-        lang_btn.setFlat(True)
-        uriGrid.addWidget(lang_btn, 0, 1, 1, 1)
-
-        globalGrid.addLayout(uriGrid, 0, 0, 1, 6)
-        globalGrid.addLayout(logGrid, 1, 1, 2, 5)
-        globalGrid.addLayout(configGrid, 1, 0, 2, 2)
+        globalGrid.addLayout(uriGrid, 0, 0, 1, 8)
+        globalGrid.addLayout(configGrid, 1, 0, 2, 3)
+        globalGrid.addLayout(logGrid,    1, 3, 2, 5)
 
         self.setLayout(globalGrid)
 
@@ -239,6 +241,21 @@ class GUI(QWidget):
             event.accept()
         else:
             event.ignore()
+
+    def _add_to_log(self, text, *args, **kwargs):
+        pass
+
+    @staticmethod
+    def _params_builder():
+        return [
+            ''
+        ]
+
+    def _run_downloader(self):
+        params = self._params_builder()
+        _dir = path.join(path.dirname(path.realpath(__file__)))
+        subprocess.call(('{}/manga.exe {}'.format(_dir, ' '.join(params))), stdout=self._add_to_log)
+        pass
 
 
 if __name__ == '__main__':
