@@ -506,7 +506,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
 
         volume_index = 1
         for v in volumes:
-            if not self._break:
+            if self._break:
                 break
             self._download_images_helper(v, volume_index)
             volume_index += 1
