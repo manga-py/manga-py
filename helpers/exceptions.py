@@ -24,3 +24,7 @@ class UrlParseError(AttributeError):
 
 class ProviderNotFound(AttributeError):
     pass
+
+
+class Print(Exception):
+    pass

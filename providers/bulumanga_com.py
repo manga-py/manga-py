@@ -3,7 +3,7 @@
 
 import re
 import json
-from helpers.exceptions import UrlParseError
+from helpers.exceptions import UrlParseError, Print
 
 domainUri = 'http://bulumanga.com'
 manga_id = 0
@@ -21,7 +21,6 @@ def _manual_source_select(resources):
         if len(resources) >= n > 0:
             return resources[n - 1]
         print('Error. Please, select resource')
-
 
 
 def _check_source(url, _id):

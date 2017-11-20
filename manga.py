@@ -238,6 +238,8 @@ class ImageHelper:
 
 class MangaDownloader(RequestsHelper, ImageHelper):
 
+    _break = False
+
     @staticmethod
     def _progress(items_count: int, current_item: int):  # pragma: no cover
         if arguments.progress and tty_columns:
@@ -504,12 +506,17 @@ class MangaDownloader(RequestsHelper, ImageHelper):
 
         volume_index = 1
         for v in volumes:
+            if not self._break:
+                break
             self._download_images_helper(v, volume_index)
             volume_index += 1
 
     def main(self):
         self.get_main_content()
         self.download_images()
+
+    def set_break(self, condition):
+        self._break = bool(condition)
 
 
 def manual_input(prompt: str):  # pragma: no cover

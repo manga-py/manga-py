@@ -4,7 +4,7 @@
 from lxml.html import document_fromstring
 import re
 import json
-from helpers.exceptions import UrlParseError
+from helpers.exceptions import UrlParseError, Print
 
 domainUri = 'http://zip-read.com'
 

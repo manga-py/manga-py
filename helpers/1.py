@@ -2,13 +2,103 @@
 # -*- coding: utf-8 -*-
 
 import sys
+from os import path, makedirs
+import json
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QCheckBox,
      QDesktopWidget, QMessageBox, QSpinBox, QTextEdit, QGridLayout,
      QApplication, QPushButton)
 from PyQt5.QtGui import QIcon
+from pathlib import Path
+import manga
+
+# TODO: Need print messages to GUI from providers
+# FIXME: Balumanga sources
 
 
-class Example(QWidget):
+class ConfigStorage:
+
+    __config_path = ''
+    __storage = {}
+    __lang = {}
+
+    def __init__(self):
+        self.__config_path = path.join(str(Path.home()), 'AppData', 'Roaming', 'PyMangaDownloader', 'config.json')
+        if not path.isfile(self.__config_path):
+            self.__make_default_config()
+        else:
+            self.__load_config()
+        self.__load_lang(self.__storage['lang'])
+
+    def __load_json_config(self, f):
+        return json.loads(''.join(f.readlines()))
+
+    def __make_default_config(self):
+        config_path = path.dirname(self.__config_path)
+        path.isdir(config_path) or makedirs(config_path)
+        with open(self.__config_path, 'w') as f:
+            f.write(json.dumps({
+                'lang': 'en',
+            }))
+        self.__storage['lang'] = 'en'
+        self.__storage['url'] = ''
+
+    def __load_config(self):
+        with open(self.__config_path) as f:
+            try:
+                _json = self.__load_json_config(f)
+            except json.JSONDecodeError:
+                _json = {}
+            self.__storage['lang'] = getattr(_json, 'lang', 'en')
+            self.__storage['url'] = getattr(_json, 'lang', '')
+
+    def __load_lang(self, key):
+        _path = path.join(path.dirname(path.realpath(__file__)), 'helpers', '.gui.lang.{}.json')
+        if not path.isfile(_path.format(key)):
+            key = 'en'
+        _path = _path.format(key)
+        with open(_path) as f:
+            self.__lang = self.__load_json_config(f)
+
+    def get_param(self, key, default=None):
+        """
+        :param key: str
+        :param default: str
+        :return: mixed
+        """
+        return getattr(self, key, default)
+
+    def set_param(self, key, value):
+        self.__storage[key] = value
+
+    def get_label(self, name):
+        return self.get_param('label_{}'.format(name))
+
+    def get_button(self, name):
+        return self.get_param('button_{}'.format(name))
+
+    def save_lang(self, key):
+        pass
+
+    def load_lang(self, key):
+        pass
+
+
+class MangaDownloader(manga.MangaDownloader):
+
+    # life_hack!
+    def __init__(self, url: str, name: str = ''):
+        super().__init__(url=url, name=name)
+
+    @staticmethod
+    def print(text, *args, **kwargs):
+        text = str(text)
+        gui_widget.gui_params['log'].insertHtml('<span>{}</span><br>'.format(text))
+
+    def set_arguments(self, args):
+        setattr(manga, 'arguments', args)
+
+
+class GUI(QWidget):
 
     window_h = 600
     window_w = 900
@@ -18,9 +108,10 @@ class Example(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.initUI()
+        self.init_ui()
+        self.center()
 
-    def getBaseGrid(self):
+    def get_base_grid(self):
 
         log_label = QLabel('Log')
         self.gui_params['log'] = QTextEdit()
@@ -36,11 +127,16 @@ class Example(QWidget):
         grid.addWidget(log_label, 1, 0, 5, 1)
         grid.addWidget(self.gui_params['log'], 1, 1, 5, 3)
 
+        # self.gui_params['log'].insertHtml('<span style="color:blue">asdasd</span><br>')
+        # self.gui_params['log'].insertHtml('<span style="color:blue">asdasd</span><br>')
+        # self.gui_params['log'].insertHtml('<span style="color:red">asdasd</span><br>')
+        # self.gui_params['log'].insertHtml('<span style="color:blue">asdasd</span><br>')
+
         grid.addWidget(btn, 6, 3, 1, 1)
 
         return grid
 
-    def getConfigGrid(self):
+    def get_config_grid(self):
         destination_label = QLabel('Destination')
         name_label = QLabel('Name')
         skip_volumes_label = QLabel('Skip vol.')
@@ -71,21 +167,25 @@ class Example(QWidget):
 
         return grid
 
-    def initUI(self):
+    def init_ui(self):
         globalGrid = QGridLayout()
 
-        logGrid = self.getBaseGrid()
-        configGrid = self.getConfigGrid()
+        logGrid = self.get_base_grid()
+        configGrid = self.get_config_grid()
         uriGrid = QGridLayout()
 
         uri_label = QLabel('Url')
         uri = QLineEdit()
-        uriGrid.addWidget(uri_label, 1, 0)
-        uriGrid.addWidget(uri, 1, 1)
+        uriGrid.addWidget(uri_label, 1, 0, 1, 4)
+        uriGrid.addWidget(uri, 1, 1, 1, 1)
 
-        globalGrid.addLayout(uriGrid, 0, 0, 1, 3)
-        globalGrid.addLayout(logGrid, 1, 1, 2, 2)
-        globalGrid.addLayout(configGrid, 1, 0, 2, 1)
+        manga_link = QLabel('<a href="http://yuru-yuri.sttv.me/#resources-list">MangaDownloader site</a>')
+        manga_link.setOpenExternalLinks(True)
+        uriGrid.addWidget(manga_link, 0, 1, 1, 1)
+
+        globalGrid.addLayout(uriGrid, 0, 0, 1, 6)
+        globalGrid.addLayout(logGrid, 1, 1, 2, 5)
+        globalGrid.addLayout(configGrid, 1, 0, 2, 2)
 
         self.setLayout(globalGrid)
 
@@ -113,8 +213,9 @@ class Example(QWidget):
 
         reply = QMessageBox.question(
             self, 'Quit',
-            "Are you sure to quit?", QMessageBox.Yes |
-            QMessageBox.No, QMessageBox.No
+            "Are you sure to quit?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
         )
 
         if reply == QMessageBox.Yes:
@@ -126,6 +227,6 @@ class Example(QWidget):
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)
-    ex = Example()
-    ex.center()
+    gui_storage = ConfigStorage()
+    gui_widget = GUI()
     sys.exit(app.exec_())

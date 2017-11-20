@@ -3,7 +3,7 @@
 
 from lxml.html import document_fromstring
 import re
-from helpers.exceptions import UrlParseError
+from helpers.exceptions import UrlParseError, Print
 
 domainUri = 'https://manga-online.com.ua'
 manga_name = ''

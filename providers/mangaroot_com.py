@@ -3,8 +3,8 @@
 
 from lxml.html import document_fromstring
 import re
-from helpers.exceptions import UrlParseError
 from time import sleep
+from helpers.exceptions import UrlParseError, Print
 
 domainUri = 'http://mangaroot.com'
 
