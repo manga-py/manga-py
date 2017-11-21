@@ -13,24 +13,20 @@ install:
 
     cp helpers/.builder.py ./
 
-    cp helpers/.gui.py ./
+    cp helpers/.providers_updater.py ./
 
     C:/Python35/Scripts/pip.exe install --disable-pip-version-check --user --upgrade pip setuptools
 
     C:/Python35/Scripts/pip.exe install pyinstaller PyQt5
 
     C:/Python35/Scripts/pip.exe install -r requirements.txt
+
+    C:/Python35/python.exe .providers_updater.py
+
 build: off
 test_script:
 - cmd: >-
-    cd "C:\Python35\Scripts"
-
-    dir
-
-    cd C:\projects\manga-downloader
-
     C:/Python35/Scripts/pyinstaller.exe .builder.py --exclude-module PIL.ImageQt --log-level CRITICAL -y -F -n manga.exe
-#    C:/Python35/Scripts/pyinstaller.exe .gui.py --exclude-module PIL.ImageQt --log-level CRITICAL -y -F -n mangaGui.exe
 artifacts:
 - path: dist/manga.exe
   name: manga.exe
