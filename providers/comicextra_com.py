@@ -1,79 +1,38 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# from lxml.html import document_fromstring
-# import re
-# import json
+from lxml.html import document_fromstring
+import re
+from helpers.exceptions import UrlParseError
+
+domainUri = 'http://www.comicextra.com'
 
 
 def get_main_content(url, get=None, post=None):
-    """
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: mixed (1)
-    """
-    pass
+    name = get_manga_name(url, get)
+    return get('{}/comic/{}'.format(domainUri, name))
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
-    """
-    :param content: mixed (1)
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: array (2)
-    """
-    pass
+    items = document_fromstring(content).cssselect('#list a[href*="/chapter"]')
+    return ['{}/full'.format(i.get('href')) for i in items]
 
 
 def get_archive_name(volume, index: int = None):
-    """
-    :param volume: mixed (2)
-    :param index: int
-    :return: str
-    """
-    pass
+    i = re.search('chapter-(\d+)', volume)
+    return 'vol_{}'.format(i.groups()[0]) if i else 'vol__{}'.format(index)
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: list
-    """
-    pass
+    items = document_fromstring(get(volume)).cssselect('.chapter-container img.chapter_img')
+    return [i.get('src') for i in items]
 
 
 def get_manga_name(url, get=None):
-    """
-    :param url: str
-    :param get: request.get
-    :return: str
-    """
-    pass
-
-
-# NOT REQUIRED /*
-
-# if True, use zip_list(). get_images() alternative
-download_zip_only = None
-
-
-def get_zip(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: str|str[]
-    """
-    pass
-
-# if not None - additional cookies
-# cookies = [{'value': 'cookie value','domain': 'asd.domain','path': '/cookie/path/','name': 'cookie_name',}, 'Browser']
-cookies = None
-
-# */ NOT REQUIRED
+    test = re.search('\\.com/comic/([^/+])', url)
+    if test:
+        return test.groups()[0]
+    test = re.search('\\.com/([^/]+)/chapter', url)
+    if test:
+        return test.groups()[0]
+    raise UrlParseError()

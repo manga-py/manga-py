@@ -1,79 +1,59 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# from lxml.html import document_fromstring
-# import re
-# import json
+from lxml.html import document_fromstring
+import re
+from helpers.exceptions import UrlParseError
+
+domainUri = 'http://readcomicbooksonline.net'
 
 
 def get_main_content(url, get=None, post=None):
-    """
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: mixed (1)
-    """
-    pass
+    name = get_manga_name(url, get)
+    return get('{}/{}'.format(domainUri, name))
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
-    """
-    :param content: mixed (1)
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: array (2)
-    """
-    pass
+    items = document_fromstring(content).cssselect('#chapterlist .chapter > a')
+    return [i.get('href') for i in items]
 
 
 def get_archive_name(volume, index: int = None):
-    """
-    :param volume: mixed (2)
-    :param index: int
-    :return: str
-    """
-    pass
+    i = re.search('_chapter_(\d+)', volume)
+    return 'vol_{}'.format(i.groups()[0]) if i else 'vol__{}'.format(index)
+
+
+def _get_image(p):
+    src = p.cssselect('a > img.picture')
+    if not src:
+        return None
+    return '{}/reader/{}'.format(domainUri, src[0].get('src'))
+
+
+def _get_doc_f_str(uri, get):
+    return document_fromstring(get(uri))
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: list
-    """
-    pass
+    content = _get_doc_f_str(volume, get)
+    pages = [i.get('value') for i in content.cssselect('.pager select[name="page"]')[0].cssselect('option + option')]
+    img = _get_image(content)
+    images = []
+    if img:
+        images.append(img)
+    for i in pages:
+        _content = _get_doc_f_str('{}/{}'.format(volume, i), get)
+        img = _get_image(_content)
+        if img:
+            images.append(img)
+    return images
 
 
 def get_manga_name(url, get=None):
-    """
-    :param url: str
-    :param get: request.get
-    :return: str
-    """
-    pass
-
-
-# NOT REQUIRED /*
-
-# if True, use zip_list(). get_images() alternative
-download_zip_only = None
-
-
-def get_zip(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: str|str[]
-    """
-    pass
-
-# if not None - additional cookies
-# cookies = [{'value': 'cookie value','domain': 'asd.domain','path': '/cookie/path/','name': 'cookie_name',}, 'Browser']
-cookies = None
-
-# */ NOT REQUIRED
+    test = re.search('\\.net/reader/([^/]+)', url)
+    if test:
+        return test.groups()[0]
+    test = re.search('\\.net/([^/]+)$', url)
+    if test:
+        return test.groups()[0]
+    raise UrlParseError()
