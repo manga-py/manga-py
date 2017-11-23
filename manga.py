@@ -50,7 +50,7 @@ def _arguments_parser() -> ArgumentParser:  # pragma: no cover
     parse.add_argument('-p', '--progress', action='store_const', required=False, const=True, default=False)
 
     parse.add_argument('-s', '--skip-volumes', type=int, required=False, help='Skip volumes', default=0)
-    parse.add_argument('--max-volumes', type=int, required=False, help='Maximum volumes for downloading 0=All', default=0)
+    parse.add_argument('-c', '--max-volumes', type=int, required=False, help='Maximum volumes for downloading 0=All', default=0)
     parse.add_argument('--user-agent', required=False, type=str, default='')
     parse.add_argument('--no-name', action='store_const', required=False, help='Don\'t added manga name to the path', const=True, default=False)
     parse.add_argument('--allow-webp', action='store_const', required=False, help='Allow downloading webp images', const=True, default=False)
