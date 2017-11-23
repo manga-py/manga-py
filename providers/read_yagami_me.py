@@ -36,10 +36,10 @@ def get_archive_name(volume, index: int = None):
     result = re.search('/read/.+?/(\d+/\d+)(/\d+)?/', volume)
     if not result:
         return 'vol_{}'.format(index)
-    _ = result.groups()
-    if _[1] is not None:
-        return '{}_{}'.format(_[0], _[1].lstrip('/'))
-    return _[0]
+    name = result.groups()
+    if name[1] is not None:
+        return 'vol_{}_{}'.format(name[0].replace('/', '-'), name[1].lstrip('/'))
+    return 'vol_{}'.format(name[0].replace('/', '-'))
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):

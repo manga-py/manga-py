@@ -4,6 +4,7 @@
 # from lxml.html import document_fromstring
 # import re
 # import json
+# from helpers.exceptions import UrlParseError
 
 
 def get_main_content(url, get=None, post=None):

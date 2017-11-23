@@ -1,79 +1,50 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# from lxml.html import document_fromstring
-# import re
-# import json
+from lxml.html import document_fromstring
+import re
+from helpers.exceptions import UrlParseError
 
+domainUri = 'https://taadd.com'
 
 def get_main_content(url, get=None, post=None):
-    """
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: mixed (1)
-    """
-    pass
+    name = get_manga_name(url, get)
+    return get('{}/book/{}.html'.format(domainUri, name))
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
-    """
-    :param content: mixed (1)
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: array (2)
-    """
-    pass
+    return document_fromstring(content).cssselect('.chapter_list td[align="left"] a')
+    # return [domainUri + i.get('href') for i in items]
 
 
 def get_archive_name(volume, index: int = None):
-    """
-    :param volume: mixed (2)
-    :param index: int
-    :return: str
-    """
-    pass
+    name = volume.text_content().replace('/\:*?"<>|', '_').strip('_')
+    return 'vol_{}_{}'.format(index, name)
+
+
+def __get_image(p):
+    return p.cssselect('#comicpic')[0].get('src')
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: list
-    """
-    pass
+    uri = domainUri + volume.get('href')
+    content = document_fromstring(get(uri))
+    pages = content.cssselect('#page')[0].cssselect('option + option')
+    images = [__get_image(content)]
+
+    for i in pages:
+        c = document_fromstring(get(i.get('value')))
+        images.append(__get_image(c))
+
+    return images
 
 
 def get_manga_name(url, get=None):
-    """
-    :param url: str
-    :param get: request.get
-    :return: str
-    """
-    pass
-
-
-# NOT REQUIRED /*
-
-# if True, use zip_list(). get_images() alternative
-download_zip_only = None
-
-
-def get_zip(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: str|str[]
-    """
-    pass
-
-# if not None - additional cookies
-# cookies = [{'value': 'cookie value','domain': 'asd.domain','path': '/cookie/path/','name': 'cookie_name',}, 'Browser']
-cookies = None
-
-# */ NOT REQUIRED
+    name = re.search('/book/([^/]+)\\.html', url)
+    if not name:
+        name = document_fromstring(get(url)).cssselect('h1.chapter_bar .postion .normal a')
+        if name:
+            return get_manga_name(name[1].get('href'), get)
+    if not name:
+        raise UrlParseError()
+    return name.groups()[0]

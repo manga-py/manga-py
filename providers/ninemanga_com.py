@@ -7,8 +7,13 @@ from urllib.parse import urlparse
 from helpers.exceptions import UrlParseError
 
 
+def __get_domain(uri):
+    url = urlparse(uri)
+    return '{}://{}'.format(url.scheme, url.netloc)
+
+
 def get_main_content(url, get=None, post=None):
-    return get(url)
+    return get('{}/manga/{}.html'.format(__get_domain(url), get_manga_name(url, get)))
 
 
 def get_volumes(content: str, url=None, get=None, post=None):
@@ -17,8 +22,7 @@ def get_volumes(content: str, url=None, get=None, post=None):
     if not result:
         return []
     items = []
-    url = urlparse(url)
-    url = '{}://{}'.format(url.scheme, url.netloc)
+    url = __get_domain(url)
     for i in result:
         u = re.search('(/chapter/.*/\d+)\\.html', i.get('href'))
         if u is not None:

@@ -1,79 +1,48 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# from lxml.html import document_fromstring
-# import re
-# import json
+from lxml.html import document_fromstring
+import re
+from helpers.exceptions import UrlParseError
+
+domainUri = 'http://www.mangaonline.today'
 
 
 def get_main_content(url, get=None, post=None):
-    """
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: mixed (1)
-    """
-    pass
+    return get('{}/{}/'.format(domainUri, get_manga_name(url, get)))
 
 
 def get_volumes(content=None, url=None, get=None, post=None):
-    """
-    :param content: mixed (1)
-    :param url: str
-    :param get: request.get
-    :param post: request.post
-    :return: array (2)
-    """
-    pass
+    items = document_fromstring(content).cssselect('ul.chp_lst a')
+    return [i.get('href') for i in items]
 
 
 def get_archive_name(volume, index: int = None):
-    """
-    :param volume: mixed (2)
-    :param index: int
-    :return: str
-    """
-    pass
+    name = re.search('\\.today/[^/]+/([^/]+)', volume)
+    if not name:
+        return 'vol__{}'.format(index)
+    return 'vol_{}'.format(name.groups()[0])
 
 
 def get_images(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: list
-    """
-    pass
+    images = []
+    content = document_fromstring(get(volume))
+    options = len(content.cssselect('.cbo_wpm_pag')[0].cssselect('option')) / 2 + 0.5
+    img = content.cssselect('#sct_content img')
+    if img:
+        images = [i.get('src') for i in img]
+
+    for n in range(1, int(options)):
+        content = document_fromstring(get('{}{}/'.format(volume, n)))
+        img = content.cssselect('#sct_content img')
+        for i in img:
+            images.append(i.get('src'))
+
+    return images
 
 
 def get_manga_name(url, get=None):
-    """
-    :param url: str
-    :param get: request.get
-    :return: str
-    """
-    pass
-
-
-# NOT REQUIRED /*
-
-# if True, use zip_list(). get_images() alternative
-download_zip_only = None
-
-
-def get_zip(main_content=None, volume=None, get=None, post=None):
-    """
-    :param main_content: mixed (1)
-    :param volume: mixed (2)
-    :param get: request.get
-    :param post: request.post
-    :return: str|str[]
-    """
-    pass
-
-# if not None - additional cookies
-# cookies = [{'value': 'cookie value','domain': 'asd.domain','path': '/cookie/path/','name': 'cookie_name',}, 'Browser']
-cookies = None
-
-# */ NOT REQUIRED
+    name = re.search('\\.today/([^/]+)', url)
+    if not name:
+        raise UrlParseError()
+    return name.groups()[0]
