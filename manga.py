@@ -252,10 +252,10 @@ class MangaDownloader(RequestsHelper, ImageHelper):
 
     @staticmethod
     def print(text, *args, **kwargs):
-        __encode = 'utf-8'
         if os.name == 'nt':  # patch for issue #2 #6
             __encode = 'cp866'
-        print(str(text).encode().decode(__encode, 'ignore'), *args, **kwargs)
+            text = str(text).encode().decode(__encode, 'ignore')
+        print(text, *args, **kwargs)
 
     @staticmethod
     def print_info(text, *args, **kwargs):  # pragma: no cover
