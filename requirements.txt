@@ -5,3 +5,4 @@ requests>=2.14
 PyExecJS >= 1.4
 pycrypto>=2.5
 cfscrape>=1.8.1
+PyQT5>=5.5
