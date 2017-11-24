@@ -93,10 +93,10 @@ class TestCase(unittest.TestCase):
         self.assertTrue(result)
 
 
-    def _urls_true(self, urls):
-        self._before_test()
-        for url in urls:
-            self.assertTrue(self.__test_url(url))
+    # def _urls_true(self, urls):
+    #     self._before_test()
+    #     for url in urls:
+    #         self.assertTrue(self.__test_url(url))
 
     def _urls_false(self, urls):
         self._before_test()
@@ -253,32 +253,6 @@ class TestCase(unittest.TestCase):
 
         self.assertTrue(source_sizes[0] > tested_sizes[0])
         self.assertTrue(source_sizes[1] > tested_sizes[1])
-
-    def test_bato_to_true(self):
-        self._urls_true([
-                'https://bato.to/comic/_/comics/karakai-jouzu-no-takagi-san-r13108',
-            ])
-
-    # def test_multi_threads(self):
-    #     self.arguments.setArgument('multi_threads', True)
-    #     self._urls_true([
-    #             'https://bato.to/comic/_/comics/karakai-jouzu-no-takagi-san-r13108',
-    #         ])
-    #
-    # def test_bato_to_false(self):
-    #     self._urls_false([
-    #             'https://bato.to/comic/omics/mousou-telepathy-r0',
-    #         ])
-    #
-    # def test_manga_online_biz_true(self):
-    #     self._urls_true([
-    #             'https://manga-online.biz/blood_bank.html'
-    #         ])
-    #
-    # def test_manga_online_biz_false(self):
-    #     self._urls_false([
-    #             'https://manga-online.biz/False-name-manga.html'
-    #         ])
 
     def test_png(self):
         self._before_test()
