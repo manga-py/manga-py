@@ -5,7 +5,6 @@ from PyQt5.QtGui import QIcon, QCursor
 from PyQt5.Qt import Qt
 from argparse import ArgumentParser
 from libs.gui import config_storage
-from libs.langs import Lang
 
 
 class Gui(QWidget):
@@ -16,6 +15,7 @@ class Gui(QWidget):
     gui_params = {}
     parser = None
     config_storage = None
+    lang_btn = None
 
     def __init__(self, parser: object, args: ArgumentParser):
         super().__init__()
@@ -23,9 +23,8 @@ class Gui(QWidget):
         self.args = args.parse_args()
         self.config_storage = config_storage.ConfigStorage()
 
-    @staticmethod
-    def _translate(*args, **kwargs):
-        return Lang.translate(*args, **kwargs)
+    def _translate(self, key):
+        return self.config_storage.translate(key)
 
     def main(self):
         self.init_ui()
@@ -53,12 +52,12 @@ class Gui(QWidget):
         return grid
 
     def get_config_grid(self):
-        destination_label = QLabel(self._translate('Destination'))
-        name_label = QLabel(self._translate('Name'))
-        skip_volumes_label = QLabel(self._translate('Skip vol.'))
-        max_volumes_label = QLabel(self._translate('Max vol.'))
-        reverse_label = QLabel(self._translate('Reverse'))
-        one_thread_label = QLabel(self._translate('One thread'))
+        destination_label = QLabel(self._translate('destination'))
+        name_label = QLabel(self._translate('name'))
+        skip_volumes_label = QLabel(self._translate('skip_volume'))
+        max_volumes_label = QLabel(self._translate('max_volume'))
+        reverse_label = QLabel(self._translate('reverse'))
+        one_thread_label = QLabel(self._translate('one_thread'))
 
         self.gui_params['destination'] = QLineEdit()
         self.gui_params['name'] = QLineEdit()
@@ -103,12 +102,13 @@ class Gui(QWidget):
         manga_link.resize(manga_link.sizeHint())
         uri_grid.addWidget(manga_link, 0, 16, 1, 1)
 
-        lang_btn = QPushButton('en', self)
-        lang_btn.setFlat(True)
-        lang_btn.setStyleSheet('border: 1px solid #555; background-color: #8f8; padding: 2px')
-        lang_btn.setCursor(QCursor(Qt.PointingHandCursor))
-        lang_btn.setMaximumWidth(22)
-        uri_grid.addWidget(lang_btn, 0, 17, 1, 1)
+        self.lang_btn = QPushButton(self._translate('lang'), self)
+        self.lang_btn.clicked.connect(self.next_lang)
+        self.lang_btn.setFlat(True)
+        self.lang_btn.setStyleSheet('border: 1px solid #555; background-color: #8f8; padding: 2px')
+        self.lang_btn.setCursor(QCursor(Qt.PointingHandCursor))
+        self.lang_btn.setMaximumWidth(22)
+        uri_grid.addWidget(self.lang_btn, 0, 17, 1, 1)
 
         return uri_grid
 
@@ -132,6 +132,10 @@ class Gui(QWidget):
         self.setMaximumHeight(self.window_h)
         self.setWindowIcon(QIcon('docs/favicon.ico'))
         self.setWindowTitle('Manga downloader')
+
+    def next_lang(self):
+        lang = self.config_storage.next_lang()
+        self.lang_btn.setText(lang)
 
     def center(self):
         qr = self.frameGeometry()
@@ -160,4 +164,3 @@ class Gui(QWidget):
 
     def _run_downloader(self):
         pass
-

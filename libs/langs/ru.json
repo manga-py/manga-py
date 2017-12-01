@@ -1,0 +1,9 @@
+{
+  "lang": "ru",
+  "destination": "Расроложение",
+  "name": "Имя",
+  "skip_volume": "Пропустить глав",
+  "max_volume": "Максимум глав",
+  "reverse": "Реверс",
+  "one_thread": "В один поток"
+}

@@ -8,6 +8,8 @@ class ConfigStorage:
     __config_path = ''
     __storage = {}
     __lang = {}
+    __lang_idx = {}
+    __langs_list = None
 
     def __init__(self):
         self.__init_config_path()
@@ -25,15 +27,18 @@ class ConfigStorage:
             _json = {}
         return _json
 
+    def __save_config(self, values: dict):
+        config_path = path.dirname(self.__config_path)
+        path.isdir(config_path) or makedirs(config_path)
+        values.setdefault('lang', 'en')
+        values.setdefault('url', '')
+        with open(self.__config_path, 'w') as f:
+            f.write(json.dumps(values))
+
     def __load_config(self):
         if not path.isfile(self.__config_path):
             # make default config
-            config_path = path.dirname(self.__config_path)
-            path.isdir(config_path) or makedirs(config_path)
-            with open(self.__config_path, 'w') as f:
-                f.write(json.dumps({
-                    'lang': 'en',
-                }))
+            self.__save_config({})
             self.__storage['lang'] = 'en'
             self.__storage['url'] = ''
 
@@ -42,11 +47,11 @@ class ConfigStorage:
             with open(self.__config_path) as f:
                 _json = self.__read_json_config(f)
                 self.__storage = _json
-                self.__storage['lang'] = getattr(_json, 'lang', 'en')
-                self.__storage['url'] = getattr(_json, 'lang', '')
+                self.__storage['lang'] = _json.get('lang', 'en')
+                self.__storage['url'] = _json.get('lang', '')
 
     def __load_lang(self, key):
-        _path = path.join(fs.get_current_path(), 'helpers', '.gui.lang.{}.json')
+        _path = path.join(fs.get_current_path(), 'libs', 'langs', '{}.json')
         if not path.isfile(_path.format(key)):
             key = 'en'
         _path = _path.format(key)
@@ -54,36 +59,36 @@ class ConfigStorage:
             self.__lang = self.__read_json_config(f)
 
     def get_param(self, key, default=None):
-        """
-        :param key: str
-        :param default: str
-        :return: mixed
-        """
-        return getattr(self, key, default)
+        return self.__storage.get(key, default)
 
     def set_param(self, key, value):
         self.__storage[key] = value
 
-    def get_label(self, name):
-        return self.get_param('label_{}'.format(name))
-
-    def get_button(self, name):
-        return self.get_param('button_{}'.format(name))
-
-    def save_lang(self, key):
-        pass
-
-    def load_lang(self, key):
-        pass
-
     def get_config(self):
-        if hasattr(self.__storage, 'config'):
+        if self.__storage.get('config', None):
             return self.__storage['config']
-        with open(self.__config_path) as f:
-            config = self.__read_json_config(f)
-            self.__storage['config'] = config['config']
-            return config['config']
+        self.__load_config()
+        return self.__storage['config']
 
     def save_config(self):
-        with open(self.__config_path, 'w') as f:
-            f.write(json.dumps(self.__storage))
+        self.__save_config(self.__storage)
+
+    def translate(self, key):
+        return self.__lang.get(key, key)
+
+    def next_lang(self):
+        langs = self.get_langs_list()
+        idx = langs.index(self.__storage['lang']) + 1
+        lang = langs[0]
+        if idx < len(langs):
+            lang = langs[idx]
+        self.__storage['lang'] = lang
+        self.__save_config(self.__storage)
+        return lang
+
+    def get_langs_list(self):
+        if not self.__langs_list:
+            _path = path.join(fs.get_current_path(), 'libs', 'langs', '_langs.json')
+            with open(_path) as f:
+                self.__langs_list = json.loads(''.join(f.readlines()))
+        return self.__langs_list
