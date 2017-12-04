@@ -1,4 +1,13 @@
 from argparse import ArgumentParser
+from atexit import register as atexit_register
+from shutil import rmtree
+from libs.fs import get_temp_path
+from os import name as os_name
+
+
+@atexit_register
+def before_shutdown():
+    rmtree(get_temp_path())
 
 
 def get_cli_arguments() -> ArgumentParser:
@@ -41,7 +50,6 @@ def get_cli_arguments() -> ArgumentParser:
                              default=100)
     args_parser.add_argument('--crop-blank-max-size', required=False, type=int,
                              help='Maximum crop size (px). Default: 30', default=30)
-    # args_parser.add_argument()
 
     args_parser.add_argument('--cli', action='store_const', required=False, const=True, help='Use cli interface',
                              default=False)
@@ -54,8 +62,27 @@ class Cli:
     status = True
 
     def __init__(self, parser: object, args: ArgumentParser):
-        self.args = args.parse_args()
+        args = args.parse_args()
+        parser.add_params(args)
 
     @staticmethod
     def input(prompt: str = ''):
         return input(prompt=prompt + '\n')
+
+    @staticmethod
+    def _progress(items_count: int, current_item: int):  # pragma: no cover
+        if arguments.progress and tty_columns:
+            columns = float(tty_columns)
+            one_percent = float(columns) / float(items_count)
+            current_position = int(float(current_item) * one_percent)
+            text = ('▓' * current_position)
+            text += (' ' * (int(columns) - current_position))
+            Cli.print('\033[1A\033[9D%s' % text, end='\n        \033[9D')
+
+    @staticmethod
+    def print(text, *args, **kwargs):
+        if os_name == 'nt':
+            __encode = 'cp866'
+            text = str(text).encode().decode(__encode, 'ignore')
+        print(text, *args, **kwargs)
+

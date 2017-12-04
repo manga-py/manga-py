@@ -136,6 +136,15 @@ class Gui(QWidget):
     def next_lang(self):
         lang = self.config_storage.next_lang()
         self.lang_btn.setText(lang)
+        if not getattr(self, 'quit_question', False):
+            self.quit_question = True
+            quest = QMessageBox.information(
+                self, 'Need restart',
+                'For change language need restart',
+                QMessageBox.Ok | QMessageBox.Ignore,
+                QMessageBox.Ok
+            )
+            quest == QMessageBox.Ok and exit()
 
     def center(self):
         qr = self.frameGeometry()

@@ -315,7 +315,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         return False
 
     def force_png(self, path):
-        if arguments.force_png:
+        if arguments._force_png:
             dest = remove_void.ImageFormat.convert(path)
             shutil.rmtree(path)
             return dest
