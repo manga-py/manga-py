@@ -1,17 +1,26 @@
 from argparse import ArgumentParser
 from atexit import register as atexit_register
+from os import name as os_name, popen
+from os.path import isdir
 from shutil import rmtree
+import signal
+
 from libs.fs import get_temp_path
-from os import name as os_name
+from libs.parser import Parser
+
+__version__ = '0.3.0'
 
 
 @atexit_register
 def before_shutdown():
-    rmtree(get_temp_path())
+    temp_dir = get_temp_path()
+    isdir(temp_dir) and rmtree(temp_dir)
 
 
 def get_cli_arguments() -> ArgumentParser:
     args_parser = ArgumentParser()
+
+    args_parser.add_argument('-v', '--version', action='version', version=__version__)
 
     args_parser.add_argument('-u', '--url', type=str, required=False, help='Downloaded url', default='')
     args_parser.add_argument('-n', '--name', type=str, required=False, help='Manga name', default='')
@@ -57,13 +66,36 @@ def get_cli_arguments() -> ArgumentParser:
     return args_parser
 
 
-class Cli:
+class TTY:
+    _tty_columns = -1
 
+    def tty_columns(self):
+        if self._tty_columns >= 0:
+            return self._tty_columns
+        _tty_columns = 0
+        if os_name != 'nt':
+            tty_rows, _tty_columns = popen('stty size', 'r').read().split()
+        return _tty_columns
+
+    def resize_signal(self):
+        self._tty_columns = -1
+
+
+def tty_columns():
+    tty = TTY()
+    return tty.tty_columns()
+
+
+class Cli:
     status = True
 
-    def __init__(self, parser: object, args: ArgumentParser):
-        args = args.parse_args()
-        parser.add_params(args)
+    def __init__(self, parser: Parser, args: ArgumentParser):
+        self.args = args.parse_args()
+        self.parser = parser
+        parser.add_params(self.args)
+        parser.set_logger_callback(self.print)
+        parser.set_progress_callback(self._progress)
+        signal.signal(signal.SIGWINCH, TTY.resize_signal(TTY()))
 
     @staticmethod
     def input(prompt: str = ''):
@@ -71,13 +103,16 @@ class Cli:
 
     @staticmethod
     def _progress(items_count: int, current_item: int):  # pragma: no cover
-        if arguments.progress and tty_columns:
-            columns = float(tty_columns)
-            one_percent = float(columns) / float(items_count)
+        if not items_count:
+            return
+        args = get_cli_arguments().parse_args()
+        cli_columns = tty_columns()
+        if args.progress and cli_columns:
+            one_percent = float(cli_columns) / float(items_count)
             current_position = int(float(current_item) * one_percent)
             text = ('▓' * current_position)
-            text += (' ' * (int(columns) - current_position))
-            Cli.print('\033[1A\033[9D%s' % text, end='\n        \033[9D')
+            text += (' ' * (int(cli_columns) - current_position))
+            Cli.print('\033[1A\033[9D%s' % text, end='         \n        \033[9D')
 
     @staticmethod
     def print(text, *args, **kwargs):
@@ -85,4 +120,3 @@ class Cli:
             __encode = 'cp866'
             text = str(text).encode().decode(__encode, 'ignore')
         print(text, *args, **kwargs)
-

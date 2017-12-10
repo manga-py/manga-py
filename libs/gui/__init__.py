@@ -5,6 +5,7 @@ from PyQt5.QtGui import QIcon, QCursor
 from PyQt5.Qt import Qt
 from argparse import ArgumentParser
 from libs.gui import config_storage
+from libs.cli import Parser
 
 
 class Gui(QWidget):
@@ -17,10 +18,10 @@ class Gui(QWidget):
     config_storage = None
     lang_btn = None
 
-    def __init__(self, parser: object, args: ArgumentParser):
+    def __init__(self, parser: Parser, args: ArgumentParser):
         super().__init__()
-        self.parser = parser
         self.args = args.parse_args()
+        self.parser = parser
         self.config_storage = config_storage.ConfigStorage()
 
     def _translate(self, key):

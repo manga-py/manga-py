@@ -1,9 +1,11 @@
+__downloader_uri__ = 'https://github.com/yuru-yuri/Manga-Downloader'
+
+
 class Parser:
 
     params = {}
-
-    def __init__(self):
-        pass
+    progress = None
+    logger = None
 
     def add_params(self, params):
         self.params['url'] = getattr(params, 'url', '')
@@ -17,12 +19,10 @@ class Parser:
     def get_provider(self):
         pass
 
-    def progress(self, callback: callable = None):
-        if callback:
-            callback()
+    def set_progress_callback(self, callback: callable=None):
+        self.progress = callback
 
-    def logger(self, callback: callable = None):
-        if callback:
-            callback()
+    def set_logger_callback(self, callback: callable=None):
+        self.logger = callback
 
-    def
+    # def

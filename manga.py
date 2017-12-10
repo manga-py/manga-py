@@ -1,20 +1,21 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+from os import makedirs
+from os.path import isdir
+from sys import argv, exit as sys_exit
+
+from PyQt5.Qt import QApplication
+
+from libs import fs
+from libs.cli import Cli, get_cli_arguments, __version__ as __version
+from libs.gui import Gui
+from libs.parser import Parser
+
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
 __email__ = 'sttv-pc@mail.ru'
-__version__ = '0.3.0'
-__downloader_uri__ = 'https://github.com/yuru-yuri/Manga-Downloader'
-
-from sys import argv, exit as sys_exit
-from libs.cli import Cli, get_cli_arguments
-from libs.gui import Gui
-from PyQt5.Qt import QApplication
-from libs.parser import Parser
-from os.path import isdir
-from os import makedirs
-from libs import fs
+__version__ = __version
 
 if __name__ == '__main__':
 
