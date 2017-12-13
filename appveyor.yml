@@ -35,8 +35,8 @@ deploy:
 - provider: GitHub
   auth_token:
     secure: aqxOwrvNEIZ2ian/bj0ZyfEzMFNWalV5zDfFqpcxfZX47FAIW9ud6kgCU2jm/fMk
-  draft: true
-  prerelease: true
-  force_update: true
+  draft: false
+  prerelease: false
+  force_update: false
   on:
     branch: master
