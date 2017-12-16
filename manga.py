@@ -26,7 +26,7 @@ if __name__ == '__main__':
     if parse_args.cli:
         cli = Cli(args)
         # cli
-        exit(0 if cli.status else 0)
+        exit(0 if cli.status else 1)
 
     # else run GUI
     app = QApplication(argv)

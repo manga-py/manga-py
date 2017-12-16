@@ -8,7 +8,7 @@ from libs.gui import config_storage
 from libs.cli import Parser
 
 
-class Gui(QWidget):
+class Gui(QWidget):  # pragma: no cover
 
     window_h = 600
     window_w = 900
@@ -28,7 +28,7 @@ class Gui(QWidget):
     def print(self, text):
         pass
 
-    def progress(self, items_count: int, current_item: int):  # pragma: no cover
+    def progress(self, items_count: int, current_item: int):
         pass
 
     def _translate(self, key):
