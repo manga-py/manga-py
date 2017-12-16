@@ -14,15 +14,22 @@ class Gui(QWidget):
     window_w = 900
     in_work = False
     gui_params = {}
-    parser = None
     config_storage = None
     lang_btn = None
 
-    def __init__(self, parser: Parser, args: ArgumentParser):
+    def __init__(self, args: ArgumentParser):
         super().__init__()
         self.args = args.parse_args()
-        self.parser = parser
+        self.parser = Parser(args)
+        self.parser.set_logger_callback(self.print)
+        self.parser.set_progress_callback(self.progress)
         self.config_storage = config_storage.ConfigStorage()
+
+    def print(self, text):
+        pass
+
+    def progress(self, items_count: int, current_item: int):  # pragma: no cover
+        pass
 
     def _translate(self, key):
         return self.config_storage.translate(key)

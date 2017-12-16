@@ -1,3 +1,6 @@
+from argparse import ArgumentParser
+
+
 __downloader_uri__ = 'https://github.com/yuru-yuri/Manga-Downloader'
 
 
@@ -7,7 +10,13 @@ class Parser:
     progress = None
     logger = None
 
-    def add_params(self, params):
+    def __init__(self, args):
+        self.args = args
+        self._add_params(args)
+
+    def _add_params(self, params: ArgumentParser = None):
+        if params is None:
+            params = self.args.parse_args()
         self.params['url'] = getattr(params, 'url', '')
         self.params['name'] = getattr(params, 'name', '')
         self.params['user_agent'] = getattr(

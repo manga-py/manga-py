@@ -89,33 +89,29 @@ def tty_columns():
 class Cli:
     status = True
 
-    def __init__(self, parser: Parser, args: ArgumentParser):
+    def __init__(self, args: ArgumentParser):
         self.args = args.parse_args()
-        self.parser = parser
-        parser.add_params(self.args)
-        parser.set_logger_callback(self.print)
-        parser.set_progress_callback(self._progress)
+        self.parser = Parser(args)
+        self.parser.set_logger_callback(self.print)
+        self.parser.set_progress_callback(self.progress)
         signal.signal(signal.SIGWINCH, TTY.resize_signal(TTY()))
 
-    @staticmethod
-    def input(prompt: str = ''):
+    def input(self, prompt: str = ''):
         return input(prompt=prompt + '\n')
 
-    @staticmethod
-    def _progress(items_count: int, current_item: int):  # pragma: no cover
+    def progress(self, items_count: int, current_item: int):  # pragma: no cover
         if not items_count:
             return
-        args = get_cli_arguments().parse_args()
+        args = self.args.parse_args()
         cli_columns = tty_columns()
         if args.progress and cli_columns:
             one_percent = float(cli_columns) / float(items_count)
             current_position = int(float(current_item) * one_percent)
             text = ('▓' * current_position)
             text += (' ' * (int(cli_columns) - current_position))
-            Cli.print('\033[1A\033[9D%s' % text, end='         \n        \033[9D')
+            self.print('\033[1A\033[9D%s' % text, end='         \n        \033[9D')
 
-    @staticmethod
-    def print(text, *args, **kwargs):
+    def print(self, text, *args, **kwargs):
         if os_name == 'nt':
             __encode = 'cp866'
             text = str(text).encode().decode(__encode, 'ignore')

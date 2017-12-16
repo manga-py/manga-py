@@ -32,7 +32,7 @@ class ConfigStorage:
         path.isdir(config_path) or makedirs(config_path)
         values.setdefault('lang', 'en')
         values.setdefault('url', '')
-        with open(self.__config_path, 'w') as f:
+        with open(self.__config_path, 'w', encoding='utf-8') as f:
             f.write(json.dumps(values))
 
     def __load_config(self):
@@ -44,18 +44,19 @@ class ConfigStorage:
 
         else:
             # load config
-            with open(self.__config_path) as f:
+            with open(self.__config_path, encoding='utf-8') as f:
                 _json = self.__read_json_config(f)
                 self.__storage = _json
                 self.__storage['lang'] = _json.get('lang', 'en')
                 self.__storage['url'] = _json.get('lang', '')
 
     def __load_lang(self, key):
+        print(self.__storage['lang'])
         _path = path.join(fs.get_current_path(), 'libs', 'langs', '{}.json')
         if not path.isfile(_path.format(key)):
             key = 'en'
         _path = _path.format(key)
-        with open(_path) as f:
+        with open(_path, encoding='utf-8') as f:
             self.__lang = self.__read_json_config(f)
 
     def get_param(self, key, default=None):
@@ -89,6 +90,6 @@ class ConfigStorage:
     def get_langs_list(self):
         if not self.__langs_list:
             _path = path.join(fs.get_current_path(), 'libs', 'langs', '_langs.json')
-            with open(_path) as f:
+            with open(_path, encoding='utf-8') as f:
                 self.__langs_list = json.loads(''.join(f.readlines()))
         return self.__langs_list
