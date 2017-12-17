@@ -25,8 +25,11 @@ class Gui(QWidget):  # pragma: no cover
         self.parser.set_progress_callback(self.progress)
         self.config_storage = config_storage.ConfigStorage()
 
-    def print(self, text):
-        pass
+    def print(self, text, end='\n'):
+        self.gui_params['log'].insertHtml('{}{}'.format(text, end))
+
+    def clear_log(self):
+        self.gui_params['log'].setText('')
 
     def progress(self, items_count: int, current_item: int):
         pass

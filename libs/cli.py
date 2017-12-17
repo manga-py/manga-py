@@ -63,6 +63,10 @@ def get_cli_arguments() -> ArgumentParser:
     args_parser.add_argument('--cli', action='store_const', required=False, const=True, help='Use cli interface',
                              default=False)
 
+    # future
+    args_parser.add_argument('--server', action='store_const', required=False, const=True, help='Run web interface',
+                             default=False)
+
     return args_parser
 
 
@@ -94,7 +98,8 @@ class Cli:
         self.parser = Parser(args)
         self.parser.set_logger_callback(self.print)
         self.parser.set_progress_callback(self.progress)
-        signal.signal(signal.SIGWINCH, TTY.resize_signal(TTY()))
+        tty = TTY()
+        signal.signal(signal.SIGWINCH, tty.resize_signal)
 
     def input(self, prompt: str = ''):
         return input(prompt=prompt + '\n')
@@ -111,8 +116,8 @@ class Cli:
             text += (' ' * (int(cli_columns) - current_position))
             self.print('\033[1A\033[9D%s' % text, end='         \n        \033[9D')
 
-    def print(self, text, *args, **kwargs):
+    def print(self, text, end='\n'):
         if os_name == 'nt':
             __encode = 'cp866'
             text = str(text).encode().decode(__encode, 'ignore')
-        print(text, *args, **kwargs)
+        print(text, end=end)

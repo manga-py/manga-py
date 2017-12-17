@@ -10,7 +10,7 @@ from PyQt5.Qt import QApplication
 from libs import fs
 from libs.cli import Cli, get_cli_arguments, __version__
 from libs.gui import Gui
-from libs.parser import Parser
+# from libs.server import Server
 
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
@@ -27,6 +27,10 @@ if __name__ == '__main__':
         cli = Cli(args)
         # cli
         exit(0 if cli.status else 1)
+
+    # if parse_args.server:
+    #     cli = Server(args)
+    #     exit(0 if cli.status else 1)
 
     # else run GUI
     app = QApplication(argv)

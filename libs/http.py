@@ -26,7 +26,7 @@ class Http:
             setattr(self, name, value)
 
     def __init__(
-            self, provider,
+            self,
             allow_webp=None,
             referrer_url=None,
             user_agent=None,
@@ -37,14 +37,13 @@ class Http:
             crop_manual=None,
             crop_image=None,
     ):
-        self.main_content = None
+        self.main_content = ''
         self.force_png = force_png
         if crop_manual:
             self.crop_manual = crop_manual
         if crop_image:
             self.crop_image = crop_image
 
-        self.__set_param('provider', provider)
         self.__set_param('allow_webp', allow_webp)
         self.__set_param('referrer_url', referrer_url)
         self.__set_param('user_agent', user_agent)
@@ -107,22 +106,22 @@ class Http:
             data=data, files=files, timeout=timeout, proxies=self.proxies
         )
 
-    def _get(self, url: str, headers: dict = None, cookies: dict = None) -> str:
+    def get(self, url: str, headers: dict = None, cookies: dict = None) -> str:
         response = self.__requests(url=url, headers=headers, cookies=cookies, method='get')
         ret = response.text
         response.close()
         return ret
 
-    def _post(self, url: str, headers: dict = None, cookies: dict = None, data: dict = (), files=None) -> str:
+    def post(self, url: str, headers: dict = None, cookies: dict = None, data: dict = (), files=None) -> str:
         response = self.__requests(url=url, headers=headers, cookies=cookies, method='post', data=data, files=files)
         text = response.text
         response.close()
         return text
 
-    def _safe_downloader(self, url, file_name) -> bool:
+    def safe_downloader(self, url, file_name, method='get') -> bool:
         try:
             url = self.__safe_downloader_url_helper(url)
-            response = self.__requests(url, method='get', timeout=3)
+            response = self.__requests(url, method=method, timeout=60)
 
             with open(file_name, 'wb') as out_file:
                 out_file.write(response.content)
@@ -173,7 +172,7 @@ class Http:
     def __download_one_file_helper(self, url, dest, callback: callable = None):
         r = 0
         while r < self.count_retries:
-            if self._safe_downloader(url, dest):
+            if self.safe_downloader(url, dest):
                 return True
             mode = 'Skip image'
             if r < self.count_retries:
@@ -238,7 +237,7 @@ class Http:
         archive = self.provider.get_zip(main_content=self.main_content, get=self._get, post=self._post)
         self._archive_helper(archive)
 
-    def __one_thread_downloader(self, temp_path, image, n, callback: callable = None, callback_params=None):
+    def one_thread_downloader(self, temp_path, image, n, callback: callable = None, callback_params=None):
         image_full_name = self._download_image_name_helper(temp_path, image, n)
         result = 0
         if self.download_one_file(image, image_full_name):
