@@ -80,9 +80,10 @@ providers_list = {
     'otakusmash_com': '(otakusmash\\.com|mrsmanga\\.com|mentalmanga\\.com)'
 }
 
+
 def get_provider(url):
     for i in providers_list:
         result = re.search(providers_list[i], url)
         if result is not None:
-            return __import__('providers.{}'.format(i), fromlist=['providers'])
+            return __import__('libs.providers.{}'.format(i), fromlist=['libs.providers'])
     return False

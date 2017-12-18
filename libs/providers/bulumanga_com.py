@@ -1,5 +1,10 @@
-from .extractor import Extractor as Ext
+from .extractor import Extractor
 
 
-class Extractor(Ext):
-    pass
+class Bulumanga(Extractor):
+
+    def process(self, **kwargs):
+        pass
+
+    def quest(self, variants, title=''):
+        pass
