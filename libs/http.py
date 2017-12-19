@@ -1,5 +1,4 @@
 import requests
-from requests.exceptions import TooManyRedirects
 from urllib.parse import urlparse
 from os import path, makedirs
 from libs.fs import get_temp_path
@@ -81,7 +80,7 @@ class Http:
         )
         if r.is_redirect:
             if max_redirects < 1:
-                raise TooManyRedirects('Too many redirects', response=r)
+                raise AttributeError('Too many redirects')
             location = self.__safe_downloader_url_helper(r.headers['location'])
             return self.__requests_helper(
                 method, location, headers, cookies, data,

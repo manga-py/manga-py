@@ -1,26 +1,41 @@
 import re
+from libs import fs
 from libs.http import Http
 from libs.image import Image
 
 
 class Extractor(object):
 
-    _params = {}
-    _image_params={
+    _params = {
+    }
+    _image_params = {
         'crop': False,
         # 'crop': (0, 0, 0, 0)
         'auto_crop': False,
         # 'auto_crop': {'factor': 150, 'maximum': 40},
     }
+    _volumes_count = 0
 
     def __init__(self):
         self.http = Http
+        self._params['temp_directory'] = fs.get_temp_path()
 
-    def _image_params_parser(self):
-        pass
+    def _image_params_parser(self, params):
+        self._set_if_not_none(self._image_params, 'crop', params.get('crop', None))
+        self._set_if_not_none(self._image_params, 'auto_crop', params.get('auto_crop', None))
 
-    def process(self, url, path_destination, temp_dir, image_params=None, skip=0):  # Main method. Required
-        pass
+    @staticmethod
+    def _set_if_not_none(var, key, value):
+        if value is not None:
+            var[key] = value
+
+    def _downloading_params_parser(self, params):
+        self._set_if_not_none(self._params, 'path_destination', params.get('path_destination', None))
+
+    def process(self, url, downloading_params=None, image_params=None):  # Main method. Required
+        self._params['url'] = url
+        self._downloading_params_parser(downloading_params)
+        self._image_params_parser(image_params)
 
     # mutated methods /
 
@@ -31,9 +46,6 @@ class Extractor(object):
         pass
 
     def loop_volume(self):
-        pass
-
-    def loop_(self):
         pass
 
     # / mutated methods
