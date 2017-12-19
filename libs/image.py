@@ -22,23 +22,26 @@ class Image:
     def _get_max_crop_size(self, param, side_size):
         if isinstance(param, str) and param.find('%'):
             param = int(param[:-1])
-            return 50 if param > 50 else param
+            param = abs(param)
+            return int(side_size/2) if param > 50 else int(side_size * param / 100)
+        param = abs(param)
         return int(side_size / 2) if int(param > side_size) / 2 else int(param)
 
-    def __open(self, _path):
-        image = PilImage.open(_path)
-        if image.mode != 'RGB':  # fixed image mode
-            image = image.convert('RGB')
-        return image
+    def __open(self, _path, to_rgb=True):
+        with PilImage.open(_path) as image:
+            if to_rgb and image.mode != 'RGB':  # force change image mode
+                image = image.convert('RGB')
+            return image
 
     def gray(self, dest_path=None):
+        img = self.__open(dest_path, False)
         try:
-            img = PilImage.open(self.src_path).convert('LA')
+            image = img.convert('LA')
         except ValueError:
-            img = PilImage.open(self.src_path).convert('L')
+            image = img.convert('L')
         if dest_path is not None:
-            img.save(dest_path)
-        return img
+            image.save(dest_path)
+        return image
 
     def convert(self, dest_path=None, quality=95):
         """
@@ -64,10 +67,10 @@ class Image:
             return 0
 
         crop_params = self.__get_crop_params()
-        max_offset = self._get_max_crop_size(crop_params.get('max_crop_size', '50%'), height)
+        max_offset = self._get_max_crop_size(crop_params.get('max_crop_size'), height)
         factor = crop_params.get('auto_crop_factor')
         pixels = img.load()
-        crop_type = int(pixels[0,0] > 125)
+        crop_type = int(pixels[0, 0] > 125)
 
         for h in range(int(height/2) - 1):
             if h > max_offset:
@@ -82,21 +85,35 @@ class Image:
 
         return 0
 
-    def crop_manual(self, dest_path=None):
+    def crop_with_offsets(self, image: PilImage, offsets):
+        left, upper, right, lower = offsets
+        width, height = image.sizes
+        _right, _bottom = width - right, height - lower
+        return image.crop((left, upper, _right, _bottom))
+
+    def crop_manual(self, sizes, dest_path=None):
+        """
+        :param sizes: The crop rectangle, as a (left, upper, right, lower)-tuple.
+        :param dest_path:
+        :return:
+        """
         image = self.__open(self.src_path)
-        pass
+        image = image.crop(sizes)
+        if dest_path is None:
+            dest_path = self.src_path
+        image.save(dest_path)
 
     def crop_auto(self, dest_path=None):
         img = self.gray(self.src_path)
-        top_offset = self.__get_blank_size(img)
+        upper = self.__get_blank_size(img)
         img = img.rotate(90)
-        right_offset = self.__get_blank_size(img)
+        right = self.__get_blank_size(img)
         img = img.rotate(90)
-        bottom_offset = self.__get_blank_size(img)
+        lower = self.__get_blank_size(img)
         img = img.rotate(90)
-        left_offset = self.__get_blank_size(img)
-        
-        if top_offset or right_offset or bottom_offset or left_offset:
+        left = self.__get_blank_size(img)
+
+        if left or upper or right or lower:
             image = self.__open(self.src_path)
-            # image.crop
-        pass
+            image = self.crop_with_offsets(image, (left, upper, right, lower))
+            image.save(dest_path)

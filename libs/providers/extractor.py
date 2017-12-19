@@ -20,6 +20,36 @@ class Extractor(object):
         self.http = Http
         self._params['temp_directory'] = fs.get_temp_path()
 
+    # mutated methods /
+
+    def get_main_content(self):  # call once
+        pass
+
+    def get_volumes(self):  # call once
+        pass
+
+    def get_cookies(self):  # if site with cookie protect
+        pass
+
+    def get_files(self):  # call ever volume loop
+        pass
+
+    def quest(self, variants, title=''):  # return callback ?
+        pass
+
+    def loop_volume(self):  # call ever volume
+        pass
+
+    def loop_file(self):  # call ever file. After downloading
+        pass
+
+    # / mutated methods
+
+    def process(self, url, downloading_params=None, image_params=None):  # Main method
+        self._params['url'] = url
+        self._downloading_params_parser(downloading_params)
+        self._image_params_parser(image_params)
+
     def _image_params_parser(self, params):
         self._set_if_not_none(self._image_params, 'crop', params.get('crop', None))
         self._set_if_not_none(self._image_params, 'auto_crop', params.get('auto_crop', None))
@@ -31,24 +61,6 @@ class Extractor(object):
 
     def _downloading_params_parser(self, params):
         self._set_if_not_none(self._params, 'path_destination', params.get('path_destination', None))
-
-    def process(self, url, downloading_params=None, image_params=None):  # Main method. Required
-        self._params['url'] = url
-        self._downloading_params_parser(downloading_params)
-        self._image_params_parser(image_params)
-
-    # mutated methods /
-
-    def quest(self, variants, title=''):
-        pass
-
-    def loop_file(self):
-        pass
-
-    def loop_volume(self):
-        pass
-
-    # / mutated methods
 
     def re_match(self, pattern, string, flags=0):
         return re.match(pattern, string, flags)
