@@ -20,3 +20,16 @@ def get_util_home_path():
     else:
         home = path.join(str(Path.home()), __dir_name__)
     return home
+
+
+def make_dirs(directory):
+    path.isdir(directory) or make_dirs(directory)
+
+
+def remove_file_query_params(name, save_path: bool = True) -> str:
+    file_path = path.dirname(name)
+    name = path.basename(name)
+    if name.find('?') > 0:
+        name = name[:name.find('?')]
+    return path.join(file_path, name) if save_path else name
+

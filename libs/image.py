@@ -7,11 +7,15 @@ class Image:
     def __init__(self, src_path, params=None):
         if not path.isfile(src_path):
             raise AttributeError('Image not found')
+        params = params if isinstance(params, dict) else {}
+
         self.src_path = src_path
         self.params = params
 
     def __get_default(self, var, key, default):
-        return var.get(key) if (isinstance(var, dict) and hasattr(self.params, key)) else default
+        if isinstance(var, dict):
+            return self.params.get(key, default)
+        return default
 
     def __get_crop_params(self):
         return {
@@ -19,7 +23,7 @@ class Image:
             'auto_crop_factor': self.__get_default(self.params, 'auto_crop_factor', 100),
         }
 
-    def _get_max_crop_size(self, param, side_size):
+    def _get_max_crop_size(self, param, side_size: int):
         if isinstance(param, str) and param.find('%'):
             param = int(param[:-1])
             param = abs(param)
@@ -33,7 +37,7 @@ class Image:
                 image = image.convert('RGB')
             return image
 
-    def gray(self, dest_path=None):
+    def gray(self, dest_path: str = None):
         img = self.__open(dest_path, False)
         try:
             image = img.convert('LA')
@@ -43,7 +47,7 @@ class Image:
             image.save(dest_path)
         return image
 
-    def convert(self, dest_path=None, quality=95):
+    def convert(self, dest_path: str=None, quality: int = 95):
         """
         see http://pillow.readthedocs.io/en/3.4.x/handbook/image-file-formats.html
         :param dest_path:
@@ -85,13 +89,20 @@ class Image:
 
         return 0
 
-    def crop_with_offsets(self, image: PilImage, offsets):
+    def _crop_with_offsets(self, image: PilImage, offsets: tuple) -> PilImage:
         left, upper, right, lower = offsets
         width, height = image.sizes
         _right, _bottom = width - right, height - lower
         return image.crop((left, upper, _right, _bottom))
 
-    def crop_manual(self, sizes, dest_path=None):
+    def crop_manual_with_offsets(self, offsets, dest_path: str = None):
+        image = self.__open(self.src_path)
+        if dest_path is None:
+            dest_path = self.src_path
+        image = self._crop_with_offsets(image, offsets)
+        self.transparency_fixed_before_save(image, dest_path).save(dest_path)
+
+    def crop_manual(self, sizes: tuple, dest_path: str = None):
         """
         :param sizes: The crop rectangle, as a (left, upper, right, lower)-tuple.
         :param dest_path:
@@ -101,9 +112,9 @@ class Image:
         image = image.crop(sizes)
         if dest_path is None:
             dest_path = self.src_path
-        image.save(dest_path)
+        self.transparency_fixed_before_save(image, dest_path).save(dest_path)
 
-    def crop_auto(self, dest_path=None):
+    def crop_auto(self, dest_path: str = None):
         img = self.gray(self.src_path)
         upper = self.__get_blank_size(img)
         img = img.rotate(90)
@@ -115,5 +126,14 @@ class Image:
 
         if left or upper or right or lower:
             image = self.__open(self.src_path)
-            image = self.crop_with_offsets(image, (left, upper, right, lower))
-            image.save(dest_path)
+            image = self._crop_with_offsets(image, (left, upper, right, lower))
+            self.transparency_fixed_before_save(image, dest_path).save(dest_path)
+
+    def get_ext(self, _path: str):
+        return _path[_path.rfind('.'):]
+
+    def transparency_fixed_before_save(self, image: PilImage, _path: str) -> PilImage:
+        ext = self.get_ext(_path)
+        if ext not in ['.png', '.webp', '.gif']:
+            return image.convert('RGB')
+        return image
