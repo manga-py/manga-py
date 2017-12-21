@@ -311,6 +311,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
             mode = 'Skip image'
             if r < count_retries:
                 mode = 'Retry'
+            r += 1
             MangaDownloader.print_info('Error downloading. %s' % (mode,))
         return False
 
