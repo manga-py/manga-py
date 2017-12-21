@@ -145,7 +145,7 @@ class ComicWalker:
         return s
 
 
-def get_manhuagui_com_js():
+def get_manhuagui_com_js():  # pragma: no cover
     return """
     var LZString = (function () {
     var f = String.fromCharCode;
