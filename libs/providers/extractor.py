@@ -1,7 +1,7 @@
 import re
 import json
 from lxml.html import document_fromstring
-from libs import fs
+from libs.fs import get_temp_path
 from libs.http import Http
 from libs.image import Image
 
@@ -27,14 +27,17 @@ class Extractor(object):
         'current_file': 0
     }
 
-    def __init__(self):
+    def __init__(self, uri):
+        self.uri = uri
+        self.re = re
+        self.json = json
         self.http = Http
-        self._params['temp_directory'] = fs.get_temp_path()
+        self._params['temp_directory'] = get_temp_path()
 
     # mutated methods /
 
     def get_main_content(self):  # call once
-        pass
+        return self.http_get(self.uri)
 
     def get_manga_name(self):  # call once
         pass
@@ -116,12 +119,6 @@ class Extractor(object):
 
     def re_search(self, pattern, string, flags=0):
         return re.search(pattern, string, flags)
-
-    def re(self) -> re:
-        return re
-
-    def json(self) -> json:
-        return json
 
     def http(self) -> Http:
         http_params = {

@@ -2,10 +2,10 @@ from .extractor import Extractor
 
 
 class Bulumanga(Extractor):
-    domainUri = 'http://bulumanga.com'
-
     def get_main_content(self):
-        return self.http_get(self.domainUri)
+        if self.re.search('', self.uri):
+            pass
+    #     return self.http_get(self.uri)
 
     def get_manga_name(self):
         pass
