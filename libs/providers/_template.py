@@ -1,22 +1,22 @@
-from .extractor import Extractor
+from .provider import Provider
 
 
-class _Template(Extractor):
+class _Template(Provider):
 
     def get_main_content(self):  # call once
         pass
 
     def get_manga_name(self):  # call once
-        pass
+        return ''
 
-    def get_volumes(self):  # call once
-        pass
+    def get_chapters(self):  # call once
+        return []
 
     def get_cookies(self):  # if site with cookie protect
         pass
 
     def get_files(self):  # call ever volume loop
-        pass
+        return []
 
     def _loop_callback_volumes(self):
         pass

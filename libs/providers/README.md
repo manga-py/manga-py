@@ -23,7 +23,7 @@ def get_main_content(url: str, get: callable, post: callable):
     pass
 
 
-def get_volumes(content=None, url: str, get: callable, post: callable):
+def get_chapters(content=None, url: str, get: callable, post: callable):
     """
     :param content: mixed (1) (Content from get_main_content)
     :param url: str
@@ -35,15 +35,11 @@ def get_volumes(content=None, url: str, get: callable, post: callable):
 
 
 def get_archive_name(volume, index: int = None) -> str:
-    """
-    :param volume: mixed (2) mixed element from get_volumes
-    :param index: int
-    :return: str
-    """
+    get_chapters
     pass
 
 
-def get_images(main_content=None, volume=None, get=None, post=None) -> list:
+def get_images(main_content=get_chapterse=None, get=None, post=None) -> list:
     """
     :param main_content: mixed (1)
     :param volume: mixed (2)
@@ -70,13 +66,7 @@ download_zip_only = None
 
 
 def get_zip(main_content=None, volume=None, get: callable, post: callable):
-    """
-    :param main_content: mixed (1) (Content from get_main_content)
-    :param volume: mixed (2) (Mixed element from get_volumes)
-    :param get: request.get
-    :param post: request.post
-    :return: str|list
-    """
+    get_chapters
     pass
 
 # if not None - additional cookies
@@ -89,7 +79,7 @@ def get_zip(main_content=None, volume=None, get: callable, post: callable):
 #  },
 #  'Browser'
 # ]
-cookies = None
+cget_chaptersne
 
 # */ NOT REQUIRED
 

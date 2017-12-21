@@ -470,7 +470,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         self.main_content = self.provider.get_main_content(self.url, get=self._get, post=self._post)
 
     def _get_volumes(self):
-        volumes = self.provider.get_volumes(self.main_content, url=self.url, get=self._get, post=self._post)
+        volumes = self.provider.get_chapters(self.main_content, url=self.url, get=self._get, post=self._post)
         if not arguments.reverse_downloading:
             volumes.reverse()
         if arguments.skip_volumes > 0:
