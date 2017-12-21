@@ -1,4 +1,4 @@
-version: 0.2.3.{build}
+version: 0.2.{build}
 skip_non_tags: true
 image: Visual Studio 2015
 clone_folder: C:\projects\manga-downloader
@@ -35,8 +35,8 @@ deploy:
 - provider: GitHub
   auth_token:
     secure: aqxOwrvNEIZ2ian/bj0ZyfEzMFNWalV5zDfFqpcxfZX47FAIW9ud6kgCU2jm/fMk
-  draft: true
-  prerelease: true
-  force_update: true
+  draft: false
+  prerelease: false
+  force_update: false
   on:
     branch: master
