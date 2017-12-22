@@ -1,21 +1,31 @@
+addons:
+  artifacts: true
 language: python
 python:
-- "3.4"
 - "3.5"
 - "3.6"
-- "nightly"
 cache: pip
 before_install:
 - sudo apt-get -y install nodejs
 - sudo apt-get install python3-setuptools
 - python3 -V
 install:
-- pip3 install coverage
-- pip3 install codeclimate-test-reporter
+- pip3 install --upgrade coverage codeclimate-test-reporter setuptools
 - pip3 install -r requirements.txt
 script:
 - coverage run tests/pytest.py
 after_script:
 - codeclimate-test-reporter --file .coverage
+before_deploy:
+- pyinstaller .builder.py --exclude-module PIL.ImageQt --log-level CRITICAL -y -F -n manga
+deploy:
+  provider: releases
+  api_key:
+   secure: "BP/yWdetaib7sGB4Xya//3YN+tRio0daBbz1PyTGl7gIDtyBmOScfF7vkREca+LlFJYjih6Sg4sNLbqzfZ0TPHOWxAlYxU+HPw8isBl5josJdjoc+ae31LA0HRbE48kwFnOOePbyv2YBnXa+15I2tDsS+VwTwTX4p9+yoASz/usHcXC8m+M1A/wxAV7GfbWSXP9Ny5pJDDI5wlKO/5euWqgDcAZXHHjEQVfc90dEpBVDkBD3Aft8QYwwP0tqU4IxyngXLm24DQrkNlhFhssBb1LyE4Z3S8EL8oH3vQrSSPLGBZ+8McHlxZioYh1LMTsS9SiOYT2LJlYtBshXaEqG01iSnbrfsysvjYChl/mi+R/P5Lp8iIlu3pSu4W7vXZkGHLySeiYoymR9r2Vz73ogBvnJWi+61K0gqDeN5qZuKwyWzHdFUS3RjIt+wjve7hBeeMmbmLPpXIb49O5Jsj2KEAhHVwgBRkVXHy+StrBRGiCzY576IgFcF/eLO3RR1x9MbBvDONuRd+JZaAJVdHnBqkJNmPsruLKN5SGjSETh96Fpa4zp7S1+MEK6BHex/ldgQjGbbFSdJrYvC84ajQh/DZ12r+2XFSUu0W4dFpDtTm5GngPYLolQbmmoY68f1NAnSJCcrKDTO9bFKIIrOsXzGFlJAIZe6jv+SNtuUjSbELk="
+  file_glob: true
+  file: dist/manga
+  skip_cleanup: true
+  on:
+    tags: true
 env:
 - CODECLIMATE_REPO_TOKEN: 38a5edd667c0f4d8964133b358eb6427b02e7cb3b4cdd92fe4d55986d9fd82da
