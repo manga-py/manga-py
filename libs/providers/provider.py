@@ -28,12 +28,34 @@ class Provider:
         'current_chapter': 0,
         'current_file': 0
     }
+    files_progress_callback = None
 
     def __init__(self):
         self.re = re
         self.json = json
         self.http = Http
         self._params['temp_directory'] = get_temp_path()
+
+    def _image_params_parser(self, params):
+        params = params if isinstance(params, dict) else {}
+        self._set_if_not_none(self._image_params, 'crop', params.get('crop', None))
+        self._set_if_not_none(self._image_params, 'auto_crop', params.get('auto_crop', None))
+
+    def _downloading_params_parser(self, params):
+        params = params if isinstance(params, dict) else {}
+        self._set_if_not_none(self._params, 'path_destination', params.get('path_destination', None))
+        self._set_if_not_none(self._params, 'path_destination', params.get('path_destination', None))
+
+    def process(self, url, downloading_params=None, image_params=None):  # Main method
+        self._params['url'] = url
+        self._downloading_params_parser(downloading_params)
+        self._image_params_parser(image_params)
+
+        self._storage['cookies'] = self.get_cookies()
+        self._storage['main_content'] = self.get_main_content()
+        self._storage['chapters'] = self.get_chapters()
+
+        self.loop_volumes()
 
     # mutated methods /
 
@@ -75,6 +97,11 @@ class Provider:
     def set_quest_callback(self, callback: callable):  # Required call from initiator (CLI, GUI)
         setattr(self, 'quest', callback)
 
+    def __call_files_progress_callback(self):
+        if self.files_progress_callback:
+            _max, _current = len(self._storage['files']), len(self._storage['current_file'])
+            self.files_progress_callback(_max, _current, _current < 1)
+
     def loop_volumes(self):
         volumes = self._storage['chapters']
         if isinstance(volumes, list) and len(volumes) > 0:
@@ -89,19 +116,9 @@ class Provider:
         if isinstance(files, list) and len(files) > 0:
             for idx in files:
                 self._storage['current_file'] = idx
+                self.__call_files_progress_callback()
                 self._loop_callback_files()
                 self.save_file()
-
-    def process(self, url, downloading_params=None, image_params=None):  # Main method
-        self._params['url'] = url
-        self._downloading_params_parser(downloading_params)
-        self._image_params_parser(image_params)
-
-        self._storage['cookies'] = self.get_cookies()
-        self._storage['main_content'] = self.get_main_content()
-        self._storage['chapters'] = self.get_chapters()
-
-        self.loop_volumes()
 
     def html_fromstring(self, addr, selector: str = None, idx: int = None):
         return self.document_fromstring(self.http_get(addr), selector, idx)
@@ -119,15 +136,6 @@ class Provider:
         if value is not None:
             var[key] = value
 
-    def _image_params_parser(self, params):
-        params = params if isinstance(params, dict) else {}
-        self._set_if_not_none(self._image_params, 'crop', params.get('crop', None))
-        self._set_if_not_none(self._image_params, 'auto_crop', params.get('auto_crop', None))
-
-    def _downloading_params_parser(self, params):
-        params = params if isinstance(params, dict) else {}
-        self._set_if_not_none(self._params, 'path_destination', params.get('path_destination', None))
-
     def re_match(self, pattern, string, flags=0):
         return re.match(pattern, string, flags)
 
@@ -138,7 +146,7 @@ class Provider:
         http_params = {
             'allow_webp': None,
             'referrer_url': None,
-            'user_agent': None,
+            'user_agent': self._params.get('user_agent', None),
             'proxies': None,
             'site_cookies': None,
         }

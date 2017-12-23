@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from libs.providers import get_provider
 
 
 __downloader_uri__ = 'https://github.com/yuru-yuri/Manga-Downloader'
@@ -7,8 +8,8 @@ __downloader_uri__ = 'https://github.com/yuru-yuri/Manga-Downloader'
 class Parser:
 
     params = {}
-    progress = None
     logger = None
+    provider = None
 
     def __init__(self, args):
         self.args = args
@@ -25,13 +26,16 @@ class Parser:
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36'
         )
 
-    def get_provider(self):
-        pass
+    def init_provider(self):
+        self.provider = get_provider(self.params.get('url', ''))
+        if not self.provider:
+            raise AttributeError('Provider not found')
 
     def set_progress_callback(self, callback: callable=None):
-        self.progress = callback
+        self.provider.files_progress_callback = callback
 
     def set_logger_callback(self, callback: callable=None):
         self.logger = callback
 
-    # def
+    def start(self):
+        pass

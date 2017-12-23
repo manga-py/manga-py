@@ -65,7 +65,7 @@ def manhuagui(js, default=''):
 
 class ComicWalker:
     """
-    @see https://github.com/eagletmt/comic_walker/blob/master/lib/comic_walker/cipher.rb
+    @see https://github.com/eagletmt/comic_walker/blob/master/libs/comic_walker/cipher.rb
     """
     BASE_KEY = None
 

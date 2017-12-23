@@ -3,12 +3,12 @@ from atexit import register as atexit_register
 from os import name as os_name, popen
 from os.path import isdir
 from shutil import rmtree
-import signal
+import progressbar
 
 from libs.fs import get_temp_path
 from libs.parser import Parser
 
-__version__ = '0.3.0'
+__version__ = '1.0.0'
 
 
 @atexit_register
@@ -27,8 +27,8 @@ def get_cli_arguments() -> ArgumentParser:
     args_parser.add_argument('-d', '--destination', type=str, required=False,
                              help='Destination folder (Default = current directory', default='')
     args_parser.add_argument('-i', '--info', action='store_const', required=False, const=True, default=False)
-    args_parser.add_argument('-p', '--progress', action='store_const', required=False, const=True,
-                             help='Show progress bar (don\'t work on Dos)', default=False)
+    args_parser.add_argument('-np', '--no-progress', action='store_const', required=False, const=True,
+                             help='Don\'t how progress bar', default=True)
     args_parser.add_argument('-s', '--skip-volumes', type=int, required=False, help='Skip volumes (count)', default=0)
     args_parser.add_argument('-c', '--max-volumes', type=int, required=False,
                              help='Maximum volumes for downloading 0=All (count)', default=0)
@@ -70,26 +70,6 @@ def get_cli_arguments() -> ArgumentParser:
     return args_parser
 
 
-class TTY:
-    _tty_columns = -1
-
-    def tty_columns(self):
-        if self._tty_columns >= 0:
-            return self._tty_columns
-        _tty_columns = 0
-        if os_name != 'nt':
-            tty_rows, _tty_columns = popen('stty size', 'r').read().split()
-        return _tty_columns
-
-    def resize_signal(self):
-        self._tty_columns = -1
-
-
-def tty_columns():
-    tty = TTY()
-    return tty.tty_columns()
-
-
 class Cli:
     status = True
 
@@ -98,23 +78,23 @@ class Cli:
         self.parser = Parser(args)
         self.parser.set_logger_callback(self.print)
         self.parser.set_progress_callback(self.progress)
-        tty = TTY()
-        signal.signal(signal.SIGWINCH, tty.resize_signal)
+        self.__progress_bar = None
 
     def input(self, prompt: str = ''):
         return input(prompt=prompt + '\n')
 
-    def progress(self, items_count: int, current_item: int):  # pragma: no cover
+    def __init_progress(self, items_count: int, re_init: bool):
+        if re_init or not self.__progress_bar:
+            bar = progressbar.ProgressBar()
+            self.__progress_bar = bar(range(items_count))
+            self.__progress_bar.init()
+
+    def progress(self, items_count: int, current_item: int, re_init: bool = False):  # pragma: no cover
         if not items_count:
             return
-        args = self.args.parse_args()
-        cli_columns = tty_columns()
-        if args.progress and cli_columns:
-            one_percent = float(cli_columns) / float(items_count)
-            current_position = int(float(current_item) * one_percent)
-            text = ('▓' * current_position)
-            text += (' ' * (int(cli_columns) - current_position))
-            self.print('\033[1A\033[9D%s' % text, end='         \n        \033[9D')
+        if self.args.progress:
+            self.__init_progress(items_count, re_init)
+            self.__progress_bar.update(current_item)
 
     def print(self, text, end='\n'):
         if os_name == 'nt':
