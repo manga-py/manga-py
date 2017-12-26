@@ -1,8 +1,8 @@
-# Manga-Downloader
+# Manga Downloader
 
 ## Поддерживаемые ресурсы
 
-Смотрите https://yuru-yuri.github.io/Manga-Downloader/#resources-list
+Смотрите https://yuru-yuri.github.io/manga-dl/#resources-list
 
 
 ## Как использовать
@@ -11,18 +11,18 @@
 
 
 ```bash
-git clone --progress --prune --recurse-submodules=no origin  https://github.com/yuru-yuri/Manga-Downloader.git
-cd Manga-Downloader
+git clone --progress --prune --recurse-submodules=no origin  https://github.com/yuru-yuri/manga-dl.git
+cd manga-dl
 # install requirements
 pip3 install -r requirements.txt
 ```
 
 #### Альтернативная установка:
-1) Загрузить исходные файлы: https://github.com/yuru-yuri/Manga-Downloader/archive/master.zip
+1) Загрузить исходные файлы: https://github.com/yuru-yuri/manga-dl/archive/master.zip
 2) Распаковать архив
 3) Установить зависимости:
 ```bash
-cd Manga-Downloader
+cd manga-dl
 pip3 install -r requirements.txt
 ```
 
