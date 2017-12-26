@@ -1,8 +1,11 @@
-from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QCheckBox,
-     QDesktopWidget, QMessageBox, QSpinBox, QTextEdit, QGridLayout,
-     QPushButton)
+from PyQt5.QtWidgets import (
+    QWidget, QLabel, QLineEdit, QCheckBox, QGridLayout,
+    QDesktopWidget, QMessageBox, QSpinBox, QTextEdit,
+    QPushButton, QDialog, QFormLayout, QComboBox
+)
 from PyQt5.QtGui import QIcon, QCursor
 from PyQt5.Qt import Qt
+from .CheckableComboBox import CheckableComboBox
 from argparse import ArgumentParser
 from libs.gui import config_storage
 from libs.cli import Parser
@@ -23,6 +26,7 @@ class Gui(QWidget):  # pragma: no cover
         self.parser = Parser(args)
         self.parser.set_logger_callback(self.print)
         self.parser.set_progress_callback(self.progress)
+        self.parser.set_quest_callback(self.quest)
         self.config_storage = config_storage.ConfigStorage()
 
     def print(self, text, end='\n'):
@@ -33,6 +37,11 @@ class Gui(QWidget):  # pragma: no cover
 
     def progress(self, items_count: int, current_item: int):
         pass
+
+    def quest(self, variants: enumerate, title: str, select_type=0):  # 0 = single, 1 = multiple
+        if select_type:
+            return self._multiple_quest(variants, title)
+        return self._single_quest(variants, title)
 
     def _translate(self, key):
         return self.config_storage.translate(key)
@@ -54,11 +63,11 @@ class Gui(QWidget):  # pragma: no cover
         btn.clicked.connect(self._run_downloader)
         btn.resize(btn.sizeHint())
 
-        grid.addWidget(self.gui_params['log'], 0, 0, 5, 3)
+        grid.addWidget(self.gui_params['log'], 0, 0)
 
         # self.gui_params['log'].insertHtml('<span style="color:red">asdasd</span><br>')
 
-        grid.addWidget(btn, 6, 1, 1, 1)
+        grid.addWidget(btn, 1, 0)
 
         return grid
 
@@ -79,26 +88,39 @@ class Gui(QWidget):  # pragma: no cover
         self.gui_params['reverse'] = QCheckBox()
         self.gui_params['one_thread'] = QCheckBox()
 
-        grid = QGridLayout()
-        grid.setSpacing(10)
+        form = QFormLayout()
+        form.setSpacing(10)
 
-        grid.addWidget(destination_label, 1, 0, 1, 1)
-        grid.addWidget(name_label, 2, 0, 1, 1)
-        grid.addWidget(skip_volumes_label, 3, 0, 1, 1)
-        grid.addWidget(max_volumes_label, 4, 0, 1, 1)
-        grid.addWidget(reverse_label, 5, 0, 1, 1)
-        grid.addWidget(one_thread_label, 5, 3, 1, 1)
+        form.addRow(destination_label, self.gui_params['destination'])
+        form.addRow(name_label, self.gui_params['name'])
+        form.addRow(skip_volumes_label, self.gui_params['skip_volumes'])
+        form.addRow(max_volumes_label, self.gui_params['max_volumes'])
+        form.addRow(reverse_label, self.gui_params['reverse'])
+        form.addRow(one_thread_label, self.gui_params['one_thread'])
 
-        grid.addWidget(self.gui_params['destination'], 1, 2, 1, 3)
-        grid.addWidget(self.gui_params['name'], 2, 2, 1, 3)
-        grid.addWidget(self.gui_params['skip_volumes'], 3, 2, 1, 3)
-        grid.addWidget(self.gui_params['max_volumes'], 4, 2, 1, 3)
-        grid.addWidget(self.gui_params['reverse'], 5, 2, 1, 2)
-        grid.addWidget(self.gui_params['one_thread'], 5, 4, 1, 1)
-
-        return grid
+        return form
 
     def get_uri_grid(self):
+
+        def test():
+            def __(text):
+                print(text)
+                q.setWindowTitle(str(text))
+            q = QDialog(self)
+            _l = QFormLayout()
+            cb = QComboBox(self)
+            cb.addItems(['variant1', 'variant2', 'variant3', 'variant4'])
+
+            _cb = CheckableComboBox()
+            _cb.addItems(['variant1', 'variant2', 'variant3', 'variant4'])
+
+            cb.activated.connect(__)
+
+            _l.addRow(QLabel('test'), cb)
+            _l.addRow(QLabel('multi test'), _cb)
+
+            q.setLayout(_l)
+            q.open()
 
         uri_grid = QGridLayout()
 
@@ -115,6 +137,7 @@ class Gui(QWidget):  # pragma: no cover
 
         self.lang_btn = QPushButton(self._translate('lang'), self)
         self.lang_btn.clicked.connect(self.next_lang)
+        # self.lang_btn.clicked.connect(test)
         self.lang_btn.setFlat(True)
         self.lang_btn.setStyleSheet('border: 1px solid #555; background-color: #8f8; padding: 2px')
         self.lang_btn.setCursor(QCursor(Qt.PointingHandCursor))
@@ -124,17 +147,16 @@ class Gui(QWidget):  # pragma: no cover
         return uri_grid
 
     def init_ui(self):
-        globalGrid = QGridLayout()
+        global_grid = QGridLayout()
+        _grid = QGridLayout()
 
-        logGrid = self.get_base_grid()
-        configGrid = self.get_config_grid()
-        uriGrid = self.get_uri_grid()
+        _grid.addLayout(self.get_config_grid(), 0, 0)
+        _grid.addLayout(self.get_base_grid(),   0, 1)
 
-        globalGrid.addLayout(uriGrid, 0, 0, 1, 8)
-        globalGrid.addLayout(configGrid, 1, 0, 2, 3)
-        globalGrid.addLayout(logGrid,    1, 3, 2, 5)
+        global_grid.addLayout(self.get_uri_grid(), 0, 0)
+        global_grid.addLayout(_grid, 1, 0)
 
-        self.setLayout(globalGrid)
+        self.setLayout(global_grid)
 
         # self.setGeometry(300, 300, self.maxW, self.maxH)
         self.setMinimumWidth(self.window_w)
@@ -181,6 +203,12 @@ class Gui(QWidget):  # pragma: no cover
             event.accept()
         else:
             event.ignore()
+
+    def _multiple_quest(self, variants, title):
+        pass
+
+    def _single_quest(self, variants, title):
+        pass
 
     def _run_downloader(self):
         pass

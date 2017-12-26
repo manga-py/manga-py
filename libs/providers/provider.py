@@ -3,7 +3,7 @@ import json
 from abc import abstractmethod
 from os.path import basename
 from lxml.html import document_fromstring
-from libs.fs import get_temp_path
+from libs.fs import get_temp_path, is_dir, is_file
 from libs.http import Http
 from libs.image import Image
 
@@ -28,34 +28,12 @@ class Provider:
         'current_chapter': 0,
         'current_file': 0
     }
-    files_progress_callback = None
 
     def __init__(self):
         self.re = re
         self.json = json
         self.http = Http
         self._params['temp_directory'] = get_temp_path()
-
-    def _image_params_parser(self, params):
-        params = params if isinstance(params, dict) else {}
-        self._set_if_not_none(self._image_params, 'crop', params.get('crop', None))
-        self._set_if_not_none(self._image_params, 'auto_crop', params.get('auto_crop', None))
-
-    def _downloading_params_parser(self, params):
-        params = params if isinstance(params, dict) else {}
-        self._set_if_not_none(self._params, 'path_destination', params.get('path_destination', None))
-        self._set_if_not_none(self._params, 'path_destination', params.get('path_destination', None))
-
-    def process(self, url, downloading_params=None, image_params=None):  # Main method
-        self._params['url'] = url
-        self._downloading_params_parser(downloading_params)
-        self._image_params_parser(image_params)
-
-        self._storage['cookies'] = self.get_cookies()
-        self._storage['main_content'] = self.get_main_content()
-        self._storage['chapters'] = self.get_chapters()
-
-        self.loop_volumes()
 
     # mutated methods /
 
@@ -87,15 +65,42 @@ class Provider:
         pass
     
     def get_archive_name(self):
-        return basename(self.get_current_file())
+        return basename(self.get_current_chapter())
 
     # / mutated methods
+
+    def _image_params_parser(self, params):
+        params = params if isinstance(params, dict) else {}
+        self._set_if_not_none(self._image_params, 'crop', params.get('crop', None))
+        self._set_if_not_none(self._image_params, 'auto_crop', params.get('auto_crop', None))
+
+    def _downloading_params_parser(self, params):
+        params = params if isinstance(params, dict) else {}
+        self._set_if_not_none(self._params, 'path_destination', params.get('path_destination', None))
+        self._set_if_not_none(self._params, 'path_destination', params.get('path_destination', None))
+
+    def process(self, url, downloading_params=None, image_params=None):  # Main method
+        self._params['url'] = url
+        self._downloading_params_parser(downloading_params)
+        self._image_params_parser(image_params)
+
+        self._storage['cookies'] = self.get_cookies()
+        self._storage['main_content'] = self.get_main_content()
+        self._storage['chapters'] = self.get_chapters()
+
+        self.loop_volumes()
 
     def quest(self, variants: enumerate, title: str, select_type=0):  # 0 = single, 1 = multiple
         pass
 
+    def files_progress_callback(self, max_val: int, current_val: int, need_reset=False):
+        pass
+
     def set_quest_callback(self, callback: callable):  # Required call from initiator (CLI, GUI)
         setattr(self, 'quest', callback)
+
+    def set_progress_callback(self, callback: callable):  # Required call from initiator (CLI, GUI)
+        setattr(self, 'files_progress_callback', callback)
 
     def __call_files_progress_callback(self):
         if self.files_progress_callback:
@@ -123,7 +128,8 @@ class Provider:
     def html_fromstring(self, addr, selector: str = None, idx: int = None):
         return self.document_fromstring(self.http_get(addr), selector, idx)
 
-    def document_fromstring(self, body, selector: str = None, idx: int = None):
+    @staticmethod
+    def document_fromstring(body, selector: str = None, idx: int = None):
         result = document_fromstring(body)
         if isinstance(selector, str):
             result = result.cssselect(selector)
@@ -136,10 +142,12 @@ class Provider:
         if value is not None:
             var[key] = value
 
-    def re_match(self, pattern, string, flags=0):
+    @staticmethod
+    def re_match(pattern, string, flags=0):
         return re.match(pattern, string, flags)
 
-    def re_search(self, pattern, string, flags=0):
+    @staticmethod
+    def re_search(pattern, string, flags=0):
         return re.search(pattern, string, flags)
 
     def http(self) -> Http:
@@ -150,7 +158,7 @@ class Provider:
             'proxies': None,
             'site_cookies': None,
         }
-        http = self.http(**http_params)
+        http = Http(**http_params)
         return http
 
     def http_get(self, url: str, headers: dict = None, cookies: dict = None):
@@ -177,7 +185,7 @@ class Provider:
     def get_url(self):
         return self._storage['url']
 
-    def get_domain_uri(self):
+    def get_domain(self):
         domain_uri = self._params.get('domain_uri', None)
         if not domain_uri:
             self._params['domain_uri'] = re.search('(https?://[^/]+)', self._params['url']).group(1)
@@ -191,5 +199,7 @@ class Provider:
         return self._storage['files'][self._storage['current_file']]
 
     def save_file(self):
-        # TODO
-        pass
+        _path = self.get_archive_name()
+        _url = self.get_current_file()
+        if not is_file(_path):
+            self.http().safe_downloader(_url, _path)

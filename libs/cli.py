@@ -1,20 +1,10 @@
 from argparse import ArgumentParser
-from atexit import register as atexit_register
-from os import name as os_name, popen
-from os.path import isdir
-from shutil import rmtree
+from os import name as os_name
 import progressbar
 
-from libs.fs import get_temp_path
 from libs.parser import Parser
 
 __version__ = '1.0.0'
-
-
-@atexit_register
-def before_shutdown():
-    temp_dir = get_temp_path()
-    isdir(temp_dir) and rmtree(temp_dir)
 
 
 def get_cli_arguments() -> ArgumentParser:
@@ -78,7 +68,11 @@ class Cli:
         self.parser = Parser(args)
         self.parser.set_logger_callback(self.print)
         self.parser.set_progress_callback(self.progress)
+        self.parser.set_quest_callback(self.quest)
         self.__progress_bar = None
+
+    def start(self):
+        pass
 
     def input(self, prompt: str = ''):
         return input(prompt=prompt + '\n')
@@ -101,3 +95,26 @@ class Cli:
             __encode = 'cp866'
             text = str(text).encode().decode(__encode, 'ignore')
         print(text, end=end)
+
+    def _single_quest(self, variants, title):
+        self.print(title)
+        for v in variants:
+            self.print(v)
+        return self.input()
+
+    def _multiple_quest(self, variants, title):
+        self.print('Accept - blank line + enter')
+        self.print(title)
+        for v in variants:
+            self.print(v)
+        result = []
+        while True:
+            _ = self.input().strip()
+            if not len(_):
+                return result
+            result.append(_)
+
+    def quest(self, variants: enumerate, title: str, select_type=0):  # 0 = single, 1 = multiple
+        if select_type:
+            return self._multiple_quest(variants, title)
+        return self._single_quest(variants, title)

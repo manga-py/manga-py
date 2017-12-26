@@ -19,7 +19,7 @@ class Bulumanga(Provider):
         if not re_id:
             raise AttributeError
         self.__temp['id'] = re_id.group(1)
-        uri = '{}/detail/{}'.format(self.get_domain_uri(), self.__temp['id'])
+        uri = '{}/detail/{}'.format(self.get_domain(), self.__temp['id'])
         self.__temp['content'] = self.http_get(uri)
         return self._check_source(self.__temp['content'])
 
@@ -29,7 +29,7 @@ class Bulumanga(Provider):
 
     def get_chapters(self):
         uri = '{}/detail/{}?source={}'.format(
-            self.get_domain_uri(),
+            self.get_domain(),
             self.__temp['id'],
             self.__temp['content']['source']
         )
@@ -46,7 +46,7 @@ class Bulumanga(Provider):
         if not self.__temp['id'] or 'cid' not in volume:
             return []
         uri = '{}/page/mangareader/{}/{}'.format(
-            self.get_domain_uri(),
+            self.get_domain(),
             self.__temp['id'],
             volume['cid']
         )

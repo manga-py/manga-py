@@ -33,3 +33,10 @@ def remove_file_query_params(name, save_path: bool = True) -> str:
         name = name[:name.find('?')]
     return path.join(file_path, name) if save_path else name
 
+
+def is_file(_path):
+    return path.isfile(_path)
+
+
+def is_dir(_path):
+    return path.isdir(_path)

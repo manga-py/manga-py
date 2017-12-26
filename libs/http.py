@@ -33,7 +33,10 @@ class Http:
         self.__set_param('site_cookies', site_cookies)
 
     def __set_param(self, name, value):
-        if value is not None and isinstance(value, type(getattr(self, name))):
+        if value is not None:
+            _type = type(getattr(self, name))
+            if not isinstance(value, _type):
+                raise AttributeError('{} type not {}'.format(name, _type))
             setattr(self, name, value)
 
     def __safe_downloader_url_helper(self, url: str) -> str:
@@ -90,7 +93,8 @@ class Http:
             return ret
 
     def post(self, url: str, headers: dict = None, cookies: dict = None, data: dict = (), files=None) -> str:
-        with self.__requests(url=url, headers=headers, cookies=cookies, method='post', data=data, files=files) as response:
+        with self.__requests(url=url, headers=headers, cookies=cookies,
+                             method='post', data=data, files=files) as response:
             text = response.text
             response.close()
             return text
@@ -124,7 +128,8 @@ class Http:
                 if isinstance(i, str):
                     self.user_agent = i
                 elif isinstance(i, dict):
-                    h.cookies.set(i.get('name'), i.get('value'), domain=i.get('domain', domain), path=i.get('path', '/'))
+                    h.cookies.set(i.get('name'), i.get('value'),
+                                  domain=i.get('domain', domain), path=i.get('path', '/'))
         session.close()
         return h.cookies
 
@@ -145,10 +150,10 @@ class Http:
             basename = '{:0>3}.png'.format(n)
         return path.join(temp_path, basename)
 
-    def _download_one_file_helper(self, url, dest, callback: callable = None):
+    def _download_one_file_helper(self, url, dst, callback: callable = None):
         r = 0
         while r < self.count_retries:
-            if self.safe_downloader(url, dest):
+            if self.safe_downloader(url, dst):
                 return True
 
             r += 1
@@ -159,8 +164,8 @@ class Http:
                 callback(text=mode)
         return False
 
-    def download_one_file(self, url: str, dest: str = None) -> bool:
-        if not dest:
+    def download_one_file(self, url: str, dst: str = None) -> bool:
+        if not dst:
             name = path.basename(remove_file_query_params(url))
-            dest = path.join(get_temp_path(), name)
-        return self._download_one_file_helper(url, dest)
+            dst = path.join(get_temp_path(), name)
+        return self._download_one_file_helper(url, dst)
