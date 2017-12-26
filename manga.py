@@ -22,7 +22,7 @@ __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
 __email__ = 'sttv-pc@mail.ru'
 __version__ = '0.2.3.3'
-__downloader_uri__ = 'https://github.com/yuru-yuri/Manga-Downloader'
+__downloader_uri__ = 'https://github.com/yuru-yuri/manga-dl'
 
 if os.name == 'nt':
     tty_rows = 0
