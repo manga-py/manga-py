@@ -1,4 +1,4 @@
-# Manga-Downloader
+# Manga Downloader
 
 ## Поддерживаемые ресурсы
 

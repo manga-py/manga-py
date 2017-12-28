@@ -1,25 +1,27 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from atexit import register as atexit_register
-from os import makedirs
-from os.path import isdir
-from shutil import rmtree
-from sys import argv, exit as sys_exit
+import atexit
+import os
+import random
+import shutil
+import tempfile
+import zipfile
+from argparse import ArgumentParser
+from sys import exc_info, stderr
+from threading import Thread
+from urllib.parse import urlparse
 
-from PyQt5.Qt import QApplication
+import requests
+from requests.exceptions import TooManyRedirects
 
-from libs.cli import Cli, get_cli_arguments
-from libs.fs import get_temp_path
-from libs.gui import Gui
-
-# from libs.server import Server
+from helpers import remove_void
+from helpers.exceptions import *
 
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
 __email__ = 'sttv-pc@mail.ru'
-<<<<<<< HEAD
-__version__ = '0.2.3.3'
+__version__ = '0.2.3'
 __downloader_uri__ = 'https://github.com/yuru-yuri/manga-dl'
 
 if os.name == 'nt':
@@ -309,12 +311,11 @@ class MangaDownloader(RequestsHelper, ImageHelper):
             mode = 'Skip image'
             if r < count_retries:
                 mode = 'Retry'
-            r += 1
             MangaDownloader.print_info('Error downloading. %s' % (mode,))
         return False
 
     def force_png(self, path):
-        if arguments.force_png:
+        if arguments._force_png:
             dest = remove_void.ImageFormat.convert(path)
             shutil.rmtree(path)
             return dest
@@ -469,7 +470,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
         self.main_content = self.provider.get_main_content(self.url, get=self._get, post=self._post)
 
     def _get_volumes(self):
-        volumes = self.provider.get_volumes(self.main_content, url=self.url, get=self._get, post=self._post)
+        volumes = self.provider.get_chapters(self.main_content, url=self.url, get=self._get, post=self._post)
         if not arguments.reverse_downloading:
             volumes.reverse()
         if arguments.skip_volumes > 0:
@@ -526,32 +527,34 @@ def manual_input(prompt: str):  # pragma: no cover
 
     return url
 
-=======
->>>>>>> origin/dev_0.3
 
-if __name__ == '__main__':
+def main(url: str, name: str = ''):  # pragma: no cover
+    try:
+        manga = MangaDownloader(url, name)
+        manga.main()
+    except ProviderNotFound:
+        MangaDownloader.print('\nStatus error.\nProvider not found!\n Exit\n')
+    except UrlParseError:
+        MangaDownloader.print('Incorrect manga url.\nPlease, recheck url and report there on %s' % __email__)
+    except (StatusError, DirectoryNotWritable, DirectoryNotExists, VolumesNotFound):
+        MangaDownloader.print(exc_info()[1], file=stderr)
 
-    @atexit_register
-    def before_shutdown():
-        temp_dir = get_temp_path()
-        isdir(temp_dir) and rmtree(temp_dir)
 
-    temp_path = get_temp_path()
-    isdir(temp_path) or makedirs(temp_path)
+if __name__ == '__main__':  # pragma: no cover
+    try:
+        arguments = _arguments_parser().parse_args()
+        add_name = not arguments.no_name
+        name = arguments.name
 
-    args = get_cli_arguments()
-    parse_args = args.parse_args()
-    if parse_args.cli:
-        cli = Cli(args)
-        cli.start()
-        exit(0 if cli.status else 1)
+        if arguments.url:
+            url = arguments.url
+        else:
+            url = manual_input('Please, paste manga url.')
+            if add_name and len(name) < 1:
+                name = manual_input('Please, paste manga name')
 
-    # if parse_args.server:
-    #     cli = Server(args)
-    #     exit(0 if cli.status else 1)
+        main(url, name)
 
-    # else run GUI
-    app = QApplication(argv)
-    gui = Gui(args)
-    gui.main()
-    sys_exit(app.exec_())
+    except KeyboardInterrupt:
+        MangaDownloader.print('\033[84DUser interrupt this. Exit\t\t')
+        exit(0)

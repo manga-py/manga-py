@@ -1,0 +1,9 @@
+{
+  "lang": "en",
+  "destination": "Destination",
+  "name": "Name",
+  "skip_volume": "Skip vol.",
+  "max_volume": "Max vol.",
+  "reverse": "Reverse",
+  "one_thread": "One thread"
+}

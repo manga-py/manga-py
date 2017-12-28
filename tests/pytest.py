@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
+<<<<<<< HEAD
 import unittest
 from os import path, mkdir, listdir
 import shutil
@@ -262,5 +263,8 @@ class TestCase(unittest.TestCase):
         pass
 
 
+=======
+>>>>>>> origin/dev_0.3
 if __name__ == '__main__':
-    unittest.main()
+    # unittest.main()
+    pass
