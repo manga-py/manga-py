@@ -1,13 +1,16 @@
+import json
+from argparse import ArgumentParser
+from os import path, makedirs
+
+from PyQt5.Qt import Qt
+from PyQt5.QtGui import QIcon, QCursor
 from PyQt5.QtWidgets import (
     QWidget, QLabel, QLineEdit, QCheckBox, QGridLayout,
     QDesktopWidget, QMessageBox, QSpinBox, QTextEdit,
-    QPushButton, QDialog, QFormLayout, QComboBox
+    QPushButton, QDialog, QFormLayout, QListWidget, QAbstractItemView
 )
-from PyQt5.QtGui import QIcon, QCursor
-from PyQt5.Qt import Qt
-from .CheckableComboBox import CheckableComboBox
-from argparse import ArgumentParser
-from libs.gui import config_storage
+
+from libs import fs
 from libs.cli import Parser
 
 
@@ -19,6 +22,7 @@ class Gui(QWidget):  # pragma: no cover
     gui_params = {}
     config_storage = None
     lang_btn = None
+    quit_question = False
 
     def __init__(self, args: ArgumentParser):
         super().__init__()
@@ -27,7 +31,7 @@ class Gui(QWidget):  # pragma: no cover
         self.parser.set_logger_callback(self.print)
         self.parser.set_progress_callback(self.progress)
         self.parser.set_quest_callback(self.quest)
-        self.config_storage = config_storage.ConfigStorage()
+        self.config_storage = ConfigStorage()
 
     def print(self, text, end='\n'):
         self.gui_params['log'].insertHtml('{}{}'.format(text, end))
@@ -105,19 +109,17 @@ class Gui(QWidget):  # pragma: no cover
         def test():
             def __(text):
                 print(text)
-                q.setWindowTitle(str(text))
+                print(cb.selectedItems())
             q = QDialog(self)
             _l = QFormLayout()
-            cb = QComboBox(self)
-            cb.addItems(['variant1', 'variant2', 'variant3', 'variant4'])
 
-            _cb = CheckableComboBox()
-            _cb.addItems(['variant1', 'variant2', 'variant3', 'variant4'])
+            cb = QListWidget()
+            cb.addItems(['variant1', 'variant2', 'variant3', 'variant4'])
+            cb.setSelectionMode(QAbstractItemView.MultiSelection)
 
             cb.activated.connect(__)
 
             _l.addRow(QLabel('test'), cb)
-            _l.addRow(QLabel('multi test'), _cb)
 
             q.setLayout(_l)
             q.open()
@@ -136,8 +138,8 @@ class Gui(QWidget):  # pragma: no cover
         uri_grid.addWidget(manga_link, 0, 16, 1, 1)
 
         self.lang_btn = QPushButton(self._translate('lang'), self)
-        self.lang_btn.clicked.connect(self.next_lang)
-        # self.lang_btn.clicked.connect(test)
+        # self.lang_btn.clicked.connect(self.next_lang)
+        self.lang_btn.clicked.connect(test)
         self.lang_btn.setFlat(True)
         self.lang_btn.setStyleSheet('border: 1px solid #555; background-color: #8f8; padding: 2px')
         self.lang_btn.setCursor(QCursor(Qt.PointingHandCursor))
@@ -212,3 +214,95 @@ class Gui(QWidget):  # pragma: no cover
 
     def _run_downloader(self):
         pass
+
+
+class ConfigStorage:
+
+    __config_path = ''
+    __storage = {}
+    __lang = {}
+    __lang_idx = {}
+    __langs_list = None
+
+    def __init__(self):
+        self.__init_config_path()
+        self.__load_config()
+        self.__load_lang(self.__storage['lang'])
+
+    def __init_config_path(self):
+        self.__config_path = path.join(fs.get_util_home_path(), 'config.json')
+
+    @staticmethod
+    def __read_json_config(f):
+        try:
+            _json = json.loads(''.join(f.readlines()))
+        except json.JSONDecodeError:
+            _json = {}
+        return _json
+
+    def __save_config(self, values: dict):
+        config_path = path.dirname(self.__config_path)
+        path.isdir(config_path) or makedirs(config_path)
+        values.setdefault('lang', 'en')
+        values.setdefault('url', '')
+        with open(self.__config_path, 'w', encoding='utf-8') as f:
+            f.write(json.dumps(values))
+
+    def __load_config(self):
+        if not path.isfile(self.__config_path):
+            # make default config
+            self.__save_config({})
+            self.__storage['lang'] = 'en'
+            self.__storage['url'] = ''
+
+        else:
+            # load config
+            with open(self.__config_path, encoding='utf-8') as f:
+                _json = self.__read_json_config(f)
+                self.__storage = _json
+                self.__storage['lang'] = _json.get('lang', 'en')
+                self.__storage['url'] = _json.get('lang', '')
+
+    def __load_lang(self, key):
+        print(self.__storage['lang'])
+        _path = path.join(fs.get_current_path(), 'libs', 'langs', '{}.json')
+        if not path.isfile(_path.format(key)):
+            key = 'en'
+        _path = _path.format(key)
+        with open(_path, encoding='utf-8') as f:
+            self.__lang = self.__read_json_config(f)
+
+    def get_param(self, key, default=None):
+        return self.__storage.get(key, default)
+
+    def set_param(self, key, value):
+        self.__storage[key] = value
+
+    def get_config(self):
+        if self.__storage.get('config', None):
+            return self.__storage['config']
+        self.__load_config()
+        return self.__storage['config']
+
+    def save_config(self):
+        self.__save_config(self.__storage)
+
+    def translate(self, key):
+        return self.__lang.get(key, key)
+
+    def next_lang(self):
+        langs = self.get_langs_list()
+        idx = langs.index(self.__storage['lang']) + 1
+        lang = langs[0]
+        if idx < len(langs):
+            lang = langs[idx]
+        self.__storage['lang'] = lang
+        self.__save_config(self.__storage)
+        return lang
+
+    def get_langs_list(self):
+        if not self.__langs_list:
+            _path = path.join(fs.get_current_path(), 'libs', 'langs', '_langs.json')
+            with open(_path, encoding='utf-8') as f:
+                self.__langs_list = json.loads(''.join(f.readlines()))
+        return self.__langs_list
