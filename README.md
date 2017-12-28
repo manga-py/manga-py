@@ -1,12 +1,12 @@
-# Manga Downloader [![Travis CI result](https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=master)](https://travis-ci.org/yuru-yuri/manga-dl)
+# Manga-Downloader [![Travis CI result](https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=stable_0.x)](https://travis-ci.org/yuru-yuri/manga-dl/branches)
 
 Universal assistant download manga.<br/>
-Supports more than 70 different resources now.<br/>
+Supports more than 70 different resources now.<br>
 
 [![Code Climate](https://codeclimate.com/github/yuru-yuri/manga-dl/badges/gpa.svg)](https://codeclimate.com/github/yuru-yuri/manga-dl)
 [![Issue Count](https://codeclimate.com/github/yuru-yuri/manga-dl/badges/issue_count.svg)](https://codeclimate.com/github/yuru-yuri/manga-dl)<br/>
-[![Scrutinizer CI result](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl)
-[![Scrutinizer CI coverage](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl)
+[![Scrutinizer CI result](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl/badges/quality-score.png?b=stable_0.x)](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl)
+[![Scrutinizer CI coverage](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl/badges/coverage.png?b=stable_0.x)](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl)
 [![GitHub issues](https://img.shields.io/github/issues/yuru-yuri/manga-dl.svg)](https://github.com/yuru-yuri/manga-dl/issues)<br/>
 
 ## Supported resources
@@ -20,6 +20,9 @@ see https://yuru-yuri.github.io/manga-dl/improvement.html
 
 ## How to use
 
+### Simple use:
+Download executable file from https://github.com/yuru-yuri/manga-dl/releases/latest
+
 ### Installation
 
 ```bash
@@ -30,7 +33,7 @@ pip3 install -r requirements.txt
 ```
 
 #### Or alternative installation:
-1) Downloading repo: https://github.com/yuru-yuri/manga-dl/archive/master.zip
+1) Downloading repo: https://github.com/yuru-yuri/manga-dl/releases/latest
 2) Extract archive
 3) Install requirements
 ```bash
@@ -38,11 +41,9 @@ cd manga-dl
 pip3 install -r requirements.txt
 ```
 
-_If you use Windows, see 'https://github.com/sfbahr/PyCrypto-Wheels'_
-
 #### If you using windows, require http://landinghub.visualstudio.com/visual-cpp-build-tools
 
-### Downloading
+### Downloading manga
 
 ___:warning:For sites with cloudflare protect need installed Node.js___
 
