@@ -159,7 +159,7 @@
                     d.querySelector('ul.list').innerHTML = html + ('<!-- ' + list.length + ' ( ' + done + ' ) -->');
 
                     fetch('https://api.github.com/repos/yuru-yuri/manga-dl/releases/latest')
-                        .then(response.json())
+                        .then(response => response.json())
                         .then((response) => {
                             const links = d.querySelector('#download-links');
                             const tar = links.querySelector('.tar');
