@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-version: 0.2.{build}
-=======
-version: 0.3.0.{build}
->>>>>>> origin/dev_0.3
+version: 1.0.0.{build}
 skip_non_tags: true
 image: Visual Studio 2015
 clone_folder: C:\projects\manga-dl
