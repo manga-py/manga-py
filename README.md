@@ -20,6 +20,9 @@ see https://yuru-yuri.github.io/manga-dl/improvement.html
 
 ## How to use
 
+### Simple use:
+Download executable file from https://github.com/yuru-yuri/manga-dl/releases/latest
+
 ### Installation
 
 ```bash
@@ -30,7 +33,7 @@ pip3 install -r requirements.txt
 ```
 
 #### Or alternative installation:
-1) Downloading repo: https://github.com/yuru-yuri/manga-dl/archive/master.zip
+1) Downloading repo: https://github.com/yuru-yuri/manga-dl/releases/latest
 2) Extract archive
 3) Install requirements
 ```bash
@@ -38,11 +41,9 @@ cd manga-dl
 pip3 install -r requirements.txt
 ```
 
-_If you use Windows, see 'https://github.com/sfbahr/PyCrypto-Wheels'_
-
 #### If you using windows, require http://landinghub.visualstudio.com/visual-cpp-build-tools
 
-### Downloading
+### Downloading manga
 
 ___:warning:For sites with cloudflare protect need installed Node.js___
 

@@ -232,8 +232,12 @@ ul.list li {
     height: 70px;
     text-indent: -5000px;
     overflow: hidden;
+    opacity: .9;
     & + a {
       background-position-x: right;
+    }
+    &[active] {
+      opacity: 1;
     }
   }
 }

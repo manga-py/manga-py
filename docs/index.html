@@ -31,9 +31,9 @@
 <div class="container">
     <div class="header">
         <h1 class="panel">Manga downloader</h1>
-        <div class="download-links">
-            <a href="https://github.com/yuru-yuri/manga-dl/zipball/master">Download .zip</a>
-            <a href="https://github.com/yuru-yuri/manga-dl/tarball/master">Download .tar</a>
+        <div id="download-links" class="download-links">
+            <a class="zip" href="https://github.com/yuru-yuri/manga-dl/zipball/master">Download .zip</a>
+            <a class="tar" href="https://github.com/yuru-yuri/manga-dl/tarball/master">Download .tar</a>
         </div>
     </div>
     <ul class="links">
@@ -48,12 +48,13 @@
     <div class="resources-list">
         <a name="resources-list"></a>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-// zip.raw.im
-// mg-zip.com
-// s-manga.net
-                // [ ['url', 'ready_1_0', 'comment'], ]
-                list = [
+            ((d) => {
+                d.addEventListener('DOMContentLoaded', () => {
+    // zip.raw.im
+    // mg-zip.com
+    // s-manga.net
+                    // [ ['url', 'ready_1_0', 'comment'], ]
+                    const list = [
 ['http://bato.to', 1, ''],
 ['http://bulumanga.com', 1, ''],
 ['http://bwahahacomics.ru', 0, ' - Very little content. Possibly, will be done in the future.'],
@@ -139,26 +140,38 @@
 ['http://zingbox.me', 1, ''],
 ['http://zip.raw.im', 0, ' - Will not be implemented'],
 ['http://zip-read.com', 1, '']
-                ];
+                    ];
 
-                html = '';
-                m = 0;
-                done = 0;
-                for(i in list) {
-                    if (!list.hasOwnProperty(i)) continue;
-                    m+=1;
-                    html += '<li><input id="I' + m + '" type="checkbox" ' +
-                        (list[i][1] ? 'checked="" ' : '') +
-                        'disabled=""><label for="I' + m + '"></label><span>' +
-                        '<a target="_blank" href="' +
-                        list[i][0] + '">' +
-                        list[i][0] + '</a>' +
-                        list[i][2] + '</span></li>';
-                    done += parseInt(list[i][1]);
-                }
+                    let html = '', m = 0, done = 0;
+                    for(let i in list) {
+                        if (!list.hasOwnProperty(i)) continue;
+                        m+=1;
+                        html += '<li><input id="I' + m + '" type="checkbox" ' +
+                            (list[i][1] ? 'checked="" ' : '') +
+                            'disabled=""><label for="I' + m + '"></label><span>' +
+                            '<a target="_blank" href="' +
+                            list[i][0] + '">' +
+                            list[i][0] + '</a>' +
+                            list[i][2] + '</span></li>';
+                        done += parseInt(list[i][1]);
+                    }
 
-                document.querySelector('ul.list').innerHTML = html + ('<!-- ' + list.length + ' ( ' + done + ' ) -->');
-            });
+                    d.querySelector('ul.list').innerHTML = html + ('<!-- ' + list.length + ' ( ' + done + ' ) -->');
+
+                    fetch('https://api.github.com/repos/yuru-yuri/manga-dl/releases/latest')
+                        .then(response.json())
+                        .then((response) => {
+                            const links = d.querySelector('#download-links');
+                            const tar = links.querySelector('.tar');
+                            const zip = links.querySelector('.zip');
+
+                            tar.setAttribute('href', response.tarball_url);
+                            tar.setAttribute('active', 'true');
+                            zip.setAttribute('href', response.zipball_url);
+                            zip.setAttribute('active', 'true');
+                        });
+                });
+            })(document);
         </script>
         <ul class="list"></ul>
     </div>
@@ -188,3 +201,5 @@
 </div>
 </body>
 </html>
+releases/latest
+releases/‌​latest

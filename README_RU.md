@@ -7,8 +7,10 @@
 
 ## Как использовать
 
-### Установка
+### Простое использование:
+Загрузить исполняемый файл отсюда https://github.com/yuru-yuri/manga-dl/releases/latest
 
+### Установка
 
 ```bash
 git clone --progress --prune --recurse-submodules=no origin  https://github.com/yuru-yuri/manga-dl.git
@@ -18,7 +20,7 @@ pip3 install -r requirements.txt
 ```
 
 #### Альтернативная установка:
-1) Загрузить исходные файлы: https://github.com/yuru-yuri/manga-dl/archive/master.zip
+1) Загрузить исходные файлы отсюда: https://github.com/yuru-yuri/manga-dl/releases/latest
 2) Распаковать архив
 3) Установить зависимости:
 ```bash
@@ -27,7 +29,6 @@ pip3 install -r requirements.txt
 ```
 
 ####  Если используется Windows, обязательно к установке: http://landinghub.visualstudio.com/visual-cpp-build-tools
-_Если в процессе установки пакета pycrypto возникает ошибка на Windows, смотреть 'https://github.com/sfbahr/PyCrypto-Wheels'_
 
 ### Загрузка манги
 
