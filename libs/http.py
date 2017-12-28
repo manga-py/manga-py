@@ -39,18 +39,6 @@ class Http:
                 raise AttributeError('{} type not {}'.format(name, _type))
             setattr(self, name, value)
 
-    def __safe_downloader_url_helper(self, url: str) -> str:
-        if url.find('//') == 0:
-            _ = urlparse(self.referrer_url).scheme if self.referrer_url else 'http'
-            return _ + ':' + url
-        if url.find('://') < 1:
-            _ = self.referrer_url[:self.referrer_url.rfind('/')]
-            if url.find('/') == 0:
-                _ = urlparse(self.referrer_url)
-                _ = '{}://{}'.format(_.scheme, _.netloc)
-            return _.rstrip('/') + '/' + url.lstrip('/')
-        return url
-
     def __requests_helper(
             self, method, url, headers=None, cookies=None, data=None,
             files=None, max_redirects=10, timeout=None, proxies=None
@@ -62,7 +50,7 @@ class Http:
         if r.is_redirect:
             if max_redirects < 1:
                 raise AttributeError('Too many redirects')
-            location = self.__safe_downloader_url_helper(r.headers['location'])
+            location = UrlNormalizer.safe_downloader_url_helper(r.headers['location'], self.referrer_url)
             return self.__requests_helper(
                 method, location, headers, cookies, data,
                 files, max_redirects-1, timeout=timeout
@@ -80,7 +68,7 @@ class Http:
         headers.setdefault('User-Agent', self.user_agent)
         headers.setdefault('Referer', self.referrer_url)
         if self.allow_webp:
-            headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
+            headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=1.0,image/webp,image/apng,*/*;q=1.0'
         return self.__requests_helper(
             method=method, url=url, headers=headers, cookies=cookies,
             data=data, files=files, timeout=timeout, proxies=self.proxies
@@ -102,7 +90,7 @@ class Http:
     def safe_downloader(self, url, file_name, method='get') -> bool:
         try:
             make_dirs(path.dirname(file_name))
-            url = self.__safe_downloader_url_helper(url)
+            url = UrlNormalizer.safe_downloader_url_helper(url, self.referrer_url)
             with open(file_name, 'wb') as out_file:
                 with self.__requests(url, method=method, timeout=60) as response:
                     out_file.write(response.content)
@@ -135,12 +123,12 @@ class Http:
 
     def set_proxy(self, proxy):
         self.proxies = {}
-        if isinstance(proxy, dict) and hasattr(proxy, 'http'):
-            self.proxies['http'] = proxy['http']
-        if isinstance(proxy, dict) and hasattr(proxy, 'https'):
-            self.proxies['https'] = proxy['https']
+        if isinstance(proxy, dict):
+            self.proxies['http'] = proxy.get('http', None)
+            self.proxies['https'] = proxy.get('https', None)
 
-    def _download_image_name_helper(self, temp_path, i, n) -> str:
+    @staticmethod
+    def _download_image_name_helper(temp_path, i, n) -> str:
         name = remove_file_query_params(i, False)
         basename = '{:0>3}_{}'.format(n, name)
         name_loss = name.find('?') == 0
@@ -160,8 +148,7 @@ class Http:
             mode = 'Retry'
             if r >= self.count_retries:
                 mode = 'Skip image'
-            if callback:
-                callback(text=mode)
+            callable(callback) and callback(text=mode)
         return False
 
     def download_one_file(self, url: str, dst: str = None) -> bool:
@@ -169,3 +156,28 @@ class Http:
             name = path.basename(remove_file_query_params(url))
             dst = path.join(get_temp_path(), name)
         return self._download_one_file_helper(url, dst)
+
+
+class UrlNormalizer:
+
+    @staticmethod
+    def __relative_scheme(uri, ref):
+        scheme = urlparse(ref).scheme if ref else 'http'
+        return scheme + ':' + uri
+
+    @staticmethod
+    def __get_domain(uri, ref):
+        new_url = ref[:ref.rfind('/')]
+        if uri.find('/') == 0:
+            new_url = urlparse(ref)
+            new_url = '{}://{}'.format(new_url.scheme, new_url.netloc)
+        return new_url
+
+    @staticmethod
+    def safe_downloader_url_helper(url: str, referrer_url: str) -> str:
+        if url.find('//') == 0:  # abs without scheme
+            return UrlNormalizer.__relative_scheme(url, referrer_url)
+        if url.find('://') < 1:  # relative
+            _ = UrlNormalizer.__get_domain(url, referrer_url)
+            return '%s/%s' % (_.rstrip('/'), url.lstrip('/'))
+        return url
