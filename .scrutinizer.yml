@@ -7,6 +7,8 @@ checks:
 build:
     nodes:
         analysis:
+            project_setup:
+                override: true
             tests:
                 before:
                     - 'pip3 install coverage'
@@ -15,8 +17,8 @@ build:
                         command: 'coverage run tests/pytest.py'
                         coverage:
                             file: '.coverage'
-#                            config_file: '.coveragerc'
                             format: 'py-cc'
+                    - py-scrutinizer-run
             environment:
                 python: 3.5.3
                 node: 6.0.0
@@ -27,9 +29,10 @@ filter:
         - 'docs/'
         - 'tests/'
         - 'storage/'
-        - 'providers/_template.py'
+        - 'libs/providers/_template.py'
         - 'helpers/main/*.js'
         - 'helpers/inmanga_com.py'
         - 'helpers/unixmanga_nl.sh'
         - "LICENSE"
         - "*.yml"
+        - "storage/"
