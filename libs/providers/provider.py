@@ -1,171 +1,24 @@
 import json
 import re
-from zipfile import ZipFile, ZIP_DEFLATED
-from abc import abstractmethod, ABCMeta
+from abc import ABCMeta
 from typing import Callable
 
-from lxml.html import document_fromstring
-
+from libs.cli import __version__, __downloader_uri__
 from libs.fs import (
     get_temp_path,
     is_file,
-    is_dir,
-    make_dirs,
     basename,
-    dirname,
     remove_file_query_params,
     path_join,
-    unlink
 )
 from libs.http import Http
 from libs.image import Image
-from libs.cli import __version__, __downloader_uri__
-
-
-class ChapterHelper:
-
-    def __init__(self, chapters: str):
-        self.chapters = chapters
-        if isinstance(self.chapters, str):
-            self.chapters = self.chapters.split(' ')
-
-    def get_chapters(self, urls):
-        chapters = []
-        for i, url in enumerate(urls):
-            if i in self.chapters:
-                chapters.append(urls)
-        return chapters
-
-
-class AbstractProvider:
-
-    @abstractmethod
-    def get_main_content(self):  # call once
-        pass
-
-    @abstractmethod
-    def get_manga_name(self) -> str:  # call once
-        return ''
-
-    @abstractmethod
-    def get_chapters(self) -> list:  # call once
-        return []
-
-    @abstractmethod
-    def get_cookies(self):  # if site with cookie protect
-        pass
-
-    @abstractmethod
-    def get_files(self) -> list:  # call ever volume loop
-        return []
-
-    @abstractmethod
-    def _loop_callback_volumes(self):
-        pass
-
-    @abstractmethod
-    def _loop_callback_files(self):
-        pass
-
-    @abstractmethod
-    def get_archive_name(self):
-        pass
-
-
-class BaseProvider:
-    _storage = {
-        'cookies': (),
-        'main_content': '',
-        'chapters': [],
-        'current_chapter': 0,
-        'current_file': 0
-    }
-    _params = {
-        'path_destination': 'Manga'
-    }
-
-    @staticmethod
-    def document_fromstring(body, selector: str = None, idx: int = None):
-        result = document_fromstring(body)
-        if isinstance(selector, str):
-            result = result.cssselect(selector)
-        if isinstance(idx, int):
-            result = result[abs(idx)]
-        return result
-
-    @staticmethod
-    def _set_if_not_none(var, key, value):
-        if value is not None:
-            var[key] = value
-
-    @staticmethod
-    def re_match(pattern, string, flags=0):
-        return re.match(pattern, string, flags)
-
-    @staticmethod
-    def re_search(pattern, string, flags=0):
-        return re.search(pattern, string, flags)
-
-    @staticmethod
-    def basename(_path) -> str:
-        return basename(_path)
-
-    def get_url(self):
-        return self._params['url']
-
-    def get_domain(self):
-        domain_uri = self._params.get('domain_uri', None)
-        if not domain_uri:
-            self._params['domain_uri'] = re.search('(https?://[^/]+)', self._params['url']).group(1)
-
-        return self._params['domain_uri']
-
-    def get_current_chapter(self):
-        return self._storage['chapters'][self._storage['current_chapter']]
-
-    def get_current_file(self):
-        return self._storage['files'][self._storage['current_file']]
-
-    def quest_callback(self, variants: enumerate, title: str, select_type=0):  # 0 = single, 1 = multiple
-        pass
-
-    def files_progress_callback(self, max_val: int, current_val: int, need_reset=False):
-        pass
-
-    def logger_callback(self, *args):
-        pass
-
-    def get_referrer(self):
-        return self.referrer if hasattr(self, 'referrer') else self.get_domain()
-
-
-class Archive:
-
-    def __init__(self):
-        self.files = []
-
-    def add_file(self, file):
-        self.files.append(file)
-
-    def set_files_list(self, files):
-        self.files = files
-
-    def make(self, dist, info_file=None):
-        if not len(self.files):
-            return
-        make_dirs(dirname(dist))
-        archive = ZipFile(dist, 'w', ZIP_DEFLATED)
-        for file in self.files:
-            if is_file(file):
-                archive.write(file, basename(file))
-        if info_file:
-            archive.writestr('info.txt', info_file)
-        archive.close()
-        self._maked()
-
-    def _maked(self):
-        for file in self.files:
-            unlink(file)
+from .base_provider import (
+    AbstractProvider,
+    BaseProvider,
+    Archive,
+    ChapterHelper  # TODO
+)
 
 
 class Provider(BaseProvider, AbstractProvider, metaclass=ABCMeta):
@@ -301,3 +154,6 @@ class Provider(BaseProvider, AbstractProvider, metaclass=ABCMeta):
         elif isinstance(self._image_params['offsets_crop'], tuple):
             image = Image(src_path=src_path)
             image.crop_manual_with_offsets(offsets=self._image_params['offsets_crop'], dest_path=dest_path)
+
+
+
