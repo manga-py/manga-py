@@ -1,5 +1,6 @@
-from PIL import Image as PilImage
 from os import path
+
+from PIL import Image as PilImage
 
 
 class Image:

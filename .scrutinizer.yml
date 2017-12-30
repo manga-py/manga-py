@@ -29,6 +29,7 @@ filter:
         - 'docs/'
         - 'tests/'
         - 'storage/'
+        - 'providers/'
         - 'libs/providers/_template.py'
         - 'helpers/main/*.js'
         - 'helpers/inmanga_com.py'

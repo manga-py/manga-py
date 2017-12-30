@@ -1,13 +1,14 @@
-from os import path, name as os_name
 import tempfile
+from os import path, name as os_name, getpid, unlink as os_unlink, makedirs
 from pathlib import Path
-
+from shutil import rmtree
 
 __dir_name__ = '.PyMangaDownloader'
 
 
 def get_temp_path(*args):
-    return path.join(tempfile.gettempdir(), __dir_name__, 'temp', *args)
+    temp = 'temp_%s' % getpid()
+    return path.join(tempfile.gettempdir(), __dir_name__, temp, *args)
 
 
 def get_current_path():
@@ -23,7 +24,7 @@ def get_util_home_path():
 
 
 def make_dirs(directory):
-    path.isdir(directory) or make_dirs(directory)
+    path.isdir(directory) or makedirs(directory)
 
 
 def remove_file_query_params(name, save_path: bool = True) -> str:
@@ -40,3 +41,22 @@ def is_file(_path):
 
 def is_dir(_path):
     return path.isdir(_path)
+
+
+def basename(_path):
+    return path.basename(_path)
+
+
+def dirname(_path):
+    return path.dirname(_path)
+
+
+def path_join(_path, *args):
+    return path.join(_path, *args)
+
+
+def unlink(_path):
+    if is_dir(_path):
+        return rmtree(_path)
+    if is_file(_path):
+        return os_unlink(_path)

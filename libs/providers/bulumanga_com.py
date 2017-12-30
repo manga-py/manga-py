@@ -4,6 +4,9 @@ from .provider import Provider
 class Bulumanga(Provider):
     __temp = {}
 
+    def get_archive_name(self):
+        return self.basename(self.get_current_chapter())
+
     def _check_source(self, content):
         source = self.re.search('source=(\w+)', self.get_url())
         resources = self.json.loads(content)['sources']

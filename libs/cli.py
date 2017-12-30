@@ -1,10 +1,12 @@
 from argparse import ArgumentParser
 from os import name as os_name
+
 import progressbar
 
 from libs.parser import Parser
 
 __version__ = '1.0.0'
+__downloader_uri__ = 'https://github.com/yuru-yuri/manga-dl'
 
 
 def get_cli_arguments() -> ArgumentParser:
@@ -72,7 +74,8 @@ class Cli:
         self.__progress_bar = None
 
     def start(self):
-        pass
+        self.parser.init_provider()
+        self.parser.start()
 
     def input(self, prompt: str = ''):
         return input(prompt=prompt + '\n')
@@ -86,7 +89,7 @@ class Cli:
     def progress(self, items_count: int, current_item: int, re_init: bool = False):  # pragma: no cover
         if not items_count:
             return
-        if self.args.progress:
+        if not self.args.no_progress:
             self.__init_progress(items_count, re_init)
             self.__progress_bar.update(current_item)
 

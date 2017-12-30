@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
-from libs.providers import get_provider
 
+from libs.providers import get_provider
 
 __downloader_uri__ = 'https://github.com/yuru-yuri/manga-dl'
 
@@ -9,9 +9,9 @@ class Parser:
 
     params = {}
     provider = None
-    logger_callback = None
-    progress_callback = None
-    quest_callback = None
+    _logger_callback = None
+    _progress_callback = None
+    _quest_callback = None
 
     def __init__(self, args):
         self.args = args
@@ -20,6 +20,8 @@ class Parser:
     def _add_params(self, params: ArgumentParser = None):
         if params is None:
             params = self.args.parse_args()
+        else:
+            params = params.parse_args()
         self.params['url'] = getattr(params, 'url', '')
         self.params['name'] = getattr(params, 'name', '')
         self.params['user_agent'] = getattr(
@@ -29,21 +31,23 @@ class Parser:
         )
 
     def init_provider(self):
-        self.provider = get_provider(self.params.get('url', ''))
+        provider = get_provider(self.params.get('url', ''))
+        self.provider = provider()
         if not self.provider:
             raise AttributeError('Provider not found')
-        self.provider.set_progress_callback(self.progress_callback)
-        self.provider.set_logger_callback(self.logger_callback)
-        self.provider.set_quest_callback(self.quest_callback)
+
+        self.provider.set_progress_callback(self._progress_callback)
+        self.provider.set_logger_callback(self._logger_callback)
+        self.provider.set_quest_callback(self._quest_callback)
 
     def set_progress_callback(self, callback: callable=None):
-        self.progress_callback = callback
+        self._progress_callback = callback
 
     def set_logger_callback(self, callback: callable=None):
-        self.logger_callback = callback
+        self._logger_callback = callback
 
     def set_quest_callback(self, callback: callable=None):
-        self.quest_callback = callback
+        self._quest_callback = callback
 
     def start(self):
-        self.provider.process(self.params, self.params)
+        self.provider.process(self.params['url'], self.params)

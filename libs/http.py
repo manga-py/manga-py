@@ -1,6 +1,8 @@
-import requests
-from urllib.parse import urlparse
 from os import path
+from urllib.parse import urlparse
+
+import requests
+
 from libs.fs import get_temp_path, make_dirs, remove_file_query_params
 
 
@@ -181,7 +183,7 @@ class Http(Request):
     def _safe_downloader(self, url, file_name, method='get') -> bool:
         try:
             make_dirs(path.dirname(file_name))
-            url = UrlNormalizer.url_helper(url, self.referrer_url)
+            url = self.normalize_uri(url)
             with open(file_name, 'wb') as out_file:
                 with self._requests(url, method=method, timeout=60) as response:
                     out_file.write(response.content)
@@ -210,15 +212,5 @@ class Http(Request):
             dst = path.join(get_temp_path(), name)
         return self._download_one_file_helper(url, dst)
 
-
-class ChaptersDownloader:
-    def __init__(
-            self,
-            allow_webp: bool = None,
-            referrer_url: str = None,
-            user_agent: str = None,
-            site_cookies: dict = None,
-            skip_chapters=None,
-            proxies=None,
-    ):
-        pass
+    def normalize_uri(self, uri):
+        return UrlNormalizer.url_helper(uri, self.referrer_url)
