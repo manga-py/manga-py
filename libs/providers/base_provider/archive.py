@@ -17,14 +17,18 @@ class Archive:
     def make(self, dist, info_file=None):
         if not len(self.files):
             return
+
         make_dirs(dirname(dist))
         archive = ZipFile(dist, 'w', ZIP_DEFLATED)
+
         for file in self.files:
             if is_file(file):
                 archive.write(file, basename(file))
-        if info_file:
-            archive.writestr('info.txt', info_file)
+
+        info_file and archive.writestr('info.txt', info_file)
+
         archive.close()
+
         self._maked()
 
     def _maked(self):
