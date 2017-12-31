@@ -11,6 +11,7 @@ from argparse import ArgumentParser
 from sys import exc_info, stderr
 from threading import Thread
 from urllib.parse import urlparse
+from time import sleep
 
 import requests
 from requests.exceptions import TooManyRedirects
@@ -313,6 +314,7 @@ class MangaDownloader(RequestsHelper, ImageHelper):
                 mode = 'Retry'
             r += 1
             MangaDownloader.print_info('Error downloading. %s' % (mode,))
+            sleep(r / 2)
         return False
 
     def force_png(self, path):
