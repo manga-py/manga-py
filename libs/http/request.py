@@ -1,45 +1,8 @@
-from os import path
 from urllib.parse import urlparse
 
 import requests
 
-from libs.fs import get_temp_path, make_dirs, remove_file_query_params
-
-
-class UrlNormalizer:
-
-    @staticmethod
-    def __relative_scheme(uri, ref):
-        scheme = urlparse(ref).scheme if ref else 'http'
-        return scheme + ':' + uri
-
-    @staticmethod
-    def __get_domain(uri, ref):
-        new_url = ref[:ref.rfind('/')]
-        if uri.find('/') == 0:
-            new_url = urlparse(ref)
-            new_url = '{}://{}'.format(new_url.scheme, new_url.netloc)
-        return new_url
-
-    @staticmethod
-    def url_helper(url: str, base_url: str) -> str:
-        if url.find('//') == 0:  # abs without scheme
-            return UrlNormalizer.__relative_scheme(url, base_url)
-        if url.find('://') < 1:  # relative
-            _ = UrlNormalizer.__get_domain(url, base_url)
-            return '%s/%s' % (_.rstrip('/'), url.lstrip('/'))
-        return url
-
-    @staticmethod
-    def image_name_helper(temp_path, i, n) -> str:
-        name = remove_file_query_params(i, False)
-        basename = '{:0>3}_{}'.format(n, name)
-        name_loss = name.find('?') == 0
-        name_len_loss = len(name) < 4
-        name_dot_loss = name.find('.') < 1
-        if name_loss or name_len_loss or name_dot_loss:
-            basename = '{:0>3}.png'.format(n)
-        return path.join(temp_path, basename)
+from .url_normalizer import UrlNormalizer
 
 
 class Request:
@@ -54,7 +17,7 @@ class Request:
     )
     cookies = {}
 
-    def _get_cookies(self, cookies = None):
+    def _get_cookies(self, cookies=None):
         return cookies if cookies else self.cookies
 
     def _requests_helper(
@@ -154,63 +117,3 @@ class Request:
         session.close()
         return h.cookies
 
-
-class Http(Request):
-
-    count_retries = 20
-
-    def __init__(
-            self,
-            allow_webp=None,
-            referrer_url=None,
-            user_agent=None,
-            proxies=None,
-            site_cookies=None,
-    ):
-        self.__set_param('allow_webp', allow_webp)
-        self.__set_param('referrer_url', referrer_url)
-        self.__set_param('user_agent', user_agent)
-        self.__set_param('proxies', proxies)
-        self.__set_param('site_cookies', site_cookies)
-
-    def __set_param(self, name, value):
-        if value is not None:
-            _type = type(getattr(self, name))
-            if not isinstance(value, _type):
-                raise AttributeError('{} type not {}'.format(name, _type))
-            setattr(self, name, value)
-
-    def _safe_downloader(self, url, file_name, method='get') -> bool:
-        try:
-            make_dirs(path.dirname(file_name))
-            url = self.normalize_uri(url)
-            with open(file_name, 'wb') as out_file:
-                with self._requests(url, method=method, timeout=60) as response:
-                    out_file.write(response.content)
-                    response.close()
-                    out_file.close()
-        except OSError:
-            return False
-        return True
-
-    def _download_one_file_helper(self, url, dst, callback: callable = None):
-        r = 0
-        while r < self.count_retries:
-            if self._safe_downloader(url, dst):
-                return True
-
-            r += 1
-            mode = 'Retry'
-            if r >= self.count_retries:
-                mode = 'Skip image'
-            callable(callback) and callback(text=mode)
-        return False
-
-    def download_file(self, url: str, dst: str = None) -> bool:
-        if not dst:
-            name = path.basename(remove_file_query_params(url))
-            dst = path.join(get_temp_path(), name)
-        return self._download_one_file_helper(url, dst)
-
-    def normalize_uri(self, uri):
-        return UrlNormalizer.url_helper(uri, self.referrer_url)
