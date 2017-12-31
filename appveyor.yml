@@ -17,7 +17,7 @@ install:
 
     C:/Python35/Scripts/pip.exe install --disable-pip-version-check --user --upgrade pip setuptools
 
-    C:/Python35/Scripts/pip.exe install pyinstaller PyQt5
+    C:/Python35/Scripts/pip.exe install pyinstaller
 
     C:/Python35/Scripts/pip.exe install -r requirements.txt
 
@@ -26,7 +26,7 @@ install:
 build: off
 test_script:
 - cmd: >-
-    C:/Python35/Scripts/pyinstaller.exe .builder.py --exclude-module PIL.ImageQt --log-level CRITICAL -y -F -n manga.exe
+    C:/Python35/Scripts/pyinstaller.exe .builder.py --exclude-module PyQt5 --exclude-module PIL.ImageQt --log-level CRITICAL -y -F -n manga.exe
 artifacts:
 - path: dist/manga.exe
   name: manga.exe

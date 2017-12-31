@@ -10,7 +10,7 @@ before_install:
 - sudo apt-get install python3-setuptools
 - python3 -V
 install:
-- pip3 install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller PyQt5
+- pip3 install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller
 - pip3 install -r requirements.txt
 script:
 - coverage run tests/pytest.py
