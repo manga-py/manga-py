@@ -28,9 +28,9 @@ class Image:
         if isinstance(param, str) and param.find('%'):
             param = int(param[:-1])
             param = abs(param)
-            return int(side_size/2) if param > 50 else int(side_size * param / 100)
+            return int((side_size-1)/2) if param >= 50 else int(side_size * param / 100)
         param = abs(param)
-        return int(side_size / 2) if int(param > side_size) / 2 else int(param)
+        return int(side_size / 2) if int(param) > (side_size / 2) else int(param)
 
     def __open(self, _path, to_rgb=True):
         with PilImage.open(_path) as image:
@@ -39,7 +39,7 @@ class Image:
             return image
 
     def gray(self, dest_path: str = None):
-        img = self.__open(dest_path, False)
+        img = self.__open(self.src_path, False)
         try:
             image = img.convert('LA')
         except ValueError:
@@ -135,6 +135,6 @@ class Image:
 
     def transparency_fixed_before_save(self, image: PilImage, _path: str) -> PilImage:
         ext = self.get_ext(_path)
-        if ext not in ['.png', '.webp', '.gif']:
+        if ext not in ['.png', '.webp']:
             return image.convert('RGB')
         return image
