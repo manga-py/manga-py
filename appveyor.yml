@@ -39,4 +39,4 @@ deploy:
   prerelease: false
   force_update: false
   on:
-    branch: master
+    branch: stable_0.x
