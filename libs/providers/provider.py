@@ -91,7 +91,7 @@ class Provider(BaseProvider, AbstractProvider, metaclass=ABCMeta):
                 self._storage['current_file'] = idx
                 self.__call_files_progress_callback()
                 self._loop_callback_files()
-                file = self.save_file()
+                file = self.save_file()  # TODO: multi threads!
 
                 archive.add_file(file)
 

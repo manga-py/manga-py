@@ -61,9 +61,9 @@ class Request:
                 cookies=cookies,
                 method='get'
         ) as response:
-            ret = response.text
+            text = response.text
             response.close()
-            return ret
+            return text
 
     def post(self, url: str, headers: dict = None, cookies: dict = None, data: dict = (), files=None) -> str:
         with self._requests(
@@ -116,4 +116,3 @@ class Request:
             self.__parse_cookies(h, domain, cookies)
         session.close()
         return h.cookies
-
