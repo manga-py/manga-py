@@ -61,6 +61,9 @@ class Http(Request):
             dst = path_join(get_temp_path(), name)
         return self._download_one_file_helper(url, dst)
 
+    def normalize_uri(self, uri):
+        return UrlNormalizer.url_helper(uri, self.referrer_url)
+
     def multi_download_get(self, urls, dst: str = None, callback: callable = None):
         threading = MultiThreads()
         for url in urls:
