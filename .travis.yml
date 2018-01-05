@@ -2,6 +2,7 @@ addons:
   artifacts: true
 language: python
 python:
+- "3.4"
 - "3.5"
 - "3.6"
 cache: pip
@@ -30,5 +31,3 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-env:
-- CODECLIMATE_REPO_TOKEN: 38a5edd667c0f4d8964133b358eb6427b02e7cb3b4cdd92fe4d55986d9fd82da
