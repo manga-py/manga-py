@@ -48,6 +48,7 @@ providers_list = {
     'mangapanda_com': 'mangapanda\\.com/.+',
     'mangapark_me': 'mangapark\\.me/manga/.+',
     'mangareader_net': 'mangareader\\.net/.+',
+    # 'mangarock_com': 'mangarock\\.com/manga/.+',
     'mangaroot_com': 'mangaroot\\.com/manga/.+',
     'mangarussia_com': 'mangarussia\\.com/manga/.+',
     'mangasaurus_com': 'mangasaurus\\.com/manga.+',
