@@ -1,5 +1,8 @@
 
+
+# cli chapters parser
 class ChapterHelper:
+    chapters = ''
 
     def __init__(self, chapters: str):
         self.chapters = chapters

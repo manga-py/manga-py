@@ -4,7 +4,7 @@ from .provider import Provider
 class ReadmangaMe(Provider):
 
     def get_archive_name(self):
-        name = self.re.search('/.+?/(.+?/.+)/?', self.get_current_chapter())
+        name = self.re.search('/.+/([^/]+/[^/]+)/?', self.get_current_chapter())
         return name.group(1).replace('/', '-')
 
     def get_main_content(self):
@@ -33,6 +33,10 @@ class ReadmangaMe(Provider):
         if not result:
             return []
         return [i[1] + i[0] + i[2] for i in self.json.loads(result.groups()[0].replace("'", '"'))]
+
+    def get_chapter_index(self):
+        name = self.re.search('/.+/(?:vol)?([^/]+/[^/]+)/?', self.get_current_chapter())
+        return name.group(1).replace('/', '-')
 
     def _loop_callback_volumes(self):
         pass

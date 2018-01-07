@@ -17,18 +17,19 @@ from .base_provider import (
     AbstractProvider,
     BaseProvider,
     Archive,
-    ChapterHelper  # TODO
+    ChapterHelper,  # TODO
+    CloudFlareProtect
 )
 
 
 class Provider(BaseProvider, AbstractProvider, metaclass=ABCMeta):
 
     _image_params = {
-        'crop': False,
+        'crop': (0, 0, 0, 0),
         # 'crop': (left, upper, width, height)
-        'offsets_crop': False,
+        'offsets_crop': (0, 0, 0, 0),
         # 'crop': (left, upper, right, lower)
-        'auto_crop': False,
+        'auto_crop': {'max_crop_size': 40, 'auto_crop_factor': 150},
         # 'auto_crop': {'max_crop_size': 40, 'auto_crop_factor': 150},
     }
     _volumes_count = 0
@@ -53,7 +54,7 @@ class Provider(BaseProvider, AbstractProvider, metaclass=ABCMeta):
         self._downloading_params_parser(downloading_params)
         self._image_params_parser(image_params)
 
-        self._storage['cookies'] = self.get_cookies()
+        self._storage['start_cookies'] = self._storage['cookies'] = self.get_cookies()
         self._storage['manga_name'] = self.get_manga_name()
         self._storage['main_content'] = self.get_main_content()
         self._storage['chapters'] = self.get_chapters()
@@ -123,13 +124,18 @@ class Provider(BaseProvider, AbstractProvider, metaclass=ABCMeta):
     def html_fromstring(self, addr, selector: str = None, idx: int = None):
         return self.document_fromstring(self.http_get(addr), selector, idx)
 
+    def _site_cookies(self) -> list:
+        if not isinstance(self._storage['cookies'], list):
+            return []
+        return [i for i in self._storage['cookies'] if isinstance(i, dict)]
+
     def http(self) -> Http:
         http_params = {
             'allow_webp': None,
             'referrer_url': self.get_referrer(),
             'user_agent': self._params.get('user_agent', None),
             'proxies': None,
-            'site_cookies': None,
+            'cookies': self._site_cookies(),
         }
         http = Http(**http_params)
         return http
@@ -155,5 +161,7 @@ class Provider(BaseProvider, AbstractProvider, metaclass=ABCMeta):
             image = Image(src_path=src_path)
             image.crop_manual_with_offsets(offsets=self._image_params['offsets_crop'], dest_path=dest_path)
 
-
-
+    def cf_protect(self, url):
+        cf = CloudFlareProtect()
+        self._storage['cookies'] = cf.run(url)
+        return self._storage['cookies']

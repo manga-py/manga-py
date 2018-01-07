@@ -10,17 +10,17 @@ class Http(Request):
 
     def __init__(
             self,
-            allow_webp=None,
-            referrer_url=None,
+            allow_webp=True,
+            referrer_url='',
             user_agent=None,
             proxies=None,
-            site_cookies=None,
+            cookies=None,
     ):
         self.__set_param('allow_webp', allow_webp)
         self.__set_param('referrer_url', referrer_url)
         self.__set_param('user_agent', user_agent)
         self.__set_param('proxies', proxies)
-        self.__set_param('site_cookies', site_cookies)
+        self.__set_param('cookies', cookies)
 
     def __set_param(self, name, value):
         if value is not None:

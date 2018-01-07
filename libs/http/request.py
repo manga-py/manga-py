@@ -8,14 +8,14 @@ from .url_normalizer import UrlNormalizer
 class Request:
     referrer_url = ''
     proxies = {}
-    allow_webp = False
+    allow_webp = True
     user_agent = '%s %s %s %s' % (
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
         'AppleWebKit/537.36 (KHTML, like Gecko)',
         'Chrome/60.0.3112.101',
         'Safari/537.36'
     )
-    cookies = {}
+    cookies = []
 
     def _get_cookies(self, cookies=None):
         return cookies if cookies else self.cookies

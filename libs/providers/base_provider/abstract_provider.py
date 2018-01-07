@@ -32,5 +32,11 @@ class AbstractProvider:
         pass
 
     @abstractmethod
-    def get_archive_name(self):
+    def get_archive_name(self) -> str:
         pass
+
+    #  for chapters selected by manual (cli)
+    @abstractmethod
+    def get_chapter_index(self) -> str:
+        pass
+        # return self.get_archive_name()
