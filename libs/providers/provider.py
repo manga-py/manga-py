@@ -1,7 +1,6 @@
 import json
 import re
 from abc import ABCMeta
-from typing import Callable
 
 from libs.cli import __version__, __downloader_uri__
 from libs.fs import (
@@ -60,15 +59,6 @@ class Provider(BaseProvider, AbstractProvider, metaclass=ABCMeta):
         self._storage['chapters'] = self.get_chapters()
 
         self.loop_chapters()
-
-    def set_quest_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
-        setattr(self, 'quest_callback', callback)
-
-    def set_progress_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
-        setattr(self, 'files_progress_callback', callback)
-
-    def set_logger_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
-        setattr(self, 'logger_callback', callback)
 
     def __call_files_progress_callback(self):
         if self.files_progress_callback:

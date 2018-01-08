@@ -1,4 +1,5 @@
 import re
+from typing import Callable
 
 from lxml.html import document_fromstring
 
@@ -67,6 +68,15 @@ class BaseProvider:
 
     def logger_callback(self, *args):
         pass
+
+    def set_quest_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
+        setattr(self, 'quest_callback', callback)
+
+    def set_progress_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
+        setattr(self, 'files_progress_callback', callback)
+
+    def set_logger_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
+        setattr(self, 'logger_callback', callback)
 
     def get_referrer(self):
         return self.referrer if hasattr(self, 'referrer') else self.get_domain()

@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from os import name as os_name
 
-import progressbar
+from progressbar import ProgressBar
 
 from libs.parser import Parser
 
@@ -64,17 +64,20 @@ def get_cli_arguments() -> ArgumentParser:
 
 class Cli:
     status = True
+    args = None
+    parser = None
+    __progress_bar = None
 
     def __init__(self, args: ArgumentParser):
         self.args = args.parse_args()
         self.parser = Parser(args)
-        self.parser.set_logger_callback(self.print)
-        self.parser.set_progress_callback(self.progress)
-        self.parser.set_quest_callback(self.quest)
-        self.__progress_bar = None
 
     def start(self):
-        self.parser.init_provider()
+        self.parser.init_provider(
+            progress_callback=self.progress,
+            logger_callback=self.print,
+            quest_callback=self.quest,
+        )
         self.parser.start()
 
     def input(self, prompt: str = ''):
@@ -82,7 +85,7 @@ class Cli:
 
     def __init_progress(self, items_count: int, re_init: bool):
         if re_init or not self.__progress_bar:
-            bar = progressbar.ProgressBar()
+            bar = ProgressBar()
             self.__progress_bar = bar(range(items_count))
             self.__progress_bar.init()
 
