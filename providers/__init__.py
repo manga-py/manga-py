@@ -61,6 +61,7 @@ providers_list = {
     'myreadingmanga_info': 'myreadingmanga\\.info/.+',  # with cf-protect
     'ninemanga_com': 'ninemanga\\.com/manga.+',
     # 'onemanga_com': 'onemanga\\.com/manga.+',
+    'rawdevart_com': 'rawdevart\\.com/.+',
     'read_yagami_me': 'read\\.yagami\\.me/.+',
     'readcomicbooksonline_net': 'readcomicbooksonline\\.net/.+',
     'readcomiconline_to': 'readcomiconline\\.to/Comic/.+',
