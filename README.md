@@ -1,4 +1,4 @@
-# Manga-Downloader [![Travis CI result](https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=stable_0.x)](https://travis-ci.org/yuru-yuri/manga-dl/branches)
+# Manga-Downloader [![Travis CI result](https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=stable_0.x)](https://travis-ci.org/yuru-yuri/manga-dl/branches) [![Build status](https://ci.appveyor.com/api/projects/status/dssxq36cflv32gjr?svg=true)](https://ci.appveyor.com/project/1271/manga-downloader)
 
 Universal assistant download manga.<br/>
 Supports more than 70 different resources now.<br>
