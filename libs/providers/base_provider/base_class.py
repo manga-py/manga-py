@@ -12,25 +12,7 @@ from libs.http import Http, MultiThreads
 from libs.image import Image
 
 
-class BaseProvider:
-    _storage = {
-        'cookies': (),
-        'main_content': '',
-        'chapters': [],
-        'current_chapter': 0,
-        'current_file': 0
-    }
-    _params = {
-        'path_destination': 'Manga'
-    }
-    _image_params = {
-        'crop': None,
-        # 'crop': (left, upper, width, height)
-        'offsets_crop': None,
-        # 'crop': (left, upper, right, lower)
-        'auto_crop': None,
-        # 'auto_crop': {'max_crop_size': 40, 'auto_crop_factor': 150},
-    }
+class StaticBase:
 
     @staticmethod
     def document_fromstring(body, selector: str = None, idx: int = None):
@@ -57,6 +39,27 @@ class BaseProvider:
     @staticmethod
     def basename(_path) -> str:
         return basename(_path)
+
+
+class BaseProvider(StaticBase):
+    _storage = {
+        'cookies': (),
+        'main_content': '',
+        'chapters': [],
+        'current_chapter': 0,
+        'current_file': 0
+    }
+    _params = {
+        'path_destination': 'Manga'
+    }
+    _image_params = {
+        'crop': None,
+        # 'crop': (left, upper, width, height)
+        'offsets_crop': None,
+        # 'crop': (left, upper, right, lower)
+        'auto_crop': None,
+        # 'auto_crop': {'max_crop_size': 40, 'auto_crop_factor': 150},
+    }
 
     def get_url(self):
         return self._params['url']
