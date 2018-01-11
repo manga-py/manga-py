@@ -55,28 +55,28 @@ class Request:
         )
 
     def get(self, url: str, headers: dict = None, cookies: dict = None) -> str:
-        with self._requests(
+        response = self._requests(
                 url=url,
                 headers=headers,
                 cookies=cookies,
                 method='get'
-        ) as response:
-            text = response.text
-            response.close()
-            return text
+        )
+        text = response.text
+        response.close()
+        return text
 
     def post(self, url: str, headers: dict = None, cookies: dict = None, data: dict = (), files=None) -> str:
-        with self._requests(
+        response = self._requests(
                 url=url,
                 headers=headers,
                 cookies=cookies,
                 method='post',
                 data=data,
                 files=files
-        ) as response:
-            text = response.text
-            response.close()
-            return text
+        )
+        text = response.text
+        response.close()
+        return text
 
     def reset_proxy(self):
         self.proxies = {}

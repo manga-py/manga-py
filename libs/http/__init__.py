@@ -34,10 +34,10 @@ class Http(Request):
             make_dirs(dirname(file_name))
             url = self.normalize_uri(url)
             with open(file_name, 'wb') as out_file:
-                with self._requests(url, method=method, timeout=60) as response:
-                    out_file.write(response.content)
-                    response.close()
-                    out_file.close()
+                response = self._requests(url, method=method, timeout=60)
+                out_file.write(response.content)
+                response.close()
+                out_file.close()
         except OSError:
             return False
         return True

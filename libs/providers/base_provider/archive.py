@@ -16,6 +16,7 @@ class Archive:
 
     def make(self, dist, info_file=None):
         if not len(self.files):
+            print('files == [] archive.py:19')
             return
 
         make_dirs(dirname(dist))

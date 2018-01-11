@@ -22,13 +22,7 @@ class Parser:
             params = self.args.parse_args()
         else:
             params = params.parse_args()
-        self.params['url'] = getattr(params, 'url', '')
-        self.params['name'] = getattr(params, 'name', '')
-        self.params['user_agent'] = getattr(
-            params,
-            'user_agent',
-            'Mozilla/5.0'
-        )
+        self.params = params.__dict__
 
     def init_provider(
             self,

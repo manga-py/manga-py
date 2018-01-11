@@ -30,7 +30,7 @@ def get_cli_arguments() -> ArgumentParser:
 
     args_parser.add_argument('--no-name', action='store_const', required=False,
                              help='Don\'t added manga name to the path', const=True, default=False)
-    args_parser.add_argument('--allow-webp', action='store_const', required=False, help='Allow downloading webp images',
+    args_parser.add_argument('--disallow-webp', action='store_const', required=False, help='Allow downloading webp images',
                              const=True, default=False)
     args_parser.add_argument('--force-png', action='store_const', required=False,
                              help='Force conversation images to png format', const=True, default=False)
@@ -38,7 +38,7 @@ def get_cli_arguments() -> ArgumentParser:
                              help='Reverse volumes downloading', const=True, default=False)
     args_parser.add_argument('--rewrite-exists-archives', action='store_const', required=False, const=True,
                              default=False)
-    args_parser.add_argument('--no-multi-threads', action='store_const', required=False,
+    args_parser.add_argument('-nm', '--no-multi-threads', action='store_const', required=False,
                              help='Disallow multi-threads images downloading', const=True, default=False)
     args_parser.add_argument('-xt', required=False, type=int, help='Manual image crop with top side', default=0)
     args_parser.add_argument('-xr', required=False, type=int, help='Manual image crop with right side', default=0)
