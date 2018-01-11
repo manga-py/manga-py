@@ -5,6 +5,8 @@ from PIL import Image as PilImage
 
 class Image:
 
+    image = None
+
     def __init__(self, src_path, params=None):
         if not path.isfile(src_path):
             raise AttributeError('Image not found')
@@ -33,16 +35,17 @@ class Image:
         return int(side_size / 2) if int(param) > (side_size / 2) else int(param)
 
     def __open(self, _path, to_rgb=True):
-        with PilImage.open(_path) as image:
-            if to_rgb and image.mode != 'RGB':  # force change image mode
-                image = image.convert('RGB')
-            return image
+        image = PilImage.open(_path)
+        if to_rgb and image.mode != 'RGB':  # force change image mode
+            image = image.convert('RGB')
+        self.image = image
+        return image
 
     def gray(self, dest_path: str = None):
         img = self.__open(self.src_path, False)
         try:
             image = img.convert('LA')
-        except ValueError:
+        except (ValueError, OSError):
             image = img.convert('L')
         if dest_path is not None:
             image.save(dest_path)
@@ -75,7 +78,7 @@ class Image:
         max_offset = self._get_max_crop_size(crop_params.get('max_crop_size'), height)
         factor = crop_params.get('auto_crop_factor')
         pixels = img.load()
-        crop_type = int(pixels[0, 0] > 125)
+        crop_type = int(pixels[0, 0] > 125)  # TODO!
 
         for h in range(int(height/2) - 1):
             if h > max_offset:
@@ -116,7 +119,7 @@ class Image:
         self.transparency_fixed_before_save(image, dest_path).save(dest_path)
 
     def crop_auto(self, dest_path: str = None):
-        img = self.gray(self.src_path)
+        img = self.gray()
         upper = self.__get_blank_size(img)
         img = img.rotate(90)
         right = self.__get_blank_size(img)
@@ -124,6 +127,7 @@ class Image:
         lower = self.__get_blank_size(img)
         img = img.rotate(90)
         left = self.__get_blank_size(img)
+        img.close()
 
         if left or upper or right or lower:
             image = self.__open(self.src_path)
@@ -138,3 +142,6 @@ class Image:
         if ext not in ['.png', '.webp']:
             return image.convert('RGB')
         return image
+
+    def close(self):
+        self.image and self.image.close()
