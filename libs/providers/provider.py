@@ -16,11 +16,12 @@ from .base_provider import (
     Archive,
     BaseProvider,
     ChapterHelper,  # TODO
-    CloudFlareProtect
+    CloudFlareProtect,
+    StaticMethods
 )
 
 
-class Provider(BaseProvider, AbstractProvider, metaclass=ABCMeta):
+class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta):
 
     _volumes_count = 0
 
