@@ -3,6 +3,12 @@ from .provider import Provider
 
 class _Template(Provider):
 
+    def get_archive_name(self) -> str:
+        pass
+
+    def get_chapter_index(self) -> str:
+        pass
+
     def get_main_content(self):  # call once
         pass
 
