@@ -19,6 +19,8 @@ class TestCase(unittest.TestCase):
         ['/img2.png', '/temp/img2.png'],
         ['/img3.jpg', '/temp/img3.jpg'],
         ['/img4.jpg', '/temp/img4.jpg'],
+        ['/img5.png', '/temp/img5.png'],
+        ['/img6.gif', '/temp/img6.gif'],
     ]
 
     def test_manual_crop(self):
@@ -41,25 +43,113 @@ class TestCase(unittest.TestCase):
 
             self.assertTrue((sizes[0] - cropped_sizes[0]) == 10)
 
-    # def test_auto_crop(self):
-    #     file = self.paths[0]
-    #     path.isfile(root_path + file[1]) and unlink(root_path + file[1])
-    #
-    #     image = PilImage.open(root_path + file[0])
-    #
-    #     img = Image(root_path + file[0])
-    #
-    #     img.crop_auto(root_path + file[1])
-    #     img.close()
-    #
-    #     cropped_image = PilImage.open(root_path + file[1])
-    #
-    #     sizes = image.size
-    #     cropped_sizes = cropped_image.size
-    #     image.close()
-    #     cropped_image.close()
-    #
-    #     self.assertTrue(sizes[0] < cropped_sizes[0])
+    def test_manual_crop_with_offsets(self):
+        for file in self.paths:
+            path.isfile(root_path + file[1]) and unlink(root_path + file[1])
+
+            image = PilImage.open(root_path + file[0])
+
+            img = Image(root_path + file[0])
+
+            img.crop_manual_with_offsets((10, 0, 0, 0), root_path + file[1])
+            img.close()
+
+            cropped_image = PilImage.open(root_path + file[1])
+
+            sizes = image.size
+            cropped_sizes = cropped_image.size
+            image.close()
+            cropped_image.close()
+
+            self.assertTrue((sizes[0] - cropped_sizes[0]) == 10)
+
+    def test_auto_crop1(self):
+        file = self.paths[0]
+        path.isfile(root_path + file[1]) and unlink(root_path + file[1])
+
+        image = PilImage.open(root_path + file[0])
+
+        img = Image(root_path + file[0])
+
+        img.crop_auto(root_path + file[1])
+        img.close()
+
+        cropped_image = PilImage.open(root_path + file[1])
+
+        sizes = image.size
+        cropped_sizes = cropped_image.size
+        image.close()
+        cropped_image.close()
+
+        self.assertTrue(sizes[0] > cropped_sizes[0])
+
+    def test_auto_crop2(self):
+        file = self.paths[1]
+        path.isfile(root_path + file[1]) and unlink(root_path + file[1])
+
+        image = PilImage.open(root_path + file[0])
+
+        img = Image(root_path + file[0])
+
+        img.crop_auto(root_path + file[1])
+        img.close()
+
+        cropped_image = PilImage.open(root_path + file[1])
+
+        sizes = image.size
+        cropped_sizes = cropped_image.size
+        image.close()
+        cropped_image.close()
+
+        self.assertTrue(sizes[0] == cropped_sizes[0])
+
+    def test_auto_crop3(self):
+        file = self.paths[4]
+        path.isfile(root_path + file[1]) and unlink(root_path + file[1])
+
+        image = PilImage.open(root_path + file[0])
+
+        img = Image(root_path + file[0])
+
+        img.crop_auto(root_path + file[1])
+        img.close()
+
+        cropped_image = PilImage.open(root_path + file[1])
+
+        sizes = image.size
+        cropped_sizes = cropped_image.size
+        image.close()
+        cropped_image.close()
+
+        self.assertTrue(sizes[0] == (2 + cropped_sizes[0]))  # 2px black line
+
+    def test_image_not_found(self):
+        self.assertRaises(AttributeError, lambda: Image(root_path))
+
+    def test_gray1(self):
+        file = self.paths[1]
+        path.isfile(root_path + file[1]) and unlink(root_path + file[1])
+        image = Image(root_path + file[0])
+
+        image.gray(root_path + file[1])
+        image.close()
+
+        image = PilImage.open(root_path + file[1])
+        index = image.mode.find('L')
+        image.close()
+
+        self.assertTrue(index == 0)
+
+    def test_convert(self):
+        file = self.paths[0][0]
+        image = Image(root_path + file)
+
+        basename = file[0:file.find('.')]
+        basename = root_path + '/temp' + basename + '.bmp'
+        image.convert(basename)
+        image.close()
+
+        self.assertTrue(path.isfile(basename))
 
 
 if __name__ == '__main__':
