@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from os import path, unlink
+from os import path, unlink, makedirs
 from sys import path as sys_path
 
 from PIL import Image as PilImage
@@ -63,4 +63,5 @@ class TestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    path.isdir(root_path + '/temp') or makedirs(root_path + '/temp')
     unittest.main()
