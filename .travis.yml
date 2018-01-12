@@ -13,7 +13,7 @@ install:
 - pip3 install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller PyQt5
 - pip3 install -r requirements.txt
 script:
-- coverage run tests/pytest.py
+- coverage run --source=libs,tests tests/pytest.py
 after_script:
 - codeclimate-test-reporter --file .coverage
 before_deploy:

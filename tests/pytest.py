@@ -10,6 +10,8 @@ from PIL import Image as PilImage
 root_path = path.dirname(path.realpath(__file__))
 sys_path.append(path.realpath(path.join(root_path, '..')))
 
+from libs.providers import get_provider
+from libs.providers.provider import Provider
 from libs.image import Image
 
 
@@ -150,6 +152,10 @@ class TestCase(unittest.TestCase):
         image.close()
 
         self.assertTrue(path.isfile(basename))
+
+    # def test_get_provider1(self):
+    #     provider = get_provider('http://readmanga.me/manga/name/here')
+    #     self.assertIsInstance(provider, Provider)
 
 
 if __name__ == '__main__':
