@@ -85,5 +85,5 @@ def get_provider(url):
         result = re.search(providers_list[i], url)
         if result is not None:
             provider = __import__('libs.providers.{}'.format(i), fromlist=['libs.providers'])
-            return provider.provider()
+            return provider.main
     return False

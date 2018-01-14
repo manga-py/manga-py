@@ -1,17 +1,7 @@
-# All providers
-
-### For template example, see _template.py
-
-## Functions:
-
-```python
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
-from libs.providers.provider import Provider
+from .provider import Provider
 
 
-class _Template(Provider):
+class BatoTo(Provider):
 
     def get_archive_name(self) -> str:
         pass
@@ -41,6 +31,4 @@ class _Template(Provider):
         pass
 
 
-main = _Template
-
-```
+main = BatoTo

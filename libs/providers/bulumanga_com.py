@@ -15,7 +15,7 @@ class Bulumanga(Provider):
             for n, i in enumerate(resources):
                 if i['source'] == source:
                     return resources[n]
-        return self.quest(enumerate(resources), 'Please, select resource')
+        return self.quest_callback(enumerate(resources), 'Please, select resource')
 
     def get_main_content(self):
         re_id = self.re.search('\bid=(\d+)', self.get_url())
@@ -66,5 +66,4 @@ class Bulumanga(Provider):
         pass
 
 
-def provider():
-    return Bulumanga
+main = Bulumanga

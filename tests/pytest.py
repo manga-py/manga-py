@@ -153,9 +153,18 @@ class TestCase(unittest.TestCase):
 
         self.assertTrue(path.isfile(basename))
 
-    # def test_get_provider1(self):
-    #     provider = get_provider('http://readmanga.me/manga/name/here')
-    #     self.assertIsInstance(provider, Provider)
+    # success
+    def test_get_provider1(self):
+        provider = get_provider('http://readmanga.me/manga/name/here')
+        self.assertIsInstance(provider(), Provider)
+
+    # failed
+    def test_get_provider2(self):
+        provider = get_provider('http://google.com/manga/name/here')
+        self.assertFalse(provider)
+
+    def test_(self):
+        pass
 
 
 if __name__ == '__main__':

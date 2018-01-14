@@ -31,5 +31,4 @@ class _Template(Provider):
         pass
 
 
-def provider():
-    return _Template
+main = _Template

@@ -45,5 +45,4 @@ class ReadmangaMe(Provider):
         pass
 
 
-def provider():
-    return ReadmangaMe
+main = ReadmangaMe
