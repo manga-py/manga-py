@@ -1,3 +1,4 @@
+import sys
 from argparse import ArgumentParser
 from os import name as os_name
 
@@ -98,8 +99,7 @@ class Cli:
 
     def print(self, text, end='\n'):
         if os_name == 'nt':
-            __encode = 'cp866'
-            text = str(text).encode().decode(__encode, 'ignore')
+            text = str(text).encode().decode(sys.stdout.encoding, 'ignore')
         print(text, end=end)
 
     def _single_quest(self, variants, title):
