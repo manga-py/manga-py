@@ -1,7 +1,7 @@
 from .provider import Provider
 
 
-class _Template(Provider):
+class _Template(Provider):  # pragma: no cover
 
     def get_archive_name(self) -> str:
         pass
@@ -18,13 +18,13 @@ class _Template(Provider):
     def get_chapters(self):  # call once
         return []
 
-    def get_cookies(self):  # if site with cookie protect
+    def prepare_cookies(self):  # if site with cookie protect
         pass
 
     def get_files(self):  # call ever volume loop
         return []
 
-    def _loop_callback_volumes(self):
+    def _loop_callback_chapters(self):
         pass
 
     def _loop_callback_files(self):

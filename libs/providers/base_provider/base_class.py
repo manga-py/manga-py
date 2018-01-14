@@ -7,7 +7,7 @@ from libs.image import Image
 
 class BaseProvider:
     _storage = {
-        'cookies': (),
+        'cookies': [],
         'main_content': '',
         'chapters': [],
         'current_chapter': 0,
@@ -59,9 +59,6 @@ class BaseProvider:
     def set_logger_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
         setattr(self, 'logger_callback', callback)
 
-    def get_referrer(self):
-        return self.referrer if hasattr(self, 'referrer') else self.get_domain()
-
     def image_auto_crop(self, src_path, dest_path=None):
         image = Image(src_path=src_path)
         if isinstance(self._image_params['auto_crop'], dict):
@@ -77,18 +74,13 @@ class BaseProvider:
             image = Image(src_path=src_path)
             image.crop_manual_with_offsets(offsets=self._image_params['offsets_crop'], dest_path=dest_path)
 
-    def _site_cookies(self) -> list:
-        if not isinstance(self._storage['cookies'], list):
-            return []
-        return [i for i in self._storage['cookies'] if isinstance(i, dict)]
-
     def http(self) -> Http:
         http_params = {
             'allow_webp': not self._params.get('disallow_webp', None),
-            'referrer_url': self.get_referrer(),
+            'referrer_url': self._storage.get('referrer', self.get_domain()),
             'user_agent': self._params.get('user_agent', None),
             'proxies': None,  # todo
-            'cookies': self._site_cookies(),
+            'cookies': self._storage.get('cookies', None),
         }
         http = Http(**http_params)
         return http

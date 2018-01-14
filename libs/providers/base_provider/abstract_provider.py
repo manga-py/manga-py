@@ -16,7 +16,7 @@ class AbstractProvider:
         return []
 
     @abstractmethod
-    def get_cookies(self):  # if site with cookie protect
+    def prepare_cookies(self):  # if site with cookie protect
         pass
 
     @abstractmethod
@@ -24,7 +24,7 @@ class AbstractProvider:
         return []
 
     @abstractmethod
-    def _loop_callback_volumes(self):
+    def _loop_callback_chapters(self):
         pass
 
     @abstractmethod

@@ -2,7 +2,7 @@ from libs import fs
 import json
 
 
-class ConfigStorage:
+class ConfigStorage:  # pragma: no cover
 
     __config_path = ''
     __storage = {}

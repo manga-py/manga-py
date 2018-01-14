@@ -1,31 +1,40 @@
 
 import cfscrape
-import tldextract
 
 
 class CloudFlareProtect:
 
-    cookies = []
+    protector = []
 
     @staticmethod
-    def _get_domain(url):
-        ext = tldextract.extract(url)
-        return '.%s.%s' % (ext.domain, ext.suffix)
+    def __get_domain(url, cookies):
+
+        for d in cookies.list_domains():
+            domain = cfscrape.urlparse(url).netloc
+            if d.startswith(".") and d in ("." + domain):
+                return d
 
     def run(self, url):
 
-        if not len(self.cookies):
-            domain = self._get_domain(url)
-            scraper = cfscrape.get_tokens(url)
-            if scraper is not None:
-                self.cookies = []
-                for i in scraper[0]:
-                    self.cookies.append({
-                        'value': scraper[0][i],
-                        'domain': domain,
-                        'path': '/',
-                        'name': i,
-                    })
-                self.cookies.append(scraper[1])
+        if not len(self.protector):
+            scr = cfscrape.create_scraper()
+            response, user_agent = scr.get_tokens(url)
+            domain = self.__get_domain(url, scr.cookies)
 
-        return self.cookies
+            self.protector = [
+                {
+                    'value': response.get('__cfduid'),
+                    'domain': domain,
+                    'path': '/',
+                    'name': '__cfduid',
+                },
+                {
+                    'value': response.get('cf_clearance'),
+                    'domain': domain,
+                    'path': '/',
+                    'name': 'cf_clearance',
+                },
+                user_agent
+            ]
+
+        return self.protector

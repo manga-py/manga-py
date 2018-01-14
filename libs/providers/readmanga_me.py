@@ -22,7 +22,7 @@ class ReadmangaMe(Provider):
         chapters.reverse()
         return chapters
 
-    def get_cookies(self):
+    def prepare_cookies(self):
         pass
 
     def get_files(self):
@@ -38,7 +38,7 @@ class ReadmangaMe(Provider):
         name = self.re.search('/.+/(?:vol)?([^/]+/[^/]+)/?', self.get_current_chapter())
         return name.group(1).replace('/', '-')
 
-    def _loop_callback_volumes(self):
+    def _loop_callback_chapters(self):
         pass
 
     def _loop_callback_files(self):

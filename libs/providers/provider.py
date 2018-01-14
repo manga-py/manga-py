@@ -45,10 +45,12 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
         for i in params:
             self._params.setdefault(i, params[i])
 
-        self._storage['start_cookies'] = self._storage['cookies'] = self.get_cookies()
+        self.prepare_cookies()
         self._storage['manga_name'] = self.get_manga_name()
         self._storage['main_content'] = self.get_main_content()
         self._storage['chapters'] = self.get_chapters()
+
+        self._storage['init_cookies'] = self._storage['cookies']
 
         self.loop_chapters()
 
@@ -57,7 +59,7 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
         if isinstance(volumes, list) and len(volumes) > 0:
             for idx, __url in enumerate(volumes):
                 self._storage['current_chapter'] = idx
-                self._loop_callback_volumes()
+                self._loop_callback_chapters()
                 self._storage['files'] = self.get_files()
                 self.loop_files()
 
@@ -96,8 +98,12 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
 
         archive.make(_path, info)
 
-    def html_fromstring(self, addr, selector: str = None, idx: int = None):
-        return self.document_fromstring(self.http_get(addr), selector, idx)
+    def html_fromstring(self, url, selector: str = None, idx: int = None):
+        params = {}
+        if isinstance(url, dict):
+            params = url['params']
+            url = url['url']
+        return self.document_fromstring(self.http_get(url, **params), selector, idx)
 
     def _multi_thread_callback(self):
 
@@ -144,5 +150,6 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
 
     def cf_protect(self, url):
         cf = CloudFlareProtect()
-        self._storage['cookies'] = cf.run(url)
-        return self._storage['cookies']
+        params = cf.run(url)
+        self._storage['cookies'] = params[0]
+        self._storage['user_agent'] = params[1]

@@ -13,6 +13,7 @@ sys_path.append(path.realpath(path.join(root_path, '..')))
 from libs.providers import get_provider
 from libs.providers.provider import Provider
 from libs.image import Image
+from libs import fs
 
 
 class TestCase(unittest.TestCase):
@@ -27,7 +28,7 @@ class TestCase(unittest.TestCase):
 
     def test_manual_crop(self):
         for file in self.paths:
-            path.isfile(root_path + file[1]) and unlink(root_path + file[1])
+            fs.unlink(root_path + file[1])
 
             image = PilImage.open(root_path + file[0])
 
@@ -47,7 +48,7 @@ class TestCase(unittest.TestCase):
 
     def test_manual_crop_with_offsets(self):
         for file in self.paths:
-            path.isfile(root_path + file[1]) and unlink(root_path + file[1])
+            fs.unlink(root_path + file[1])
 
             image = PilImage.open(root_path + file[0])
 
@@ -67,7 +68,7 @@ class TestCase(unittest.TestCase):
 
     def test_auto_crop1(self):
         file = self.paths[0]
-        path.isfile(root_path + file[1]) and unlink(root_path + file[1])
+        fs.unlink(root_path + file[1])
 
         image = PilImage.open(root_path + file[0])
 
@@ -87,7 +88,7 @@ class TestCase(unittest.TestCase):
 
     def test_auto_crop2(self):
         file = self.paths[1]
-        path.isfile(root_path + file[1]) and unlink(root_path + file[1])
+        fs.unlink(root_path + file[1])
 
         image = PilImage.open(root_path + file[0])
 
@@ -107,7 +108,7 @@ class TestCase(unittest.TestCase):
 
     def test_auto_crop3(self):
         file = self.paths[4]
-        path.isfile(root_path + file[1]) and unlink(root_path + file[1])
+        fs.unlink(root_path + file[1])
 
         image = PilImage.open(root_path + file[0])
 
@@ -130,7 +131,7 @@ class TestCase(unittest.TestCase):
 
     def test_gray1(self):
         file = self.paths[1]
-        path.isfile(root_path + file[1]) and unlink(root_path + file[1])
+        fs.unlink(root_path + file[1])
         image = Image(root_path + file[0])
 
         image.gray(root_path + file[1])
@@ -160,13 +161,21 @@ class TestCase(unittest.TestCase):
 
     # failed
     def test_get_provider2(self):
-        provider = get_provider('http://google.com/manga/name/here')
+        provider = get_provider('http://example.org/manga/name/here')
         self.assertFalse(provider)
 
-    def test_(self):
-        pass
+    def test_root_path(self):
+        self.assertEqual(path.realpath(fs.path_join(root_path, '..')), fs.get_current_path())
+
+    def test_file_name_query_remove(self):
+        name = '/addr/to/filename'
+        self.assertEqual(
+            name,
+            fs.remove_file_query_params(name + '?query=params')
+            .replace('\\', '/')  # windows os patch
+        )
 
 
 if __name__ == '__main__':
-    path.isdir(root_path + '/temp') or makedirs(root_path + '/temp')
+    fs.make_dirs(root_path + '/temp')
     unittest.main()

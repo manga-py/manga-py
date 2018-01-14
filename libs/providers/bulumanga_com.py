@@ -56,10 +56,10 @@ class Bulumanga(Provider):
         content = self.json.loads(self.http_get(uri))
         return [i['link'] for i in content['pages']]
 
-    def get_cookies(self):
+    def prepare_cookies(self):
         pass
 
-    def _loop_callback_volumes(self):
+    def _loop_callback_chapters(self):
         pass
 
     def _loop_callback_files(self):
