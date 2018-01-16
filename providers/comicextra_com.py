@@ -29,7 +29,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    test = re.search('\\.com/comic/([^/+])', url)
+    test = re.search('\\.com/comic/([^/]+)', url)
     if test:
         return test.groups()[0]
     test = re.search('\\.com/([^/]+)/chapter', url)
