@@ -66,7 +66,6 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
     def loop_files(self):
         archive = Archive()
 
-        print(len(self._storage['files']))
         if isinstance(self._storage['files'], list) and len(self._storage['files']) > 0:
 
             if self._params.get('no_multi_threads', False):
@@ -76,8 +75,6 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
                 self._multi_thread_save(archive, self._storage['files'])
 
             self.make_archive(archive)
-            print('make archive')
-        print('end loop files')
 
     def save_file(self, _url, _path):
         if not is_file(_path):
@@ -89,9 +86,14 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
 
         if not _path:
             _path = str(self._storage['current_chapter'])
+
+        name = self._params.get('name', '')
+        if not len(name):
+            name = self._storage['manga_name']
+
         _path = path_join(
             self._params.get('path_destination', 'Manga'),
-            self._params.get('name', self.get_manga_name()),
+            name,
             _path + '.zip'
         )
         info = 'Site: {}\nDownloader: {}\nVersion: {}'.format(self.get_url(), __downloader_uri__, __version__)
