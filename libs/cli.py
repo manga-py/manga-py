@@ -5,8 +5,8 @@ from os import name as os_name
 from progressbar import ProgressBar
 
 from libs.parser import Parser
-from manga import __version__
 
+__version__ = '1.0.0'
 __downloader_uri__ = 'https://github.com/yuru-yuri/manga-dl'
 
 

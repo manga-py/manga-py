@@ -18,7 +18,6 @@ from libs.gui import Gui
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
 __email__ = 'sttv-pc@mail.ru'
-__version__ = '1.0.0'
 
 if __name__ == '__main__':
 
