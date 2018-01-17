@@ -7,7 +7,7 @@ providers_list = {
     # 'com_x_life': 'com\\-x\\.life/.+\\.html',
     # # 'comic_walker_com': 'comic\\-walker\\.com/contents/detail/.+',
     'comicextra_com': 'comicextra\\.com/.+',
-    # 'comico_jp': 'comico\\.jp/(detail|articleList).+titleNo.+',
+    'comico_jp': 'comico\\.jp/(detail|articleList).+titleNo.+',
     # 'comicsandmanga_ru': 'comicsandmanga\\.ru/online\\-reading/.+',
     # 'desu_me': 'desu\\.me/manga/.+',
     # 'eatmanga_me': 'eatmanga\\.me/.+',

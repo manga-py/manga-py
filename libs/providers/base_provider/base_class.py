@@ -88,8 +88,8 @@ class BaseProvider:
     def http_get(self, url: str, headers: dict = None, cookies: dict = None):
         return self.http().get(url=url, headers=headers, cookies=cookies)
 
-    def http_post(self, url: str, headers: dict = None, cookies: dict = None):
-        return self.http().post(url=url, headers=headers, cookies=cookies)
+    def http_post(self, url: str, headers: dict = None, cookies: dict = None, data=()):
+        return self.http().post(url=url, headers=headers, cookies=cookies, data=data)
 
     def _call_files_progress_callback(self):
         if self.files_progress_callback:
