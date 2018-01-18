@@ -16,7 +16,7 @@ class Comico(Provider):  # pragma: no cover
                 'titleNo': title_no.group(1)
             })
             try:
-                return self.json.loads(content)['result']['list']
+                return self.json.loads(content).get('result', {}).get('list', [])
             except TypeError:
                 pass
         return []
@@ -27,7 +27,8 @@ class Comico(Provider):  # pragma: no cover
 
     def get_chapters(self):  # call once
         # TODO: see i['freeFlg'] Y = true, W = false #19
-        items = [i['articleDetailUrl'] for i in self.get_main_content()]
+        items = [i['articleDetailUrl'] for i in self.get_main_content() if i['freeFlg'] == 'Y']
+        self.logger_callback('Free chapters count: %d' % len(items))
         items.reverse()
         return items
 
