@@ -48,7 +48,7 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
         self.prepare_cookies()
         self._storage['manga_name'] = self.get_manga_name()
         self._storage['main_content'] = self.get_main_content()
-        self._storage['chapters'] = self.get_chapters()
+        self._storage['chapters'] = self.get_chapters()[::-1]
 
         self._storage['init_cookies'] = self._storage['cookies']
 
@@ -76,12 +76,14 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
 
             self.make_archive(archive)
 
-    def save_file(self, _url, _path):
+    def save_file(self, _url, _path, callback=None):
+
         if not is_file(_path):
             self.http().download_file(_url, _path)
+        callable(callback) and callback()
         return _path
 
-    def make_archive(self, archive: Archive):
+    def get_archive_path(self):
         _path = remove_file_query_params(self.get_archive_name())
 
         if not _path:
@@ -91,11 +93,15 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
         if not len(name):
             name = self._storage['manga_name']
 
-        _path = path_join(
+        return path_join(
             self._params.get('path_destination', 'Manga'),
             name,
             _path + '.zip'
         )
+
+    def make_archive(self, archive: Archive):
+        _path = self.get_archive_path()
+
         info = 'Site: {}\nDownloader: {}\nVersion: {}'.format(self.get_url(), __downloader_uri__, __version__)
 
         archive.make(_path, info)
@@ -123,17 +129,19 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
 
             _url = self.http().normalize_uri(self.get_current_file())
             filename = remove_file_query_params(basename(_url))
-            _path = get_temp_path('{}_{}'.format(self._storage['current_file'], filename))
+            _path = get_temp_path('{:0>2}_{}'.format(self._storage['current_file'], filename))
 
             urls.append([idx, _url, _path])
             archive.add_file(_path)
 
         # hack
-        self._storage['current_file'] = 0
+        # hack
+        self._storage['current_file'] = 1
         for url in urls:
-            threading.add(self.save_file, (url[1], url[2]))
+            threading.add(self.save_file, (url[1], url[2], self._multi_thread_callback))
 
-        threading.start(self._multi_thread_callback)
+        threading.start()
+        self.logger_callback('')
 
     def _one_thread_save(self, archive, files):
 
@@ -144,13 +152,18 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
 
             _url = self.http().normalize_uri(self.get_current_file())
             filename = remove_file_query_params(basename(_url))
-            _path = get_temp_path('{}_{}'.format(self._storage['current_file'], filename))
+            _path = get_temp_path('{:0>2}_{}'.format(self._storage['current_file'], filename))
 
             file = self.save_file(_url, _path)
 
             archive.add_file(file)
 
     def cf_protect(self, url):
+        """
+        WARNING! Thins function replace cookies!
+        :param url: str
+        :return:
+        """
         cf = CloudFlareProtect()
         params = cf.run(url)
         self._storage['cookies'] = params[0]

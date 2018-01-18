@@ -22,7 +22,7 @@ class _Template(Provider):
     def get_main_content(self):  # call once
         pass
 
-    def get_manga_name(self):  # call once
+    def get_manga_name(self) -> str:  # call once
         return ''
 
     def get_chapters(self):  # call once

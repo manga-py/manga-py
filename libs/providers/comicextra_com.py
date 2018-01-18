@@ -10,25 +10,25 @@ class ComicExtra(Provider):
         return self._storage['current_chapter']
         # return self.re.search('(\d+)', self.get_current_chapter()).group(1)
 
-    def get_main_content(self):  # call once
+    def get_main_content(self):
         name = self.get_manga_name()
         return self.http_get('{}/comic/{}'.format(self.get_domain(), name))
 
-    def get_manga_name(self):  # call once
+    def get_manga_name(self):
         url = self.get_url()
         test = self.re.search('/comic/([^/]+)', url)
         if test:
             return test.group(1)
         return self.re.search('/([^/]+)/chapter', url).group(1)
 
-    def get_chapters(self):  # call once
+    def get_chapters(self):
         items = self.document_fromstring(self.get_main_content(), '#list td a')
         return ['%s/full' % i.get('href') for i in items]
 
-    def prepare_cookies(self):  # if site with cookie protect
+    def prepare_cookies(self):
         pass
 
-    def get_files(self):  # call ever volume loop
+    def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '.chapter-container img.chapter_img')
         return [i.get('src') for i in items]
 

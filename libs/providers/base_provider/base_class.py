@@ -92,6 +92,6 @@ class BaseProvider:
         return self.http().post(url=url, headers=headers, cookies=cookies, data=data)
 
     def _call_files_progress_callback(self):
-        if self.files_progress_callback:
+        if callable(self.files_progress_callback):
             _max, _current = len(self._storage['files']), self._storage['current_file']
             self.files_progress_callback(_max, _current, _current < 1)

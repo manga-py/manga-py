@@ -21,7 +21,7 @@ def get_cli_arguments() -> ArgumentParser:
                              help='Destination folder (Default = current directory', default='')
     args_parser.add_argument('-i', '--info', action='store_const', required=False, const=True, default=False)
     args_parser.add_argument('-np', '--no-progress', action='store_const', required=False, const=True,
-                             help='Don\'t how progress bar', default=True)
+                             help='Don\'t how progress bar', default=False)
     args_parser.add_argument('-s', '--skip-volumes', type=int, required=False, help='Skip volumes (count)', default=0)
     args_parser.add_argument('-c', '--max-volumes', type=int, required=False,
                              help='Maximum volumes for downloading 0=All (count)', default=0)

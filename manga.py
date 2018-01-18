@@ -19,13 +19,14 @@ __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
 __email__ = 'sttv-pc@mail.ru'
 
-if __name__ == '__main__':
 
-    @atexit_register
-    def before_shutdown():
-        temp_dir = get_temp_path()
-        isdir(temp_dir) and rmtree(temp_dir)
+@atexit_register
+def before_shutdown():
+    temp_dir = get_temp_path()
+    isdir(temp_dir) and rmtree(temp_dir)
 
+
+def main():
     temp_path = get_temp_path()
     isdir(temp_path) or makedirs(temp_path)
 
@@ -45,3 +46,7 @@ if __name__ == '__main__':
     gui = Gui(args)
     gui.main()
     sys_exit(app.exec_())
+
+
+if __name__ == '__main__':
+    main()
