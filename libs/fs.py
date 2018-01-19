@@ -30,8 +30,11 @@ def make_dirs(directory):
 def remove_file_query_params(name, save_path: bool = True) -> str:
     file_path = path.dirname(name)
     name = path.basename(name)
-    if name.find('?') > 0:
-        name = name[:name.find('?')]
+    position = name.find('?')
+    if position == 0:
+        name = 'image.png'  # fake image name
+    elif position > 0:
+        name = name[:position]
     return path.join(file_path, name) if save_path else name
 
 

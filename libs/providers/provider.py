@@ -54,26 +54,37 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
 
         self.loop_chapters()
 
+    def _check_archive(self):
+        # check
+        _path = self.get_archive_path()
+        not_allow_archive = not self._params.get('rewrite_exists_archives', False)
+
+        return not_allow_archive and is_file(_path)
+
     def loop_chapters(self):
         volumes = self._storage['chapters']
-        if isinstance(volumes, list) and len(volumes) > 0:
+        if isinstance(volumes, list):
             for idx, __url in enumerate(volumes):
                 self._storage['current_chapter'] = idx
                 self._loop_callback_chapters()
+
+                if self._check_archive():
+                    continue
+
                 self._storage['files'] = self.get_files()
                 self.loop_files()
 
+    def __add_file_to_archive(self, archive):
+        if self._params.get('no_multi_threads', False):
+            self._one_thread_save(archive, self._storage['files'])
+
+        else:
+            self._multi_thread_save(archive, self._storage['files'])
+
     def loop_files(self):
-        archive = Archive()
-
         if isinstance(self._storage['files'], list) and len(self._storage['files']) > 0:
-
-            if self._params.get('no_multi_threads', False):
-                self._one_thread_save(archive, self._storage['files'])
-
-            else:
-                self._multi_thread_save(archive, self._storage['files'])
-
+            archive = Archive()
+            self.__add_file_to_archive(archive)
             self.make_archive(archive)
 
     def save_file(self, _url, _path, callback=None):
@@ -136,7 +147,7 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
 
         # hack
         # hack
-        self._storage['current_file'] = 1
+        self._storage['current_file'] = 0
         for url in urls:
             threading.add(self.save_file, (url[1], url[2], self._multi_thread_callback))
 

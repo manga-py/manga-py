@@ -24,7 +24,6 @@ class ReadmangaMe(Provider):
         pass
 
     def get_files(self):
-        print(self.get_current_chapter())
         _uri = self.http().normalize_uri(self.get_current_chapter())
         content = self.http_get(_uri)
         result = self.re.search('rm_h\\.init.+?(\[\[.+\]\])', content, self.re.M)
