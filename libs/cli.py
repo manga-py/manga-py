@@ -90,7 +90,7 @@ class Cli:
             self.__progress_bar = bar(range(items_count))
             self.__progress_bar.init()
 
-    def progress(self, items_count: int, current_item: int, re_init: bool = False):  # pragma: no cover
+    def progress(self, items_count: int, current_item: int, re_init: bool = False):
         if not items_count:
             return
         if not self.args.no_progress:

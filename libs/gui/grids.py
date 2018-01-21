@@ -8,14 +8,14 @@ from PyQt5.QtWidgets import (
 )
 
 
-class Base:  # pragma: no cover
+class Base:
 
     def __init__(self, parent):
 
         self.parent = parent
 
 
-class MainForm(Base):  # pragma: no cover
+class MainForm(Base):
 
     def get_base_grid(self):
 

@@ -11,7 +11,7 @@ from .config_storage import ConfigStorage
 from .grids import MainForm
 
 
-class Gui(QWidget):  # pragma: no cover
+class Gui(QWidget):
 
     window_h = 600
     window_w = 900
@@ -20,14 +20,12 @@ class Gui(QWidget):  # pragma: no cover
     config_storage = None
     lang_btn = None
     quit_question = False
+    provider = None
 
     def __init__(self, args: ArgumentParser):
         super().__init__()
         self.args = args.parse_args()
         self.parser = Parser(args)
-        self.parser.set_logger_callback(self.print)
-        self.parser.set_progress_callback(self.progress)
-        self.parser.set_quest_callback(self.quest)
         self.config_storage = ConfigStorage()
         self.grids = MainForm(self)
 
@@ -118,4 +116,11 @@ class Gui(QWidget):  # pragma: no cover
         pass
 
     def _run_downloader(self):
+
+        # self.provider = self.parser.init_provider(
+        #     progress_callback=self.progress,
+        #     logger_callback=self.print,
+        #     quest_callback=self.quest
+        # )
+
         pass

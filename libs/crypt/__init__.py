@@ -1,0 +1,1 @@
+from .kissmanga_com_crypt import KissMangaComCrypt
