@@ -31,6 +31,14 @@ class KissMangaCom(Provider):
     def prepare_cookies(self):
         self.cf_protect(self.get_url())
 
+    def __decrypt_images(self, crypt, key, hexes):
+        images = []
+        for i in hexes:
+            img = crypt.decrypt(self.__local_data['iv'], key, i)
+            images.append(img)
+
+        return images
+
     def get_files(self):
         crypt = KissMangaComCrypt()
 
@@ -47,10 +55,7 @@ class KissMangaCom(Provider):
         if not hexes:
             return []
 
-        images = []
-        for i in hexes:
-            img = crypt.decrypt(self.__local_data['iv'], key, i)
-            images.append(img)
+        images = self.__decrypt_images(crypt, key, hexes)
 
         return images
 
