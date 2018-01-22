@@ -89,7 +89,7 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
             self.make_archive(archive)
 
     def save_file(self, _url, _path, callback=None):
-        _path = "".join(i for i in _path if 39 < ord(i) < 60 or 63 < ord(i) < 94 or 96 < ord(i) < 127)
+        _path = self.remove_not_ascii(_path)
 
         if not is_file(_path):
             self.http().download_file(_url, _path)
