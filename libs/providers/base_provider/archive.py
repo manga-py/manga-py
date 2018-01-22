@@ -4,27 +4,29 @@ from libs.fs import is_file, make_dirs, basename, dirname, unlink
 
 
 class Archive:
+    files = None
 
     def __init__(self):
         self.files = []
 
-    def add_file(self, file):
-        self.files.append(file)
+    def add_file(self, file, in_arc_name=None):
+        if in_arc_name is None:
+            in_arc_name = basename(file)
+        self.files.append((file, in_arc_name))
 
     def set_files_list(self, files):
         self.files = files
 
     def make(self, dist, info_file=None):
         if not len(self.files):
-            print('files == [] archive.py:19')
             return
 
         make_dirs(dirname(dist))
         archive = ZipFile(dist, 'w', ZIP_DEFLATED)
 
         for file in self.files:
-            if is_file(file):
-                archive.write(file, basename(file))
+            if is_file(file[0]):
+                archive.write(file[0], file[1])
 
         info_file and archive.writestr('info.txt', info_file)
 
@@ -34,4 +36,4 @@ class Archive:
 
     def _maked(self):
         for file in self.files:
-            unlink(file)
+            unlink(file[0])

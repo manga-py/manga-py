@@ -5,15 +5,18 @@ import json
 class ConfigStorage:
 
     __config_path = ''
-    __storage = {}
-    __lang = {}
-    __lang_idx = {}
+    __storage = None
+    __lang = None
+    __lang_idx = None
     __langs_list = None
 
     def __init__(self):
+        self.__storage = {}
+        self.__lang = {}
+        self.__lang_idx = {}
         self.__init_config_path()
         self.__load_config()
-        self.__load_lang(self.__storage['lang'])
+        self.__load_lang(self.__storage.get('lang', 'en'))
 
     def __init_config_path(self):
         self.__config_path = fs.path_join(fs.get_util_home_path(), 'config.json')

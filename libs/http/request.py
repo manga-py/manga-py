@@ -6,8 +6,9 @@ from .url_normalizer import UrlNormalizer
 
 
 class Request:
+    __redirect_base_url = ''
     referrer_url = ''
-    proxies = {}
+    proxies = None
     allow_webp = True
     user_agent = '%s %s %s %s' % (
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
@@ -15,15 +16,24 @@ class Request:
         'Chrome/60.0.3112.101',
         'Safari/537.36'
     )
-    cookies = {}
+    cookies = None
+
+    def __init__(self):
+        self.proxies = {}
+        self.cookies = {}
 
     def _get_cookies(self, cookies=None):
         return cookies if cookies else self.cookies
+
+    def _prepare_redirect_base_url(self, url):
+        if not self.__redirect_base_url:
+            self.__redirect_base_url = url
 
     def _requests_helper(
             self, method, url, headers=None, cookies=None, data=None,
             files=None, max_redirects=10, timeout=None, proxies=None
     ) -> requests.Response:
+        self._prepare_redirect_base_url(url)
         r = getattr(requests, method)(
             url=url, headers=headers, cookies=cookies, data=data,
             files=files, allow_redirects=False, proxies=proxies
@@ -31,10 +41,12 @@ class Request:
         if r.is_redirect:
             if max_redirects < 1:
                 raise AttributeError('Too many redirects')
-            location = UrlNormalizer.url_helper(r.headers['location'], self.referrer_url)
+            location = UrlNormalizer.url_helper(r.headers['location'], self.__redirect_base_url)
             return self._requests_helper(
-                method, location, headers, cookies, data,
-                files, max_redirects-1, timeout=timeout
+                method=method, url=location, headers=headers,
+                cookies=cookies, data=data, files=files,
+                max_redirects=(max_redirects-1),
+                timeout=timeout, proxies=proxies
             )
         return r
 
@@ -89,30 +101,12 @@ class Request:
         elif isinstance(proxy, str):
             self.proxies['http'] = proxy
 
-    def __parse_cookies(self, response: requests.Response, domain: str, cookies: dict):
-            for i in cookies:
-                if isinstance(i, str):
-                    self.user_agent = i
-                elif isinstance(i, dict):
-                    response.cookies.set(
-                        name=i.get('name'),
-                        value=i.get('value'),
-                        domain=i.get('domain', domain),
-                        path=i.get('path', '/')
-                    )
-
-    def get_base_cookies(self, url: str, cookies=None):
+    def get_base_cookies(self, url: str):
         """
         :param url:
-        :param cookies: ('User-agent', {"name": "Cookie name", "value": "Cookie value",
-         "domain": "Cookie domain", "path": "Cookie path") -> tuple
         :return:
         """
         session = requests.Session()
         h = session.head(url)
-        if isinstance(cookies, dict):
-            _ = urlparse(self.referrer_url)
-            domain = "{}://{}".format(_.scheme, _.netloc)
-            self.__parse_cookies(h, domain, cookies)
         session.close()
         return h.cookies

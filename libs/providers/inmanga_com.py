@@ -3,7 +3,7 @@ from .provider import Provider
 
 class InMangaCom(Provider):
 
-    __local_storage = {}
+    __local_storage = None
 
     def get_archive_name(self) -> str:
         return 'vol_{:0>3}'.format(self.get_chapter_index())
@@ -38,7 +38,7 @@ class InMangaCom(Provider):
         return items[::-1]
 
     def prepare_cookies(self):
-        pass
+        self.__local_storage = {}
 
     def get_files(self):
         chapter = self.get_current_chapter()

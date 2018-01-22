@@ -6,24 +6,30 @@ from libs.image import Image
 
 
 class BaseProvider:
-    _storage = {
-        'cookies': [],
-        'main_content': '',
-        'chapters': [],
-        'current_chapter': 0,
-        'current_file': 0
-    }
-    _params = {
-        'path_destination': 'Manga'
-    }
-    _image_params = {
-        'crop': None,
-        # 'crop': (left, upper, width, height)
-        'offsets_crop': None,
-        # 'crop': (left, upper, right, lower)
-        'auto_crop': None,
-        # 'auto_crop': {'max_crop_size': 40, 'auto_crop_factor': 150},
-    }
+    _storage = None
+    _params = None
+    _image_params = None
+
+    def __init__(self):
+
+        self._storage = {
+            'cookies': {},
+            'main_content': '',
+            'chapters': [],
+            'current_chapter': 0,
+            'current_file': 0
+        }
+        self._params = {
+            'path_destination': 'Manga'
+        }
+        self._image_params = {
+            'crop': None,
+            # 'crop': (left, upper, width, height)
+            'offsets_crop': None,
+            # 'crop': (left, upper, right, lower)
+            'auto_crop': None,
+            # 'auto_crop': {'max_crop_size': 40, 'auto_crop_factor': 150},
+        }
 
     def get_url(self):
         return self._params['url']

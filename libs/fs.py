@@ -1,5 +1,5 @@
 import tempfile
-from os import path, name as os_name, getpid, unlink as os_unlink, makedirs
+from os import path, name as os_name, getpid, unlink as os_unlink, makedirs, stat
 from pathlib import Path
 from shutil import rmtree
 
@@ -63,3 +63,16 @@ def unlink(_path):
         return rmtree(_path)
     if is_file(_path):
         return os_unlink(_path)
+
+
+def os_stat(_path):
+    if is_file(_path):
+        return stat(_path)
+    return None
+
+
+def file_size(_path):
+    data = os_stat(_path)
+    if data:
+        return data.st_size
+    return None

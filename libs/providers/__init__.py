@@ -1,5 +1,38 @@
 import re
 
+
+"""
+TODO:
+
+
+class Reg(object):
+  def __init__(self, domain):
+    self.domain = domain
+
+class RegA(Registrar):
+  @classmethod
+  def is_reg_for(cls, domain):
+    return domain == 'foo.com'
+
+class RegB(Registrar):
+  @classmethod
+  def is_reg_for(cls, domain):
+    return domain == 'bar.com'
+
+
+def Domain(domain):
+  for cls in Reg.__subclasses__():
+    if cls.is_reg_for(domain):
+      return cls(domain)
+  raise ValueError
+
+
+print Domain('foo.com')
+print Domain('bar.com')
+
+
+"""
+
 providers_list = {
     # # 'comic_walker_com': 'comic\\-walker\\.com/contents/detail/.+',
     'comicextra_com': 'comicextra\\.com/.+',

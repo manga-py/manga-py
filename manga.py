@@ -35,7 +35,7 @@ def main():
     if parse_args.cli:
         cli = Cli(args)
         cli.start()
-        exit(0 if cli.status else 1)
+        exit(int(cli.status))
 
     # if parse_args.server:
     #     cli = Server(args)

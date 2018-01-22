@@ -7,13 +7,14 @@ __downloader_uri__ = 'https://github.com/yuru-yuri/manga-dl'
 
 class Parser:
 
-    params = {}
+    params = None
     provider = None
     _logger_callback = None
     _progress_callback = None
     _quest_callback = None
 
     def __init__(self, args):
+        self.params = {}
         self.args = args
         self._add_params(args)
 

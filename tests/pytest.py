@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import json
 import unittest
-from os import path, unlink, makedirs
+from os import path
+from shutil import copyfile
 from sys import path as sys_path
 
 from PIL import Image as PilImage
@@ -11,6 +13,7 @@ root_path = path.dirname(path.realpath(__file__))
 sys_path.append(path.realpath(path.join(root_path, '..')))
 
 from libs.providers import get_provider
+from libs.providers.base_provider import BaseProvider, Archive, CloudFlareProtect, StaticMethods
 from libs.providers.provider import Provider
 from libs.image import Image
 from libs import fs
@@ -174,6 +177,102 @@ class TestCase(unittest.TestCase):
             fs.remove_file_query_params(name + '?query=params')
             .replace('\\', '/')  # windows os patch
         )
+
+
+class TestBaseClass(unittest.TestCase):
+
+    def test_base0(self):
+        bp = BaseProvider()
+        domain = 'http://example.org'
+        bp._params['url'] = domain + '/manga/here.html'
+        self.assertEqual(bp._params['url'], bp.get_url())
+        self.assertEqual(domain, bp.get_domain())
+
+    def test_base1(self):
+        bp = BaseProvider()
+        self.assertRaises(KeyError, bp.get_url)
+
+    def test_autocrop(self):
+        bp = BaseProvider()
+        img = TestCase.paths[0]
+        fs.unlink(root_path + img[1])
+        bp.image_auto_crop(root_path + img[0], root_path + img[1])
+        self.assertTrue(fs.is_file(root_path + img[1]))
+
+    def test_manualcrop0(self):
+        bp = BaseProvider()
+        img = TestCase.paths[0]
+        fs.unlink(root_path + img[1])
+        bp._image_params['crop'] = (10, 2, 100, 100)
+        bp.image_manual_crop(root_path + img[0], root_path + img[1])
+        self.assertTrue(fs.is_file(root_path + img[1]))
+
+    def test_manualcrop1(self):
+        bp = BaseProvider()
+        img = TestCase.paths[0]
+        fs.unlink(root_path + img[1])
+        bp._image_params['offsets_crop'] = (10, 32, 12, 5)
+        bp.image_manual_crop(root_path + img[0], root_path + img[1])
+        self.assertTrue(fs.is_file(root_path + img[1]))
+
+    def test_get(self):
+        bp = BaseProvider()
+        bp._params['url'] = 'http://example.org/manga/here.html'
+        url = 'https://httpbin.org/get'
+        self.assertEqual(url, json.loads(bp.http_get(url))['url'])
+
+    def test_post(self):
+        bp = BaseProvider()
+        bp._params['url'] = 'http://example.org/manga/here.html'
+        url = 'https://httpbin.org/post'
+        self.assertEqual(url, json.loads(bp.http_post(url))['url'])
+
+    def test_cookies0(self):
+        bp = BaseProvider()
+        bp._params['url'] = 'http://example.org/manga/here.html'
+        url = 'https://httpbin.org/cookies'
+        cookies = {'test': 'test-cookie'}
+        self.assertEqual(cookies, json.loads(bp.http_get(url, cookies=cookies))['cookies'])
+
+    def test_cookies1(self):
+        bp = BaseProvider()
+        bp._params['url'] = 'http://example.org/manga/here.html'
+        url = 'https://httpbin.org/cookies/set?test=test-cookie'
+        self.assertEqual('test-cookie', bp.http().get_base_cookies(url).get('test'))
+
+    def test_redirect0(self):
+        bp = BaseProvider()
+        bp._params['url'] = 'http://example.org/manga/here.html'
+        url = 'https://httpbin.org/redirect-to?url=https://httpbin.org/get?test=1'
+        test_data = {'test': '1'}
+        self.assertEqual(test_data, json.loads(bp.http_get(url))['args'])
+
+    def test_redirect1(self):
+        bp = BaseProvider()
+        bp._params['url'] = 'http://example.org/manga/here.html'
+        url = 'https://httpbin.org/redirect/11'
+        self.assertRaises(AttributeError, bp.http_get, url)
+
+
+class TestArchive(unittest.TestCase):
+
+    def test_make_archive(self):
+        arc = Archive()
+        arc_path = root_path + '/temp/arc.zip'
+        fs.unlink(arc_path)
+        paths = TestCase.paths
+        orig_size = 0
+        for idx, item in enumerate(paths):
+            fs.unlink(root_path + item[1])
+            copyfile(root_path + item[0], root_path + item[1])
+            orig_size += int(fs.file_size(root_path + item[1]))
+            if idx % 2:
+                arc.add_file(root_path + item[1])
+            else:
+                arc.add_file(root_path + item[1])
+        arc.make(arc_path)
+        size = fs.file_size(arc_path)
+        self.assertTrue(size and 1024 < int(size) < orig_size)
 
 
 if __name__ == '__main__':

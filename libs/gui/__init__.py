@@ -16,7 +16,7 @@ class Gui(QWidget):
     window_h = 600
     window_w = 900
     in_work = False
-    gui_params = {}
+    gui_params = None
     config_storage = None
     lang_btn = None
     quit_question = False
@@ -24,6 +24,7 @@ class Gui(QWidget):
 
     def __init__(self, args: ArgumentParser):
         super().__init__()
+        self.gui_params = {}
         self.args = args.parse_args()
         self.parser = Parser(args)
         self.config_storage = ConfigStorage()

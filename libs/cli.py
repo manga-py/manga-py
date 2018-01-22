@@ -10,7 +10,7 @@ __version__ = '1.0.0'
 __downloader_uri__ = 'https://github.com/yuru-yuri/manga-dl'
 
 
-def get_cli_arguments() -> ArgumentParser:
+def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
     args_parser = ArgumentParser()
 
     args_parser.add_argument('-v', '--version', action='version', version=__version__)

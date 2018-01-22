@@ -3,10 +3,10 @@ from threading import Thread
 
 class MultiThreads:
 
-    threads = []
+    threads = None
 
-    def __init__(self, th_id=None):
-        self.__th_id = th_id
+    def __init__(self):
+        self.threads = []
 
     def add_thread(self, target: callable, args: tuple):
         self.threads.append(Thread(target=target, args=args))

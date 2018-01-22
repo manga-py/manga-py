@@ -8,16 +8,8 @@ class CloudFlareProtect:
 
     def run(self, url):
 
-        if not len(self.protector):
+        if not self.protector:
             scr = cfscrape.create_scraper()
-            response, user_agent = scr.get_tokens(url)
-
-            self.protector = [
-                {
-                    '__cfduid': response.get('__cfduid'),
-                    'cf_clearance': response.get('cf_clearance'),
-                },
-                user_agent
-            ]
+            self.protector = scr.get_tokens(url)
 
         return self.protector

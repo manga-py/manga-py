@@ -16,6 +16,7 @@ class Http(Request):
             proxies=None,
             cookies=None,
     ):
+        super().__init__()
         self.__set_param('allow_webp', allow_webp)
         self.__set_param('referrer_url', referrer_url)
         self.__set_param('user_agent', user_agent)

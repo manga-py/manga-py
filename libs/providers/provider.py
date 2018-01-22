@@ -26,6 +26,7 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
     _volumes_count = 0
 
     def __init__(self):
+        super().__init__()
         self.re = re
         self.json = json
         self._params['temp_directory'] = get_temp_path()
@@ -88,6 +89,7 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
             self.make_archive(archive)
 
     def save_file(self, _url, _path, callback=None):
+        _path = "".join(i for i in _path if 39 < ord(i) < 60 or 63 < ord(i) < 94 or 96 < ord(i) < 127)
 
         if not is_file(_path):
             self.http().download_file(_url, _path)

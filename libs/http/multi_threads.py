@@ -4,7 +4,7 @@ from threading import Thread
 
 class MultiThreads:
 
-    threads = []
+    threads = None
 
     def __init__(self):
         self.threads = []
