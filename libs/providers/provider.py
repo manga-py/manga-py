@@ -179,3 +179,4 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
         params = cf.run(url)
         self._storage['cookies'] = params[0]
         self._storage['user_agent'] = params[1]
+        self._params['cf-protect'] = True

@@ -78,7 +78,7 @@ class BaseProvider:
         http_params = {
             'allow_webp': not self._params.get('disallow_webp', None),
             'referrer_url': self._storage.get('referrer', self.get_domain()),
-            'user_agent': self._params.get('user_agent', None),
+            'user_agent': self._get_user_agent(),
             'proxies': None,  # todo
             'cookies': self._storage.get('cookies', None),
         }
@@ -95,3 +95,10 @@ class BaseProvider:
         if callable(self.files_progress_callback):
             _max, _current = len(self._storage['files']), self._storage['current_file']
             self.files_progress_callback(_max, _current, _current < 1)
+
+    def _get_user_agent(self):
+        ua_storage = self._storage.get('user_agent', None)
+        ua_params = self._params.get('user_agent', None)
+        if self._params.get('cf-protect', False):
+            return ua_storage
+        return ua_params

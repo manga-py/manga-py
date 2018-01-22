@@ -10,12 +10,21 @@ class KissMangaCom(Provider):
     }
 
     def get_archive_name(self) -> str:
-        return self.re.search('/Manga/[^/]+/([^/\?]+)', self.get_current_chapter()).group(1)
+        idx = self.get_chapter_index()
+        return 'Ch-{:0>3}_Vol-{:0>3}-{:0>1}'.format(*idx.split('-'))
 
     def get_chapter_index(self) -> str:
-        name = self.basename(self.get_current_chapter())
-        name = self.re.search('Vol.?(\d+).?Ch.?(\d+)', name).groups()
-        return '{}-{}'.format(*name)
+        basename = self.basename(self.get_current_chapter())
+        name = self.re.search('Vol\\-+(\d+)\\-+Ch\w*?\\-+(\d+)\\-+(\d+)', basename)
+        if name:
+            name = name.groups()
+            return '{1}-{0}-{2}'.format(*name)
+        name = self.re.search('Vol\\-+(\d+)\\-+Ch\w*?\\-+(\d+)', basename)
+        if name:
+            name = name.groups()
+            return '{1}-{0}-0'.format(*name)
+        name = self.re.search('Ch\w+\\-*(\d+)', basename).group(1)
+        return '{}-{}-0'.format(name, '0' * len(name))
 
     def get_main_content(self):
         name = self.get_manga_name()
@@ -25,7 +34,7 @@ class KissMangaCom(Provider):
         return self.re.search('/Manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        items = self.html_fromstring(self.get_main_content(), '.listing td a')
+        items = self.document_fromstring(self.get_main_content(), '.listing td a')
         return [self.get_domain() + i.get('href') for i in items]
 
     def prepare_cookies(self):

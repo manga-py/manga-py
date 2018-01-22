@@ -15,7 +15,7 @@ class Request:
         'Chrome/60.0.3112.101',
         'Safari/537.36'
     )
-    cookies = []
+    cookies = {}
 
     def _get_cookies(self, cookies=None):
         return cookies if cookies else self.cookies
