@@ -18,7 +18,7 @@ class ReadmangaMe(Provider):
         parser = self.document_fromstring(self.get_main_content(), 'div.chapters-link tr > td > a')
         if not parser:
             return []
-        return [i.get('href') for i in parser[::-1]]
+        return [i.get('href') for i in parser]
 
     def prepare_cookies(self):
         pass

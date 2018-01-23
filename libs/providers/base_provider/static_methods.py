@@ -35,4 +35,4 @@ class StaticMethods:
 
     @staticmethod
     def remove_not_ascii(str):
-        return "".join(i for i in str if 39 < ord(i) < 60 or 63 < ord(i) < 94 or 96 < ord(i) < 127)
+        return "".join(i for i in str if 39 < ord(i) < 60 or 63 < ord(i) < 94 or 96 < ord(i) < 127 or i == '_')
