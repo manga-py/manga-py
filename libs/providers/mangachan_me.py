@@ -1,5 +1,5 @@
 
-from libs.fs import dirname
+from libs.fs import dirname, path_join, get_temp_path, rename
 from .provider import Provider
 
 
@@ -29,9 +29,12 @@ class MangaChanMe(Provider):
         return self.re.search(name, self.get_url()).group(1)
 
     def loop_chapters(self):
-        path = dirname(self.get_archive_path())
+        arc_name = self.get_archive_name()
+        path = path_join(dirname(self.get_archive_path()), arc_name + '.zip')
         url = self.get_current_chapter().get('href')
-        self.save_file(url, path)
+        temp_path = get_temp_path('{:0>2}_{}-temp_arc.zip'.format(self._storage['current_chapter'], arc_name))
+        self.save_file(url, temp_path)
+        rename(temp_path, path)
 
     def get_chapters(self):
         url = self.re.search('\\.me/[^/]+/(\\d+\\-.+\\.html)', self.get_url()).group(1)
