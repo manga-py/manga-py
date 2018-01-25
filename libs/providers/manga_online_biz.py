@@ -1,5 +1,5 @@
 from .provider import Provider
-from libs.fs import get_temp_path, rename, path_join
+from libs.fs import get_temp_path, rename, path_join, dirname
 
 
 # Archive downloading example. Without images
@@ -24,16 +24,9 @@ class MangaOnlineBiz(Provider):
         return self.re.search('\\.biz/([^/]+)(?:/|\\.html)', self.get_url()).group(1)
 
     def get_arc_path(self):
-        name = self._params.get('name', '')
-        if not len(name):
-            name = self._storage['manga_name']
-
-        _path = str(self.get_archive_name())
-        return path_join(
-            self._params.get('path_destination', 'Manga'),
-            name,
-            _path + '.zip'
-        )
+        path = self.get_archive_name()
+        name = dirname(self.get_archive_path())
+        return path_join(path, name + '.zip')
 
     def download_volume(self, idx, url, manga_name):
         temp_path = get_temp_path('{:0>2}_{}-temp_arc.zip'.format(idx, manga_name))

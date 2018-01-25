@@ -51,7 +51,7 @@ providers_list = {
     'manga_online_com_ua': 'manga\\-online\\.com\\.ua/.+html',
     'mangabb_co': 'mangabb\\.co/.+',
     'mangabox_me': 'mangabox\\.me/reader/.+',
-    # 'mangachan_me': 'mangachan\\.me/[^/]+/.+',
+    'mangachan_me': 'mangachan\\.me/(related|manga|download)/.+',
     # 'mangaclub_ru': 'mangaclub\\.ru/.+',
     # 'mangadoom_co': 'mangadoom\\.co/.+',
     # 'mangaeden_com': 'mangaeden\\.com/[^/]+/[^/]+\\-manga/.+',
