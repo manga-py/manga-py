@@ -1,7 +1,7 @@
 import tempfile
 from os import path, name as os_name, getpid, unlink as os_unlink, makedirs, stat
 from pathlib import Path
-from shutil import rmtree
+from shutil import rmtree, move
 
 __dir_name__ = '.PyMangaDownloader'
 
@@ -76,3 +76,9 @@ def file_size(_path):
     if data:
         return data.st_size
     return None
+
+
+def rename(_from, _to):
+    if is_file(_from) or is_dir(_from):
+        is_dir(dirname(_to)) or makedirs(dirname(_to))
+        move(_from, _to)

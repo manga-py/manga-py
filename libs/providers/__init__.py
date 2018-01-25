@@ -47,7 +47,7 @@ providers_list = {
     'inmanga_com': 'inmanga\\.com/ver/manga/.+',
     'jurnalu_ru': 'jurnalu\\.ru/online\\-reading/.+',
     'kissmanga_com': 'kissmanga\\.com/Manga/.+',
-    # 'manga_online_biz': 'manga\\-online\\.biz/.+',
+    'manga_online_biz': 'manga\\-online\\.biz/.+',
     'manga_online_com_ua': 'manga\\-online\\.com\\.ua/.+html',
     # 'mangabb_co': 'mangabb\\.co/.+',
     # 'mangabox_me': 'mangabox\\.me/reader/.+',
