@@ -66,7 +66,7 @@ class KissMangaCom(Provider):
 
         images = self.__decrypt_images(crypt, key, hexes)
 
-        return images
+        return [i.replace('\x10', '') for i in images]
 
     def _loop_callback_chapters(self):
         pass
