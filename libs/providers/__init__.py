@@ -50,7 +50,7 @@ providers_list = {
     'manga_online_biz': 'manga\\-online\\.biz/.+',
     'manga_online_com_ua': 'manga\\-online\\.com\\.ua/.+html',
     'mangabb_co': 'mangabb\\.co/.+',
-    # 'mangabox_me': 'mangabox\\.me/reader/.+',
+    'mangabox_me': 'mangabox\\.me/reader/.+',
     # 'mangachan_me': 'mangachan\\.me/[^/]+/.+',
     # 'mangaclub_ru': 'mangaclub\\.ru/.+',
     # 'mangadoom_co': 'mangadoom\\.co/.+',

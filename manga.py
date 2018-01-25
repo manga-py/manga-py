@@ -20,13 +20,13 @@ __license__ = 'MIT'
 __email__ = 'sttv-pc@mail.ru'
 
 
-@atexit_register
-def before_shutdown():
-    temp_dir = get_temp_path()
-    isdir(temp_dir) and rmtree(temp_dir)
-
-
 def main():
+
+    @atexit_register
+    def before_shutdown():
+        temp_dir = get_temp_path()
+        isdir(temp_dir) and rmtree(temp_dir)
+
     temp_path = get_temp_path()
     isdir(temp_path) or makedirs(temp_path)
 
