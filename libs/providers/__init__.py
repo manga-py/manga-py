@@ -52,7 +52,7 @@ providers_list = {
     'mangabb_co': 'mangabb\\.co/.+',
     'mangabox_me': 'mangabox\\.me/reader/.+',
     'mangachan_me': 'mangachan\\.me/(related|manga|download)/.+',
-    # 'mangaclub_ru': 'mangaclub\\.ru/.+',
+    'mangaclub_ru': 'mangaclub\\.ru/.+',
     # 'mangadoom_co': 'mangadoom\\.co/.+',
     # 'mangaeden_com': 'mangaeden\\.com/[^/]+/[^/]+\\-manga/.+',
     # 'mangafox_me': 'mangafox\\.me/manga/.+',
