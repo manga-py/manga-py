@@ -57,7 +57,7 @@ providers_list = {
     'mangafox_la': 'mangafox\\.(me|la)/manga/.+',
     'mngdoom_com': '(mangadoom\\.co|mngdoom\\.com)/.+',
     # 'mangafreak_net': 'mangafreak\\.net/.+',  # with cf-protect
-    # 'mangago_me': 'mangago\\.me/read\\-manga/.+',  # with cf-protect
+    'mangago_me': 'mangago\\.me/read\\-manga/.+',
     # 'mangahead_me': 'mangahead\\.me/.*Manga-\w+-Scan/.+',
     # 'mangahere_co': 'mangahere\\.co/manga/.+',
     # 'mangahome_com': 'mangahome\\.com/manga/.+',
