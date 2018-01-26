@@ -1,7 +1,7 @@
 from .provider import Provider
 
 
-class _Template(Provider):
+class MangaClubRu(Provider):
 
     local_storage = None
 
@@ -26,13 +26,15 @@ class _Template(Provider):
 
     def get_chapters(self):
         selector = '.manga-ch-list-item > a[href^="http"]'
-        return []
+        parser = self.document_fromstring(self.get_main_content(), selector)
+        return [i.get('href') for i in parser]
 
     def prepare_cookies(self):
         pass
 
     def get_files(self):
-        return []
+        result = self.html_fromstring(self.get_current_chapter(), '.manga-lines-page a.manga-lines')
+        return [i.get('data-i') for i in result]
 
     def _loop_callback_chapters(self):
         pass
@@ -41,4 +43,4 @@ class _Template(Provider):
         pass
 
 
-main = _Template
+main = MangaClubRu
