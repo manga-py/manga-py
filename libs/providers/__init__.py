@@ -53,9 +53,9 @@ providers_list = {
     'mangabox_me': 'mangabox\\.me/reader/.+',
     'mangachan_me': 'mangachan\\.me/(related|manga|download)/.+',
     'mangaclub_ru': 'mangaclub\\.ru/.+',
-    # 'mangadoom_co': 'mangadoom\\.co/.+',
-    # 'mangaeden_com': 'mangaeden\\.com/[^/]+/[^/]+\\-manga/.+',
-    # 'mangafox_me': 'mangafox\\.me/manga/.+',
+    'mangaeden_com': 'mangaeden\\.com/[^/]+/[^/]+\\-manga/.+',
+    'mangafox_la': 'mangafox\\.(me|la)/manga/.+',
+    'mngdoom_com': '(mangadoom\\.co|mngdoom\\.com)/.+',
     # 'mangafreak_net': 'mangafreak\\.net/.+',  # with cf-protect
     # 'mangago_me': 'mangago\\.me/read\\-manga/.+',  # with cf-protect
     # 'mangahead_me': 'mangahead\\.me/.*Manga-\w+-Scan/.+',
