@@ -5,10 +5,7 @@
 ## Functions:
 
 ```python
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
-from libs.providers.provider import Provider
+from libs.provider import Provider
 
 
 class _Template(Provider):

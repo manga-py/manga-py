@@ -1,4 +1,4 @@
-from .provider import Provider
+from libs.provider import Provider
 
 
 class GoodMangaNet(Provider):
@@ -8,18 +8,18 @@ class GoodMangaNet(Provider):
         return 'vol_{:0>3}'.format(idx)
 
     def get_chapter_index(self) -> str:
-        return self.re.search('/chapter/(\d+)', self.get_current_chapter()).group(1)
+        return self.re.search('/chapter/(\\d+)', self.get_current_chapter()).group(1)
 
     def get_main_content(self):
         url = self.get_url()
         if url.find('/chapter/') > 0:
             url = self.html_fromstring(url, '#manga_head h3 > a', 0).get('href')
-        _id = self.re.search('net/(\d+/[^/]+)', url).group(1)
+        _id = self.re.search('net/(\\d+/[^/]+)', url).group(1)
         return self.http_get('{}/{}'.format(self.get_domain(), _id))
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        reg = '/([^/]+)/chapter/|net/\d+/([^/]+)'
+        reg = '/([^/]+)/chapter/|net/\\d+/([^/]+)'
         groups = self.re.search(reg, url).groups()
         return groups[0] if groups[0] else groups[1]
 

@@ -1,4 +1,4 @@
-from .provider import Provider
+from libs.provider import Provider
 
 
 class _Template(Provider):
@@ -30,7 +30,7 @@ class _Template(Provider):
         if not self.__local_storage.get('chapters', False):
             self.__local_storage['chapters'] = self.get_chapters()
         if len(self.__local_storage['chapters']):
-            return self.re.search('/manga/(.+)/.+\.html', self.__local_storage['chapters'][0]).group(1)
+            return self.re.search('/manga/(.+)/.+\\.html', self.__local_storage['chapters'][0]).group(1)
         raise AttributeError()
 
     def _get_chapters_cmanga(self):

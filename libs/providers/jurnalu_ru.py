@@ -1,4 +1,4 @@
-from .provider import Provider
+from libs.provider import Provider
 
 
 class JurnaluRu(Provider):
@@ -26,7 +26,7 @@ class JurnaluRu(Provider):
         return self.re.search('/online\\-reading/[^/]+/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        name = self.re.search('(online\-reading/[^/]+/[^/]+)', self.get_url())
+        name = self.re.search('(online\\-reading/[^/]+/[^/]+)', self.get_url())
         if not name:
             return []
         items = self.document_fromstring(self.get_main_content(), 'select.magSelection option')

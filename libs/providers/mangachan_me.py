@@ -1,6 +1,6 @@
 
 from libs.fs import dirname, path_join, get_temp_path, rename
-from .provider import Provider
+from libs.provider import Provider
 
 
 class MangaChanMe(Provider):

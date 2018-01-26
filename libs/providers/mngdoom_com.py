@@ -1,4 +1,4 @@
-from .provider import Provider
+from libs.provider import Provider
 
 
 class MngDoomCom(Provider):
@@ -31,7 +31,7 @@ class MngDoomCom(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        items = self.re.search(' images = (\[{[^;]+}\])', content)
+        items = self.re.search(' images = (\\[{[^;]+}\\])', content)
         if not items:
             return []
         try:

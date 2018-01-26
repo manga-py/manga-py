@@ -11,7 +11,7 @@ from libs.fs import (
     path_join,
 )
 from libs.http import MultiThreads
-from .base_provider import (
+from libs.providers.base_provider import (
     AbstractProvider,
     Archive,
     BaseProvider,

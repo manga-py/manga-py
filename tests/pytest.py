@@ -13,8 +13,8 @@ root_path = path.dirname(path.realpath(__file__))
 sys_path.append(path.realpath(path.join(root_path, '..')))
 
 from libs.providers import get_provider
-from libs.providers.base_provider import BaseProvider, Archive, CloudFlareProtect, StaticMethods
-from libs.providers.provider import Provider
+from libs.providers.base_provider import BaseProvider, Archive
+from libs.provider import Provider
 from libs.image import Image
 from libs import fs
 

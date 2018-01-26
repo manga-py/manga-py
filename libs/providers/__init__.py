@@ -34,16 +34,12 @@ print Domain('bar.com')
 """
 
 providers_list = {
-    # # 'comic_walker_com': 'comic\\-walker\\.com/contents/detail/.+',
     'comicextra_com': 'comicextra\\.com/.+',
     'comico_jp': 'comico\\.jp/(detail|articleList).+titleNo.+',
     'comicsandmanga_ru': 'comicsandmanga\\.ru/online\\-reading/.+',
     'desu_me': 'desu\\.me/manga/.+',
-    # 'eatmanga_me': 'eatmanga\\.me/.+',
     'funmanga_com': 'funmanga\\.com/.+',
-    # 'gogomanga_co': 'gogomanga\\.co/.+',
     'goodmanga_net': 'goodmanga\\.net/.+',
-    # 'heymanga_me': 'heymanga\\.me/manga/.+',
     'inmanga_com': 'inmanga\\.com/ver/manga/.+',
     'jurnalu_ru': 'jurnalu\\.ru/online\\-reading/.+',
     'kissmanga_com': 'kissmanga\\.com/Manga/.+',
@@ -56,11 +52,9 @@ providers_list = {
     'mangaeden_com': 'mangaeden\\.com/[^/]+/[^/]+\\-manga/.+',
     'mangafox_la': 'mangafox\\.(me|la)/manga/.+',
     'mngdoom_com': '(mangadoom\\.co|mngdoom\\.com)/.+',
-    # 'mangafreak_net': 'mangafreak\\.net/.+',  # with cf-protect
     'mangago_me': 'mangago\\.me/read\\-manga/.+',
-    # 'mangahead_me': 'mangahead\\.me/.*Manga-\w+-Scan/.+',
-    # 'mangahere_co': 'mangahere\\.co/manga/.+',
-    # 'mangahome_com': 'mangahome\\.com/manga/.+',
+    'mangahere_co': 'mangahere\\.(co|cc)/manga/.+',
+    'mangahome_com': 'mangahome\\.com/manga/.+',
     # 'mangahub_ru': 'mangahub\\.ru/.+',
     # 'mangainn_net': 'mangainn\\.net/manga/.+',
     # 'mangakakalot_com': 'mangakakalot\\.com/(manga|chapter)/.+',

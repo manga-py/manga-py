@@ -32,9 +32,9 @@ class Parser:
             quest_callback: callable = None
     ):
         provider = get_provider(self.params.get('url', ''))
-        self.provider = provider()  # provider __init__
-        if not self.provider:
+        if not provider:
             raise AttributeError('Provider not found')
+        self.provider = provider()  # provider __init__
 
         self.provider.set_progress_callback(progress_callback)
         self.provider.set_logger_callback(logger_callback)

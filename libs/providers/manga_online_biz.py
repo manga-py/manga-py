@@ -1,4 +1,4 @@
-from .provider import Provider
+from libs.provider import Provider
 from libs.fs import get_temp_path, rename, path_join, dirname
 
 

@@ -1,4 +1,4 @@
-from .provider import Provider
+from libs.provider import Provider
 
 
 class MangaGoMe(Provider):
@@ -9,7 +9,7 @@ class MangaGoMe(Provider):
         return 'vol_{:0>3}-{}-{}'.format(*idx, type)
 
     def get_chapter_index(self) -> str:
-        selector = '/(?:mf|raw)/.*?(\d+)(?:\.(\d+))?'
+        selector = '/(?:mf|raw)/.*?(\\d+)(?:\\.(\\d+))?'
         chapter = self.get_current_chapter()
         groups = self.re.search(selector, chapter).groups()
         idx = [
@@ -36,7 +36,7 @@ class MangaGoMe(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        parser = self.re.search("imgsrcs.+[^.]+?var.+?=\s?'(.+)'", content)
+        parser = self.re.search("imgsrcs.+[^.]+?var.+?=\\s?'(.+)'", content)
         if not parser:
             return []
         return parser.group(0).split(',')

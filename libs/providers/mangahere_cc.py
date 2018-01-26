@@ -1,4 +1,4 @@
-from .provider import Provider
+from libs.provider import Provider
 
 
 class MangaHereCc(Provider):
@@ -7,7 +7,7 @@ class MangaHereCc(Provider):
         return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        selector = '/manga/[^/]+/[^\d]+(\d+)'
+        selector = '/manga/[^/]+/[^\\d]+(\\d+)'
         chapter = self.get_current_chapter()
         return self.re.search(selector, chapter).group(1)
 

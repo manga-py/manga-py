@@ -1,4 +1,4 @@
-from .provider import Provider
+from libs.provider import Provider
 
 
 class InMangaCom(Provider):
@@ -23,7 +23,7 @@ class InMangaCom(Provider):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        test = self.re.search('com/ver/manga/[^/]+/\d+/[^/]+', url)
+        test = self.re.search('com/ver/manga/[^/]+/\\d+/[^/]+', url)
         if test:
             content = self.html_fromstring(url, '.chapterControlsContainer label.blue a.blue', 0)
             url = self.get_domain() + content.get('href')

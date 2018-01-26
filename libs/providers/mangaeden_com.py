@@ -1,15 +1,15 @@
-from .provider import Provider
+from libs.provider import Provider
 
 
 class MangaEdenCom(Provider):
-    uriRegex = '/[^/]+/([^/]+\-manga)/([^/]+)/?'
+    uriRegex = '/[^/]+/([^/]+\\-manga)/([^/]+)/?'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
         return 'vol_{}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('\-manga/[^/]+/(\d+)', self.get_current_chapter()).group(1)
+        idx = self.re.search('\\-manga/[^/]+/(\\d+)', self.get_current_chapter()).group(1)
         return '{}-0'.format(idx)
 
     def get_main_content(self):
@@ -29,7 +29,7 @@ class MangaEdenCom(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        result = self.re.search('var\s+pages\s+=\s+(\[{.+}\])', content)
+        result = self.re.search('var\\s+pages\\s+=\\s+(\\[{.+}\\])', content)
         items = []
         if not result:
             return []

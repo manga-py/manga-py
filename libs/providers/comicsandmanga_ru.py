@@ -1,4 +1,4 @@
-from .provider import Provider
+from libs.provider import Provider
 
 
 class ComicsAndMangaRu(Provider):
@@ -8,7 +8,7 @@ class ComicsAndMangaRu(Provider):
         return 'vol_{:0>3}'.format(index)
 
     def get_chapter_index(self) -> str:
-        return self.re.search('.+/[^/]+?(\d+)$', self.get_current_chapter()).group(1)
+        return self.re.search('.+/[^/]+?(\\d+)$', self.get_current_chapter()).group(1)
 
     def get_main_content(self):
         name = self.re.search('/(online-reading/[^/]+/[^/]+)', self.get_url())
