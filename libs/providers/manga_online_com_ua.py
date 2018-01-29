@@ -1,7 +1,7 @@
 from libs.provider import Provider
 
 
-class _Template(Provider):
+class MangaOnlineCom(Provider):
     __local_storage = None
 
     def __init_storage(self):
@@ -78,4 +78,4 @@ class _Template(Provider):
         pass
 
 
-main = _Template
+main = MangaOnlineCom
