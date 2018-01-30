@@ -5,8 +5,8 @@ clone_folder: C:\projects\manga-dl
 init:
 - ps: git config --global core.autocrlf false
 environment:
-  PIP: C:/Python35/Scripts/pip.exe
-  PYTHON: C:/Python35/python.exe
+  pip: C:/Python35/Scripts/pip.exe
+  python: C:/Python35/python.exe
 install:
 - ps: >-
     cd C:\projects\manga-dl
@@ -16,8 +16,6 @@ install:
     cp helpers/.providers_updater.py ./
 
     C:/Python35/Scripts/pip.exe install --disable-pip-version-check --user --upgrade pip setuptools
-
-    C:/Python35/Scripts/pip.exe install pyinstaller PyQt5
 
     C:/Python35/Scripts/pip.exe install -r requirements.txt
 

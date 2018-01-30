@@ -31,6 +31,7 @@ filter:
         - 'storage/'
         - 'providers/'
         - 'libs/providers/_template.py'
+        - 'helpers/__future__/*.py'
         - 'helpers/main/*.js'
         - 'helpers/inmanga_com.py'
         - 'helpers/unixmanga_nl.sh'

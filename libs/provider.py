@@ -2,7 +2,7 @@ import json
 import re
 from abc import ABCMeta
 
-from libs.cli import __version__, __downloader_uri__
+from libs.cli import __downloader_uri__
 from libs.fs import (
     get_temp_path,
     is_file,
@@ -19,6 +19,7 @@ from libs.providers.base_provider import (
     CloudFlareProtect,
     StaticMethods
 )
+from libs.version import __version__
 
 
 class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta):

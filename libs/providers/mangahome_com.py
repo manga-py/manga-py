@@ -12,7 +12,7 @@ class MangaHomeCom(Provider):
         groups = self.re.search(selector, self.get_current_chapter()).groups()
         idx = [
             groups[0],
-            0 if len(groups) < 2 else groups[1]
+            0 if groups[1] is None else groups[1]
         ]
         return '{}-{}'.format(*idx)
 
