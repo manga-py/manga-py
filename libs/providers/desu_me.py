@@ -4,10 +4,10 @@ from libs.provider import Provider
 class DesuMe(Provider):
 
     def get_archive_name(self) -> str:
-        return self.re.search('/(vol\\d+/ch\\d+)', self.get_current_chapter()).group(1).replace('/', '_')
+        return self.re_search('/(vol\\d+/ch\\d+)', self.get_current_chapter()).group(1).replace('/', '_')
 
     def get_chapter_index(self) -> str:
-        result = self.re.search('/vol(\\d+)/ch(\\d+)', self.get_current_chapter()).groups()
+        result = self.re_search('/vol(\\d+)/ch(\\d+)', self.get_current_chapter()).groups()
         return '{}-{}'.format(result[0], result[1])
 
     def get_main_content(self):
@@ -16,21 +16,21 @@ class DesuMe(Provider):
         return self.http_get(url)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.storage_main_content(), '#animeView ul h4 > a.tips')
+        parser = self.document_fromstring(self.get_storage_content(), '#animeView ul h4 > a.tips')
         return [i.get('href') for i in parser]
 
     def get_manga_name(self) -> str:
-        return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
+        return self.re_search('/manga/([^/]+)', self.get_url()).group(1)
 
     def prepare_cookies(self):
         pass
 
     def get_files(self):
         content = self.http_get(self.get_domain() + self.get_current_chapter())
-        result = self.re.search('images:\\s?(\\[\[.+\\]\\])', content, self.re.M)
+        result = self.re_search('images:\\s?(\\[\[.+\\]\\])', content, self.re.M)
         if not result:
             return []
-        root_url = self.re.search('dir:\\s?"([^"]*)"', content).group(1).replace('\\/', '/')
+        root_url = self.re_search('dir:\\s?"([^"]*)"', content).group(1).replace('\\/', '/')
 
         return [root_url + i[0] for i in self.json.loads(result.group(1))]
 

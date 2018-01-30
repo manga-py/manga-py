@@ -10,7 +10,7 @@ class MangaHubRu(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/read/[^/]+/[^\\d]+(\\d+)/(\\d+)/', self.get_current_chapter()).groups()
+        idx = self.re_search('/read/[^/]+/[^\\d]+(\\d+)/(\\d+)/', self.get_current_chapter()).groups()
         return '{}-{}'.format(*idx)
 
     def get_main_content(self):
@@ -18,10 +18,10 @@ class MangaHubRu(Provider):
         return self.http_get(url)
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.ru/([^/]+)/?', self.get_url())
+        return self.re_search('\\.ru/([^/]+)/?', self.get_url())
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.storage_main_content(), '.b-catalog-list__name a[href^="/"]')
+        parser = self.document_fromstring(self.get_storage_content(), '.b-catalog-list__name a[href^="/"]')
         return [self.get_domain() + i.get('href') for i in parser]
 
     def prepare_cookies(self):

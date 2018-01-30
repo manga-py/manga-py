@@ -60,7 +60,7 @@ providers_list = {
     'mangakakalot_com': 'mangakakalot\\.com/(manga|chapter)/.+',
     # 'mangaleader_com': 'mangaleader\\.com/read\\-.+',
     'mangalib_me': 'mangalib\\.me/.+',
-    # 'mangalife_us': 'mangalife\\.us/(read\\-online|manga)/.+',
+    'mangalife_us': 'mangalife\\.us/(read\\-online|manga)/.+',
     # 'mangamove_com': 'mangamove\\.com/manga/.+',
     # 'manganel_com': 'manganel\\.com/(manga|chapter)/.+',
     # 'mangaonlinehere_com': 'mangaonlinehere\\.com/manga\\-info/.+',

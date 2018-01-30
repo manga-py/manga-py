@@ -2,27 +2,27 @@ import json
 import re
 from abc import ABCMeta
 
-from libs.cli import __downloader_uri__
-from libs.fs import (
+from .version import __downloader_uri__
+from .fs import (
     get_temp_path,
     is_file,
     basename,
     remove_file_query_params,
     path_join,
 )
-from libs.http import MultiThreads
-from libs.providers.base_provider import (
-    AbstractProvider,
+from .http import MultiThreads
+from .base_classes import (
+    Abstract,
     Archive,
-    BaseProvider,
+    Base,
     ChapterHelper,  # TODO
     CloudFlareProtect,
-    StaticMethods
+    Static
 )
-from libs.version import __version__
+from .version import __version__
 
 
-class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta):
+class Provider(Base, Abstract, Static, metaclass=ABCMeta):
 
     _volumes_count = 0
 
@@ -56,7 +56,7 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
 
         self.loop_chapters()
 
-    def storage_main_content(self):
+    def get_storage_content(self):
         return self._storage.get('main_content', '')
 
     def _check_archive(self):

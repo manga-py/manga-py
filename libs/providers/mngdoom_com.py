@@ -8,7 +8,7 @@ class MngDoomCom(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        groups = self.re.search('\\.com?/[^/]+/(\\d+)(?:\\.(\\d+))').groups()
+        groups = self.re_search('\\.com?/[^/]+/(\\d+)(?:\\.(\\d+))').groups()
         idx = [
             groups[0],
             0 if len(groups) < 2 else groups[1]
@@ -20,10 +20,10 @@ class MngDoomCom(Provider):
         return self.http_get('{}/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.co/([^/]+)', self.get_url()).group(1)
+        return self.re_search('\\.co/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.storage_main_content(), 'ul.chapter-list > li > a')
+        items = self.document_fromstring(self.get_storage_content(), 'ul.chapter-list > li > a')
         return [i.get('href') for i in items]
 
     def prepare_cookies(self):
@@ -31,7 +31,7 @@ class MngDoomCom(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        items = self.re.search(' images = (\\[{[^;]+}\\])', content)
+        items = self.re_search(' images = (\\[{[^;]+}\\])', content)
         if not items:
             return []
         try:

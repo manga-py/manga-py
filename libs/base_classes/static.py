@@ -5,7 +5,7 @@ from lxml.html import document_fromstring
 from libs.fs import basename
 
 
-class StaticMethods:
+class Static:
 
     @staticmethod
     def document_fromstring(body, selector: str = None, idx: int = None):

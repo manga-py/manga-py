@@ -23,18 +23,18 @@ class InMangaCom(Provider):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        test = self.re.search('com/ver/manga/[^/]+/\\d+/[^/]+', url)
+        test = self.re_search('com/ver/manga/[^/]+/\\d+/[^/]+', url)
         if test:
             content = self.html_fromstring(url, '.chapterControlsContainer label.blue a.blue', 0)
             url = self.get_domain() + content.get('href')
-        test = self.re.search('com/ver/manga/([^/]+)/([^/]+)', url)
+        test = self.re_search('com/ver/manga/([^/]+)/([^/]+)', url)
         groups = test.groups()
         self.__local_storage['manga_name'] = groups[0]
         self.__local_storage['uri_hex'] = groups[1]
         return self.__local_storage['manga_name']
 
     def get_chapters(self):
-        items = self.storage_main_content()['result']
+        items = self.get_storage_content()['result']
         return items[::-1]
 
     def prepare_cookies(self):

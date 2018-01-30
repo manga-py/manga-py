@@ -1,7 +1,5 @@
 from setuptools import setup
-from libs.version import __version__
-
-github = 'https://github.com/yuru-yuri/manga-dl'
+from libs.version import __version__, __downloader_uri__
 
 setup(
     name='manga_dl',
@@ -11,8 +9,8 @@ setup(
     description='Universal assistant download manga.',
     author='Zharkov Sergey',
     author_email='sttv-pc@mail.ru',
-    url=github,
-    download_url='{}/manga-dl/archive/{}.tar.gz'.format(github, __version__),
+    url=__downloader_uri__,
+    download_url='{}/manga-dl/archive/{}.tar.gz'.format(__downloader_uri__, __version__),
     keywords=['manga-downloader', 'manga', 'automatically'],
     license='MIT',
     classifiers=[  # look here https://pypi.python.org/pypi?%3Aaction=list_classifiers

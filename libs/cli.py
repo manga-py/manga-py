@@ -7,8 +7,6 @@ from progressbar import ProgressBar
 from libs.parser import Parser
 from libs.version import __version__
 
-__downloader_uri__ = 'https://github.com/yuru-yuri/manga-dl'
-
 
 def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
     args_parser = ArgumentParser()

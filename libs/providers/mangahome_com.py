@@ -9,7 +9,7 @@ class MangaHomeCom(Provider):
 
     def get_chapter_index(self) -> str:
         selector = '/manga/[^/]+/[^\\d]+(\\d+)(?:\\.(\\d+))?'
-        groups = self.re.search(selector, self.get_current_chapter()).groups()
+        groups = self.re_search(selector, self.get_current_chapter()).groups()
         idx = [
             groups[0],
             0 if groups[1] is None else groups[1]
@@ -21,10 +21,10 @@ class MangaHomeCom(Provider):
         return self.http_get('{}/manga/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
+        return self.re_search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.storage_main_content(), '.detail-chlist a')
+        parser = self.document_fromstring(self.get_storage_content(), '.detail-chlist a')
         return [i.get('href') for i in parser]
 
     def prepare_cookies(self):

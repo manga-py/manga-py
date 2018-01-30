@@ -8,7 +8,7 @@ class ComicExtra(Provider):
 
     def get_chapter_index(self) -> str:
         return self._storage['current_chapter']
-        # return self.re.search('(\d+)', self.get_current_chapter()).group(1)
+        # return self.re_search('(\d+)', self.get_current_chapter()).group(1)
 
     def get_main_content(self):
         name = self.get_manga_name()
@@ -16,13 +16,13 @@ class ComicExtra(Provider):
 
     def get_manga_name(self):
         url = self.get_url()
-        test = self.re.search('/comic/([^/]+)', url)
+        test = self.re_search('/comic/([^/]+)', url)
         if test:
             return test.group(1)
-        return self.re.search('/([^/]+)/chapter', url).group(1)
+        return self.re_search('/([^/]+)/chapter', url).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.storage_main_content(), '#list td a')
+        items = self.document_fromstring(self.get_storage_content(), '#list td a')
         return ['%s/full' % i.get('href') for i in items]
 
     def prepare_cookies(self):

@@ -1,7 +1,7 @@
 from abc import abstractmethod
 
 
-class AbstractProvider:
+class Abstract:
 
     @abstractmethod
     def get_main_content(self):  # call once

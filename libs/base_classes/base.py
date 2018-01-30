@@ -5,7 +5,7 @@ from libs.http import Http
 from libs.image import Image
 
 
-class BaseProvider:
+class Base:
     _storage = None
     _params = None
     _image_params = None

@@ -10,7 +10,7 @@ class MangaClubRu(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/manga/view/[^/]+/v(\\d+)-c(\\d+).html').groups()
+        idx = self.re_search('/manga/view/[^/]+/v(\\d+)-c(\\d+).html').groups()
         return '{}-{}'.format(*idx)
 
     def get_main_content(self):
@@ -20,13 +20,13 @@ class MangaClubRu(Provider):
 
     def get_manga_name(self) -> str:
         selector = '\\.ru(?:/manga/view)?/(?:(\\d+\\-.+)/(.+)\\.html)'
-        html = self.re.search(selector, self.get_url())
+        html = self.re_search(selector, self.get_url())
         self.local_storage = html.groups()
         return self.local_storage[1]
 
     def get_chapters(self):
         selector = '.manga-ch-list-item > a[href^="http"]'
-        parser = self.document_fromstring(self.storage_main_content(), selector)
+        parser = self.document_fromstring(self.get_storage_content(), selector)
         return [i.get('href') for i in parser]
 
     def prepare_cookies(self):

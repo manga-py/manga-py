@@ -10,7 +10,7 @@ class Comico(Provider):
         return str(self._storage['current_chapter'])
 
     def get_main_content(self):
-        title_no = self.re.search('\\.jp/.+titleNo=(\\d+)', self.get_url())
+        title_no = self.re_search('\\.jp/.+titleNo=(\\d+)', self.get_url())
         if title_no:
             content = self.http_post('{}/api/getArticleList.nhn'.format(self.get_domain()), data={
                 'titleNo': title_no.group(1)
@@ -27,7 +27,7 @@ class Comico(Provider):
 
     def get_chapters(self):
         # TODO: see i['freeFlg'] Y = true, W = false #19
-        items = [i['articleDetailUrl'] for i in self.storage_main_content() if i['freeFlg'] == 'Y']
+        items = [i['articleDetailUrl'] for i in self.get_storage_content() if i['freeFlg'] == 'Y']
         self.logger_callback('Free chapters count: %d' % len(items))
         return items[::-1]
 

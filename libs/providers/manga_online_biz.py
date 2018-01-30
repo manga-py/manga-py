@@ -12,7 +12,7 @@ class MangaOnlineBiz(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/download/[^/]+/.+?_(\\d+)_(\\d+)', self.chapter_url).groups()
+        idx = self.re_search('/download/[^/]+/.+?_(\\d+)_(\\d+)', self.chapter_url).groups()
         return '{}-{}'.format(*idx)
 
     def get_main_content(self):
@@ -21,7 +21,7 @@ class MangaOnlineBiz(Provider):
         return self.http_get(url)
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.biz/([^/]+)(?:/|\\.html)', self.get_url()).group(1)
+        return self.re_search('\\.biz/([^/]+)(?:/|\\.html)', self.get_url()).group(1)
 
     def get_arc_path(self):
         path = self.get_archive_name()
@@ -42,7 +42,7 @@ class MangaOnlineBiz(Provider):
             self.download_volume(idx, url, manga_name)
 
     def get_chapters(self):
-        json_data = self.re.search('MangaChapter\\((.+)\\);', self.storage_main_content()).group(1)
+        json_data = self.re_search('MangaChapter\\((.+)\\);', self.get_storage_content()).group(1)
         items = self.json.loads(json_data)
         return [self.get_domain() + i.get('downloadUrl') for i in items]
 
