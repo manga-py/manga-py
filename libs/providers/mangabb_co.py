@@ -20,7 +20,7 @@ class MangabbCo(Provider):
         return self.re.search('\\.co/(?:manga/)?([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        content = self.get_main_content()
+        content = self.storage_main_content()
         if not content:
             return []
         selector = '#asset_1 select.chapter_select > option'

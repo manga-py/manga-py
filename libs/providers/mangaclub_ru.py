@@ -26,7 +26,7 @@ class MangaClubRu(Provider):
 
     def get_chapters(self):
         selector = '.manga-ch-list-item > a[href^="http"]'
-        parser = self.document_fromstring(self.get_main_content(), selector)
+        parser = self.document_fromstring(self.storage_main_content(), selector)
         return [i.get('href') for i in parser]
 
     def prepare_cookies(self):

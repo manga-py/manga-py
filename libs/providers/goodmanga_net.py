@@ -28,7 +28,7 @@ class GoodMangaNet(Provider):
         return [i.get('href') for i in parser.cssselect('#chapters li > a')]
 
     def get_chapters(self):
-        content = self.get_main_content()
+        content = self.storage_main_content()
         if not content:
             return []
         parser = self.document_fromstring(content)

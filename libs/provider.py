@@ -56,6 +56,9 @@ class Provider(BaseProvider, AbstractProvider, StaticMethods, metaclass=ABCMeta)
 
         self.loop_chapters()
 
+    def storage_main_content(self):
+        return self._storage.get('main_content', '')
+
     def _check_archive(self):
         # check
         _path = self.get_archive_path()

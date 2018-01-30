@@ -21,7 +21,7 @@ class MangaHubRu(Provider):
         return self.re.search('\\.ru/([^/]+)/?', self.get_url())
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_main_content, '.b-catalog-list__name a[href^="/"]')
+        parser = self.document_fromstring(self.storage_main_content(), '.b-catalog-list__name a[href^="/"]')
         return [self.get_domain() + i.get('href') for i in parser]
 
     def prepare_cookies(self):

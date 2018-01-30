@@ -25,7 +25,7 @@ class MangaInnNet(Provider):
         return name.group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_main_content(), '#chapter_list a[href]')
+        items = self.document_fromstring(self.storage_main_content(), '#chapter_list a[href]')
         return [i.get('href') for i in items]
 
     def prepare_cookies(self):

@@ -26,7 +26,7 @@ class MangaGoMe(Provider):
         return self.re.search('/read\\-manga/([^/]+)/', self.get_url()).group(1)
 
     def get_chapters(self):
-        content = self.get_main_content()
+        content = self.storage_main_content()
         chapters = content.cssselect('#chapter_table a.chico')
         raws = content.cssselect('#raws_table a.chico')
         return [i.get('href') for i in chapters + raws]

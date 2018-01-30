@@ -19,7 +19,7 @@ class MangaHereCc(Provider):
         return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_main_content(), '.detail_list .left a')
+        parser = self.document_fromstring(self.storage_main_content(), '.detail_list .left a')
         return [i.get('href') for i in parser]
 
     def prepare_cookies(self):

@@ -22,7 +22,7 @@ class MangaKakalotCom(Provider):
         return self.re.search('/(?:manga|chapter)/([^/]+)/?', self.get_url())
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_main_content(), '.chapter-list span a')
+        items = self.document_fromstring(self.storage_main_content(), '.chapter-list span a')
         return [i.get('href') for i in items]
 
     def prepare_cookies(self):

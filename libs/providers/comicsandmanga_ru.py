@@ -19,7 +19,7 @@ class ComicsAndMangaRu(Provider):
         return name.group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_main_content(), '.MagList > .MagListLine > a')
+        items = self.document_fromstring(self.storage_main_content(), '.MagList > .MagListLine > a')
         print(len(items))
         return [i.get('href') for i in items[::-1]]
 

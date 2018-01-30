@@ -29,7 +29,7 @@ class JurnaluRu(Provider):
         name = self.re.search('(online\\-reading/[^/]+/[^/]+)', self.get_url())
         if not name:
             return []
-        items = self.document_fromstring(self.get_main_content(), 'select.magSelection option')
+        items = self.document_fromstring(self.storage_main_content(), 'select.magSelection option')
         url = '{}/{}/'.format(self.get_domain(), name.group(1))
         return [url + i.get('value') for i in items]
 

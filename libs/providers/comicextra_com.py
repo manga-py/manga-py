@@ -22,7 +22,7 @@ class ComicExtra(Provider):
         return self.re.search('/([^/]+)/chapter', url).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_main_content(), '#list td a')
+        items = self.document_fromstring(self.storage_main_content(), '#list td a')
         return ['%s/full' % i.get('href') for i in items]
 
     def prepare_cookies(self):

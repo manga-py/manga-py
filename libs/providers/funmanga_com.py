@@ -19,7 +19,7 @@ class FunMangaCom(Provider):
         return self.re.search('\\.com/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_main_content(), '.chapter-list li > a')
+        items = self.document_fromstring(self.storage_main_content(), '.chapter-list li > a')
         return [i.get('href') + '/all-pages' for i in items]
 
     def prepare_cookies(self):

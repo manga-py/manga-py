@@ -21,7 +21,7 @@ class MangaEdenCom(Provider):
         return self.re.search(self.uriRegex, self.get_url()).group(2)
 
     def get_chapters(self):
-        volumes = self.html_fromstring(self.get_main_content(), 'a.chapterLink')
+        volumes = self.html_fromstring(self.storage_main_content(), 'a.chapterLink')
         return [self.get_domain() + i.get('href') for i in volumes]
 
     def prepare_cookies(self):

@@ -34,7 +34,7 @@ class KissMangaCom(Provider):
         return self.re.search('/Manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_main_content(), '.listing td a')
+        items = self.document_fromstring(self.storage_main_content(), '.listing td a')
         return [self.get_domain() + i.get('href') for i in items]
 
     def prepare_cookies(self):

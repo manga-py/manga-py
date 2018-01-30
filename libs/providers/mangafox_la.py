@@ -25,7 +25,7 @@ class MangaFoxMe(Provider):
         return self.re.search('/manga/([^/]+)/?', self.get_url()).group(1)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_main_content(), '#chapters a.tips')
+        parser = self.document_fromstring(self.storage_main_content(), '#chapters a.tips')
         if not parser:
             return []
         return [i.get('href') for i in parser]

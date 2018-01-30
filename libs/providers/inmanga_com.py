@@ -34,7 +34,7 @@ class InMangaCom(Provider):
         return self.__local_storage['manga_name']
 
     def get_chapters(self):
-        items = self.get_main_content()['result']
+        items = self.storage_main_content()['result']
         return items[::-1]
 
     def prepare_cookies(self):

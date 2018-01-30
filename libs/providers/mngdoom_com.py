@@ -23,7 +23,7 @@ class MngDoomCom(Provider):
         return self.re.search('\\.co/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_main_content(), 'ul.chapter-list > li > a')
+        items = self.document_fromstring(self.storage_main_content(), 'ul.chapter-list > li > a')
         return [i.get('href') for i in items]
 
     def prepare_cookies(self):

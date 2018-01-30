@@ -24,7 +24,7 @@ class MangaBoxMe(Provider):
 
     def get_manga_name(self) -> str:
         if not self._local_storage.get('content', False):
-            self.get_main_content()
+            self.storage_main_content()
         content = self._local_storage['content']
         selector = 'meta[property="og:title"]'
         title = self.document_fromstring(content, selector, 0)

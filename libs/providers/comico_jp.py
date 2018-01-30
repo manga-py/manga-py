@@ -27,7 +27,7 @@ class Comico(Provider):
 
     def get_chapters(self):
         # TODO: see i['freeFlg'] Y = true, W = false #19
-        items = [i['articleDetailUrl'] for i in self.get_main_content() if i['freeFlg'] == 'Y']
+        items = [i['articleDetailUrl'] for i in self.storage_main_content() if i['freeFlg'] == 'Y']
         self.logger_callback('Free chapters count: %d' % len(items))
         return items[::-1]
 
