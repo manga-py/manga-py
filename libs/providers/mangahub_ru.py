@@ -22,7 +22,8 @@ class MangaHubRu(Provider):
 
     def get_chapters(self):
         parser = self.document_fromstring(self.get_storage_content(), '.b-catalog-list__name a[href^="/"]')
-        return [self.get_domain() + i.get('href') for i in parser]
+        domain = self.get_domain()
+        return [domain + i.get('href') for i in parser]
 
     def prepare_cookies(self):
         pass
@@ -33,7 +34,8 @@ class MangaHubRu(Provider):
             return []
         result = parser[0].get('data-js-scans')
         result = self.json.loads(html.unescape(result.replace('\/', '/')))
-        return [self.get_domain() + i['src'] for i in result]
+        domain = self.get_domain()
+        return [domain + i['src'] for i in result]
 
     def _loop_callback_chapters(self):
         pass

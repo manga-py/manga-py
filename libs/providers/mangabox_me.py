@@ -34,7 +34,8 @@ class MangaBoxMe(Provider):
         content = self._local_storage['content']
         selector = '.episodes_list .episodes_item > a'
         items = self.document_fromstring(content, selector)
-        return [self.get_domain() + i.get('href') for i in items]
+        domain = self.get_domain()
+        return [domain + i.get('href') for i in items]
 
     def prepare_cookies(self):
         self._prepare_storage()

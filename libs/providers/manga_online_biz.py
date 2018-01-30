@@ -44,7 +44,8 @@ class MangaOnlineBiz(Provider):
     def get_chapters(self):
         json_data = self.re_search('MangaChapter\\((.+)\\);', self.get_storage_content()).group(1)
         items = self.json.loads(json_data)
-        return [self.get_domain() + i.get('downloadUrl') for i in items]
+        domain = self.get_domain()
+        return [domain + i.get('downloadUrl') for i in items]
 
     def prepare_cookies(self):
         pass
