@@ -64,7 +64,7 @@ providers_list = {
     'mangaonlinehere_com': ['mangaonlinehere\\.com/(manga\\-info|read\\-online)/.+'],
     'mangapanda_com': ['mangapanda\\.com/.+'],
     'mangapark_me': ['mangapark\\.me/manga/.+'],
-    # 'mangareader_net': ['mangareader\\.net/.+'],
+    'mangareader_net': ['mangareader\\.net/.+'],
     # 'mangaroot_com': ['mangaroot\\.com/manga/.+'],
     # 'mangarussia_com': ['mangarussia\\.com/manga/.+'],
     # 'mangasaurus_com': ['mangasaurus\\.com/manga.+'],
