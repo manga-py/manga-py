@@ -24,8 +24,8 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
     args_parser.add_argument('-c', '--max-volumes', type=int, required=False,
                              help='Maximum volumes for downloading 0=All (count)', default=0)
     args_parser.add_argument('--user-agent', required=False, type=str, help='Don\'t work from protected sites',
-                             default='')
-    args_parser.add_argument('--proxy', required=False, type=str, help='Http proxy', default='')
+                             default=None)
+    args_parser.add_argument('--proxy', required=False, type=str, help='Http proxy', default=None)
 
     args_parser.add_argument('--no-name', action='store_const', required=False,
                              help='Don\'t added manga name to the path', const=True, default=False)

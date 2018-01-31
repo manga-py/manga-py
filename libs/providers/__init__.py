@@ -66,7 +66,7 @@ providers_list = {
     'mangapark_me': ['mangapark\\.me/manga/.+'],
     'mangareader_net': ['mangareader\\.net/.+'],
     # 'mangaroot_com': ['mangaroot\\.com/manga/.+'],
-    # 'mangarussia_com': ['mangarussia\\.com/manga/.+'],
+    'mangarussia_com': ['mangarussia\\.com/(manga|chapter)/.+'],
     # 'mangasaurus_com': ['mangasaurus\\.com/manga.+'],
     # 'mangasupa_com': ['mangasupa\\.com/(manga|chapter).+'],
     # 'mangatan_net': ['mangashin\\.com/(manga|chapter)', 'mangatan\\.net/(manga|chapter)'],

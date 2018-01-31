@@ -7,10 +7,10 @@ from .url_normalizer import UrlNormalizer
 
 class Request:
     __redirect_base_url = ''
-    referrer_url = ''
+    referer_url = ''
     proxies = None
     allow_webp = True
-    user_agent = '%s %s %s %s' % (
+    user_agent = '{} {} {} {}'.format(
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
         'AppleWebKit/537.36 (KHTML, like Gecko)',
         'Chrome/60.0.3112.101',
@@ -58,7 +58,7 @@ class Request:
             headers = {}
         cookies = self._get_cookies(cookies)
         headers.setdefault('User-Agent', self.user_agent)
-        headers.setdefault('Referer', self.referrer_url)
+        headers.setdefault('Referer', self.referer_url)
         if self.allow_webp:
             headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=1.0,image/webp,image/apng,*/*;q=1.0'
         return self._requests_helper(

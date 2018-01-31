@@ -83,7 +83,7 @@ class Base:
     def http(self) -> Http:
         http_params = {
             'allow_webp': not self._params.get('disallow_webp', None),
-            'referrer_url': self._storage.get('referrer', self.get_domain()),
+            'referer_url': self._storage.get('referer', self.get_domain()),
             'user_agent': self._get_user_agent(),
             'proxies': None,  # todo
             'cookies': self._storage.get('cookies', None),

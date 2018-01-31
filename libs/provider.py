@@ -152,7 +152,6 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
             archive.add_file(_path)
 
         # hack
-        # hack
         self._storage['current_file'] = 0
         for url in urls:
             threading.add(self.save_file, (url[1], url[2], self._multi_thread_callback))
