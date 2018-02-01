@@ -27,6 +27,8 @@ class Archive:
         for file in self.files:
             if is_file(file[0]):
                 archive.write(file[0], file[1])
+            else:
+                print(file[0], ' - IS NOT FILE!!!')
 
         info_file and archive.writestr('info.txt', info_file)
 

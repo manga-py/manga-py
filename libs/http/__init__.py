@@ -11,7 +11,7 @@ class Http(Request):
     def __init__(
             self,
             allow_webp=True,
-            referer_url='',
+            referer='',
             user_agent=None,
             proxies=None,
             cookies=None,
@@ -19,7 +19,7 @@ class Http(Request):
     ):
         super().__init__()
         self.__set_param('allow_webp', allow_webp)
-        self.__set_param('referer_url', referer_url)
+        self.__set_param('referer', referer)
         self.__set_param('user_agent', user_agent)
         self.__set_param('proxies', proxies)
         self.__set_param('cookies', cookies)
@@ -66,7 +66,7 @@ class Http(Request):
         return self._download_one_file_helper(url, dst)
 
     def normalize_uri(self, uri):
-        return UrlNormalizer.url_helper(uri, self.referer_url)
+        return UrlNormalizer.url_helper(uri, self.referer)
 
     def multi_download_get(self, urls, dst: str = None, callback: callable = None):
         threading = MultiThreads()

@@ -1,14 +1,14 @@
 
 import base64
 import codecs
-import re
+import gzip
+import zlib
 from hashlib import md5
-from os import path
 from struct import pack, unpack
 
-import execjs
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
+from execjs import compile as js_compile
 
 
 class BaseLib:
@@ -48,3 +48,35 @@ class BaseLib:
     @staticmethod
     def base64encode(data, altchars=None):
         return base64.b64encode(data, altchars)
+
+    @staticmethod
+    def exec_js(source, js):
+        return js_compile(source).eval(js)
+
+    @staticmethod
+    def gunzip(data):
+        return gzip.decompress(data)
+
+    @staticmethod
+    def gzip(data, lvl: int = 9):
+        return gzip.compress(data, lvl)
+
+    @staticmethod
+    def zlib_d(data, **kwargs):
+        return zlib.decompress(data, **kwargs)
+
+    @staticmethod
+    def zlib_c(data, **kwargs):
+        return zlib.compress(data, **kwargs)
+
+    @staticmethod
+    def md5():
+        return md5
+
+    @staticmethod
+    def pack(fmt, *args):
+        return pack(fmt, *args)
+
+    @staticmethod
+    def unpack(fmt, string):
+        return unpack(fmt, string)

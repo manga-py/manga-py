@@ -149,7 +149,7 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
             _path = get_temp_path('{:0>2}_{}'.format(self._storage['current_file'], filename))
 
             urls.append([idx, _url, _path])
-            archive.add_file(_path)
+            archive.add_file(self.remove_not_ascii(_path))
 
         # hack
         self._storage['current_file'] = 0

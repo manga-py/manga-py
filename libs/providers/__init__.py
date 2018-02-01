@@ -70,7 +70,7 @@ providers_list = {
     'mangasupa_com': ['mangasupa\\.com/(manga|chapter).+'],
     'mangatown_com': ['mangatown\\.com/manga.+'],
     # # 'mangaz_com': ['\\.mangaz\\.com/.+'],
-    # 'manhuagui_com': ['manhuagui\\.com/comic/\\d+'],
+    'manhuagui_com': ['manhuagui\\.com/comic/\\d+'],
     # 'mintmanga_com': ['mintmanga\\.com/.+'],
     # 'myreadingmanga_info': ['myreadingmanga\\.info/.+'],  # with cf-protect
     # 'ninemanga_com': ['ninemanga\\.com/manga.+'],
