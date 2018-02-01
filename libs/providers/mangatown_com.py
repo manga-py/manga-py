@@ -18,7 +18,7 @@ class MangaTownCom(Provider):
     def get_main_content(self):
         name = self.get_manga_name()
         url = '{}/manga/{}/'.format(self.get_domain(), name)
-        return self.http_get(url)
+        return self.http_get(self.http().normalize_uri(url))
 
     def get_manga_name(self) -> str:
         return self.re_search('/manga/([^/]+)/?', self.get_url()).group(1)
@@ -28,7 +28,9 @@ class MangaTownCom(Provider):
         return [i.get('href') for i in items]
 
     def prepare_cookies(self):
-        pass
+        import urllib3
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        self._http_kwargs['verify'] = False
 
     def get_files(self):
         url = self.http().normalize_uri(self.get_current_chapter())
@@ -37,7 +39,9 @@ class MangaTownCom(Provider):
         images = [parser.cssselect('img#image')[0].get('src')]
 
         for i in parser.cssselect(selector):
-            images.append(self.html_fromstring(i.get('value'), 'img#image', 0).get('src'))
+            url = self.http().normalize_uri(i.get('value'))
+            img = self.html_fromstring(url, 'img#image')
+            len(img) and images.append(img[0].get('src'))
 
         return images
 

@@ -9,6 +9,7 @@ class Base:
     _storage = None
     _params = None
     _image_params = None
+    _http_kwargs = None
 
     def __init__(self):
 
@@ -30,6 +31,7 @@ class Base:
             'auto_crop': None,
             # 'auto_crop': {'max_crop_size': 40, 'auto_crop_factor': 150},
         }
+        self._http_kwargs = {}
 
     def get_url(self):
         return self._params['url']
@@ -87,6 +89,7 @@ class Base:
             'user_agent': self._get_user_agent(),
             'proxies': None,  # todo
             'cookies': self._storage.get('cookies', None),
+            'kwargs': self._http_kwargs
         }
         http = Http(**http_params)
         return http

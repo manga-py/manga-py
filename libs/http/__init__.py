@@ -15,6 +15,7 @@ class Http(Request):
             user_agent=None,
             proxies=None,
             cookies=None,
+            kwargs=None
     ):
         super().__init__()
         self.__set_param('allow_webp', allow_webp)
@@ -22,11 +23,13 @@ class Http(Request):
         self.__set_param('user_agent', user_agent)
         self.__set_param('proxies', proxies)
         self.__set_param('cookies', cookies)
+        self.__set_param('kwargs', kwargs)
 
     def __set_param(self, name, value):
         if value is not None:
-            _type = type(getattr(self, name))
-            if not isinstance(value, _type):
+            self_val = getattr(self, name)
+            _type = type(self_val)
+            if self_val is not None and not isinstance(value, _type):
                 raise AttributeError('{} type not {}'.format(name, _type))
             setattr(self, name, value)
 
