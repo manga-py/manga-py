@@ -1,34 +1,51 @@
-from libs.provider import Provider
+from .helpers.nine_helper import NineHelper
 
 
-class _Template(Provider):
+class NineMangaCom(NineHelper):
 
     def get_archive_name(self) -> str:
-        pass
+        idx = self.get_chapter_index(True).split('-')
+        return '{:0>3}-{}'.format(*idx)
 
-    def get_chapter_index(self) -> str:
-        pass
+    def get_chapter_index(self, no_increment=False) -> str:
+        if not no_increment:
+            self._local_storage['idx'] += 1
+        return '{}-0'.format(self._local_storage['idx'])
 
     def get_main_content(self):
-        pass
+        name = self.get_manga_name(False)
+        return self.http_get('{}/manga/{}.html?waring=1'.format(self.get_domain(), name))
 
-    def get_manga_name(self) -> str:
-        return ''
+    def get_manga_name(self, normalize=True) -> str:
+        if not self._local_storage['name']:
+            name = self.re_name(self.get_url())
+            if name:
+                self._local_storage['name'] = name.group(1)
+            else:
+                url = self.html_fromstring(self.get_url(), '.subgiude > li + li > a', 0).get('href')
+                self._local_storage['name'] = self.re_name(url).group(1)
+        return self.normalize_name(self._local_storage['name'], normalize)
 
     def get_chapters(self):
-        return []
-
-    def prepare_cookies(self):
-        pass
+        content = self.get_storage_content()
+        result = self.document_fromstring(content, '.chapterbox li a.chapter_list_a')
+        if not result:
+            return []
+        items = []
+        for i in result:
+            u = self.re_search('(/chapter/.*/\d+)\\.html', i.get('href'))
+            items.append('{}{}-10-1.html'.format(self.get_domain(), u.group(1)))
+        return items
 
     def get_files(self):
-        return []
+        content = self._get_page_content(self.get_current_chapter())
+        pages = self.document_fromstring(content, '.changepage #page option + option')
+        images = self.get_files_on_page(content)
+        for i in pages:
+            url = self.http().normalize_uri(i.get('value'))
+            content = self._get_page_content(url)
+            images += self.get_files_on_page(content)
+        return images
 
-    def _loop_callback_chapters(self):
-        pass
 
-    def _loop_callback_files(self):
-        pass
-
-
-main = _Template
+main = NineMangaCom

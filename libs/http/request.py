@@ -14,6 +14,7 @@ class Request:
         'Chrome/60.0.3112.101',
         'Safari/537.36'
     )
+    default_lang = 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
     cookies = None
     kwargs = None
 
@@ -67,6 +68,7 @@ class Request:
         cookies = self._get_cookies(cookies)
         headers.setdefault('User-Agent', self.user_agent)
         headers.setdefault('Referer', self.referer)
+        headers.setdefault('Accept-Language', self.default_lang)
         if self.allow_webp:
             headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=1.0,image/webp,image/apng,*/*;q=1.0'
         return self._requests_helper(

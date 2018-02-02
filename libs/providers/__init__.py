@@ -72,7 +72,7 @@ providers_list = {
     'manhuagui_com': ['manhuagui\\.com/comic/\\d+'],
     'mintmanga_com': ['mintmanga\\.com/.+'],
     'myreadingmanga_info': ['myreadingmanga\\.info/.+'],
-    # 'ninemanga_com': ['ninemanga\\.com/manga.+'],
+    'ninemanga_com': ['ninemanga\\.com/(manga|chapter).+'],
     # # 'onemanga_com': ['onemanga\\.com/manga.+'],
     # 'read_yagami_me': ['read\\.yagami\\.me/.+'],
     # 'readcomicbooksonline_net': ['readcomicbooksonline\\.net/.+'],
