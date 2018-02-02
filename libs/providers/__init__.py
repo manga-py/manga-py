@@ -73,8 +73,7 @@ providers_list = {
     'mintmanga_com': ['mintmanga\\.com/.+'],
     'myreadingmanga_info': ['myreadingmanga\\.info/.+'],
     'ninemanga_com': ['ninemanga\\.com/(manga|chapter).+'],
-    # # 'onemanga_com': ['onemanga\\.com/manga.+'],
-    # 'read_yagami_me': ['read\\.yagami\\.me/.+'],
+    'read_yagami_me': ['read\\.yagami\\.me/(series|read)/.+'],
     # 'readcomicbooksonline_net': ['readcomicbooksonline\\.net/.+'],
     # 'readcomiconline_to': ['readcomiconline\\.to/Comic/.+'],
     'readmanga_me': ['readmanga\\.me/.+'],
@@ -92,8 +91,7 @@ providers_list = {
     # 'yaoichan_me': ['yaoichan\\.me/(manga|online).+'],
     # 'zingbox_me': ['zingbox\\.me/.+'],
     # 'zip_read_com': ['zip\\-read\\.com/.+'],
-    #
-    # 'otakusmash_com': ['otakusmash\\.com', 'mrsmanga\\.com', 'mentalmanga\\.com']
+    'otakusmash_com': ['otakusmash\\.com', 'mrsmanga\\.com', 'mentalmanga\\.com']
 }
 
 
