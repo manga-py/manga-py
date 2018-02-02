@@ -22,13 +22,13 @@ class Static:
             var[key] = value
 
     @staticmethod
-    def re_match(pattern, string, flags=0):  # pragma: no cover
-        return re.match(pattern, string, flags)
+    def re_match(pattern, value, flags=0):  # pragma: no cover
+        return re.match(pattern, value, flags)
 
     @staticmethod
-    def re_search(pattern, string, flags=0):  # pragma: no cover
-        return re.search(pattern, string, flags)
+    def re_search(pattern, value, flags=0):  # pragma: no cover
+        return re.search(pattern, value, flags)
 
     @staticmethod
-    def remove_not_ascii(str):  # pragma: no cover
-        return "".join(i for i in str if 39 < ord(i) < 60 or 63 < ord(i) < 94 or 96 < ord(i) < 127 or i == '_')
+    def remove_not_ascii(value):  # pragma: no cover
+        return "".join(i for i in value if 39 < ord(i) < 60 or 63 < ord(i) < 94 or 96 < ord(i) < 127 or i == '_')
