@@ -69,10 +69,9 @@ providers_list = {
     'mangasaurus_com': ['mangasaurus\\.com/manga.+'],
     'mangasupa_com': ['mangasupa\\.com/(manga|chapter).+'],
     'mangatown_com': ['mangatown\\.com/manga.+'],
-    # # 'mangaz_com': ['\\.mangaz\\.com/.+'],
     'manhuagui_com': ['manhuagui\\.com/comic/\\d+'],
-    # 'mintmanga_com': ['mintmanga\\.com/.+'],
-    # 'myreadingmanga_info': ['myreadingmanga\\.info/.+'],  # with cf-protect
+    'mintmanga_com': ['mintmanga\\.com/.+'],
+    'myreadingmanga_info': ['myreadingmanga\\.info/.+'],
     # 'ninemanga_com': ['ninemanga\\.com/manga.+'],
     # # 'onemanga_com': ['onemanga\\.com/manga.+'],
     # 'read_yagami_me': ['read\\.yagami\\.me/.+'],
