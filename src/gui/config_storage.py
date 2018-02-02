@@ -54,7 +54,7 @@ class ConfigStorage:
 
     def __load_lang(self, key):
         print(self.__storage['lang'])
-        _path = fs.path_join(fs.get_current_path(), 'src', 'langs', '{}.json')
+        _path = fs.path_join(fs.get_current_path(), 'src', 'gui', 'langs', '{}.json')
         if not fs.is_file(_path.format(key)):
             key = 'en'
         _path = _path.format(key)

@@ -24,7 +24,7 @@ install:
 build: off
 test_script:
 - cmd: >-
-    C:/Python35/Scripts/pyinstaller.exe .builder.py --exclude-module PIL.ImageQt --log-level CRITICAL -y -F -n manga.exe
+    C:/Python35/Scripts/pyinstaller.exe .builder.py --add-data 'src/gui/langs/_langs.json;src/gui/langs/en.json;src/gui/langs/ru.json' --exclude-module PIL.ImageQt --log-level CRITICAL -y -F -n manga.exe
 artifacts:
 - path: dist/manga.exe
   name: manga.exe

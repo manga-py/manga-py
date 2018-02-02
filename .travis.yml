@@ -20,7 +20,7 @@ before_deploy:
 - cp helpers/.builder.py ./
 - cp helpers/.providers_updater.py ./
 - python .providers_updater.py
-- pyinstaller .builder.py --exclude-module PIL.ImageQt --log-level CRITICAL -y -F -n manga
+- pyinstaller .builder.py --add-data 'src/gui/langs/_langs.json;src/gui/langs/en.json;src/gui/langs/ru.json' --exclude-module PIL.ImageQt --log-level CRITICAL -y -F -n manga
 deploy:
   provider: releases
   api_key:
