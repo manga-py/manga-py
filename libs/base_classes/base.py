@@ -37,11 +37,11 @@ class Base:
         return self._params['url']
 
     def get_domain(self):
-        domain_uri = self._params.get('domain_uri', None)
+        domain_uri = self._storage.get('domain_uri', None)
         if not domain_uri:
-            self._params['domain_uri'] = re.search('(https?://[^/]+)', self._params['url']).group(1)
+            self._storage['domain_uri'] = re.search('(https?://[^/]+)', self._params['url']).group(1)
 
-        return self._params['domain_uri']
+        return self._storage['domain_uri']
 
     def get_current_chapter(self):
         return self._storage['chapters'][self._storage['current_chapter']]

@@ -22,11 +22,6 @@ __email__ = 'sttv-pc@mail.ru'
 
 def main():
 
-    @atexit_register
-    def before_shutdown():
-        temp_dir = get_temp_path()
-        isdir(temp_dir) and rmtree(temp_dir)
-
     temp_path = get_temp_path()
     isdir(temp_path) or makedirs(temp_path)
 
@@ -49,4 +44,10 @@ def main():
 
 
 if __name__ == '__main__':
+
+    @atexit_register
+    def before_shutdown():
+        temp_dir = get_temp_path()
+        isdir(temp_dir) and rmtree(temp_dir)
+
     main()
