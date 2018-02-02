@@ -30,11 +30,13 @@ filter:
         - 'tests/'
         - 'storage/'
         - 'providers/'
-        - 'libs/providers/_template.py'
+        - 'src/providers/*.py'
+        - 'src/providers/README.*'
         - 'helpers/__future__/*.py'
         - 'helpers/main/*.js'
         - 'helpers/inmanga_com.py'
         - 'helpers/unixmanga_nl.sh'
         - "LICENSE"
+        - "README.*"
         - "*.yml"
         - "storage/"

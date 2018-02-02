@@ -2,11 +2,12 @@ exclude_paths:
 - 'docs/'
 - 'tests/'
 - 'storage/'
-- 'providers/_template.py'
+- 'src/providers/*.py'
 - 'helpers/main/*.js'
 - 'helpers/inmanga_com.py'
 - 'helpers/unixmanga_nl.sh'
 - "LICENSE"
+- "README.*"
 - "*.yml"
 languages:
    Python: true

@@ -14,7 +14,7 @@ from execjs import compile as js_compile
 class BaseLib:
 
     @staticmethod
-    def decode_escape(data):
+    def decode_escape(data):  # pragma: no cover
 
         if isinstance(data, str):
             data = data.encode()
@@ -25,11 +25,11 @@ class BaseLib:
             return ''
 
     @staticmethod
-    def encode_hex(data):
+    def encode_hex(data):  # pragma: no cover
         return codecs.decode(data, 'hex')
 
     @staticmethod
-    def to_sha_256(data):
+    def to_sha_256(data):  # pragma: no cover
         if isinstance(data, str):
             data = data.encode()
         sha = SHA256.new()
@@ -37,46 +37,46 @@ class BaseLib:
         return sha.digest()
 
     @staticmethod
-    def decrypt_aes(iv, key, data):
+    def decrypt_aes(iv, key, data):  # pragma: no cover
         aes = AES.new(key, AES.MODE_CBC, iv)
         return aes.decrypt(data)
 
     @staticmethod
-    def base64decode(data, altchars=None, validate=False):
+    def base64decode(data, altchars=None, validate=False):  # pragma: no cover
         return base64.b64decode(data, altchars, validate)
 
     @staticmethod
-    def base64encode(data, altchars=None):
+    def base64encode(data, altchars=None):  # pragma: no cover
         return base64.b64encode(data, altchars)
 
     @staticmethod
-    def exec_js(source, js):
+    def exec_js(source, js):  # pragma: no cover
         return js_compile(source).eval(js)
 
     @staticmethod
-    def gunzip(data):
+    def gunzip(data):  # pragma: no cover
         return gzip.decompress(data)
 
     @staticmethod
-    def gzip(data, lvl: int = 9):
+    def gzip(data, lvl: int = 9):  # pragma: no cover
         return gzip.compress(data, lvl)
 
     @staticmethod
-    def zlib_d(data, **kwargs):
+    def zlib_d(data, **kwargs):  # pragma: no cover
         return zlib.decompress(data, **kwargs)
 
     @staticmethod
-    def zlib_c(data, **kwargs):
+    def zlib_c(data, **kwargs):  # pragma: no cover
         return zlib.compress(data, **kwargs)
 
     @staticmethod
-    def md5():
+    def md5():  # pragma: no cover
         return md5
 
     @staticmethod
-    def pack(fmt, *args):
+    def pack(fmt, *args):  # pragma: no cover
         return pack(fmt, *args)
 
     @staticmethod
-    def unpack(fmt, string):
+    def unpack(fmt, string):  # pragma: no cover
         return unpack(fmt, string)
