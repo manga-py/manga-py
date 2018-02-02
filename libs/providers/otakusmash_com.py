@@ -1,7 +1,7 @@
 from libs.provider import Provider
 
 
-class _Template(Provider):
+class OtakuSmashCom(Provider):
     selector = 'https?://[^/]+/(read\\-\w+/|reader/)?([^/]+)'
     prefix = '/'
 
@@ -73,4 +73,4 @@ class _Template(Provider):
         return base_uri + image
 
 
-main = _Template
+main = OtakuSmashCom
