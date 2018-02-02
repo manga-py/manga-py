@@ -2,6 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import manga
-import libs.providers.__for_make__
+import src.providers.__for_make__
 
 manga.main()

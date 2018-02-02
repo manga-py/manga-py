@@ -9,9 +9,9 @@ from sys import argv, exit as sys_exit
 
 from PyQt5.Qt import QApplication
 
-from libs.cli import Cli, get_cli_arguments
-from libs.fs import get_temp_path
-from libs.gui import Gui
+from src.cli import Cli, get_cli_arguments
+from src.fs import get_temp_path
+from src.gui import Gui
 
 # from libs.server import Server
 

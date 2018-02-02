@@ -12,11 +12,11 @@ from PIL import Image as PilImage
 root_path = path.dirname(path.realpath(__file__))
 sys_path.append(path.realpath(path.join(root_path, '..')))
 
-from libs.providers import get_provider
-from libs.base_classes import Base, Archive
-from libs.provider import Provider
-from libs.image import Image
-from libs import fs
+from src.providers import get_provider
+from src.base_classes import Base, Archive
+from src.provider import Provider
+from src.image import Image
+from src import fs
 
 
 class TestCase(unittest.TestCase):

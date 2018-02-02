@@ -1,5 +1,5 @@
 from setuptools import setup
-from libs.version import __version__, __downloader_uri__
+from src.version import __version__, __downloader_uri__
 
 setup(
     name='manga_dl',
