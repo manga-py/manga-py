@@ -75,7 +75,7 @@ providers_list = {
     'ninemanga_com': ['ninemanga\\.com/(manga|chapter).+'],
     'read_yagami_me': ['read\\.yagami\\.me/(series|read)/.+'],
     'readcomicbooksonline_org': ['readcomicbooksonline\\.net/.+', 'readcomicbooksonline\\.org/.+'],
-    # 'readcomiconline_to': ['readcomiconline\\.to/Comic/.+'],
+    'readcomiconline_to': ['readcomiconline\\.to/Comic/.+'],
     'readmanga_me': ['readmanga\\.me/.+'],
     # 'readmanga_eu': ['readmanga\\.eu/manga/\d+/.+'],
     # 'readms_net': ['readms\\.net/(r|manga)/.+'],
