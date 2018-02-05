@@ -83,7 +83,7 @@ providers_list = {
     # 'shakai_ru': ['shakai\\.ru/manga.*?/\d+'],
     'somanga_net': ['somanga\\.net/(leitor|manga)/.+'],
     'taadd_com': ['taadd\\.com/(book|chapter)/.+'],
-    # 'tenmanga_com': ['tenmanga\\.com/(book|chapter)/.+'],
+    'tenmanga_com': ['tenmanga\\.com/(book|chapter)/.+'],
     'unionmangas_net': ['unionmangas\\.net/(leitor|manga)/.+'],
     # 'unixmanga_nl': ['unixmanga\\.nl/onlinereading/.+\\.html'],
     # 'wmanga_ru': ['wmanga\\.ru/starter/manga_.+'],
