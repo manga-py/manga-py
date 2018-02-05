@@ -81,7 +81,7 @@ providers_list = {
     'readms_net': ['readms\\.net/(r|manga)/.+'],
     'selfmanga_ru': ['selfmanga\\.ru/.+'],
     # 'shakai_ru': ['shakai\\.ru/manga.*?/\d+'],
-    # 'somanga_net': ['somanga\\.net/.+'],
+    'somanga_net': ['somanga\\.net/(leitor|manga)/.+'],
     # 'taadd_com': ['taadd\\.com/(book|chapter)/.+'],
     # 'tapas_io': ['tapas\\.io/(series|episode)/.+'],
     # 'tenmanga_com': ['tenmanga\\.com/(book|chapter)/.+'],
