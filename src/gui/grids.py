@@ -14,6 +14,9 @@ class Base:
 
         self.parent = parent
 
+    def make_btn(self, text):
+        return QPushButton(text, self.parent)
+
 
 class MainForm(Base):
 
@@ -25,7 +28,7 @@ class MainForm(Base):
         grid = QGridLayout()
         grid.setSpacing(10)
 
-        btn = QPushButton('Run', self)
+        btn = self.make_btn('Run')
         btn.clicked.connect(self.parent._run_downloader)
         btn.resize(btn.sizeHint())
 
@@ -72,7 +75,7 @@ class MainForm(Base):
             def __(text):
                 print(text)
                 print(cb.selectedItems())
-            q = QDialog(self)
+            q = QDialog(self.parent)
             _l = QFormLayout()
 
             cb = QListWidget()
@@ -99,7 +102,7 @@ class MainForm(Base):
         manga_link.resize(manga_link.sizeHint())
         uri_grid.addWidget(manga_link, 0, 16, 1, 1)
 
-        self.parent.lang_btn = QPushButton(self.parent._translate('lang'), self)
+        self.parent.lang_btn = self.make_btn(self.parent._translate('lang'))
         # self.parent.lang_btn.clicked.connect(self.parent.next_lang)
         self.parent.lang_btn.clicked.connect(test)
         self.parent.lang_btn.setFlat(True)
