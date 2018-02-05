@@ -8,7 +8,7 @@ class TenMangaCom(TaaddCom):
 
     @staticmethod
     def _get_image(parser):
-        items = parser.cssselect('.pic_box .manga-pic')
+        items = parser.cssselect('.pic_box .manga_pic')
         return [i.get('src') for i in items]
 
 
