@@ -12,19 +12,16 @@ class ManhuaGuiCom(Provider):
         'eu.hamreus.com:8080',
         'lt.hamreus.com:8080',
     ]
-    __local_idx = 0
 
     def _get_ch_idx(self):
         chapter = self.get_current_chapter()
         return self.re.search('/comic/[^/]+/(\\d+)', chapter.get('href')).group(1)
 
     def get_archive_name(self) -> str:
-        idx = self.get_chapter_index(True).split('-')
-        return 'vol_{:0>4}-{}'.format(idx[0], self._get_ch_idx())
+        idx = self.get_chapter_index()
+        return 'vol_{:0>4}-{}'.format(idx, self._get_ch_idx())
 
-    def get_chapter_index(self, no_increment=False) -> str:
-        if not no_increment:
-            self.__local_idx += 1
+    def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
         span = chapter.cssselect('span')
         idx = self._get_ch_idx()

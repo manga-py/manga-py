@@ -4,8 +4,6 @@ from time import sleep
 
 
 class NineHelper(Provider):
-
-    _local_storage = None
     img_server = 'https://ta1.taadd.com'
 
     def re_name(self, url):
@@ -45,7 +43,6 @@ class NineHelper(Provider):
         )
 
     def prepare_cookies(self):
-        self._local_storage = {'idx': 0, 'name': ''}
         self._storage['cookies'].setdefault('__cfduid', '1a2b3c4d5e')
 
     def _loop_callback_chapters(self):

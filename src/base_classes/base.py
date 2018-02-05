@@ -111,3 +111,6 @@ class Base:
         if self._params.get('cf-protect', False):
             return ua_storage
         return ua_params
+
+    def _chapter_index(self):
+        return self._storage.get('current_chapter', 0)

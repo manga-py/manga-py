@@ -2,23 +2,17 @@ from src.provider import Provider
 
 
 class MangaSaurusCom(Provider):
-    __local_storage = 0
-
     def get_archive_name(self) -> str:
-        idx = self.get_chapter_index(True).split('-')
-        return 'vol_{:0>3}-{}'.format(*idx)
+        return 'vol_{:0>3'.format(self._chapter_index())
 
-    def get_chapter_index(self, no_increment=False) -> str:
-        idx = '{}-0'.format(self.__local_storage)
-        if not no_increment:
-            self.__local_storage += 1
-        return idx
+    def get_chapter_index(self) -> str:
+        return '{}'.format(self._chapter_index())
 
     def get_main_content(self):
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
-        result = self.re.search('\\.com/manga/(\\d+)/([^/]+)', self.get_url()).groups()
+        result = self.re.search('/manga/(\\d+)/([^/]+)', self.get_url()).groups()
         return '{1}_{0}'.format(*result)
 
     def get_chapters(self):

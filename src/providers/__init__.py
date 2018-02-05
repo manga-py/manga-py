@@ -85,7 +85,7 @@ providers_list = {
     'taadd_com': ['taadd\\.com/(book|chapter)/.+'],
     'tenmanga_com': ['tenmanga\\.com/(book|chapter)/.+'],
     'unionmangas_net': ['unionmangas\\.net/(leitor|manga)/.+'],
-    # 'viz_com': ['viz\\.com/shonenjump/chapters/.+'],
+    'viz_com': ['viz\\.com/shonenjump/chapters/.+'],
     'wmanga_ru': ['wmanga\\.ru/starter/manga_.+'],
     # 'yaoichan_me': ['yaoichan\\.me/(manga|online).+'],
     # 'zingbox_me': ['zingbox\\.me/.+'],

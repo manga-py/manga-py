@@ -2,16 +2,12 @@ from src.provider import Provider
 
 
 class MyReadingMangaInfo(Provider):
-    __local_storage = None
-
     def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(*idx)
+        idx = self.get_chapter_index()
+        return 'vol_{:0>3}'.format(idx)
 
     def get_chapter_index(self, no_increment=False) -> str:
-        if not no_increment:
-            self.__local_storage += 1
-        return '{}-0'.format(self.__local_storage)
+        return '{}'.format(self._chapter_index())
 
     def get_main_content(self):
         name = self.get_manga_name()
@@ -29,7 +25,6 @@ class MyReadingMangaInfo(Provider):
         return v[::-1]
 
     def prepare_cookies(self):
-        self.__local_storage = 0
         self.cf_protect(self.get_url())
 
     def get_files(self):

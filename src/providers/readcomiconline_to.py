@@ -2,17 +2,12 @@ from src.provider import Provider
 
 
 class ReadComicOnlineTo(Provider):
-    __local_storage = None
-
     def get_archive_name(self) -> str:
         chapter = self.re.search('id=(\d+)', self.get_current_chapter()).group(1)
-        idx = self.get_chapter_index(True).split('-')[0]
-        return 'vol_{:0>3}-{}'.format(idx, chapter)
+        return 'vol_{:0>3}-{}'.format(self._chapter_index(), chapter)
 
     def get_chapter_index(self, no_increment=False) -> str:
-        if not no_increment:
-            self.__local_storage += 1
-        return '{}-0'.format(self.__local_storage)
+        return '{}'.format(self._chapter_index())
 
     def get_main_content(self):
         name = self.get_manga_name()

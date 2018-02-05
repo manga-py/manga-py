@@ -8,14 +8,13 @@ class TaaddCom(Provider):
     _chapters_selector = '.chapter_list td[align="left"] a'
 
     def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-', 2)
-        return self.remove_not_ascii('vol_{:0>3}-{}'.format(*idx))
+        idx = self.get_chapter_index()
+        name = 'vol_{:0>3}-{}'.format(self._chapter_index(), idx)
+        return self.remove_not_ascii(name)
 
-    def get_chapter_index(self, no_increment=False) -> str:
-        if not no_increment:
-            self.__local_storage += 1
+    def get_chapter_index(self) -> str:
         idx = self.re.search('/chapter/([^/]+)/', self.get_current_chapter()).group(1)
-        return '{}-{}'.format(self.__local_storage, idx)
+        return '{}'.format(idx)
 
     def get_main_content(self):
         name = self._storage.get('manga_name', self.get_manga_name())
