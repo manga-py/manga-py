@@ -6,19 +6,6 @@ from src.fs import remove_file_query_params, path_join
 class UrlNormalizer:
 
     @staticmethod
-    def __relative_scheme(uri, ref):
-        scheme = urlparse(ref).scheme if ref else 'http'
-        return scheme + ':' + uri
-
-    @staticmethod
-    def __get_domain(uri, ref):
-        new_url = ref[:ref.rfind('/')]
-        if uri.find('/') == 0:
-            new_url = urlparse(ref)
-            new_url = '{}://{}'.format(new_url.scheme, new_url.netloc)
-        return new_url
-
-    @staticmethod
     def _parse_sheme(parse, base_parse):
         if not parse.scheme:
             uri = base_parse.scheme
