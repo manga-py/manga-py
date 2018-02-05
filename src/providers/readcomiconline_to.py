@@ -5,7 +5,7 @@ class ReadComicOnlineTo(Provider):
     __local_storage = None
 
     def get_archive_name(self) -> str:
-        chapter = self.re_search('id=(\d+)', self.get_current_chapter()).group(1)
+        chapter = self.re.search('id=(\d+)', self.get_current_chapter()).group(1)
         idx = self.get_chapter_index(True).split('-')[0]
         return 'vol_{:0>3}-{}'.format(idx, chapter)
 
@@ -19,7 +19,7 @@ class ReadComicOnlineTo(Provider):
         return self.http_get('{}/Comic/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re_search('\\.to/Comic/([^/]+)', self.get_url())
+        return self.re.search('\\.to/Comic/([^/]+)', self.get_url())
 
     def get_chapters(self):
         items = self.document_fromstring(self.get_storage_content(), 'table.listing td > a')

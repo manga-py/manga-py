@@ -9,14 +9,14 @@ class MangaHereCc(Provider):
     def get_chapter_index(self) -> str:
         selector = '/manga/[^/]+/[^\\d]+(\\d+)'
         chapter = self.get_current_chapter()
-        return self.re_search(selector, chapter).group(1)
+        return self.re.search(selector, chapter).group(1)
 
     def get_main_content(self):
         name = self.get_manga_name()
         return self.http_get('{}/manga/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re_search('/manga/([^/]+)', self.get_url()).group(1)
+        return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         parser = self.document_fromstring(self.get_storage_content(), '.detail_list .left a')

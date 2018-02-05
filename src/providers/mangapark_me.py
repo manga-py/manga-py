@@ -9,7 +9,7 @@ class MangaParkMe(Provider):
 
     def get_chapter_index(self) -> str:
         selector = '/manga/[^/]+/s.+?(?:/v(\\d+))?/c(\\d+[^/]*)'
-        idx = self.re_search(selector, self.get_current_chapter())
+        idx = self.re.search(selector, self.get_current_chapter())
         return '{}-{}'.format(
             1 if idx[0] is None else idx[0],
             idx[1]
@@ -21,7 +21,7 @@ class MangaParkMe(Provider):
         return self.http_get('{}/manga/{}'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re_search('/manga/([^/]+)', self.get_url()).group(1)
+        return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         parser = self.document_fromstring(self.get_storage_content(), 'div.stream:last-child em a:last-child')

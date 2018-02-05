@@ -8,7 +8,7 @@ class MangaKakalotCom(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re_search('/chapter_([^/]+)', self.get_current_chapter()).split('.')
+        idx = self.re.search('/chapter_([^/]+)', self.get_current_chapter()).split('.')
         return '{}-{}'.format(
             idx[0],
             0 if len(idx) < 2 else idx[1]
@@ -19,7 +19,7 @@ class MangaKakalotCom(Provider):
         return self.http_get('{}/manga/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re_search('/(?:manga|chapter)/([^/]+)/?', self.get_url())
+        return self.re.search('/(?:manga|chapter)/([^/]+)/?', self.get_url())
 
     def get_chapters(self):
         items = self.document_fromstring(self.get_storage_content(), '.chapter-list span a')

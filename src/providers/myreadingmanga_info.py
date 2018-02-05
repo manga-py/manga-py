@@ -6,7 +6,7 @@ class MyReadingMangaInfo(Provider):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return '{:0>3}-{}'.format(*idx)
+        return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self, no_increment=False) -> str:
         if not no_increment:
@@ -18,7 +18,7 @@ class MyReadingMangaInfo(Provider):
         return self.http_get('{}/{}/'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re_search('\\.info/([^/]+)', self.get_url()).group(1)
+        return self.re.search('\\.info/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         url = self.get_url()

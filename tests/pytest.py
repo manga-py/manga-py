@@ -13,10 +13,11 @@ root_path = path.dirname(path.realpath(__file__))
 sys_path.append(path.realpath(path.join(root_path, '..')))
 
 from src.providers import get_provider
-from src.base_classes import Base, Archive
+from src.base_classes import Base, Archive, Static
 from src.provider import Provider
 from src.image import Image
 from src import fs
+from src.http.url_normalizer import UrlNormalizer
 
 
 class TestCase(unittest.TestCase):
@@ -253,6 +254,11 @@ class TestBaseClass(unittest.TestCase):
         url = 'https://httpbin.org/redirect/11'
         self.assertRaises(AttributeError, bp.http_get, url)
 
+    def test_ascii(self):
+        string = '⼢⼣⼤abcde123@#$йцуڪڦ'
+        normal_string = 'abcde123@'
+        self.assertEqual(Static.remove_not_ascii(string), normal_string)
+
 
 class TestArchive(unittest.TestCase):
 
@@ -273,6 +279,33 @@ class TestArchive(unittest.TestCase):
         arc.make(arc_path)
         size = fs.file_size(arc_path)
         self.assertTrue(size and 1024 < int(size) < orig_size)
+
+
+class TestHttpClasses(unittest.TestCase):
+    referer = 'http://example.org/manga/here.html'
+
+    def test_url_normalizer_url_helper1(self):
+        url = '//example.org/manga/here.html'
+        test_url = UrlNormalizer.url_helper(url, self.referer)
+        self.assertEqual(self.referer, test_url)
+
+    def test_url_normalizer_url_helper2(self):
+        url = '/manga/here.html'
+        test_url = UrlNormalizer.url_helper(url, self.referer)
+        self.assertEqual(self.referer, test_url)
+
+    def test_url_normalizer_url_helper3(self):
+        url = '://example.org/manga/here.html'
+        test_url = UrlNormalizer.url_helper(url, self.referer)
+        self.assertEqual(self.referer, test_url)
+
+    def test_url_normalizer_url_helper4(self):
+        url = 'here.html'
+        test_url = UrlNormalizer.url_helper(url, self.referer)
+        self.assertEqual(self.referer, test_url)
+
+    def test_url_normalizer_image_name_helper(self):
+        pass
 
 
 if __name__ == '__main__':

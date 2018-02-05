@@ -5,7 +5,7 @@
 ## Functions:
 
 ```python
-from libs.provider import Provider
+from src.provider import Provider
 
 
 class _Template(Provider):

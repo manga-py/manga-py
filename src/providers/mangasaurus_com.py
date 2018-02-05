@@ -18,7 +18,7 @@ class MangaSaurusCom(Provider):
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
-        result = self.re_search('\\.com/manga/(\\d+)/([^/]+)', self.get_url()).groups()
+        result = self.re.search('\\.com/manga/(\\d+)/([^/]+)', self.get_url()).groups()
         return '{1}_{0}'.format(*result)
 
     def get_chapters(self):
@@ -31,8 +31,8 @@ class MangaSaurusCom(Provider):
     def __files_helper(self):
         content = self.http_get(self.get_current_chapter())
         _path = self.document_fromstring(content, '#imageZone-next > img', 0).get('src')
-        path = self.re_search('(http.+?/original)/', _path).group(1) + '/{}/{}-{}{}'
-        parser = self.re_search('ImageReader\\.setImages.+?(\\{.+\\})', content)
+        path = self.re.search('(http.+?/original)/', _path).group(1) + '/{}/{}-{}{}'
+        parser = self.re.search('ImageReader\\.setImages.+?(\\{.+\\})', content)
         return path, parser
 
     def get_files(self):

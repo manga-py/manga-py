@@ -17,7 +17,7 @@ class MangabbCo(Provider):
         return result[0].get('href') if len(result) else False
 
     def get_manga_name(self) -> str:
-        return self.re_search('\\.co/(?:manga/)?([^/]+)', self.get_url()).group(1)
+        return self.re.search('\\.co/(?:manga/)?([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         content = self.get_storage_content()
@@ -53,7 +53,7 @@ class MangabbCo(Provider):
         _first_image = self.__get_img(parser)
         images = [_first_image]
 
-        img = self.re_search('(.+/)\\d(\\.\\w+)', _first_image)
+        img = self.re.search('(.+/)\\d(\\.\\w+)', _first_image)
         if img:  # livehack
             self._img_lifehack1(img.groups(), pages_list, images)
         else:

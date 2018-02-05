@@ -18,7 +18,7 @@ class MangaChanMe(Provider):
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
         name = chapter.text_content().strip()
-        idx = self.re_search('_v(\\d+)_ch(\\d+)', name).groups()
+        idx = self.re.search('_v(\\d+)_ch(\\d+)', name).groups()
         return '{}-{}'.format(*idx)
 
     def get_main_content(self):
@@ -26,7 +26,7 @@ class MangaChanMe(Provider):
 
     def get_manga_name(self) -> str:
         name = '\\.me/[^/]+/\\d+\\-(.+)\\.html'
-        return self.re_search(name, self.get_url()).group(1)
+        return self.re.search(name, self.get_url()).group(1)
 
     def loop_chapters(self):
         arc_name = self.get_archive_name()
@@ -37,7 +37,7 @@ class MangaChanMe(Provider):
         rename(temp_path, path)
 
     def get_chapters(self):
-        url = self.re_search('\\.me/[^/]+/(\\d+\\-.+\\.html)', self.get_url()).group(1)
+        url = self.re.search('\\.me/[^/]+/(\\d+\\-.+\\.html)', self.get_url()).group(1)
         url = '{}/download/{}'.format(self.get_domain(), url)
         items = self.html_fromstring(url, 'table#download_table tr td + td > a')
         return items

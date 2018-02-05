@@ -15,7 +15,7 @@ class MangaRussiaCom(Provider):
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
-        result = self.re_search('\\+(\\d+)\\+\\-\\+(\\d+)', chapter).groups()
+        result = self.re.search('\\+(\\d+)\\+\\-\\+(\\d+)', chapter).groups()
         return '{}-{}'.format(*result)
 
     def get_main_content(self):
@@ -25,11 +25,11 @@ class MangaRussiaCom(Provider):
         return self.http_get(url)
 
     def __name(self, url):
-        return self.re_search('/manga/(.+)\\.html', url).group(1)
+        return self.re.search('/manga/(.+)\\.html', url).group(1)
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        if self.re_search('/manga/', url):
+        if self.re.search('/manga/', url):
             name = self.__name(url)
         else:
             url = self.html_fromstring(url, '.sitemaplist .red', 0).get('href')
@@ -50,7 +50,7 @@ class MangaRussiaCom(Provider):
         urls = [img.get('src')]
         onload = img.get('onload')
         if onload and onload.find('(\'') > 0:
-            urls.append(self.re_search('\(\'(.+)\'\)', onload).group(1))
+            urls.append(self.re.search('\(\'(.+)\'\)', onload).group(1))
         return urls
 
     def get_files(self):

@@ -8,14 +8,14 @@ class ComicsAndMangaRu(Provider):
         return 'vol_{:0>3}'.format(index)
 
     def get_chapter_index(self) -> str:
-        return self.re_search('.+/[^/]+?(\\d+)$', self.get_current_chapter()).group(1)
+        return self.re.search('.+/[^/]+?(\\d+)$', self.get_current_chapter()).group(1)
 
     def get_main_content(self):
-        name = self.re_search('/(online-reading/[^/]+/[^/]+)', self.get_url())
+        name = self.re.search('/(online-reading/[^/]+/[^/]+)', self.get_url())
         return self.http_get('{}/{}'.format(self.get_domain(), name.group(1)))
 
     def get_manga_name(self):
-        name = self.re_search('/online-reading/[^/]+/([^/]+)', self.get_url())
+        name = self.re.search('/online-reading/[^/]+/([^/]+)', self.get_url())
         return name.group(1)
 
     def get_chapters(self):

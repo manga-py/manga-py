@@ -10,7 +10,7 @@ class MangaFoxMe(Provider):
     def get_chapter_index(self) -> str:
         selector = '/manga/[^/]+/([^/]+)/'
         chapter = self.get_current_chapter()
-        groups = self.re_search(selector, chapter).group(1).split('.')
+        groups = self.re.search(selector, chapter).group(1).split('.')
         idx = [
             groups[0],
             0 if len(groups) < 2 else groups[1]
@@ -22,7 +22,7 @@ class MangaFoxMe(Provider):
         return self.http_get('{}/manga/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re_search('/manga/([^/]+)/?', self.get_url()).group(1)
+        return self.re.search('/manga/([^/]+)/?', self.get_url()).group(1)
 
     def get_chapters(self):
         parser = self.document_fromstring(self.get_storage_content(), '#chapters a.tips')

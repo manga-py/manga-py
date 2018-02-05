@@ -5,16 +5,16 @@ class JurnaluRu(Provider):
 
     def get_archive_name(self) -> str:
         name = self.get_manga_name()
-        arc_name = self.re_search('/{0}/{0}([^/]+)'.format(name), self.get_current_chapter())
+        arc_name = self.re.search('/{0}/{0}([^/]+)'.format(name), self.get_current_chapter())
         if arc_name:
             pass
-        return 'chapter_{}'.format(self.get_chapter_index())
+        return 'vol_{}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
         return str(self._storage['current_chapter'])
 
     def get_main_content(self):
-        name = self.re_search('(online\\-reading/[^/]+/[^/]+)', self.get_url()).group(1)
+        name = self.re.search('(online\\-reading/[^/]+/[^/]+)', self.get_url()).group(1)
         url = self.html_fromstring(
             '{}/{}'.format(self.get_domain(), name),
             '.MagList .MagListLine > a',
@@ -23,10 +23,10 @@ class JurnaluRu(Provider):
         return self.http_get(self.get_domain() + url)
 
     def get_manga_name(self) -> str:
-        return self.re_search('/online\\-reading/[^/]+/([^/]+)', self.get_url()).group(1)
+        return self.re.search('/online\\-reading/[^/]+/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        name = self.re_search('(online\\-reading/[^/]+/[^/]+)', self.get_url())
+        name = self.re.search('(online\\-reading/[^/]+/[^/]+)', self.get_url())
         if not name:
             return []
         items = self.document_fromstring(self.get_storage_content(), 'select.magSelection option')

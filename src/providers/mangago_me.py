@@ -5,13 +5,13 @@ class MangaGoMe(Provider):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        type = self.re_search('/(mf|raw)', self.get_current_chapter()).group(1)
+        type = self.re.search('/(mf|raw)', self.get_current_chapter()).group(1)
         return 'vol_{:0>3}-{}-{}'.format(*idx, type)
 
     def get_chapter_index(self) -> str:
         selector = '/(?:mf|raw)/.*?(\\d+)(?:\\.(\\d+))?'
         chapter = self.get_current_chapter()
-        groups = self.re_search(selector, chapter).groups()
+        groups = self.re.search(selector, chapter).groups()
         idx = [
             groups[0],
             0 if len(groups) < 2 else groups[1],
@@ -23,7 +23,7 @@ class MangaGoMe(Provider):
         return self.html_fromstring(url, '#information', 0)
 
     def get_manga_name(self) -> str:
-        return self.re_search('/read\\-manga/([^/]+)/', self.get_url()).group(1)
+        return self.re.search('/read\\-manga/([^/]+)/', self.get_url()).group(1)
 
     def get_chapters(self):
         content = self.get_storage_content()
@@ -36,7 +36,7 @@ class MangaGoMe(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        parser = self.re_search("imgsrcs.+[^.]+?var.+?=\\s?'(.+)'", content)
+        parser = self.re.search("imgsrcs.+[^.]+?var.+?=\\s?'(.+)'", content)
         if not parser:
             return []
         return parser.group(0).split(',')

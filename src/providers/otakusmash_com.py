@@ -7,11 +7,11 @@ class OtakuSmashCom(Provider):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return '{:0>3}-{}'.format(*idx)
+        return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
         selector = self.selector + '/([^/]+)'
-        idx = self.re_search(selector, self.get_current_chapter()).group(3).split('.')
+        idx = self.re.search(selector, self.get_current_chapter()).group(3).split('.')
         return '{}-{}'.format(
             idx[0],
             0 if len(idx) < 2 else idx[1]
@@ -21,7 +21,7 @@ class OtakuSmashCom(Provider):
         return self.http_get(self._get_manga_url())
 
     def get_manga_name(self) -> str:
-        result = self.re_search(self.selector, self.get_url())
+        result = self.re.search(self.selector, self.get_url())
         self.prefix = result.group(1)
         return result.group(2)
 

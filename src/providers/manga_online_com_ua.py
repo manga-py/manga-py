@@ -16,10 +16,10 @@ class MangaOnlineCom(Provider):
     def get_chapter_index(self) -> str:
         self.__init_storage()
         idx_reg = '/\\d+.+\\-(\\d+).+?\\-(\\d+).*?html'
-        idx = self.re_search(idx_reg, self.get_current_chapter()).groups()
+        idx = self.re.search(idx_reg, self.get_current_chapter()).groups()
         if not idx:
             idx_reg = '/\\d+.+\\-(\\d+).+?html'
-            idx = (self.re_search(idx_reg, self.get_current_chapter()).group(1), 0)
+            idx = (self.re.search(idx_reg, self.get_current_chapter()).group(1), 0)
         return '{:0>3}-{:0>3}'.format(*idx)
 
     def get_main_content(self):
@@ -30,7 +30,7 @@ class MangaOnlineCom(Provider):
         if not self.__local_storage.get('chapters', False):
             self.__local_storage['chapters'] = self.get_chapters()
         if len(self.__local_storage['chapters']):
-            return self.re_search('/manga/(.+)/.+\\.html', self.__local_storage['chapters'][0]).group(1)
+            return self.re.search('/manga/(.+)/.+\\.html', self.__local_storage['chapters'][0]).group(1)
         raise AttributeError()
 
     def _get_chapters_cmanga(self):
@@ -43,9 +43,9 @@ class MangaOnlineCom(Provider):
 
     def get_chapters(self):
         self.__init_storage()
-        if self.re_search('/cmanga/', self.get_url()):
+        if self.re.search('/cmanga/', self.get_url()):
             return self._get_chapters_cmanga()
-        if self.re_search('/manga/[^/]+/\\d+\\-', self.get_url()):
+        if self.re.search('/manga/[^/]+/\\d+\\-', self.get_url()):
             return self._get_chapters_manga()
         return []
 
@@ -64,7 +64,7 @@ class MangaOnlineCom(Provider):
         parser = self.html_fromstring(chapter, '.main_body', 0)
         pages = self._get_pages_count(parser)
         images = []
-        idx = self.re_search('/manga/[^/]+/(\\d+)', chapter).group(1)
+        idx = self.re.search('/manga/[^/]+/(\\d+)', chapter).group(1)
         for n in range(pages):
             url = '{}/engine/ajax/sof_fullstory.php?id={}&page={}'.format(self.get_domain(), idx, n+1)
             parser = self.html_fromstring(url)[0]

@@ -4,7 +4,7 @@ from src.provider import Provider
 class ReadmangaMe(Provider):
 
     def get_archive_name(self):
-        name = self.re_search('/.+/([^/]+/[^/]+)/?', self.get_current_chapter())
+        name = self.re.search('/.+/([^/]+/[^/]+)/?', self.get_current_chapter())
         return name.group(1).replace('/', '-')
 
     def get_main_content(self):
@@ -12,7 +12,7 @@ class ReadmangaMe(Provider):
         return self.http_get(url)
 
     def get_manga_name(self):
-        return self.re_search('\\.me/([^/]+)', self.get_url()).group(1)
+        return self.re.search('\\.me/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         parser = self.document_fromstring(self.get_storage_content(), 'div.chapters-link tr > td > a')
@@ -26,13 +26,13 @@ class ReadmangaMe(Provider):
     def get_files(self):
         _uri = self.http().normalize_uri(self.get_current_chapter())
         content = self.http_get(_uri)
-        result = self.re_search('rm_h\\.init.+?(\\[\[.+\\]\\])', content, self.re.M)
+        result = self.re.search('rm_h\\.init.+?(\\[\[.+\\]\\])', content, self.re.M)
         if not result:
             return []
         return [i[1] + i[0] + i[2] for i in self.json.loads(result.groups()[0].replace("'", '"'))]
 
     def get_chapter_index(self):
-        name = self.re_search('/.+/(?:vol)?([^/]+/[^/]+)/?', self.get_current_chapter())
+        name = self.re.search('/.+/(?:vol)?([^/]+/[^/]+)/?', self.get_current_chapter())
         return name.group(1).replace('/', '-')
 
     def _loop_callback_chapters(self):

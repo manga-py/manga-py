@@ -9,7 +9,7 @@ class MangaLifeUs(Provider):
 
     def get_chapter_index(self) -> str:
         selector = '\\-chapter\\-(\\d+).+(?:\\-index\\-(\\d+))?'
-        chapter = self.re_search(selector, self.get_current_chapter()).groups()
+        chapter = self.re.search(selector, self.get_current_chapter()).groups()
         return '{}-{}'.format(
             1 if chapter[1] is None else chapter[1],  # todo: maybe 0 ?
             chapter[0]
@@ -21,10 +21,10 @@ class MangaLifeUs(Provider):
 
     def get_manga_name(self) -> str:
         uri = self.get_url()
-        test = self.re_search('\\.us/read\\-online/.+', uri)
+        test = self.re.search('\\.us/read\\-online/.+', uri)
         if test:
             uri = self.html_fromstring(uri, 'a.list-link', 0).get('href')
-        return self.re_search('(?:\\.us)?/manga/([^/]+)', uri).group(1)
+        return self.re.search('(?:\\.us)?/manga/([^/]+)', uri).group(1)
 
     def get_chapters(self):
         items = self.document_fromstring(self.get_storage_content(), '.chapter-list a.list-group-item')

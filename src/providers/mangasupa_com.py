@@ -8,7 +8,7 @@ class MangaSupaCom(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re_search('/chapter_([^/]+)', self.get_current_chapter())
+        idx = self.re.search('/chapter_([^/]+)', self.get_current_chapter())
         idx = idx.group(1).split('.')
         return '{}-{}'.format(
             idx[0],
@@ -21,7 +21,7 @@ class MangaSupaCom(Provider):
 
     def get_manga_name(self) -> str:
         selector = '\\.com/(?:manga|chapter)/([^/]+)'
-        return self.re_search(selector, self.get_url()).group(1)
+        return self.re.search(selector, self.get_url()).group(1)
 
     def get_chapters(self):
         items = self.document_fromstring(self.get_storage_content(), '.chapter-list .row a')

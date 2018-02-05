@@ -22,13 +22,5 @@ class Static:
             var[key] = value
 
     @staticmethod
-    def re_match(pattern, value, flags=0):  # pragma: no cover
-        return re.match(pattern, value, flags)
-
-    @staticmethod
-    def re_search(pattern, value, flags=0):  # pragma: no cover
-        return re.search(pattern, value, flags)
-
-    @staticmethod
-    def remove_not_ascii(value):  # pragma: no cover
+    def remove_not_ascii(value):
         return "".join(i for i in value if 39 < ord(i) < 60 or 63 < ord(i) < 94 or 96 < ord(i) < 127 or i == '_')

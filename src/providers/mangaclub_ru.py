@@ -10,7 +10,7 @@ class MangaClubRu(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re_search('/manga/view/[^/]+/v(\\d+)-c(\\d+).html').groups()
+        idx = self.re.search('/manga/view/[^/]+/v(\\d+)-c(\\d+).html').groups()
         return '{}-{}'.format(*idx)
 
     def get_main_content(self):
@@ -20,7 +20,7 @@ class MangaClubRu(Provider):
 
     def get_manga_name(self) -> str:
         selector = '\\.ru(?:/manga/view)?/(?:(\\d+\\-.+)/(.+)\\.html)'
-        html = self.re_search(selector, self.get_url())
+        html = self.re.search(selector, self.get_url())
         self.local_storage = html.groups()
         return self.local_storage[1]
 

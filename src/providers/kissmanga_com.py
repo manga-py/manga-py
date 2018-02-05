@@ -15,15 +15,15 @@ class KissMangaCom(Provider):
 
     def get_chapter_index(self) -> str:
         basename = self.basename(self.get_current_chapter())
-        name = self.re_search('Vol\\-+(\\d+)\\-+Ch\\w*?\\-+(\\d+)\\-+(\\d+)', basename)
+        name = self.re.search('Vol\\-+(\\d+)\\-+Ch\\w*?\\-+(\\d+)\\-+(\\d+)', basename)
         if name:
             name = name.groups()
             return '{1}-{0}-{2}'.format(*name)
-        name = self.re_search('Vol\\-+(\\d+)\\-+Ch\\w*?\\-+(\\d+)', basename)
+        name = self.re.search('Vol\\-+(\\d+)\\-+Ch\\w*?\\-+(\\d+)', basename)
         if name:
             name = name.groups()
             return '{1}-{0}-0'.format(*name)
-        name = self.re_search('Ch\\w+\\-*(\\d+)', basename).group(1)
+        name = self.re.search('Ch\\w+\\-*(\\d+)', basename).group(1)
         return '{}-{}-0'.format(name, '0' * len(name))
 
     def get_main_content(self):
@@ -31,7 +31,7 @@ class KissMangaCom(Provider):
         return self.http_get('{}/Manga/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re_search('/Manga/([^/]+)', self.get_url()).group(1)
+        return self.re.search('/Manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         items = self.document_fromstring(self.get_storage_content(), '.listing td a')
@@ -55,7 +55,7 @@ class KissMangaCom(Provider):
         content = self.http_get(self.get_current_chapter())
 
         # if need change key
-        need = self.re_search('\\["([^"]+)"\\].+chko.?=.?chko', content)
+        need = self.re.search('\\["([^"]+)"\\].+chko.?=.?chko', content)
         key = self.__local_data['key']
         if need:
             key += crypt.decode_escape(need.group(1))

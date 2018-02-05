@@ -10,7 +10,7 @@ class Comico(Provider):
         return str(self._storage['current_chapter'])
 
     def get_main_content(self):
-        title_no = self.re_search('\\.jp/.+titleNo=(\\d+)', self.get_url())
+        title_no = self.re.search('\\.jp/.+titleNo=(\\d+)', self.get_url())
         if title_no:
             content = self.http_post('{}/api/getArticleList.nhn'.format(self.get_domain()), data={
                 'titleNo': title_no.group(1)

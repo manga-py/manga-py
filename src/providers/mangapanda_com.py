@@ -8,14 +8,14 @@ class MangaPandaCom(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re_search('\\.com/[^/]+/([^/]+)', self.get_current_chapter()).group(1)
+        idx = self.re.search('\\.com/[^/]+/([^/]+)', self.get_current_chapter()).group(1)
         return '{}-0'.format(idx)
 
     def get_main_content(self):
         return self.http_get('{}/{}'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re_search('\\.com/([^/]+)', self.get_url()).group(1)
+        return self.re.search('\\.com/([^/]+)', self.get_url()).group(1)
 
     @staticmethod
     def _content2image_url(parser):

@@ -5,7 +5,7 @@ class NineMangaCom(NineHelper):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index(True).split('-')
-        return '{:0>3}-{}'.format(*idx)
+        return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self, no_increment=False) -> str:
         if not no_increment:
@@ -33,7 +33,7 @@ class NineMangaCom(NineHelper):
             return []
         items = []
         for i in result:
-            u = self.re_search('(/chapter/.*/\d+)\\.html', i.get('href'))
+            u = self.re.search('(/chapter/.*/\d+)\\.html', i.get('href'))
             items.append('{}{}-10-1.html'.format(self.get_domain(), u.group(1)))
         return items
 
