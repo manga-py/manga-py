@@ -77,7 +77,7 @@ providers_list = {
     'readcomicbooksonline_org': ['readcomicbooksonline\\.net/.+', 'readcomicbooksonline\\.org/.+'],
     'readcomiconline_to': ['readcomiconline\\.to/Comic/.+'],
     'readmanga_me': ['readmanga\\.me/.+'],
-    # 'readmanga_eu': ['readmanga\\.eu/manga/\d+/.+'],
+    'readmanga_eu': ['readmanga\\.eu/manga/\d+/.+'],
     # 'readms_net': ['readms\\.net/(r|manga)/.+'],
     # 'selfmanga_ru': ['selfmanga\\.ru/.+'],
     # 'shakai_ru': ['shakai\\.ru/manga.*?/\d+'],

@@ -24,17 +24,17 @@ class UrlNormalizer:
             return UrlNormalizer.__relative_scheme(url, base_url)
         if url.find('://') < 1:  # relative
             _ = UrlNormalizer.__get_domain(url, base_url)
-            return '%s/%s' % (_.rstrip('/'), url.lstrip('/'))
+            return '{}/{}'.format(_.rstrip('/'), url.lstrip('/'))
         return url
 
     @staticmethod
-    def image_name_helper(temp_path, i, n) -> str:
-        name = remove_file_query_params(i, False)
-        basename = '{:0>3}_{}'.format(n, name)
+    def image_name_helper(temp_path: str, name: str, idx) -> str:
+        name = remove_file_query_params(name, False)
+        basename = '{:0>3}_{}'.format(idx, name)
         name_loss = name.find('?') == 0
         name_len_loss = len(name) < 4
         name_dot_loss = name.find('.') < 1
         if name_loss or name_len_loss or name_dot_loss:
-            basename = '{:0>3}.png'.format(n)
+            basename = '{:0>3}.png'.format(idx)
         return path_join(temp_path, basename)
 
