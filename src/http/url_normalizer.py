@@ -69,14 +69,3 @@ class UrlNormalizer:
         fragment = un._parse_fragment(parse)
         return sheme + netloc + path + query + fragment
 
-    @staticmethod
-    def image_name_helper(temp_path: str, name: str, idx) -> str:
-        name = remove_file_query_params(name, False)
-        basename = '{:0>3}_{}'.format(idx, name)
-        name_loss = name.find('?') == 0
-        name_len_loss = len(name) < 4
-        name_dot_loss = name.find('.') < 1
-        if name_loss or name_len_loss or name_dot_loss:
-            basename = '{:0>3}.png'.format(idx)
-        return path_join(temp_path, basename)
-

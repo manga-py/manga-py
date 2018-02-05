@@ -304,9 +304,6 @@ class TestHttpClasses(unittest.TestCase):
         test_url = UrlNormalizer.url_helper(url, self.referer)
         self.assertEqual(self.referer, test_url)
 
-    def test_url_normalizer_image_name_helper(self):
-        pass
-
 
 if __name__ == '__main__':
     fs.make_dirs(root_path + '/temp')
