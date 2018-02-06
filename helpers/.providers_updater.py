@@ -7,7 +7,7 @@ if __name__ == '__main__':
     content = ''
 
     for i in providers.providers_list:
-        content = content + 'import src.roviders.' + i + '\n'
+        content = content + 'import src.providers.' + i + '\n'
 
     with open('src/providers/__for_make__.py', 'w') as f:
         f.write(content)

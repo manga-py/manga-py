@@ -52,7 +52,7 @@ providers_list = {
     'mangachan_me_download': ['mangachan\\.me/download/.+'],
     'mangaclub_ru': ['mangaclub\\.ru/.+'],
     'mangaeden_com': ['mangaeden\\.com/[^/]+/[^/]+\\-manga/.+'],
-    'mangafox_la': ['mangafox\\.(me|la)/manga/.+'],
+    # 'mangafox_la': ['mangafox\\.(me|la)/manga/.+'],
     'mngdoom_com': ['(mangadoom\\.co|mngdoom\\.com)/.+'],
     'mangago_me': ['mangago\\.me/read\\-manga/.+'],
     'mangahere_co': ['mangahere\\.(co|cc)/manga/.+'],

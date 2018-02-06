@@ -1,14 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-if __file__.find('helpers/inmanga_com.py') < 0:
-    print('Please run from the parent directory')
-    exit()
-
 from json import loads
 from requests import get
-from os import system
+from os import system, path
 
+_path = path.dirname(path.dirname(path.realpath(__file__)))
 
 all_manga_list = None
 n = 0
@@ -24,4 +21,5 @@ if not all_manga_list:
 
 for i in all_manga_list:
     print('Downloading %s' % i['Name'])
-    system('cd ../; python3 manga.py -p -i -u http://inmanga.com/ver/manga/{}/{}'.format(i['Name'], i['Name'], i['Identification']))
+    _str = 'cd {}; python3 manga.py --cli -i -u http://inmanga.com/ver/manga/{}/{}'
+    system(_str.format(_path, i['Name'], i['Name'], i['Identification']))
