@@ -91,7 +91,7 @@ providers_list = {
     'wmanga_ru': ['wmanga\\.ru/starter/manga_.+'],
     'yaoichan_me': ['yaoichan\\.me/(manga|online).+'],
     'yaoichan_me_download': ['yaoichan\\.me/download/.+'],
-    # 'zingbox_me': ['zingbox\\.me/.+'],
+    'zingbox_me': ['zingbox\\.me/.+'],
     # 'zip_read_com': ['zip\\-read\\.com/.+'],
     'otakusmash_com': ['otakusmash\\.com', 'mrsmanga\\.com', 'mentalmanga\\.com']
 }

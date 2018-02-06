@@ -102,6 +102,7 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
 
     def get_archive_path(self):
         _path = remove_file_query_params(self.get_archive_name())
+        _path = self.remove_not_ascii(_path)
 
         if not _path:
             _path = str(self._storage['current_chapter'])

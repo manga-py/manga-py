@@ -22,5 +22,13 @@ class Static:
             var[key] = value
 
     @staticmethod
+    def __test_ascii(i):
+        o = ord(i)
+        _ = 39 < o < 58
+        _ = _ or 63 < o < 94
+        _ = _ or 96 < o < 127
+        return _
+
+    @staticmethod
     def remove_not_ascii(value):
-        return "".join(i for i in value if 39 < ord(i) < 60 or 63 < ord(i) < 94 or 96 < ord(i) < 127 or i == '_')
+        return "".join(i for i in value if i == '_' or Static.__test_ascii(i))
