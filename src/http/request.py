@@ -1,6 +1,6 @@
 import requests
 
-from .url_normalizer import UrlNormalizer
+from .url_normalizer import normalize_uri
 
 
 class Request:
@@ -49,7 +49,7 @@ class Request:
         if r.is_redirect:
             if max_redirects < 1:
                 raise AttributeError('Too many redirects')
-            location = UrlNormalizer.url_helper(r.headers['location'], self.__redirect_base_url)
+            location = normalize_uri(r.headers['location'], self.__redirect_base_url)
             return self._requests_helper(
                 method=method, url=location, headers=headers,
                 cookies=cookies, data=data, files=files,

@@ -1,7 +1,7 @@
 from src.fs import get_temp_path, make_dirs, remove_file_query_params, basename, path_join, dirname
 from .multi_threads import MultiThreads
 from .request import Request
-from .url_normalizer import UrlNormalizer
+from .url_normalizer import normalize_uri
 
 
 class Http(Request):
@@ -66,7 +66,7 @@ class Http(Request):
         return self._download_one_file_helper(url, dst)
 
     def normalize_uri(self, uri):
-        return UrlNormalizer.url_helper(uri, self.referer)
+        return normalize_uri(uri, self.referer)
 
     def multi_download_get(self, urls, dst: str = None, callback: callable = None):
         threading = MultiThreads()

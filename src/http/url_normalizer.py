@@ -69,3 +69,5 @@ class UrlNormalizer:
         fragment = un._parse_fragment(parse)
         return sheme + netloc + path + query + fragment
 
+
+normalize_uri = UrlNormalizer.url_helper
