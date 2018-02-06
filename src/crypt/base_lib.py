@@ -3,11 +3,11 @@ import base64
 import codecs
 import gzip
 import zlib
-from hashlib import md5
 from struct import pack, unpack
+from binascii import unhexlify
 
 from Crypto.Cipher import AES
-from Crypto.Hash import SHA256
+from Crypto.Hash import SHA256, MD5
 from execjs import compile as js_compile
 
 
@@ -70,8 +70,10 @@ class BaseLib:
         return zlib.compress(data, **kwargs)
 
     @staticmethod
-    def md5():  # pragma: no cover
-        return md5
+    def md5(string):  # pragma: no cover
+        _ = MD5.new()
+        _.update(string.encode())
+        return _
 
     @staticmethod
     def pack(fmt, *args):  # pragma: no cover
@@ -80,3 +82,24 @@ class BaseLib:
     @staticmethod
     def unpack(fmt, string):  # pragma: no cover
         return unpack(fmt, string)
+
+    @staticmethod
+    def str2hex(string):
+        hex_str = ''
+        if isinstance(string, bytes):
+            string = string.decode()
+        for char in string:
+            int_char = ord(char)
+            hex_num = hex(int_char).lstrip("0x")
+            hex_str += hex_num
+        return hex_str
+
+    @staticmethod
+    def hex2str(string):
+        clear_str = ''
+        if isinstance(string, bytes):
+            string = string.decode()
+        for counter in range(0, len(string), 2):
+            hex_char = string[counter]+string[counter+1]
+            clear_str += unhexlify(hex_char)
+        return clear_str

@@ -17,10 +17,17 @@ class Request:
     default_lang = 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
     cookies = None
     kwargs = None
+    _headers = None
 
     def __init__(self):
         self.proxies = {}
         self.cookies = {}
+
+    def __patch_headers(self, headers):
+        if isinstance(self._headers, dict):
+            for i in self._headers:
+                headers[i] = self._headers[i]
+        return headers
 
     def _get_cookies(self, cookies=None):
         return cookies if cookies else self.cookies
@@ -41,6 +48,7 @@ class Request:
             **kwargs
     ) -> requests.Response:
         self._prepare_redirect_base_url(url)
+        headers = self.__patch_headers(headers)
         r = getattr(requests, method)(
             url=url, headers=headers, cookies=cookies, data=data,
             files=files, allow_redirects=False, proxies=proxies,
