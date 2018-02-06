@@ -5,7 +5,7 @@ from lxml.html import document_fromstring
 import re
 from helpers.exceptions import UrlParseError
 
-domainUri = 'http://readcomicbooksonline.net'
+domainUri = 'http://readcomicbooksonline.org'
 
 
 def get_main_content(url, get=None, post=None):
@@ -50,10 +50,10 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    test = re.search('\\.net/reader/([^/]+)', url)
+    test = re.search('\\.org/reader/([^/]+)', url)
     if test:
         return test.groups()[0]
-    test = re.search('\\.net/([^/]+)$', url)
+    test = re.search('\\.org/([^/]+)$', url)
     if test:
         return test.groups()[0]
     raise UrlParseError()

@@ -33,7 +33,7 @@ providers_list = {
     'mangafreak_net': 'mangafreak\\.net/.+',  # with cf-protect
     'mangago_me': 'mangago\\.me/read\\-manga/.+',  # with cf-protect
     'mangahead_me': 'mangahead\\.me/.*Manga-\w+-Scan/.+',
-    'mangahere_co': 'mangahere\\.co/manga/.+',
+    'mangahere_co': 'mangahere\\.(cc|co)/manga/.+',
     'mangahome_com': 'mangahome\\.com/manga/.+',
     'mangahub_ru': 'mangahub\\.ru/.+',
     'mangainn_net': 'mangainn\\.net/manga/.+',
@@ -63,7 +63,7 @@ providers_list = {
     # 'onemanga_com': 'onemanga\\.com/manga.+',
     'rawdevart_com': 'rawdevart\\.com/.+',
     'read_yagami_me': 'read\\.yagami\\.me/.+',
-    'readcomicbooksonline_net': 'readcomicbooksonline\\.net/.+',
+    'readcomicbooksonline_net': 'readcomicbooksonline\\.org/.+',
     'readcomiconline_to': 'readcomiconline\\.to/Comic/.+',
     'readmanga_me': 'readmanga\\.me/.+',
     'readmanga_eu': 'readmanga\\.eu/manga/\d+/.+',

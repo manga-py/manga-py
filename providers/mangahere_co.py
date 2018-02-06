@@ -5,7 +5,7 @@ from lxml.html import document_fromstring
 import re
 from helpers.exceptions import UrlParseError
 
-domainUri = 'http://www.mangahere.co'
+domainUri = 'http://www.mangahere.cc'
 
 
 def get_main_content(url, get=None, post=None):
@@ -44,7 +44,7 @@ def get_images(main_content=None, volume=None, get=None, post=None):
 
 
 def get_manga_name(url, get=None):
-    result = re.search('\\.co/manga/([^/]+)', url)
+    result = re.search('\\.c[c|o]/manga/([^/]+)', url)
     if not result:
         raise UrlParseError()
     return result.groups()[0]
