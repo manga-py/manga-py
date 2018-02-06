@@ -7,7 +7,7 @@ class ReadComicOnlineTo(Provider):
         return 'vol_{:0>3}-{}'.format(self._chapter_index(), chapter)
 
     def get_chapter_index(self, no_increment=False) -> str:
-        return '{}'.format(self._chapter_index())
+        return str(self._chapter_index())
 
     def get_main_content(self):
         name = self.get_manga_name()

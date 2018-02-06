@@ -14,7 +14,7 @@ class TaaddCom(Provider):
 
     def get_chapter_index(self) -> str:
         idx = self.re.search('/chapter/([^/]+)/', self.get_current_chapter()).group(1)
-        return '{}'.format(idx)
+        return idx
 
     def get_main_content(self):
         name = self._storage.get('manga_name', self.get_manga_name())

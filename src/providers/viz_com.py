@@ -7,7 +7,7 @@ class VizCom(Provider):
         return 'vol_{}'.format(self._chapter_index())
 
     def get_chapter_index(self) -> str:
-        return '{}'.format(self._chapter_index())
+        return str(self._chapter_index())
 
     def get_main_content(self):
         url = self.re.search('/([^/]+/chapters/[^/]+)')
