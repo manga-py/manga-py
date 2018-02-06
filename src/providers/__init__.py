@@ -40,7 +40,7 @@ providers_list = {
     'desu_me': ['desu\\.me/manga/.+'],
     'funmanga_com': ['funmanga\\.com/.+'],
     'goodmanga_net': ['goodmanga\\.net/.+'],
-    'entai_chan_me': ['entai\\-chan\\.me/.+'],
+    'hentai_chan_me': ['hentai\\-chan\\.me/.+'],
     'inmanga_com': ['inmanga\\.com/ver/manga/.+'],
     'jurnalu_ru': ['jurnalu\\.ru/online\\-reading/.+'],
     'kissmanga_com': ['kissmanga\\.com/Manga/.+'],
