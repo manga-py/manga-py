@@ -11,6 +11,7 @@ providers_list = {
     'e_hentai_org': ['e\\-hentai\\.org/g/\\d'],
     'funmanga_com': ['funmanga\\.com/.'],
     'goodmanga_net': ['goodmanga\\.net/.'],
+    'gomanga_co': ['gomanga\\.co/reader/.'],
     'hentai_chan_me': ['hentai\\-chan\\.me/(related|manga|online)/.'],
     'hentai_chan_me_download': ['hentai\\-chan\\.me/download/.'],
     'hocvientruyentranh_com': ['http://hocvientruyentranh\\.com/(manga|chapter)/.'],
