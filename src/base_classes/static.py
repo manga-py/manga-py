@@ -1,8 +1,4 @@
-import re
-
 from lxml.html import document_fromstring
-
-from src.fs import basename
 
 
 class Static:

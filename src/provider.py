@@ -56,9 +56,6 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
 
         self.loop_chapters()
 
-    def get_storage_content(self):
-        return self._storage.get('main_content', '')
-
     def _check_archive(self):
         # check
         _path = self.get_archive_path()
@@ -186,3 +183,10 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
         self._storage['cookies'] = params[0]
         self._storage['user_agent'] = params[1]
         self._params['cf-protect'] = True
+
+    def _get_cover_from_content(self, selector):
+        if self.get_storage_content():
+            image = self.document_fromstring(self.get_storage_content(), selector)
+            if image and len(image):
+                self.http().normalize_uri(image[0].get('src'))
+

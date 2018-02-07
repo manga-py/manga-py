@@ -1,38 +1,6 @@
 import re
 
 
-"""
-TODO:
-
-
-class Reg(object):
-  def __init__(self, domain):
-    self.domain = domain
-
-class RegA(Registrar):
-  @classmethod
-  def is_reg_for(cls, domain):
-    return domain == 'foo.com'
-
-class RegB(Registrar):
-  @classmethod
-  def is_reg_for(cls, domain):
-    return domain == 'bar.com'
-
-
-def Domain(domain):
-  for cls in Reg.__subclasses__():
-    if cls.is_reg_for(domain):
-      return cls(domain)
-  raise ValueError
-
-
-print Domain('foo.com')
-print Domain('bar.com')
-
-
-"""
-
 providers_list = {
     'comicextra_com': ['comicextra\\.com/.+'],
     'comico_jp': ['comico\\.jp/(detail|articleList).+titleNo.+'],
@@ -40,7 +8,9 @@ providers_list = {
     'desu_me': ['desu\\.me/manga/.+'],
     'funmanga_com': ['funmanga\\.com/.+'],
     'goodmanga_net': ['goodmanga\\.net/.+'],
-    'hentai_chan_me': ['hentai\\-chan\\.me/.+'],
+    'hentai_chan_me': ['hentai\\-chan\\.me/(related|manga|online)/.+'],
+    'hentai_chan_me_download': ['hentai\\-chan\\.me/download/.+'],
+    'hocvientruyentranh_com': ['http://hocvientruyentranh\\.com/(manga|chapter)/.+'],
     'inmanga_com': ['inmanga\\.com/ver/manga/.+'],
     'jurnalu_ru': ['jurnalu\\.ru/online\\-reading/.+'],
     'kissmanga_com': ['kissmanga\\.com/Manga/.+'],

@@ -33,6 +33,9 @@ class Base:
         }
         self._http_kwargs = {}
 
+    def get_storage_content(self):
+        return self._storage.get('main_content', '')
+
     def get_url(self):
         return self._params['url']
 
