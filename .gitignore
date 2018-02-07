@@ -2,6 +2,8 @@
 Manga/
 tests/temp/
 
+src/rebreakcaptcha
+
 storage/.passwords.json
 
 ### Python template
