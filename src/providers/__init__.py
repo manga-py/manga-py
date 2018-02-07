@@ -2,6 +2,7 @@ import re
 
 
 providers_list = {
+    'blogtruyen_com': ['blogtruyen\\.com/.+'],
     'comicextra_com': ['comicextra\\.com/.+'],
     'comico_jp': ['comico\\.jp/(detail|articleList).+titleNo.+'],
     'comicsandmanga_ru': ['comicsandmanga\\.ru/online\\-reading/.+'],
@@ -63,7 +64,7 @@ providers_list = {
     'yaoichan_me_download': ['yaoichan\\.me/download/.+'],
     'zingbox_me': ['zingbox\\.me/.+'],
     'zip_read_com': ['zip\\-read\\.com/.+'],
-    'otakusmash_com': ['otakusmash\\.com', 'mrsmanga\\.com', 'mentalmanga\\.com']
+    'otakusmash_com': ['otakusmash\\.com', 'mrsmanga\\.com', 'mentalmanga\\.com', 'mangasmash\\.com']
 }
 
 
