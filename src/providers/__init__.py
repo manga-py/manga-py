@@ -8,6 +8,7 @@ providers_list = {
     'comicsandmanga_ru': ['comicsandmanga\\.ru/online\\-reading/.'],
     'desu_me': ['desu\\.me/manga/.'],
     'doujins_com': ['doujins\\.com/gallery/.'],
+    'e_hentai_org': ['e\\-hentai\\.org/g/\\d'],
     'funmanga_com': ['funmanga\\.com/.'],
     'goodmanga_net': ['goodmanga\\.net/.'],
     'hentai_chan_me': ['hentai\\-chan\\.me/(related|manga|online)/.'],

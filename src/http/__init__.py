@@ -66,7 +66,9 @@ class Http(Request):
         return self._download_one_file_helper(url, dst)
 
     def normalize_uri(self, uri):
-        return normalize_uri(uri, self.referer)
+        if isinstance(uri, str):
+            return normalize_uri(uri, self.referer)
+        return uri
 
     def multi_download_get(self, urls, dst: str = None, callback: callable = None):
         threading = MultiThreads()

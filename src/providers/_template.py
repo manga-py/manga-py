@@ -22,7 +22,7 @@ class _Template(Provider):
         return []
 
     def get_cover(self) -> str:
-        pass
+        return self._get_cover_from_content('#gd1 > div')
 
 
 main = _Template

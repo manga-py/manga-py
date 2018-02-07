@@ -36,7 +36,7 @@ class MangaSaurusCom(Provider):
             n = o.get(i)
             _ = n.get('original', {}).get('file', '')
             idx = _.find('.')
-            src = path.format(_[0:idx], self.get_manga_name(), n['id'], _[idx:])
+            src = path.format(_[:idx], self.get_manga_name(), n['id'], _[idx:])
             images.append(src)
         return images
 

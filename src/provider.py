@@ -25,6 +25,7 @@ from .version import __version__
 class Provider(Base, Abstract, Static, metaclass=ABCMeta):
 
     _volumes_count = 0
+    _archive = None
 
     def __init__(self):
         super().__init__()
@@ -76,23 +77,31 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
                 self._storage['files'] = self.get_files()
                 self.loop_files()
 
-    def __add_file_to_archive(self, archive):
+    def __add_file_to_archive(self):
         if self._params.get('no_multi_threads', False):
-            self._one_thread_save(archive, self._storage['files'])
+            self._one_thread_save(self._storage['files'])
 
         else:
-            self._multi_thread_save(archive, self._storage['files'])
+            self._multi_thread_save(self._storage['files'])
 
     def loop_files(self):
         if isinstance(self._storage['files'], list) and len(self._storage['files']) > 0:
-            archive = Archive()
-            self.__add_file_to_archive(archive)
-            self.make_archive(archive)
+            self._archive = Archive()
+            self.__add_file_to_archive()
+            self.make_archive()
 
-    def save_file(self, _url, _path, callback=None):
+    def save_file(self, callback=None, url=None):
+        if url is None:
+            _url = self.http().normalize_uri(self.get_current_file())
+        else:
+            _url = url
+
+        filename = remove_file_query_params(basename(_url))
+        _path = get_temp_path('{:0>2}_{}'.format(self._storage['current_file'], filename))
         _path = self.remove_not_ascii(_path)
 
         if not is_file(_path):
+            self._archive.add_file(self.remove_not_ascii(_path))
             self.http().download_file(_url, _path)
         callable(callback) and callback()
         return _path
@@ -114,12 +123,12 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
             _path + '.zip'
         )
 
-    def make_archive(self, archive: Archive):
+    def make_archive(self):
         _path = self.get_archive_path()
 
         info = 'Site: {}\nDownloader: {}\nVersion: {}'.format(self.get_url(), __downloader_uri__, __version__)
 
-        archive.make(_path, info)
+        self._archive.make(_path, info)
 
     def html_fromstring(self, url, selector: str = None, idx: int = None):
         params = {}
@@ -135,42 +144,26 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
 
         self._storage['current_file'] += 1
 
-    def _multi_thread_save(self, archive, files):
+    def _multi_thread_save(self, files):
+        import time
         threading = MultiThreads()
-        urls = []
-        for idx, __url in enumerate(files):
-
-            self._storage['current_file'] = idx
-
-            _url = self.http().normalize_uri(self.get_current_file())
-            filename = remove_file_query_params(basename(_url))
-            _path = get_temp_path('{:0>2}_{}'.format(self._storage['current_file'], filename))
-
-            urls.append([idx, _url, _path])
-            archive.add_file(self.remove_not_ascii(_path))
-
         # hack
         self._storage['current_file'] = 0
-        for url in urls:
-            threading.add(self.save_file, (url[1], url[2], self._multi_thread_callback))
+        for url in files:
+            threading.add(target=self.save_file, args=[self._multi_thread_callback])
+
+        time.sleep(5)
 
         threading.start()
         self.logger_callback('')
 
-    def _one_thread_save(self, archive, files):
+    def _one_thread_save(self, files):
 
         for idx, __url in enumerate(files):
             self._storage['current_file'] = idx
             self._call_files_progress_callback()
             self._loop_callback_files()
-
-            _url = self.http().normalize_uri(self.get_current_file())
-            filename = remove_file_query_params(basename(_url))
-            _path = get_temp_path('{:0>2}_{}'.format(self._storage['current_file'], filename))
-
-            file = self.save_file(_url, _path)
-
-            archive.add_file(file)
+            self.save_file()
 
     def cf_protect(self, url):
         """
@@ -189,4 +182,3 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
             image = self.document_fromstring(self.get_storage_content(), selector)
             if image and len(image):
                 self.http().normalize_uri(image[0].get('src'))
-

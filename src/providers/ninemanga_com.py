@@ -1,4 +1,4 @@
-from .helpers.nine_helper import NineHelper
+from .helpers.nine_manga import NineHelper
 
 
 class NineMangaCom(NineHelper):
