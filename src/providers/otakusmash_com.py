@@ -45,15 +45,6 @@ class OtakuSmashCom(Provider):
             _img and images.append(_img)
         return images
 
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
-
-    def prepare_cookies(self):
-        pass
-
     def _get_manga_url(self):
         name = self.get_manga_name()
         return '{}/{}{}/'.format(self.get_domain(), self.prefix, name)

@@ -19,18 +19,9 @@ class SoMangaNet(Provider):
         parser = self.document_fromstring(self.get_storage_content(), 'ul.capitulos li > a')
         return [i.get('href') for i in parser]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         parser = self.html_fromstring(self.get_current_chapter(), 'img.img-manga')
         return [i.get('src') for i in parser]
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = SoMangaNet

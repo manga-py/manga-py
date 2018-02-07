@@ -40,11 +40,5 @@ class MangaOnlineHereCom(Provider):
         items = self.html_fromstring(self.get_current_chapter(), '#list-img img')
         return [i.get('src') for i in items]
 
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
-
 
 main = MangaOnlineHereCom

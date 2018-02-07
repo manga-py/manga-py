@@ -25,18 +25,9 @@ class MangaKakalotCom(Provider):
         items = self.document_fromstring(self.get_storage_content(), '.chapter-list span a')
         return [i.get('href') for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         result = self.html_fromstring(self.get_current_chapter(), '#vungdoc img')
         return [i.get('src') for i in result]
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaKakalotCom

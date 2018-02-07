@@ -52,9 +52,6 @@ class ManhuaGuiCom(Provider):
             chapters = self.document_fromstring(js, '.chapter-list li > a')
         return chapters
 
-    def prepare_cookies(self):
-        pass
-
     def parse_files_data(self, data):
         images = []
         md5 = data.get('sl', {}).get('md5', '')
@@ -88,12 +85,6 @@ class ManhuaGuiCom(Provider):
             return []
         data = self.json.loads(data.group(1))
         return self.parse_files_data(data)
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = ManhuaGuiCom

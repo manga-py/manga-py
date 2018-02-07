@@ -29,11 +29,5 @@ class ReadComicOnlineTo(Provider):
         items = self.re.findall('lstImages.push\("([^"]+)"\)', content)
         return items
 
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
-
 
 main = ReadComicOnlineTo

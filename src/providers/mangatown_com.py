@@ -45,11 +45,5 @@ class MangaTownCom(Provider):
 
         return images
 
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
-
 
 main = MangaTownCom

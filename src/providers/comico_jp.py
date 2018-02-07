@@ -31,18 +31,9 @@ class Comico(Provider):
         self.logger_callback('Free chapters count: %d' % len(items))
         return items[::-1]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '.comic-image._comicImage > img.comic-image__image')
         return [i.get('src') for i in items]
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = Comico

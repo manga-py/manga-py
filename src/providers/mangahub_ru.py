@@ -25,9 +25,6 @@ class MangaHubRu(Provider):
         domain = self.get_domain()
         return [domain + i.get('href') for i in parser]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         parser = self.html_fromstring(self.get_current_chapter(), '.b-main-container .b-reader__full')
         if not parser:
@@ -36,12 +33,6 @@ class MangaHubRu(Provider):
         result = self.json.loads(html.unescape(result.replace('\/', '/')))
         domain = self.get_domain()
         return [domain + i['src'] for i in result]
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaHubRu

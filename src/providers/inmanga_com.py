@@ -53,11 +53,5 @@ class InMangaCom(Provider):
         images = self.html_fromstring(url, '.PagesContainer img.ImageContainer')
         return [files_url.format(domain, i.get('id')) for i in images]
 
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
-
 
 main = InMangaCom

@@ -19,9 +19,6 @@ class MangaSaurusCom(Provider):
         parser = self.document_fromstring(self.get_storage_content(), '.table--chapters td > a')
         return [self.get_domain() + i.get('href') for i in parser[::-1]]
 
-    def prepare_cookies(self):
-        pass
-
     def __files_helper(self):
         content = self.http_get(self.get_current_chapter())
         _path = self.document_fromstring(content, '#imageZone-next > img', 0).get('src')
@@ -42,12 +39,6 @@ class MangaSaurusCom(Provider):
             src = path.format(_[0:idx], self.get_manga_name(), n['id'], _[idx:])
             images.append(src)
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaSaurusCom

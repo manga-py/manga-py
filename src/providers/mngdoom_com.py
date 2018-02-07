@@ -26,9 +26,6 @@ class MngDoomCom(Provider):
         items = self.document_fromstring(self.get_storage_content(), 'ul.chapter-list > li > a')
         return [i.get('href') for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
         items = self.re.search(' images = (\\[{[^;]+}\\])', content)
@@ -39,12 +36,6 @@ class MngDoomCom(Provider):
             return [i['url'] for i in images]
         except self.json.JSONDecodeError:
             return []
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MngDoomCom

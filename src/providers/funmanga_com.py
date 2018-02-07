@@ -22,18 +22,9 @@ class FunMangaCom(Provider):
         items = self.document_fromstring(self.get_storage_content(), '.chapter-list li > a')
         return [i.get('href') + '/all-pages' for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '.content-inner > img.img-responsive')
         return [i.get('src') for i in items]
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = FunMangaCom

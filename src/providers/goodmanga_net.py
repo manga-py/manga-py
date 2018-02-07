@@ -39,9 +39,6 @@ class GoodMangaNet(Provider):
             chapters += self.get_chapters_links(cnt)
         return chapters
 
-    def prepare_cookies(self):
-        pass
-
     @staticmethod
     def __get_image(p):
         img = p.cssselect('#manga_viewer > a > img')
@@ -54,12 +51,6 @@ class GoodMangaNet(Provider):
             _parser = self.html_fromstring(i.get('value'))
             images.append(self.__get_image(_parser))
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = GoodMangaNet

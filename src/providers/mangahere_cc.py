@@ -22,9 +22,6 @@ class MangaHereCc(Provider):
         parser = self.document_fromstring(self.get_storage_content(), '.detail_list .left a')
         return [i.get('href') for i in parser]
 
-    def prepare_cookies(self):
-        pass
-
     @staticmethod
     def __get_img(parser):
         return parser.cssselect('img#image')[0].get('src')
@@ -39,12 +36,6 @@ class MangaHereCc(Provider):
             parser = self.html_fromstring(i)
             images.append(self.__get_img(parser))
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaHereCc

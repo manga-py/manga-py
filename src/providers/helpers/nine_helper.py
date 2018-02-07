@@ -44,9 +44,3 @@ class NineHelper(Provider):
 
     def prepare_cookies(self):
         self._storage['cookies'].setdefault('__cfduid', '1a2b3c4d5e')
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass

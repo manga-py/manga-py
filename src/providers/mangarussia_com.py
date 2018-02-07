@@ -42,9 +42,6 @@ class MangaRussiaCom(Provider):
         urls = [i.get('href') for i in parser]
         return urls
 
-    def prepare_cookies(self):
-        pass
-
     def _get_img(self, parser):
         img = parser.cssselect('img#comicpic')[0]
         urls = [img.get('src')]
@@ -65,9 +62,6 @@ class MangaRussiaCom(Provider):
 
     def _loop_callback_chapters(self):
         self._storage['referer'] = self.path_url(self.get_current_chapter())
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaRussiaCom

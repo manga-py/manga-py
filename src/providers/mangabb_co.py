@@ -27,9 +27,6 @@ class MangabbCo(Provider):
         result = self.html_fromstring(content, selector)
         return [i.get('value') for i in result[::-1]]
 
-    def prepare_cookies(self):
-        pass
-
     @staticmethod
     def __get_img(parser):
         return parser.cssselect('#manga_viewer > a > img')[0].get('src')
@@ -60,12 +57,6 @@ class MangabbCo(Provider):
             self._img_lifehack2(pages_list, images)
 
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangabbCo

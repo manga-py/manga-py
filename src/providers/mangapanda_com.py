@@ -27,9 +27,6 @@ class MangaPandaCom(Provider):
         domain = self.get_domain()
         return [domain + i.get('href') for i in items[::-1]]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         url = self.http().normalize_uri(self.get_current_chapter())
 
@@ -46,12 +43,6 @@ class MangaPandaCom(Provider):
             n += 1
 
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaPandaCom

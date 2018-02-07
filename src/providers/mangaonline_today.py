@@ -26,9 +26,6 @@ class MangaOnlineToday(Provider):
         items = self.document_fromstring(self.get_storage_content(), 'ul.chp_lst a')
         return [i.get('href') for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     def _pages_helper(self, options):
         images = []
         chapter = self.get_current_chapter()
@@ -48,12 +45,6 @@ class MangaOnlineToday(Provider):
 
         options = len(content.cssselect('.cbo_wpm_pag')[0].cssselect('option')) / 2 + .5
         return images + self._pages_helper(options)
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaOnlineToday

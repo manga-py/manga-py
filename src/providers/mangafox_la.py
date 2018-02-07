@@ -30,9 +30,6 @@ class MangaFoxMe(Provider):
             return []
         return [i.get('href') for i in parser]
 
-    def prepare_cookies(self):
-        pass
-
     @staticmethod
     def _content2image_url(parser):
         result = parser.cssselect('img#image')
@@ -62,12 +59,6 @@ class MangaFoxMe(Provider):
             images.append(self._content2image_url(parser))
 
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaFoxMe

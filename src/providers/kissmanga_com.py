@@ -69,11 +69,5 @@ class KissMangaCom(Provider):
 
         return [i.replace('\x10', '') for i in images]
 
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
-
 
 main = KissMangaCom

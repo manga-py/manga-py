@@ -27,9 +27,6 @@ class MangaHomeCom(Provider):
         parser = self.document_fromstring(self.get_storage_content(), '.detail-chlist a')
         return [i.get('href') for i in parser]
 
-    def prepare_cookies(self):
-        pass
-
     @staticmethod
     def _content2image_url(parser):
         return parser.cssselect('img#image')[0].get('src')
@@ -47,12 +44,6 @@ class MangaHomeCom(Provider):
             images.append(self._content2image_url(self.html_fromstring(url)))
 
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaHomeCom

@@ -46,11 +46,5 @@ class MangaChanMe(Provider):
     def get_files(self):
         return []
 
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
-
 
 main = MangaChanMe

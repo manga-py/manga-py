@@ -25,9 +25,6 @@ class ReadComicBooksOnlineOrg(Provider):
         items = self.document_fromstring(self.get_storage_content(), '#chapterlist .chapter > a')
         return [i.get('href') for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     def _get_image(self, parser):
         src = parser.cssselect('a > img.picture')
         if not src:
@@ -46,12 +43,6 @@ class ReadComicBooksOnlineOrg(Provider):
             img = self._get_image(_content)
             img and images.append(img)
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = ReadComicBooksOnlineOrg

@@ -21,9 +21,6 @@ class VizCom(Provider):
         items = self.document_fromstring(content, '.o_products .chapter-text > a')
         return [i.get('href') for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         volume_id = self.re.search('/chapter/[^/]+/(\d+)', self.get_current_chapter())
         params = [
@@ -63,12 +60,6 @@ class VizCom(Provider):
             n += 2
 
         return [-1]
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = VizCom

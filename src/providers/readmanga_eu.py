@@ -26,9 +26,6 @@ class ReadMangaEu(Provider):
         items = self.document_fromstring(self.get_storage_content(), selector)
         return [self.http().normalize_uri(i.get('href')) for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     def parse_files(self, parser):
         images_class = '.mainContent img.ebook_img'
         images = []
@@ -45,12 +42,6 @@ class ReadMangaEu(Provider):
             parser = self.html_fromstring(url)
             images += self.parse_files(parser)
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = ReadMangaEu

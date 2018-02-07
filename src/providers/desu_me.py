@@ -23,9 +23,6 @@ class DesuMe(Provider):
     def get_manga_name(self) -> str:
         return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         content = self.http_get(self.get_domain() + self.get_current_chapter())
         result = self.re.search('images:\\s?(\\[\[.+\\]\\])', content, self.re.M)
@@ -34,12 +31,6 @@ class DesuMe(Provider):
         root_url = self.re.search('dir:\\s?"([^"]*)"', content).group(1).replace('\\/', '/')
 
         return [root_url + i[0] for i in self.json.loads(result.group(1))]
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = DesuMe

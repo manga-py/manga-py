@@ -22,9 +22,6 @@ class ReadMsNet(Provider):
         items = self.document_fromstring(self.get_storage_content(), '.table-striped td > a')
         return [self.http().normalize_uri(i.get('href')) for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     @staticmethod
     def _get_image(parser):
         items = parser.cssselect('img#manga-page')
@@ -41,12 +38,6 @@ class ReadMsNet(Provider):
             img = self._get_image(parser)
             img and images.append(img)
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = ReadMsNet

@@ -32,11 +32,5 @@ class MyReadingMangaInfo(Provider):
         parser = self.html_fromstring(self.get_current_chapter(), selector)
         return [i.get('src') for i in parser]
 
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
-
 
 main = MyReadingMangaInfo

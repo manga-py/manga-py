@@ -25,18 +25,9 @@ class ComicExtra(Provider):
         items = self.document_fromstring(self.get_storage_content(), '#list td a')
         return ['%s/full' % i.get('href') for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '.chapter-container img.chapter_img')
         return [i.get('src') for i in items]
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = ComicExtra

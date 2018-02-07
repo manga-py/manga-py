@@ -38,20 +38,11 @@ class MangaChanMe(Provider):
         nu = self.http().normalize_uri
         return [nu(i.get('href')) for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
         items = self.re.search('"?fullimg"?\\s?:\\s?(\[.+\])', content).group(1)
         images = self.json.loads(items.replace('",]', '"]'))  # patch
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaChanMe

@@ -38,20 +38,11 @@ class ShakaiRu(Provider):
         _ = self.get_storage_content().get('data', [])
         return _[::-1]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         chapter = self.get_current_chapter()
         if isinstance(chapter, dict):
             return chapter.get('data-second', [])
         return []
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = ShakaiRu

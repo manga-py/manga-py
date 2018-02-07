@@ -25,18 +25,9 @@ class WMangaRu(Provider):
         nu = self.http().normalize_uri
         return [nu(i.get('href')) for i in parser[::-1]]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         parser = self.html_fromstring(self.get_current_chapter(), 'td a.gallery')
         return [i.get('href') for i in parser]
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = WMangaRu

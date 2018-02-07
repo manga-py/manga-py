@@ -22,9 +22,6 @@ class MangaReaderNet(Provider):
         domain = self.get_domain()
         return [domain + i.get('href') for i in result[::-1]]
 
-    def prepare_cookies(self):
-        pass
-
     @staticmethod
     def _get_img(parser):
         return parser.cssselect('#img')[0].get('src')
@@ -37,12 +34,6 @@ class MangaReaderNet(Provider):
             parser = self.html_fromstring(self.get_domain() + i.get('value'))
             images.append(self._get_img(parser))
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaReaderNet

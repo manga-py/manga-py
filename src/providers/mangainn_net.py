@@ -28,20 +28,11 @@ class MangaInnNet(Provider):
         items = self.document_fromstring(self.get_storage_content(), '#chapter_list a[href]')
         return [i.get('href') for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
         images = self.re.search('var\\s+images\\s*=\\s*(\\[\\{.+?\\}\\])', content).group(1)
         images = self.json.loads(images)
         return [i.get('url') for i in images]
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaInnNet

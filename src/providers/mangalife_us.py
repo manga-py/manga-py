@@ -30,9 +30,6 @@ class MangaLifeUs(Provider):
         items = self.document_fromstring(self.get_storage_content(), '.chapter-list a.list-group-item')
         return [self.http().normalize_uri(i.get('href')) for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     def _get_image(self, parser):
         return parser.cssselect('.image-container .CurImage')[0].get('src')
 
@@ -46,12 +43,6 @@ class MangaLifeUs(Provider):
             parser = self.html_fromstring(page_url.format(page.get('value')))
             images.append(self._get_image(parser))
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaLifeUs

@@ -20,9 +20,6 @@ class ReadmangaMe(Provider):
             return []
         return [i.get('href') for i in parser]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         _uri = self.http().normalize_uri(self.get_current_chapter())
         content = self.http_get(_uri)
@@ -34,12 +31,6 @@ class ReadmangaMe(Provider):
     def get_chapter_index(self):
         name = self.re.search('/.+/(?:vol)?([^/]+/[^/]+)/?', self.get_current_chapter())
         return name.group(1).replace('/', '-')
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = ReadmangaMe

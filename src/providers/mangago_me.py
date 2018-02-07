@@ -41,11 +41,5 @@ class MangaGoMe(Provider):
             return []
         return parser.group(0).split(',')
 
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
-
 
 main = MangaGoMe

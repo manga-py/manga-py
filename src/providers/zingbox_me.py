@@ -28,9 +28,6 @@ class ZingBoxMe(Provider):
         except self.json.JSONDecodeError:
             return []
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         idx = self.get_current_chapter().get('chapterId', 0)
         _ = {
@@ -40,12 +37,6 @@ class ZingBoxMe(Provider):
         }
         images = self.http_post(self.get_domain() + '/api', data=_)
         return self.json.loads(images).get('images', [])
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = ZingBoxMe

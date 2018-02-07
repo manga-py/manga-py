@@ -33,9 +33,6 @@ class JurnaluRu(Provider):
         url = '{}/{}/'.format(self.get_domain(), name.group(1))
         return [url + i.get('value') for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     @staticmethod
     def __get_file(parser):
         image = parser.cssselect('a[rel="shadowbox"]')
@@ -51,12 +48,6 @@ class JurnaluRu(Provider):
             parser = self.html_fromstring(uri, '.ForRead', 0)
             images.append(self.__get_file(parser))
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = JurnaluRu

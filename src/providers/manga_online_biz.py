@@ -47,17 +47,8 @@ class MangaOnlineBiz(Provider):
         domain = self.get_domain()
         return [domain + i.get('downloadUrl') for i in items]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         return []
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaOnlineBiz

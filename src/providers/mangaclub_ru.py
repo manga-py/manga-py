@@ -29,18 +29,9 @@ class MangaClubRu(Provider):
         parser = self.document_fromstring(self.get_storage_content(), selector)
         return [i.get('href') for i in parser]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         result = self.html_fromstring(self.get_current_chapter(), '.manga-lines-page a.manga-lines')
         return [i.get('data-i') for i in result]
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaClubRu

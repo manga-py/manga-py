@@ -49,9 +49,6 @@ class MangaOnlineCom(Provider):
             return self._get_chapters_manga()
         return []
 
-    def prepare_cookies(self):
-        pass
-
     def _get_pages_count(self, parser):
         _len = len(parser.cssselect('#pages_all a'))
         return _len + 1 if _len else 0
@@ -70,12 +67,6 @@ class MangaOnlineCom(Provider):
             parser = self.html_fromstring(url)[0]
             images.append(self._get_image(parser))
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaOnlineCom

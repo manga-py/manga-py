@@ -31,10 +31,7 @@ class _Template(Provider):
     def get_files(self):  # call ever volume loop
         return []
 
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
+    def get_cover(self) -> str:
         pass
 
 

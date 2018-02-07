@@ -15,21 +15,12 @@ class Abstract:
     def get_chapters(self) -> list:  # call once
         return []
 
-    @abstractmethod
     def prepare_cookies(self):  # if site with cookie protect
         pass
 
     @abstractmethod
     def get_files(self) -> list:  # call ever volume loop
         return []
-
-    @abstractmethod
-    def _loop_callback_chapters(self):
-        pass
-
-    @abstractmethod
-    def _loop_callback_files(self):
-        pass
 
     @abstractmethod
     def get_archive_name(self) -> str:
@@ -40,3 +31,12 @@ class Abstract:
     def get_chapter_index(self) -> str:
         pass
         # return self.get_archive_name()
+
+    def _loop_callback_chapters(self):
+        pass
+
+    def _loop_callback_files(self):
+        pass
+
+    def get_cover(self):
+        pass

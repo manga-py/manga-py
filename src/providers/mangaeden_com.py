@@ -25,9 +25,6 @@ class MangaEdenCom(Provider):
         domain = self.get_domain()
         return [domain + i.get('href') for i in volumes]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
         result = self.re.search('var\\s+pages\\s+=\\s+(\\[{.+}\\])', content)
@@ -37,12 +34,6 @@ class MangaEdenCom(Provider):
         for i in self.json.loads(result.group(1)):
             items.append('http:' + i['fs'])
         return items
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
 
 main = MangaEdenCom

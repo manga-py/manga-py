@@ -23,9 +23,6 @@ class ComicsAndMangaRu(Provider):
         print(len(items))
         return [i.get('href') for i in items[::-1]]
 
-    def prepare_cookies(self):
-        pass
-
     def get_files(self):
         images = []
         uri = self.get_domain() + self.get_current_chapter()
@@ -42,12 +39,6 @@ class ComicsAndMangaRu(Provider):
             img and images.append(img)
 
         return images
-
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self):
-        pass
 
     @staticmethod
     def _images_helper(parser):
