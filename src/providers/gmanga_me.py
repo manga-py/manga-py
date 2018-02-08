@@ -10,13 +10,6 @@ class GMangaMe(GoMangaCo):
         idx = self.get_chapter_index().split('-')
         return 'vol_{:0>3}-{}'.format(*idx)
 
-    def get_main_content(self):
-        content = super().get_main_content()
-        if content.find('data-translate="allow_5_secs"') > 0:
-            self.cf_protect(self.get_url())
-            content = super().get_main_content()
-        return content
-
     def get_chapter_index(self) -> str:
         selector = '/mangas/[^/]+/(\\d+/[^/]+)'
         url = self.get_current_chapter()

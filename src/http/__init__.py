@@ -67,7 +67,7 @@ class Http(Request):
 
     def normalize_uri(self, uri):
         if isinstance(uri, str):
-            return normalize_uri(uri, self.referer)
+            return normalize_uri(uri.strip(), self.referer)
         return uri
 
     def multi_download_get(self, urls, dst: str = None, callback: callable = None):

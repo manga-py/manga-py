@@ -24,15 +24,16 @@ class ComicsAndMangaRu(Provider):
         return [i.get('href') for i in items[::-1]]
 
     def get_files(self):
+        nu = self.http().normalize_uri
         images = []
-        uri = self.get_domain() + self.get_current_chapter()
+        uri = nu(self.get_current_chapter())
         parser = self.html_fromstring(uri, '.ForRead', 0)
         pages = parser.cssselect('.navigation select')[0].cssselect('option + option')
         img = self._images_helper(parser)
         img and images.append(img)
 
         for i in pages:
-            uri = '{}/{}/{}'.format(self.get_domain(), self.get_current_chapter().rstrip('/'), i.get('value'))
+            uri = '{}/{}'.format(nu(self.get_current_chapter().rstrip('/')), i.get('value'))
             parser = self.html_fromstring(uri, '.ForRead', 0)
             img = self._images_helper(parser)
 

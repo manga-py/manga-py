@@ -41,5 +41,8 @@ class GoMangaCo(Provider):
     def get_cover(self) -> str:
         return self._get_cover_from_content('.thumbnail img')
 
+    def prepare_cookies(self):
+        self.cf_protect(self.get_url())
+
 
 main = GoMangaCo

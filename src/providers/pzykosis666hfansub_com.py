@@ -6,6 +6,7 @@ class Pzykosis666HFansubCom(ReadPowerMangaOrg):
     _content_str = '{}/online/series/{}/'
 
     def prepare_cookies(self):
+        super().prepare_cookies()
         data = {'adult': 'true'}
         url = self.get_url()
         response = self.http()._requests(method='post', data=data, url=url)

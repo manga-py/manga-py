@@ -20,6 +20,7 @@ providers_list = {
     'gmanga_me': ['gmanga\\.me/mangas/.'],
     'gomanga_co': ['gomanga\\.co/reader/.'],
     'goodmanga_net': ['goodmanga\\.net/.'],
+    'hakihome_com': ['hakihome\\.com/.'],
     'hentai_chan_me': ['hentai\\-chan\\.me/(related|manga|online)/.'],
     'hentai_chan_me_download': ['hentai\\-chan\\.me/download/.'],
     'hocvientruyentranh_com': ['http://hocvientruyentranh\\.com/(manga|chapter)/.'],
