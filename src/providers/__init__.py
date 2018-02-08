@@ -49,6 +49,7 @@ providers_list = {
     'mintmanga_com': ['mintmanga\\.com/.'],
     'myreadingmanga_info': ['myreadingmanga\\.info/.'],
     'ninemanga_com': ['ninemanga\\.com/(manga|chapter).'],
+    'read_powermanga_org': ['read\\.powermanga\\.org/(read|series)/.'],
     'read_yagami_me': ['read\\.yagami\\.me/(series|read)/.'],
     'readcomicbooksonline_org': ['readcomicbooksonline\\.net/.', 'readcomicbooksonline\\.org/.'],
     'readcomiconline_to': ['readcomiconline\\.to/Comic/.'],
