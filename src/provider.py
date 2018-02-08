@@ -90,19 +90,22 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
             self.__add_file_to_archive()
             self.make_archive()
 
-    def save_file(self, callback=None, url=None):
+    def save_file(self, idx=None, callback=None, url=None):
         if url is None:
             _url = self.http().normalize_uri(self.get_current_file())
         else:
             _url = url
 
+        if idx is None:
+            idx = self._storage['current_file']
+
         filename = remove_file_query_params(basename(_url))
-        _path = get_temp_path('{:0>2}_{}'.format(self._storage['current_file'], filename))
+        _path = get_temp_path('{:0>3}_{}'.format(idx, filename))
         _path = self.remove_not_ascii(_path)
 
         if not is_file(_path):
-            self._archive.add_file(self.remove_not_ascii(_path))
             self.http().download_file(_url, _path)
+            self._archive.add_file(_path)
         callable(callback) and callback()
         return _path
 
@@ -149,8 +152,8 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
         threading = MultiThreads()
         # hack
         self._storage['current_file'] = 0
-        for url in files:
-            threading.add(target=self.save_file, args=[self._multi_thread_callback])
+        for idx, url in enumerate(files):
+            threading.add(self.save_file, (idx, self._multi_thread_callback, url))
 
         time.sleep(5)
 
