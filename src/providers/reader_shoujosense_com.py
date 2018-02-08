@@ -1,29 +1,8 @@
-from src.provider import Provider
+from src.providers.read_powermanga_org import ReadPowerMangaOrg
 
 
-class _Template(Provider):
-
-    def get_archive_name(self) -> str:
-        pass
-
-    def get_chapter_index(self) -> str:
-        pass
-
-    def get_main_content(self):
-        pass
-
-    def get_manga_name(self) -> str:
-        return ''
-
-    def get_chapters(self):
-        return []
-
-    def get_files(self):
-        return []
-
-    def get_cover(self) -> str:
-        pass
-        # return self._get_cover_from_content('.cover img')
+class ReaderShoujoSenseCom(ReadPowerMangaOrg):
+    pass
 
 
-main = _Template
+main = ReaderShoujoSenseCom
