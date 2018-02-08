@@ -4,7 +4,7 @@ from src.provider import Provider
 class GoMangaCo(Provider):
     _name_re = '/reader/[^/]+/([^/]+)/'
     _content_str = '{}/reader/series/{}/'
-    _chapters_selector = '.list .group .element .title a'
+    _chapters_selector = '.list .element .title a'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-', 2)
