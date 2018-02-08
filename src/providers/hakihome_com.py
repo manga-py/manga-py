@@ -7,7 +7,7 @@ class HakiHomeCom(Provider):
         return self.get_chapter_index()
 
     def get_chapter_index(self) -> str:
-        selector = '.+/([^/]+)/$'
+        selector = '.+/([^/]+)/'
         url = self.get_current_chapter()
         idx = self.re.search(selector, url)
         return idx.group(1)
