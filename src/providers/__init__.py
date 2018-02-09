@@ -35,6 +35,7 @@ providers_list = {
         r'atelierdunoir\.org/reader/.'
         r'seinagi\.org/reader/.'
     ],
+    'japscan_com': [r'japscan\.com/.'],
     'jurnalu_ru': [r'jurnalu\.ru/online\-reading/.'],
     'kissmanga_com': [r'kissmanga\.com/Manga/.'],
     'manga_online_biz': [r'manga\-online\.biz/.'],
