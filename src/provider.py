@@ -51,7 +51,7 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
         self.prepare_cookies()
         self._storage['manga_name'] = self.get_manga_name()
         self._storage['main_content'] = self.get_main_content()
-        self._storage['chapters'] = self.get_chapters()[::-1]
+        self._storage['chapters'] = self._prepare_chapters(self.get_chapters())[::-1]
 
         self._storage['init_cookies'] = self._storage['cookies']
 

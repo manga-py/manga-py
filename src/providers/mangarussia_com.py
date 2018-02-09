@@ -38,9 +38,7 @@ class MangaRussiaCom(Provider):
 
     def get_chapters(self):
         content = self.get_storage_content()
-        parser = self.document_fromstring(content, '.chapterlist .col1 a')
-        urls = [i.get('href') for i in parser]
-        return urls
+        return self.document_fromstring(content, '.chapterlist .col1 a')
 
     def _get_img(self, parser):
         img = parser.cssselect('img#comicpic')[0]

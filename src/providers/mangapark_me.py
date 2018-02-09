@@ -24,9 +24,8 @@ class MangaParkMe(Provider):
         return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content(), 'div.stream:last-child em a:last-child')
-        domain = self.get_domain()
-        return [domain + i.get('href') for i in parser]
+        c, s = self.get_storage_content(), 'div.stream:last-child em a:last-child'
+        return self.document_fromstring(c, s)
 
     def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '#viewer img.img')

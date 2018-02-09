@@ -29,7 +29,7 @@ class MangaGoMe(Provider):
         content = self.get_storage_content()
         chapters = content.cssselect('#chapter_table a.chico')
         raws = content.cssselect('#raws_table a.chico')
-        return [i.get('href') for i in chapters + raws]
+        return chapters + raws
 
     def prepare_cookies(self):
         self.cf_protect(self.get_url())

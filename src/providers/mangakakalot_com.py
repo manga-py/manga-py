@@ -22,8 +22,7 @@ class MangaKakalotCom(Provider):
         return self.re.search('/(?:manga|chapter)/([^/]+)/?', self.get_url())
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), '.chapter-list span a')
-        return [i.get('href') for i in items]
+        return self.document_fromstring(self.get_storage_content(), '.chapter-list span a')
 
     def get_files(self):
         result = self.html_fromstring(self.get_current_chapter(), '#vungdoc img')

@@ -16,8 +16,8 @@ class MangaSaurusCom(Provider):
         return '{1}_{0}'.format(*result)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content(), '.table--chapters td > a')
-        return [self.get_domain() + i.get('href') for i in parser[::-1]]
+        c, s = self.get_storage_content(), '.table--chapters td > a'
+        return self.document_fromstring(c, s)[::-1]
 
     def __files_helper(self):
         content = self.http_get(self.get_current_chapter())

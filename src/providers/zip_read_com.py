@@ -19,8 +19,7 @@ class ZipReadCom(Provider):
         return self.re.search('\\.com/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        items = self.html_fromstring(self.get_url(), '#content .entry > p > a')
-        return [i.get('href') for i in items]
+        return self.html_fromstring(self.get_url(), '#content .entry > p > a')
 
     def get_files(self):
         jav_zip_org = JavZipOrg(self)

@@ -18,8 +18,7 @@ class VizCom(Provider):
 
     def get_chapters(self):
         content = self.get_storage_content()
-        items = self.document_fromstring(content, '.o_products .chapter-text > a')
-        return [i.get('href') for i in items]
+        return self.document_fromstring(content, '.o_products .chapter-text > a')
 
     def get_files(self):
         volume_id = self.re.search('/chapter/[^/]+/(\d+)', self.get_current_chapter())

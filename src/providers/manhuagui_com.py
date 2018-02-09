@@ -68,12 +68,8 @@ class ManhuaGuiCom(Provider):
             ))
         return images
 
-    def chapter_url(self):
-        url = self.get_current_chapter().get('href')
-        return self.http().normalize_uri(url)
-
     def get_files(self):
-        url = self.chapter_url()
+        url = self.get_current_chapter()
         self._storage['referer'] = url
         content = self.http_get(url)
         js = self.re.search('\\](\\(function\\(.+\\))\\s?<', content)

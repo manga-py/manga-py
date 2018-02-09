@@ -15,10 +15,8 @@ class ReadmangaMe(Provider):
         return self.re.search('\\.me/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content(), 'div.chapters-link tr > td > a')
-        if not parser:
-            return []
-        return [i.get('href') for i in parser]
+        c, s = self.get_storage_content(), 'div.chapters-link tr > td > a'
+        return self.document_fromstring(c, s)
 
     def get_files(self):
         _uri = self.http().normalize_uri(self.get_current_chapter())

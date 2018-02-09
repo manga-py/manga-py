@@ -23,8 +23,7 @@ class MngDoomCom(Provider):
         return self.re.search('\\.co/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), 'ul.chapter-list > li > a')
-        return [i.get('href') for i in items]
+        return self.document_fromstring(self.get_storage_content(), 'ul.chapter-list > li > a')
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())

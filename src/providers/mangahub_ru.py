@@ -21,9 +21,7 @@ class MangaHubRu(Provider):
         return self.re.search('\\.ru/([^/]+)/?', self.get_url())
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content(), '.b-catalog-list__name a[href^="/"]')
-        domain = self.get_domain()
-        return [domain + i.get('href') for i in parser]
+        return self.document_fromstring(self.get_storage_content(), '.b-catalog-list__name a[href^="/"]')
 
     def get_files(self):
         parser = self.html_fromstring(self.get_current_chapter(), '.b-main-container .b-reader__full')

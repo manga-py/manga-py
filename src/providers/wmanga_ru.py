@@ -21,9 +21,8 @@ class WMangaRu(Provider):
         return self.re.search('/starter/manga_[^/]+/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content(), 'td div div div td > a')
-        nu = self.http().normalize_uri
-        return [nu(i.get('href')) for i in parser[::-1]]
+        c, s = self.get_storage_content(), 'td div div div td > a'
+        return self.document_fromstring(c, s)[::-1]
 
     def get_files(self):
         parser = self.html_fromstring(self.get_current_chapter(), 'td a.gallery')

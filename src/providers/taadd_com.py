@@ -32,8 +32,7 @@ class TaaddCom(Provider):
         return name.group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), self._chapters_selector)
-        return [self.http().normalize_uri(i.get('href')) for i in items]
+        return self.document_fromstring(self.get_storage_content(), self._chapters_selector)
 
     def prepare_cookies(self):
         self.__local_storage = 0

@@ -23,8 +23,7 @@ class MangaOnlineToday(Provider):
         return self.re.search('\\.today/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), 'ul.chp_lst a')
-        return [i.get('href') for i in items]
+        return self.document_fromstring(self.get_storage_content(), 'ul.chp_lst a')
 
     def _pages_helper(self, options):
         images = []

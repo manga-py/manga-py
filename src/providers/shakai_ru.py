@@ -35,8 +35,7 @@ class ShakaiRu(Provider):
         return parser.split('/')[0].strip()
 
     def get_chapters(self):
-        _ = self.get_storage_content().get('data', [])
-        return _[::-1]
+        return self.get_storage_content().get('data', [])[::-1]
 
     def get_files(self):
         chapter = self.get_current_chapter()

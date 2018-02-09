@@ -27,8 +27,7 @@ class MangaLifeUs(Provider):
         return self.re.search('(?:\\.us)?/manga/([^/]+)', uri).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), '.chapter-list a.list-group-item')
-        return [self.http().normalize_uri(i.get('href')) for i in items]
+        return self.document_fromstring(self.get_storage_content(), '.chapter-list a.list-group-item')
 
     def _get_image(self, parser):
         return parser.cssselect('.image-container .CurImage')[0].get('src')

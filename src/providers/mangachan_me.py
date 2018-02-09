@@ -34,9 +34,7 @@ class MangaChanMe(Provider):
             self.get_domain(),
             self.re.search(self._full_name_selector, url).group(1)
         )
-        items = self.html_fromstring(url, '.table_cha .manga a')
-        nu = self.http().normalize_uri
-        return [nu(i.get('href')) for i in items]
+        return self.html_fromstring(url, '.table_cha .manga a')
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())

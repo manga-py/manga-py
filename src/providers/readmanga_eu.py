@@ -23,8 +23,7 @@ class ReadMangaEu(Provider):
 
     def get_chapters(self):
         selector = '#chapters_b a[href*="/manga/"]'
-        items = self.document_fromstring(self.get_storage_content(), selector)
-        return [self.http().normalize_uri(i.get('href')) for i in items]
+        return self.document_fromstring(self.get_storage_content(), selector)
 
     def parse_files(self, parser):
         images_class = '.mainContent img.ebook_img'

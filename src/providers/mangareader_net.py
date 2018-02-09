@@ -18,9 +18,7 @@ class MangaReaderNet(Provider):
         return self.re.search('\\.net/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        result = self.document_fromstring(self.get_storage_content(), '#listing a')
-        domain = self.get_domain()
-        return [domain + i.get('href') for i in result[::-1]]
+        return self.document_fromstring(self.get_storage_content(), '#listing a')[::-1]
 
     @staticmethod
     def _get_img(parser):

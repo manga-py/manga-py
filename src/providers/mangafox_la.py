@@ -25,10 +25,7 @@ class MangaFoxMe(Provider):
         return self.re.search('/manga/([^/]+)/?', self.get_url()).group(1)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content(), '#chapters a.tips')
-        if not parser:
-            return []
-        return [i.get('href') for i in parser]
+        return self.document_fromstring(self.get_storage_content(), '#chapters a.tips')
 
     @staticmethod
     def _content2image_url(parser):

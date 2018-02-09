@@ -16,8 +16,7 @@ class SoMangaNet(Provider):
         return self.re.search('\\.net/[^/]+/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content(), 'ul.capitulos li > a')
-        return [i.get('href') for i in parser]
+        return self.document_fromstring(self.get_storage_content(), 'ul.capitulos li > a')
 
     def get_files(self):
         parser = self.html_fromstring(self.get_current_chapter(), 'img.img-manga')

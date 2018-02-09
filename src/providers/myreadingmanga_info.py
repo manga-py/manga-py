@@ -17,11 +17,10 @@ class MyReadingMangaInfo(Provider):
         return self.re.search('\\.info/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        url = self.get_url()
         content = self.get_storage_content()
-        v = [url]  # current chapter
+        v = [self.get_url()]  # current chapter
         parser = self.document_fromstring(content, '.entry-content p > a')
-        v += [i.get('href') for i in parser]
+        v += parser
         return v[::-1]
 
     def prepare_cookies(self):

@@ -22,8 +22,10 @@ providers_list = {
     'goodmanga_net': ['goodmanga\\.net/.'],
     'hakihome_com': ['hakihome\\.com/.'],
     'hentai2read_com': ['hentai2read\\.com/.'],
+    'hentai_cafe': ['hentai\\.cafe/.'],
     'hentai_chan_me': ['hentai\\-chan\\.me/(related|manga|online)/.'],
     'hentai_chan_me_download': ['hentai\\-chan\\.me/download/.'],
+    'hentaifox_com': ['hentaifox\\.com/.'],
     'hocvientruyentranh_com': ['http://hocvientruyentranh\\.com/(manga|chapter)/.'],
     'inmanga_com': ['inmanga\\.com/ver/manga/.'],
     'jaiminisbox_com': [

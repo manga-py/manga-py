@@ -23,9 +23,7 @@ class MangaPandaCom(Provider):
         return result[0].get('src')
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), '#listing a')
-        domain = self.get_domain()
-        return [domain + i.get('href') for i in items[::-1]]
+        return self.document_fromstring(self.get_storage_content(), '#listing a')
 
     def get_files(self):
         url = self.http().normalize_uri(self.get_current_chapter())

@@ -19,8 +19,7 @@ class ReadMsNet(Provider):
         return self.re.search('\\.net/(?:manga|r)/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), '.table-striped td > a')
-        return [self.http().normalize_uri(i.get('href')) for i in items]
+        return self.document_fromstring(self.get_storage_content(), '.table-striped td > a')
 
     @staticmethod
     def _get_image(parser):

@@ -19,9 +19,9 @@ class ComicsAndMangaRu(Provider):
         return name.group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), '.MagList > .MagListLine > a')
-        print(len(items))
-        return [i.get('href') for i in items[::-1]]
+        c, s = self.get_storage_content(), '.MagList > .MagListLine > a'
+        items = self.document_fromstring(c, s)
+        return items[::-1]
 
     def get_files(self):
         nu = self.http().normalize_uri

@@ -24,8 +24,7 @@ class MangaTownCom(Provider):
         return self.re.search('/manga/([^/]+)/?', self.get_url()).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), '.chapter_list a')
-        return [i.get('href') for i in items]
+        return self.document_fromstring(self.get_storage_content(), '.chapter_list a')
 
     def prepare_cookies(self):
         import urllib3

@@ -25,8 +25,7 @@ class MangaInnNet(Provider):
         return name.group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), '#chapter_list a[href]')
-        return [i.get('href') for i in items]
+        return self.document_fromstring(self.get_storage_content(), '#chapter_list a[href]')
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())

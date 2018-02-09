@@ -24,8 +24,7 @@ class MangaHomeCom(Provider):
         return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content(), '.detail-chlist a')
-        return [i.get('href') for i in parser]
+        return self.document_fromstring(self.get_storage_content(), '.detail-chlist a')
 
     @staticmethod
     def _content2image_url(parser):

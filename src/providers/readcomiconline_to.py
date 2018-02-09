@@ -17,15 +17,13 @@ class ReadComicOnlineTo(Provider):
         return self.re.search('\\.to/Comic/([^/]+)', self.get_url())
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), 'table.listing td > a')
-        domain = self.get_domain()
-        return ['{}/{}&readType=1'.format(domain, i.get('href')) for i in items]
+        return self.document_fromstring(self.get_storage_content(), 'table.listing td > a')
 
     def prepare_cookies(self):
         self.cf_protect(self.get_url())
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.get_current_chapter() + '&readType=1')
         items = self.re.findall('lstImages.push\("([^"]+)"\)', content)
         return items
 

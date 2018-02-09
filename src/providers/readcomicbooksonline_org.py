@@ -22,8 +22,8 @@ class ReadComicBooksOnlineOrg(Provider):
         return self.re.search('\\.(?:org|net)/(?:reader/)?([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), '#chapterlist .chapter > a')
-        return [i.get('href') for i in items]
+        s = '#chapterlist .chapter > a'
+        return self.document_fromstring(self.get_storage_content(), s)
 
     def _get_image(self, parser):
         src = parser.cssselect('a > img.picture')

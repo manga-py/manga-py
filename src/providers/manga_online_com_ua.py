@@ -34,8 +34,8 @@ class MangaOnlineCom(Provider):
         raise AttributeError()
 
     def _get_chapters_cmanga(self):
-        items = self.html_fromstring(self.get_url(), '#dle-content > div > a[href*="/manga/"]')
-        return [i.get('href') for i in items[::-1]]
+        s = '#dle-content > div > a[href*="/manga/"]'
+        return self.html_fromstring(self.get_url(), s)[::-1]
 
     def _get_chapters_manga(self):
         items = self.html_fromstring(self.get_url(), '.fullstory_main select.selectmanga option')

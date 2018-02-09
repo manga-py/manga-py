@@ -28,7 +28,7 @@ class MangaChanMe(Provider):
     def loop_chapters(self):
         arc_name = self.get_archive_name()
         path = path_join(dirname(self.get_archive_path()), arc_name + '.zip')
-        url = self.get_current_chapter().get('href')
+        url = self.get_current_chapter()
         temp_path = get_temp_path('{:0>2}_{}-temp_arc.zip'.format(self._storage['current_chapter'], arc_name))
         self.save_file(url, temp_path)
         rename(temp_path, path)
@@ -36,9 +36,8 @@ class MangaChanMe(Provider):
     def get_chapters(self):
         selector = '\\%s/[^/]+/(\\d+\\-.+\\.html)' % self._domain_postfix
         url = self.re.search(selector, self.get_url()).group(1)
-        url = '{}/download/{}'.format(self.get_domain(), url)
-        items = self.html_fromstring(url, 'table#download_table tr td + td > a')
-        return items
+        url = '/download/{}'.format(url)
+        return self.html_fromstring(url, 'table#download_table tr td + td > a')
 
     def prepare_cookies(self):
         self._prepare_storage()

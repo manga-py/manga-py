@@ -29,9 +29,7 @@ class MangaOnlineHereCom(Provider):
         return self.__local_storage['name']
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), '.list-chapter a')
-        domain = self.get_domain()
-        return ['{}{}'.format(domain, i.get('href')) for i in items]
+        return self.document_fromstring(self.get_storage_content(), '.list-chapter a')
 
     def prepare_cookies(self):
         self.__local_storage = {}

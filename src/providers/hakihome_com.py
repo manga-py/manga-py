@@ -24,10 +24,8 @@ class HakiHomeCom(Provider):
         return self.re.search(selector, url).group(1)
 
     def get_chapters(self):
-        content = self.get_storage_content()
-        selector = '.listing a.readchap'
-        items = self.document_fromstring(content, selector)
-        return [i.get('href') for i in items]
+        content, selector = self.get_storage_content(), '.listing a.readchap'
+        return self.document_fromstring(content, selector)
 
     def get_files(self):
         n = self.http().normalize_uri

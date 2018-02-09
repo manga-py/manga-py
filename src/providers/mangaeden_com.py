@@ -21,9 +21,7 @@ class MangaEdenCom(Provider):
         return self.re.search(self.uriRegex, self.get_url()).group(2)
 
     def get_chapters(self):
-        volumes = self.html_fromstring(self.get_storage_content(), 'a.chapterLink')
-        domain = self.get_domain()
-        return [domain + i.get('href') for i in volumes]
+        return self.html_fromstring(self.get_storage_content(), 'a.chapterLink')
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())

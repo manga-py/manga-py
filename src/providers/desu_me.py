@@ -17,8 +17,8 @@ class DesuMe(Provider):
         return self.http_get(url)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content(), '#animeView ul h4 > a.tips')
-        return [i.get('href') for i in parser]
+        c, s = self.get_storage_content(), '#animeView ul h4 > a.tips'
+        return self.document_fromstring(c, s)
 
     def get_manga_name(self) -> str:
         return self.re.search('/manga/([^/]+)', self.get_url()).group(1)

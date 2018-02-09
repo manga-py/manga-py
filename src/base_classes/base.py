@@ -1,5 +1,6 @@
 import re
 from typing import Callable
+from lxml.html import HtmlElement
 
 from src.http import Http
 from src.image import Image
@@ -117,3 +118,20 @@ class Base:
 
     def _chapter_index(self):
         return self._storage.get('current_chapter', 0)
+
+    @classmethod
+    def __normalize_chapters(cls, n, element):
+        if isinstance(element, HtmlElement):
+            return n(element.get('href'))
+        if isinstance(element, str):
+            return n(element)
+        return element
+
+    def _prepare_chapters(self, chapters):
+        n = self.http().normalize_uri
+        items = []
+        if chapters and len(chapters):
+            for i in chapters:
+                url = self.__normalize_chapters(n, i)
+                items.append(url)
+        return items

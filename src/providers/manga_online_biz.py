@@ -42,10 +42,10 @@ class MangaOnlineBiz(Provider):
             self.download_volume(idx, url, manga_name)
 
     def get_chapters(self):
-        json_data = self.re.search('MangaChapter\\((.+)\\);', self.get_storage_content()).group(1)
-        items = self.json.loads(json_data)
-        domain = self.get_domain()
-        return [domain + i.get('downloadUrl') for i in items]
+        s, c = 'MangaChapter\\((.+)\\);', self.get_storage_content()
+        items = self.json.loads(self.re.search(s, c).group(1))
+        n = self.http().normalize_uri
+        return [n(i.get('downloadUrl')) for i in items]
 
     def get_files(self):
         return []

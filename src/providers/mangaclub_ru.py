@@ -26,8 +26,7 @@ class MangaClubRu(Provider):
 
     def get_chapters(self):
         selector = '.manga-ch-list-item > a[href^="http"]'
-        parser = self.document_fromstring(self.get_storage_content(), selector)
-        return [i.get('href') for i in parser]
+        return self.document_fromstring(self.get_storage_content(), selector)
 
     def get_files(self):
         result = self.html_fromstring(self.get_current_chapter(), '.manga-lines-page a.manga-lines')

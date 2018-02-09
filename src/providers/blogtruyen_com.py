@@ -26,9 +26,8 @@ class BlogTruyenCom(Provider):
         return self.re.search('/\\d+/([^/]+)', url).group(1)
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), '#list-chapters .title > a')
-        nu = self.http().normalize_uri
-        return [nu(i.get('href')) for i in items]
+        c, s = self.get_storage_content(), '#list-chapters .title > a'
+        return self.document_fromstring(c, s)
 
     def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '#content img')

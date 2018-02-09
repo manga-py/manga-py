@@ -17,7 +17,7 @@ from src.base_classes import Base, Archive, Static
 from src.provider import Provider
 from src.image import Image
 from src import fs
-from src.http.url_normalizer import UrlNormalizer
+from src.http.url_normalizer import normalize_uri
 
 
 class TestCase(unittest.TestCase):
@@ -286,22 +286,22 @@ class TestHttpClasses(unittest.TestCase):
 
     def test_url_normalizer_url_helper1(self):
         url = '//example.org/manga/here.html'
-        test_url = UrlNormalizer.url_helper(url, self.referer)
+        test_url = normalize_uri(url, self.referer)
         self.assertEqual(self.referer, test_url)
 
     def test_url_normalizer_url_helper2(self):
         url = '/manga/here.html'
-        test_url = UrlNormalizer.url_helper(url, self.referer)
+        test_url = normalize_uri(url, self.referer)
         self.assertEqual(self.referer, test_url)
 
     def test_url_normalizer_url_helper3(self):
         url = '://example.org/manga/here.html'
-        test_url = UrlNormalizer.url_helper(url, self.referer)
+        test_url = normalize_uri(url, self.referer)
         self.assertEqual(self.referer, test_url)
 
     def test_url_normalizer_url_helper4(self):
         url = 'here.html'
-        test_url = UrlNormalizer.url_helper(url, self.referer)
+        test_url = normalize_uri(url, self.referer)
         self.assertEqual(self.referer, test_url)
 
 
