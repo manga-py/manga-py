@@ -14,7 +14,7 @@ class ReadComicOnlineTo(Provider):
         return self.http_get('{}/Comic/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.to/Comic/([^/]+)', self.get_url())
+        return self.re.search(r'\.to/Comic/([^/]+)', self.get_url())
 
     def get_chapters(self):
         return self.document_fromstring(self.get_storage_content(), 'table.listing td > a')

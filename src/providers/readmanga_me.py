@@ -12,7 +12,7 @@ class ReadmangaMe(Provider):
         return self.http_get(url)
 
     def get_manga_name(self):
-        return self.re.search('\\.me/([^/]+)', self.get_url()).group(1)
+        return self.re.search(r'\.me/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         c, s = self.get_storage_content(), 'div.chapters-link tr > td > a'

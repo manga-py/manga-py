@@ -16,7 +16,7 @@ class ZipReadCom(Provider):
         pass
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.com/([^/]+)', self.get_url()).group(1)
+        return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         return self.html_fromstring(self.get_url(), '#content .entry > p > a')

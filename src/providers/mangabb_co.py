@@ -17,7 +17,7 @@ class MangabbCo(Provider):
         return result[0].get('href') if len(result) else False
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.co/(?:manga/)?([^/]+)', self.get_url()).group(1)
+        return self.re.search(r'\.co/(?:manga/)?([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         content = self.get_storage_content()

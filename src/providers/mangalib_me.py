@@ -16,7 +16,7 @@ class MangaLibMe(Provider):
         return self.http_get('{}/{}'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.me/([^/]+)', self.get_url()).group(1)
+        return self.re.search(r'\.me/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         c, s = self.get_storage_content(), '.chapters-list .chapter-item__name a'

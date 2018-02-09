@@ -20,7 +20,7 @@ class MangaSupaCom(Provider):
         return self.http_get('{}/manga/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        selector = '\\.com/(?:manga|chapter)/([^/]+)'
+        selector = r'\.com/(?:manga|chapter)/([^/]+)'
         return self.re.search(selector, self.get_url()).group(1)
 
     def get_chapters(self):

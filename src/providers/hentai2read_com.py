@@ -20,7 +20,7 @@ class Hentai2ReadCom(Provider):
         return self.http_get('{}/{}/'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.com/([^/]+)', self.get_url()).group(1)
+        return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         c, s = self.get_storage_content(), 'li .chapter-row'
@@ -28,7 +28,7 @@ class Hentai2ReadCom(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        selector = '\'images\r'\s*:\s*(\[.+\])'
+        selector = r'\'images\'\s*:\s*(\[.+\])'
         items = self.json.loads(self.re.search(selector, content).group(1))
         return ['{}{}'.format(self.images_cdn, i) for i in items]
 

@@ -20,7 +20,7 @@ class MngDoomCom(Provider):
         return self.http_get('{}/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.co/([^/]+)', self.get_url()).group(1)
+        return self.re.search(r'\.co/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         return self.document_fromstring(self.get_storage_content(), 'ul.chapter-list > li > a')

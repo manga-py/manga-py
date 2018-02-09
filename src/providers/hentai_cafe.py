@@ -2,7 +2,7 @@ from src.providers.jaiminisbox_com import JaiminIsBoxCom
 
 
 class HentaiCafe(JaiminIsBoxCom):
-    _name_re = '\\.cafe(?:/manga/read)?/([^/]+)/'
+    _name_re = r'\.cafe(?:/manga/read)?/([^/]+)/'
     _content_str = '{}/{}/'
     _chapters_selector = '.content .last .x-btn'  # TODO
 

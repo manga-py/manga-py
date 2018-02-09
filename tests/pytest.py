@@ -176,7 +176,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(
             name,
             fs.remove_file_query_params(name + '?query=params')
-            .replace('\\', '/')  # windows os patch
+            .replace(r'\', '/')  # windows os patch
         )
 
 

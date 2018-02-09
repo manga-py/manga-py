@@ -9,7 +9,7 @@ class MangaInnNet(Provider):
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
-        groups = self.re.search('\\.net/[^/]+/([^/]+)', chapter).group(1).split('.')
+        groups = self.re.search(r'\.net/[^/]+/([^/]+)', chapter).group(1).split('.')
 
         idx = [
             groups[0],
@@ -21,7 +21,7 @@ class MangaInnNet(Provider):
         return self.http_get('{}/{}'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        name = self.re.search('\\.net/([^/]+)', self.get_url())
+        name = self.re.search(r'\.net/([^/]+)', self.get_url())
         return name.group(1)
 
     def get_chapters(self):

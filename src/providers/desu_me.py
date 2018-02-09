@@ -28,7 +28,7 @@ class DesuMe(Provider):
         result = self.re.search(r'images:\s?(\[\[.+\]\])', content, self.re.M)
         if not result:
             return []
-        root_url = self.re.search(r'dir:\s?"([^"]*)"', content).group(1).replace('\\/', '/')
+        root_url = self.re.search(r'dir:\s?"([^"]*)"', content).group(1).replace(r'\/', '/')
 
         return [root_url + i[0] for i in self.json.loads(result.group(1))]
 

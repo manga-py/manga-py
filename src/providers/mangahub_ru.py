@@ -18,7 +18,7 @@ class MangaHubRu(Provider):
         return self.http_get(url)
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.ru/([^/]+)/?', self.get_url())
+        return self.re.search(r'\.ru/([^/]+)/?', self.get_url())
 
     def get_chapters(self):
         return self.document_fromstring(self.get_storage_content(), '.b-catalog-list__name a[href^="/"]')

@@ -9,13 +9,13 @@ class MangaReaderNet(Provider):
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
-        return '{}-0'.format(self.re.search('\\.net/[^/]+/([^/]+)', chapter).group(1))
+        return '{}-0'.format(self.re.search(r'\.net/[^/]+/([^/]+)', chapter).group(1))
 
     def get_main_content(self):
         return self.http_get('{}/{}'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.net/([^/]+)', self.get_url()).group(1)
+        return self.re.search(r'\.net/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         return self.document_fromstring(self.get_storage_content(), '#listing a')[::-1]

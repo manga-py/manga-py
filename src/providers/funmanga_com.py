@@ -4,7 +4,7 @@ from src.provider import Provider
 class FunMangaCom(Provider):
 
     def _get_chapter_idx(self):
-        return self.re.search('\\.com/[^/]+/([^/]+)', self.get_current_chapter()).group(1)
+        return self.re.search(r'\.com/[^/]+/([^/]+)', self.get_current_chapter()).group(1)
 
     def get_archive_name(self) -> str:
         return 'vol_{:0>3}'.format(self._get_chapter_idx())
@@ -16,7 +16,7 @@ class FunMangaCom(Provider):
         return self.http_get('{}/{}'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.com/([^/]+)', self.get_url()).group(1)
+        return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         items = self.document_fromstring(self.get_storage_content(), '.chapter-list li > a')

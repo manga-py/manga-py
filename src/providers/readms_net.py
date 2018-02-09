@@ -16,7 +16,7 @@ class ReadMsNet(Provider):
         return self.http_get('{}/manga/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.net/(?:manga|r)/([^/]+)', self.get_url()).group(1)
+        return self.re.search(r'\.net/(?:manga|r)/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         return self.document_fromstring(self.get_storage_content(), '.table-striped td > a')
