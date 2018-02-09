@@ -20,7 +20,7 @@ class ZingBoxMe(Provider):
         return self.http_post(self.get_domain() + '/api', data=_)
 
     def get_manga_name(self) -> str:
-        return self.re.search('\\.me/manga/(?:\\d+/)?([^/]+)', self.get_url()).group(1)
+        return self.re.search(r'\.me/manga/(?:\d+/)?([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
         try:

@@ -12,7 +12,7 @@ class GoMangaCo(Provider):
 
     def get_chapter_index(self) -> str:
         url = self.get_current_chapter()
-        index_re = '/rea\\w+/[^/]+/[^/]+/(?:[^/]+/)?(\\d+/\\d+(?:/\\d+)?)'
+        index_re = r'/rea\w+/[^/]+/[^/]+/(?:[^/]+/)?(\d+/\d+(?:/\d+)?)'
         group = self.re.search(index_re, url).group(1)
         return group.replace('/', '-')
 
@@ -27,8 +27,8 @@ class GoMangaCo(Provider):
         return self.document_fromstring(self.get_storage_content(), self._chapters_selector)
 
     def _get_json_selector(self, content):
-        idx = self.re.search('page_width\\s=\\sparseInt\\((\\w+)\\[', content).group(1)
-        return 'var\\s{}\\s*=\\s*(\\[.+\\])'.format(idx)
+        idx = self.re.search(r'page_width\s=\sparseInt\((\w+)\[', content).group(1)
+        return r'var\s{}\s*=\s*(\[.+\])'.format(idx)
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())

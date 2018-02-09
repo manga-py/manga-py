@@ -7,12 +7,12 @@ class ReadPowerMangaOrg(GoMangaCo):
 
     def get_chapter_index(self) -> str:
         url = self.get_current_chapter()
-        index_re = '/rea\\w+/[^/]+/(?:[^/]+/)?(\\d+/\\d+(?:/\\d+)?)'
+        index_re = r'/rea\w+/[^/]+/(?:[^/]+/)?(\d+/\d+(?:/\d+)?)'
         group = self.re.search(index_re, url).group(1)
         return group.replace('/', '-')
 
     def _get_json_selector(self, content):
-        return 'var\\spages\\s*=\\s*(\\[.+\\])'
+        return r'var\spages\s*=\s*(\[.+\])'
 
 
 main = ReadPowerMangaOrg

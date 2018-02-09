@@ -7,7 +7,7 @@ class NineHelper(Provider):
     img_server = 'https://ta1.taadd.com'
 
     def re_name(self, url):
-        return self.re.search('/manga/(.+)\\.html', url)
+        return self.re.search(r'/manga/(.+)\.html', url)
 
     @staticmethod
     def normalize_name(name, normalize):
@@ -19,7 +19,7 @@ class NineHelper(Provider):
         return self.re.search('://[^/]+/(.+)', url).group(1)
 
     def get_img_server(self, content):
-        server = self.re.search('img_url\\s?=\\s?"([^"]+)', content)
+        server = self.re.search(r'img_url\s?=\s?"([^"]+)', content)
         if server:
             return server.group(1)
         return self.img_server

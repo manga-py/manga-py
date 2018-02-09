@@ -7,7 +7,7 @@ class MangaHereCc(Provider):
         return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        selector = '/manga/[^/]+/[^\\d]+(\\d+)'
+        selector = r'/manga/[^/]+/[^\d]+(\d+)'
         chapter = self.get_current_chapter()
         return self.re.search(selector, chapter).group(1)
 

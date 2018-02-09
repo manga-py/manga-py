@@ -21,7 +21,7 @@ class TaaddCom(Provider):
         return self.http_get('{}/book/{}.html'.format(self.get_domain(), name))
 
     def _re_name(self, url):
-        return self.re.search('/book/([^/]+)\\.html', url)
+        return self.re.search(r'/book/([^/]+)\.html', url)
 
     def get_manga_name(self) -> str:
         url = self.get_url()

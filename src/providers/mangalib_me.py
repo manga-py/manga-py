@@ -8,7 +8,7 @@ class MangaLibMe(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        selector = '\\.me/[^/]+/[^\\d]+(\\d+)/[^\\d]+([^/]+)'
+        selector = r'\.me/[^/]+/[^\d]+(\d+)/[^\d]+([^/]+)'
         idx = self.re.search(selector, self.get_current_chapter()).groups()
         return '{}-{}'.format(*idx)
 
@@ -24,8 +24,8 @@ class MangaLibMe(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        base_url = self.re.search('\\.scan\\-page.+src\'.+?\'([^\'"]+)\'', content).group(1)
-        images = self.re.search('var\\s+pages\\s*=\\s*(\\[\\{.+\\}\\])', content).group(1)
+        base_url = self.re.search(r'\.scan\-page.+src\'.+?\'([^\'"]+)\'', content).group(1)
+        images = self.re.search(r'var\s+pages\s*=\s*(\[\{.+\}\])', content).group(1)
         imgs = ['{}/{}'.format(base_url, i.get('page_image')) for i in self.json.loads(images)]
         return imgs
 

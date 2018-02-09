@@ -61,7 +61,7 @@
 ['http://blogtruyen.com', 0, ''],
 ['http://bulumanga.com', 0, ' - Closed'],
 ['http://bwahahacomics.ru', 0, ' - Very little content. Possibly, will be done in the future.'],
-['http://com-x.life', 1, ' - One thread only!!! --no-multi-threads. <b>Version 0.x only</b>'],
+['http://com-x.life', 1, ' - One thread only!!! --no-multi-threads. <i class="v0"></i>'],
 ['http://comic-walker.com', 0, ' - Maybe...'],
 ['http://comicextra.com', 1, ''],
 ['http://comico.jp', 1, ' - only public downloading now'],
@@ -71,10 +71,10 @@
 ['http://desu.me', 1, ''],
 ['http://doujins.com', 1, ''],
 ['http://e-hentai.org', 1, '- Need test. Debug mode'],
-['http://eatmanga.me', 1, '- <b>Version 0.x only</b>'],
+['http://eatmanga.me', 1, '<i class="v0"></i>'],
 ['http://funmanga.com', 1, ''],
 ['http://gmanga.me', 1, ''],
-['http://gogomanga.co', 1, '- <b>Version 0.x only</b>'],
+['http://gogomanga.co', 1, '<i class="v0"></i>'],
 ['http://gomanga.co', 1, ''],
 ['http://goodmanga.net', 1, ''],
 ['http://hakihome.com', 1, ''],
@@ -82,8 +82,10 @@
 ['http://hentai2read.com', 1, ''],
 ['http://hentai.cafe', 1, ''],
 ['http://hentai-chan.me', 1, '- Need fill access file'],
+['http://hentaifox.com', 1, '<i class="d"></i>'],
+['http://hitomi.la', 1, '<i class="d"></i>'],
 ['http://hocvientruyentranh.com', 1, ''],
-['http://heymanga.me', 1, '- <b>Version 0.x only</b>'],
+['http://heymanga.me', 1, '<i class="v0"></i>'],
 ['http://honto.jp', 0, ' - Maybe...'],
 ['http://inmanga.com', 1, ''],
 ['http://jaiminisbox.com', 1, ''],
@@ -102,26 +104,26 @@
 ['http://mangaclub.ru', 1, ''],
 ['http://mangaeden.com', 1, ''],
 ['http://mangabox.me', 1, ' '],
-['http://mangafreak.net', 1, ' - <b>Version 0.x only</b> site down now'],
+['http://mangafreak.net', 1, '<i class="v0"></i>, site down now'],
 ['http://mangago.me', 1, ''],
-['http://mangahead.me', 1, ' - <b>Version 0.x only</b> site down now'],
+['http://mangahead.me', 1, '<i class="v0"></i>, site down now'],
 ['http://mangahere.cc', 1, ''],
 ['http://mangahome.com', 1, ''],
 ['http://mangahub.ru', 1, ''],
 ['http://mangainn.net', 1, ''],
 ['http://mangakakalot.com', 1, ''],
-['http://mangaleader.com', 1, ' - <b>Version 0.x only</b> site down now'],
+['http://mangaleader.com', 1, '<i class="v0"></i> site down now'],
 ['http://mangalib.me', 1, ''],
 ['http://mangalife.us', 1, ''],
-['http://mangamove.com', 1, ' - <b>Version 0.x only</b> site down now'],
-['http://manganel.com', 1, ' - <b>Version 0.x only</b> site down now'],
+['http://mangamove.com', 1, '<i class="v0"></i>, site down now'],
+['http://manganel.com', 1, '<i class="v0"></i>, site down now'],
 ['http://mangaonline.today', 1, ''],
 ['http://mangaonlinehere.com', 1, ''],
 ['http://mangapanda.com', 1, ''],
 ['http://mangapark.me', 1, ''],
 ['http://mangareader.net', 1, ''],
 ['http://mangarock.com', 0, ' - Maybe'],
-['http://mangaroot.com', 1, ' - <b>Version 0.x only</b> site down now, one thread only!!! --no-multi-threads'],
+['http://mangaroot.com', 1, '<i class="v0"></i>, site down now, one thread only!!! --no-multi-threads'],
 ['http://mangarussia.com', 1, ''],
 ['http://mangasaurus.com', 1, ''],
 ['http://mangashin.com', 1, ''],
@@ -144,7 +146,7 @@
 ['http://otakusmash.com', 1, ''],
 ['http://otscans.com', 1, ''],
 ['http://pzykosis666hfansub.com', 1, ''],
-['http://rawdevart.com', 1, ' - <b>Version 0.x only</b> very little content'],
+['http://rawdevart.com', 1, '<i class="v0"></i>, very little content'],
 ['http://read.powermanga.org', 1, ''],
 ['http://read.yagami.me', 1, ''],
 ['http://readcomicbooksonline.org', 1, ''],
@@ -166,7 +168,7 @@
 ['http://slide.world-three.org', 1, ''],
 ['http://somanga.net', 1, ''],
 ['http://taadd.com', 1, ''],
-['http://tapas.io', 1, ' - <b>Version 0.x only</b> - only public downloading now'],
+['http://tapas.io', 1, '<i class="v0"></i>, only public downloading now'],
 ['http://tenmanga.com', 1, ''],
 ['http://viz.com', 1, ''],
 ['http://wmanga.ru', 1, ''],
@@ -185,7 +187,7 @@
                             'disabled=""><label for="I' + m + '"></label><span>' +
                             '<a target="_blank" href="' +
                             list[i][0] + '">' +
-                            list[i][0] + '</a>' +
+                            list[i][0] + '</a> ' +
                             list[i][2] + '</span></li>';
                         done += parseInt(list[i][1]);
                     }
@@ -232,8 +234,10 @@
             </li>
         </ul>
     </div>
+<style>
+    i.d {color: #4f0800}i.d:after{content: ' - Debug mode'}
+    i.v0 {color: #005}i.v0:after{content: ' - Version 0.x only'}
+</style>
 </div>
 </body>
 </html>
-releases/latest
-releases/‌​latest

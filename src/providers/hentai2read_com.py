@@ -28,7 +28,7 @@ class Hentai2ReadCom(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        selector = '\'images\'\\s*:\\s*(\\[.+\\])'
+        selector = '\'images\r'\s*:\s*(\[.+\])'
         items = self.json.loads(self.re.search(selector, content).group(1))
         return ['{}{}'.format(self.images_cdn, i) for i in items]
 

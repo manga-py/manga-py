@@ -11,17 +11,17 @@ class GMangaMe(GoMangaCo):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        selector = '/mangas/[^/]+/(\\d+/[^/]+)'
+        selector = r'/mangas/[^/]+/(\d+/[^/]+)'
         url = self.get_current_chapter()
         idx = self.re.search(selector, url).group(1)
         return idx.replace('/', '-')
 
     def _get_json_selector(self, content):
-        return '1:\\salphanumSort\\((\\[.+\\])\\)'
+        return r'1:\salphanumSort\((\[.+\])\)'
 
     def get_cover(self) -> str:
         content = self.get_storage_content()
-        image = self.re.search('"image"\\s?:\\s?"(.+)",', content)
+        image = self.re.search(r'"image"\s?:\s?"(.+)",', content)
         if image:
             return image.group(1)
 

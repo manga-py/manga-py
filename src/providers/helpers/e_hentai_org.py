@@ -12,12 +12,12 @@ class EHentaiOrg:
         paginate = parser.cssselect(selector)
         max_idx = 0
         for i in paginate:
-            idx = self.provider.re.search('\\?p=(\\d+)', i.get('href'))
+            idx = self.provider.re.search(r'\?p=(\d+)', i.get('href'))
             max_idx = max(max_idx, int(idx.group(1)))
         return max_idx
 
     def parse_background(self, image):
-        selector = 'background.+?url\\([\'"]?([^\\s]+?)[\'"]?\\)'
+        selector = r'background.+?url\([\'"]?([^\s]+?)[\'"]?\)'
         url = self.provider.re.search(selector, image.get('style'))
         return self.provider.http().normalize_uri(url.group(1))
 

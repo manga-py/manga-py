@@ -3,24 +3,27 @@ from src.provider import Provider
 
 class HentaiFoxCom(Provider):
     __local_storage = None
+    _idx_re = r'/g(?:allery)?/(\d+)'
+    _url_str = '{}/gallery/{}/'
+    _name_re = '.info h1'
 
     def get_archive_name(self) -> str:
-        pass
+        return self.get_chapter_index()
 
     def get_chapter_index(self) -> str:
         return 'archive'
 
     def get_main_content(self):
         if self.__local_storage is None:
-            idx = self.re.search('/g(?:allery)?/(\\d+)', self.get_url())
-            url = '{}/gallery/{}/'.format(self.get_domain(), idx)
+            idx = self.re.search(self._idx_re, self.get_url())
+            url = self._url_str.format(self.get_domain(), idx)
             self.__local_storage = self.http_get(url)
         return self.__local_storage
 
     def get_manga_name(self) -> str:
         content = self.get_main_content()
-        h1 = self.document_fromstring(content, '.info h1', 0)
-        return h1.text_content().strip()
+        text = self.document_fromstring(content, self._name_re, 0)
+        return text.text_content().strip()
 
     def get_chapters(self):
         return [b'']

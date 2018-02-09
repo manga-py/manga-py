@@ -9,7 +9,7 @@ class MangaOnlineHereCom(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        selector = '/read\\-online/[^/]+?(\\d+)(?:.(\\d+))?'
+        selector = r'/read\-online/[^/]+?(\d+)(?:.(\d+))?'
         idx = self.re.search(selector, self.get_current_chapter())
         return '{}-{}'.format(
             idx[0],
@@ -22,7 +22,7 @@ class MangaOnlineHereCom(Provider):
     def get_manga_name(self) -> str:
         if not self.__local_storage.get('name', None):
             url = self.get_url()
-            if self.re.search('/read\\-online/', url):
+            if self.re.search(r'/read\-online/', url):
                 url = self.html_fromstring(url, '.back-info a', 0).get('href')
             name = self.re.search('/manga-info/Fuuka', url).group(1)
             self.__local_storage['name'] = name

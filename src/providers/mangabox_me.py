@@ -13,11 +13,11 @@ class MangaBoxMe(Provider):
         return 'vol_{:0>3}'.format(self._storage['current_chapter'])
 
     def get_chapter_index(self) -> str:
-        return self.re.search('/episodes/(\\d+)', self.get_current_chapter()).group(1)
+        return self.re.search(r'/episodes/(\d+)', self.get_current_chapter()).group(1)
 
     def get_main_content(self):
         if not self._local_storage.get('content', False):
-            idx = self.re.search('/reader/(\\d+)/episodes/', self.get_url()).group(1)
+            idx = self.re.search(r'/reader/(\d+)/episodes/', self.get_url()).group(1)
             content = self.http_get('{}/reader/{}/episodes/'.format(self.get_domain(), idx))
             self._local_storage['content'] = content
         return self._local_storage['content']

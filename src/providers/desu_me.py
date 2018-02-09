@@ -4,11 +4,11 @@ from src.provider import Provider
 class DesuMe(Provider):
 
     def get_archive_name(self) -> str:
-        idx = self.re.search('/vol(\\d+)/ch(\\d+)', self.get_current_chapter()).groups()
+        idx = self.re.search(r'/vol(\d+)/ch(\d+)', self.get_current_chapter()).groups()
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        result = self.re.search('/vol(\\d+)/ch(\\d+)', self.get_current_chapter()).groups()
+        result = self.re.search(r'/vol(\d+)/ch(\d+)', self.get_current_chapter()).groups()
         return '{}-{}'.format(result[0], result[1])
 
     def get_main_content(self):
@@ -25,10 +25,10 @@ class DesuMe(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_domain() + self.get_current_chapter())
-        result = self.re.search('images:\\s?(\\[\[.+\\]\\])', content, self.re.M)
+        result = self.re.search(r'images:\s?(\[\[.+\]\])', content, self.re.M)
         if not result:
             return []
-        root_url = self.re.search('dir:\\s?"([^"]*)"', content).group(1).replace('\\/', '/')
+        root_url = self.re.search(r'dir:\s?"([^"]*)"', content).group(1).replace('\\/', '/')
 
         return [root_url + i[0] for i in self.json.loads(result.group(1))]
 

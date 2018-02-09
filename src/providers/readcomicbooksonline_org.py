@@ -8,7 +8,7 @@ class ReadComicBooksOnlineOrg(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/reader/[^/]+_(\\d+)(/\\d+)?', self.get_current_chapter()).groups()
+        idx = self.re.search(r'/reader/[^/]+_(\d+)(/\d+)?', self.get_current_chapter()).groups()
         return '{}-{}'.format(
             idx[0],
             0 if idx[1] is None else idx[1]

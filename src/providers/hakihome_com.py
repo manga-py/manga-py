@@ -13,14 +13,14 @@ class HakiHomeCom(Provider):
         return idx.group(1)
 
     def get_main_content(self):
-        selector = '(https?://[^/]+/[^/]+/[^/]+\\-\\d+/)'
+        selector = r'(https?://[^/]+/[^/]+/[^/]+\-\d+/)'
         url = self.re.search(selector, self.get_url())
         return self.http_get(url.group(1))
 
     def get_manga_name(self) -> str:
-        _ = self.http().normalize_uri('http://s1.hakihome.com/images/eng/C/Cumming inside asuna 100 raw part 1/003.jpg \\r\\n')
+        _ = self.http().normalize_uri(r'http://s1.hakihome.com/images/eng/C/Cumming inside asuna 100 raw part 1/003.jpg \r\n')
         url = self.get_url()
-        selector = '\\.com/[^/]+/(.+?)\\-\\d+/'
+        selector = r'\.com/[^/]+/(.+?)\-\d+/'
         return self.re.search(selector, url).group(1)
 
     def get_chapters(self):
@@ -47,7 +47,7 @@ class HakiHomeCom(Provider):
     def _images_helper(parser):
         image = parser.cssselect('#con img')
         if len(image):
-            return image[0].get('src').strip(' \\r\\n')
+            return image[0].get('src').strip(r' \r\n')
         return None
 
     def get_cover(self) -> str:

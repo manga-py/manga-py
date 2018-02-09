@@ -15,7 +15,7 @@ class MangaRussiaCom(Provider):
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
-        result = self.re.search('\\+(\\d+)\\+\\-\\+(\\d+)', chapter).groups()
+        result = self.re.search(r'\+(\d+)\+\-\+(\d+)', chapter).groups()
         return '{}-{}'.format(*result)
 
     def get_main_content(self):
@@ -25,7 +25,7 @@ class MangaRussiaCom(Provider):
         return self.http_get(url)
 
     def __name(self, url):
-        return self.re.search('/manga/(.+)\\.html', url).group(1)
+        return self.re.search(r'/manga/(.+)\.html', url).group(1)
 
     def get_manga_name(self) -> str:
         url = self.get_url()

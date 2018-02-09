@@ -8,7 +8,7 @@ class BlogTruyenCom(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('\\.com/c(\\d+)/', self.get_current_chapter())
+        idx = self.re.search(r'\.com/c(\d+)/', self.get_current_chapter())
         return '{}-{}'.format(self._chapter_index(), idx.group(1))
 
     def get_main_content(self):
@@ -23,7 +23,7 @@ class BlogTruyenCom(Provider):
 
     def get_manga_name(self) -> str:
         url = self._test_main_url(self.get_url())
-        return self.re.search('/\\d+/([^/]+)', url).group(1)
+        return self.re.search(r'/\d+/([^/]+)', url).group(1)
 
     def get_chapters(self):
         c, s = self.get_storage_content(), '#list-chapters .title > a'

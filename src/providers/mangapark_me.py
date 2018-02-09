@@ -8,7 +8,7 @@ class MangaParkMe(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        selector = '/manga/[^/]+/s.+?(?:/v(\\d+))?/c(\\d+[^/]*)'
+        selector = r'/manga/[^/]+/s.+?(?:/v(\d+))?/c(\d+[^/]*)'
         idx = self.re.search(selector, self.get_current_chapter())
         return '{}-{}'.format(
             1 if idx[0] is None else idx[0],

@@ -15,7 +15,7 @@ class ManhuaGuiCom(Provider):
 
     def _get_ch_idx(self):
         chapter = self.get_current_chapter()
-        return self.re.search('/comic/[^/]+/(\\d+)', chapter.get('href')).group(1)
+        return self.re.search(r'/comic/[^/]+/(\d+)', chapter.get('href')).group(1)
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
@@ -27,18 +27,18 @@ class ManhuaGuiCom(Provider):
         idx = self._get_ch_idx()
         if span:
             span = span[0].text_content()
-            i = self.re.search('(\\d+)', span).group(1)
+            i = self.re.search(r'(\d+)', span).group(1)
             return '{}-0'.format(i, idx)
         return '0-{}'.format(idx)
 
     def get_main_content(self):
-        _ = self.re.search('/comic/(\\d+)', self.get_url()).group(1)
+        _ = self.re.search(r'/comic/(\d+)', self.get_url()).group(1)
         return self.http_get('{}/comic/{}/'.format(self.get_domain(), _))
 
     def get_manga_name(self) -> str:
         url = self.get_url()
         selector = 'h1'
-        if self.re.search('/comic/\\d+/\\d+\\.html', url):
+        if self.re.search(r'/comic/\d+/\d+\.html', url):
             selector = 'h1 > a'
         return self.html_fromstring(url, selector, 0).text_content()
 
@@ -72,11 +72,11 @@ class ManhuaGuiCom(Provider):
         url = self.get_current_chapter()
         self._storage['referer'] = url
         content = self.http_get(url)
-        js = self.re.search('\\](\\(function\\(.+\\))\\s?<', content)
+        js = self.re.search(r'\](\(function\(.+\))\s?<', content)
         if not js:
             return []
         manhuagui = ManhuaGuiComCrypt()
-        data = self.re.search('cInfo=(.+)\\|\\|', manhuagui.decrypt(js.group(1), ''))
+        data = self.re.search(r'cInfo=(.+)\|\|', manhuagui.decrypt(js.group(1), ''))
         if not data:
             return []
         data = self.json.loads(data.group(1))

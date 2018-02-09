@@ -10,7 +10,7 @@ class MangaHubRu(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/read/[^/]+/[^\\d]+(\\d+)/(\\d+)/', self.get_current_chapter()).groups()
+        idx = self.re.search(r'/read/[^/]+/[^\d]+(\d+)/(\d+)/', self.get_current_chapter()).groups()
         return '{}-{}'.format(*idx)
 
     def get_main_content(self):

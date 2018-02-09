@@ -2,7 +2,7 @@ from src.provider import Provider
 
 
 class OtakuSmashCom(Provider):
-    selector = 'https?://[^/]+/(read\\-\w+/|reader/)?([^/]+)'
+    selector = r'https?://[^/]+/(read\-\w+/|reader/)?([^/]+)'
     prefix = '/'
 
     def get_archive_name(self) -> str:

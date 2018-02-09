@@ -8,7 +8,7 @@ class WMangaRu(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        selector = '/manga_chapter/[^/]+/(\\d+)/(\\d+)'
+        selector = r'/manga_chapter/[^/]+/(\d+)/(\d+)'
         print(self.get_current_chapter())
         idx = self.re.search(selector, self.get_current_chapter()).groups()
         return '{}-{}'.format(*idx)

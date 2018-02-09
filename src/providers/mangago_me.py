@@ -9,7 +9,7 @@ class MangaGoMe(Provider):
         return 'vol_{:0>3}-{}-{}'.format(*idx, type)
 
     def get_chapter_index(self) -> str:
-        selector = '/(?:mf|raw)/.*?(\\d+)(?:\\.(\\d+))?'
+        selector = r'/(?:mf|raw)/.*?(\d+)(?:\.(\d+))?'
         chapter = self.get_current_chapter()
         groups = self.re.search(selector, chapter).groups()
         idx = [
@@ -23,12 +23,12 @@ class MangaGoMe(Provider):
         return self.html_fromstring(url, '#information', 0)
 
     def get_manga_name(self) -> str:
-        return self.re.search('/read\\-manga/([^/]+)/', self.get_url()).group(1)
+        return self.re.search(r'/read\-manga/([^/]+)/', self.get_url()).group(1)
 
     def get_chapters(self):
         content = self.get_storage_content()
         chapters = content.cssselect('#chapter_table a.chico')
-        raws = content.cssselect('#raws_table a.chico')
+        raws = content.cssselect('#raws_table a.chicor')
         return chapters + raws
 
     def prepare_cookies(self):
@@ -36,7 +36,7 @@ class MangaGoMe(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        parser = self.re.search("imgsrcs.+[^.]+?var.+?=\\s?'(.+)'", content)
+        parser = self.re.search("imgsrcs.+[^.]+?var.+?=\s?'(.+)'", content)
         if not parser:
             return []
         return parser.group(0).split(',')

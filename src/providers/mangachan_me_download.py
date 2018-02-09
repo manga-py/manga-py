@@ -22,7 +22,7 @@ class MangaChanMe(Provider):
         pass
 
     def get_manga_name(self) -> str:
-        name = '\\%s/[^/]+/\\d+\\-(.+)\\.html' % self._domain_postfix
+        name = r'\%s/[^/]+/\d+\-(.+)\.html' % self._domain_postfix
         return self.re.search(name, self.get_url()).group(1)
 
     def loop_chapters(self):
@@ -34,7 +34,7 @@ class MangaChanMe(Provider):
         rename(temp_path, path)
 
     def get_chapters(self):
-        selector = '\\%s/[^/]+/(\\d+\\-.+\\.html)' % self._domain_postfix
+        selector = r'\%s/[^/]+/(\d+\-.+\.html)' % self._domain_postfix
         url = self.re.search(selector, self.get_url()).group(1)
         url = '/download/{}'.format(url)
         return self.html_fromstring(url, 'table#download_table tr td + td > a')

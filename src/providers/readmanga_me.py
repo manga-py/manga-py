@@ -21,7 +21,7 @@ class ReadmangaMe(Provider):
     def get_files(self):
         _uri = self.http().normalize_uri(self.get_current_chapter())
         content = self.http_get(_uri)
-        result = self.re.search('rm_h\\.init.+?(\\[\[.+\\]\\])', content, self.re.M)
+        result = self.re.search(r'rm_h\.init.+?(\[\[.+\]\])', content, self.re.M)
         if not result:
             return []
         return [i[1] + i[0] + i[2] for i in self.json.loads(result.groups()[0].replace("'", '"'))]

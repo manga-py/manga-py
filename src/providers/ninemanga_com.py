@@ -32,7 +32,7 @@ class NineMangaCom(NineHelper):
             return []
         items = []
         for i in result:
-            u = self.re.search('(/chapter/.*/\d+)\\.html', i.get('href'))
+            u = self.re.search(r'(/chapter/.*/\d+)\.html', i.get('href'))
             items.append('{}{}-10-1.html'.format(self.get_domain(), u.group(1)))
         return items
 

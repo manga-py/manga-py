@@ -29,7 +29,7 @@ class MangaInnNet(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        images = self.re.search('var\\s+images\\s*=\\s*(\\[\\{.+?\\}\\])', content).group(1)
+        images = self.re.search(r'var\s+images\s*=\s*(\[\{.+?\}\])', content).group(1)
         images = self.json.loads(images)
         return [i.get('url') for i in images]
 

@@ -50,7 +50,7 @@ class MangabbCo(Provider):
         _first_image = self.__get_img(parser)
         images = [_first_image]
 
-        img = self.re.search('(.+/)\\d(\\.\\w+)', _first_image)
+        img = self.re.search(r'(.+/)\d(\.\w+)', _first_image)
         if img:  # livehack
             self._img_lifehack1(img.groups(), pages_list, images)
         else:

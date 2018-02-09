@@ -8,7 +8,7 @@ class MngDoomCom(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        groups = self.re.search('\\.com?/[^/]+/(\\d+)(?:\\.(\\d+))').groups()
+        groups = self.re.search(r'\.com?/[^/]+/(\d+)(?:\.(\d+))').groups()
         idx = [
             groups[0],
             0 if len(groups) < 2 else groups[1]
@@ -27,7 +27,7 @@ class MngDoomCom(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        items = self.re.search(' images = (\\[{[^;]+}\\])', content)
+        items = self.re.search(r' images = (\[{[^;]+}\])', content)
         if not items:
             return []
         try:

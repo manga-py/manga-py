@@ -8,7 +8,7 @@ class MangaHomeCom(Provider):
         return 'vol_{}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        selector = '/manga/[^/]+/[^\\d]+(\\d+)(?:\\.(\\d+))?'
+        selector = r'/manga/[^/]+/[^\d]+(\d+)(?:\.(\d+))?'
         groups = self.re.search(selector, self.get_current_chapter()).groups()
         idx = [
             groups[0],
