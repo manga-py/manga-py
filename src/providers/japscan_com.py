@@ -2,7 +2,7 @@ from src.providers.gomanga_co import GoMangaCo
 
 
 class JapScanCom(GoMangaCo):
-    _name_re = r'\.com/[^/]+/[^/]+/'
+    _name_re = r'\.com/[^/]+/([^/]+)/'
     _content_str = '{}/mangas/{}/'
     _chapters_selector = '#liste_chapitres ul li a'
 

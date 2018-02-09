@@ -38,6 +38,7 @@ providers_list = {
     'japscan_com': [r'japscan\.com/.'],
     'jurnalu_ru': [r'jurnalu\.ru/online\-reading/.'],
     'kissmanga_com': [r'kissmanga\.com/Manga/.'],
+    'kumanga_com': [r'kumanga\.com/manga/\d'],
     'manga_online_biz': [r'manga\-online\.biz/.'],
     'manga_online_com_ua': [r'manga\-online\.com\.ua/.+html'],
     'mangabb_co': [r'mangabb\.co/.'],
