@@ -100,8 +100,7 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
             idx = self._storage['current_file']
 
         filename = remove_file_query_params(basename(_url))
-        _path = get_temp_path('{:0>3}_{}'.format(idx, filename))
-        _path = self.remove_not_ascii(_path)
+        _path = get_temp_path(self.remove_not_ascii('{:0>3}_{}'.format(idx, filename)))
 
         if not is_file(_path):
             self.http().download_file(_url, _path)
@@ -180,8 +179,8 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
         self._storage['user_agent'] = params[1]
         self._params['cf-protect'] = True
 
-    def _get_cover_from_content(self, selector):
+    def _get_cover_from_content(self, selector, img_selector='src'):
         if self.get_storage_content():
             image = self.document_fromstring(self.get_storage_content(), selector)
             if image and len(image):
-                self.http().normalize_uri(image[0].get('src'))
+                self.http().normalize_uri(image[0].get(img_selector))

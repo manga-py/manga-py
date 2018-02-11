@@ -39,6 +39,7 @@ providers_list = {
     'jurnalu_ru': [r'jurnalu\.ru/online\-reading/.'],
     'kissmanga_com': [r'kissmanga\.com/Manga/.'],
     'kumanga_com': [r'kumanga\.com/manga/\d'],
+    'leomanga_com': [r'leomanga\.com/manga/.'],
     'manga_online_biz': [r'manga\-online\.biz/.'],
     'manga_online_com_ua': [r'manga\-online\.com\.ua/.+html'],
     'mangabb_co': [r'mangabb\.co/.'],
