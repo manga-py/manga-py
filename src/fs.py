@@ -8,7 +8,6 @@ __dir_name__ = '.PyMangaDownloader'
 
 def get_temp_path(*args):
     temp = 'temp_%s' % getpid()
-    print(tempfile.gettempdir())
     return path.join(tempfile.gettempdir(), __dir_name__, temp, *args)
 
 
