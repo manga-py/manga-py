@@ -59,6 +59,7 @@ providers_list = {
     'mangahere_co': [r'mangahere\.(co|cc)/manga/.'],
     'mangahome_com': [r'mangahome\.com/manga/.'],
     'mangahub_ru': [r'mangahub\.ru/.'],
+    'mangaindo_web_id': [r'mangaindo\.web\.id/.'],
     'mangainn_net': [r'mangainn\.net/.'],
     'mangakakalot_com': [r'mangakakalot\.com/(manga|chapter)/.'],
     'mangalib_me': [r'mangalib\.me/.'],

@@ -75,3 +75,8 @@ class Http(Request):
         for url in urls:
             threading.add(self.download_file, (url, dst))
         threading.start(callback)
+
+    def get_redirect_url(self, url, **kwargs):
+        location = self._requests(url=url, method='head', **kwargs)
+        url = location.headers.get('Location', url)
+        return self.normalize_uri(url)

@@ -56,11 +56,11 @@ class KuMangaCom(Provider):
         return location.headers.get('Location', url)
 
     def get_files(self):
+        r = self.http().get_redirect_url
         selector = r'(\[\{"npage".+\}\])'
         content = self.http_get(self.get_current_chapter())
-        items = self.json.loads(self.re.search(selector, content).group(1))
-        n = self.http().normalize_uri
-        return [self._get_real_url(n(i.get('imgURL'))) for i in items]
+        items = self.json.loads(self.re.search(selector, content))
+        return [r(i.get('imgURL')) for i in items.group(1)]
 
     def get_cover(self) -> str:
         return self._get_cover_from_content('.container img.img-responsive')
