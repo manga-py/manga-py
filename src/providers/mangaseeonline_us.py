@@ -1,29 +1,10 @@
-from src.provider import Provider
+from src.providers.mangalife_us import MangaLifeUs
 
 
-class _Template(Provider):
+class MangaSeeOnlineUs(MangaLifeUs):
 
-    def get_archive_name(self) -> str:
-        pass
-
-    def get_chapter_index(self) -> str:
-        pass
-
-    def get_main_content(self):
-        pass
-
-    def get_manga_name(self) -> str:
-        return ''
-
-    def get_chapters(self):
-        return []
-
-    def get_files(self):
-        return []
-
-    def get_cover(self) -> str:
-        pass
-        # return self._get_cover_from_content('.cover img')
+    def _get_image(self, parser):
+        return parser.cssselect('.image-container-manga .CurImage')[0].get('src')
 
 
-main = _Template
+main = MangaSeeOnlineUs

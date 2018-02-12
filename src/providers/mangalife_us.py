@@ -43,5 +43,8 @@ class MangaLifeUs(Provider):
             images.append(self._get_image(parser))
         return images
 
+    def get_cover(self) -> str:
+        return self._get_cover_from_content('.leftImage img')
+
 
 main = MangaLifeUs

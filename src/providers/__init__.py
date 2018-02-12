@@ -71,6 +71,7 @@ providers_list = {
     'mangareader_net': [r'mangareader\.net/.'],
     'mangarussia_com': [r'mangarussia\.com/(manga|chapter)/.'],
     'mangasaurus_com': [r'mangasaurus\.com/manga.'],
+    'mangaseeonline_us': [r'mangaseeonline\.us/(read\-online|manga)/.'],
     'mangasupa_com': [r'mangasupa\.com/(manga|chapter).'],
     'mangatown_com': [r'mangatown\.com/manga.'],
     'manhuagui_com': [r'manhuagui\.com/comic/\d'],
