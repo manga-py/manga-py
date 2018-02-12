@@ -54,7 +54,7 @@ class Request:
             files=files, allow_redirects=False, proxies=proxies,
             **kwargs, **self._get_kwargs()
         )
-        if r.is_redirect:
+        if r.is_redirect and method != 'head':
             if max_redirects < 1:
                 raise AttributeError('Too many redirects')
             location = normalize_uri(r.headers['location'], self.__redirect_base_url)
