@@ -33,5 +33,8 @@ class MangaEdenCom(Provider):
             items.append('http:' + i['fs'])
         return items
 
+    def get_cover(self) -> str:
+        return self._get_cover_from_content('#rightContent .info img')
+
 
 main = MangaEdenCom

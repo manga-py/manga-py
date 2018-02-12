@@ -41,6 +41,7 @@ providers_list = {
     'kumanga_com': [r'kumanga\.com/manga/\d'],
     'leomanga_com': [r'leomanga\.com/manga/.'],
     'luscious_net': [r'luscious\.net/c/incest_manga/pictures/.', r'luscious\.net/albums/.'],
+    'manga_ae': [r'manga\.ae/.'],
     'manga_online_biz': [r'manga\-online\.biz/.'],
     'manga_online_com_ua': [r'manga\-online\.com\.ua/.+html'],
     'mangabb_co': [r'mangabb\.co/.'],
@@ -48,7 +49,10 @@ providers_list = {
     'mangachan_me': [r'mangachan\.me/(related|manga|online)/.'],
     'mangachan_me_download': [r'mangachan\.me/download/.'],
     'mangaclub_ru': [r'mangaclub\.ru/.'],
-    'mangaeden_com': [r'mangaeden\.com/[^/]+/[^/]+\-manga/.'],
+    'mangaeden_com': [
+        r'mangaeden\.com/[^/]+/[^/]+\-manga/.',
+        r'perveden\.com/[^/]+/[^/]+\-manga/.'
+    ],
     # 'mangafox_la': [r'mangafox\.(me|la)/manga/.'],
     'mngdoom_com': [r'(mangadoom\.co|mngdoom\.com)/.'],
     'mangago_me': [r'mangago\.me/read\-manga/.'],
