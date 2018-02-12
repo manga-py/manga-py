@@ -105,6 +105,10 @@ providers_list = {
     'selfmanga_ru': [r'selfmanga\.ru/.'],
     'shakai_ru': [r'shakai\.ru/manga.*?/\d'],
     'somanga_net': [r'somanga\.net/(leitor|manga)/.'],
+    'subapics_com': [
+        r'subapics\.com/manga/.',
+        r'subapics\.com/[^/]/.+\-chapter\-'
+    ],
     'taadd_com': [r'taadd\.com/(book|chapter)/.'],
     'tenmanga_com': [r'tenmanga\.com/(book|chapter)/.'],
     'unionmangas_net': [r'unionmangas\.net/(leitor|manga)/.'],

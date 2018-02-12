@@ -2,6 +2,9 @@ from src.provider import Provider
 
 
 class MangaShiroNet(Provider):
+    alter_re_name = r'\.net/([^/]+)\-\d+'
+    chapter_re = r'\.net/[^/]+\-(\d+(?:\-\d+)?)'
+    chapters_selector = 'span.leftoff > a'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -11,9 +14,8 @@ class MangaShiroNet(Provider):
         )
 
     def get_chapter_index(self) -> str:
-        re = r'\.net/[^/]+\-(\d[^/]*)'
         chapter = self.get_current_chapter()
-        return self.re.search(re, chapter).group(1)
+        return self.re.search(self.chapter_re, chapter).group(1)
 
     def get_main_content(self):
         name = self.get_manga_name()
@@ -24,11 +26,11 @@ class MangaShiroNet(Provider):
         if url.find('/manga/') > 0:
             re = '/manga/([^/]+)'
         else:
-            re = r'\.net/([^/]+)\-\d+'
+            re = self.alter_re_name
         return self.re.search(re, url).group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), 'span.leftoff > a')
+        return self.document_fromstring(self.get_storage_content(), self.chapters_selector)
 
     def get_files(self):
         url = self.get_current_chapter()
