@@ -64,6 +64,7 @@ providers_list = {
     'mangakakalot_com': [r'mangakakalot\.com/(manga|chapter)/.'],
     'mangalib_me': [r'mangalib\.me/.'],
     'mangalife_us': [r'mangalife\.us/(read\-online|manga)/.'],
+    'mangaon_net': [r'mangaon\.net/(manga\-info|read\-online)/.'],
     'mangaonline_com_br': [r'mangaonline\.com\.br/.'],
     'mangaonline_today': [r'mangaonline\.today/.'],
     'mangaonlinehere_com': [r'mangaonlinehere\.com/(manga\-info|read\-online)/.'],
