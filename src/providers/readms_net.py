@@ -8,8 +8,8 @@ class ReadMsNet(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/r/[^/]+/([^/]+)', self.get_current_chapter()).group(1)
-        return '{}-0'.format(idx)
+        idx = self.re.search('/r/[^/]+/[^/]+/([^/]+)', self.get_current_chapter())
+        return '{}'.format(idx.group(1))
 
     def get_main_content(self):
         name = self.get_manga_name()
