@@ -107,7 +107,9 @@ providers_list = {
     'somanga_net': [r'somanga\.net/(leitor|manga)/.'],
     'subapics_com': [
         r'subapics\.com/manga/.',
-        r'subapics\.com/[^/]/.+\-chapter\-'
+        r'subapics\.com/[^/]/.+\-chapter\-',
+        r'mangakita\.net/manga/.',
+        r'mangakita\.net/[^/]/.+\-chapter\-'
     ],
     'taadd_com': [r'taadd\.com/(book|chapter)/.'],
     'tenmanga_com': [r'tenmanga\.com/(book|chapter)/.'],

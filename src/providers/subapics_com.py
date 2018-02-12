@@ -2,7 +2,7 @@ from src.providers.mangashiro_net import MangaShiroNet
 
 
 class SubaPicsCom(MangaShiroNet):
-    alter_re_name = r'\.com/([^/]+)\-chapter-\d+'
+    alter_re_name = r'\.(?:com|net)/([^/]+)\-chapter-\d+'
     chapter_re = r'\-chapter\-(\d+(?:\-\d+)?)'
 
     def get_cover(self) -> str:
