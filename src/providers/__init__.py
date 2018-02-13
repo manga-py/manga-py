@@ -84,6 +84,7 @@ providers_list = {
         r'mangasmash\.com/.'
     ],
     'otscans_com': [r'otscans\.com/foolslide/(series|read)/.'],
+    'puzzmos_com': [r'puzzmos\.com/manga/.'],
     'pzykosis666hfansub_com': [r'pzykosis666hfansub\.com/online/.'],
     'read_powermanga_org': [
         r'lector\.dangolinenofansub\.com/(read|series)/.',
