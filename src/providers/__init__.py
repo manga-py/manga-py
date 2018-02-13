@@ -68,7 +68,10 @@ providers_list = {
     'mangasaurus_com': [r'mangasaurus\.com/(manga|view)/.'],
     'mangashiro_net': [r'mangashiro.net/.'],
     'mangasupa_com': [r'mangasupa\.com/(manga|chapter).'],
-    'mangatail_com': [r'mangatail.com/(manga|chapter|node)/'],
+    'mangatail_com': [
+        r'mangatail.com/(manga|chapter|node|content)/',
+        r'mangasail.com/(manga|chapter|node|content)/'
+    ],
     'mangatown_com': [r'mangatown\.com/manga/.'],
     'manhuagui_com': [r'manhuagui\.com/comic/\d'],
     'mintmanga_com': [r'mintmanga\.com/.'],

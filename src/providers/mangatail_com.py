@@ -12,7 +12,7 @@ class MangaTailCom(Provider):
 
     def get_chapter_index(self) -> str:  # Oh ...
         idx = self.get_current_chapter()[0]
-        re = self.re.search(r'.+\s(\d+(?:\.\d+))', idx)
+        re = self.re.search(r'.+\s(\d+(?:\.\d+)?)', idx)
         if re:
             return re.group(1)
         return idx
