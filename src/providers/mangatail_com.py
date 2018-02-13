@@ -31,7 +31,7 @@ class MangaTailCom(Provider):
             link = self.http().normalize_uri(link.get('href'))
             self.__local_storage = link
             header = self.html_fromstring(link, selector, 0)
-        return header.text_content().strip()
+        return header.text_content().strip().replace('/', '_')  # http://www.mangasail.com/content/12-prince-manga
 
     def get_chapters(self):
         items = self.document_fromstring(self.get_storage_content(), '.chlist td a')
