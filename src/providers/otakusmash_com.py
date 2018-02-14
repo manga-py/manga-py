@@ -1,21 +1,19 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class OtakuSmashCom(Provider):
+class OtakuSmashCom(Provider, Std):
     selector = r'https?://[^/]+/(read\-\w+/|reader/)?([^/]+)'
     prefix = '/'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(*idx)
+        return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
         selector = self.selector + '/([^/]+)'
         idx = self.re.search(selector, self.get_current_chapter()).group(3).split('.')
-        return '{}-{}'.format(
-            idx[0],
-            0 if len(idx) < 2 else idx[1]
-        )
+        return '-'.join(*idx)
 
     def get_main_content(self):
         return self.http_get(self._get_manga_url())
@@ -62,6 +60,9 @@ class OtakuSmashCom(Provider):
         else:
             base_uri = self.get_current_chapter()
         return base_uri + image
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = OtakuSmashCom

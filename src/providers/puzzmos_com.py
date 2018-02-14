@@ -1,14 +1,12 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class PuzzmosCom(Provider):
+class PuzzmosCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(
-            idx[0],
-            0 if len(idx) < 2 else idx[1]
-        )
+        return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
@@ -23,25 +21,21 @@ class PuzzmosCom(Provider):
         return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '#bolumler td:first-child a')
-
-    @staticmethod
-    def _get_image(parser):
-        img = parser.cssselect('.chapter-content img.chapter-img')
-        return [i.get('src') for i in img]
+        return self._chapters('#bolumler td:first-child a')
 
     def get_files(self):
+        img_selector = '.chapter-content img.chapter-img'
         url = self.get_current_chapter()
         parser = self.html_fromstring(url)
         pages = parser.cssselect('.col-md-12 > .text-center > select option + option')
-        images = self._get_image(parser)
+        images = self._images_helper(parser, img_selector)
         for i in pages:
             parser = self.html_fromstring(i.get('value'))
-            images += self._get_image(parser)
+            images += self._images_helper(parser, img_selector)
         return images
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('img.thumbnail.manga-cover')
+        return self._cover_from_content('img.thumbnail.manga-cover')
 
 
 main = PuzzmosCom

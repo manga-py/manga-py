@@ -181,9 +181,3 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
         self._storage['cookies'] = params[0]
         self._storage['user_agent'] = params[1]
         self._params['cf-protect'] = True
-
-    def _get_cover_from_content(self, selector, img_selector='src'):
-        if self.get_storage_content():
-            image = self.document_fromstring(self.get_storage_content(), selector)
-            if image and len(image):
-                self.http().normalize_uri(image[0].get(img_selector))

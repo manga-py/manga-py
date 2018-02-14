@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class GoMangaCo(Provider):
+class GoMangaCo(Provider, Std):
     _name_re = '/reader/[^/]+/([^/]+)/'
     _content_str = '{}/reader/series/{}/'
     _chapters_selector = '.list .element .title a'
@@ -24,7 +25,7 @@ class GoMangaCo(Provider):
         return self.re.search(self._name_re, self.get_url()).group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), self._chapters_selector)
+        return self._chapters(self._chapters_selector)
 
     def _get_json_selector(self, content):
         idx = self.re.search(r'page_width\s=\sparseInt\((\w+)\[', content).group(1)
@@ -37,7 +38,7 @@ class GoMangaCo(Provider):
         return [i.get('url') for i in items]
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('.thumbnail img')
+        return self._cover_from_content('.thumbnail img')
 
     def prepare_cookies(self):
         self.cf_protect(self.get_url())

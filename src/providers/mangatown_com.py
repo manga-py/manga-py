@@ -1,4 +1,5 @@
 from src.provider import Provider
+import urllib3
 
 
 class MangaTownCom(Provider):
@@ -9,11 +10,7 @@ class MangaTownCom(Provider):
 
     def get_chapter_index(self) -> str:
         idx = self.re.search('/manga/[^/]+/c([^/]+)', self.get_current_chapter())
-        idx = idx.group(1).split('.')
-        return '{}-{}'.format(
-            idx[0],
-            0 if len(idx) < 2 else idx[1]
-        )
+        return '-'.join(idx.group(1).split('.'))
 
     def get_main_content(self):
         name = self.get_manga_name()
@@ -27,7 +24,6 @@ class MangaTownCom(Provider):
         return self.document_fromstring(self.get_storage_content(), '.chapter_list a')
 
     def prepare_cookies(self):
-        import urllib3
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         self._http_kwargs['verify'] = False
 

@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaInnNet(Provider):
+class MangaInnNet(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -9,13 +10,8 @@ class MangaInnNet(Provider):
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
-        groups = self.re.search(r'\.net/[^/]+/([^/]+)', chapter).group(1).split('.')
-
-        idx = [
-            groups[0],
-            0 if len(groups) < 2 else groups[1]
-        ]
-        return '{}-{}'.format(*idx)
+        idx = self.re.search(r'\.net/[^/]+/([^/]+)', chapter).group(1).split('.')
+        return '{}-{}'.format(*self._idx_to_x2(idx))
 
     def get_main_content(self):
         return self.http_get('{}/{}'.format(self.get_domain(), self.get_manga_name()))
@@ -32,6 +28,9 @@ class MangaInnNet(Provider):
         images = self.re.search(r'var\s+images\s*=\s*(\[\{.+?\}\])', content).group(1)
         images = self.json.loads(images)
         return [i.get('url') for i in images]
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = MangaInnNet

@@ -21,13 +21,6 @@ class EHentaiOrg:
         url = self.provider.re.search(selector, image.get('style'))
         return self.provider.http().normalize_uri(url.group(1))
 
-    def get_cover_from_content(self, selector):
-        if self.provider.get_storage_content():
-            content = self.provider.get_storage_content()
-            image = self.provider.document_fromstring(content, selector)
-            if image and len(image):
-                return self.parse_background(image[0])
-
     def get_image(self, i):
         url = i.get('href')
         src = self.provider.html_fromstring(url, 'img#img', 0)

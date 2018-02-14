@@ -1,9 +1,10 @@
 from src.provider import Provider
 from urllib.parse import unquote
 from time import sleep
+from abc import ABCMeta
 
 
-class NineHelper(Provider):
+class NineHelper(Provider, metaclass=ABCMeta):
     img_server = 'https://ta1.taadd.com'
 
     def re_name(self, url):

@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaOnlineToday(Provider):
+class MangaOnlineToday(Provider, Std):
     __img_selector = '#sct_content img'
 
     def get_archive_name(self) -> str:
@@ -11,10 +12,7 @@ class MangaOnlineToday(Provider):
     def get_chapter_index(self) -> str:
         idx = self.re.search(r'\.today/[^/]+/([^/]+)', self.get_current_chapter())
         idx = idx.group(1).split('.')
-        return '{}-{}'.format(
-            idx[0],
-            0 if len(idx) < 2 else idx[1]
-        )
+        return '{}-{}'.format(*self._idx_to_x2(idx))
 
     def get_main_content(self):
         return self.http_get('{}/{}/'.format(self.get_domain(), self.get_manga_name()))
@@ -44,6 +42,9 @@ class MangaOnlineToday(Provider):
 
         options = len(content.cssselect('.cbo_wpm_pag')[0].cssselect('option')) / 2 + .5
         return images + self._pages_helper(options)
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = MangaOnlineToday

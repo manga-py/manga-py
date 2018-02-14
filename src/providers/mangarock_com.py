@@ -1,9 +1,10 @@
 from src.crypt.manga_rock_com_crypt import MangaRockComCrypt
 from src.provider import Provider
 from src.fs import rename, unlink, basename
+from .helpers.std import Std
 
 
-class MangaRockCom(Provider):
+class MangaRockCom(Provider, Std):
     crypt = None
     __api_uri = 'https://api.mangarockhd.com/query/web400/'
 
@@ -50,7 +51,7 @@ class MangaRockCom(Provider):
 
     def get_cover(self) -> str:
         selector = 'div:not([class]) > div[class] > div[class] > div[class] > div[class] > img'
-        return self._get_cover_from_content(selector)
+        return self._cover_from_content(selector)
 
     def prepare_cookies(self):
         self.crypt = MangaRockComCrypt()

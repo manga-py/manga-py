@@ -1,22 +1,19 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaGoMe(Provider):
+class MangaGoMe(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        type = self.re.search('/(mf|raw)', self.get_current_chapter()).group(1)
-        return 'vol_{:0>3}-{}-{}'.format(*idx, type)
+        tp = self.re.search('/(mf|raw)', self.get_current_chapter()).group(1)
+        return 'vol_{:0>3}-{}-{}'.format(*idx, tp)
 
     def get_chapter_index(self) -> str:
         selector = r'/(?:mf|raw)/.*?(\d+)(?:\.(\d+))?'
         chapter = self.get_current_chapter()
-        groups = self.re.search(selector, chapter).groups()
-        idx = [
-            groups[0],
-            0 if len(groups) < 2 else groups[1],
-        ]
-        return '{}-{}'.format(*idx)
+        idx = self.re.search(selector, chapter).groups()
+        return '{}-{}'.format(*self._idx_to_x2(idx))
 
     def get_main_content(self):
         url = '{}/read-manga/{}/'.format(self.get_domain(), self.get_manga_name())
@@ -40,6 +37,9 @@ class MangaGoMe(Provider):
         if not parser:
             return []
         return parser.group(0).split(',')
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = MangaGoMe

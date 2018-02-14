@@ -1,9 +1,10 @@
 from src.provider import Provider
 from src.providers.helpers import e_hentai_org
 from lxml.html import HtmlElement
+from .helpers.std import Std
 
 
-class EHentaiOrg(Provider):
+class EHentaiOrg(Provider, Std):
     helper = None
 
     def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
@@ -45,7 +46,7 @@ class EHentaiOrg(Provider):
         return self.document_fromstring(content, select)
 
     def get_cover(self) -> str:
-        return self.helper.get_cover_from_content('#gd1 > div')
+        return self._cover_from_content('#gd1 > div')
 
 
 main = EHentaiOrg

@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaFoxMe(Provider):
+class MangaFoxMe(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -10,12 +11,8 @@ class MangaFoxMe(Provider):
     def get_chapter_index(self) -> str:
         selector = '/manga/[^/]+/([^/]+)/'
         chapter = self.get_current_chapter()
-        groups = self.re.search(selector, chapter).group(1).split('.')
-        idx = [
-            groups[0],
-            0 if len(groups) < 2 else groups[1]
-        ]
-        return '{}-{}'.format(*idx)
+        idx = self.re.search(selector, chapter).group(1).split('.')
+        return '{}-{}'.format(*self._idx_to_x2(idx))
 
     def get_main_content(self):
         name = self.get_manga_name()
@@ -25,12 +22,7 @@ class MangaFoxMe(Provider):
         return self.re.search('/manga/([^/]+)/?', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '#chapters a.tips')
-
-    @staticmethod
-    def _content2image_url(parser):
-        result = parser.cssselect('img#image')
-        return result[0].get('src')
+        return self._chapters('#chapters a.tips')
 
     def __get_files_url(self):
         volume = self.get_current_chapter()
@@ -40,22 +32,26 @@ class MangaFoxMe(Provider):
         return url
 
     def get_files(self):
+        img_selector = 'img#image'
         _url = self.__get_files_url()
         url = '{}/1.html'.format(_url)
         selector = '#top_bar .r .l select.m option'
         parser = self.html_fromstring(url)
         pages = [i.get('value') for i in parser.cssselect(selector)]
 
-        images = [self._content2image_url(parser)]
+        images = self._images_helper(parser, img_selector)
 
         for n in pages:
             if int(n) < 2:
                 continue
             url = '{}/{}.html'.format(_url, n)
             parser = self.html_fromstring(url)
-            images.append(self._content2image_url(parser))
+            images += self._images_helper(parser, img_selector)
 
         return images
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = MangaFoxMe

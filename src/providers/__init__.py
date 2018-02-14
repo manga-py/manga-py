@@ -44,6 +44,7 @@ providers_list = {
     'manga_ae': [r'manga\.ae/.'],
     'manga_online_biz': [r'manga\-online\.biz/.'],
     'manga_online_com_ua': [r'manga\-online\.com\.ua/.+html'],
+    'manga_tr_com': [r'manga\-tr\.com/(manga|id)\-.'],
     'mangabb_co': [r'mangabb\.co/.'],
     'mangabox_me': [r'mangabox\.me/reader/.'],
     'mangachan_me': [r'mangachan\.me/(related|manga|online)/.'],
@@ -54,7 +55,6 @@ providers_list = {
         r'perveden\.com/[^/]+/[^/]+\-manga/.'
     ],
     # 'mangafox_la': [r'mangafox\.(me|la)/manga/.'],
-    'mngdoom_com': [r'(mangadoom\.co|mngdoom\.com)/.'],
     'mangago_me': [r'mangago\.me/read\-manga/.'],
     'mangahere_co': [r'mangahere\.(co|cc)/manga/.'],
     'mangahome_com': [r'mangahome\.com/manga/.'],
@@ -84,6 +84,7 @@ providers_list = {
     'mangatown_com': [r'mangatown\.com/manga/.'],
     'manhuagui_com': [r'manhuagui\.com/comic/\d'],
     'mintmanga_com': [r'mintmanga\.com/.'],
+    'mngdoom_com': [r'(mangadoom\.co|mngdoom\.com)/.'],
     'myreadingmanga_info': [r'myreadingmanga\.info/.'],
     'ninemanga_com': [r'ninemanga\.com/(manga|chapter).'],
     'otakusmash_com': [

@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaOnNet(Provider):
+class MangaOnNet(Provider, Std):
 
     def get_archive_name(self) -> str:
         return 'vol_' + self.get_chapter_index()
@@ -32,14 +33,14 @@ class MangaOnNet(Provider):
         return self.re.search(r'/manga\-info/([^/]+)', url).group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '.list-chapter li > a')
+        return self._chapters('.list-chapter li > a')
 
     def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '#list-img img')
         return [i.get('src') for i in items]
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('.cover img')
+        return self._cover_from_content('.cover img')
 
 
 main = MangaOnNet

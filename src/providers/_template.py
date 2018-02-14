@@ -1,7 +1,9 @@
 from src.provider import Provider
+# from .helpers.std import Std
 
 
 class _Template(Provider):
+# class _Template(Provider, Std):
 
     def get_archive_name(self) -> str:
         pass
@@ -16,6 +18,7 @@ class _Template(Provider):
         return ''
 
     def get_chapters(self):
+        # return self._chapters('a.chapter')
         return []
 
     def get_files(self):
@@ -23,7 +26,7 @@ class _Template(Provider):
 
     def get_cover(self) -> str:
         pass
-        # return self._get_cover_from_content('.cover img')
+        # return self._cover_from_content('.cover img')
 
 
 main = _Template

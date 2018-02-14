@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class ReadMsNet(Provider):
+class ReadMsNet(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.re.search('/r/[^/]+/([^/]+)/([^/]+)', self.get_current_chapter()).groups()
@@ -21,20 +22,16 @@ class ReadMsNet(Provider):
     def get_chapters(self):
         return self.document_fromstring(self.get_storage_content(), '.table-striped td > a')
 
-    @staticmethod
-    def _get_image(parser):
-        items = parser.cssselect('img#manga-page')
-        return items[0].get('src') if len(items) else None
-
     def get_files(self):
+        img_selector = 'img#manga-page'
         parser = self.html_fromstring(self.get_current_chapter())
-        img = self._get_image(parser)
+        img = self._images_helper(parser, img_selector)
         images = []
         img and images.append(img)
         pages = parser.cssselect('.btn-reader-page .dropdown-menu li + li a')
         for i in pages:
             parser = self.html_fromstring(self.http().normalize_uri(i.get('href')))
-            img = self._get_image(parser)
+            img = self._images_helper(parser, img_selector)
             img and images.append(img)
         return images
 

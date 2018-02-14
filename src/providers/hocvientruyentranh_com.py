@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class HocVienTruyenTranhCom(Provider):
+class HocVienTruyenTranhCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -25,8 +26,7 @@ class HocVienTruyenTranhCom(Provider):
         return self.re.search('/manga/[^/]+/([^/]+)', url).group(1)
 
     def get_chapters(self):
-        c, s = self.get_storage_content(), '.table-scroll table.table td > a'
-        return self.document_fromstring(c)
+        return self._chapters('.table-scroll table.table td > a')
 
     def get_files(self):
         selector = '.manga-container img.page'
@@ -34,7 +34,7 @@ class HocVienTruyenTranhCom(Provider):
         return [i.get('src') for i in items]
 
     def get_cover(self):
-        return self._get_cover_from_content('.__info-container .__image img')
+        return self._cover_from_content('.__info-container .__image img')
 
 
 main = HocVienTruyenTranhCom

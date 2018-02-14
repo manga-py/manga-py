@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class HakiHomeCom(Provider):
+class HakiHomeCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         return self.get_chapter_index()
@@ -18,40 +19,29 @@ class HakiHomeCom(Provider):
         return self.http_get(url.group(1))
 
     def get_manga_name(self) -> str:
-        _ = self.http().normalize_uri(r'http://s1.hakihome.com/images/eng/C/Cumming inside asuna 100 raw part 1/003.jpg \r\n')
         url = self.get_url()
         selector = r'\.com/[^/]+/(.+?)\-\d+/'
         return self.re.search(selector, url).group(1)
 
     def get_chapters(self):
-        content, selector = self.get_storage_content(), '.listing a.readchap'
-        return self.document_fromstring(content, selector)
+        return self._chapters('.listing a.readchap')
 
     def get_files(self):
+        img_selector = '#con img'
         n = self.http().normalize_uri
-        images = []
         uri = n(self.get_current_chapter())
         parser = self.html_fromstring(uri, '#contentchap', 0)
-        pages = parser.cssselect('#botn span > select[onchange] > option + option')
-        img = self._images_helper(parser)
-        img and images.append(img)
+        pages = self._first_select_options(parser, '#botn span > select[onchange]')
+        images = self._images_helper(parser, img_selector)
 
         for i in pages:
             parser = self.html_fromstring(n(i.get('value')), '#contentchap', 0)
-            img = self._images_helper(parser)
-            img and images.append(img)
+            images += self._images_helper(parser, img_selector)
 
         return images
 
-    @staticmethod
-    def _images_helper(parser):
-        image = parser.cssselect('#con img')
-        if len(image):
-            return image[0].get('src').strip(r' \r\n')
-        return None
-
     def get_cover(self) -> str:
-        return self._get_cover_from_content('.noidung img')
+        return self._cover_from_content('.noidung img')
 
 
 main = HakiHomeCom

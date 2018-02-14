@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaOnlineCom(Provider):
+class MangaOnlineCom(Provider, Std):
     __local_storage = None
 
     def __init_storage(self):
@@ -49,12 +50,10 @@ class MangaOnlineCom(Provider):
             return self._get_chapters_manga()
         return []
 
-    def _get_pages_count(self, parser):
+    @staticmethod
+    def _get_pages_count(parser):
         _len = len(parser.cssselect('#pages_all a'))
         return _len + 1 if _len else 0
-
-    def _get_image(self, parser):
-        return parser.cssselect('img')[0].get('src')
 
     def get_files(self):
         chapter = self.get_current_chapter()
@@ -65,7 +64,7 @@ class MangaOnlineCom(Provider):
         for n in range(pages):
             url = '{}/engine/ajax/sof_fullstory.php?id={}&page={}'.format(self.get_domain(), idx, n+1)
             parser = self.html_fromstring(url)[0]
-            images.append(self._get_image(parser))
+            images += self._images_helper(parser, 'img')
         return images
 
 

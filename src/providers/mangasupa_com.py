@@ -1,19 +1,16 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaSupaCom(Provider):
+class MangaSupaCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(*idx)
+        return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
         idx = self.re.search('/chapter_([^/]+)', self.get_current_chapter())
-        idx = idx.group(1).split('.')
-        return '{}-{}'.format(
-            idx[0],
-            0 if len(idx) < 2 else idx[1]
-        )
+        return '-'.join(idx.group(1).split('.'))
 
     def get_main_content(self):
         name = self.get_manga_name()
@@ -29,6 +26,9 @@ class MangaSupaCom(Provider):
     def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '.vung_doc img')
         return [i.get('src') for i in items]
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = MangaSupaCom

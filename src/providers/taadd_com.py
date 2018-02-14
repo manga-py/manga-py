@@ -1,11 +1,13 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class TaaddCom(Provider):
+class TaaddCom(Provider, Std):
     __local_storage = None
     _name_selector = 'h1.chapter_bar a[href*="/book/"]'
     _pages_selector = '#page'
     _chapters_selector = '.chapter_list td[align="left"] a'
+    img_selector = '#comicpic'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
@@ -37,17 +39,13 @@ class TaaddCom(Provider):
     def prepare_cookies(self):
         self.__local_storage = 0
 
-    @staticmethod
-    def _get_image(parser):
-        return [parser.cssselect('#comicpic')[0].get('src')]
-
     def get_files(self):
         parser = self.html_fromstring(self.get_current_chapter())
         pages = parser.cssselect(self._pages_selector)[0].cssselect('option + option')
-        images = self._get_image(parser)
+        images = self._images_helper(parser, self.img_selector)
         for i in pages:
             c = self.html_fromstring(self.http().normalize_uri(i.get('value')))
-            images += self._get_image(parser)
+            images += self._images_helper(parser, self.img_selector)
         return images
 
 

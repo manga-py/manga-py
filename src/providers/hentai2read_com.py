@@ -1,15 +1,13 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class Hentai2ReadCom(Provider):
+class Hentai2ReadCom(Provider, Std):
     images_cdn = 'https://static.hentaicdn.com/hentai'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(
-            idx[0],
-            0 if len(idx) < 2 else idx[1]
-        )
+        return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
@@ -23,8 +21,7 @@ class Hentai2ReadCom(Provider):
         return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        c, s = self.get_storage_content(), 'li .chapter-row'
-        return self.document_fromstring(c, s)
+        return self._chapters('li .chapter-row')
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
@@ -33,7 +30,7 @@ class Hentai2ReadCom(Provider):
         return ['{}{}'.format(self.images_cdn, i) for i in items]
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('.ribbon-primary .border-black-op')
+        return self._cover_from_content('.ribbon-primary .border-black-op')
 
 
 main = Hentai2ReadCom

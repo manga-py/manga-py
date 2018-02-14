@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaKakalotCom(Provider):
+class MangaKakalotCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -9,10 +10,7 @@ class MangaKakalotCom(Provider):
 
     def get_chapter_index(self) -> str:
         idx = self.re.search('/chapter_([^/]+)', self.get_current_chapter()).split('.')
-        return '{}-{}'.format(
-            idx[0],
-            0 if len(idx) < 2 else idx[1]
-        )
+        return '{}-{}'.format(*self._idx_to_x2(idx))
 
     def get_main_content(self):
         name = self.get_manga_name()

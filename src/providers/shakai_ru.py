@@ -1,15 +1,13 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class ShakaiRu(Provider):
+class ShakaiRu(Provider, Std):
     __local_storage = None
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-', 2)
-        return 'vol_{:0>3}-{}'.format(
-            idx[0],
-            1 if len(idx) < 2 else idx[1]
-        )
+        return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
         idx = self.get_current_chapter().get('data-first')
@@ -42,6 +40,9 @@ class ShakaiRu(Provider):
         if isinstance(chapter, dict):
             return chapter.get('data-second', [])
         return []
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = ShakaiRu

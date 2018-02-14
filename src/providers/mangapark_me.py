@@ -16,7 +16,7 @@ class MangaParkMe(Provider):
         )
 
     def get_main_content(self):
-        print('{}/{}'.format(self.get_domain(), self.get_manga_name()));exit()
+        print('{}/{}'.format(self.get_domain(), self.get_manga_name()));exit()  # FIXME!
 
         return self.http_get('{}/manga/{}'.format(self.get_domain(), self.get_manga_name()))
 

@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class LeoMangaCom(Provider):
+class LeoMangaCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -43,7 +44,7 @@ class LeoMangaCom(Provider):
         return [n(i.get('src')) for i in items]
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('.cover img', 'data-original')
+        return self._cover_from_content('.cover img', 'data-original')
 
 
 main = LeoMangaCom

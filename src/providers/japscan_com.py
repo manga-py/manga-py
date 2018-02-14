@@ -15,17 +15,15 @@ class JapScanCom(GoMangaCo):
         url = self.get_current_chapter()
         return '{}'.format(self.re.search(selector, url))
 
-    def _get_image(self, n, parser):
-        return n(parser.cssselect[0].get('#image'))
-
     def get_files(self):
+        img_selector = '#image'
         n = self.http().normalize_uri
         parser = self.html_fromstring(self.get_current_chapter())
         pages = parser.cssselect('#pages option + option')
-        images = [self._get_image(n, parser)]
+        images = self._images_helper(parser, img_selector)
         for i in pages:
             parser = self.html_fromstring(n(i.get('value')))
-            images.append(self._get_image(n, parser))
+            images += self._images_helper(parser, img_selector)
         return images
 
     def get_cover(self) -> str:

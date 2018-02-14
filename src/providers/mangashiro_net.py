@@ -1,17 +1,15 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaShiroNet(Provider):
+class MangaShiroNet(Provider, Std):
     alter_re_name = r'\.net/([^/]+)\-\d+'
     chapter_re = r'\.net/[^/]+\-(\d+(?:\-\d+)?)'
     chapters_selector = 'span.leftoff > a'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(
-            idx[0],
-            0 if len(idx) < 2 else idx[1]
-        )
+        return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
@@ -30,7 +28,7 @@ class MangaShiroNet(Provider):
         return self.re.search(re, url).group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), self.chapters_selector)
+        return self._chapters(self.chapters_selector)
 
     def get_files(self):
         url = self.get_current_chapter()
@@ -43,7 +41,7 @@ class MangaShiroNet(Provider):
         return [i.get(attr) for i in items]
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('img.attachment-post-thumbnail')
+        return self._cover_from_content('img.attachment-post-thumbnail')
 
 
 main = MangaShiroNet

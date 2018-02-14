@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class ComicsAndMangaRu(Provider):
+class ComicsAndMangaRu(Provider, Std):
 
     def get_archive_name(self) -> str:
         index = self.get_chapter_index()
@@ -24,29 +25,22 @@ class ComicsAndMangaRu(Provider):
         return items[::-1]
 
     def get_files(self):
+        img_selector = 'a > img'
         nu = self.http().normalize_uri
-        images = []
         uri = nu(self.get_current_chapter())
         parser = self.html_fromstring(uri, '.ForRead', 0)
         pages = parser.cssselect('.navigation select')[0].cssselect('option + option')
-        img = self._images_helper(parser)
-        img and images.append(img)
+        images = self._images_helper(parser, img_selector)
 
         for i in pages:
             uri = '{}/{}'.format(nu(self.get_current_chapter().rstrip('/')), i.get('value'))
             parser = self.html_fromstring(uri, '.ForRead', 0)
-            img = self._images_helper(parser)
-
-            img and images.append(img)
+            images += self._images_helper(parser, img_selector)
 
         return images
 
-    @staticmethod
-    def _images_helper(parser):
-        image = parser.cssselect('a > img')
-        if len(image):
-            return image[0].get('src')
-        return None
+    def get_cover(self):
+        pass  # TODO
 
 
 main = ComicsAndMangaRu

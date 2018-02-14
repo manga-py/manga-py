@@ -1,8 +1,9 @@
 from src.provider import Provider
+from .helpers.std import Std
 from math import ceil
 
 
-class KuMangaCom(Provider):
+class KuMangaCom(Provider, Std):
     __local_storage = None
 
     def get_archive_name(self) -> str:
@@ -63,7 +64,7 @@ class KuMangaCom(Provider):
         return [r(i.get('imgURL')) for i in items.group(1)]
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('.container img.img-responsive')
+        return self._cover_from_content('.container img.img-responsive')
 
 
 main = KuMangaCom

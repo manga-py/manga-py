@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class BlogTruyenCom(Provider):
+class BlogTruyenCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -26,15 +27,14 @@ class BlogTruyenCom(Provider):
         return self.re.search(r'/\d+/([^/]+)', url).group(1)
 
     def get_chapters(self):
-        c, s = self.get_storage_content(), '#list-chapters .title > a'
-        return self.document_fromstring(c, s)
+        return self._chapters('#list-chapters .title > a')
 
     def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '#content img')
         return [i.get('src') for i in items]
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('.thumbnail img')
+        return self._cover_from_content('.thumbnail img')
 
 
 main = BlogTruyenCom

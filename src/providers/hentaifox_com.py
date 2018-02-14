@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class HentaiFoxCom(Provider):
+class HentaiFoxCom(Provider, Std):
     __local_storage = None
     _idx_re = r'/g(?:allery)?/(\d+)'
     _url_str = '{}/gallery/{}/'
@@ -39,7 +40,7 @@ class HentaiFoxCom(Provider):
         return items
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('.cover img')
+        return self._cover_from_content('.cover img')
 
 
 main = HentaiFoxCom

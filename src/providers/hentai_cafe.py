@@ -1,7 +1,8 @@
 from src.providers.jaiminisbox_com import JaiminIsBoxCom
+from .helpers.std import Std
 
 
-class HentaiCafe(JaiminIsBoxCom):
+class HentaiCafe(JaiminIsBoxCom, Std):
     _name_re = r'\.cafe(?:/manga/read)?/([^/]+)/'
     _content_str = '{}/{}/'
     _chapters_selector = '.content .last .x-btn'  # TODO
@@ -13,7 +14,7 @@ class HentaiCafe(JaiminIsBoxCom):
         return str(self._chapter_index())
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('.entry-content img')
+        return self._cover_from_content('.entry-content img')
 
 
 main = HentaiCafe

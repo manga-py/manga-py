@@ -1,7 +1,9 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaLifeUs(Provider):
+class MangaLifeUs(Provider, Std):
+    img_selector = '.image-container .CurImage'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -27,24 +29,21 @@ class MangaLifeUs(Provider):
         return self.re.search(r'(?:\.us)?/manga/([^/]+)', uri).group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '.chapter-list a.list-group-item')
-
-    def _get_image(self, parser):
-        return parser.cssselect('.image-container .CurImage')[0].get('src')
+        return self._chapters('.chapter-list a.list-group-item')
 
     def get_files(self):
         url = self.get_current_chapter()
         parser = self.html_fromstring(url, '.mainWrapper', 0)
         pages = parser.cssselect('select.PageSelect')[0].cssselect('option + option')
-        images = [self._get_image(parser)]
+        images = self._images_helper(parser, self.img_selector)
         for page in pages:
             page_url = self.re.sub(r'(.+page\-)\d+(.+)', r'\1{}\2', url)
             parser = self.html_fromstring(page_url.format(page.get('value')))
-            images.append(self._get_image(parser))
+            images += self._images_helper(parser, self.img_selector)
         return images
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('.leftImage img')
+        return self._cover_from_content('.leftImage img')
 
 
 main = MangaLifeUs

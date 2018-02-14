@@ -7,3 +7,4 @@ cfscrape>=1.9.1
 PyQT5>=5.4
 progressbar2>3.34
 tldextract>2.1
+urllib3

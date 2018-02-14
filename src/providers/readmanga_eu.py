@@ -1,18 +1,16 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class ReadMangaEu(Provider):
+class ReadMangaEu(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(*idx)
+        return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx, '1'))
 
     def get_chapter_index(self) -> str:
         idx = self.re.search('/manga/\d+/[^/]+/([^/]+)', self.get_current_chapter()).group(1).split('.')
-        return '{}-{}'.format(
-            idx[0],
-            1 if len(idx) < 2 else idx[1]
-        )
+        return '-'.join(idx)
 
     def get_main_content(self):
         name = self.re.search('/(manga/\d+/[^/]+)', self.get_url()).group(1)
@@ -41,6 +39,9 @@ class ReadMangaEu(Provider):
             parser = self.html_fromstring(url)
             images += self.parse_files(parser)
         return images
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = ReadMangaEu

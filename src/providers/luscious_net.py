@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class LusciousNet(Provider):
+class LusciousNet(Provider, Std):
 
     def get_archive_name(self) -> str:
         return 'vol_{:0>3}'.format(self.get_chapter_index())
@@ -32,7 +33,7 @@ class LusciousNet(Provider):
         return images
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('.album_cover_item img')
+        return self._cover_from_content('.album_cover_item img')
 
 
 main = LusciousNet

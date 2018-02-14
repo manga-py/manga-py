@@ -1,20 +1,17 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaHomeCom(Provider):
+class MangaHomeCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{}-{}'.format(*idx)
+        return 'vol_{}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
         selector = r'/manga/[^/]+/[^\d]+(\d+)(?:\.(\d+))?'
-        groups = self.re.search(selector, self.get_current_chapter()).groups()
-        idx = [
-            groups[0],
-            0 if groups[1] is None else groups[1]
-        ]
-        return '{}-{}'.format(*idx)
+        idx = self.re.search(selector, self.get_current_chapter()).groups()
+        return '-'.join(idx)
 
     def get_main_content(self):
         name = self.get_manga_name()
@@ -24,23 +21,20 @@ class MangaHomeCom(Provider):
         return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '.detail-chlist a')
-
-    @staticmethod
-    def _content2image_url(parser):
-        return parser.cssselect('img#image')[0].get('src')
+        return self._chapters('.detail-chlist a')
 
     def get_files(self):
+        img_selector = 'img#image'
         _url = self.http().normalize_uri(self.get_current_chapter())
         parser = self.html_fromstring(_url)
         pages_selector = '.mangaread-top .mangaread-pagenav select option + option'
         pages = [i.get('value') for i in parser.cssselect(pages_selector)]
 
-        images = [self._content2image_url(parser)]
+        images = self._images_helper(parser, img_selector)
 
         for i in pages:
             url = self.http().normalize_uri(i)
-            images.append(self._content2image_url(self.html_fromstring(url)))
+            images += self._images_helper(parser, img_selector)
 
         return images
 

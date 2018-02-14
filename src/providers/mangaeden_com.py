@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaEdenCom(Provider):
+class MangaEdenCom(Provider, Std):
     uriRegex = r'/[^/]+/([^/]+\-manga)/([^/]+)/?'
 
     def get_archive_name(self) -> str:
@@ -21,7 +22,7 @@ class MangaEdenCom(Provider):
         return self.re.search(self.uriRegex, self.get_url()).group(2)
 
     def get_chapters(self):
-        return self.html_fromstring(self.get_storage_content(), 'a.chapterLink')
+        return self._chapters('a.chapterLink')
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
@@ -34,7 +35,7 @@ class MangaEdenCom(Provider):
         return items
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('#rightContent .info img')
+        return self._cover_from_content('#rightContent .info img')
 
 
 main = MangaEdenCom

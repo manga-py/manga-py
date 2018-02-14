@@ -1,19 +1,16 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MngDoomCom(Provider):
+class MngDoomCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(*idx)
+        return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
-        groups = self.re.search(r'\.com?/[^/]+/(\d+)(?:\.(\d+))').groups()
-        idx = [
-            groups[0],
-            0 if len(groups) < 2 else groups[1]
-        ]
-        return '{}-{}'.format(*idx)
+        idx = self.re.search(r'\.com?/[^/]+/(\d+)(?:\.(\d+))').groups()
+        return '-'.join(idx)
 
     def get_main_content(self):
         name = self.get_manga_name()
@@ -35,6 +32,9 @@ class MngDoomCom(Provider):
             return [i['url'] for i in images]
         except self.json.JSONDecodeError:
             return []
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = MngDoomCom

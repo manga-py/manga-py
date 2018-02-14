@@ -1,9 +1,10 @@
 from src.fs import basename
 from src.provider import Provider
 from src.crypt import KissMangaComCrypt
+from .helpers.std import Std
 
 
-class KissMangaCom(Provider):
+class KissMangaCom(Provider, Std):
 
     __local_data = {
         'iv': b'a5e8e2e9c2721be0a84ad660c472c1f3',
@@ -35,8 +36,7 @@ class KissMangaCom(Provider):
         return self.re.search('/Manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        c, s = self.get_storage_content(), '.listing td a'
-        return self.document_fromstring(c, s)
+        return self._chapters('.listing td a')
 
     def prepare_cookies(self):
         self.cf_protect(self.get_url())
@@ -68,6 +68,9 @@ class KissMangaCom(Provider):
         images = self.__decrypt_images(crypt, key, hexes)
 
         return [i.replace('\x10', '') for i in images]
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = KissMangaCom

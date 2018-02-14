@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaIndoWebId(Provider):
+class MangaIndoWebId(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
@@ -25,9 +26,7 @@ class MangaIndoWebId(Provider):
         return self.re.search(r'\.id/([^/]+)', url).group(1)
 
     def get_chapters(self):
-        selector = '.lcp_catlist li > a'
-        items = self.document_fromstring(self.get_storage_content(), selector)
-        return [i.get('href') for i in items]
+        return self._chapters('.lcp_catlist li > a')
 
     def get_files(self):
         r = self.http().get_redirect_url
@@ -36,7 +35,7 @@ class MangaIndoWebId(Provider):
         return [r(i.get('src')) for i in items]
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('#m-cover > img')
+        return self._cover_from_content('#m-cover > img')
 
 
 main = MangaIndoWebId

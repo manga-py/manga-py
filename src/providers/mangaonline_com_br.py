@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaOnlineComBr(Provider):
+class MangaOnlineComBr(Provider, Std):
 
     def get_archive_name(self) -> str:
         return 'vol_{}'.format(self.get_chapter_index())
@@ -18,20 +19,17 @@ class MangaOnlineComBr(Provider):
         return self.re.search(r'\.br/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        selector = '#volumes-capitulos span > a'
-        return self.document_fromstring(self.get_main_content(), selector)
+        return self._chapters('#volumes-capitulos span > a')
 
-    def _get_images(self, parser):
-        items = parser.cssselect('#imgPadraoVisualizacao img')
-        return [i.get('src') for i in items]
-
-    def _get_pages_count(self, parser):
+    @staticmethod
+    def _get_pages_count(parser):
         pages = parser.cssselect('select.pagina-capitulo')
         if pages:
             return len(pages[0].cssselect('option + option'))
         return 0
 
     def get_files(self):
+        img_selector = '#imgPadraoVisualizacao img'
         url = '{}/capitulo.php?act=getImg&anime={}&capitulo={}&src={}&view=1'
         params = (
             self.get_domain(),
@@ -39,17 +37,17 @@ class MangaOnlineComBr(Provider):
             self.get_chapter_index()
         )
         parser = self.html_fromstring(url.format(*params, 1))
-        images = self._get_images(parser)
+        images = self._images_helper(parser, img_selector)
         pages = self._get_pages_count(parser)
         if pages:
             for i in range(int(pages / 2)):
                 parser = self.html_fromstring(url.format(*params, ((i + 1) * 2 + 1)))
-                images += self._get_images(parser)
+                images += self._images_helper(parser, img_selector)
 
         return images
 
     def get_cover(self) -> str:
-        return self._get_cover_from_content('.image > img')
+        return self._cover_from_content('.image > img')
 
 
 main = MangaOnlineComBr

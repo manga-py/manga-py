@@ -1,10 +1,11 @@
 from src.provider import Provider
 from src.crypt.manhuagui_com_crypt import ManhuaGuiComCrypt
+from .helpers.std import Std
 
 import random
 
 
-class ManhuaGuiCom(Provider):
+class ManhuaGuiCom(Provider, Std):
     servers = [
         'i.hamreus.com:8080',
         'us.hamreus.com:8080',
@@ -45,7 +46,7 @@ class ManhuaGuiCom(Provider):
     def get_chapters(self):
         parser = self.document_fromstring(self.get_storage_content())
         chapters = parser.cssselect('.chapter-list li > a')
-        if len(chapters) < 1:
+        if not len(chapters):
             code = parser.cssselect('#__VIEWSTATE')[0].get('value')
             manhuagui = ManhuaGuiComCrypt()
             js = manhuagui.decrypt('LZString.decompressFromBase64("' + code + '")', '<a></a>')
@@ -81,6 +82,9 @@ class ManhuaGuiCom(Provider):
             return []
         data = self.json.loads(data.group(1))
         return self.parse_files_data(data)
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = ManhuaGuiCom

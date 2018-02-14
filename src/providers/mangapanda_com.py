@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaPandaCom(Provider):
+class MangaPandaCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -17,30 +18,29 @@ class MangaPandaCom(Provider):
     def get_manga_name(self) -> str:
         return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
 
-    @staticmethod
-    def _content2image_url(parser):
-        result = parser.cssselect('#imgholder img')
-        return result[0].get('src')
-
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '#listing a')
+        return self._chapters('#listing a')
 
     def get_files(self):
+        img_selector = '#imgholder img'
         url = self.http().normalize_uri(self.get_current_chapter())
 
         parser = self.html_fromstring(url, '#container', 0)
         count_pages = parser.cssselect('#selectpage option + option')
 
         count_pages = len(count_pages)
-        images = [self._content2image_url(parser)]
+        images = self._images_helper(parser, img_selector)
 
         n = 1
         while n < count_pages:
             parser = self.html_fromstring('{}/{}'.format(url, 1 + n))
-            images.append(self._content2image_url(parser))
+            images += self._images_helper(parser, img_selector)
             n += 1
 
         return images
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = MangaPandaCom

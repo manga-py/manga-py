@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class GoodMangaNet(Provider):
+class GoodMangaNet(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
@@ -39,18 +40,17 @@ class GoodMangaNet(Provider):
             chapters += self.get_chapters_links(cnt)
         return chapters
 
-    @staticmethod
-    def __get_image(p):
-        img = p.cssselect('#manga_viewer > a > img')
-        return img[0].get('src')
-
     def get_files(self):
+        img_selector = '#manga_viewer > a > img'
         parser = self.html_fromstring(self.get_current_chapter())
-        images = [self.__get_image(parser)]
+        images = self._images_helper(parser, img_selector)
         for i in parser.cssselect('#asset_2 select.page_select option + option'):
             _parser = self.html_fromstring(i.get('value'))
-            images.append(self.__get_image(_parser))
+            images += self._images_helper(parser, img_selector)
         return images
+
+    def get_cover(self):
+        pass  # TODO
 
 
 main = GoodMangaNet
