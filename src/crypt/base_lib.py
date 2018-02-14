@@ -84,6 +84,26 @@ class BaseLib:
         return unpack(fmt, string)
 
     @staticmethod
+    def pack_auto(int_list) -> bytes:
+        """
+        :param int_list: list
+        :return: str
+        """
+        base_frm = '{}B'.format(len(int_list))
+        return pack(base_frm, *int_list)
+
+    @staticmethod
+    def unpack_auto(string) -> list:
+        """
+        :param string: str
+        :return: tuple
+        """
+        if isinstance(string, str):
+            string = string.encode()
+
+        return list(string)
+
+    @staticmethod
     def str2hex(string):
         hex_str = ''
         if isinstance(string, bytes):

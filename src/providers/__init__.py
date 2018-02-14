@@ -71,6 +71,7 @@ providers_list = {
     'mangapanda_com': [r'mangapanda\.com/.'],
     'mangapark_me': [r'mangapark\.me/manga/.'],
     'mangareader_net': [r'mangareader\.net/.'],
+    'mangarock_com': [r'mangarock\.com/manga/.'],
     'mangarussia_com': [r'mangarussia\.com/(manga|chapter)/.'],
     'mangasaurus_com': [r'mangasaurus\.com/manga.'],
     'mangaseeonline_us': [r'mangaseeonline\.us/(read\-online|manga)/.'],

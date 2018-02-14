@@ -1,5 +1,6 @@
 import json
 import re
+# import time
 from abc import ABCMeta
 
 from .version import __downloader_uri__
@@ -90,7 +91,7 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
             self.__add_file_to_archive()
             self.make_archive()
 
-    def save_file(self, idx=None, callback=None, url=None):
+    def _save_file_params_helper(self, url, idx):
         if url is None:
             _url = self.http().normalize_uri(self.get_current_file())
         else:
@@ -102,10 +103,17 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
         filename = remove_file_query_params(basename(_url))
         _path = get_temp_path(self.remove_not_ascii('{:0>3}_{}'.format(idx, filename)))
 
+        return _path, idx, url
+
+    def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
+        _path, idx, _url = self._save_file_params_helper(url, idx)
+
         if not is_file(_path):
             self.http().download_file(_url, _path)
-            self._archive.add_file(_path)
+            self._archive.add_file(_path, in_arc_name)
         callable(callback) and callback()
+        self._loop_callback_files(_path)
+
         return _path
 
     def get_archive_path(self):
@@ -140,21 +148,17 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
         return self.document_fromstring(self.http_get(url, **params), selector, idx)
 
     def _multi_thread_callback(self):
-
         self._call_files_progress_callback()
-        self._loop_callback_files()
-
         self._storage['current_file'] += 1
 
     def _multi_thread_save(self, files):
-        import time
         threading = MultiThreads()
         # hack
         self._storage['current_file'] = 0
         for idx, url in enumerate(files):
             threading.add(self.save_file, (idx, self._multi_thread_callback, url))
 
-        time.sleep(5)
+        # time.sleep(5)
 
         threading.start()
         self.logger_callback('')
@@ -164,7 +168,6 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
         for idx, __url in enumerate(files):
             self._storage['current_file'] = idx
             self._call_files_progress_callback()
-            self._loop_callback_files()
             self.save_file()
 
     def cf_protect(self, url):

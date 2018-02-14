@@ -6,11 +6,11 @@ from lxml.html import HtmlElement
 class EHentaiOrg(Provider):
     helper = None
 
-    def save_file(self, idx=None, callback=None, url=None):
+    def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
         url = None
         if isinstance(url, HtmlElement):
             url = self.helper.get_image(url)
-        return super().save_file(idx=idx, callback=callback, url=url)
+        return super().save_file(idx=idx, callback=callback, url=url, in_arc_name=in_arc_name)
 
     def get_archive_name(self) -> str:
         return 'vol_{:0>3}'.format(self.get_chapter_index())

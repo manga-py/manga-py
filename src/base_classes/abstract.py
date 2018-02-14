@@ -35,7 +35,7 @@ class Abstract:
     def _loop_callback_chapters(self):
         pass
 
-    def _loop_callback_files(self):
+    def _loop_callback_files(self, _path: str):
         pass
 
     def get_cover(self):
