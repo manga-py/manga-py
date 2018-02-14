@@ -73,10 +73,15 @@ providers_list = {
     'mangareader_net': [r'mangareader\.net/.'],
     'mangarock_com': [r'mangarock\.com/manga/.'],
     'mangarussia_com': [r'mangarussia\.com/(manga|chapter)/.'],
-    'mangasaurus_com': [r'mangasaurus\.com/manga.'],
+    'mangasaurus_com': [r'mangasaurus\.com/manga|view.'],
     'mangaseeonline_us': [r'mangaseeonline\.us/(read\-online|manga)/.'],
+    'mangashiro_net': [r'mangashiro.net/.'],
     'mangasupa_com': [r'mangasupa\.com/(manga|chapter).'],
-    'mangatown_com': [r'mangatown\.com/manga.'],
+    'mangatail_com': [
+        r'mangatail.com/(manga|chapter|node|content)/',
+        r'mangasail.com/(manga|chapter|node|content)/'
+    ],
+    'mangatown_com': [r'mangatown\.com/manga/.'],
     'manhuagui_com': [r'manhuagui\.com/comic/\d'],
     'mintmanga_com': [r'mintmanga\.com/.'],
     'myreadingmanga_info': [r'myreadingmanga\.info/.'],
@@ -88,6 +93,7 @@ providers_list = {
         r'mangasmash\.com/.'
     ],
     'otscans_com': [r'otscans\.com/foolslide/(series|read)/.'],
+    'puzzmos_com': [r'puzzmos\.com/manga/.'],
     'pzykosis666hfansub_com': [r'pzykosis666hfansub\.com/online/.'],
     'read_powermanga_org': [
         r'lector\.dangolinenofansub\.com/(read|series)/.',
@@ -113,6 +119,12 @@ providers_list = {
     'selfmanga_ru': [r'selfmanga\.ru/.'],
     'shakai_ru': [r'shakai\.ru/manga.*?/\d'],
     'somanga_net': [r'somanga\.net/(leitor|manga)/.'],
+    'subapics_com': [
+        r'subapics\.com/manga/.',
+        r'subapics\.com/[^/]/.+\-chapter\-',
+        r'mangakita\.net/manga/.',
+        r'mangakita\.net/[^/]/.+\-chapter\-'
+    ],
     'taadd_com': [r'taadd\.com/(book|chapter)/.'],
     'tenmanga_com': [r'tenmanga\.com/(book|chapter)/.'],
     'unionmangas_net': [r'unionmangas\.net/(leitor|manga)/.'],
