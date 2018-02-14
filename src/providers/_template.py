@@ -14,14 +14,17 @@ class _Template(Provider):
     def get_main_content(self):
         pass
 
+    def prepare_cookies(self):  # if site with cookie protect
+        pass
+
     def get_manga_name(self) -> str:
         return ''
 
-    def get_chapters(self):
+    def get_chapters(self):  # call once
         # return self._chapters('a.chapter')
         return []
 
-    def get_files(self):
+    def get_files(self):  # call ever volume loop
         return []
 
     def get_cover(self) -> str:
