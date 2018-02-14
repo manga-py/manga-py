@@ -12,7 +12,7 @@ class PuzzmosCom(Provider):
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
-        idx = self.re.search('/manga/([^/]+)/', chapter)
+        idx = self.re.search('/manga/[^/]+/([^/]+)', chapter)
         return '-'.join(idx.group(1).split('.'))
 
     def get_main_content(self):
@@ -20,22 +20,20 @@ class PuzzmosCom(Provider):
         return self.http_get('{}/manga/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/manga/([^/]+)', self.get_url())
+        return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self.html_fromstring(self.get_storage_content(), '#bolumler td a')
+        return self.document_fromstring(self.get_storage_content(), '#bolumler td:first-child a')
 
     @staticmethod
     def _get_image(parser):
         img = parser.cssselect('.chapter-content img.chapter-img')
-        if img:
-            return [img.get('src')]
-        return []
+        return [i.get('src') for i in img]
 
     def get_files(self):
         url = self.get_current_chapter()
         parser = self.html_fromstring(url)
-        pages = parser.cssselect('.label-info + select')[0].cssselect('option + option')
+        pages = parser.cssselect('.col-md-12 > .text-center > select option + option')
         images = self._get_image(parser)
         for i in pages:
             parser = self.html_fromstring(i.get('value'))
