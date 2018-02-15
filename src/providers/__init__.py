@@ -2,7 +2,9 @@ import re
 
 
 providers_list = {
-    'adulto_seinagi_org': [r'adulto\.seinagi\.org/(series|read)/.'],
+    'adulto_seinagi_org': [
+        r'adulto\.seinagi\.org/(series|read)/.'
+    ],
     'blogtruyen_com': [r'blogtruyen\.com/.'],
     'comicextra_com': [r'comicextra\.com/.'],
     'comico_jp': [r'comico\.jp/(detail|articleList).+titleNo.'],
@@ -20,6 +22,7 @@ providers_list = {
     'gmanga_me': [r'gmanga\.me/mangas/.'],
     'gomanga_co': [r'gomanga\.co/reader/.'],
     'goodmanga_net': [r'goodmanga\.net/.'],
+    'helveticascans_com': [r'helveticascans\.com/r/(series|read)/.'],
     'hakihome_com': [r'hakihome\.com/.'],
     'hentai2read_com': [r'hentai2read\.com/.'],
     'hentai_cafe': [r'hentai\.cafe/.'],
@@ -27,7 +30,8 @@ providers_list = {
     'hentai_chan_me_download': [r'hentai\-chan\.me/download/.'],
     'hentaifox_com': [r'hentaifox\.com/.'],
     'hitomi_la': [r'hitomi\.la/(galleries|reader)/.'],
-    'hocvientruyentranh_com': [r'http://hocvientruyentranh\.com/(manga|chapter)/.'],
+    'hocvientruyentranh_com': [r'hocvientruyentranh\.com/(manga|chapter)/.'],
+    'hotchocolatescans_com': [r'hotchocolatescans\.com/fs/(series|read)/'],
     'inmanga_com': [r'inmanga\.com/ver/manga/.'],
     'jaiminisbox_com': [
         r'jaiminisbox\.com/reader/.',
@@ -105,9 +109,10 @@ providers_list = {
         r'reader\.kireicake\.com/(series|read)/.',
         r'reader\.shoujosense\.com/(series|read)/.',
         r'reader\.sensescans\.com/(series|read)/.',
-        r'reader\.whiteoutscans\.com/(series|read)/.'
-        r'slide\.world\-three\.org/(series|read)/.'
-        r'manga\.animefrontline\.com/(series|read)/.'
+        r'reader\.whiteoutscans\.com/(series|read)/.',
+        r'slide\.world\-three\.org/(series|read)/.',
+        r'manga\.animefrontline\.com/(series|read)/.',
+        r'reader\.s2smanga\.com/(series|read)/.',
     ],
     'readcomicbooksonline_org': [
         r'readcomicbooksonline\.net/.',
@@ -129,6 +134,7 @@ providers_list = {
     ],
     'taadd_com': [r'taadd\.com/(book|chapter)/.'],
     'tenmanga_com': [r'tenmanga\.com/(book|chapter)/.'],
+    'triplesevenscans_com': [r'triplesevenscans\.com/reader/(series|read)/.'],
     'unionmangas_net': [r'unionmangas\.net/(leitor|manga)/.'],
     # 'viz_com': [r'viz\.com/shonenjump/chapters/.'],
     'wmanga_ru': [r'wmanga\.ru/starter/manga_.'],
