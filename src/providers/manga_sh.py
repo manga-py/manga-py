@@ -13,10 +13,12 @@ class MangaSh(Provider, Std):
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
-        _ch = 'ChapterNumberAbsolute'
-        _vol = 'VolumeNumber'
-
-        return '{}-{}'.format(chapter.get(_vol, 0), chapter.get(_ch, self._chapter_index()))
+        _ch = chapter.get('ChapterNumberAbsolute', self._chapter_index())
+        _vol = chapter.get('VolumeNumber', 0)
+        _ch_v = chapter.get('ChapterNumberVolume', '')
+        if _ch_v:
+            _ch_v = '_' + _ch_v
+        return '{}-{}{}'.format(_vol, _ch, _ch_v)
 
     def get_main_content(self):
         if not self.__local_storage:
