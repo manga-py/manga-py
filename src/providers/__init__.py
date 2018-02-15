@@ -43,6 +43,7 @@ providers_list = {
     'jurnalu_ru': [r'jurnalu\.ru/online\-reading/.'],
     'kissmanga_com': [r'kissmanga\.com/Manga/.'],
     'kumanga_com': [r'kumanga\.com/manga/\d'],
+    'lector_kirishimafansub_com': [r'lector.kirishimafansub.com/(lector/)?(series|read)/.'],
     'leomanga_com': [r'leomanga\.com/manga/.'],
     'luscious_net': [r'luscious\.net/c/incest_manga/pictures/.', r'luscious\.net/albums/.'],
     'manga_ae': [r'manga\.ae/.'],

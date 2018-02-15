@@ -2,21 +2,19 @@
 class Std:
     provider = None
 
-    @classmethod
-    def _chapters(cls, idx) -> list:
-        content = super().get_storage_content()
-        return super().document_fromstring(content, idx)
+    def _chapters(self, idx) -> list:
+        content = self.get_storage_content()
+        return self.document_fromstring(content, idx)
 
-    @classmethod
-    def _cover_from_content(cls, selector, img_selector='src') -> str:
-        content = super().get_storage_content()
+    def _cover_from_content(self, selector, img_selector='src') -> str:
+        content = self.get_storage_content()
         if content:
-            image = super().document_fromstring(content, selector)
+            image = self.document_fromstring(content, selector)
             if image and len(image):
-                return super().http().normalize_uri(image[0].get(img_selector))
+                return self.http().normalize_uri(image[0].get(img_selector))
 
-    @classmethod
-    def _first_select_options(cls, parser, selector, skip_first=True):
+    @staticmethod
+    def _first_select_options(parser, selector, skip_first=True):
         options = 'option'
         if skip_first:
             options = 'option + option'
