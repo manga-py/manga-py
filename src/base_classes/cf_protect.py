@@ -10,6 +10,9 @@ class CloudFlareProtect:
 
         if not self.protector:
             scr = cfscrape.create_scraper()
-            self.protector = scr.get_tokens(url)
+            try:
+                self.protector = scr.get_tokens(url)
+            except Exception:
+                pass
 
         return self.protector

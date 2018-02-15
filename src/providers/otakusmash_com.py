@@ -12,8 +12,8 @@ class OtakuSmashCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         selector = self.selector + '/([^/]+)'
-        idx = self.re.search(selector, self.get_current_chapter()).group(3).split('.')
-        return '-'.join(*idx)
+        idx = self.re.search(selector, self.get_current_chapter())
+        return '-'.join(*idx.group(3).split('.'))
 
     def get_main_content(self):
         return self.http_get(self._get_manga_url())

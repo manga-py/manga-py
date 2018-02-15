@@ -20,12 +20,6 @@ class RavensScansCom(GoMangaCo, Std):
             items += self.json.loads(self.http_get(url)).get('chapters', [])
         return [i.get('href') for i in items[::-1]]  # DON'T TOUCH THIS!
 
-    def prepare_cookies(self):
-        pass
-
-    def _get_json_selector(self, content):
-        return r'var\spages\s*=\s*(\[.+\])'
-
     def get_cover(self) -> str:
         content = self.get_storage_content()
         return content.get('fullsized_thumb_url', None)

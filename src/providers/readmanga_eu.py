@@ -9,8 +9,8 @@ class ReadMangaEu(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx, '1'))
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/manga/\d+/[^/]+/([^/]+)', self.get_current_chapter()).group(1).split('.')
-        return '-'.join(idx)
+        idx = self.re.search('/manga/\d+/[^/]+/([^/]+)', self.get_current_chapter())
+        return '-'.join(idx.group(1).split('.'))
 
     def get_main_content(self):
         name = self.re.search('/(manga/\d+/[^/]+)', self.get_url()).group(1)

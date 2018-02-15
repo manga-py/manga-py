@@ -10,7 +10,7 @@ class MngDoomCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         idx = self.re.search(r'\.com?/[^/]+/(\d+)(?:\.(\d+))').groups()
-        return '-'.join(idx)
+        return self._join_groups(idx)
 
     def get_main_content(self):
         name = self.get_manga_name()

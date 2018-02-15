@@ -31,6 +31,16 @@ class Std:
     @classmethod
     def _idx_to_x2(cls, idx, default=0) -> list:
         return [
-            idx[0],
-            default if len(idx) < 2 or not idx[1] else idx[1]
+            str(idx[0]),
+            str(default if len(idx) < 2 or not idx[1] else idx[1])
         ]
+
+    @staticmethod
+    def _join_groups(idx, glue='-'):
+        result = ''
+        for n, i in enumerate(idx):
+            if i is not None and i != '':
+                if n > 0:
+                    result += glue
+                result += '{}'.format(i)
+        return result

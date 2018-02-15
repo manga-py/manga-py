@@ -6,8 +6,5 @@ class OtScansCom(GoMangaCo):
     _content_str = '{}/foolslide/series/{}/'
     _chapters_selector = '.list .group .element .title a'
 
-    def _get_json_selector(self, content):
-        return r'var\spages\s*=\s*(\[.+\])'
-
 
 main = OtScansCom

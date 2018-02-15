@@ -5,8 +5,5 @@ class HelveticaScansCom(GoMangaCo):
     _name_re = '/r/[^/]+/([^/]+)/'
     _content_str = '{}/r/series/{}/'
 
-    def _get_json_selector(self, content):
-        return r'var\spages\s*=\s*(\[.+\])'
-
 
 main = HelveticaScansCom

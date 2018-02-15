@@ -11,7 +11,7 @@ class MangaHomeCom(Provider, Std):
     def get_chapter_index(self) -> str:
         selector = r'/manga/[^/]+/[^\d]+(\d+)(?:\.(\d+))?'
         idx = self.re.search(selector, self.get_current_chapter()).groups()
-        return '-'.join(idx)
+        return self._join_groups(idx)
 
     def get_main_content(self):
         name = self.get_manga_name()

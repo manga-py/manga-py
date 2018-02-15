@@ -11,8 +11,5 @@ class ReadPowerMangaOrg(GoMangaCo):
         group = self.re.search(index_re, url).group(1)
         return group.replace('/', '-')
 
-    def _get_json_selector(self, content):
-        return r'var\spages\s*=\s*(\[.+\])'
-
 
 main = ReadPowerMangaOrg

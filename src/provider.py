@@ -178,6 +178,7 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
         """
         cf = CloudFlareProtect()
         params = cf.run(url)
-        self._storage['cookies'] = params[0]
-        self._storage['user_agent'] = params[1]
-        self._params['cf-protect'] = True
+        if len(params):
+            self._storage['cookies'] = params[0]
+            self._storage['user_agent'] = params[1]
+            self._params['cf-protect'] = True
