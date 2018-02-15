@@ -49,6 +49,7 @@ providers_list = {
     'manga_online_biz': [r'manga\-online\.biz/.'],
     'manga_online_com_ua': [r'manga\-online\.com\.ua/.+html'],
     'manga_sh': [r'manga\.sh/comics/.'],
+    'manga_tube_me': [r'manga\-tube\.me/series/.'],
     'manga_tr_com': [r'manga\-tr\.com/(manga|id)\-.'],
     'mangabb_co': [r'mangabb\.co/.'],
     'mangabox_me': [r'mangabox\.me/reader/.'],
