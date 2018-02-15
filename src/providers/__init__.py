@@ -114,6 +114,7 @@ providers_list = {
         r'manga\.animefrontline\.com/(series|read)/.',
         r'reader\.s2smanga\.com/(series|read)/.',
     ],
+    'ravens_scans_com': [r'ravens\-scans\.com(/lector)?/(serie|read)/'],
     'readcomicbooksonline_org': [
         r'readcomicbooksonline\.net/.',
         r'readcomicbooksonline\.org/.'
