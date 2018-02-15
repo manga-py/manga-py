@@ -5,8 +5,5 @@ class LectorKirishimaFanSubCom(GoMangaCo):
     _name_re = '/(?:reader/)?(?:series|read)/([^/]+)/'
     _content_str = '{}/lector/series/{}/'
 
-    def prepare_cookies(self):
-        pass
-
 
 main = LectorKirishimaFanSubCom
