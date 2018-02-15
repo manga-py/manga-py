@@ -1,31 +1,22 @@
-from src.provider import Provider
-from .helpers.std import Std
+from src.providers.gomanga_co import GoMangaCo
 
 
-class _Template(Provider, Std):
+class NoraNoFansubCom(GoMangaCo):
+    _name_re = r'\.com/(?:lector/)?(?:series/|read/)?([^/]+)/'
+    _content_str = '{}/{}/'
+    _chapters_selector = '.entry-content td a[href]'
 
-    def get_archive_name(self) -> str:
-        pass
-
-    def get_chapter_index(self) -> str:
-        pass
-
-    def get_main_content(self):
-        pass
-
-    def get_manga_name(self) -> str:
-        return ''
+    def _get_json_selector(self, content):
+        return r'var\spages\s*=\s*(\[.+\])'
 
     def get_chapters(self):
-        # return self._chapters('a.chapter')
-        return []
+        return super().get_chapters()[::-1]
 
-    def get_files(self):
-        return []
+    def prepare_cookies(self):
+        pass
 
     def get_cover(self) -> str:
-        pass
-        # return self._cover_from_content('.cover img')
+        return self._cover_from_content('.entry-content img.size-full')
 
 
-main = _Template
+main = NoraNoFansubCom

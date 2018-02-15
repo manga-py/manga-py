@@ -93,6 +93,7 @@ providers_list = {
     'mngdoom_com': [r'(mangadoom\.co|mngdoom\.com)/.'],
     'myreadingmanga_info': [r'myreadingmanga\.info/.'],
     'ninemanga_com': [r'ninemanga\.com/(manga|chapter).'],
+    'noranofansub_com': [r'noranofansub\.com(/lector)?/(series/|read/)?.'],
     'otakusmash_com': [
         r'otakusmash\.com/.',
         r'mrsmanga\.com/.',
@@ -115,7 +116,7 @@ providers_list = {
         r'manga\.animefrontline\.com/(series|read)/.',
         r'reader\.s2smanga\.com/(series|read)/.',
     ],
-    'ravens_scans_com': [r'ravens\-scans\.com(/lector)?/(serie|read)/'],
+    'ravens_scans_com': [r'ravens\-scans\.com(/lector)?/(serie/|read/).'],
     'readcomicbooksonline_org': [
         r'readcomicbooksonline\.net/.',
         r'readcomicbooksonline\.org/.'
