@@ -1,9 +1,8 @@
 from src.provider import Provider
-# from .helpers.std import Std
+from .helpers.std import Std
 
 
-class _Template(Provider):
-# class _Template(Provider, Std):
+class _Template(Provider, Std):
 
     def get_archive_name(self) -> str:
         pass
@@ -14,17 +13,14 @@ class _Template(Provider):
     def get_main_content(self):
         pass
 
-    def prepare_cookies(self):  # if site with cookie protect
-        pass
-
     def get_manga_name(self) -> str:
         return ''
 
-    def get_chapters(self):  # call once
+    def get_chapters(self):
         # return self._chapters('a.chapter')
         return []
 
-    def get_files(self):  # call ever volume loop
+    def get_files(self):
         return []
 
     def get_cover(self) -> str:
