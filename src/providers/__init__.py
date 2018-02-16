@@ -89,9 +89,11 @@ providers_list = {
     ],
     'mangatown_com': [r'mangatown\.com/manga/.'],
     'manhuagui_com': [r'manhuagui\.com/comic/\d'],
+    'mangazuki_co': [r'mangazuki\.co/manga/.'],
     'mintmanga_com': [r'mintmanga\.com/.'],
     'mngdoom_com': [r'(mangadoom\.co|mngdoom\.com)/.'],
     'myreadingmanga_info': [r'myreadingmanga\.info/.'],
+    'neumanga_tv': [r'neumanga\.tv/manga/.'],
     'ninemanga_com': [r'ninemanga\.com/(manga|chapter).'],
     'noranofansub_com': [r'noranofansub\.com(/lector)?/(series/|read/)?.'],
     'otakusmash_com': [

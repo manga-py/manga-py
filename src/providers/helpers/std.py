@@ -6,12 +6,12 @@ class Std:
         content = self.get_storage_content()
         return self.document_fromstring(content, idx)
 
-    def _cover_from_content(self, selector, img_selector='src') -> str:
+    def _cover_from_content(self, selector, attr='src') -> str:
         content = self.get_storage_content()
         if content:
             image = self.document_fromstring(content, selector)
             if image and len(image):
-                return self.http().normalize_uri(image[0].get(img_selector))
+                return self.http().normalize_uri(image[0].get(attr))
 
     @staticmethod
     def _first_select_options(parser, selector, skip_first=True):
@@ -24,9 +24,9 @@ class Std:
         return []
 
     @classmethod
-    def _images_helper(cls, parser, selector):
+    def _images_helper(cls, parser, selector, attr='src'):
         image = parser.cssselect(selector)
-        return [i.get('src').strip(r' \r\n') for i in image]
+        return [i.get(attr).strip(r' \r\n') for i in image]
 
     @classmethod
     def _idx_to_x2(cls, idx, default=0) -> list:
