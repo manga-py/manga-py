@@ -141,6 +141,7 @@ providers_list = {
     'taadd_com': [r'taadd\.com/(book|chapter)/.'],
     'tenmanga_com': [r'tenmanga\.com/(book|chapter)/.'],
     'triplesevenscans_com': [r'triplesevenscans\.com/reader/(series|read)/.'],
+    'tumangaonline_com': [r'tumangaonline\.com/.'],
     'unionmangas_net': [r'unionmangas\.net/(leitor|manga)/.'],
     # 'viz_com': [r'viz\.com/shonenjump/chapters/.'],
     'wmanga_ru': [r'wmanga\.ru/starter/manga_.'],

@@ -19,7 +19,8 @@ class Base:
             'main_content': '',
             'chapters': [],
             'current_chapter': 0,
-            'current_file': 0
+            'current_file': 0,
+            'proxies': {}
         }
         self._params = {
             'path_destination': 'Manga'
@@ -91,7 +92,7 @@ class Base:
             'allow_webp': not self._params.get('disallow_webp', None),
             'referer': self._storage.get('referer', self.get_domain()),
             'user_agent': self._get_user_agent(),
-            'proxies': None,  # todo
+            'proxies': self._storage.get('proxies', None),
             'cookies': self._storage.get('cookies', None),
             'kwargs': self._http_kwargs
         }
