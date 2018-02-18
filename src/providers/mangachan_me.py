@@ -2,8 +2,8 @@ from src.provider import Provider
 
 
 class MangaChanMe(Provider):
-    _full_name_selector = r'/(?:online|manga|related)/(\d+\-.+\.html)'
-    _idx_selector = r'/(?:online|manga|related)/(\d+)\-'
+    _full_name_selector = r'/(?:online|manga|related)/(\d+-.+\.html)'
+    _idx_selector = r'/(?:online|manga|related)/(\d+)-'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -24,7 +24,7 @@ class MangaChanMe(Provider):
         return url
 
     def get_manga_name(self) -> str:
-        _name_selector = r'/(?:online|manga|related)/\d+\-(.+)\.html'
+        _name_selector = r'/(?:online|manga|related)/\d+-(.+)\.html'
         url = self._online_(self.get_url())
         return self.re.search(_name_selector, url).group(1)
 

@@ -8,7 +8,7 @@ class MangaOnNet(Provider, Std):
         return 'vol_' + self.get_chapter_index()
 
     def get_chapter_index(self) -> str:
-        selector = r'(?:vol\-?(\d+))?(?:\-ch\-?(\d+))'
+        selector = r'(?:vol-?(\d+))?(?:-ch-?(\d+))'
         ch = self.get_current_chapter()
         re = self.re.search(selector, ch)
         if re:
@@ -30,7 +30,7 @@ class MangaOnNet(Provider, Std):
         url = self.get_url()
         if url.find('read-online') > 0:
             url = self.html_fromstring(url, '.back-info a', 0).get('href')
-        return self.re.search(r'/manga\-info/([^/]+)', url).group(1)
+        return self.re.search(r'/manga-info/([^/]+)', url).group(1)
 
     def get_chapters(self):
         return self._chapters('.list-chapter li > a')

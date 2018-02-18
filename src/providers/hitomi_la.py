@@ -1,6 +1,6 @@
-from src.providers.hentaifox_com import HentaiFoxCom
-
 from urllib.parse import urlparse
+
+from src.providers.hentaifox_com import HentaiFoxCom
 
 
 class HitomiLa(HentaiFoxCom):

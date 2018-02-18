@@ -10,7 +10,7 @@ class MangaTrCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
-        idx = self.re.search('\-chapter\-(.+)\.html', chapter).group(1)
+        idx = self.re.search('-chapter-(.+)\.html', chapter).group(1)
         return '-'.join(idx.split('.'))
 
     def get_main_content(self):
@@ -20,9 +20,9 @@ class MangaTrCom(Provider, Std):
     def get_manga_name(self) -> str:
         url = self.get_url()
         if url.find('/manga-') > 0:
-            re = r'/manga\-(.+)\.html'
+            re = r'/manga-(.+)\.html'
         else:
-            re = r'\d\-read\-(.+)\-chapter\-'
+            re = r'\d-read-(.+)-chapter-'
         return self.re.search(re, url).group(1)
 
     def get_chapters(self):

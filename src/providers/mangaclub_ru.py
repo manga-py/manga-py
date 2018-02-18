@@ -2,7 +2,6 @@ from src.provider import Provider
 
 
 class MangaClubRu(Provider):
-
     local_storage = None
 
     def get_archive_name(self) -> str:
@@ -19,7 +18,7 @@ class MangaClubRu(Provider):
         return self.http_get('{}/{}.html'.format(self.get_domain(), self.local_storage[0]))
 
     def get_manga_name(self) -> str:
-        selector = r'\.ru(?:/manga/view)?/(?:(\d+\-.+)/(.+)\.html)'
+        selector = r'\.ru(?:/manga/view)?/(?:(\d+-.+)/(.+)\.html)'
         html = self.re.search(selector, self.get_url())
         self.local_storage = html.groups()
         return self.local_storage[1]

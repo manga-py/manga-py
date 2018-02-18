@@ -20,7 +20,7 @@ class MangaGoMe(Provider, Std):
         return self.html_fromstring(url, '#information', 0)
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'/read\-manga/([^/]+)/', self.get_url()).group(1)
+        return self.re.search(r'/read-manga/([^/]+)/', self.get_url()).group(1)
 
     def get_chapters(self):
         content = self.get_storage_content()

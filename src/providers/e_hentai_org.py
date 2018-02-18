@@ -1,6 +1,7 @@
+from lxml.html import HtmlElement
+
 from src.provider import Provider
 from src.providers.helpers import e_hentai_org
-from lxml.html import HtmlElement
 from .helpers.std import Std
 
 

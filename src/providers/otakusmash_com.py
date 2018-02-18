@@ -3,7 +3,7 @@ from .helpers.std import Std
 
 
 class OtakuSmashCom(Provider, Std):
-    selector = r'https?://[^/]+/(read\-\w+/|reader/)?([^/]+)'
+    selector = r'https?://[^/]+/(read-\w+/|reader/)?([^/]+)'
     prefix = '/'
 
     def get_archive_name(self) -> str:

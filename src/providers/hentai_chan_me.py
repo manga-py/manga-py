@@ -1,5 +1,5 @@
-from src.providers.mangachan_me import MangaChanMe
 from src.fs import get_current_path, path_join, is_file
+from src.providers.mangachan_me import MangaChanMe
 
 
 class HentaiChanMe(MangaChanMe):

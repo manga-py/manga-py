@@ -1,7 +1,8 @@
-from src.provider import Provider
-from urllib.parse import unquote
-from time import sleep
 from abc import ABCMeta
+from time import sleep
+from urllib.parse import unquote
+
+from src.provider import Provider
 
 
 class NineHelper(Provider, metaclass=ABCMeta):

@@ -1,10 +1,9 @@
-from src.provider import Provider
 from src.fs import get_temp_path, rename, path_join, dirname
+from src.provider import Provider
 
 
 # Archive downloading example. Without images
 class MangaOnlineBiz(Provider):
-
     chapter_url = ''
 
     def get_archive_name(self) -> str:

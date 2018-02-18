@@ -15,7 +15,7 @@ class MangaRussiaCom(Provider):
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
-        result = self.re.search(r'\+(\d+)\+\-\+(\d+)', chapter).groups()
+        result = self.re.search(r'\+(\d+)\+-\+(\d+)', chapter).groups()
         return '{}-{}'.format(*result)
 
     def get_main_content(self):

@@ -9,7 +9,7 @@ class MangaIndoWebId(Provider, Std):
         return 'vol_{:0>3}'.format(idx)
 
     def get_chapter_index(self) -> str:
-        selector = r'\-chapter\-([^/]+)'
+        selector = r'-chapter-([^/]+)'
         return self.re.search(selector, self.get_current_chapter()).group(1)
 
     def get_main_content(self):
@@ -21,7 +21,7 @@ class MangaIndoWebId(Provider, Std):
         pos = url.find('-chapter-')
         if pos > 0:
             item = self.html_fromstring(self.get_url(), 'article[id^="post-"]', 0)
-            item = self.re.search(r'category\-([^\s]+)', item.get('class')).group(1)
+            item = self.re.search(r'category-([^\s]+)', item.get('class')).group(1)
             return item
         return self.re.search(r'\.id/([^/]+)', url).group(1)
 

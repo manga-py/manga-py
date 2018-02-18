@@ -2,7 +2,6 @@ from src.provider import Provider
 
 
 class InMangaCom(Provider):
-
     __local_storage = None
 
     def get_archive_name(self) -> str:

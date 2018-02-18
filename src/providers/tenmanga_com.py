@@ -7,4 +7,5 @@ class TenMangaCom(TaaddCom):
     _chapters_selector = '.chapter-box .choose-page a:last-child'
     img_selector = '.pic_box .manga_pic'
 
+
 main = TenMangaCom

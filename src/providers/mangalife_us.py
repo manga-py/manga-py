@@ -10,7 +10,7 @@ class MangaLifeUs(Provider, Std):
         return 'vol_{:0>2}-{:0>3}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        selector = r'\-chapter\-(\d+).+(?:\-index\-(\d+))?'
+        selector = r'-chapter-(\d+).+(?:-index-(\d+))?'
         chapter = self.re.search(selector, self.get_current_chapter()).groups()
         return '{}-{}'.format(
             1 if chapter[1] is None else chapter[1],  # todo: maybe 0 ?
@@ -23,7 +23,7 @@ class MangaLifeUs(Provider, Std):
 
     def get_manga_name(self) -> str:
         uri = self.get_url()
-        test = self.re.search(r'\.us/read\-online/.+', uri)
+        test = self.re.search(r'\.us/read-online/.+', uri)
         if test:
             uri = self.html_fromstring(uri, 'a.list-link', 0).get('href')
         return self.re.search(r'(?:\.us)?/manga/([^/]+)', uri).group(1)
@@ -37,7 +37,7 @@ class MangaLifeUs(Provider, Std):
         pages = parser.cssselect('select.PageSelect')[0].cssselect('option + option')
         images = self._images_helper(parser, self.img_selector)
         for page in pages:
-            page_url = self.re.sub(r'(.+page\-)\d+(.+)', r'\1{}\2', url)
+            page_url = self.re.sub(r'(.+page-)\d+(.+)', r'\1{}\2', url)
             parser = self.html_fromstring(page_url.format(page.get('value')))
             images += self._images_helper(parser, self.img_selector)
         return images

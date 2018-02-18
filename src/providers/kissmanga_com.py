@@ -1,11 +1,10 @@
+from src.crypt import KissMangaComCrypt
 from src.fs import basename
 from src.provider import Provider
-from src.crypt import KissMangaComCrypt
 from .helpers.std import Std
 
 
 class KissMangaCom(Provider, Std):
-
     __local_data = {
         'iv': b'a5e8e2e9c2721be0a84ad660c472c1f3',
         'key': b'mshsdf832nsdbash20asdm',
@@ -17,15 +16,15 @@ class KissMangaCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         bn = basename(self.get_current_chapter())
-        name = self.re.search(r'Vol\-+(\d+)\-+Ch\w*?\-+(\d+)\-+(\d+)', bn)
+        name = self.re.search(r'Vol-+(\d+)-+Ch\w*?-+(\d+)-+(\d+)', bn)
         if name:
             name = name.groups()
             return '{1}-{0}-{2}'.format(*name)
-        name = self.re.search(r'Vol\-+(\d+)\-+Ch\w*?\-+(\d+)', bn)
+        name = self.re.search(r'Vol-+(\d+)-+Ch\w*?-+(\d+)', bn)
         if name:
             name = name.groups()
             return '{1}-{0}-0'.format(*name)
-        name = self.re.search(r'Ch\w+\-*(\d+)', bn).group(1)
+        name = self.re.search(r'Ch\w+-*(\d+)', bn).group(1)
         return '{}-{}-0'.format(name, '0' * len(name))
 
     def get_main_content(self):

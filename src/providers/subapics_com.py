@@ -3,8 +3,8 @@ from .helpers.std import Std
 
 
 class SubaPicsCom(MangaShiroNet, Std):
-    alter_re_name = r'\.(?:com|net)/([^/]+)\-chapter-\d+'
-    chapter_re = r'\-chapter\-(\d+(?:\-\d+)?)'
+    alter_re_name = r'\.(?:com|net)/([^/]+)-chapter-\d+'
+    chapter_re = r'-chapter-(\d+(?:-\d+)?)'
 
     def get_cover(self) -> str:
         return self._cover_from_content('.imgdesc > img')

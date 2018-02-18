@@ -1,8 +1,8 @@
-from src.provider import Provider
-from src.crypt.manhuagui_com_crypt import ManhuaGuiComCrypt
-from .helpers.std import Std
-
 import random
+
+from src.crypt.manhuagui_com_crypt import ManhuaGuiComCrypt
+from src.provider import Provider
+from .helpers.std import Std
 
 
 class ManhuaGuiCom(Provider, Std):

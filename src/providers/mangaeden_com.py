@@ -3,14 +3,14 @@ from .helpers.std import Std
 
 
 class MangaEdenCom(Provider, Std):
-    uriRegex = r'/[^/]+/([^/]+\-manga)/([^/]+)/?'
+    uriRegex = r'/[^/]+/([^/]+-manga)/([^/]+)/?'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
         return 'vol_{}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'\-manga/[^/]+/(\d+)', self.get_current_chapter()).group(1)
+        idx = self.re.search(r'-manga/[^/]+/(\d+)', self.get_current_chapter()).group(1)
         return '{}-0'.format(idx)
 
     def get_main_content(self):

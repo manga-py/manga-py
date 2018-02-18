@@ -2,7 +2,6 @@ from src.provider import Provider
 
 
 class MangaBoxMe(Provider):
-
     _local_storage = None
 
     def _prepare_storage(self):

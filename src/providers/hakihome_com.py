@@ -14,13 +14,13 @@ class HakiHomeCom(Provider, Std):
         return idx.group(1)
 
     def get_main_content(self):
-        selector = r'(https?://[^/]+/[^/]+/[^/]+\-\d+/)'
+        selector = r'(https?://[^/]+/[^/]+/[^/]+-\d+/)'
         url = self.re.search(selector, self.get_url())
         return self.http_get(url.group(1))
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        selector = r'\.com/[^/]+/(.+?)\-\d+/'
+        selector = r'\.com/[^/]+/(.+?)-\d+/'
         return self.re.search(selector, url).group(1)
 
     def get_chapters(self):

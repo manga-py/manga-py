@@ -24,7 +24,7 @@ class MangaLibMe(Provider):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        base_url = self.re.search(r'\.scan\-page.+src\'.+?\'([^\'"]+)\'', content).group(1)
+        base_url = self.re.search(r'\.scan-page.+src\'.+?\'([^\'"]+)\'', content).group(1)
         images = self.re.search(r'var\s+pages\s*=\s*(\[\{.+\}\])', content).group(1)
         imgs = ['{}/{}'.format(base_url, i.get('page_image')) for i in self.json.loads(images)]
         return imgs

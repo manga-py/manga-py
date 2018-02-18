@@ -1,5 +1,6 @@
-from src.provider import Provider
 import urllib3
+
+from src.provider import Provider
 
 
 class MangaTownCom(Provider):

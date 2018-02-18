@@ -1,6 +1,7 @@
+from math import ceil
+
 from src.provider import Provider
 from .helpers.std import Std
-from math import ceil
 
 
 class KuMangaCom(Provider, Std):
@@ -43,7 +44,7 @@ class KuMangaCom(Provider, Std):
     def get_chapters(self):
         selector = r'\'pagination\',\d+,(\d+),(\d+)'
         pages = self.re.search(selector, self.get_storage_content()).groups()
-        pages = ceil(float(pages[0])/float(pages[1]))
+        pages = ceil(float(pages[0]) / float(pages[1]))
         chapters = []
         url_path = self._chapters_helper()
         for i in range(int(pages) - 1):

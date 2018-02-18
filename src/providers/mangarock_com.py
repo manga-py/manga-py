@@ -1,6 +1,6 @@
 from src.crypt.manga_rock_com_crypt import MangaRockComCrypt
-from src.provider import Provider
 from src.fs import rename, unlink, basename
+from src.provider import Provider
 from .helpers.std import Std
 
 
@@ -19,7 +19,7 @@ class MangaRockCom(Provider, Std):
         return idx.group(1)
 
     def get_manga_name(self) -> str:
-        idx = self.re.search(r'/manga/([^/]+)\-\d+', self.get_url())
+        idx = self.re.search(r'/manga/([^/]+)-\d+', self.get_url())
         return idx.group(1)
 
     def get_chapters(self):

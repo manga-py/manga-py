@@ -16,10 +16,10 @@ class MangaOnlineCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         self.__init_storage()
-        idx_reg = r'/\d+.+\-(\d+).+?\-(\d+).*?html'
+        idx_reg = r'/\d+.+-(\d+).+?-(\d+).*?html'
         idx = self.re.search(idx_reg, self.get_current_chapter()).groups()
         if not idx:
-            idx_reg = r'/\d+.+\-(\d+).+?html'
+            idx_reg = r'/\d+.+-(\d+).+?html'
             idx = (self.re.search(idx_reg, self.get_current_chapter()).group(1), 0)
         return '{:0>3}-{:0>3}'.format(*idx)
 
@@ -46,7 +46,7 @@ class MangaOnlineCom(Provider, Std):
         self.__init_storage()
         if self.re.search('/cmanga/', self.get_url()):
             return self._get_chapters_cmanga()
-        if self.re.search(r'/manga/[^/]+/\d+\-', self.get_url()):
+        if self.re.search(r'/manga/[^/]+/\d+-', self.get_url()):
             return self._get_chapters_manga()
         return []
 
@@ -62,7 +62,7 @@ class MangaOnlineCom(Provider, Std):
         images = []
         idx = self.re.search(r'/manga/[^/]+/(\d+)', chapter).group(1)
         for n in range(pages):
-            url = '{}/engine/ajax/sof_fullstory.php?id={}&page={}'.format(self.get_domain(), idx, n+1)
+            url = '{}/engine/ajax/sof_fullstory.php?id={}&page={}'.format(self.get_domain(), idx, n + 1)
             parser = self.html_fromstring(url)[0]
             images += self._images_helper(parser, 'img')
         return images
