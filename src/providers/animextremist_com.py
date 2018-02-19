@@ -8,13 +8,12 @@ class AnimeXtremistCom(Provider, Std):
     prefix = '/mangas-online/'
 
     def get_archive_name(self) -> str:
-        pass
+        return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
         chapter = self.get_current_chapter()
-        print(chapter)
-        exit()
-        return r'(.+?-\d+)'
+        idx = self.re.search(r'(.+?-\d+)', chapter[0])
+        return idx.group(1) if idx else '0'
 
     def get_manga_url(self):
         return '{}{}{}/'.format(self.get_domain(), self.prefix, self.get_manga_name())
@@ -25,15 +24,18 @@ class AnimeXtremistCom(Provider, Std):
     def get_manga_name(self) -> str:
         return self.re.search(r'{}([^/]+)'.format(self.prefix), self.get_url()).group(1)
 
-    def std_get_chapters(self):
-        return self._chapters('li > a + a')[::-1]
-
     def get_chapters(self):
-        return self.helper.get_chapters()
+        ch = self.helper.get_chapters()
+        return ch[::-1]
 
     def get_files(self):
         chapter = self.get_current_chapter()
-        return []
+        items = self.helper.sort_images(chapter[1])
+        images = []
+        for i in items:
+            img = self.helper.get_page_image(i, 'img#photo')
+            img and images.append(img)
+        return images
 
     def prepare_cookies(self):
         self.helper = animextremist_com.AnimeXtremistCom(self)

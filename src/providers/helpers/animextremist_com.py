@@ -1,5 +1,4 @@
 from src.provider import Provider
-# from re import search
 
 
 class AnimeXtremistCom:
@@ -14,19 +13,26 @@ class AnimeXtremistCom:
     def build_path(item):
         return item[0] + item[1]
 
+    @staticmethod
+    def __sort(item, re, selector):
+        _re = re(selector, item)
+        if _re:
+            return int(_re.group(1))
+        return 0
+
     def sort_items(self, items):
         re = self.provider.re.search
-        return sorted(items, key=lambda item: re(r'.+?-(\d+)', item[0]).group(1))
+        r = self.provider.re.compile(r'.+?-(\d+)')
+        return sorted(items, key=lambda i: self.__sort(i[0], re, r))
 
-    @staticmethod
-    def _check_key(obj, key):
-        if key not in obj.keys():
-            obj[key] = []
+    def sort_images(self, items):
+        re = self.provider.re.search
+        r = self.provider.re.compile(r'.+/.+-(\d+)[^/]*\.html')
+        return sorted(items, key=lambda i: self.__sort(i, re, r))
 
     def _chapters(self, url=None):
         a = 'li + li > a'
         if url:
-            print(url)
             items = self.provider.html_fromstring(url, a)
         else:
             items = self.provider.document_fromstring(self.provider.get_storage_content(), a)
@@ -52,12 +58,14 @@ class AnimeXtremistCom:
         return result
 
     # http://animextremist.com/mangas-online/onepiece-manga/
-    def _chapters_without_dirs(self, items):  # very slowly function
+    def _chapters_without_dirs(self, items):
         result = {}
+        r = self.provider.re.compile(r'(.+?-\d+)')  # todo
         for i in items:
             href = i.get('href')
-            key = self.provider.re.search(r'(.+?-\d+)', href).group(1)
-            self._check_key(result, key)
+            key = self.provider.re.search(r, href).group(1)
+            if result.get(key) is None:
+                result[key] = []
             result[key].append('{}{}'.format(self.path, href))
         return self._rebuild_dict_to_tuple(result)
 
@@ -67,9 +75,9 @@ class AnimeXtremistCom:
             items = self._chapters_with_dirs(items)
         else:
             items = self._chapters_without_dirs(items)
-        # items = [('dir/', 'capitulo-1.html')]
-        # items = [('', 'capitulo-1-1.html')]
-        print('get_chapters')
-        print(self.sort_items(items))
-        exit()
         return self.sort_items(items)
+
+    def get_page_image(self, src, selector, attr='src') -> str:
+        image = self.provider.html_fromstring(src, selector)
+        if image and len(image):
+            return image[0].get(attr)
