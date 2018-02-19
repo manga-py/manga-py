@@ -1,8 +1,7 @@
 class Std:
-    provider = None
-
     def _chapters(self, idx) -> list:
         content = self.get_storage_content()
+        print(content)
         return self.document_fromstring(content, idx)
 
     def _cover_from_content(self, selector, attr='src') -> str:

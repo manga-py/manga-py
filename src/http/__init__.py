@@ -65,9 +65,11 @@ class Http(Request):
             dst = path_join(get_temp_path(), name)
         return self._download_one_file_helper(url, dst)
 
-    def normalize_uri(self, uri):
+    def normalize_uri(self, uri, referer=None):
+        if not referer:
+            referer = self.referer
         if isinstance(uri, str):
-            return normalize_uri(uri.strip(), self.referer)
+            return normalize_uri(uri.strip(), referer)
         return uri
 
     def multi_download_get(self, urls, dst: str = None, callback: callable = None):

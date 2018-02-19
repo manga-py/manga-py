@@ -37,6 +37,10 @@ providers_list = {
     'hentai_chan_me_download': [r'hentai-chan\.me/download/.'],
     'hentaifox_com': [r'hentaifox\.com/.'],
     'hitomi_la': [r'hitomi\.la/(galleries|reader)/.'],
+    'hitmanga_eu': [
+        r'hitmanga\.eu/.',
+        r'mymanga\.io/.',
+    ],
     'hocvientruyentranh_com': [r'hocvientruyentranh\.com/(manga|chapter)/.'],
     'hotchocolatescans_com': [r'hotchocolatescans\.com/fs/(series|read)/'],
     'inmanga_com': [r'inmanga\.com/ver/manga/.'],
