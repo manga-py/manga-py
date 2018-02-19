@@ -1,7 +1,10 @@
 import re
 
 providers_list = {
-    'adulto_seinagi_org': [r'adulto\.seinagi\.org/(series|read)/.'],
+    'adulto_seinagi_org': [
+        r'adulto\.seinagi\.org/(series|read)/.',
+        r'xanime-seduccion\.com/(series|read)/.',
+    ],
     'animextremist_com': [r'animextremist\.com/mangas-online/.'],
     'blogtruyen_com': [r'blogtruyen\.com/.'],
     'comicextra_com': [r'comicextra\.com/.'],
@@ -42,7 +45,11 @@ providers_list = {
     'kissmanga_com': [r'kissmanga\.com/Manga/.'],
     'kumanga_com': [r'kumanga\.com/manga/\d'],
     'lector_kirishimafansub_com': [r'lector\.kirishimafansub\.com/(lector/)?(series|read)/.'],
-    'lector_ytnofan_com': [r'lector\.ytnofan\.com/(series|read)/.'],
+    'lector_ytnofan_com': [
+        r'lector\.ytnofan\.com/(series|read)/.',
+        r'reader\.jokerfansub\.com/(series|read)/.',
+        r'lector\.patyscans\.com/(series|read)/.',
+    ],
     'leomanga_com': [r'leomanga\.com/manga/.'],
     'luscious_net': [r'luscious\.net/c/incest_manga/pictures/.', r'luscious\.net/albums/.'],
     'manga_ae': [r'manga\.ae/.'],
