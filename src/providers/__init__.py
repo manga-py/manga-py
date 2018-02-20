@@ -107,6 +107,7 @@ providers_list = {
     'mngdoom_com': [r'(mangadoom\.co|mngdoom\.com)/.'],
     'myreadingmanga_info': [r'myreadingmanga\.info/.'],
     'neumanga_tv': [r'neumanga\.tv/manga/.'],
+    'nhentai_net': [r'nhentai\.net/g/.'],
     'ninemanga_com': [r'ninemanga\.com/(manga|chapter).'],
     'noranofansub_com': [r'noranofansub\.com(/lector)?/(series/|read/)?.'],
     'otakusmash_com': [

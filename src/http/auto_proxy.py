@@ -27,7 +27,7 @@ class AutoProxy:
     def auto_proxy(self, checked_url=None):
         if checked_url:
             self.checked_url = checked_url
-        url = 'http://free-proxy-list.net/'
+        url = 'https://www.us-proxy.org'
         items = document_fromstring(requests.get(url).text).cssselect('#proxylisttable tbody tr')
         for i in items:
             proxy = self._s(i)

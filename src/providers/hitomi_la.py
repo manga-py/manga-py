@@ -1,4 +1,4 @@
-from urllib.parse import urlparse, unquote_plus
+from urllib.parse import unquote_plus
 
 from src.providers.hentaifox_com import HentaiFoxCom
 
