@@ -100,6 +100,7 @@ providers_list = {
     ],
     'mangatown_com': [r'mangatown\.com/manga/.'],
     'manhuagui_com': [r'manhuagui\.com/comic/\d'],
+    'manhwa_co': [r'manhwa\.co/.'],
     'mangazuki_co': [r'mangazuki\.co/manga/.'],
     'mintmanga_com': [r'mintmanga\.com/.'],
     'mngdoom_com': [r'(mangadoom\.co|mngdoom\.com)/.'],
