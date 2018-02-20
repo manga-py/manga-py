@@ -80,6 +80,7 @@ providers_list = {
     'mangaindo_web_id': [r'mangaindo\.web\.id/.'],
     'mangainn_net': [r'mangainn\.net/.'],
     'mangakakalot_com': [r'mangakakalot\.com/(manga|chapter)/.'],
+    'mangaku_web_id': [r'mangaku\.web\.id/.'],
     'mangalib_me': [r'mangalib\.me/.'],
     'mangalife_us': [r'mangalife\.us/(read-online|manga)/.'],
     'mangaon_net': [r'mangaon\.net/(manga-info|read-online)/.'],

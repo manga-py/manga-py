@@ -1,6 +1,9 @@
+import requests
+import json
 import sys
 from argparse import ArgumentParser
 from os import name as os_name
+from packaging import version
 
 from progressbar import ProgressBar
 
@@ -59,6 +62,17 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
                              default=False)
 
     return args_parser
+
+
+def check_version():
+    api_url = 'https://api.github.com/repos/yuru-yuri/manga-dl/releases/latest'
+    api_content = json.loads(requests.get(api_url).text)
+    tag_name = api_content['tag_name']
+    if version.parse(tag_name) > version.parse(__version__):
+        download_addr = api_content['assets'][0]
+        url = download_addr['browser_download_url']
+        return {'message': 'Found new version', 'tag': tag_name, 'url': url, 'need_update': True}
+    return {'message': 'Ok', 'need_update': False, 'tag': '', 'url': ''}
 
 
 class Cli:
