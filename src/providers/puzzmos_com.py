@@ -21,7 +21,7 @@ class PuzzmosCom(Provider, Std):
         return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self._chapters('#bolumler td:first-child a')
+        return self._elements('#bolumler td:first-child a')
 
     def get_files(self):
         img_selector = '.chapter-content img.chapter-img'

@@ -21,7 +21,7 @@ class Hentai2ReadCom(Provider, Std):
         return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self._chapters('li .chapter-row')
+        return self._elements('li .chapter-row')
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())

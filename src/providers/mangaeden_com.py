@@ -22,7 +22,7 @@ class MangaEdenCom(Provider, Std):
         return self.re.search(self.uriRegex, self.get_url()).group(2)
 
     def get_chapters(self):
-        return self._chapters('a.chapterLink')
+        return self._elements('a.chapterLink')
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())

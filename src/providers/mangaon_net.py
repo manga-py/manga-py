@@ -33,7 +33,7 @@ class MangaOnNet(Provider, Std):
         return self.re.search(r'/manga-info/([^/]+)', url).group(1)
 
     def get_chapters(self):
-        return self._chapters('.list-chapter li > a')
+        return self._elements('.list-chapter li > a')
 
     def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '#list-img img')

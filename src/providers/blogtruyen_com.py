@@ -27,7 +27,7 @@ class BlogTruyenCom(Provider, Std):
         return self.re.search(r'/\d+/([^/]+)', url).group(1)
 
     def get_chapters(self):
-        return self._chapters('#list-chapters .title > a')
+        return self._elements('#list-chapters .title > a')
 
     def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '#content img')

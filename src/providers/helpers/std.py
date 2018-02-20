@@ -1,15 +1,13 @@
 class Std:
-    def _chapters(self, idx, content=None) -> list:
+    def _elements(self, idx, content=None) -> list:
         if not content:
             content = self.get_storage_content()
         return self.document_fromstring(content, idx)
 
     def _cover_from_content(self, selector, attr='src') -> str:
-        content = self.get_storage_content()
-        if content:
-            image = self.document_fromstring(content, selector)
-            if image and len(image):
-                return self.http().normalize_uri(image[0].get(attr))
+        image = self._elements(selector)
+        if image and len(image):
+            return self.http().normalize_uri(image[0].get(attr))
 
     @staticmethod
     def _first_select_options(parser, selector, skip_first=True):

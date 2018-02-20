@@ -26,7 +26,7 @@ class MangaTrCom(Provider, Std):
         return self.re.search(re, url).group(1)
 
     def get_chapters(self):
-        return self._chapters('#results td.left a')
+        return self._elements('#results td.left a')
 
     def get_files(self):
         img_selector = 'img.chapter-img'

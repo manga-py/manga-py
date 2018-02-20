@@ -19,7 +19,7 @@ class MangaPandaCom(Provider, Std):
         return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self._chapters('#listing a')
+        return self._elements('#listing a')
 
     def get_files(self):
         img_selector = '#imgholder img'

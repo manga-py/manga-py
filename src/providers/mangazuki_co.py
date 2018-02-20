@@ -21,7 +21,7 @@ class MangaZukiCo(Provider, Std):
         return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self._chapters('.chapter-title-rtl > a')
+        return self._elements('.chapter-title-rtl > a')
 
     def get_files(self):
         parser = self.html_fromstring(self.get_current_chapter(), )

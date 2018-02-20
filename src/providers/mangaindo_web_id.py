@@ -26,7 +26,7 @@ class MangaIndoWebId(Provider, Std):
         return self.re.search(r'\.id/([^/]+)', url).group(1)
 
     def get_chapters(self):
-        return self._chapters('.lcp_catlist li > a')
+        return self._elements('.lcp_catlist li > a')
 
     def get_files(self):
         r = self.http().get_redirect_url

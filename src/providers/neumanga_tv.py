@@ -21,7 +21,7 @@ class NeuMangaTv(Provider, Std):
         return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self._chapters('#scans .item-content a')
+        return self._elements('#scans .item-content a')
 
     def get_files(self):
         img_selector = '.imagechap'

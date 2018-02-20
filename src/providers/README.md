@@ -28,7 +28,7 @@ class _Template(Provider):
         return ''
 
     def get_chapters(self):  # call once
-        # return self._chapters('a.chapter')
+        _elements
         return []
 
     def get_files(self):  # call ever volume loop

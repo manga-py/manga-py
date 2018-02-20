@@ -22,7 +22,7 @@ class MangaFoxMe(Provider, Std):
         return self.re.search('/manga/([^/]+)/?', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self._chapters('#chapters a.tips')
+        return self._elements('#chapters a.tips')
 
     def __get_files_url(self):
         volume = self.get_current_chapter()

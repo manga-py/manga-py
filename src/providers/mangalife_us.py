@@ -29,7 +29,7 @@ class MangaLifeUs(Provider, Std):
         return self.re.search(r'(?:\.us)?/manga/([^/]+)', uri).group(1)
 
     def get_chapters(self):
-        return self._chapters('.chapter-list a.list-group-item')
+        return self._elements('.chapter-list a.list-group-item')
 
     def get_files(self):
         url = self.get_current_chapter()

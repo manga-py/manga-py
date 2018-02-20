@@ -24,7 +24,7 @@ class KuMangaCom(Provider, Std):
         parser = self.re.search(selector, self.get_main_content())
         return parser.group(1).strip()
 
-    def _chapters(self, parser):
+    def __chapters(self, parser):
         items = parser.cssselect('.table h4.title > a')
         chapters = []
         for i in items:
@@ -49,7 +49,7 @@ class KuMangaCom(Provider, Std):
         url_path = self._chapters_helper()
         for i in range(int(pages) - 1):
             parser = self.html_fromstring(url_path % (i + 1))
-            chapters += self._chapters(parser)
+            chapters += self.__chapters(parser)
             return chapters
         return chapters
 

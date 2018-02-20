@@ -25,7 +25,7 @@ class GoMangaCo(Provider, Std):
         return self.re.search(self._name_re, self.get_url()).group(1)
 
     def get_chapters(self):
-        return self._chapters(self._chapters_selector)
+        return self._elements(self._chapters_selector)
 
     def _get_json_selector(self, content):
         idx = self.re.search(r'page_width\s=\sparseInt\((\w+)\[', content).group(1)

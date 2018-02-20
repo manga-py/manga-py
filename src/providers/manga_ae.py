@@ -17,7 +17,7 @@ class MangaAe(Provider, Std):
         return self.re.search(r'\.ae/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self._chapters('li > a.chapter')
+        return self._elements('li > a.chapter')
 
     def get_files(self):
         img_selector = '#showchaptercontainer img'

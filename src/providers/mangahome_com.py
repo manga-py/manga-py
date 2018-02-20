@@ -21,7 +21,7 @@ class MangaHomeCom(Provider, Std):
         return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self._chapters('.detail-chlist a')
+        return self._elements('.detail-chlist a')
 
     def get_files(self):
         img_selector = 'img#image'

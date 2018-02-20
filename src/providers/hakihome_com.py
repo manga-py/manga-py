@@ -24,7 +24,7 @@ class HakiHomeCom(Provider, Std):
         return self.re.search(selector, url).group(1)
 
     def get_chapters(self):
-        return self._chapters('.listing a.readchap')
+        return self._elements('.listing a.readchap')
 
     def get_files(self):
         img_selector = '#con img'

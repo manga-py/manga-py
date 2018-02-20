@@ -31,7 +31,7 @@ class HitMangaEu(Provider, Std):
         return self.re.search(re, url).group(1)
 
     def get_chapters(self):
-        return self._chapters('.listchapseries li a.follow:not(.ddl)')
+        return self._elements('.listchapseries li a.follow:not(.ddl)')
 
     def content(self, url):
         return self.re.sub(r'<!--.+?--!>', '', self.http_get(url))

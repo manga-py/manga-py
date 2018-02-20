@@ -28,7 +28,7 @@ class MangaShiroNet(Provider, Std):
         return self.re.search(re, url).group(1)
 
     def get_chapters(self):
-        return self._chapters(self.chapters_selector)
+        return self._elements(self.chapters_selector)
 
     def get_files(self):
         url = self.get_current_chapter()

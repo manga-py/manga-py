@@ -26,7 +26,7 @@ class HocVienTruyenTranhCom(Provider, Std):
         return self.re.search('/manga/[^/]+/([^/]+)', url).group(1)
 
     def get_chapters(self):
-        return self._chapters('.table-scroll table.table td > a')
+        return self._elements('.table-scroll table.table td > a')
 
     def get_files(self):
         selector = '.manga-container img.page'

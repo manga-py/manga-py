@@ -19,7 +19,7 @@ class MangaOnlineComBr(Provider, Std):
         return self.re.search(r'\.br/([^/]+)', self.get_url()).group(1)
 
     def get_chapters(self):
-        return self._chapters('#volumes-capitulos span > a')
+        return self._elements('#volumes-capitulos span > a')
 
     @staticmethod
     def _get_pages_count(parser):

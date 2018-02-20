@@ -25,7 +25,7 @@ class MangaTubeMe(Provider, Std):
         return self.re.search('/series/([^/]+)/', self.get_url()).group(1)
 
     def get_chapters(self):
-        items = self._chapters('#chapter li > a')
+        items = self._elements('#chapter li > a')
         return [(i.text_content(), i.get('href')) for i in items]
 
     def get_files(self):
