@@ -1,5 +1,6 @@
 from src.provider import Provider
 from .helpers.std import Std
+from urllib.parse import unquote_plus
 
 
 class HitMangaEu(Provider, Std):
@@ -19,7 +20,7 @@ class HitMangaEu(Provider, Std):
 
     def get_main_content(self):
         url = '{}/mangas/{}/'.format(self.main_domain, self.get_manga_name())
-        return self.http_get(url)
+        return self.content(url)
 
     def get_manga_name(self) -> str:
         url = self.get_url()
@@ -30,20 +31,24 @@ class HitMangaEu(Provider, Std):
         return self.re.search(re, url).group(1)
 
     def get_chapters(self):
-        print(self._chapters('a'))
-        exit()
         return self._chapters('.listchapseries li a.follow:not(.ddl)')
+
+    def content(self, url):
+        return self.re.sub(r'<!--.+?--!>', '', self.http_get(url))
 
     def get_files(self):
         chapter = self.get_current_chapter()
-        img = self.html_fromstring(chapter, '#chpimg', 0).get('src')
+        img = self.document_fromstring(self.content(chapter), '#chpimg', 0).get('src')
+        name = self.get_manga_name()
+        idx = self.get_chapter_index()
         items = self.http_post(url=self.api_url, data={
-            'number': 'omake+01',
-            'permalink': 'air',
+            'number': unquote_plus(idx),
+            'permalink': name,
             'type': 'chap-pages',
-        }).split('|')
-        print([self._n(i, img) for i in items])
-        exit()
+        })
+        if items == '0':
+            return []
+        items = items.split('|')
         return [self._n(i, img) for i in items]
 
     def get_cover(self) -> str:
