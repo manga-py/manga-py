@@ -22,21 +22,25 @@ class _Template(Provider):
         pass
 
     def prepare_cookies(self):  # if site with cookie protect
+#        from src.http.auto_proxy import auto_proxy  # Set auto proxy
+#        self._storage['proxies'] = auto_proxy()
+
+#        self._storage['cookies'] = self.http().get_base_cookies(self.get_url()).get_dict()  # base cookies
         pass
 
     def get_manga_name(self) -> str:
         return ''
 
     def get_chapters(self):  # call once
-        _elements
+        # return self._elements('a.chapter')
         return []
 
     def get_files(self):  # call ever volume loop
         return []
 
     def get_cover(self) -> str:
-        pass
         # return self._cover_from_content('.cover img')
+        pass
 
 
 main = _Template

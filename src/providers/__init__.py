@@ -36,6 +36,7 @@ providers_list = {
     'hentai_chan_me': [r'hentai-chan\.me/(related|manga|online)/.'],
     'hentai_chan_me_download': [r'hentai-chan\.me/download/.'],
     'hentaifox_com': [r'hentaifox\.com/.'],
+    'hentaihere_com': [r'hentaihere\.com/m/.'],
     'hitomi_la': [r'hitomi\.la/(galleries|reader)/.'],
     'hitmanga_eu': [
         r'hitmanga\.eu/.',

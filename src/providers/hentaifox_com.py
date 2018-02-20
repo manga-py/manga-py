@@ -16,7 +16,7 @@ class HentaiFoxCom(Provider, Std):
 
     def get_main_content(self):
         if self.__local_storage is None:
-            idx = self.re.search(self._idx_re, self.get_url())
+            idx = self.re.search(self._idx_re, self.get_url()).group(1)
             url = self._url_str.format(self.get_domain(), idx)
             self.__local_storage = self.http_get(url)
         return self.__local_storage
@@ -35,7 +35,7 @@ class HentaiFoxCom(Provider, Std):
         items = []
         n = self.http().normalize_uri
         for i in pages:
-            url = self.html_fromstring(n(i.get('href')), '#gimg').get('src')
+            url = self.html_fromstring(n(i.get('href')), '#gimg', 0).get('src')
             items.append(n(url))
         return items
 
