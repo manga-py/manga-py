@@ -6,6 +6,7 @@ providers_list = {
         r'xanime-seduccion\.com/(series|read)/.',
     ],
     'animextremist_com': [r'animextremist\.com/mangas-online/.'],
+    'antisensescans_com': [r'antisensescans\.com/online/(series|read)/.'],
     'blogtruyen_com': [r'blogtruyen\.com/.'],
     'comicextra_com': [r'comicextra\.com/.'],
     'comico_jp': [r'comico\.jp/(detail|articleList).+titleNo.'],
