@@ -77,6 +77,7 @@ providers_list = {
     'mangahub_io': [
         r'mangahub\.io/(manga|chapter)/.',
         r'mangareader\.site/(manga|chapter)/.',
+        r'mangakakalot\.fun/(manga|chapter)/.',
     ],
     'mangahub_ru': [r'mangahub\.ru/.'],
     'mangaindo_web_id': [r'mangaindo\.web\.id/.'],
@@ -161,7 +162,11 @@ providers_list = {
         r'subapics\.com/manga/.',
         r'subapics\.com/[^/]/.+-chapter-',
         r'mangakita\.net/manga/.',
-        r'mangakita\.net/[^/]/.+-chapter-'
+        r'mangakita\.net/[^/]/.+-chapter-',
+        r'komikstation\.com/manga/.',
+        r'komikstation\.com/[^/]/.+-chapter-',
+        r'mangavy\.com/manga/.',
+        r'mangavy\.com/[^/]/.+-chapter-',
     ],
     'taadd_com': [r'taadd\.com/(book|chapter)/.'],
     'tenmanga_com': [r'tenmanga\.com/(book|chapter)/.'],
