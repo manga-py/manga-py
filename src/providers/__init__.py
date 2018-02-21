@@ -69,6 +69,7 @@ providers_list = {
     'mangabox_me': [r'mangabox\.me/reader/.'],
     'mangachan_me': [r'mangachan\.me/(related|manga|online)/.'],
     'mangachan_me_download': [r'mangachan\.me/download/.'],
+    'mangacanblog_com': [r'mangacanblog\.com/.'],
     'mangaclub_ru': [r'mangaclub\.ru/.'],
     'mangaeden_com': [
         r'mangaeden\.com/[^/]+/[^/]+-manga/.',

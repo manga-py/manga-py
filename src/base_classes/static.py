@@ -1,11 +1,19 @@
 from lxml.html import document_fromstring
+from purifier.purifier import HTMLPurifier
 
 
 class Static:
 
     @staticmethod
     def document_fromstring(body, selector: str = None, idx: int = None):  # pragma: no cover
-        result = document_fromstring(body)
+        purifier = HTMLPurifier({
+            'div': ['*'],
+            'span': ['*'],
+            'img': ['*'],
+            'a': ['*'],
+        })
+        result = document_fromstring(purifier.feed(body))
+        # result = document_fromstring(body)
         if isinstance(selector, str):
             result = result.cssselect(selector)
         if isinstance(idx, int):
