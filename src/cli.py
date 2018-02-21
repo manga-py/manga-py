@@ -1,14 +1,14 @@
-import requests
 import json
 import sys
 from argparse import ArgumentParser
 from os import name as os_name
-from packaging import version
 
+import requests
+from packaging import version
 from progressbar import ProgressBar
 
 from src.parser import Parser
-from src.version import __version__
+from src.version import __version__, __repo_name__
 
 
 def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
@@ -32,8 +32,8 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
 
     args_parser.add_argument('--no-name', action='store_const', required=False,
                              help='Don\'t added manga name to the path', const=True, default=False)
-    args_parser.add_argument('--disallow-webp', action='store_const', required=False, help='Allow downloading webp images',
-                             const=True, default=False)
+    args_parser.add_argument('--disallow-webp', action='store_const', required=False,
+                             help='Allow downloading webp images', const=True, default=False)
     args_parser.add_argument('--force-png', action='store_const', required=False,
                              help='Force conversation images to png format', const=True, default=False)
     args_parser.add_argument('--reverse-downloading', action='store_const', required=False,
@@ -65,7 +65,7 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
 
 
 def check_version():
-    api_url = 'https://api.github.com/repos/yuru-yuri/manga-dl/releases/latest'
+    api_url = 'https://api.github.com/repos/%s/releases/latest' % __repo_name__
     api_content = json.loads(requests.get(api_url).text)
     tag_name = api_content['tag_name']
     if version.parse(tag_name) > version.parse(__version__):

@@ -15,16 +15,18 @@ class MangakuWebId(Provider, Std):
         return str(self._chapter_index())
 
     def get_main_content(self):
-        pass
-
-    def get_manga_name(self) -> str:
         return self.http_get(self.get_url())
 
+    def get_manga_name(self) -> str:
+        return self.re.search(r'\.id/([^/]+)', self.get_url()).group(1)
+
     def get_chapters(self):
-        return self._elements('td > small > div a[target]')
+        return self._elements('div[style] a[target]')
 
     def get_files(self):
-        return []
+        content = self.http_get(self.get_current_chapter())
+        items = self._elements('.entry .separator > a > img', content)
+        return [i.get('src') for i in items]
 
     def get_cover(self) -> str:
         return self._cover_from_content('span > small img')

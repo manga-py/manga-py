@@ -1,2 +1,3 @@
 __version__ = '1.0.0'
-__downloader_uri__ = 'https://github.com/yuru-yuri/manga-dl'
+__repo_name__ = 'yuru-yuri/manga-dl'
+__downloader_uri__ = 'https://github.com/%s' % __repo_name__
