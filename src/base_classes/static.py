@@ -7,16 +7,11 @@ class Static:
     @staticmethod
     def _clear_html(body):
         purifier = HTMLPurifier({
-            'div': ['*'],
-            'span': ['*'],
-            'img': ['*'],
-            'a': ['*'],
-            'h1': ['*'],
-            'h2': ['*'],
-            'h3': ['*'],
-            'h4': ['*'],
-            'h5': ['*'],
-            'h6': ['*'],
+            'div': ['*'], 'span': ['*'],
+            'img': ['*'], 'a': ['*'],
+            'h1': ['*'], 'h2': ['*'],
+            'h3': ['*'], 'h4': ['*'],
+            'h5': ['*'], 'h6': ['*'],
         })
         return purifier.feed(body)
 
