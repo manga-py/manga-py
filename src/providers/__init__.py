@@ -18,7 +18,10 @@ providers_list = {
         r'snf\.mangaea\.net/slide/.',
     ],
     'desu_me': [r'desu\.me/manga/.'],
-    'doujins_com': [r'doujins\.com/gallery/.'],
+    'doujins_com': [
+        r'doujins\.com/gallery/.',
+        r'doujin-moe\.us/gallery/.',
+    ],
     'e_hentai_org': [r'e-hentai\.org/g/\d'],
     'funmanga_com': [r'funmanga\.com/.'],
     'gmanga_me': [r'gmanga\.me/mangas/.'],
