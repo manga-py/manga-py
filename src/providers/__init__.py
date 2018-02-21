@@ -71,6 +71,7 @@ providers_list = {
     'mangachan_me_download': [r'mangachan\.me/download/.'],
     'mangacanblog_com': [r'mangacanblog\.com/.'],
     'mangaclub_ru': [r'mangaclub\.ru/.'],
+    'mangadex_com': [r'mangadex\.com/(manga|chapter)/.'],
     'mangaeden_com': [
         r'mangaeden\.com/[^/]+/[^/]+-manga/.',
         r'perveden\.com/[^/]+/[^/]+-manga/.',

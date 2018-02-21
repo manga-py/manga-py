@@ -9,7 +9,7 @@ class ManhuaGuiComCrypt(BaseLib):
         # except Exception:
         #     return default
 
-    def js_gz_b64_data(self):
+    def js_gz_b64_data(self):  # FIXME
         data = """eJzNVdtymzAQ/RWHhwwqawp2mqbI60yaNr0lvaXXeJgMARFIiEQlYTt1+fcKfOt03Olj8iAQR7tn
 j3YO0jiSneOzUy1zfolpxWOdC26T2djgAue4m0pxc5hF8lAkDHKc1bRZ5jhLWCxuSsmUOjIhTyPF
 dneCFYsgM8l0JXmHV0WBKPYtK7CsZtIAAXfPPVu4BeOXOoN+D1aZfJW5JgMD5qm9lY9EaGbm2QhJ

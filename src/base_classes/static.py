@@ -5,19 +5,28 @@ from purifier.purifier import HTMLPurifier
 class Static:
 
     @staticmethod
-    def document_fromstring(body, selector: str = None, idx: int = None):  # pragma: no cover
+    def _clear_html(body):
         purifier = HTMLPurifier({
             'div': ['*'],
             'span': ['*'],
             'img': ['*'],
             'a': ['*'],
+            'h1': ['*'],
+            'h2': ['*'],
+            'h3': ['*'],
+            'h4': ['*'],
+            'h5': ['*'],
+            'h6': ['*'],
         })
-        result = document_fromstring(purifier.feed(body))
-        # result = document_fromstring(body)
+        return purifier.feed(body)
+
+    @staticmethod
+    def document_fromstring(body, selector: str = None, idx: int = None):  # pragma: no cover
+        result = document_fromstring(body)  # todo
         if isinstance(selector, str):
             result = result.cssselect(selector)
         if isinstance(idx, int):
-            result = result[abs(idx)]
+            result = result[idx]
         return result
 
     @staticmethod
