@@ -134,6 +134,7 @@ providers_list = {
         r'reader\.s2smanga\.com/(series|read)/.',
         r'reader\.seaotterscans\.com/(series|read)/.',
         r'reader\.seaotterscans\.com/(series|read)/.',
+        r'reader\.idkscans\.com/(series|read)/.',
     ],
     'ravens_scans_com': [r'ravens-scans\.com(/lector)?/(serie/|read/).'],
     'read_egscans_com': [r'read.egscans.com/.'],
