@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class DesuMe(Provider):
+class DesuMe(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.re.search(r'/vol(\d+)/ch(\d+)', self.get_current_chapter()).groups()
@@ -17,11 +18,10 @@ class DesuMe(Provider):
         return self.http_get(url)
 
     def get_chapters(self):
-        c, s = self.get_storage_content(), '#animeView ul h4 > a.tips'
-        return self.document_fromstring(c, s)
+        return self._elements('#animeView ul h4 > a.tips')
 
     def get_manga_name(self) -> str:
-        return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
+        return self._get_name('/manga/([^/]+)')
 
     def get_files(self):
         content = self.http_get(self.get_domain() + self.get_current_chapter())
@@ -31,6 +31,9 @@ class DesuMe(Provider):
         root_url = self.re.search(r'dir:\s?"([^"]*)"', content).group(1).replace(r'\/', '/')
 
         return [root_url + i[0] for i in self.json.loads(result.group(1))]
+
+    def get_cover(self):
+        return self._cover_from_content('.c-poster > img')
 
 
 main = DesuMe

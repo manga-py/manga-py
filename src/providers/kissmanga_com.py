@@ -32,7 +32,7 @@ class KissMangaCom(Provider, Std):
         return self.http_get('{}/Manga/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/Manga/([^/]+)', self.get_url()).group(1)
+        return self._get_name('/Manga/([^/]+)')
 
     def get_chapters(self):
         return self._elements('.listing td a')
@@ -69,7 +69,7 @@ class KissMangaCom(Provider, Std):
         return [i.replace('\x10', '') for i in images]
 
     def get_cover(self):
-        pass  # TODO
+        return self._cover_from_content('.rightBox .barContent img')
 
 
 main = KissMangaCom

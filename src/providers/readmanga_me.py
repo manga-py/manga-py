@@ -1,10 +1,15 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class ReadmangaMe(Provider):
+class ReadmangaMe(Provider, Std):
 
     def get_archive_name(self):
         name = self.re.search('/.+/([^/]+/[^/]+)/?', self.get_current_chapter())
+        return name.group(1).replace('/', '-')
+
+    def get_chapter_index(self):
+        name = self.re.search('/.+/(?:vol)?([^/]+/[^/]+)/?', self.get_current_chapter())
         return name.group(1).replace('/', '-')
 
     def get_main_content(self):
@@ -12,11 +17,10 @@ class ReadmangaMe(Provider):
         return self.http_get(url)
 
     def get_manga_name(self):
-        return self.re.search(r'\.me/([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'\.me/([^/]+)')
 
     def get_chapters(self):
-        c, s = self.get_storage_content(), 'div.chapters-link tr > td > a'
-        return self.document_fromstring(c, s)
+        return self._elements('div.chapters-link tr > td > a')
 
     def get_files(self):
         _uri = self.http().normalize_uri(self.get_current_chapter())
@@ -26,9 +30,8 @@ class ReadmangaMe(Provider):
             return []
         return [i[1] + i[0] + i[2] for i in self.json.loads(result.groups()[0].replace("'", '"'))]
 
-    def get_chapter_index(self):
-        name = self.re.search('/.+/(?:vol)?([^/]+/[^/]+)/?', self.get_current_chapter())
-        return name.group(1).replace('/', '-')
+    def get_cover(self):
+        return self._cover_from_content('.picture-fotorama > img')
 
 
 main = ReadmangaMe

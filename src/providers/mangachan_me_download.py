@@ -1,15 +1,9 @@
 from src.fs import dirname, path_join, get_temp_path, rename
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaChanMe(Provider):
-    _domain_postfix = '.me'
-    _local_storage = None
-
-    def _prepare_storage(self):
-        if not self._local_storage:
-            self._local_storage = {}
-
+class MangaChanMe(Provider, Std):
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
         return 'vol_{:0>3}-{}'.format(*idx)
@@ -21,8 +15,8 @@ class MangaChanMe(Provider):
         pass
 
     def get_manga_name(self) -> str:
-        name = r'\%s/[^/]+/\d+-(.+)\.html' % self._domain_postfix
-        return self.re.search(name, self.get_url()).group(1)
+        name = r'\.me/[^/]+/\d+-(.+)\.html'
+        return self._get_name(name)
 
     def loop_chapters(self):
         arc_name = self.get_archive_name()
@@ -33,16 +27,21 @@ class MangaChanMe(Provider):
         rename(temp_path, path)
 
     def get_chapters(self):
-        selector = r'\%s/[^/]+/(\d+-.+\.html)' % self._domain_postfix
-        url = self.re.search(selector, self.get_url()).group(1)
+        selector = r'\.me/[^/]+/(\d+-.+\.html)'
+        url = self._get_name(selector)
         url = '/download/{}'.format(url)
         return self.html_fromstring(url, 'table#download_table tr td + td > a')
 
-    def prepare_cookies(self):
-        self._prepare_storage()
-
     def get_files(self):
         return []
+
+    def get_cover(self):
+        selector = r'\.me/[^/]+/(\d+-.+\.html)'
+        url = self._get_name(selector)
+        url = '{}/manga/{}'.format(self.get_domain(), url)
+        img = self._elements('#cover', self.http_get(url))
+        if img and len(img):
+            return img[0].get('src')
 
 
 main = MangaChanMe

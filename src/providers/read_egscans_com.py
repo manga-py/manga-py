@@ -21,7 +21,7 @@ class ReadEgScansCom(Provider, Std):
         return self.http_get('{}/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'\.com/([^/]+)')
 
     def get_chapters(self):
         parser = self.document_fromstring(self.get_storage_content())

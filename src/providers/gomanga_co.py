@@ -22,7 +22,7 @@ class GoMangaCo(Provider, Std):
         return self.http_get(self._content_str.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search(self._name_re, self.get_url()).group(1)
+        return self._get_name(self._name_re)
 
     def get_chapters(self):
         return self._elements(self._chapters_selector)

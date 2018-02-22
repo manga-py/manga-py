@@ -1,8 +1,9 @@
 from src.provider import Provider
 from src.providers.helpers.jav_zip_org import JavZipOrg
+from .helpers.std import Std
 
 
-class ZipReadCom(Provider):
+class ZipReadCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -16,7 +17,7 @@ class ZipReadCom(Provider):
         pass
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'\.com/([^/]+)')
 
     def get_chapters(self):
         return self.html_fromstring(self.get_url(), '#content .entry > p > a')
@@ -24,6 +25,9 @@ class ZipReadCom(Provider):
     def get_files(self):
         jav_zip_org = JavZipOrg(self)
         return jav_zip_org.get_images()
+
+    def get_cover(self):
+        return self._cover_from_content('#content .entry p > img')
 
 
 main = ZipReadCom

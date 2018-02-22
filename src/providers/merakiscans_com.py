@@ -23,7 +23,7 @@ class MerakiScansCom(Provider, Std):
         return self.http_get(self._home_url())
 
     def get_manga_name(self) -> str:
-        return self.re.search(self._name_re, self.get_url()).group(1)
+        return self._get_name(self._name_re)
 
     def _get_pages_count(self):
         items = self._elements('.pgg li:last-child > a')
@@ -45,8 +45,7 @@ class MerakiScansCom(Provider, Std):
 
     def get_files(self):
         content = self.http_get(self.get_current_chapter())
-        items = self._elements('#longWrap img', content)
-        return [i.get('src') for i in items]
+        return self._images_helper(content, '#longWrap img')
 
     def get_cover(self) -> str:
         return self._cover_from_content('.mng_ifo img.cvr')

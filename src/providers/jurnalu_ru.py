@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class JurnaluRu(Provider):
+class JurnaluRu(Provider, Std):
 
     def get_archive_name(self) -> str:
         name = self.get_manga_name()
@@ -14,7 +15,7 @@ class JurnaluRu(Provider):
         return str(self._storage['current_chapter'])
 
     def get_main_content(self):
-        name = self.re.search(r'(online-reading/[^/]+/[^/]+)', self.get_url()).group(1)
+        name = self._get_name(r'(online-reading/[^/]+/[^/]+)')
         url = self.html_fromstring(
             '{}/{}'.format(self.get_domain(), name),
             '.MagList .MagListLine > a',
@@ -23,7 +24,7 @@ class JurnaluRu(Provider):
         return self.http_get(self.get_domain() + url)
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'/online-reading/[^/]+/([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'/online-reading/[^/]+/([^/]+)')
 
     def get_chapters(self):
         name = self.re.search(r'(online-reading/[^/]+/[^/]+)', self.get_url())
@@ -48,6 +49,9 @@ class JurnaluRu(Provider):
             parser = self.html_fromstring(uri, '.ForRead', 0)
             images.append(self.__get_file(parser))
         return images
+
+    def get_cover(self):
+        return self._cover_from_content('.ops > div > img')
 
 
 main = JurnaluRu

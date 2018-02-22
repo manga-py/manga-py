@@ -15,15 +15,13 @@ class MangaRockCom(Provider, Std):
         return str(self._chapter_index())
 
     def get_main_content(self):
-        idx = self.re.search('/manga/([^/]+)', self.get_url())
-        return idx.group(1)
+        pass
 
     def get_manga_name(self) -> str:
-        idx = self.re.search(r'/manga/([^/]+)-\d+', self.get_url())
-        return idx.group(1)
+        return self._get_name(r'/manga/([^/]+)-\d+')
 
     def get_chapters(self):
-        idx = self.re.search('/manga/([^/]+)', self.get_url()).group(1)
+        idx = self._get_name('/manga/([^/]+)')
         url = '{}info?oid={}&last=0&country=Japan'.format(self.__api_uri, idx)
         items = self.json.loads(self.http_get(url))
         return [i.get('oid').encode() for i in items.get('data', {}).get('chapters', [])]
@@ -51,7 +49,10 @@ class MangaRockCom(Provider, Std):
 
     def get_cover(self) -> str:
         selector = 'div:not([class]) > div[class] > div[class] > div[class] > div[class] > img'
-        return self._cover_from_content(selector)
+        url = '{}{}'.format(self.get_domain(), self._get_name('(/manga/[^/]+)'))
+        img = self._elements(selector, self.http_get(url))
+        if img and len(img):
+            return img[0].get('src')
 
     def prepare_cookies(self):
         self.crypt = MangaRockComCrypt()

@@ -18,7 +18,7 @@ class Hentai2ReadCom(Provider, Std):
         return self.http_get('{}/{}/'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'\.com/([^/]+)')
 
     def get_chapters(self):
         return self._elements('li .chapter-row')

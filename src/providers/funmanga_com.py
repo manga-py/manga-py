@@ -1,10 +1,12 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class FunMangaCom(Provider):
+class FunMangaCom(Provider, Std):
 
     def _get_chapter_idx(self):
-        return self.re.search(r'\.com/[^/]+/([^/]+)', self.get_current_chapter()).group(1)
+        re = self.re.compile(r'\.com/[^/]+/([^/]+)')
+        return self.re.search(re, self.get_current_chapter()).group(1)
 
     def get_archive_name(self) -> str:
         return 'vol_{:0>3}'.format(self._get_chapter_idx())
@@ -16,15 +18,19 @@ class FunMangaCom(Provider):
         return self.http_get('{}/{}'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'\.com/([^/]+)')
 
     def get_chapters(self):
-        items = self.document_fromstring(self.get_storage_content(), '.chapter-list li > a')
+        items = self._elements('.chapter-list li > a')
         return [i.get('href') + '/all-pages' for i in items]
 
     def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '.content-inner > img.img-responsive')
+        print(items)
         return [i.get('src') for i in items]
+
+    def get_cover(self):
+        return self._cover_from_content('img.img-responsive.mobile-img')
 
 
 main = FunMangaCom

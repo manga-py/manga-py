@@ -11,11 +11,11 @@ class LusciousNet(Provider, Std):
         return str(self.get_chapter_index())
 
     def get_main_content(self):
-        name = self.re.search('/albums?/([^/]+)/', self.get_url()).group(1)
+        name = self._get_name('/albums?/([^/]+)/')
         return self.http_get('{}/albums/{}/'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/albums?/([^/]+)_\d+/', self.get_url()).group(1)
+        return self._get_name('/albums?/([^/]+)_\d+/')
 
     def get_chapters(self):
         return [b'']

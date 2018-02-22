@@ -22,7 +22,7 @@ class MangaTubeMe(Provider, Std):
         return self.http_get('{}/series/{}/'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/series/([^/]+)/', self.get_url()).group(1)
+        return self._get_name('/series/([^/]+)/')
 
     def get_chapters(self):
         items = self._elements('#chapter li > a')

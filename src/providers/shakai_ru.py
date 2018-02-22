@@ -16,7 +16,7 @@ class ShakaiRu(Provider, Std):
     def get_main_content(self):
         if self.__local_storage:
             return self.__local_storage
-        idx = self.re.search(r'/manga[^/]*/(\d+)', self.get_url()).group(1)
+        idx = self._get_name(r'/manga[^/]*/(\d+)')
         _ = {
             'dataRun': 'api-manga',
             'dataRequest': idx
@@ -28,7 +28,7 @@ class ShakaiRu(Provider, Std):
         if not self.__local_storage:
             self.__local_storage = self.get_main_content()
         parser = self.__local_storage.get('post', [])
-        idx = self.re.search(r'/manga[^/]*/(\d+)', self.get_url()).group(1)
+        idx = self._get_name(r'/manga[^/]*/(\d+)')
         parser = parser[3] if len(parser) > 3 else idx
         return parser.split('/')[0].strip()
 
@@ -42,7 +42,7 @@ class ShakaiRu(Provider, Std):
         return []
 
     def get_cover(self):
-        pass  # TODO
+        pass  # FIXME HOME
 
 
 main = ShakaiRu

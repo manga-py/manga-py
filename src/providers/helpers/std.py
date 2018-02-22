@@ -40,3 +40,10 @@ class Std:
                     result += glue
                 result += '{}'.format(i)
         return result
+
+    def _get_name(self, selector):
+        return self.re.search(selector, self.get_url()).group(1)
+
+    def _base_cookies(self):
+        cookies = self.http().get_base_cookies(self.get_url())
+        self._storage['cookies'] = cookies.get_dict()

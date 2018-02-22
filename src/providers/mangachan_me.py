@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaChanMe(Provider):
+class MangaChanMe(Provider, Std):
     _full_name_selector = r'/(?:online|manga|related)/(\d+-.+\.html)'
     _idx_selector = r'/(?:online|manga|related)/(\d+)-'
 
@@ -41,6 +42,14 @@ class MangaChanMe(Provider):
         items = self.re.search(r'"?fullimg"?\s?:\s?(\[.+\])', content).group(1)
         images = self.json.loads(items.replace('",]', '"]'))  # patch
         return images
+
+    def get_cover(self):
+        selector = r'\.me/[^/]+/(\d+-.+\.html)'
+        url = self._get_name(selector)
+        url = '{}/manga/{}'.format(self.get_domain(), url)
+        img = self._elements('#cover', self.http_get(url))
+        if img and len(img):
+            return img[0].get('src')
 
 
 main = MangaChanMe

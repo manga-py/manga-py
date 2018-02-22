@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangabbCo(Provider):
+class MangabbCo(Provider, Std):
 
     def get_archive_name(self) -> str:
         return 'vol_{:0>3}'.format(self.get_chapter_index())
@@ -17,7 +18,7 @@ class MangabbCo(Provider):
         return result[0].get('href') if len(result) else False
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'\.co/(?:manga/)?([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'\.co/(?:manga/)?([^/]+)')
 
     def get_chapters(self):
         content = self.get_storage_content()
@@ -57,6 +58,9 @@ class MangabbCo(Provider):
             self._img_lifehack2(pages_list, images)
 
         return images
+
+    def get_cover(self):
+        return self._cover_from_content('#series_image')
 
 
 main = MangabbCo

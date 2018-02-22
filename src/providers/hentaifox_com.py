@@ -6,7 +6,7 @@ class HentaiFoxCom(Provider, Std):
     __local_storage = None
     _idx_re = r'/g(?:allery)?/(\d+)'
     _url_str = '{}/gallery/{}/'
-    _name_re = '.info h1'
+    _name_selector = '.info h1'
 
     def get_archive_name(self) -> str:
         return self.get_chapter_index()
@@ -16,14 +16,14 @@ class HentaiFoxCom(Provider, Std):
 
     def get_main_content(self):
         if self.__local_storage is None:
-            idx = self.re.search(self._idx_re, self.get_url()).group(1)
+            idx = self._get_name(self._idx_re)
             url = self._url_str.format(self.get_domain(), idx)
             self.__local_storage = self.http_get(url)
         return self.__local_storage
 
     def get_manga_name(self) -> str:
         content = self.get_main_content()
-        text = self.document_fromstring(content, self._name_re, 0)
+        text = self.document_fromstring(content, self._name_selector, 0)
         return text.text_content().strip()
 
     def get_chapters(self):

@@ -13,22 +13,19 @@ class ReadMangaEu(Provider, Std):
         return '-'.join(idx.group(1).split('.'))
 
     def get_main_content(self):
-        name = self.re.search('/(manga/\d+/[^/]+)', self.get_url()).group(1)
+        name = self._get_name('/(manga/\d+/[^/]+)')
         return self.http_get('{}/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/manga/\d+/([^/]+)', self.get_url()).group(1)
+        return self._get_name('/manga/\d+/([^/]+)')
 
     def get_chapters(self):
         selector = '#chapters_b a[href*="/manga/"]'
-        return self.document_fromstring(self.get_storage_content(), selector)
+        return self._elements(selector)
 
     def parse_files(self, parser):
         images_class = '.mainContent img.ebook_img'
-        images = []
-        for i in parser.cssselect(images_class):
-            images.append(self.http().normalize_uri(i.get('src')))
-        return images
+        return self._images_helper(parser, images_class)
 
     def get_files(self):
         parser = self.html_fromstring(self.get_current_chapter())
@@ -41,7 +38,7 @@ class ReadMangaEu(Provider, Std):
         return images
 
     def get_cover(self):
-        pass  # TODO
+        return self._cover_from_content('.ebook_cover')
 
 
 main = ReadMangaEu

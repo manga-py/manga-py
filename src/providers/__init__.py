@@ -23,6 +23,9 @@ providers_list = {
     'comicsandmanga_ru': [
         r'comicsandmanga\.ru/online-reading/.',
     ],
+    'darkskyprojects_org': [
+        r'darkskyprojects\.org/biblioteca/.',
+    ],
     'dejameprobar_es': [
         r'dejameprobar\.es/slide/.',
         r'menudo-fansub\.com/slide/.',
@@ -405,6 +408,7 @@ print(len(x))
 exit()
 
 """
+
 
 def __check_provider(provider, url):
     reg = '(?:' + '|'.join(provider) + ')'

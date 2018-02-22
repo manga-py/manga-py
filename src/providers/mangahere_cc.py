@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaHereCc(Provider):
+class MangaHereCc(Provider, Std):
 
     def get_archive_name(self) -> str:
         return 'vol_{:0>3}'.format(self.get_chapter_index())
@@ -16,10 +17,10 @@ class MangaHereCc(Provider):
         return self.http_get('{}/manga/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
+        return self._get_name('/manga/([^/]+)')
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '.detail_list .left a')
+        return self._elements('.detail_list .left a')
 
     @staticmethod
     def __get_img(parser):
@@ -35,6 +36,12 @@ class MangaHereCc(Provider):
             parser = self.html_fromstring(i)
             images.append(self.__get_img(parser))
         return images
+
+    def get_cover(self):
+        return self._cover_from_content('.manga_detail_top > img')
+
+    def prepare_cookies(self):
+        self._base_cookies()
 
 
 main = MangaHereCc

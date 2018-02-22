@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class ZingBoxMe(Provider):
+class ZingBoxMe(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
@@ -20,7 +21,7 @@ class ZingBoxMe(Provider):
         return self.http_post(self.get_domain() + '/api', data=_)
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'\.me/manga/(?:\d+/)?([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'\.me/manga/(?:\d+/)?([^/]+)')
 
     def get_chapters(self):
         try:
@@ -37,6 +38,9 @@ class ZingBoxMe(Provider):
         }
         images = self.http_post(self.get_domain() + '/api', data=_)
         return self.json.loads(images).get('images', [])
+
+    def get_cover(self):
+        return self._cover_from_content('.comicImg img')
 
 
 main = ZingBoxMe

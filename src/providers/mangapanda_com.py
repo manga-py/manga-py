@@ -6,17 +6,17 @@ class MangaPandaCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(*idx)
+        return 'vol_{:0>3}'.format(idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'\.com/[^/]+/([^/]+)', self.get_current_chapter()).group(1)
-        return '{}-0'.format(idx)
+        idx = self.re.search(r'\.com/[^/]+/([^/]+)', self.get_current_chapter())
+        return idx.group(1)
 
     def get_main_content(self):
         return self.http_get('{}/{}'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'\.com/([^/]+)')
 
     def get_chapters(self):
         return self._elements('#listing a')
@@ -26,13 +26,11 @@ class MangaPandaCom(Provider, Std):
         url = self.http().normalize_uri(self.get_current_chapter())
 
         parser = self.html_fromstring(url, '#container', 0)
-        count_pages = parser.cssselect('#selectpage option + option')
-
-        count_pages = len(count_pages)
+        count_pages = self._first_select_options(parser, '#selectpage')
         images = self._images_helper(parser, img_selector)
 
         n = 1
-        while n < count_pages:
+        while n < len(count_pages):
             parser = self.html_fromstring('{}/{}'.format(url, 1 + n))
             images += self._images_helper(parser, img_selector)
             n += 1
@@ -40,7 +38,7 @@ class MangaPandaCom(Provider, Std):
         return images
 
     def get_cover(self):
-        pass  # TODO
+        return self._cover_from_content('#mangaimg img')
 
 
 main = MangaPandaCom

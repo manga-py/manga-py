@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class WMangaRu(Provider):
+class WMangaRu(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
@@ -18,7 +19,7 @@ class WMangaRu(Provider):
         return self.http_get('{}/starter/manga_byid/{}'.format(domain, name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/starter/manga_[^/]+/([^/]+)', self.get_url()).group(1)
+        return self._get_name('/starter/manga_[^/]+/([^/]+)')
 
     def get_chapters(self):
         c, s = self.get_storage_content(), 'td div div div td > a'
@@ -27,6 +28,9 @@ class WMangaRu(Provider):
     def get_files(self):
         parser = self.html_fromstring(self.get_current_chapter(), 'td a.gallery')
         return [i.get('href') for i in parser]
+
+    def get_cover(self):
+        pass  # FIXME HOME
 
 
 main = WMangaRu

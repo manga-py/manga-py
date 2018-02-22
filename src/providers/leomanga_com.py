@@ -18,7 +18,7 @@ class LeoMangaCom(Provider, Std):
         return self.http_get('{}/manga/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
+        return self._get_name('/manga/([^/]+)')
 
     def _get_first_href(self, parser):
         n = self.http().normalize_uri
@@ -29,13 +29,12 @@ class LeoMangaCom(Provider, Std):
         return None
 
     def get_chapters(self):
-        n = self.http().normalize_uri
         chapter0 = self.document_fromstring(self.get_storage_content(), '.caps-list a')
         if chapter0:
             url = self._get_first_href(chapter0)
             if url:
                 select0 = self.html_fromstring(url, '.viewcap-info select.form-control', 0)
-                return [n(i.get('value')) for i in select0.cssselect('option')[::-1]]
+                return [i.get('value') for i in select0.cssselect('option')[::-1]]
         return []
 
     def get_files(self):

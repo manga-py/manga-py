@@ -1,10 +1,11 @@
 from .readmanga_me import ReadmangaMe
+from .helpers.std import Std
 
 
-class MintMangaCom(ReadmangaMe):
+class MintMangaCom(ReadmangaMe, Std):
 
     def get_manga_name(self):
-        return self.re.search(r'\.com/([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'\.com/([^/]+)')
 
 
 main = MintMangaCom

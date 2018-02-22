@@ -14,7 +14,7 @@ class MangaAe(Provider, Std):
         return self.http_get('{}/{}/'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'\.ae/([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'\.ae/([^/]+)')
 
     def get_chapters(self):
         return self._elements('li > a.chapter')

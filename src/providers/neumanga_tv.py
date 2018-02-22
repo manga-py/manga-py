@@ -18,7 +18,7 @@ class NeuMangaTv(Provider, Std):
         return self.http_get('{}/manga/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
+        return self._get_name('/manga/([^/]+)')
 
     def get_chapters(self):
         return self._elements('#scans .item-content a')

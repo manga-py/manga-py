@@ -1,25 +1,24 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class ReadComicBooksOnlineOrg(Provider):
+class ReadComicBooksOnlineOrg(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(*idx)
+        return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'/reader/[^/]+_(\d+)(/\d+)?', self.get_current_chapter()).groups()
-        return '{}-{}'.format(
-            idx[0],
-            0 if idx[1] is None else idx[1]
-        )
+        re = self.re.compile(r'/reader/[^/]+_(\d+(?:/\d+)?)')
+        idx = self.re.search(re, self.get_current_chapter()).groups()
+        return '-'.join(idx.split('/'))
 
     def get_main_content(self):
         name = self.get_manga_name()
         return self.http_get('{}/{}'.format(self.get_domain(), name))
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'\.(?:org|net)/(?:reader/)?([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'\.(?:org|net)/(?:reader/)?([^/]+)')
 
     def get_chapters(self):
         s = '#chapterlist .chapter > a'
@@ -43,6 +42,9 @@ class ReadComicBooksOnlineOrg(Provider):
             img = self._get_image(_content)
             img and images.append(img)
         return images
+
+    def get_cover(self):
+        pass
 
 
 main = ReadComicBooksOnlineOrg

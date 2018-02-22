@@ -1,9 +1,10 @@
 import urllib3
 
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaTownCom(Provider):
+class MangaTownCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -16,10 +17,10 @@ class MangaTownCom(Provider):
     def get_main_content(self):
         name = self.get_manga_name()
         url = '{}/manga/{}/'.format(self.get_domain(), name)
-        return self.http_get(self.http().normalize_uri(url))
+        return self.http_get(url)
 
     def get_manga_name(self) -> str:
-        return self.re.search('/manga/([^/]+)/?', self.get_url()).group(1)
+        return self._get_name('/manga/([^/]+)/?')
 
     def get_chapters(self):
         return self.document_fromstring(self.get_storage_content(), '.chapter_list a')
@@ -29,17 +30,21 @@ class MangaTownCom(Provider):
         self._http_kwargs['verify'] = False
 
     def get_files(self):
+        img_selector = 'img#image'
         url = self.http().normalize_uri(self.get_current_chapter())
         parser = self.html_fromstring(url)
         selector = '#top_chapter_list + .page_select select option + option'
-        images = [parser.cssselect('img#image')[0].get('src')]
+        images = self._images_helper(parser, img_selector)
 
         for i in parser.cssselect(selector):
             url = self.http().normalize_uri(i.get('value'))
-            img = self.html_fromstring(url, 'img#image')
-            len(img) and images.append(img[0].get('src'))
+            img = self.html_fromstring(url)
+            images += self._images_helper(img, img_selector)
 
         return images
+
+    def get_cover(self):
+        return self._cover_from_content('.detail_info > img')
 
 
 main = MangaTownCom

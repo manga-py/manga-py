@@ -29,11 +29,11 @@ class ManhuaGuiCom(Provider, Std):
         if span:
             span = span[0].text_content()
             i = self.re.search(r'(\d+)', span).group(1)
-            return '{}-0'.format(i, idx)
+            return '{}-{}'.format(i, idx)
         return '0-{}'.format(idx)
 
     def get_main_content(self):
-        _ = self.re.search(r'/comic/(\d+)', self.get_url()).group(1)
+        _ = self._get_name(r'/comic/(\d+)')
         return self.http_get('{}/comic/{}/'.format(self.get_domain(), _))
 
     def get_manga_name(self) -> str:
@@ -84,7 +84,7 @@ class ManhuaGuiCom(Provider, Std):
         return self.parse_files_data(data)
 
     def get_cover(self):
-        pass  # TODO
+        return self._cover_from_content('.hcover img')
 
 
 main = ManhuaGuiCom

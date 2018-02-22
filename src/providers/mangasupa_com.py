@@ -18,17 +18,17 @@ class MangaSupaCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         selector = r'\.com/(?:manga|chapter)/([^/]+)'
-        return self.re.search(selector, self.get_url()).group(1)
+        return self._get_name(selector)
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '.chapter-list .row a')
+        return self._elements('.chapter-list .row a')
 
     def get_files(self):
-        items = self.html_fromstring(self.get_current_chapter(), '.vung_doc img')
-        return [i.get('src') for i in items]
+        parser = self.html_fromstring(self.get_current_chapter())
+        return self._images_helper(parser, '.vung_doc img')
 
     def get_cover(self):
-        pass  # TODO
+        return self._cover_from_content('.info_image img')
 
 
 main = MangaSupaCom

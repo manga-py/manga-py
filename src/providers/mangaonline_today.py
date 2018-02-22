@@ -18,10 +18,10 @@ class MangaOnlineToday(Provider, Std):
         return self.http_get('{}/{}/'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'\.today/([^/]+)', self.get_url()).group(1)
+        return self._get_name(r'\.today/([^/]+)')
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), 'ul.chp_lst a')
+        return self._elements('ul.chp_lst a')
 
     def _pages_helper(self, options):
         images = []

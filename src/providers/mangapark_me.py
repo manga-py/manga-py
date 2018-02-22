@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaParkMe(Provider):
+class MangaParkMe(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -22,15 +23,18 @@ class MangaParkMe(Provider):
         return self.http_get('{}/manga/{}'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/manga/([^/]+)', self.get_url()).group(1)
+        return self._get_name('/manga/([^/]+)')
 
     def get_chapters(self):
         c, s = self.get_storage_content(), 'div.stream:last-child em a:last-child'
         return self.document_fromstring(c, s)
 
     def get_files(self):
-        items = self.html_fromstring(self.get_current_chapter(), '#viewer img.img')
-        return [i.get('src') for i in items]
+        parser = self.html_fromstring(self.get_current_chapter())
+        return self._images_helper(parser, '#viewer img.img')
+
+    def get_cover(self):
+        return self._cover_from_content('')
 
 
 main = MangaParkMe

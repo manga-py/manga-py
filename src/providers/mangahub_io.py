@@ -15,7 +15,7 @@ class MangaHubIo(Provider, Std):
         return self.http_get('{}/manga/{}'.format(self.get_domain(), self.get_manga_name()))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/(?:manga|chapter)/([^/]+)', self.get_url()).group(1)
+        return self._get_name('/(?:manga|chapter)/([^/]+)')
 
     def get_chapters(self):
         return self._elements('.list-group .list-group-item > a')

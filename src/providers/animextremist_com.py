@@ -22,7 +22,7 @@ class AnimeXtremistCom(Provider, Std):
         return self.http_get(self.get_manga_url())
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'{}([^/]+)'.format(self.prefix), self.get_url()).group(1)
+        return self._get_name(r'{}([^/]+)'.format(self.prefix))
 
     def get_chapters(self):
         ch = self.helper.get_chapters()

@@ -4,7 +4,7 @@ from src.providers.hentaifox_com import HentaiFoxCom
 class nHentaiNet(HentaiFoxCom):
     _idx_re = r'/g/(\d+)'
     _url_str = '{}/g/{}/'
-    _name_re = '#info h1'
+    _name_selector = '#info h1'
     _cdn = 'https://i.nhentai.net/galleries/'
     __ext = {'j': 'jpg', 'p': 'png', 'g': 'gif'}
 

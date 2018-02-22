@@ -1,9 +1,10 @@
 from src.fs import get_temp_path, rename, path_join, dirname
 from src.provider import Provider
+from .helpers.std import Std
 
 
 # Archive downloading example. Without images
-class MangaOnlineBiz(Provider):
+class MangaOnlineBiz(Provider, Std):
     chapter_url = ''
 
     def get_archive_name(self) -> str:
@@ -20,7 +21,7 @@ class MangaOnlineBiz(Provider):
         return self.http_get(url)
 
     def get_manga_name(self) -> str:
-        return self.re.search(r'\.biz/([^/]+)(?:/|\.html)', self.get_url()).group(1)
+        return self._get_name(r'\.biz/([^/]+)(?:/|\.html)')
 
     def get_arc_path(self):
         path = self.get_archive_name()
@@ -48,6 +49,9 @@ class MangaOnlineBiz(Provider):
 
     def get_files(self):
         return []
+
+    def get_cover(self):
+        return self._cover_from_content('.item > .image > img')
 
 
 main = MangaOnlineBiz

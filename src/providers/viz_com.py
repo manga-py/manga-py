@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class VizCom(Provider):
+class VizCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         return 'vol_{}'.format(self._chapter_index())
@@ -14,7 +15,7 @@ class VizCom(Provider):
         return self.http_get('{}/{}'.format(self.get_domain(), url))
 
     def get_manga_name(self) -> str:
-        return self.re.search('/chapters/([^/]+)', self.get_url()).group(1)
+        return self._get_name('/chapters/([^/]+)')
 
     def get_chapters(self):
         content = self.get_storage_content()
@@ -59,6 +60,9 @@ class VizCom(Provider):
             n += 2
 
         return [-1]
+
+    def get_cover(self):
+        pass
 
 
 main = VizCom
