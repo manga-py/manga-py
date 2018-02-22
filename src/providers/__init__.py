@@ -5,26 +5,46 @@ providers_list = {
         r'adulto\.seinagi\.org/(series|read)/.',
         r'xanime-seduccion\.com/(series|read)/.',
     ],
-    'animextremist_com': [r'animextremist\.com/mangas-online/.',],
-    'antisensescans_com': [r'antisensescans\.com/online/(series|read)/.',],
-    'blogtruyen_com': [r'blogtruyen\.com/.',],
-    'comicextra_com': [r'comicextra\.com/.',],
-    'comico_jp': [r'comico\.jp/(detail|articleList).+titleNo.',],
-    'comicsandmanga_ru': [r'comicsandmanga\.ru/online-reading/.',],
+    'animextremist_com': [
+        r'animextremist\.com/mangas-online/.',
+    ],
+    'antisensescans_com': [
+        r'antisensescans\.com/online/(series|read)/.',
+    ],
+    'blogtruyen_com': [
+        r'blogtruyen\.com/.',
+    ],
+    'comicextra_com': [
+        r'comicextra\.com/.',
+    ],
+    'comico_jp': [
+        r'comico\.jp/(detail|articleList).+titleNo.',
+    ],
+    'comicsandmanga_ru': [
+        r'comicsandmanga\.ru/online-reading/.',
+    ],
     'dejameprobar_es': [
         r'dejameprobar\.es/slide/.',
         r'menudo-fansub\.com/slide/.',
         r'npscan\.mangaea\.net/slide/.',
         r'snf\.mangaea\.net/slide/.',
     ],
-    'desu_me': [r'desu\.me/manga/.',],
+    'desu_me': [
+        r'desu\.me/manga/.',
+    ],
     'doujins_com': [
         r'doujins\.com/gallery/.',
         r'doujin-moe\.us/gallery/.',
     ],
-    'e_hentai_org': [r'e-hentai\.org/g/\d',],
-    'funmanga_com': [r'funmanga\.com/.',],
-    'gmanga_me': [r'gmanga\.me/mangas/.',],
+    'e_hentai_org': [
+        r'e-hentai\.org/g/\d',
+    ],
+    'funmanga_com': [
+        r'funmanga\.com/.',
+    ],
+    'gmanga_me': [
+        r'gmanga\.me/mangas/.',
+    ],
     'gomanga_co': [
         r'gomanga\.co/reader/.',
         r'jaiminisbox\.com/reader/.',
@@ -32,102 +52,245 @@ providers_list = {
         r'atelierdunoir\.org/reader/.'
         r'seinagi\.org/reader/.',
     ],
-    'goodmanga_net': [r'goodmanga\.net/.',],
-    'helveticascans_com': [r'helveticascans\.com/r/(series|read)/.',],
-    'hakihome_com': [r'hakihome\.com/.',],
-    'hentai2read_com': [r'hentai2read\.com/.',],
-    'hentai_cafe': [r'hentai\.cafe/.',],
-    'hentai_chan_me': [r'hentai-chan\.me/(related|manga|online)/.',],
-    'hentai_chan_me_download': [r'hentai-chan\.me/download/.',],
-    'hentaifox_com': [r'hentaifox\.com/.',],
-    'hentaihere_com': [r'hentaihere\.com/m/.',],
-    'hitomi_la': [r'hitomi\.la/(galleries|reader)/.',],
+    'goodmanga_net': [
+        r'goodmanga\.net/.',
+    ],
+    'helveticascans_com': [
+        r'helveticascans\.com/r/(series|read)/.',
+    ],
+    'hakihome_com': [
+        r'hakihome\.com/.',
+    ],
+    'hentai2read_com': [
+        r'hentai2read\.com/.',
+    ],
+    'hentai_cafe': [
+        r'hentai\.cafe/.',
+    ],
+    'hentai_chan_me': [
+        r'hentai-chan\.me/(related|manga|online)/.',
+    ],
+    'hentai_chan_me_download': [
+        r'hentai-chan\.me/download/.',
+    ],
+    'hentaifox_com': [
+        r'hentaifox\.com/.',
+    ],
+    'hentaihere_com': [
+        r'hentaihere\.com/m/.',
+    ],
+    'hitomi_la': [
+        r'hitomi\.la/(galleries|reader)/.',
+    ],
     'hitmanga_eu': [
         r'hitmanga\.eu/.',
         r'mymanga\.io/.',
     ],
-    'hocvientruyentranh_com': [r'hocvientruyentranh\.com/(manga|chapter)/.',],
-    'hotchocolatescans_com': [
-        r'hotchocolatescans\.com/fs/(series|read)/',
-        r'mangaichiscans\.mokkori\.fr/fs/(series|read)/',
+    'hocvientruyentranh_com': [
+        r'hocvientruyentranh\.com/(manga|chapter)/.',
     ],
-    'inmanga_com': [r'inmanga\.com/ver/manga/.',],
-    'japscan_com': [r'japscan\.com/.',],
-    'jurnalu_ru': [r'jurnalu\.ru/online-reading/.',],
-    'kissmanga_com': [r'kissmanga\.com/Manga/.',],
-    'kumanga_com': [r'kumanga\.com/manga/\d',],
-    'lector_kirishimafansub_com': [r'lector\.kirishimafansub\.com/(lector/)?(series|read)/.',],
-    'leomanga_com': [r'leomanga\.com/manga/.',],
-    'luscious_net': [r'luscious\.net/c/incest_manga/pictures/.', r'luscious\.net/albums/.',],
-    'manga_ae': [r'manga\.ae/.',],
-    'manga_online_biz': [r'manga-online\.biz/.',],
-    'manga_online_com_ua': [r'manga-online\.com\.ua/.+html',],
-    'manga_sh': [r'manga\.sh/comics/.',],
-    'manga_tube_me': [r'manga-tube\.me/series/.',],
-    'manga_tr_com': [r'manga-tr\.com/(manga|id)-.',],
-    'mangabb_co': [r'mangabb\.co/.',],
-    'mangabox_me': [r'mangabox\.me/reader/.',],
-    'mangachan_me': [r'mangachan\.me/(related|manga|online)/.',],
-    'mangachan_me_download': [r'mangachan\.me/download/.',],
-    'mangacanblog_com': [r'mangacanblog\.com/.',],
-    'mangaclub_ru': [r'mangaclub\.ru/.',],
-    'mangadex_com': [r'mangadex\.com/(manga|chapter)/.',],
+    'hotchocolatescans_com': [
+        r'hotchocolatescans\.com/fs/(series|read)/.',
+        r'mangaichiscans\.mokkori\.fr/fs/(series|read)/.',
+    ],
+    'inmanga_com': [
+        r'inmanga\.com/ver/manga/.',
+    ],
+    'japscan_com': [
+        r'japscan\.com/.',
+    ],
+    'jurnalu_ru': [
+        r'jurnalu\.ru/online-reading/.',
+    ],
+    'kissmanga_com': [
+        r'kissmanga\.com/Manga/.',
+    ],
+    'kumanga_com': [
+        r'kumanga\.com/manga/\d',
+    ],
+    'lector_kirishimafansub_com': [
+        r'lector\.kirishimafansub\.com/(lector/)?(series|read)/.',
+    ],
+    'leomanga_com': [
+        r'leomanga\.com/manga/.',
+    ],
+    'luscious_net': [
+        r'luscious\.net/c/incest_manga/pictures/.', r'luscious\.net/albums/.',
+    ],
+    'manga_ae': [
+        r'manga\.ae/.',
+    ],
+    'manga_online_biz': [
+        r'manga-online\.biz/.',
+    ],
+    'manga_online_com_ua': [
+        r'manga-online\.com\.ua/.+html',
+    ],
+    'manga_sh': [
+        r'manga\.sh/comics/.',
+    ],
+    'manga_tube_me': [
+        r'manga-tube\.me/series/.',
+    ],
+    'manga_tr_com': [
+        r'manga-tr\.com/(manga|id)-.',
+    ],
+    'mangabb_co': [
+        r'mangabb\.co/.',
+    ],
+    'mangabox_me': [
+        r'mangabox\.me/reader/.',
+    ],
+    'mangachan_me': [
+        r'mangachan\.me/(related|manga|online)/.',
+    ],
+    'mangachan_me_download': [
+        r'mangachan\.me/download/.',
+    ],
+    'mangacanblog_com': [
+        r'mangacanblog\.com/.',
+    ],
+    'mangaclub_ru': [
+        r'mangaclub\.ru/.',
+    ],
+    'mangadex_com': [
+        r'mangadex\.com/(manga|chapter)/.',
+    ],
     'mangaeden_com': [
         r'mangaeden\.com/[^/]+/[^/]+-manga/.',
         r'perveden\.com/[^/]+/[^/]+-manga/.',
     ],
-    'mangago_me': [r'mangago\.me/read-manga/.',],
-    'mangahere_co': [r'mangahere\.(co|cc)/manga/.',],
-    'mangahome_com': [r'mangahome\.com/manga/.',],
+    'mangago_me': [
+        r'mangago\.me/read-manga/.',
+    ],
+    'mangahere_co': [
+        r'mangahere\.co/manga/.',
+        r'mangahere\.cc/manga/.',
+    ],
+    'mangahome_com': [
+        r'mangahome\.com/manga/.',
+    ],
     'mangahub_io': [
         r'mangahub\.io/(manga|chapter)/.',
         r'mangareader\.site/(manga|chapter)/.',
         r'mangakakalot\.fun/(manga|chapter)/.',
     ],
-    'mangahub_ru': [r'mangahub\.ru/.',],
-    'mangaindo_web_id': [r'mangaindo\.web\.id/.',],
-    'mangainn_net': [r'mangainn\.net/.',],
-    'mangakakalot_com': [r'mangakakalot\.com/(manga|chapter)/.',],
-    'mangaku_web_id': [r'mangaku\.web\.id/.',],
-    'mangalib_me': [r'mangalib\.me/.',],
-    'mangalife_us': [r'mangalife\.us/(read-online|manga)/.',],
-    'mangaon_net': [r'mangaon\.net/(manga-info|read-online)/.',],
-    'mangaonline_com_br': [r'mangaonline\.com\.br/.',],
-    'mangaonline_today': [r'mangaonline\.today/.',],
-    'mangaonlinehere_com': [r'mangaonlinehere\.com/(manga-info|read-online)/.',],
-    'mangapanda_com': [r'mangapanda\.com/.',],
-    'mangapark_me': [r'mangapark\.me/manga/.',],
-    'mangareader_net': [r'mangareader\.net/.',],
-    'mangarock_com': [r'mangarock\.com/manga/.',],
-    'mangarussia_com': [r'mangarussia\.com/(manga|chapter)/.',],
-    'mangasaurus_com': [r'mangasaurus\.com/manga|view.',],
-    'mangaseeonline_us': [r'mangaseeonline\.us/(read-online|manga)/.',],
-    'mangashiro_net': [r'mangashiro.net/.',],
-    'mangasupa_com': [r'mangasupa\.com/(manga|chapter).',],
-    'mangatail_com': [
-        r'mangatail.com/(manga|chapter|node|content)/',
-        r'mangasail.com/(manga|chapter|node|content)/',
+    'mangahub_ru': [
+        r'mangahub\.ru/.',
     ],
-    'mangatown_com': [r'mangatown\.com/manga/.',],
-    'manhuagui_com': [r'manhuagui\.com/comic/\d',],
-    'manhwa_co': [r'manhwa\.co/.',],
-    'mangazuki_co': [r'mangazuki\.co/manga/.',],
-    'mintmanga_com': [r'mintmanga\.com/.',],
-    'mngdoom_com': [r'(mangadoom\.co|mngdoom\.com)/.',],
-    'myreadingmanga_info': [r'myreadingmanga\.info/.',],
-    'neumanga_tv': [r'neumanga\.tv/manga/.',],
-    'nhentai_net': [r'nhentai\.net/g/.',],
-    'ninemanga_com': [r'ninemanga\.com/(manga|chapter).',],
-    'noranofansub_com': [r'noranofansub\.com(/lector)?/(series/|read/)?.',],
+    'mangaindo_web_id': [
+        r'mangaindo\.web\.id/.',
+    ],
+    'mangainn_net': [
+        r'mangainn\.net/.',
+    ],
+    'mangakakalot_com': [
+        r'mangakakalot\.com/(manga|chapter)/.',
+    ],
+    'mangaku_web_id': [
+        r'mangaku\.web\.id/.',
+    ],
+    'mangalib_me': [
+        r'mangalib\.me/.',
+    ],
+    'mangalife_us': [
+        r'mangalife\.us/(read-online|manga)/.',
+    ],
+    'mangaon_net': [
+        r'mangaon\.net/(manga-info|read-online)/.',
+    ],
+    'mangaonline_com_br': [
+        r'mangaonline\.com\.br/.',
+    ],
+    'mangaonline_today': [
+        r'mangaonline\.today/.',
+    ],
+    'mangaonlinehere_com': [
+        r'mangaonlinehere\.com/(manga-info|read-online)/.',
+    ],
+    'mangapanda_com': [
+        r'mangapanda\.com/.',
+    ],
+    'mangapark_me': [
+        r'mangapark\.me/manga/.',
+    ],
+    'mangareader_net': [
+        r'mangareader\.net/.',
+    ],
+    'mangarock_com': [
+        r'mangarock\.com/manga/.',
+    ],
+    'mangarussia_com': [
+        r'mangarussia\.com/(manga|chapter)/.',
+    ],
+    'mangasaurus_com': [
+        r'mangasaurus\.com/(manga|view).',
+    ],
+    'mangaseeonline_us': [
+        r'mangaseeonline\.us/(read-online|manga)/.',
+    ],
+    'mangashiro_net': [
+        r'mangashiro.net/.',
+    ],
+    'mangasupa_com': [
+        r'mangasupa\.com/(manga|chapter)/.',
+    ],
+    'mangatail_com': [
+        r'mangatail.com/(manga|chapter|node|content)/.',
+        r'mangasail.com/(manga|chapter|node|content)/.',
+    ],
+    'mangatown_com': [
+        r'mangatown\.com/manga/.',
+    ],
+    'manhuagui_com': [
+        r'manhuagui\.com/comic/\d',
+    ],
+    'manhwa_co': [
+        r'manhwa\.co/.',
+    ],
+    'mangazuki_co': [
+        r'mangazuki\.co/manga/.',
+    ],
+    'merakiscans_com': [
+        r'merakiscans\.com/.',
+    ],
+    'mintmanga_com': [
+        r'mintmanga\.com/.',
+    ],
+    'mngdoom_com': [
+        r'mangadoom\.co/.',
+        r'mngdoom\.com/.',
+    ],
+    'myreadingmanga_info': [
+        r'myreadingmanga\.info/.',
+    ],
+    'neumanga_tv': [
+        r'neumanga\.tv/manga/.',
+    ],
+    'nhentai_net': [
+        r'nhentai\.net/g/.',
+    ],
+    'ninemanga_com': [
+        r'ninemanga\.com/(manga|chapter).',
+    ],
+    'noranofansub_com': [
+        r'noranofansub\.com(/lector)?/(series/|read/)?.',
+    ],
     'otakusmash_com': [
         r'otakusmash\.com/.',
         r'mrsmanga\.com/.',
         r'mentalmanga\.com/.',
         r'mangasmash\.com/.',
     ],
-    'otscans_com': [r'otscans\.com/foolslide/(series|read)/.',],
-    'puzzmos_com': [r'puzzmos\.com/manga/.',],
-    'pzykosis666hfansub_com': [r'pzykosis666hfansub\.com/online/.',],
+    'otscans_com': [
+        r'otscans\.com/foolslide/(series|read)/.',
+    ],
+    'puzzmos_com': [
+        r'puzzmos\.com/manga/.',
+    ],
+    'pzykosis666hfansub_com': [
+        r'pzykosis666hfansub\.com/online/.',
+    ],
     'read_powermanga_org': [
         r'lector\.dangolinenofansub\.com/(read|series)/.',
         r'read\.powermanga\.org/(series|read)/.',
@@ -149,20 +312,40 @@ providers_list = {
         r'reader\.jokerfansub\.com/(series|read)/.',
         r'lector\.patyscans\.com/(series|read)/.',
     ],
-    'ravens_scans_com': [r'ravens-scans\.com(/lector)?/(serie/|read/).',],
-    'read_egscans_com': [r'read.egscans.com/.',],
+    'ravens_scans_com': [
+        r'ravens-scans\.com(/lector)?/(serie/|read/).',
+    ],
+    'read_egscans_com': [
+        r'read.egscans.com/.',
+    ],
     'readcomicbooksonline_org': [
         r'readcomicbooksonline\.net/.',
         r'readcomicbooksonline\.org/.',
     ],
-    'readcomiconline_to': [r'readcomiconline\.to/Comic/.',],
-    'readmanga_me': [r'readmanga\.me/.',],
-    'readmanga_eu': [r'readmanga\.eu/manga/\d+/.',],
-    'readms_net': [r'readms\.net/(r|manga)/.',],
-    'santosfansub_com': [r'santosfansub\.com/Slide/.',],
-    'selfmanga_ru': [r'selfmanga\.ru/.',],
-    'shakai_ru': [r'shakai\.ru/manga.*?/\d',],
-    'somanga_net': [r'somanga\.net/(leitor|manga)/.',],
+    'readcomiconline_to': [
+        r'readcomiconline\.to/Comic/.',
+    ],
+    'readmanga_me': [
+        r'readmanga\.me/.',
+    ],
+    'readmanga_eu': [
+        r'readmanga\.eu/manga/\d+/.',
+    ],
+    'readms_net': [
+        r'readms\.net/(r|manga)/.',
+    ],
+    'santosfansub_com': [
+        r'santosfansub\.com/Slide/.',
+    ],
+    'selfmanga_ru': [
+        r'selfmanga\.ru/.',
+    ],
+    'shakai_ru': [
+        r'shakai\.ru/manga.*?/\d',
+    ],
+    'somanga_net': [
+        r'somanga\.net/(leitor|manga)/.',
+    ],
     'subapics_com': [
         r'subapics\.com/manga/.',
         r'subapics\.com/[^/]/.+-chapter-',
@@ -173,19 +356,55 @@ providers_list = {
         r'mangavy\.com/manga/.',
         r'mangavy\.com/[^/]/.+-chapter-',
     ],
-    'taadd_com': [r'taadd\.com/(book|chapter)/.',],
-    'tenmanga_com': [r'tenmanga\.com/(book|chapter)/.',],
-    'triplesevenscans_com': [r'triplesevenscans\.com/reader/(series|read)/.',],
-    'tumangaonline_com': [r'tumangaonline\.com/.',],
-    'unionmangas_net': [r'unionmangas\.net/(leitor|manga)/.',],
+    'taadd_com': [
+        r'taadd\.com/(book|chapter)/.',
+    ],
+    'tenmanga_com': [
+        r'tenmanga\.com/(book|chapter)/.',
+    ],
+    'triplesevenscans_com': [
+        r'triplesevenscans\.com/reader/(series|read)/.',
+    ],
+    'tumangaonline_com': [
+        r'tumangaonline\.com/.',
+    ],
+    'unionmangas_net': [
+        r'unionmangas\.net/(leitor|manga)/.',
+    ],
     # 'viz_com': [r'viz\.com/shonenjump/chapters/.',],
-    'wmanga_ru': [r'wmanga\.ru/starter/manga_.',],
-    'yaoichan_me': [r'yaoichan\.me/(manga|online).',],
-    'yaoichan_me_download': [r'yaoichan\.me/download/.',],
-    'zingbox_me': [r'zingbox\.me/.',],
-    'zip_read_com': [r'zip-read\.com/.']
+    'wmanga_ru': [
+        r'wmanga\.ru/starter/manga_.',
+    ],
+    'yaoichan_me': [
+        r'yaoichan\.me/(manga|online).',
+    ],
+    'yaoichan_me_download': [
+        r'yaoichan\.me/download/.',
+    ],
+    'zingbox_me': [
+        r'zingbox\.me/.',
+    ],
+    'zip_read_com': [
+        r'zip-read\.com/.',
+    ],
 }
 
+"""
+
+l = [providers_list[n] for n in providers_list.keys()]
+items = []
+for i in l:
+    items += i
+p = [n.replace(r'\.', '.') for n in items]
+x = {}
+for i in p:
+    l = i[:i.find('/')].strip('()')
+    x[l] = l
+print(x)
+print(len(x))
+exit()
+
+"""
 
 def __check_provider(provider, url):
     reg = '(?:' + '|'.join(provider) + ')'
