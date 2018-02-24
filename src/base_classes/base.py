@@ -11,6 +11,7 @@ class Base:
     _params = None
     _image_params = None
     _http_kwargs = None
+    __http = None
 
     def __init__(self):
 
@@ -34,6 +35,9 @@ class Base:
             # 'auto_crop': {'max_crop_size': 40, 'auto_crop_factor': 150},
         }
         self._http_kwargs = {}
+        self.quest = lambda: None
+        self.progress = lambda: None
+        self.log = lambda: None
 
     def get_storage_content(self):
         return self._storage.get('main_content', '')
@@ -54,23 +58,14 @@ class Base:
     def get_current_file(self):
         return self._storage['files'][self._storage['current_file']]
 
-    def quest_callback(self, variants: enumerate, title: str, select_type=0):  # 0 = single, 1 = multiple
-        pass
-
-    def files_progress_callback(self, max_val: int, current_val: int, need_reset=False):
-        pass
-
-    def logger_callback(self, *args):
-        pass
-
     def set_quest_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
-        setattr(self, 'quest_callback', callback)
+        setattr(self, 'quest', callback)
 
     def set_progress_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
-        setattr(self, 'files_progress_callback', callback)
+        setattr(self, 'progress', callback)
 
-    def set_logger_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
-        setattr(self, 'logger_callback', callback)
+    def set_log_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
+        setattr(self, 'log', callback)
 
     def image_auto_crop(self, src_path, dest_path=None):
         image = Image(src_path=src_path)
@@ -87,7 +82,7 @@ class Base:
             image = Image(src_path=src_path)
             image.crop_manual_with_offsets(offsets=self._image_params['offsets_crop'], dest_path=dest_path)
 
-    def http(self) -> Http:
+    def http(self, new=False) -> Http:
         http_params = {
             'allow_webp': not self._params.get('disallow_webp', None),
             'referer': self._storage.get('referer', self.get_domain()),
@@ -96,8 +91,12 @@ class Base:
             'cookies': self._storage.get('cookies', None),
             'kwargs': self._http_kwargs
         }
-        http = Http(**http_params)
-        return http
+        if new:
+            http = Http(**http_params)
+            return http
+        elif not self.__http:
+            self.__http = Http(**http_params)
+        return self.__http
 
     def http_get(self, url: str, headers: dict = None, cookies: dict = None):
         return self.http().get(url=url, headers=headers, cookies=cookies)
@@ -106,9 +105,9 @@ class Base:
         return self.http().post(url=url, headers=headers, cookies=cookies, data=data)
 
     def _call_files_progress_callback(self):
-        if callable(self.files_progress_callback):
+        if callable(self.progress):
             _max, _current = len(self._storage['files']), self._storage['current_file']
-            self.files_progress_callback(_max, _current, _current < 1)
+            self.progress(_max, _current, _current < 1)
 
     def _get_user_agent(self):
         ua_storage = self._storage.get('user_agent', None)

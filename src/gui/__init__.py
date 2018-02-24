@@ -120,8 +120,8 @@ class Gui(QWidget):
 
         # self.provider = self.parser.init_provider(
         #     progress_callback=self.progress,
-        #     logger_callback=self.print,
-        #     quest_callback=self.quest
+        #     log=self.print,
+        #     quest=self.quest
         # )
 
         pass

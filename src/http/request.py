@@ -42,27 +42,37 @@ class Request:
             kwargs = self.kwargs
         return kwargs
 
+    def __update_cookies(self, r):
+        _ = r.cookies.get_dict()
+        for c in _:
+            self.cookies[c] = _[c]
+
+    def __check_proxy(self, r):
+        if r.status_code == 305:
+            pass  # fixme
+
     def _requests_helper(
-            self, method, url, headers=None, cookies=None, data=None,
-            files=None, max_redirects=10, timeout=None, proxies=None,
-            **kwargs
+            self, method, url, headers=None, data=None,
+            max_redirects=10, **kwargs
     ) -> requests.Response:
         self._prepare_redirect_base_url(url)
         headers = self.__patch_headers(headers)
         r = getattr(requests, method)(
-            url=url, headers=headers, cookies=cookies, data=data,
-            files=files, allow_redirects=False, proxies=proxies,
-            **kwargs, **self._get_kwargs()
+            url=url, headers=headers, data=data,
+            allow_redirects=False, **kwargs,
+            **self._get_kwargs()
         )
+        self.__update_cookies(r)
+        self.__check_proxy(r)
         if r.is_redirect and method != 'head':
             if max_redirects < 1:
                 raise AttributeError('Too many redirects')
+            if r.status_code == 303:
+                method = 'get'
             location = normalize_uri(r.headers['location'], self.__redirect_base_url)
             return self._requests_helper(
                 method=method, url=location, headers=headers,
-                cookies=cookies, data=data, files=files,
-                max_redirects=(max_redirects-1),
-                timeout=timeout, proxies=proxies,
+                data=data, max_redirects=(max_redirects-1),
                 **kwargs
             )
         return r

@@ -3,7 +3,7 @@ import re
 # import time
 from abc import ABCMeta
 
-from .version import __downloader_uri__
+from .meta import __downloader_uri__
 from .fs import (
     get_temp_path,
     is_file,
@@ -20,7 +20,7 @@ from .base_classes import (
     CloudFlareProtect,
     Static
 )
-from .version import __version__
+from .meta import __version__
 
 
 class Provider(Base, Abstract, Static, metaclass=ABCMeta):
@@ -158,10 +158,7 @@ class Provider(Base, Abstract, Static, metaclass=ABCMeta):
         for idx, url in enumerate(files):
             threading.add(self.save_file, (idx, self._multi_thread_callback, url))
 
-        # time.sleep(5)
-
         threading.start()
-        self.logger_callback('')
 
     def _one_thread_save(self, files):
 

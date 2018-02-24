@@ -7,9 +7,6 @@ class Parser:
 
     params = None
     provider = None
-    _logger_callback = None
-    _progress_callback = None
-    _quest_callback = None
 
     def __init__(self, args):
         self.params = {}
@@ -25,18 +22,18 @@ class Parser:
 
     def init_provider(
             self,
-            progress_callback: callable = None,
-            logger_callback: callable = None,
-            quest_callback: callable = None
+            progress: callable = None,
+            log: callable = None,
+            quest: callable = None
     ):
         provider = get_provider(self.params.get('url', ''))
         if not provider:
             raise AttributeError('Provider not found')
         self.provider = provider()  # provider __init__
 
-        self.provider.set_progress_callback(progress_callback)
-        self.provider.set_logger_callback(logger_callback)
-        self.provider.set_quest_callback(quest_callback)
+        self.provider.set_progress_callback(progress)
+        self.provider.set_log_callback(log)
+        self.provider.set_quest_callback(quest)
 
     def start(self):
         self.provider.process(self.params['url'], self.params)

@@ -8,34 +8,32 @@ from packaging import version
 from progressbar import ProgressBar
 
 from src.parser import Parser
-from src.version import __version__, __repo_name__
+from src.meta import __version__, __repo_name__
 
 
 def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
     args_parser = ArgumentParser()
 
-    args_parser.add_argument('-v', '--version', action='version', version=__version__)
-
-    args_parser.add_argument('-u', '--url', type=str, required=False, help='Downloaded url', default='')
-    args_parser.add_argument('-n', '--name', type=str, required=False, help='Manga name', default='')
-    args_parser.add_argument('-d', '--destination', type=str, required=False,
+    args_parser.add_argument('url', metavar='url', type=str, help='Downloaded url', default='', nargs='?')
+    args_parser.add_argument('--version', action='version', version=__version__)
+    args_parser.add_argument('-n', '--name', metavar='name', type=str, required=False, help='Manga name', default='')
+    args_parser.add_argument('-d', '--destination', metavar='destination', type=str, required=False,
                              help='Destination folder (Default = current directory', default='')
-    args_parser.add_argument('-i', '--info', action='store_const', required=False, const=True, default=False)
-    args_parser.add_argument('-np', '--no-progress', action='store_const', required=False, const=True,
-                             help='Don\'t how progress bar', default=False)
-    args_parser.add_argument('-s', '--skip-volumes', type=int, required=False, help='Skip volumes (count)', default=0)
-    args_parser.add_argument('-c', '--max-volumes', type=int, required=False,
+    args_parser.add_argument('-v', '--info', metavar='info', action='store_const', required=False, const=True,
+                             default=False, help='Verbose log')
+    args_parser.add_argument('-np', '--no-progress', metavar='no-progress', action='store_const', required=False,
+                             const=True, help='Don\'t how progress bar', default=False)
+    args_parser.add_argument('-s', '--skip-volumes', metavar='skip-volumes', type=int, required=False,
+                             help='Skip volumes (count)', default=0)
+    args_parser.add_argument('-c', '--max-', metavar='max-volumes', type=int, required=False,
                              help='Maximum volumes for downloading 0=All (count)', default=0)
     args_parser.add_argument('--user-agent', required=False, type=str, help='Don\'t work from protected sites',
                              default=None)
     args_parser.add_argument('--proxy', required=False, type=str, help='Http proxy', default=None)
-
-    args_parser.add_argument('--no-name', action='store_const', required=False,
-                             help='Don\'t added manga name to the path', const=True, default=False)
-    args_parser.add_argument('--disallow-webp', action='store_const', required=False,
-                             help='Allow downloading webp images', const=True, default=False)
     args_parser.add_argument('--force-png', action='store_const', required=False,
                              help='Force conversation images to png format', const=True, default=False)
+    args_parser.add_argument('--force-jpg', action='store_const', required=False,
+                             help='Force conversation images to jpg format', const=True, default=False)
     args_parser.add_argument('--reverse-downloading', action='store_const', required=False,
                              help='Reverse volumes downloading', const=True, default=False)
     args_parser.add_argument('--rewrite-exists-archives', action='store_const', required=False, const=True,
@@ -46,21 +44,13 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
     args_parser.add_argument('-xr', required=False, type=int, help='Manual image crop with right side', default=0)
     args_parser.add_argument('-xb', required=False, type=int, help='Manual image crop with bottom side', default=0)
     args_parser.add_argument('-xl', required=False, type=int, help='Manual image crop with left side', default=0)
-
     args_parser.add_argument('--crop-blank', action='store_const', required=False, help='Crop white lines on image',
                              const=True, default=False)
-    args_parser.add_argument('--crop-blank-factor', required=False, type=int, help='Find factor 0..255. Default: 100',
-                             default=100)
-    args_parser.add_argument('--crop-blank-max-size', required=False, type=int,
-                             help='Maximum crop size (px). Default: 30', default=30)
-
     args_parser.add_argument('--cli', action='store_const', required=False, const=True, help='Use cli interface',
                              default=False)
-
     # future
     args_parser.add_argument('--server', action='store_const', required=False, const=True, help='Run web interface',
                              default=False)
-
     return args_parser
 
 
@@ -87,9 +77,9 @@ class Cli:
 
     def start(self):
         self.parser.init_provider(
-            progress_callback=self.progress,
-            logger_callback=self.print,
-            quest_callback=self.quest,
+            progress=self.progress,
+            log=self.print,
+            quest=self.quest,
         )
         self.parser.start()
 
@@ -98,6 +88,7 @@ class Cli:
 
     def __init_progress(self, items_count: int, re_init: bool):
         if re_init or not self.__progress_bar:
+            self.__progress_bar and print('')  # break line
             bar = ProgressBar()
             self.__progress_bar = bar(range(items_count))
             self.__progress_bar.init()
