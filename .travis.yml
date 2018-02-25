@@ -1,3 +1,6 @@
+env:
+  global:
+  - CC_TEST_REPORTER_ID=ff7add7a0f454aff7e13c739a06a7aba8e5c8229d3e776e051294341b4721871
 addons:
   artifacts: true
 language: python
@@ -12,10 +15,13 @@ before_install:
 install:
 - pip3 install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller PyQt5
 - pip3 install -r requirements.txt
+before_script:
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
 script:
 - coverage run --source=libs,tests tests/pytest.py
 after_script:
-- codeclimate-test-reporter --file .coverage
+- ./cc-test-reporter .coveragea --exit-code $TRAVIS_TEST_RESULT
 before_deploy:
 - cp helpers/.builder.py ./
 - cp helpers/.providers_updater.py ./

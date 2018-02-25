@@ -47,9 +47,19 @@ class Request:
         for c in _:
             self.cookies[c] = _[c]
 
-    def __check_proxy(self, r):
+    def __redirect_helper(self, r, url, method):
+        proxy = None
+        if r.status_code == 303:
+            method = 'get'
         if r.status_code == 305:
-            pass  # fixme
+            location = url
+            proxy = {
+                'http': r.headers['location'],
+                'https': r.headers['location'],
+            }
+        else:
+            location = normalize_uri(r.headers['location'], self.__redirect_base_url)
+        return proxy, location, method
 
     def _requests_helper(
             self, method, url, headers=None, data=None,
@@ -63,13 +73,12 @@ class Request:
             **self._get_kwargs()
         )
         self.__update_cookies(r)
-        self.__check_proxy(r)
         if r.is_redirect and method != 'head':
             if max_redirects < 1:
                 raise AttributeError('Too many redirects')
-            if r.status_code == 303:
-                method = 'get'
-            location = normalize_uri(r.headers['location'], self.__redirect_base_url)
+            proxy, location, method = self.__redirect_helper(r, url, method)
+            if proxy:
+                kwargs['proxies'] = proxy
             return self._requests_helper(
                 method=method, url=location, headers=headers,
                 data=data, max_redirects=(max_redirects-1),
@@ -89,9 +98,14 @@ class Request:
         headers.setdefault('Accept-Language', self.default_lang)
         if self.allow_webp:
             headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=1.0,image/webp,image/apng,*/*;q=1.0'
+        if 'proxies' in kwargs.keys():
+            proxy = kwargs['proxies']
+            del kwargs['proxies']
+        else:
+            proxy = self.proxies
         return self._requests_helper(
             method=method, url=url, headers=headers, cookies=cookies,
-            data=data, files=files, timeout=timeout, proxies=self.proxies,
+            data=data, files=files, timeout=timeout, proxies=proxy,
             **kwargs
         )
 
