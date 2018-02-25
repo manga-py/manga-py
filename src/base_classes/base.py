@@ -12,9 +12,6 @@ class Base:
     _image_params = None
     _http_kwargs = None
     __http = None
-    quest = lambda: None
-    progress = lambda: None
-    log = lambda: None
 
     def __init__(self):
 
@@ -135,3 +132,12 @@ class Base:
                 url = self.__normalize_chapters(n, i)
                 items.append(url)
         return items
+
+    def quest(self, *args, **kwargs):
+        pass
+
+    def progress(self, *args, **kwargs):
+        pass
+
+    def log(self, *args, **kwargs):
+        pass
