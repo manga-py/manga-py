@@ -13,15 +13,13 @@ class MangabbCo(Provider, Std):
         return chapter[1 + idx:]
 
     def get_main_content(self):
-        url = '{}/manga/{}'.format(self.get_domain(), self.get_manga_name())
-        result = self.html_fromstring(url, '#chapters a')
-        return result[0].get('href') if len(result) else False
+        return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:
         return self._get_name(r'\.co/(?:manga/)?([^/]+)')
 
     def get_chapters(self):
-        content = self.get_storage_content()
+        content = self.document_fromstring(self.get_storage_content(), '#chapters a')
         if not content:
             return []
         selector = '#asset_1 select.chapter_select > option'

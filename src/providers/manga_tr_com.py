@@ -14,8 +14,7 @@ class MangaTrCom(Provider, Std):
         return '-'.join(idx.split('.'))
 
     def get_main_content(self):
-        name = self.get_manga_name()
-        return self.http_get('{}/manga-{}.html'.format(self.get_domain(), name))
+        return self._get_content('{}/manga-{}.html')
 
     def get_manga_name(self) -> str:
         url = self.get_url()

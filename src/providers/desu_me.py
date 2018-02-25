@@ -13,9 +13,7 @@ class DesuMe(Provider, Std):
         return '{}-{}'.format(result[0], result[1])
 
     def get_main_content(self):
-        name = self.get_manga_name()
-        url = '{}/manga/{}'.format(self.get_domain(), name)
-        return self.http_get(url)
+        return self._get_content('{}/manga/{}')
 
     def get_chapters(self):
         return self._elements('#animeView ul h4 > a.tips')

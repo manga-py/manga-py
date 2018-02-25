@@ -15,8 +15,7 @@ class WMangaRu(Provider, Std):
         return '{}-{}'.format(*idx)
 
     def get_main_content(self):
-        domain, name = self.get_domain(), self.get_manga_name()
-        return self.http_get('{}/starter/manga_byid/{}'.format(domain, name))
+        return self._get_content('{}/starter/manga_byid/{}')
 
     def get_manga_name(self) -> str:
         return self._get_name('/starter/manga_[^/]+/([^/]+)')

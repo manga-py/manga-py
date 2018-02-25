@@ -5,13 +5,17 @@ from .helpers.std import Std
 class DarkSkyProjectsOrg(Provider, Std):
 
     def get_archive_name(self) -> str:
-        pass
+        return 'vol_{:0>3}-{}'.format(
+            self._chapter_index(),
+            self.get_chapter_index()
+        )
 
     def get_chapter_index(self) -> str:
-        pass
+        ch = self.get_current_chapter()
+        return self.re.search('/biblioteca/[^/]+/([^/]+)', ch).group(1)
 
     def get_main_content(self):
-        pass
+        return self._get_content('{}/biblioteca/{}')
 
     def get_manga_name(self) -> str:
         return self._get_name('/biblioteca/([^/]+)')
@@ -20,7 +24,8 @@ class DarkSkyProjectsOrg(Provider, Std):
         return self._elements('.chapters h5 a')
 
     def get_files(self):
-        return []
+        parser = self.html_fromstring(self.get_current_chapter())
+        return self._images_helper(parser, 'data-src')
 
     def get_cover(self) -> str:
         return self._cover_from_content('.boxed > .img-responsive')

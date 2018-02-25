@@ -12,8 +12,7 @@ class MangaOnlineComBr(Provider, Std):
         return self.re.search(selector, self.get_current_chapter()).group(1)
 
     def get_main_content(self):
-        params = self.get_domain(), self.get_manga_name()
-        return self.http_get('{}/{}/'.format(*params))
+        return self._get_content('{}/{}/')
 
     def get_manga_name(self) -> str:
         return self._get_name(r'\.br/([^/]+)')

@@ -19,6 +19,7 @@ class _Template(Provider):
         pass
 
     def get_main_content(self):  # call once
+#       return self._get_content('{}/manga/{}')
         pass
 
     def prepare_cookies(self):  # if site with cookie protect
@@ -29,6 +30,7 @@ class _Template(Provider):
         pass
 
     def get_manga_name(self) -> str:
+#       return self._get_name('/manga/([^/]+)')
         return ''
 
     def get_chapters(self):  # call once

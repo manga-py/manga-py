@@ -71,10 +71,7 @@ providers_list = {
         r'hentai\.cafe/.',
     ],
     'hentai_chan_me': [
-        r'hentai-chan\.me/(related|manga|online)/.',
-    ],
-    'hentai_chan_me_download': [
-        r'hentai-chan\.me/download/.',
+        r'hentai-chan\.me/(related|manga|online)/.',  # todo
     ],
     'hentaifox_com': [
         r'hentaifox\.com/.',
@@ -146,9 +143,12 @@ providers_list = {
     ],
     'mangachan_me': [
         r'mangachan\.me/(related|manga|online)/.',
+        r'yaoichan\.me/(manga|online).',
     ],
     'mangachan_me_download': [
         r'mangachan\.me/download/.',
+        r'hentai-chan.me/download/.',
+        r'yaoichan\.me/download/.',
     ],
     'mangacanblog_com': [
         r'mangacanblog\.com/.',
@@ -279,6 +279,9 @@ providers_list = {
     'noranofansub_com': [
         r'noranofansub\.com(/lector)?/(series/|read/)?.',
     ],
+    'nozominofansub_com': [  # mangazuki_co
+        r'nozominofansub\.com/public(/index.php)?/manga/.',
+    ],
     'otakusmash_com': [
         r'otakusmash\.com/.',
         r'mrsmanga\.com/.',
@@ -377,12 +380,6 @@ providers_list = {
     # 'viz_com': [r'viz\.com/shonenjump/chapters/.',],
     'wmanga_ru': [
         r'wmanga\.ru/starter/manga_.',
-    ],
-    'yaoichan_me': [
-        r'yaoichan\.me/(manga|online).',
-    ],
-    'yaoichan_me_download': [
-        r'yaoichan\.me/download/.',
     ],
     'zingbox_me': [
         r'zingbox\.me/.',

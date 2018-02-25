@@ -18,8 +18,7 @@ class GoMangaCo(Provider, Std):
         return group.replace('/', '-')
 
     def get_main_content(self):
-        name = self.get_manga_name()
-        return self.http_get(self._content_str.format(self.get_domain(), name))
+        return self._get_content(self._content_str)
 
     def get_manga_name(self) -> str:
         return self._get_name(self._name_re)

@@ -17,10 +17,7 @@ class MangaParkMe(Provider, Std):
         )
 
     def get_main_content(self):
-        print('{}/{}'.format(self.get_domain(), self.get_manga_name()));
-        exit()  # FIXME!
-
-        return self.http_get('{}/manga/{}'.format(self.get_domain(), self.get_manga_name()))
+        return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:
         return self._get_name('/manga/([^/]+)')
@@ -34,7 +31,7 @@ class MangaParkMe(Provider, Std):
         return self._images_helper(parser, '#viewer img.img')
 
     def get_cover(self):
-        return self._cover_from_content('')
+        return self._cover_from_content('.cover img')
 
 
 main = MangaParkMe

@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaOnlineHereCom(Provider):
+class MangaOnlineHereCom(Provider, Std):
     __local_storage = None
 
     def get_archive_name(self) -> str:
@@ -17,7 +18,7 @@ class MangaOnlineHereCom(Provider):
         )
 
     def get_main_content(self):
-        return self.http_get('{}/manga-info/{}'.format(self.get_domain(), self.get_manga_name()))
+        return self._get_content('{}/manga-info/{}')
 
     def get_manga_name(self) -> str:
         if not self.__local_storage.get('name', None):
@@ -37,6 +38,9 @@ class MangaOnlineHereCom(Provider):
     def get_files(self):
         items = self.html_fromstring(self.get_current_chapter(), '#list-img img')
         return [i.get('src') for i in items]
+
+    def get_cover(self):
+        return self._cover_from_content('.image-info img')
 
 
 main = MangaOnlineHereCom

@@ -16,7 +16,7 @@ class MangaFoxMe(Provider, Std):
 
     def get_main_content(self):
         name = self.get_manga_name()
-        return self.http_get('{}/manga/{}'.format(self.get_domain(), name))
+        return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:
         return self._get_name('/manga/([^/]+)/?')

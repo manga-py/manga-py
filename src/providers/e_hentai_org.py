@@ -24,8 +24,7 @@ class EHentaiOrg(Provider, Std):
         return self.http_get(self.helper.get_url())
 
     def get_manga_name(self) -> str:
-        url = self.re.search('/g/([^/]+/[^/?]+)', self.get_url())
-        return url.group(1).replace('/', '-')
+        return self._get_name('/g/([^/]+/[^/?]+)').replace('/', '-')
 
     def prepare_cookies(self):
         self.helper = e_hentai_org.EHentaiOrg(self)

@@ -16,14 +16,13 @@ class MangaGoMe(Provider, Std):
         return '{}-{}'.format(*self._idx_to_x2(idx))
 
     def get_main_content(self):
-        url = '{}/read-manga/{}/'.format(self.get_domain(), self.get_manga_name())
-        return self.html_fromstring(url, '#information', 0)
+        return self._get_content('{}/read-manga/{}/')
 
     def get_manga_name(self) -> str:
         return self._get_name(r'/read-manga/([^/]+)/')
 
     def get_chapters(self):
-        content = self.get_storage_content()
+        content = self.document_fromstring(self.get_storage_content(), '#information', 0)
         chapters = content.cssselect('#chapter_table a.chico')
         raws = content.cssselect('#raws_table a.chicor')
         return chapters + raws

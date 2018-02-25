@@ -18,8 +18,7 @@ class MangaTubeMe(Provider, Std):
         return '-'.join(self._idx_to_x2(idx.group(1).split('.')))
 
     def get_main_content(self):
-        name = self.get_manga_name()
-        return self.http_get('{}/series/{}/'.format(self.get_domain(), name))
+        return self._get_content('{}/series/{}/')
 
     def get_manga_name(self) -> str:
         return self._get_name('/series/([^/]+)/')

@@ -1,9 +1,9 @@
-from src.providers.jaiminisbox_com import JaiminIsBoxCom
+from src.providers.gomanga_co import GoMangaCo
 
 from .helpers.std import Std
 
 
-class HentaiCafe(JaiminIsBoxCom, Std):
+class HentaiCafe(GoMangaCo, Std):
     _name_re = r'\.cafe(?:/manga/read)?/([^/]+)/'
     _content_str = '{}/{}/'
     _chapters_selector = '.content .last .x-btn'  # TODO

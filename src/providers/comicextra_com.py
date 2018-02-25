@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class ComicExtra(Provider):
+class ComicExtra(Provider, Std):
 
     def get_archive_name(self) -> str:
         return 'vol_{:0>3}'.format(self._storage['current_chapter'])
@@ -11,8 +12,7 @@ class ComicExtra(Provider):
         # return self.re.search('(\d+)', self.get_current_chapter()).group(1)
 
     def get_main_content(self):
-        name = self.get_manga_name()
-        return self.http_get('{}/comic/{}'.format(self.get_domain(), name))
+        return self._get_content('{}/comic/{}')
 
     def get_manga_name(self):
         url = self.get_url()
@@ -28,6 +28,9 @@ class ComicExtra(Provider):
         url = self.get_current_chapter() + '/full'
         items = self.html_fromstring(url, '.chapter-container img.chapter_img')
         return [i.get('src') for i in items]
+
+    def get_cover(self):
+        return self._cover_from_content('.movie-image img')
 
 
 main = ComicExtra

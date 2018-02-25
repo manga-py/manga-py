@@ -11,7 +11,7 @@ class VizCom(Provider, Std):
         return str(self._chapter_index())
 
     def get_main_content(self):
-        url = self.re.search('/([^/]+/chapters/[^/]+)')
+        url = self.re.search('/([^/]+/chapters/[^/]+)').group(1)
         return self.http_get('{}/{}'.format(self.get_domain(), url))
 
     def get_manga_name(self) -> str:

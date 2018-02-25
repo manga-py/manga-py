@@ -13,7 +13,7 @@ class MangaPandaCom(Provider, Std):
         return idx.group(1)
 
     def get_main_content(self):
-        return self.http_get('{}/{}'.format(self.get_domain(), self.get_manga_name()))
+        return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:
         return self._get_name(r'\.com/([^/]+)')

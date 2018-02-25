@@ -13,8 +13,7 @@ class ReadmangaMe(Provider, Std):
         return name.group(1).replace('/', '-')
 
     def get_main_content(self):
-        url = '{}/{}?mature=1&mtr=1'.format(self.get_domain(), self.get_manga_name())
-        return self.http_get(url)
+        return self._get_content('{}/{}?mature=1&mtr=1')
 
     def get_manga_name(self):
         return self._get_name(r'\.me/([^/]+)')

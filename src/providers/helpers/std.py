@@ -44,6 +44,9 @@ class Std:
     def _get_name(self, selector):
         return self.re.search(selector, self.get_url()).group(1)
 
+    def _get_content(self, selector):
+        return self.http_get(selector.format(self.get_domain(), self.get_manga_name()))
+
     def _base_cookies(self):
         cookies = self.http().get_base_cookies(self.get_url())
         self._storage['cookies'] = cookies.get_dict()

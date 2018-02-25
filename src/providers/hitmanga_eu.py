@@ -19,8 +19,7 @@ class HitMangaEu(Provider, Std):
         return idx.group(1)
 
     def get_main_content(self):
-        url = '{}/mangas/{}/'.format(self.main_domain, self.get_manga_name())
-        return self.content(url)
+        return self.content(self._get_content('{}/mangas/{}/'))
 
     def get_manga_name(self) -> str:
         url = self.get_url()

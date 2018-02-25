@@ -30,4 +30,6 @@ class EHentaiOrg:
         url = self.provider.get_url()
         if url.find('?') > 0:
             url = url[:url.find('?')]
+        if url.find('#') > 0:
+            url = url[:url.find('#')]
         return url

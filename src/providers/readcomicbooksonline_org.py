@@ -14,8 +14,7 @@ class ReadComicBooksOnlineOrg(Provider, Std):
         return '-'.join(idx.split('/'))
 
     def get_main_content(self):
-        name = self.get_manga_name()
-        return self.http_get('{}/{}'.format(self.get_domain(), name))
+        return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:
         return self._get_name(r'\.(?:org|net)/(?:reader/)?([^/]+)')

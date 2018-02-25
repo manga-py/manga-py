@@ -1,9 +1,10 @@
 import html
 
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaHubRu(Provider):
+class MangaHubRu(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -14,8 +15,7 @@ class MangaHubRu(Provider):
         return '{}-{}'.format(*idx)
 
     def get_main_content(self):
-        url = '{}/{}'.format(self.get_domain(), self.get_manga_name())
-        return self.http_get(url)
+        return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:
         return self.re.search(r'\.ru/([^/]+)/?', self.get_url())
@@ -31,6 +31,9 @@ class MangaHubRu(Provider):
         result = self.json.loads(html.unescape(result.replace('\/', '/')))
         domain = self.get_domain()
         return [domain + i['src'] for i in result]
+
+    def get_cover(self):
+        return self._cover_from_content('.manga-section-image__img img')
 
 
 main = MangaHubRu

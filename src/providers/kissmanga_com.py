@@ -28,8 +28,7 @@ class KissMangaCom(Provider, Std):
         return '{}-{}-0'.format(name, '0' * len(name))
 
     def get_main_content(self):
-        name = self.get_manga_name()
-        return self.http_get('{}/Manga/{}'.format(self.get_domain(), name))
+        return self._get_content('{}/Manga/{}')
 
     def get_manga_name(self) -> str:
         return self._get_name('/Manga/([^/]+)')

@@ -14,7 +14,7 @@ class MangaInnNet(Provider, Std):
         return '{}-{}'.format(*self._idx_to_x2(idx))
 
     def get_main_content(self):
-        return self.http_get('{}/{}'.format(self.get_domain(), self.get_manga_name()))
+        return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:
         name = self.re.search(r'\.net/([^/]+)', self.get_url())

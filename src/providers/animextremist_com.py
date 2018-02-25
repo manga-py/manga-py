@@ -15,11 +15,8 @@ class AnimeXtremistCom(Provider, Std):
         idx = self.re.search(r'(.+?-\d+)', chapter[0])
         return idx.group(1) if idx else '0'
 
-    def get_manga_url(self):
-        return '{}{}{}/'.format(self.get_domain(), self.prefix, self.get_manga_name())
-
     def get_main_content(self):
-        return self.http_get(self.get_manga_url())
+        return self._get_content('{}%s{}/' % self.prefix)
 
     def get_manga_name(self) -> str:
         return self._get_name(r'{}([^/]+)'.format(self.prefix))
