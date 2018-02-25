@@ -19,7 +19,9 @@ class MyReadingMangaInfo(Provider, Std):
     def get_chapters(self):
         content = self.get_storage_content()
         v = [self.get_url()]  # current chapter
-        parser = self.document_fromstring(content, '.entry-content p > a')
+        parser = self.document_fromstring(content, '.pagination > a')
+        if not parser:
+            parser = self.document_fromstring(content, '.entry-content p > a')
         v += parser
         return v[::-1]
 
