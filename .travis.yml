@@ -22,6 +22,7 @@ before_script:
 script:
 - coverage run --source=src tests/pytest.py
 after_script:
+- coverage xml
 - ./cc-test-reporter after-build -t coverage.py .coverage --exit-code $TRAVIS_TEST_RESULT
 before_deploy:
 - cp helpers/.builder.py ./
