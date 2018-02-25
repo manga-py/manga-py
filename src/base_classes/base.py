@@ -12,9 +12,9 @@ class Base:
     _image_params = None
     _http_kwargs = None
     __http = None
-    self.quest = lambda: None
-    self.progress = lambda: None
-    self.log = lambda: None
+    quest = lambda: None
+    progress = lambda: None
+    log = lambda: None
 
     def __init__(self):
 
