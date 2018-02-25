@@ -13,6 +13,10 @@ class Base:
     _http_kwargs = None
     __http = None
 
+    # quest = lambda: None
+    # progress = lambda: None
+    # log = lambda: None
+
     def __init__(self):
 
         self._storage = {
@@ -35,9 +39,6 @@ class Base:
             # 'auto_crop': {'max_crop_size': 40, 'auto_crop_factor': 150},
         }
         self._http_kwargs = {}
-        self.quest = lambda: None
-        self.progress = lambda: None
-        self.log = lambda: None
 
     def get_storage_content(self):
         return self._storage.get('main_content', '')

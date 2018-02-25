@@ -11,6 +11,36 @@ from src.parser import Parser
 from src.meta import __version__, __repo_name__
 
 
+def _image_args(args_parser):
+    args_parser.add_argument('--force-png', action='store_const', required=False,
+                             help='Force conversation images to png format', const=True, default=False)
+    args_parser.add_argument('--force-jpg', action='store_const', required=False,
+                             help='Force conversation images to jpg format', const=True, default=False)
+
+    args_parser.add_argument('-xt', required=False, type=int, help='Manual image crop with top side', default=0)
+    args_parser.add_argument('-xr', required=False, type=int, help='Manual image crop with right side', default=0)
+    args_parser.add_argument('-xb', required=False, type=int, help='Manual image crop with bottom side', default=0)
+    args_parser.add_argument('-xl', required=False, type=int, help='Manual image crop with left side', default=0)
+    args_parser.add_argument('--crop-blank', action='store_const', required=False, help='Crop white lines on image',
+                             const=True, default=False)
+
+
+def _downloading_args(args_parser):
+    args_parser.add_argument('-s', '--skip-volumes', metavar='skip-volumes', type=int, required=False,
+                             help='Skip volumes (count)', default=0)
+    args_parser.add_argument('-c', '--max-', metavar='max-volumes', type=int, required=False,
+                             help='Maximum volumes for downloading 0=All (count)', default=0)
+    args_parser.add_argument('--user-agent', required=False, type=str, help='Don\'t work from protected sites',
+                             default=None)
+    args_parser.add_argument('--proxy', required=False, type=str, help='Http proxy', default=None)
+    args_parser.add_argument('--reverse-downloading', action='store_const', required=False,
+                             help='Reverse volumes downloading', const=True, default=False)
+    args_parser.add_argument('--rewrite-exists-archives', action='store_const', required=False, const=True,
+                             default=False)
+    args_parser.add_argument('-nm', '--no-multi-threads', action='store_const', required=False,
+                             help='Disallow multi-threads images downloading', const=True, default=False)
+
+
 def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
     args_parser = ArgumentParser()
 
@@ -23,34 +53,15 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
                              default=False, help='Verbose log')
     args_parser.add_argument('-np', '--no-progress', metavar='no-progress', action='store_const', required=False,
                              const=True, help='Don\'t how progress bar', default=False)
-    args_parser.add_argument('-s', '--skip-volumes', metavar='skip-volumes', type=int, required=False,
-                             help='Skip volumes (count)', default=0)
-    args_parser.add_argument('-c', '--max-', metavar='max-volumes', type=int, required=False,
-                             help='Maximum volumes for downloading 0=All (count)', default=0)
-    args_parser.add_argument('--user-agent', required=False, type=str, help='Don\'t work from protected sites',
-                             default=None)
-    args_parser.add_argument('--proxy', required=False, type=str, help='Http proxy', default=None)
-    args_parser.add_argument('--force-png', action='store_const', required=False,
-                             help='Force conversation images to png format', const=True, default=False)
-    args_parser.add_argument('--force-jpg', action='store_const', required=False,
-                             help='Force conversation images to jpg format', const=True, default=False)
-    args_parser.add_argument('--reverse-downloading', action='store_const', required=False,
-                             help='Reverse volumes downloading', const=True, default=False)
-    args_parser.add_argument('--rewrite-exists-archives', action='store_const', required=False, const=True,
-                             default=False)
-    args_parser.add_argument('-nm', '--no-multi-threads', action='store_const', required=False,
-                             help='Disallow multi-threads images downloading', const=True, default=False)
-    args_parser.add_argument('-xt', required=False, type=int, help='Manual image crop with top side', default=0)
-    args_parser.add_argument('-xr', required=False, type=int, help='Manual image crop with right side', default=0)
-    args_parser.add_argument('-xb', required=False, type=int, help='Manual image crop with bottom side', default=0)
-    args_parser.add_argument('-xl', required=False, type=int, help='Manual image crop with left side', default=0)
-    args_parser.add_argument('--crop-blank', action='store_const', required=False, help='Crop white lines on image',
-                             const=True, default=False)
     args_parser.add_argument('--cli', action='store_const', required=False, const=True, help='Use cli interface',
                              default=False)
     # future
     args_parser.add_argument('--server', action='store_const', required=False, const=True, help='Run web interface',
                              default=False)
+
+    _image_args(args_parser)
+    _downloading_args(args_parser)
+
     return args_parser
 
 

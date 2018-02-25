@@ -24,9 +24,12 @@ class AutoProxy:
             return False
         return proxies
 
-    def auto_proxy(self, checked_url=None):
+    def _change_checked_url(self, checked_url):
         if checked_url:
             self.checked_url = checked_url
+
+    def auto_proxy(self, checked_url=None):
+        self._change_checked_url(checked_url)
         url = 'https://www.us-proxy.org'
         items = document_fromstring(requests.get(url).text).cssselect('#proxylisttable tbody tr')
         for i in items:
