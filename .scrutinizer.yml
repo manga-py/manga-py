@@ -1,42 +1,42 @@
 checks:
-    python:
-        code_rating: true
-        duplicate_code: true
-    javascript: true
+  python:
+    code_rating: true
+    duplicate_code: true
+  javascript: true
 
 build:
-    nodes:
-        analysis:
-            project_setup:
-                override: true
-            tests:
-                before:
-                    - 'pip3 install coverage'
-                override:
-                    -
-                        command: 'coverage run --source=libs,tests tests/pytest.py'
-                        coverage:
-                            file: '.coverage'
-                            format: 'py-cc'
-                    - py-scrutinizer-run
-            environment:
-                python: 3.5.3
-                node: 6.0.0
-
+  nodes:
+    analysis:
+      project_setup:
+        override: true
+      tests:
+        before:
+          - 'pip3 install coverage'
+        override:
+          -
+            command: 'coverage run --source=libs,tests tests/pytest.py'
+            coverage:
+              file: '.coverage'
+              format: 'py-cc'
+          - py-scrutinizer-run
+      environment:
+        python: 3.5.3
+        node: 6.0.0
 
 filter:
-    excluded_paths:
-        - 'docs/'
-        - 'tests/'
-        - 'storage/'
-        - 'providers/'
-        - 'src/providers/*.py'
-        - 'src/providers/README.*'
-        - 'helpers/__future__/*.py'
-        - 'helpers/main/*.js'
-        - 'helpers/inmanga_com.py'
-        - 'helpers/unixmanga_nl.sh'
-        - "LICENSE"
-        - "README.*"
-        - "*.yml"
-        - "storage/"
+  paths: ['src/*']
+  excluded_paths:
+    - 'docs/'
+    - 'tests/'
+    - 'storage/'
+    - 'providers/'
+    - 'src/providers/*.py'
+    - 'src/providers/README.*'
+    - 'helpers/__future__/*.py'
+    - 'helpers/main/*.js'
+    - 'helpers/inmanga_com.py'
+    - 'helpers/unixmanga_nl.sh'
+    - "LICENSE"
+    - "README.*"
+    - "*.yml"
+    - "storage/"
