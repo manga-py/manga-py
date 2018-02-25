@@ -175,7 +175,7 @@ class TestCase(unittest.TestCase):
         name = '/addr/to/filename'
         self.assertEqual(
             name,
-            fs.remove_file_query_params(name + '?query=params').replace(r'\\', '/')  # windows os patch
+            fs.remove_file_query_params(name + '?query=params').replace('\\', '/')  # windows os patch
         )
 
 
