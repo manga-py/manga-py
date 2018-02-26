@@ -16,6 +16,7 @@ from .base_classes import (
     Abstract,
     Archive,
     Base,
+    Callbacks,
     ChapterHelper,  # TODO
     CloudFlareProtect,
     Static
@@ -23,7 +24,7 @@ from .base_classes import (
 from .meta import __version__
 
 
-class Provider(Base, Abstract, Static, metaclass=ABCMeta):
+class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
 
     _volumes_count = 0
     _archive = None

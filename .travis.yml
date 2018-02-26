@@ -10,11 +10,10 @@ python:
 cache: pip
 before_install:
 - sudo apt-get -y install nodejs
-- sudo apt-get -y install nodejs-legacy
 - sudo apt-get install python3-setuptools
-- sudo PATH="$PATH:/usr/local/bin" npm install -g less less-plugin-clean-css html-minifier uglify-js@github:mishoo/UglifyJS2#harmony
 - python3 -V
 install:
+- npm install less less-plugin-clean-css html-minifier uglify-js@github:mishoo/UglifyJS2#harmony
 - pip3 install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller PyQt5
 - pip3 install -r requirements.txt
 before_script:

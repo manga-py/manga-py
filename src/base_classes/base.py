@@ -1,5 +1,4 @@
 import re
-from typing import Callable
 from lxml.html import HtmlElement
 
 from src.http import Http
@@ -49,21 +48,6 @@ class Base:
 
         return self._storage['domain_uri']
 
-    def get_current_chapter(self):
-        return self._storage['chapters'][self._storage['current_chapter']]
-
-    def get_current_file(self):
-        return self._storage['files'][self._storage['current_file']]
-
-    def set_quest_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
-        setattr(self, 'quest', callback)
-
-    def set_progress_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
-        setattr(self, 'progress', callback)
-
-    def set_log_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
-        setattr(self, 'log', callback)
-
     def image_auto_crop(self, src_path, dest_path=None):
         image = Image(src_path=src_path)
         if isinstance(self._image_params['auto_crop'], dict):
@@ -101,11 +85,6 @@ class Base:
     def http_post(self, url: str, headers: dict = None, cookies: dict = None, data=()):
         return self.http().post(url=url, headers=headers, cookies=cookies, data=data)
 
-    def _call_files_progress_callback(self):
-        if callable(self.progress):
-            _max, _current = len(self._storage['files']), self._storage['current_file']
-            self.progress(_max, _current, _current < 1)
-
     def _get_user_agent(self):
         ua_storage = self._storage.get('user_agent', None)
         ua_params = self._params.get('user_agent', None)
@@ -132,12 +111,3 @@ class Base:
                 url = self.__normalize_chapters(n, i)
                 items.append(url)
         return items
-
-    def quest(self, *args, **kwargs):
-        pass
-
-    def progress(self, *args, **kwargs):
-        pass
-
-    def log(self, *args, **kwargs):
-        pass
