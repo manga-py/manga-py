@@ -1,4 +1,7 @@
 from src.providers import providers_list
+from src.fs import get_current_path
+from src.meta import __repo_name__
+from json import dumps
 
 start_items = [
     ['http://bato.to', 0, ' - Batoto will be closing down permanently (Jan 18, 2018)'],
@@ -31,20 +34,51 @@ start_items = [
     ['http://zip.raw.im', 0, ' - Will not be implemented'],
 ]
 
-_list = [providers_list[n] for n in providers_list.keys()]
-items = []
-for i in _list:
-    items += i
-_items = [n.replace(r'\.', '.') for n in items]
-_list = {}
-for i in _items:
-    _ = i[:i.find('/')].strip('()')
-    _list[_] = _
-_unique = [i[0] for i in start_items]
-items = []
-for i in _list:
-    if i not in _unique:
-        items.append([i, 1, ''])
-items += start_items
-items = sorted(items, key=lambda l: l[0])
-print(items)  # Ohh...
+
+_start_items = [i[0] for i in start_items]
+
+
+def merge(*providers):
+    for p in providers:
+        yield from providers_list[p]
+
+
+def clean(providers):
+    _list = {}
+    for i in providers:
+        _ = i[:i.find('/')].strip('()')
+        _list['http://' + _.replace(r'\.', '.')] = ''
+    return list(_list.keys())
+
+
+def aggregate(providers):
+    _list = []
+    for i in providers:
+        if i not in _start_items:
+            _list.append([i, 1, ''])
+    return _list
+
+
+def prepare_html(html):
+    with open(html, 'r') as r:
+        content = r.read()
+    with open(html, 'w') as w:
+        w.write(content.replace('__repo_name__', __repo_name__))
+
+
+def build_providers():
+    items = aggregate(clean(merge(*providers_list))) + start_items
+    items = sorted(items, key=lambda l: l[0])
+    return dumps(items)
+
+
+def main():
+    path = get_current_path() + '/helpers/gh_pages_content/'
+    with open(path + 'providers.json', 'w') as w:
+        w.write(build_providers())
+    prepare_html(path + 'index.html')
+    prepare_html(path + 'improvement.html')
+
+
+# print(len(build_providers()))
+

@@ -1,0 +1,349 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  background: #fff;
+  font-size: 16px;
+  font-family: 'Roboto', 'Noto', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  display: block;
+  &.panel {
+    border-bottom: 1px solid #eaecef;
+    padding: .5rem .6rem;
+    max-width: 31.875rem;
+  }
+}
+.header h2.h2-panel {
+  font-size: 1.9rem;
+  max-width: 100%;
+  padding: .5rem .6rem;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 2.6rem;
+  margin-bottom: .2rem;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 2.2rem;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+h4 {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+h5 {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+h6 {
+  font-size: 1.2rem;
+  color: #776;
+}
+
+a[href] {
+  color: #7bc7ff;
+  font-size: 1.1rem;
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+ul.links {
+  & > li {
+    line-height: 3rem;
+    display: inline-flex;
+    margin-bottom: .5rem;
+    margin-right: .5rem;
+  }
+  a {
+    line-height: 1.25;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid #ccc;
+    padding: .5rem 1rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    transition: all .2s ease-in-out;
+    color: #292b2c;
+    background-color: #fff;
+  }
+}
+
+ul, ul > li {
+  list-style: none;
+}
+
+ul {
+  padding: 1rem 1rem;
+  background: #f6f8fa;
+}
+
+hr {
+  padding-bottom: 0.3em;
+  font-size: 1.5em;
+  border: 0;
+  border-bottom: 1px solid #eaecef;
+  margin: 0;
+}
+
+.questions {
+  font-size: 1.4rem;
+  li {
+    padding-left: 1rem;
+    & + li {
+      padding-top: 1rem;
+    }
+  }
+  .quest {
+    font-weight: bold;
+    padding-bottom: .3rem;
+  }
+}
+
+ul.list li {
+  & + li {
+    padding-top: .5rem;
+  }
+  a {
+    color: #63a7d2;
+    line-height: 1.7rem;
+  }
+  @blue: rgba(66, 145, 219, 0.53);
+  @active-blue: rgba(186, 214, 241, 0.53);
+  label {
+    position: relative;
+    cursor: pointer;
+    padding-left: 1em;
+  }
+  input[type=checkbox] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    border: 0 none;
+    background: transparent;
+    margin: 0;
+    margin-top: 5px;
+    & + label {
+      background: #fff;
+      display: inline-block;
+      width: 1rem;
+      height: 1.25rem;
+      top: -.01rem;
+      position: relative;
+      border-radius: 3px;
+      border: 2px solid @active-blue;
+      //transition: border .3s ease;
+      font-size: 1rem;
+      box-sizing: border-box;
+      margin-right: .4rem;
+    }
+    &:checked {
+      & + label {
+        background-image: data-uri('ok_flag.svg');
+        background-repeat: no-repeat;
+        background-position: center left 2px;
+        background-size: 75%;
+        border-color: @blue;
+      }
+    }
+  }
+}
+
+.header {
+  position: relative;
+}
+
+.download-links {
+  position: absolute;
+  top: .5rem;
+  right: 1rem;
+  a {
+    background: data-uri('sprite_download.png');
+    background-position-y: bottom;
+    display: inline-block;
+    width: 90px;
+    height: 70px;
+    text-indent: -5000px;
+    overflow: hidden;
+    opacity: .9;
+    & + a {
+      background-position-x: right;
+    }
+    &[active] {
+      opacity: 1;
+    }
+  }
+}
+
+.container {
+  width: 100%;
+  margin: auto;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (max-width: 767px) {
+  .header h1.panel,
+  .header h2 {
+    max-width: 20rem;
+    max-width: calc(100% ~'-' 185px);
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .header h1.panel {
+    padding-top: 3rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .header h1.panel {
+    max-width: 16rem;
+    max-width: calc(100% ~'-' 165px);
+  }
+
+  .download-links {
+    right: .1rem;
+    transform: scale(.9);
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    width: 550px;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .container {
+    width: 750px;
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  .container {
+    width: 750px;
+  }
+}
+
+// touch devices
+@media (pointer: coarse) {
+  ul.list li {
+    a {
+      font-size: 1.4rem;
+    }
+    & + li {
+      padding-top: 1rem;
+    }
+  }
+}
+
+h4[data-symbol] {
+  margin-left: 1.3rem;
+  position: relative;
+  &:after {
+    font-weight: 500;
+    font-size: 1.2rem;
+    opacity: .9;
+    font-style: normal;
+    content: attr(data-symbol) ")";
+    position: absolute;
+    left: -1rem;
+    top: 1.05rem;
+  }
+}
+
+.h-ul {
+  padding: 1rem 1rem 0;
+  &.h-ul-two {
+    padding: 1rem 1rem 0 2rem;
+  }
+}
+
+.content-inner-wrapper {
+    padding-left: .4rem;
+}
+
+span.subcontent {
+  font-size: 1rem;
+  font-weight: normal;
+  color: #565656;
+}

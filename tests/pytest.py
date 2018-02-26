@@ -304,6 +304,12 @@ class TestHttpClasses(unittest.TestCase):
         self.assertEqual(self.referer, test_url)
 
 
+class TestGhPages(unittest.TestCase):
+    def test_make(self):
+        from helpers.gh_pages import main
+        main()
+
+
 if __name__ == '__main__':
     fs.make_dirs(root_path + '/temp')
     unittest.main()

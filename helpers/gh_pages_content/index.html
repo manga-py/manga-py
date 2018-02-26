@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="keywords" content="manga,manga downloader,download manga,скачать манга,скачать мангу,манга">
+    <link href="./style.css" media="all" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&amp;subset=cyrillic-ext,latin-ext" rel="stylesheet">
+    <title>Universal manga downloader</title>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="./favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="./favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="./favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1 class="panel">Manga downloader</h1>
+        <div id="download-links" class="download-links">
+            <a class="zip" href="https://github.com/__repo_name__/zipball/master">Download .zip</a>
+            <a class="tar" href="https://github.com/__repo_name__/tarball/master">Download .tar</a>
+        </div>
+    </div>
+    <ul class="links">
+        <li>
+            <a href="https://github.com/__repo_name__/blob/master/README.md#manga-dl">Documentation</a>
+        </li>
+        <li>
+            <a href="./improvement.html">Plans for improvement</a>
+        </li>
+    </ul>
+    <hr>
+    <div class="resources-list">
+        <a name="resources-list"></a>
+        <script>
+            ((d) => {
+                d.addEventListener('DOMContentLoaded', () => {
+    // zip.raw.im
+    // mg-zip.com
+    // s-manga.net
+                    // [ ['url', 'ready_1_0', 'comment'], ]
+
+                    fetch('https://api.github.com/repos/__repo_name__/releases/latest')
+                        .then(response => response.json())
+                        .then((list) => {
+                            let html = '', m = 0, done = 0;
+                            for(let i in list) {
+                                if (!list.hasOwnProperty(i)) continue;
+                                m+=1;
+                                html += '<li><input id="I' + m + '" type="checkbox" ' +
+                                    (list[i][1] ? 'checked="" ' : '') +
+                                    'disabled=""><label for="I' + m + '"></label><span>' +
+                                    '<a target="_blank" href="' +
+                                    list[i][0] + '">' +
+                                    list[i][0] + '</a> ' +
+                                    list[i][2] + '</span></li>';
+                                done += parseInt(list[i][1]);
+                            }
+
+                            d.querySelector('ul.list').innerHTML = html + ('<!-- ' + list.length + ' ( ' + done + ' ) -->');
+
+                            fetch('https://api.github.com/repos/__repo_name__/releases/latest')
+                                .then(response => response.json())
+                                .then((response) => {
+                                    const links = d.querySelector('#download-links');
+                                    const tar = links.querySelector('.tar');
+                                    const zip = links.querySelector('.zip');
+
+                                    tar.setAttribute('href', response.tarball_url);
+                                    tar.setAttribute('active', 'true');
+                                    zip.setAttribute('href', response.zipball_url);
+                                    zip.setAttribute('active', 'true');
+                                });
+                        });
+                });
+            })(document);
+        </script>
+        <ul class="list"></ul>
+    </div>
+    <div class="questions">
+        <h2 class="panel">Questions</h2>
+        <ul>
+            <li>
+                <div class="quest">How to offer more resources?</div>
+                <div class="answer">
+                    Very simple. Write to me at sttv-pc@mail.ru or make a pull-request on
+                    <a target="_blank" href="https://github.com/__repo_name__/pulls">github.com</a>
+                </div>
+            </li>
+            <li>
+                <div class="quest">How to help?</div>
+                <div class="answer">
+                    You can also make a
+                    <a target="_blank" href="https://github.com/__repo_name__/pulls">pull-request</a>,
+                    or create an
+                    <a target="_blank" href="https://github.com/__repo_name__/issues">issue</a>.<br>
+                    You can also crawl more
+                    sites that have a manga online reading available.
+                </div>
+            </li>
+        </ul>
+    </div>
+<style>
+    i.d {color: #4f0800}i.d:after{content: ' - Debug mode'}
+    i.td {color: #4f0800}i.d:after{content: ' - Need test. Debug mode'}
+    i.v0 {color: #005}i.v0:after{content: ' - Version 0.x only'}
+</style>
+</div>
+</body>
+</html>
