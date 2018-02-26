@@ -1,5 +1,6 @@
 import tempfile
 from os import path, name as os_name, getpid, unlink as os_unlink, makedirs, stat
+import sys
 from pathlib import Path
 from shutil import rmtree, move
 
@@ -82,3 +83,14 @@ def rename(_from, _to):
     if is_file(_from) or is_dir(_from):
         is_dir(dirname(_to)) or makedirs(dirname(_to))
         move(_from, _to)
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = path.abspath(".")
+
+    return path.join(base_path, relative_path)

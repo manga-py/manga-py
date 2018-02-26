@@ -169,7 +169,7 @@ providers_list = {
     'mangago_me': [
         r'mangago\.me/read-manga/.',
     ],
-    'mangahere_co': [
+    'mangahere_cc': [
         r'mangahere\.co/manga/.',
         r'mangahere\.cc/manga/.',
     ],
@@ -391,23 +391,6 @@ providers_list = {
         r'zip-read\.com/.',
     ],
 }
-
-"""
-
-l = [providers_list[n] for n in providers_list.keys()]
-items = []
-for i in l:
-    items += i
-p = [n.replace(r'\.', '.') for n in items]
-x = {}
-for i in p:
-    l = i[:i.find('/')].strip('()')
-    x[l] = l
-print(x)
-print(len(x))
-exit()
-
-"""
 
 
 def __check_provider(provider, url):
