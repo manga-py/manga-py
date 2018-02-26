@@ -13,7 +13,7 @@ before_install:
 - sudo apt-get install python3-setuptools
 - python3 -V
 install:
-- npm install -g less less-plugin-clean-css node-less html-minifier uglify-js@github:mishoo/UglifyJS2#harmony
+- npm install -g less less-plugin-clean-css html-minifier uglify-js@github:mishoo/UglifyJS2#harmony
 - pip3 install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller PyQt5
 - pip3 install -r requirements.txt
 before_script:
