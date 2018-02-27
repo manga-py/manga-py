@@ -55,7 +55,7 @@ providers_list = {
         r'gomanga\.co/reader/.',
         r'jaiminisbox\.com/reader/.',
         r'kobato\.hologfx\.com/reader/.',
-        r'atelierdunoir\.org/reader/.'
+        r'atelierdunoir\.org/reader/.',
         r'seinagi\.org/reader/.',
     ],
     'goodmanga_net': [
@@ -280,7 +280,7 @@ providers_list = {
         r'nhentai\.net/g/.',
     ],
     'nightow_net': [
-        r'nightow\.net/online/\?manga=.'
+        r'nightow\.net/online/\?manga=.',
     ],
     'ninemanga_com': [
         r'ninemanga\.com/(manga|chapter).',
@@ -330,6 +330,9 @@ providers_list = {
     ],
     'ravens_scans_com': [
         r'ravens-scans\.com(/lector)?/(serie/|read/).',
+    ],
+    'rawdevart_com': [
+        r'rawdevart\.com/manga/.',
     ],
     'read_egscans_com': [
         r'read.egscans.com/.',
