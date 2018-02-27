@@ -17,6 +17,9 @@ providers_list = {
     'comicextra_com': [
         r'comicextra\.com/.',
     ],
+    'comic_webnewtype_com': [
+        r'comic\.webnewtype\.com/contents/.',
+    ],
     'comico_jp': [
         r'comico\.jp/(detail|articleList).+titleNo.',
     ],

@@ -54,7 +54,7 @@
     // s-manga.net
                     // [ ['url', 'ready_1_0', 'comment'], ]
 
-                    fetch('/providers.json')
+                    fetch('./providers.json')
                         .then(response => response.json())
                         .then((list) => {
                             let html = '', m = 0, done = 0;
