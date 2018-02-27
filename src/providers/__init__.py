@@ -300,6 +300,12 @@ providers_list = {
     'otscans_com': [
         r'otscans\.com/foolslide/(series|read)/.',
     ],
+    'pecintakomik_com_manga': [
+        r'pecintakomik\.com/manga/.',
+    ],
+    'pecintakomik_com': [
+        r'pecintakomik\.com/.',
+    ],
     'puzzmos_com': [
         r'puzzmos\.com/manga/.',
     ],
