@@ -18,8 +18,7 @@ class NightowNet(Provider, Std):
 
     def get_chapter_index(self) -> str:
         ch = unquote_plus(self.get_current_chapter())
-        re = self.re.compile(r'chapter=(?:.+?)\+(\d+(?:\.\d+)?)')
-        idx = re.search(ch)
+        idx = self.re.search(r'chapter=(?:.+?)\+(\d+(?:\.\d+)?)', ch)
         if idx:
             return '-'.join(idx.group(1).split('.'))
         return self.re.search('chapter=(.+?)(?:&.+)?$', ch).group(1)

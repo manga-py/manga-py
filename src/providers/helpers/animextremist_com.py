@@ -14,21 +14,19 @@ class AnimeXtremistCom:
         return item[0] + item[1]
 
     @staticmethod
-    def __sort(item, re, selector):
-        _re = re(selector, item)
+    def __sort(item, selector):
+        _re = selector.search(item)
         if _re:
             return int(_re.group(1))
         return 0
 
     def sort_items(self, items):
-        re = self.provider.re.search
         r = self.provider.re.compile(r'.+?-(\d+)')
-        return sorted(items, key=lambda i: self.__sort(i[0], re, r))
+        return sorted(items, key=lambda i: self.__sort(i[0], r))
 
     def sort_images(self, items):
-        re = self.provider.re.search
         r = self.provider.re.compile(r'.+/.+-(\d+)[^/]*\.html')
-        return sorted(items, key=lambda i: self.__sort(i, re, r))
+        return sorted(items, key=lambda i: self.__sort(i, r))
 
     def _chapters(self, url=None):
         a = 'li + li > a'

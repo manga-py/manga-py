@@ -10,7 +10,7 @@ class ReadComicBooksOnlineOrg(Provider, Std):
 
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'/reader/[^/]+_(\d+(?:/\d+)?)')
-        idx = self.re.search(re, self.get_current_chapter()).groups()
+        idx = re.search(self.get_current_chapter()).groups()
         return '-'.join(idx.split('/'))
 
     def get_main_content(self):

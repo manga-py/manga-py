@@ -12,7 +12,7 @@ class MerakiScansCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         re = self.re.compile(self._name_re + '/([^/]+)')
-        idx = self.re.search(re, self.get_current_chapter()).group(2)
+        idx = re.search(self.get_current_chapter()).group(2)
         return '-'.join(idx.split('.'))
 
     def _home_url(self):
@@ -30,7 +30,7 @@ class MerakiScansCom(Provider, Std):
         if items and len(items):
             href = items[0].get('href')
             re = self.re.compile(r'/chapter-list/(\d[^/]*)')
-            return int(self.re.search(re, href).group(1))
+            return int(re.search(href).group(1))
         return 1
 
     def get_chapters(self):

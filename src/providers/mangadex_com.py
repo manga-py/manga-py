@@ -13,8 +13,7 @@ class MangaDexCom(Provider, Std):
     def get_chapter_index(self) -> str:
         ch = self.get_current_chapter()[0]
         re = self.re.compile(r'[vV]ol.+?(\d+).+?[cC]h.+?(\d+(?:.\d+)?)')
-        idx = self.re.search(re, ch)
-        return '{}-{}'.format(*self._idx_to_x2(idx.groups()))
+        return '{}-{}'.format(*self._idx_to_x2(re.search(ch).groups()))
 
     def get_main_content(self):
         url = self.get_url()
@@ -73,7 +72,7 @@ class MangaDexCom(Provider, Std):
         count = 0
         if pages:
             re = self.re.compile(r'.+/(\d+)')
-            count = self.re.search(re, pages[-1].get('href')).group(1)
+            count = re.search(pages[-1].get('href')).group(1)
         return int(count / self._links_on_page)
 
 

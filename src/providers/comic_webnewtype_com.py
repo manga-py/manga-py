@@ -9,7 +9,7 @@ class ComicWebNewTypeCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         re = self.re.compile('/contents/[^/]+/([^/]+)')
-        return self.re.search(re, self.get_current_chapter()).group(1)
+        return re.search(self.get_current_chapter()).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/contents/{}/')

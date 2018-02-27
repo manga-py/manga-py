@@ -14,7 +14,7 @@ class MangaForAllCom(Provider, Std):
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'-(\d+(?:\.\d+)?)-')
         ch = self.get_current_chapter()
-        return '-'.join(self.re.search(re, ch).group(1).split('.'))
+        return '-'.join(re.search(ch).group(1).split('.'))
 
     def get_main_content(self):
         return self._get_content('{}/m/{}')

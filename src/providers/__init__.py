@@ -381,6 +381,9 @@ providers_list = {
     'triplesevenscans_com': [
         r'triplesevenscans\.com/reader/(series|read)/.',
     ],
+    'truyen_vnsharing_site': [
+        r'truyen\.vnsharing\.site/index/read/.',
+    ],
     'tumangaonline_com': [
         r'tumangaonline\.com/.',
     ],

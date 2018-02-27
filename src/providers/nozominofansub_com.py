@@ -14,7 +14,7 @@ class NozomiNoFansubCom(Provider, Std):  # MangaZukiCo
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'/manga/[^/]+/.+?(\d+(?:[^\d/]\d+)?)')
         ch = self.get_current_chapter()
-        return self.re.search(re, ch).group(1)
+        return re.search(ch).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/public/manga/{}')
