@@ -279,6 +279,9 @@ providers_list = {
     'nhentai_net': [
         r'nhentai\.net/g/.',
     ],
+    'nightow_net': [
+        r'nightow\.net/online/\?manga=.'
+    ],
     'ninemanga_com': [
         r'ninemanga\.com/(manga|chapter).',
     ],
