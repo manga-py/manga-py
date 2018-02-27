@@ -19,7 +19,7 @@ class MangaZukiCo(Provider, Std):  # NozomiNoFansubCom
     def get_manga_name(self) -> str:
         return self._get_name('/manga/([^/]+)')
 
-    def get_chapters(self):
+    def get_chapters(self):  # TODO
         return self._elements('.chapters .chapter-title-rtl > a')
 
     def get_files(self):
