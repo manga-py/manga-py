@@ -326,6 +326,7 @@ providers_list = {
         r'lector\.ytnofan\.com/(series|read)/.',
         r'reader\.jokerfansub\.com/(series|read)/.',
         r'lector\.patyscans\.com/(series|read)/.',
+        r'truecolorsscans\.miocio\.org/(series|read)/.',
     ],
     'ravens_scans_com': [
         r'ravens-scans\.com(/lector)?/(serie/|read/).',
