@@ -2,6 +2,7 @@ from src.providers import providers_list
 from src.fs import get_current_path
 from src.meta import __repo_name__
 from json import dumps
+from datetime import datetime
 
 start_items = [
     ['http://bato.to', 0, ' - Batoto will be closing down permanently (Jan 18, 2018)'],
@@ -63,7 +64,12 @@ def prepare_html(html):
     with open(html, 'r') as r:
         content = r.read()
     with open(html, 'w') as w:
-        w.write(content.replace('__repo_name__', __repo_name__))
+        content = content.replace('__repo_name__', __repo_name__)
+        today = datetime.today()
+        content = content.replace('__last_update__', '{}/{:0>2}/{:0>2} {:0>2}-{:0>2}-{:0>2}'.format(
+            today.year, today.month, today.day, today.hour, today.minute, today.second
+        ))
+        w.write(content)
 
 
 def build_providers():
