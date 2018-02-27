@@ -1,8 +1,11 @@
 from src.provider import Provider
+from .helpers.std import Std
+from .helpers.e_hentai_org import EHentaiOrg
 
 
-class InMangaCom(Provider):
+class InMangaCom(Provider, Std):
     __local_storage = None
+    pb = None
 
     def get_archive_name(self) -> str:
         return 'vol_{:0>3}'.format(self.get_chapter_index())
@@ -22,11 +25,11 @@ class InMangaCom(Provider):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        test = self.re.search(r'com/ver/manga/[^/]+/\d+/[^/]+', url)
+        test = self.re.search(r'/ver/manga/[^/]+/\d+/[^/]+', url)
         if test:
             content = self.html_fromstring(url, '.chapterControlsContainer label.blue a.blue', 0)
             url = self.get_domain() + content.get('href')
-        test = self.re.search('com/ver/manga/([^/]+)/([^/]+)', url)
+        test = self.re.search('/ver/manga/([^/]+)/([^/]+)', url)
         groups = test.groups()
         self.__local_storage['manga_name'] = groups[0]
         self.__local_storage['uri_hex'] = groups[1]
@@ -36,6 +39,8 @@ class InMangaCom(Provider):
         return self.get_storage_content()['result'][::-1]
 
     def prepare_cookies(self):
+        e_h = EHentaiOrg(self)
+        self.pb = e_h.parse_background
         self.__local_storage = {}
 
     def get_files(self):
@@ -50,6 +55,13 @@ class InMangaCom(Provider):
         )
         images = self.html_fromstring(url, '.PagesContainer img.ImageContainer')
         return [files_url.format(domain, i.get('id')) for i in images]
+
+    def get_cover(self):
+        idx = self.__local_storage['uri_hex']
+        return '{}/manga/getMangaImage?identification={}'.format(
+            self.get_domain(),
+            idx
+        )
 
 
 main = InMangaCom

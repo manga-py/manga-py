@@ -259,6 +259,7 @@ providers_list = {
     ],
     'mangazuki_co': [
         r'mangazuki\.co/manga/.',
+        r'mangaforest\.com/manga/.',
     ],
     'merakiscans_com': [
         r'merakiscans\.com/.',
