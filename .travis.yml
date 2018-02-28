@@ -20,7 +20,7 @@ before_script:
 - chmod +x ./cc-test-reporter
 - ./cc-test-reporter before-build
 script:
-- coverage run --source=src tests/pytest.py
+- coverage run --omit=src/providers/*.py --source=src tests/pytest.py
 after_script:
 - coverage xml
 - ./cc-test-reporter after-build -t coverage.py --exit-code $TRAVIS_TEST_RESULT || true

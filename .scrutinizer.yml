@@ -14,7 +14,7 @@ build:
           - 'pip3 install coverage'
         override:
           -
-            command: 'coverage run --source=src tests/pytest.py'
+            command: 'coverage run --omit=src/providers/*.py --source=src tests/pytest.py'
             coverage:
               file: '.coverage'
               format: 'py-cc'
@@ -22,7 +22,3 @@ build:
       environment:
         python: 3.5.3
         node: 6.0.0
-
-filter:
-  excluded_paths:
-    - src/providers/
