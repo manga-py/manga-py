@@ -9,7 +9,7 @@ class MangaOnlineComBr(Provider, Std):
 
     def get_chapter_index(self) -> str:
         selector = r'\.br/[^/]+/[^/]+/([^/]+)'
-        return self.re.search(selector, self.get_current_chapter()).group(1)
+        return self.re.search(selector, self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/{}/')
@@ -31,8 +31,8 @@ class MangaOnlineComBr(Provider, Std):
         img_selector = '#imgPadraoVisualizacao img'
         url = '{}/capitulo.php?act=getImg&anime={}&capitulo={}&src={}&view=1'
         params = (
-            self.get_domain(),
-            self.get_manga_name(),
+            self.domain,
+            self.manga_name,
             self.get_chapter_index()
         )
         parser = self.html_fromstring(url.format(*params, 1))

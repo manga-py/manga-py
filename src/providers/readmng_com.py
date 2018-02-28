@@ -2,30 +2,39 @@ from src.provider import Provider
 from .helpers.std import Std
 
 
-class _Template(Provider, Std):
+class ReadMngCom(Provider, Std):
 
     def get_archive_name(self) -> str:
-        pass
+        idx = self.get_chapter_index().split('-')
+        fmt = 'vol_{:0>3}'
+        if len(idx) > 1:
+            fmt += '-{}'
+        return fmt.format(*idx)
 
     def get_chapter_index(self) -> str:
-        pass
+        ch = self.chapter
+        re = r'\.com/[^/]+/(\d+(?:\.\d+)?)/'
+        idx = self.re.search(re, ch)
+        if not idx:
+            return self.re.search(r'\.com/[^/]+/([^/]+)', ch).group(1)
+        return '-'.join(idx.group(1).split('.'))
 
     def get_main_content(self):
-        pass
+        return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:
-        return ''
+        return self._get_name(r'\.com/([^/]+)')
 
     def get_chapters(self):
-        # return self._elements('a.chapter')
-        return []
+        return self._elements('.chp_lst li > a')
 
     def get_files(self):
-        return []
+        url = self.chapter + '/all-pages'
+        parser = self.html_fromstring(url)
+        return self._images_helper(parser, '.content-list img.img-responsive')
 
     def get_cover(self) -> str:
-        # return self._cover_from_content('.cover img')
-        pass
+        return self._cover_from_content('.panel-body img.img-responsive')
 
 
-main = _Template
+main = ReadMngCom

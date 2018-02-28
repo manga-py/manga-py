@@ -5,7 +5,7 @@ from .helpers.std import Std
 class MangakuWebId(Provider, Std):
 
     def get_archive_name(self) -> str:
-        ch = self.get_current_chapter()
+        ch = self.chapter
         return 'vol_{:0>3}-{}'.format(
             self._chapter_index(),
             self.re.search(':[^/]+/([^/]+)', ch).group(1)
@@ -24,7 +24,7 @@ class MangakuWebId(Provider, Std):
         return self._elements('div[style] a[target]')
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         items = self._elements('.entry .separator > a > img', content)
         return [i.get('src') for i in items]
 

@@ -45,6 +45,9 @@ providers_list = {
     'e_hentai_org': [
         r'e-hentai\.org/g/\d',
     ],
+    'eight_muses_com': [
+        r'8muses\.com/comics/album/.'
+    ],
     'funmanga_com': [
         r'funmanga\.com/.',
     ],
@@ -368,6 +371,9 @@ providers_list = {
     ],
     'readmanga_eu': [
         r'readmanga\.eu/manga/\d+/.',
+    ],
+    'readmng_com': [
+        r'readmng\.com/.'
     ],
     'readms_net': [
         r'readms\.net/(r|manga)/.',

@@ -12,7 +12,7 @@ class Comico(Provider):
     def get_main_content(self):
         title_no = self.re.search(r'\.jp/.+titleNo=(\d+)', self.get_url())
         if title_no:
-            content = self.http_post('{}/api/getArticleList.nhn'.format(self.get_domain()), data={
+            content = self.http_post('{}/api/getArticleList.nhn'.format(self.domain), data={
                 'titleNo': title_no.group(1)
             })
             try:
@@ -27,12 +27,12 @@ class Comico(Provider):
 
     def get_chapters(self):
         # TODO: see i['freeFlg'] Y = true, W = false #19
-        items = [i['articleDetailUrl'] for i in self.get_storage_content() if i['freeFlg'] == 'Y']
+        items = [i['articleDetailUrl'] for i in self.content if i['freeFlg'] == 'Y']
         self.log('Free chapters count: %d' % len(items))
         return items[::-1]
 
     def get_files(self):
-        items = self.html_fromstring(self.get_current_chapter(), '.comic-image._comicImage > img.comic-image__image')
+        items = self.html_fromstring(self.chapter, '.comic-image._comicImage > img.comic-image__image')
         return [i.get('src') for i in items]
 
 

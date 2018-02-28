@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaClubRu(Provider):
+class MangaClubRu(Provider, Std):
     local_storage = None
 
     def get_archive_name(self) -> str:
@@ -15,7 +16,7 @@ class MangaClubRu(Provider):
     def get_main_content(self):
         if not self.local_storage:
             self.get_manga_name()
-        return self.http_get('{}/{}.html'.format(self.get_domain(), self.local_storage[0]))
+        return self.http_get('{}/{}.html'.format(self.domain, self.local_storage[0]))
 
     def get_manga_name(self) -> str:
         selector = r'\.ru(?:/manga/view)?/(?:(\d+-.+)/(.+)\.html)'
@@ -25,10 +26,10 @@ class MangaClubRu(Provider):
 
     def get_chapters(self):
         selector = '.manga-ch-list-item > a[href^="http"]'
-        return self.document_fromstring(self.get_storage_content(), selector)
+        return self.document_fromstring(self.content, selector)
 
     def get_files(self):
-        result = self.html_fromstring(self.get_current_chapter(), '.manga-lines-page a.manga-lines')
+        result = self.html_fromstring(self.chapter, '.manga-lines-page a.manga-lines')
         return [i.get('data-i') for i in result]
 
 

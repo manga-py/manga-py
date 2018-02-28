@@ -12,12 +12,11 @@ class MerakiScansCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         re = self.re.compile(self._name_re + '/([^/]+)')
-        idx = re.search(self.get_current_chapter()).group(2)
+        idx = re.search(self.chapter).group(2)
         return '-'.join(idx.split('.'))
 
     def _home_url(self):
-        name = self.get_manga_name()
-        return self._content_str.format(self.get_domain(), name)
+        return self._content_str.format(self.domain, self.manga_name)
 
     def get_main_content(self):
         return self.http_get(self._home_url())
@@ -44,7 +43,7 @@ class MerakiScansCom(Provider, Std):
         return items
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         return self._images_helper(content, '#longWrap img')
 
     def get_cover(self) -> str:

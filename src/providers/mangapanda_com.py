@@ -9,7 +9,7 @@ class MangaPandaCom(Provider, Std):
         return 'vol_{:0>3}'.format(idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'\.com/[^/]+/([^/]+)', self.get_current_chapter())
+        idx = self.re.search(r'\.com/[^/]+/([^/]+)', self.chapter)
         return idx.group(1)
 
     def get_main_content(self):
@@ -23,7 +23,7 @@ class MangaPandaCom(Provider, Std):
 
     def get_files(self):
         img_selector = '#imgholder img'
-        url = self.http().normalize_uri(self.get_current_chapter())
+        url = self.http().normalize_uri(self.chapter)
 
         parser = self.html_fromstring(url, '#container', 0)
         count_pages = self._first_select_options(parser, '#selectpage')

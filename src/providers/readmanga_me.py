@@ -5,11 +5,11 @@ from .helpers.std import Std
 class ReadmangaMe(Provider, Std):
 
     def get_archive_name(self):
-        name = self.re.search('/.+/([^/]+/[^/]+)/?', self.get_current_chapter())
+        name = self.re.search('/.+/([^/]+/[^/]+)/?', self.chapter)
         return name.group(1).replace('/', '-')
 
     def get_chapter_index(self):
-        name = self.re.search('/.+/(?:vol)?([^/]+/[^/]+)/?', self.get_current_chapter())
+        name = self.re.search('/.+/(?:vol)?([^/]+/[^/]+)/?', self.chapter)
         return name.group(1).replace('/', '-')
 
     def get_main_content(self):
@@ -22,7 +22,7 @@ class ReadmangaMe(Provider, Std):
         return self._elements('div.chapters-link tr > td > a')
 
     def get_files(self):
-        _uri = self.http().normalize_uri(self.get_current_chapter())
+        _uri = self.http().normalize_uri(self.chapter)
         content = self.http_get(_uri)
         result = self.re.search(r'rm_h\.init.+?(\[\[.+\]\])', content, self.re.M)
         if not result:

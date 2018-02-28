@@ -10,7 +10,7 @@ class ReadComicBooksOnlineOrg(Provider, Std):
 
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'/reader/[^/]+_(\d+(?:/\d+)?)')
-        idx = re.search(self.get_current_chapter()).groups()
+        idx = re.search(self.chapter).groups()
         return '-'.join(idx.split('/'))
 
     def get_main_content(self):
@@ -21,16 +21,16 @@ class ReadComicBooksOnlineOrg(Provider, Std):
 
     def get_chapters(self):
         s = '#chapterlist .chapter > a'
-        return self.document_fromstring(self.get_storage_content(), s)
+        return self.document_fromstring(self.content, s)
 
     def _get_image(self, parser):
         src = parser.cssselect('a > img.picture')
         if not src:
             return None
-        return '{}/reader/{}'.format(self.get_domain(), src[0].get('src'))
+        return '{}/reader/{}'.format(self.domain, src[0].get('src'))
 
     def get_files(self):
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         content = self.html_fromstring(chapter, '.pager select[name="page"]', 0)
         pages = [i.get('value') for i in content.cssselect('option + option')]
         img = self._get_image(content)

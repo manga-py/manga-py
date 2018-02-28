@@ -13,7 +13,7 @@ class ReadEgScansCom(Provider, Std):
         return f.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'/Chapter_(\d+)(.*)', self.get_current_chapter())
+        idx = self.re.search(r'/Chapter_(\d+)(.*)', self.chapter)
         return self._join_groups(idx.groups())
 
     def get_main_content(self):
@@ -23,16 +23,16 @@ class ReadEgScansCom(Provider, Std):
         return self._get_name(r'\.com/([^/]+)')
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content())
+        parser = self.document_fromstring(self.content)
         items = self._first_select_options(parser, 'select[name="chapter"]', False)
-        url = '%s/%s/{}' % (self.get_domain(), self.get_manga_name())
+        url = '%s/%s/{}' % (self.domain, self.manga_name)
         return [url.format(i.get('value')) for i in items[::-1]]
 
     def get_files(self):
-        url = self.get_current_chapter()
+        url = self.chapter
         content = self.http_get(url)
         items = self.re.findall(r'img_url\.push\s?\(\s?\'(.+)\'\s?\)', content)
-        domain = self.get_domain()
+        domain = self.domain
         return ['{}/{}'.format(domain, i) for i in items]
 
     def get_cover(self) -> str:

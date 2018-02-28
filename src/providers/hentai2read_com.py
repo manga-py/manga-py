@@ -10,7 +10,7 @@ class Hentai2ReadCom(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         idx = self.re.search('.+/([^/]+)/', chapter)
         return '-'.join(idx.group(1).split('.'))
 
@@ -24,7 +24,7 @@ class Hentai2ReadCom(Provider, Std):
         return self._elements('li .chapter-row')
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         selector = r'\'images\'\s*:\s*(\[.+\])'
         items = self.json.loads(self.re.search(selector, content).group(1))
         return ['{}{}'.format(self.images_cdn, i) for i in items]

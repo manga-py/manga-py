@@ -30,7 +30,7 @@ class EHentaiOrg(Provider, Std):
         self.helper = e_hentai_org.EHentaiOrg(self)
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content())
+        parser = self.document_fromstring(self.content)
         max_idx = self.helper.get_pages_count(parser)
         return list(range(max_idx, -1, -1))
 
@@ -38,9 +38,9 @@ class EHentaiOrg(Provider, Std):
         url = self.helper.get_url() + '?p='
         select = '#gdt .gdtm > div > a'
 
-        idx = self.get_current_chapter()
+        idx = self.chapter
         if idx == 0:
-            content = self.get_storage_content()
+            content = self.content
         else:
             content = self.http_get('{}{}'.format(url, idx))
         return self.document_fromstring(content, select)

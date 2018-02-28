@@ -9,7 +9,7 @@ class MangaInnNet(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         idx = self.re.search(r'\.net/[^/]+/([^/]+)', chapter).group(1).split('.')
         return '{}-{}'.format(*self._idx_to_x2(idx))
 
@@ -21,10 +21,10 @@ class MangaInnNet(Provider, Std):
         return name.group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '#chapter_list a[href]')
+        return self.document_fromstring(self.content, '#chapter_list a[href]')
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         images = self.re.search(r'var\s+images\s*=\s*(\[\{.+?\}\])', content).group(1)
         images = self.json.loads(images)
         return [i.get('url') for i in images]

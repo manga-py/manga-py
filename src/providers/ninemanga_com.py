@@ -1,7 +1,8 @@
 from .helpers.nine_manga import NineHelper
+from .helpers.std import Std
 
 
-class NineMangaCom(NineHelper):
+class NineMangaCom(NineHelper, Std):
     _local_storage = None
 
     def get_archive_name(self) -> str:
@@ -13,7 +14,7 @@ class NineMangaCom(NineHelper):
 
     def get_main_content(self):
         name = self.get_manga_name(False)
-        return self.http_get('{}/manga/{}.html?waring=1'.format(self.get_domain(), name))
+        return self.http_get('{}/manga/{}.html?waring=1'.format(self.domain, name))
 
     def get_manga_name(self, normalize=True) -> str:
         if not self._local_storage:
@@ -26,18 +27,15 @@ class NineMangaCom(NineHelper):
         return self.normalize_name(self._local_storage, normalize)
 
     def get_chapters(self):
-        content = self.get_storage_content()
-        result = self.document_fromstring(content, '.chapterbox li a.chapter_list_a')
-        if not result:
-            return []
+        result = self._elements('.chapterbox li a.chapter_list_a')
         items = []
         for i in result:
             u = self.re.search(r'(/chapter/.*/\d+)\.html', i.get('href'))
-            items.append('{}{}-10-1.html'.format(self.get_domain(), u.group(1)))
+            items.append('{}{}-10-1.html'.format(self.domain, u.group(1)))
         return items
 
     def get_files(self):
-        content = self._get_page_content(self.get_current_chapter())
+        content = self._get_page_content(self.chapter)
         pages = self.document_fromstring(content, '.changepage #page option + option')
         images = self.get_files_on_page(content)
         for i in pages:

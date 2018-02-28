@@ -14,12 +14,12 @@ class HitMangaEu(Provider, Std):
         return 'vol_{:0>3}'.format(idx)
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         idx = self.re.search('[^/]+/[^/]+/[^/]+?-([^/]+)', chapter)
         return idx.group(1)
 
     def get_main_content(self):
-        return self.content(self._get_content('{}/mangas/{}/'))
+        return self._content(self._get_content('{}/mangas/{}/'))
 
     def get_manga_name(self) -> str:
         url = self.get_url()
@@ -32,17 +32,16 @@ class HitMangaEu(Provider, Std):
     def get_chapters(self):
         return self._elements('.listchapseries li a.follow:not(.ddl)')
 
-    def content(self, url):
+    def _content(self, url):
         return self.re.sub(r'<!--.+?--!>', '', self.http_get(url))
 
     def get_files(self):
-        chapter = self.get_current_chapter()
-        img = self.document_fromstring(self.content(chapter), '#chpimg', 0).get('src')
-        name = self.get_manga_name()
+        chapter = self.chapter
+        img = self.document_fromstring(self._content(chapter), '#chpimg', 0).get('src')
         idx = self.get_chapter_index()
         items = self.http_post(url=self.api_url, data={
             'number': unquote_plus(idx),
-            'permalink': name,
+            'permalink': self.manga_name,
             'type': 'chap-pages',
         })
         if items == '0':
@@ -54,7 +53,7 @@ class HitMangaEu(Provider, Std):
         return self._cover_from_content('#picture img')
 
     def prepare_cookies(self):
-        domain = self.get_domain().split('.')
+        domain = self.domain.split('.')
         self.postfix = r'\.' + domain[-1]
         n = self.http().normalize_uri
         self._n = lambda u, r: n(u, r)

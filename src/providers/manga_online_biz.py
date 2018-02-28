@@ -33,14 +33,13 @@ class MangaOnlineBiz(Provider, Std):
 
     def loop_chapters(self):
         volumes = self._storage['chapters']
-        manga_name = self.get_manga_name()
         for idx, url in enumerate(volumes):
             # todo: skip manual
             self.chapter_url = url
-            self.download_volume(idx, url, manga_name)
+            self.download_volume(idx, url, self.manga_name)
 
     def get_chapters(self):
-        s, c = r'MangaChapter\((.+)\);', self.get_storage_content()
+        s, c = r'MangaChapter\((.+)\);', self.content
         items = self.json.loads(self.re.search(s, c).group(1))
         n = self.http().normalize_uri
         return [n(i.get('downloadUrl')) for i in items]

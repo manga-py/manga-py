@@ -10,7 +10,7 @@ class MangaTubeMe(Provider, Std):
         return 'vol_{:0>3}'.format(idx)
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         txt = chapter[0]
         idx = self.re.search(r'(?:.*?)(\d+(?:\.\d+)?)', txt)
         if not idx:
@@ -29,7 +29,7 @@ class MangaTubeMe(Provider, Std):
 
     def get_files(self):
         n = self.http().normalize_uri
-        content = self.http_get(n(self.get_current_chapter()[1]))
+        content = self.http_get(n(self.chapter[1]))
         img_path = self.re.search(r'img_path[\'"]?:\s[\'"](.+)[\'"]', content)
         img_path = n(img_path.group(1))
         images = self.re.search(r'pages[\'"]?:\s(\[\{.+\}\])', content)

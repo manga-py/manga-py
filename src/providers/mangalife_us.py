@@ -11,19 +11,18 @@ class MangaLifeUs(Provider, Std):
 
     def get_chapter_index(self) -> str:
         selector = r'-chapter-(\d+).+(?:-index-(\d+))?'
-        chapter = self.re.search(selector, self.get_current_chapter()).groups()
+        chapter = self.re.search(selector, self.chapter).groups()
         return '{}-{}'.format(
             1 if chapter[1] is None else chapter[1],  # todo: maybe 0 ?
             chapter[0]
         )
 
     def get_main_content(self):
-        name = self._storage.get('manga_name', self.get_manga_name())
-        return self.http_get('{}/manga/{}'.format(self.get_domain(), name))
+        return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:
         uri = self.get_url()
-        test = self.re.search(r'\.us/read-online/.+', uri)
+        test = uri.find('.us/read-online/') > 0
         if test:
             uri = self.html_fromstring(uri, 'a.list-link', 0).get('href')
         return self.re.search(r'(?:\.us)?/manga/([^/]+)', uri).group(1)
@@ -32,7 +31,7 @@ class MangaLifeUs(Provider, Std):
         return self._elements('.chapter-list a.list-group-item')
 
     def get_files(self):
-        url = self.get_current_chapter()
+        url = self.chapter
         parser = self.html_fromstring(url, '.mainWrapper', 0)
         pages = parser.cssselect('select.PageSelect')[0].cssselect('option + option')
         images = self._images_helper(parser, self.img_selector)

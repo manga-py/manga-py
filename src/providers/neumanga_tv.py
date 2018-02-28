@@ -9,7 +9,7 @@ class NeuMangaTv(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         idx = self.re.search(r'/manga/[^/]+/(\d+(?:\+\d+))', chapter).group(1)
         return '-'.join(idx.split('+'))
 
@@ -24,7 +24,7 @@ class NeuMangaTv(Provider, Std):
 
     def get_files(self):
         img_selector = '.imagechap'
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         pages = self._first_select_options(parser, '.readnav select.page')
         images = self._images_helper(parser, img_selector)
         for i in pages:

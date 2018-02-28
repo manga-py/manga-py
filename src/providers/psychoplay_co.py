@@ -8,7 +8,7 @@ class PsychoPlayCo(Provider, Std):
         return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        ch = self.get_current_chapter()
+        ch = self.chapter
         idx = self.re.search('/read/[^/]+/([^/]+)', ch)
         return idx.group(1)
 
@@ -22,14 +22,14 @@ class PsychoPlayCo(Provider, Std):
         _chapter = 'a.media-link'
         items = self._elements(_chapter)
         selector = '.pagination li:not([class]) a'
-        pages = self.document_fromstring(self.get_storage_content(), selector)
+        pages = self.document_fromstring(self.content, selector)
         n = self.http().normalize_uri
         for i in pages:  # TODO! Warning!
             items += self._elements(_chapter, self.http_get(n(i.get('href'))))
         return items
 
     def get_files(self):  # TODO! Warning!
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         return self._images_helper(parser, '.img-responsive', 'data-src')
 
     def get_cover(self) -> str:

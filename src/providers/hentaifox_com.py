@@ -17,21 +17,19 @@ class HentaiFoxCom(Provider, Std):
     def get_main_content(self):
         if self.__local_storage is None:
             idx = self._get_name(self._idx_re)
-            url = self._url_str.format(self.get_domain(), idx)
+            url = self._url_str.format(self.domain, idx)
             self.__local_storage = self.http_get(url)
         return self.__local_storage
 
     def get_manga_name(self) -> str:
-        content = self.get_main_content()
-        text = self.document_fromstring(content, self._name_selector, 0)
+        text = self.document_fromstring(self.content, self._name_selector, 0)
         return text.text_content().strip()
 
     def get_chapters(self):
         return [b'']
 
     def get_files(self):
-        c, s = self.get_storage_content(), '.gallery .preview_thumb a'
-        pages = self.document_fromstring(c, s)
+        pages = self._elements('.gallery .preview_thumb a')
         items = []
         n = self.http().normalize_uri
         for i in pages:

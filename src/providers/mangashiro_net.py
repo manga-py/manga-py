@@ -12,7 +12,7 @@ class MangaShiroNet(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         return self.re.search(self.chapter_re, chapter).group(1)
 
     def get_main_content(self):
@@ -30,7 +30,7 @@ class MangaShiroNet(Provider, Std):
         return self._elements(self.chapters_selector)
 
     def get_files(self):
-        url = self.get_current_chapter()
+        url = self.chapter
         parser = self.html_fromstring(url)
         items = parser.cssselect('#readerarea a[imageanchor]')
         attr = 'href'

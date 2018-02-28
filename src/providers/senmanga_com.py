@@ -12,7 +12,7 @@ class SenMangaCom(Provider, Std):
         return fmt.format(*idx)
 
     def get_chapter_index(self) -> str:
-        ch = self.get_current_chapter()
+        ch = self.chapter
         re = r'\.com/[^/]+/(\d+)([^/\d][^/]*)?/'
         idx = self.re.search(re, ch).groups()
         fmt = '{}'
@@ -30,7 +30,7 @@ class SenMangaCom(Provider, Std):
         return self._elements('.list .element > .title > a')[::-1]
 
     def get_files(self):
-        url = self.get_current_chapter()
+        url = self.chapter
         parser = self.html_fromstring(url)
         pages = self._first_select_options(parser, 'select[name="page"]')
         src = parser.cssselect('#picture')[0].get('src')

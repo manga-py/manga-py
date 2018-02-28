@@ -15,7 +15,7 @@ class KissMangaCom(Provider, Std):
         return 'Ch-{:0>3}_Vol-{:0>3}-{:0>1}'.format(*idx.split('-'))
 
     def get_chapter_index(self) -> str:
-        bn = basename(self.get_current_chapter())
+        bn = basename(self.chapter)
         name = self.re.search(r'Vol-+(\d+)-+Ch\w*?-+(\d+)-+(\d+)', bn)
         if name:
             name = name.groups()
@@ -50,7 +50,7 @@ class KissMangaCom(Provider, Std):
     def get_files(self):
         crypt = KissMangaComCrypt()
 
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
 
         # if need change key
         need = self.re.search(r'\["([^"]+)"\].+chko.?=.?chko', content)

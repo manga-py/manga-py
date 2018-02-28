@@ -12,7 +12,7 @@ class GMangaMe(GoMangaCo):
 
     def get_chapter_index(self) -> str:
         selector = r'/mangas/[^/]+/(\d+/[^/]+)'
-        url = self.get_current_chapter()
+        url = self.chapter
         idx = self.re.search(selector, url).group(1)
         return idx.replace('/', '-')
 
@@ -20,8 +20,7 @@ class GMangaMe(GoMangaCo):
         return r'1:\salphanumSort\((\[.+\])\)'
 
     def get_cover(self) -> str:
-        content = self.get_storage_content()
-        image = self.re.search(r'"image"\s?:\s?"(.+)",', content)
+        image = self.re.search(r'"image"\s?:\s?"(.+)",', self.content)
         if image:
             return image.group(1)
 

@@ -13,14 +13,14 @@ class TruyenVnsharingSite(Provider, Std):
 
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'_(\d+(?:\.\d+)?)[^\d]?')
-        ch = self.get_current_chapter()
+        ch = self.chapter
         return '-'.join(re.search(ch).group(1).split('.'))
 
     def get_main_content(self):
         name = self._get_name('/read/([^/]+/[^/]+/[^/]+)')
         url = '{}/index/read/{}'
         return self.http_get(url.format(
-            self.get_domain(),
+            self.domain,
             name
         ))
 
@@ -31,7 +31,7 @@ class TruyenVnsharingSite(Provider, Std):
         return self._elements('#manga-info-list a.title')
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         return self._images_helper(parser, '.read_content .br_frame > img')
 
     def get_cover(self) -> str:

@@ -12,7 +12,7 @@ class MangaSh(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         _ch = chapter.get('ChapterNumberAbsolute', self._chapter_index())
         _vol = chapter.get('VolumeNumber', 0)
         _ch_v = chapter.get('ChapterNumberVolume', '')
@@ -29,14 +29,14 @@ class MangaSh(Provider, Std):
         return self.__local_storage
 
     def get_manga_name(self) -> str:
-        content = self.get_main_content().get('response')[0]
+        content = self.content.get('response')[0]
         return content.get('SeriesId').get('Name')
 
     def get_chapters(self):
-        return list(self.get_storage_content().get('response', []))
+        return list(self.content.get('response', []))
 
     def get_files(self):
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         _hash = chapter.get('Hash')
         url = '{}series_chapters/{}'
         items = self.json.loads(self.http_get(url.format(self._api_url, _hash)))
@@ -44,7 +44,7 @@ class MangaSh(Provider, Std):
         return [self._cdn_url + i.get('Name') for i in items]
 
     def get_cover(self) -> str:
-        content = self.get_main_content().get('response')[0]
+        content = self.content.get('response')[0]
         content = content.get('SeriesId').get('CoverImage')
         return '{}/covers/{}'.format(self._cdn_url, content)
 

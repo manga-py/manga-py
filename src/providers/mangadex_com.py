@@ -11,7 +11,7 @@ class MangaDexCom(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        ch = self.get_current_chapter()[0]
+        ch = self.chapter[0]
         re = self.re.compile(r'[vV]ol.+?(\d+).+?[cC]h.+?(\d+(?:.\d+)?)')
         return '{}-{}'.format(*self._idx_to_x2(re.search(ch).groups()))
 
@@ -31,7 +31,7 @@ class MangaDexCom(Provider, Std):
         return name.text_content().strip()
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content())
+        parser = self.document_fromstring(self.content)
         pages = self._get_pages_count(parser)
         items = self._chapters(parser)
         for i in range(pages):
@@ -41,7 +41,7 @@ class MangaDexCom(Provider, Std):
         return self._parse_chapters(items)
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter()[1])
+        content = self.http_get(self.chapter[1])
         items = self.re.search(r'page_array.+\n?(.+),]', content)
         data = self.re.search(r'dataurl\s*=\s*[\'"](.+)[\'"]', content)
         server = self.re.search(r'server\s*=\s*[\'"](.+)[\'"]', content)
@@ -50,7 +50,7 @@ class MangaDexCom(Provider, Std):
         items = items.group(1).strip(' \'').split('\',\'')
         data = data.group(1)
         server = server.group(1)
-        domain = self.get_domain()
+        domain = self.domain
         return ['{}{}{}/{}'.format(domain, server, data, i) for i in items]
 
     def get_cover(self) -> str:

@@ -10,13 +10,13 @@ class MangaEdenCom(Provider, Std):
         return 'vol_{}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'-manga/[^/]+/(\d+)', self.get_current_chapter()).group(1)
+        idx = self.re.search(r'-manga/[^/]+/(\d+)', self.chapter).group(1)
         return '{}-0'.format(idx)
 
     def get_main_content(self):
         result = self.re.search(self.uriRegex, self.get_url())
         groups = result.groups()
-        return self.http_get('{}/en/{}/{}/'.format(self.get_domain(), *groups))
+        return self.http_get('{}/en/{}/{}/'.format(self.domain, *groups))
 
     def get_manga_name(self) -> str:
         return self.re.search(self.uriRegex, self.get_url()).group(2)
@@ -25,7 +25,7 @@ class MangaEdenCom(Provider, Std):
         return self._elements('a.chapterLink')
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         result = self.re.search(r'var\s+pages\s+=\s+(\[{.+}\])', content)
         items = []
         if not result:

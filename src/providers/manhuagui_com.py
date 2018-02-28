@@ -15,7 +15,7 @@ class ManhuaGuiCom(Provider, Std):
     ]
 
     def _get_ch_idx(self):
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         return self.re.search(r'/comic/[^/]+/(\d+)', chapter.get('href')).group(1)
 
     def get_archive_name(self) -> str:
@@ -23,7 +23,7 @@ class ManhuaGuiCom(Provider, Std):
         return 'vol_{:0>4}-{}'.format(idx, self._get_ch_idx())
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         span = chapter.cssselect('span')
         idx = self._get_ch_idx()
         if span:
@@ -34,7 +34,7 @@ class ManhuaGuiCom(Provider, Std):
 
     def get_main_content(self):
         _ = self._get_name(r'/comic/(\d+)')
-        return self.http_get('{}/comic/{}/'.format(self.get_domain(), _))
+        return self.http_get('{}/comic/{}/'.format(self.domain, _))
 
     def get_manga_name(self) -> str:
         url = self.get_url()
@@ -44,7 +44,7 @@ class ManhuaGuiCom(Provider, Std):
         return self.html_fromstring(url, selector, 0).text_content()
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content())
+        parser = self.document_fromstring(self.content)
         chapters = parser.cssselect('.chapter-list li > a')
         if not len(chapters):
             code = parser.cssselect('#__VIEWSTATE')[0].get('value')
@@ -70,7 +70,7 @@ class ManhuaGuiCom(Provider, Std):
         return images
 
     def get_files(self):
-        url = self.get_current_chapter()
+        url = self.chapter
         self._storage['referer'] = url
         content = self.http_get(url)
         js = self.re.search(r'\](\(function\(.+\))\s?<', content)

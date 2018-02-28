@@ -10,7 +10,7 @@ class MangaIndoWebId(Provider, Std):
 
     def get_chapter_index(self) -> str:
         selector = r'-chapter-([^/]+)'
-        return self.re.search(selector, self.get_current_chapter()).group(1)
+        return self.re.search(selector, self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/{}/')
@@ -29,7 +29,7 @@ class MangaIndoWebId(Provider, Std):
 
     def get_files(self):
         r = self.http().get_redirect_url
-        params = self.get_current_chapter(), '.entry-content img.aligncenter'
+        params = self.chapter, '.entry-content img.aligncenter'
         items = self.html_fromstring(*params)
         return [r(i.get('src')) for i in items]
 

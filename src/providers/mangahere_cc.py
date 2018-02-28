@@ -9,7 +9,7 @@ class MangaHereCc(Provider, Std):
 
     def get_chapter_index(self) -> str:
         selector = r'/manga/[^/]+/[^\d]+(\d+)'
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         return self.re.search(selector, chapter).group(1)
 
     def get_main_content(self):
@@ -26,7 +26,7 @@ class MangaHereCc(Provider, Std):
         return parser.cssselect('img#image')[0].get('src')
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         pages = parser.cssselect('.go_page select.wid60 option + option')
         pages_list = [value.get('value') for value in pages]
         first_image = self.__get_img(parser)

@@ -9,7 +9,7 @@ class MangaOnNet(Provider, Std):
 
     def get_chapter_index(self) -> str:
         selector = r'(?:vol-?(\d+))?(?:-ch-?(\d+))'
-        ch = self.get_current_chapter()
+        ch = self.chapter
         re = self.re.search(selector, ch)
         if re:
             re = re.groups()
@@ -22,8 +22,7 @@ class MangaOnNet(Provider, Std):
         return '0-{}'.format(re.group(1))
 
     def get_main_content(self):
-        name = self._storage.get('manga_name', self.get_manga_name())
-        url = '{}/manga-info/{}'.format(self.get_domain(), name)
+        url = '{}/manga-info/{}'.format(self.domain, self.manga_name)
         return self.http_get(url)
 
     def get_manga_name(self) -> str:
@@ -36,7 +35,7 @@ class MangaOnNet(Provider, Std):
         return self._elements('.list-chapter li > a')
 
     def get_files(self):
-        items = self.html_fromstring(self.get_current_chapter(), '#list-img img')
+        items = self.html_fromstring(self.chapter, '#list-img img')
         return [i.get('src') for i in items]
 
     def get_cover(self) -> str:

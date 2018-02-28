@@ -9,7 +9,7 @@ class LeoMangaCom(Provider, Std):
         return '{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        url = self.get_current_chapter()
+        url = self.chapter
         idx = self.re.search(r'/manga/[^/]+/capitulo-(\d+)/([^/]+)/', url).groups()
         return '{1}-{0}'.format(*idx)
 
@@ -28,7 +28,7 @@ class LeoMangaCom(Provider, Std):
         return None
 
     def get_chapters(self):
-        chapter0 = self.document_fromstring(self.get_storage_content(), '.caps-list a')
+        chapter0 = self.document_fromstring(self.content, '.caps-list a')
         if chapter0:
             url = self._get_first_href(chapter0)
             if url:
@@ -38,7 +38,7 @@ class LeoMangaCom(Provider, Std):
 
     def get_files(self):
         n = self.http().normalize_uri
-        items = self.html_fromstring(self.get_current_chapter(), '.vertical .cap-images')
+        items = self.html_fromstring(self.chapter, '.vertical .cap-images')
         return [n(i.get('src')) for i in items]
 
     def get_cover(self) -> str:

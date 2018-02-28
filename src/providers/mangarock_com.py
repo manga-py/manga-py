@@ -27,7 +27,7 @@ class MangaRockCom(Provider, Std):
         return [i.get('oid').encode() for i in items.get('data', {}).get('chapters', [])]
 
     def get_files(self):
-        url = '{}pages?oid={}&country=Japan'.format(self.__api_uri, self.get_current_chapter().decode())
+        url = '{}pages?oid={}&country=Japan'.format(self.__api_uri, self.chapter.decode())
         items = self.json.loads(self.http_get(url))
         return items.get('data')
 
@@ -49,7 +49,7 @@ class MangaRockCom(Provider, Std):
 
     def get_cover(self) -> str:
         selector = 'div:not([class]) > div[class] > div[class] > div[class] > div[class] > img'
-        url = '{}{}'.format(self.get_domain(), self._get_name('(/manga/[^/]+)'))
+        url = '{}{}'.format(self.domain, self._get_name('(/manga/[^/]+)'))
         img = self._elements(selector, self.http_get(url))
         if img and len(img):
             return img[0].get('src')

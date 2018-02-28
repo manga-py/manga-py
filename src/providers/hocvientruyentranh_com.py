@@ -9,7 +9,7 @@ class HocVienTruyenTranhCom(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'/chapter/(\d+)', self.get_current_chapter())
+        idx = self.re.search(r'/chapter/(\d+)', self.chapter)
         return '{}-{}'.format(self._chapter_index(), idx.group(1))
 
     def _test_main_url(self, url):
@@ -30,7 +30,7 @@ class HocVienTruyenTranhCom(Provider, Std):
 
     def get_files(self):
         selector = '.manga-container img.page'
-        items = self.html_fromstring(self.get_current_chapter(), selector)
+        items = self.html_fromstring(self.chapter, selector)
         return [i.get('src') for i in items]
 
     def get_cover(self):

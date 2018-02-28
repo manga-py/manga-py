@@ -12,7 +12,7 @@ class LusciousNet(Provider, Std):
 
     def get_main_content(self):
         name = self._get_name('/albums?/([^/]+)/')
-        return self.http_get('{}/albums/{}/'.format(self.get_domain(), name))
+        return self.http_get('{}/albums/{}/'.format(self.domain, name))
 
     def get_manga_name(self) -> str:
         return self._get_name('/albums?/([^/]+)_\d+/')
@@ -21,7 +21,7 @@ class LusciousNet(Provider, Std):
         return [b'']
 
     def get_files(self):
-        url = self.get_current_chapter()
+        url = self.chapter
         items = self.html_fromstring(url, '#album_meta_ds .item > a')
         n = self.http().normalize_uri
         images = []

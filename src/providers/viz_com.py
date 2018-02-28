@@ -12,17 +12,16 @@ class VizCom(Provider, Std):
 
     def get_main_content(self):
         url = self.re.search('/([^/]+/chapters/[^/]+)').group(1)
-        return self.http_get('{}/{}'.format(self.get_domain(), url))
+        return self.http_get('{}/{}'.format(self.domain, url))
 
     def get_manga_name(self) -> str:
         return self._get_name('/chapters/([^/]+)')
 
     def get_chapters(self):
-        content = self.get_storage_content()
-        return self.document_fromstring(content, '.o_products .chapter-text > a')
+        return self._elements('.o_products .chapter-text > a')
 
     def get_files(self):
-        volume_id = self.re.search('/chapter/[^/]+/(\d+)', self.get_current_chapter())
+        volume_id = self.re.search('/chapter/[^/]+/(\d+)', self.chapter)
         params = [
             'device%5Fid=3',
             # 'page={}',
@@ -30,12 +29,12 @@ class VizCom(Provider, Std):
             'loadermax=1',
         ]
 
-        uri = '{}/manga/get_manga_url?'.format(self.get_domain())
+        uri = '{}/manga/get_manga_url?'.format(self.domain)
         uri += '&'.join(params)
 
         n = 0
         _img_index = 0
-        while n < 299:
+        while n < 299:  # FIXME!
 
             _img_index += 1
             page_url = '{}&page={}'.format(uri, n)

@@ -11,7 +11,7 @@ class AnimeXtremistCom(Provider, Std):
         return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         idx = self.re.search(r'(.+?-\d+)', chapter[0])
         return idx.group(1) if idx else '0'
 
@@ -26,7 +26,7 @@ class AnimeXtremistCom(Provider, Std):
         return ch[::-1]
 
     def get_files(self):
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         items = self.helper.sort_images(chapter[1])
         images = []
         for i in items:

@@ -9,7 +9,7 @@ class BlogTruyenCom(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'\.com/c(\d+)/', self.get_current_chapter())
+        idx = self.re.search(r'\.com/c(\d+)/', self.chapter)
         return '{}-{}'.format(self._chapter_index(), idx.group(1))
 
     def get_main_content(self):
@@ -30,7 +30,7 @@ class BlogTruyenCom(Provider, Std):
         return self._elements('#list-chapters .title > a')
 
     def get_files(self):
-        items = self.html_fromstring(self.get_current_chapter(), '#content img')
+        items = self.html_fromstring(self.chapter, '#content img')
         return [i.get('src') for i in items]
 
     def get_cover(self) -> str:

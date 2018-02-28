@@ -17,10 +17,10 @@ class SoMangaNet(Provider, Std):
         return self._get_name(r'\.net/[^/]+/([^/]+)')
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), 'ul.capitulos li > a')
+        return self.document_fromstring(self.content, 'ul.capitulos li > a')
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter(), 'img.img-manga')
+        parser = self.html_fromstring(self.chapter, 'img.img-manga')
         return [i.get('src') for i in parser]
 
     def get_cover(self):

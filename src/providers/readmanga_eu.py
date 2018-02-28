@@ -9,12 +9,12 @@ class ReadMangaEu(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx, '1'))
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/manga/\d+/[^/]+/([^/]+)', self.get_current_chapter())
+        idx = self.re.search('/manga/\d+/[^/]+/([^/]+)', self.chapter)
         return '-'.join(idx.group(1).split('.'))
 
     def get_main_content(self):
         name = self._get_name('/(manga/\d+/[^/]+)')
-        return self.http_get('{}/{}'.format(self.get_domain(), name))
+        return self.http_get('{}/{}'.format(self.domain, name))
 
     def get_manga_name(self) -> str:
         return self._get_name('/manga/\d+/([^/]+)')
@@ -28,7 +28,7 @@ class ReadMangaEu(Provider, Std):
         return self._images_helper(parser, images_class)
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         pages = parser.cssselect('#jumpto > option + option')
         images = self.parse_files(parser)
         for i in pages:

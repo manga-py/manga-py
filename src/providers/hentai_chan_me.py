@@ -12,7 +12,7 @@ class HentaiChanMe(MangaChanMe):
         return str(self._chapter_index())
 
     def _login(self, **kwargs):
-        url = self.get_domain() + '/index.php'
+        url = self.domain + '/index.php'
         login = kwargs.get('login', '')
         password = kwargs.get('password', '')
         method = kwargs.get('method', 'post')
@@ -35,7 +35,7 @@ class HentaiChanMe(MangaChanMe):
 
     def get_chapters(self):
         name = self.re.search(self._full_name_selector, self.get_url())
-        url = '{}/related/{}'.format(self.get_domain(), name.group(1))
+        url = '{}/related/{}'.format(self.domain, name.group(1))
         chapters = self.html_fromstring(url, '.related .related_info > h2 a')
         nu = self.http().normalize_uri
         return [nu(i.get('href').replace('/manga/', '/online/')) for i in chapters]

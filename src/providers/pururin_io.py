@@ -17,7 +17,7 @@ class PururinIo(Provider, Std):
         else:
             re = r'/read/(\d+)/\d+/([^/]+)'
         return self._get_content('{}/gallery/{}/{}'.format(
-            self.get_domain(),
+            self.domain,
             *self.re.search(re, url).groups()
         ))
 

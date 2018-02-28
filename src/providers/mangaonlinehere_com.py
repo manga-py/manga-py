@@ -11,7 +11,7 @@ class MangaOnlineHereCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         selector = r'/read-online/[^/]+?(\d+)(?:.(\d+))?'
-        idx = self.re.search(selector, self.get_current_chapter())
+        idx = self.re.search(selector, self.chapter)
         return '{}-{}'.format(
             idx[0],
             0 if idx[1] is None else idx[1]
@@ -30,13 +30,13 @@ class MangaOnlineHereCom(Provider, Std):
         return self.__local_storage['name']
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '.list-chapter a')
+        return self.document_fromstring(self.content, '.list-chapter a')
 
     def prepare_cookies(self):
         self.__local_storage = {}
 
     def get_files(self):
-        items = self.html_fromstring(self.get_current_chapter(), '#list-img img')
+        items = self.html_fromstring(self.chapter, '#list-img img')
         return [i.get('src') for i in items]
 
     def get_cover(self):

@@ -11,7 +11,7 @@ class MangaChanMe(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        name = self.get_current_chapter()
+        name = self.chapter
         idx = self.re.search(r'_v(\d+)_ch(\d+)', name).groups()
         return '{}-{}'.format(*idx)
 
@@ -32,13 +32,13 @@ class MangaChanMe(Provider, Std):
     def get_chapters(self):
         url = self._online_(self.get_url())
         url = '{}/manga/{}'.format(
-            self.get_domain(),
+            self.domain,
             self.re.search(self._full_name_selector, url).group(1)
         )
         return self.html_fromstring(url, '.table_cha .manga a')
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         items = self.re.search(r'"?fullimg"?\s?:\s?(\[.+\])', content).group(1)
         images = self.json.loads(items.replace('",]', '"]'))  # patch
         return images
@@ -46,7 +46,7 @@ class MangaChanMe(Provider, Std):
     def get_cover(self):
         selector = r'\.me/[^/]+/(\d+-.+\.html)'
         url = self._get_name(selector)
-        url = '{}/manga/{}'.format(self.get_domain(), url)
+        url = '{}/manga/{}'.format(self.domain, url)
         img = self._elements('#cover', self.http_get(url))
         if img and len(img):
             return img[0].get('src')

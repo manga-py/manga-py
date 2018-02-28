@@ -10,12 +10,11 @@ class MangaFoxMe(Provider, Std):
 
     def get_chapter_index(self) -> str:
         selector = '/manga/[^/]+/([^/]+)/'
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         idx = self.re.search(selector, chapter).group(1).split('.')
         return '{}-{}'.format(*self._idx_to_x2(idx))
 
     def get_main_content(self):
-        name = self.get_manga_name()
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:
@@ -25,7 +24,7 @@ class MangaFoxMe(Provider, Std):
         return self._elements('#chapters a.tips')
 
     def __get_files_url(self):
-        volume = self.get_current_chapter()
+        volume = self.chapter
         url = self.http().normalize_uri(volume)
         if url.find('.html') > 0:
             url = url[: url.rfind('/')]

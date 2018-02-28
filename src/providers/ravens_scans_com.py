@@ -7,22 +7,18 @@ class RavensScansCom(GoMangaCo, Std):
     __api_url = '/lector/api/v2/comic?stub='
 
     def get_main_content(self):
-        name = self.get_manga_name()
-        url = '{}{}{}'.format(self.get_domain(), self.__api_url, name)
+        url = '{}{}{}'.format(self.domain, self.__api_url, self.manga_name)
         return self.json.loads(self.http_get(url)).get('languages', [])
 
     def get_chapters(self):
-        langs = self.get_storage_content()
         items = []
-        for i in langs:
-            name = self.get_manga_name()
-            url = '{}{}{}&lang={}'.format(self.get_domain(), self.__api_url, name, i)
+        for i in self.content:
+            url = '{}{}{}&lang={}'.format(self.domain, self.__api_url, self.manga_name, i)
             items += self.json.loads(self.http_get(url)).get('chapters', [])
         return [i.get('href') for i in items[::-1]]  # DON'T TOUCH THIS!
 
     def get_cover(self) -> str:
-        content = self.get_storage_content()
-        return content.get('fullsized_thumb_url', None)
+        return self.content.get('fullsized_thumb_url', None)
 
 
 main = RavensScansCom

@@ -21,7 +21,7 @@ class DoujinsCom(Provider, Std):
         return [b'']
 
     def get_files(self):
-        items = self.document_fromstring(self.get_storage_content(), self.img_selector)
+        items = self.document_fromstring(self.content, self.img_selector)
         return [i.get('data-file').replace('&amp;', '&') for i in items]
 
     def get_cover(self) -> str:

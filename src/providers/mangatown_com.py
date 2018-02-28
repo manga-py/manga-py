@@ -11,7 +11,7 @@ class MangaTownCom(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/manga/[^/]+/c([^/]+)', self.get_current_chapter())
+        idx = self.re.search('/manga/[^/]+/c([^/]+)', self.chapter)
         return '-'.join(idx.group(1).split('.'))
 
     def get_main_content(self):
@@ -21,7 +21,7 @@ class MangaTownCom(Provider, Std):
         return self._get_name('/manga/([^/]+)/?')
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '.chapter_list a')
+        return self.document_fromstring(self.content, '.chapter_list a')
 
     def prepare_cookies(self):
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -29,7 +29,7 @@ class MangaTownCom(Provider, Std):
 
     def get_files(self):
         img_selector = 'img#image'
-        url = self.http().normalize_uri(self.get_current_chapter())
+        url = self.http().normalize_uri(self.chapter)
         parser = self.html_fromstring(url)
         selector = '#top_chapter_list + .page_select select option + option'
         images = self._images_helper(parser, img_selector)

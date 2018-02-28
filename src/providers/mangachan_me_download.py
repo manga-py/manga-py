@@ -21,7 +21,7 @@ class MangaChanMe(Provider, Std):
     def loop_chapters(self):
         arc_name = self.get_archive_name()
         path = path_join(dirname(self.get_archive_path()), arc_name + '.zip')
-        url = self.get_current_chapter()
+        url = self.chapter
         temp_path = get_temp_path('{:0>2}_{}-temp_arc.zip'.format(self._storage['current_chapter'], arc_name))
         self.save_file(url, temp_path)
         rename(temp_path, path)
@@ -38,7 +38,7 @@ class MangaChanMe(Provider, Std):
     def get_cover(self):
         selector = r'\.me/[^/]+/(\d+-.+\.html)'
         url = self._get_name(selector)
-        url = '{}/manga/{}'.format(self.get_domain(), url)
+        url = '{}/manga/{}'.format(self.domain, url)
         img = self._elements('#cover', self.http_get(url))
         if img and len(img):
             return img[0].get('src')

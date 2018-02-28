@@ -10,7 +10,7 @@ class ZipReadCom(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'/.p=(\d+)', self.get_current_chapter()).group(1)
+        idx = self.re.search(r'/.p=(\d+)', self.chapter).group(1)
         return '{}-{}'.format(self._chapter_index(), idx)
 
     def get_main_content(self):

@@ -15,12 +15,11 @@ class TaaddCom(Provider, Std):
         return self.remove_not_ascii(name)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/chapter/([^/]+)/', self.get_current_chapter()).group(1)
+        idx = self.re.search('/chapter/([^/]+)/', self.chapter).group(1)
         return idx
 
     def get_main_content(self):
-        name = self._storage.get('manga_name', self.get_manga_name())
-        return self.http_get('{}/book/{}.html'.format(self.get_domain(), name))
+        return self.http_get('{}/book/{}.html'.format(self.domain, self.manga_name))
 
     def _re_name(self, url):
         return self.re.search(r'/book/([^/]+)\.html', url)
@@ -34,13 +33,13 @@ class TaaddCom(Provider, Std):
         return name.group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), self._chapters_selector)
+        return self.document_fromstring(self.content, self._chapters_selector)
 
     def prepare_cookies(self):
         self.__local_storage = 0
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         pages = parser.cssselect(self._pages_selector)[0].cssselect('option + option')
         images = self._images_helper(parser, self.img_selector)
         for i in pages:

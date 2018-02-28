@@ -8,7 +8,7 @@ class MangaCanBlogCom(Provider, Std):
     _home_link = None
 
     def get_archive_name(self) -> str:
-        ch = self.get_current_chapter()
+        ch = self.chapter
         idx = self.re.search(r'/.+/.+?(?:-indonesia-)(.+)\.html', ch)
         if not idx:
             idx = self.re.search(r'/.+/(.+)\.html', ch)
@@ -61,7 +61,7 @@ class MangaCanBlogCom(Provider, Std):
         return result
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         items = self._elements('#imgholder .picture', content)
         return [i.get('src') for i in items]
 

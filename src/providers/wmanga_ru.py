@@ -10,8 +10,7 @@ class WMangaRu(Provider, Std):
 
     def get_chapter_index(self) -> str:
         selector = r'/manga_chapter/[^/]+/(\d+)/(\d+)'
-        print(self.get_current_chapter())
-        idx = self.re.search(selector, self.get_current_chapter()).groups()
+        idx = self.re.search(selector, self.chapter).groups()
         return '{}-{}'.format(*idx)
 
     def get_main_content(self):
@@ -21,12 +20,11 @@ class WMangaRu(Provider, Std):
         return self._get_name('/starter/manga_[^/]+/([^/]+)')
 
     def get_chapters(self):
-        c, s = self.get_storage_content(), 'td div div div td > a'
-        return self.document_fromstring(c, s)[::-1]
+        return self._elements('td div div div td > a')[::-1]
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter(), 'td a.gallery')
-        return [i.get('href') for i in parser]
+        parser = self.html_fromstring(self.chapter)
+        return self._images_helper(parser, 'td a.gallery', 'href')
 
     def get_cover(self):
         pass  # FIXME HOME

@@ -19,7 +19,7 @@ class ManhuaTaiCom(Provider, Std):
         )
 
     def get_chapter_index(self) -> str:
-        ch = self.get_current_chapter()
+        ch = self.chapter
         return self.re.search(r'/([^/]+)\.html', ch).group(1)
 
     def get_main_content(self):
@@ -48,7 +48,7 @@ class ManhuaTaiCom(Provider, Std):
         return self.servers[idx]
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         pageid = self.re.search(r'pageid:\s*(\d+)', content).group(1)
         imgpath = self.re.search(r'imgpath:\s*[\'"](.+?)[\'"]', content).group(1)
         startimg = self.re.search(r'startimg:\s*(\d+)', content).group(1)

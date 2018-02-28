@@ -6,7 +6,7 @@ class FunMangaCom(Provider, Std):
 
     def _get_chapter_idx(self):
         re = self.re.compile(r'\.com/[^/]+/([^/]+)')
-        return re.search(self.get_current_chapter()).group(1)
+        return re.search(self.chapter).group(1)
 
     def get_archive_name(self) -> str:
         return 'vol_{:0>3}'.format(self._get_chapter_idx())
@@ -25,7 +25,7 @@ class FunMangaCom(Provider, Std):
         return [i.get('href') + '/all-pages' for i in items]
 
     def get_files(self):
-        items = self.html_fromstring(self.get_current_chapter(), '.content-inner > img.img-responsive')
+        items = self.html_fromstring(self.chapter, '.content-inner > img.img-responsive')
         print(items)
         return [i.get('src') for i in items]
 

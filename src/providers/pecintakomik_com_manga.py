@@ -11,11 +11,11 @@ class PecintaKomikComManga(PecintaKomikCom, Std):
         return self._get_name(r'/manga/([^/]+)')
 
     def get_chapters(self):
-        parser = self.document_fromstring(self.get_storage_content())
+        parser = self.document_fromstring(self.content)
         items = self._first_select_options(parser, 'select[name="chapter"]', False)
         url = '{}/manga/{}/%s/full'.format(
-            self.get_domain(),
-            self.get_manga_name()
+            self.domain,
+            self.manga_name
         )
         return [url % i.get('value') for i in items]
 

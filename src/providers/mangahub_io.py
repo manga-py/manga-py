@@ -8,7 +8,7 @@ class MangaHubIo(Provider, Std):
         return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         return self.re.search(r'/chapter/[^/]+/\w+-([^/]+)', chapter).group(1)
 
     def get_main_content(self):
@@ -21,7 +21,7 @@ class MangaHubIo(Provider, Std):
         return self._elements('.list-group .list-group-item > a')
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         items = self._elements('#mangareader img[src*="/file/"]', content)
         n = self.http().normalize_uri
         return [n(i.get('src')) for i in items]

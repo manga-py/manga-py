@@ -1,7 +1,7 @@
 class Std:
     def _elements(self, idx, content=None) -> list:
         if not content:
-            content = self.get_storage_content()
+            content = self.content
         return self.document_fromstring(content, idx)
 
     def _cover_from_content(self, selector, attr='src') -> str:
@@ -45,13 +45,29 @@ class Std:
         return self.re.search(selector, self.get_url()).group(1)
 
     def _get_content(self, selector):
-        return self.http_get(selector.format(self.get_domain(), self.get_manga_name()))
+        return self.http_get(selector.format(self.domain, self.manga_name))
 
     def _base_cookies(self):
         cookies = self.http().get_base_cookies(self.get_url())
         self._storage['cookies'] = cookies.get_dict()
 
-    def parse_background(self, image):  # Todo. m.b. bug
+    def parse_background(self, image):
         selector = r'background.+?url\([\'"]?([^\s]+?)[\'"]?\)'
         url = self.re.search(selector, image.get('style'))
         return self.http().normalize_uri(url.group(1))
+
+    @property
+    def content(self):
+        return self._storage.get('main_content', self.get_main_content())
+
+    @property
+    def manga_name(self) -> str:
+        return self._storage.get('manga_name', self.get_manga_name())
+
+    @property
+    def domain(self) -> str:
+        return self._storage.get('domain_uri', self.get_domain())
+
+    @property
+    def chapter(self) -> str:
+        return self.get_current_chapter()

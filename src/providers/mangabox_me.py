@@ -9,19 +9,18 @@ class MangaBoxMe(Provider, Std):
         return 'vol_{:0>3}'.format(self._storage['current_chapter'])
 
     def get_chapter_index(self) -> str:
-        return self.re.search(r'/episodes/(\d+)', self.get_current_chapter()).group(1)
+        return self.re.search(r'/episodes/(\d+)', self.chapter).group(1)
 
     def get_main_content(self):
         if not self._local_storage:
             idx = self._get_name(r'/reader/(\d+)/episodes/')
             self._local_storage = True
-            return self.http_get('{}/reader/{}/episodes/'.format(self.get_domain(), idx))
-        return self.get_storage_content()
+            return self.http_get('{}/reader/{}/episodes/'.format(self.domain, idx))
+        return self.content
 
     def get_manga_name(self) -> str:
-        content = self.get_main_content()
         selector = 'meta[property="og:title"]'
-        title = self.document_fromstring(content, selector, 0)
+        title = self.document_fromstring(self.content, selector, 0)
         return title.get('content').strip()
 
     def get_chapters(self):
@@ -29,7 +28,7 @@ class MangaBoxMe(Provider, Std):
         return self._elements(selector)
 
     def get_files(self):
-        items = self.html_fromstring(self.get_current_chapter(), 'ul.slides li > img')
+        items = self.html_fromstring(self.chapter, 'ul.slides li > img')
         return [i.get('src') for i in items]
 
     def get_cover(self):

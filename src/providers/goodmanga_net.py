@@ -9,14 +9,14 @@ class GoodMangaNet(Provider, Std):
         return 'vol_{:0>3}'.format(idx)
 
     def get_chapter_index(self) -> str:
-        return self.re.search(r'/chapter/(\d+)', self.get_current_chapter()).group(1)
+        return self.re.search(r'/chapter/(\d+)', self.chapter).group(1)
 
     def get_main_content(self):
         url = self.get_url()
         if url.find('/chapter/') > 0:
             url = self.html_fromstring(url, '#manga_head h3 > a', 0).get('href')
         _id = self.re.search(r'net/(\d+/[^/]+)', url).group(1)
-        return self.http_get('{}/{}'.format(self.get_domain(), _id))
+        return self.http_get('{}/{}'.format(self.domain, _id))
 
     def get_manga_name(self) -> str:
         url = self.get_url()
@@ -29,20 +29,16 @@ class GoodMangaNet(Provider, Std):
         return [i.get('href') for i in parser.cssselect('#chapters li > a')]
 
     def get_chapters(self):
-        content = self.get_storage_content()
-        if not content:
-            return []
-        parser = self.document_fromstring(content)
-        chapters = self.get_chapters_links(parser)
-        pagination = parser.cssselect('.pagination li > button[href]')
+        selector = '#chapters li > a'
+        chapters = self._elements(selector)
+        pagination = self._elements('.pagination li > button[href]')
         for i in pagination:
-            cnt = self.html_fromstring(i.get('href'))
-            chapters += self.get_chapters_links(cnt)
+            chapters += self._elements(selector, self.http_get(i.get('href')))
         return chapters
 
     def get_files(self):
         img_selector = '#manga_viewer > a > img'
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         images = self._images_helper(parser, img_selector)
         for i in parser.cssselect('#asset_2 select.page_select option + option'):
             _parser = self.html_fromstring(i.get('value'))

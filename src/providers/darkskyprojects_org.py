@@ -11,7 +11,7 @@ class DarkSkyProjectsOrg(Provider, Std):
         )
 
     def get_chapter_index(self) -> str:
-        ch = self.get_current_chapter()
+        ch = self.chapter
         return self.re.search('/biblioteca/[^/]+/([^/]+)', ch).group(1)
 
     def get_main_content(self):
@@ -24,7 +24,7 @@ class DarkSkyProjectsOrg(Provider, Std):
         return self._elements('.chapters h5 a')
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         return self._images_helper(parser, 'data-src')
 
     def get_cover(self) -> str:

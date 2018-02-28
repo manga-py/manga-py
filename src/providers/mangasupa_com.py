@@ -9,7 +9,7 @@ class MangaSupaCom(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/chapter_([^/]+)', self.get_current_chapter())
+        idx = self.re.search('/chapter_([^/]+)', self.chapter)
         return '-'.join(idx.group(1).split('.'))
 
     def get_main_content(self):
@@ -23,7 +23,7 @@ class MangaSupaCom(Provider, Std):
         return self._elements('.chapter-list .row a')
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         return self._images_helper(parser, '.vung_doc img')
 
     def get_cover(self):

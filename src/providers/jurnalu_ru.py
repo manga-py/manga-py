@@ -4,12 +4,14 @@ from .helpers.std import Std
 
 class JurnaluRu(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        name = self.get_manga_name()
-        arc_name = self.re.search('/{0}/{0}([^/]+)'.format(name), self.get_current_chapter())
-        if arc_name:
-            pass
-        return 'vol_{}'.format(self.get_chapter_index())
+    def get_archive_name(self) -> str:  # TODO ?
+        # arc_name = self.re.search(
+        #     '/{0}/{0}([^/]+)'.format(self.manga_name),
+        #     self.chapter
+        # )
+        # if arc_name:
+        #     pass
+        return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
         return str(self._storage['current_chapter'])
@@ -17,11 +19,11 @@ class JurnaluRu(Provider, Std):
     def get_main_content(self):
         name = self._get_name(r'(online-reading/[^/]+/[^/]+)')
         url = self.html_fromstring(
-            '{}/{}'.format(self.get_domain(), name),
+            '{}/{}'.format(self.domain, name),
             '.MagList .MagListLine > a',
             0
         ).get('href')
-        return self.http_get(self.get_domain() + url)
+        return self.http_get(self.domain + url)
 
     def get_manga_name(self) -> str:
         return self._get_name(r'/online-reading/[^/]+/([^/]+)')
@@ -30,8 +32,8 @@ class JurnaluRu(Provider, Std):
         name = self.re.search(r'(online-reading/[^/]+/[^/]+)', self.get_url())
         if not name:
             return []
-        items = self.document_fromstring(self.get_storage_content(), 'select.magSelection option')
-        url = '{}/{}/'.format(self.get_domain(), name.group(1))
+        items = self.document_fromstring(self.content, 'select.magSelection option')
+        url = '{}/{}/'.format(self.domain, name.group(1))
         return [url + i.get('value') for i in items]
 
     @staticmethod
@@ -40,7 +42,7 @@ class JurnaluRu(Provider, Std):
         return image[0].get('href')
 
     def get_files(self):
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         page = self.html_fromstring(chapter, '.ForRead', 0)
         pages = page.cssselect('.navigation')[0].cssselect('select.M option + option')
         images = [self.__get_file(page)]

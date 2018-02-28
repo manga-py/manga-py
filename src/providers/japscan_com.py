@@ -12,13 +12,13 @@ class JapScanCom(GoMangaCo):
 
     def get_chapter_index(self) -> str:
         selector = r'\.com/[^/]+/[^/]+/(\d+)/'
-        url = self.get_current_chapter()
+        url = self.chapter
         return self.re.search(selector, url).group(1)
 
     def get_files(self):
         img_selector = '#image'
         n = self.http().normalize_uri
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         pages = parser.cssselect('#pages option + option')
         images = self._images_helper(parser, img_selector)
         for i in pages:

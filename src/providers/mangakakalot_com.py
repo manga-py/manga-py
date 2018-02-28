@@ -9,7 +9,7 @@ class MangaKakalotCom(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/chapter_([^/]+)', self.get_current_chapter()).split('.')
+        idx = self.re.search('/chapter_([^/]+)', self.chapter).split('.')
         return '{}-{}'.format(*self._idx_to_x2(idx))
 
     def get_main_content(self):
@@ -19,10 +19,10 @@ class MangaKakalotCom(Provider, Std):
         return self.re.search('/(?:manga|chapter)/([^/]+)/?', self.get_url())
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '.chapter-list span a')
+        return self.document_fromstring(self.content, '.chapter-list span a')
 
     def get_files(self):
-        result = self.html_fromstring(self.get_current_chapter(), '#vungdoc img')
+        result = self.html_fromstring(self.chapter, '#vungdoc img')
         return [i.get('src') for i in result]
 
 

@@ -33,7 +33,7 @@ class AnimeXtremistCom:
         if url:
             items = self.provider.html_fromstring(url, a)
         else:
-            items = self.provider.document_fromstring(self.provider.get_storage_content(), a)
+            items = self.provider.document_fromstring(self.provider.content, a)
         return items
 
     # http://animextremist.com/mangas-online/99love/

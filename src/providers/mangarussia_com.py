@@ -1,9 +1,10 @@
 from urllib.parse import unquote, quote
 
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaRussiaCom(Provider):
+class MangaRussiaCom(Provider, Std):
 
     @staticmethod
     def path_url(url):
@@ -14,13 +15,12 @@ class MangaRussiaCom(Provider):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         result = self.re.search(r'\+(\d+)\+-\+(\d+)', chapter).groups()
         return '{}-{}'.format(*result)
 
     def get_main_content(self):
-        name = self._storage.get('manga_name', self.get_manga_name())
-        url = '{}/manga/{}.html'.format(self.get_domain(), quote(name))
+        url = '{}/manga/{}.html'.format(self.domain, quote(self.manga_name))
         self._storage['referer'] = self.path_url(self.get_url())
         return self.http_get(url)
 
@@ -37,8 +37,7 @@ class MangaRussiaCom(Provider):
         return unquote(name)
 
     def get_chapters(self):
-        content = self.get_storage_content()
-        return self.document_fromstring(content, '.chapterlist .col1 a')
+        return self._elements('.chapterlist .col1 a')
 
     def _get_img(self, parser):
         img = parser.cssselect('img#comicpic')[0]
@@ -49,7 +48,7 @@ class MangaRussiaCom(Provider):
         return urls
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         result = parser.cssselect('select#page option + option')
         images = self._get_img(parser)
         for n, i in enumerate(result):
@@ -58,8 +57,11 @@ class MangaRussiaCom(Provider):
                 images += self._get_img(parser)
         return images
 
+    def get_cover(self):
+        self._cover_from_content('.bookfrontpage > a > img')
+
     def _loop_callback_chapters(self):
-        self._storage['referer'] = self.path_url(self.get_current_chapter())
+        self._storage['referer'] = self.path_url(self.chapter)
 
 
 main = MangaRussiaCom

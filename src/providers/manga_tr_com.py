@@ -9,7 +9,7 @@ class MangaTrCom(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         idx = self.re.search('-chapter-(.+)\.html', chapter).group(1)
         return '-'.join(idx.split('.'))
 
@@ -29,7 +29,7 @@ class MangaTrCom(Provider, Std):
 
     def get_files(self):
         img_selector = 'img.chapter-img'
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         pages = self._first_select_options(parser, '.chapter-content select')
         images = self._images_helper(parser, img_selector)
         n = self.http().normalize_uri

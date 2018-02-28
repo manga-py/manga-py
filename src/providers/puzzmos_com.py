@@ -9,7 +9,7 @@ class PuzzmosCom(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         idx = self.re.search('/manga/[^/]+/([^/]+)', chapter)
         return '-'.join(idx.group(1).split('.'))
 
@@ -24,7 +24,7 @@ class PuzzmosCom(Provider, Std):
 
     def get_files(self):
         img_selector = '.chapter-content img.chapter-img'
-        url = self.get_current_chapter()
+        url = self.chapter
         parser = self.html_fromstring(url)
         pages = parser.cssselect('.col-md-12 > .text-center > select option + option')
         images = self._images_helper(parser, img_selector)

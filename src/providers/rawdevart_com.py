@@ -12,7 +12,7 @@ class RawDevArtCom(Provider, Std):
         return fmt.format(*idx)
 
     def get_chapter_index(self) -> str:
-        ch = self.get_current_chapter()
+        ch = self.chapter
         idx = self.re.search(r'/chapter/[^\d]+(\d+(?:\.\d+)?)', ch)
         return '-'.join(idx.group(1).split('.'))
 
@@ -26,7 +26,7 @@ class RawDevArtCom(Provider, Std):
         return self._elements('.wp-manga-chapter > a')
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         return self._images_helper(parser, '.page-break img.wp-manga-chapter-img')
 
     def get_cover(self) -> str:

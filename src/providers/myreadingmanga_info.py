@@ -17,11 +17,10 @@ class MyReadingMangaInfo(Provider, Std):
         return self._get_name(r'\.info/([^/]+)')
 
     def get_chapters(self):
-        content = self.get_storage_content()
         v = [self.get_url()]  # current chapter
-        parser = self.document_fromstring(content, '.pagination > a')
+        parser = self._elements('.pagination > a')
         if not parser:
-            parser = self.document_fromstring(content, '.entry-content p > a')
+            parser = self._elements('.entry-content p > a')
         v += parser
         return v[::-1]
 
@@ -30,8 +29,11 @@ class MyReadingMangaInfo(Provider, Std):
 
     def get_files(self):
         selector = '.entry-content div img,.entry-content p img'
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         return self._images_helper(parser, selector)
+
+    def get_cover(self):
+        pass
 
 
 main = MyReadingMangaInfo

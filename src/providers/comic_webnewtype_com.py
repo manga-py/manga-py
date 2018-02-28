@@ -9,7 +9,7 @@ class ComicWebNewTypeCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         re = self.re.compile('/contents/[^/]+/([^/]+)')
-        return re.search(self.get_current_chapter()).group(1)
+        return re.search(self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/contents/{}/')
@@ -21,7 +21,7 @@ class ComicWebNewTypeCom(Provider, Std):
         return self._elements('#episodeList li.ListCard a')
 
     def get_files(self):
-        url = self.get_current_chapter()
+        url = self.chapter
         items = self.http_get(url + 'json/', headers={'x-requested-with': 'XMLHttpRequest'})
         return self.json.loads(items)
 

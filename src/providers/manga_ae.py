@@ -8,7 +8,7 @@ class MangaAe(Provider, Std):
         return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        return self.re.search(r'\.ae/[^/]+/(\d+)', self.get_current_chapter()).group(1)
+        return self.re.search(r'\.ae/[^/]+/(\d+)', self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/{}/')
@@ -21,7 +21,7 @@ class MangaAe(Provider, Std):
 
     def get_files(self):
         img_selector = '#showchaptercontainer img'
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         pages = parser.cssselect('#morepages a + a')
         images = self._images_helper(parser, img_selector)
         if pages:

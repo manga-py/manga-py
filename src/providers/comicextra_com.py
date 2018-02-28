@@ -9,7 +9,7 @@ class ComicExtra(Provider, Std):
 
     def get_chapter_index(self) -> str:
         return self._storage['current_chapter']
-        # return self.re.search('(\d+)', self.get_current_chapter()).group(1)
+        # return self.re.search('(\d+)', self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/comic/{}')
@@ -22,10 +22,10 @@ class ComicExtra(Provider, Std):
         return self.re.search('/([^/]+)/chapter', url).group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '#list td a')
+        return self.document_fromstring(self.content, '#list td a')
 
     def get_files(self):
-        url = self.get_current_chapter() + '/full'
+        url = self.chapter + '/full'
         items = self.html_fromstring(url, '.chapter-container img.chapter_img')
         return [i.get('src') for i in items]
 

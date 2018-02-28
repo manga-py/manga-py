@@ -5,11 +5,11 @@ from .helpers.std import Std
 class DesuMe(Provider, Std):
 
     def get_archive_name(self) -> str:
-        idx = self.re.search(r'/vol(\d+)/ch(\d+)', self.get_current_chapter()).groups()
+        idx = self.re.search(r'/vol(\d+)/ch(\d+)', self.chapter).groups()
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        result = self.re.search(r'/vol(\d+)/ch(\d+)', self.get_current_chapter()).groups()
+        result = self.re.search(r'/vol(\d+)/ch(\d+)', self.chapter).groups()
         return '{}-{}'.format(result[0], result[1])
 
     def get_main_content(self):
@@ -22,7 +22,7 @@ class DesuMe(Provider, Std):
         return self._get_name('/manga/([^/]+)')
 
     def get_files(self):
-        content = self.http_get(self.get_domain() + self.get_current_chapter())
+        content = self.http_get(self.domain + self.chapter)
         result = self.re.search(r'images:\s?(\[\[.+\]\])', content, self.re.M)
         if not result:
             return []

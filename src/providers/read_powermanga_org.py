@@ -6,7 +6,7 @@ class ReadPowerMangaOrg(GoMangaCo):
     _content_str = '{}/series/{}/'
 
     def get_chapter_index(self) -> str:
-        url = self.get_current_chapter()
+        url = self.chapter
         index_re = r'/rea\w+/[^/]+/(?:[^/]+/)?(\d+/\d+(?:/\d+)?)'
         group = self.re.search(index_re, url).group(1)
         return group.replace('/', '-')

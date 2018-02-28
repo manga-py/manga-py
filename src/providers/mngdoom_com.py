@@ -3,7 +3,7 @@ from src.providers.funmanga_com import FunMangaCom
 
 class MngDoomCom(FunMangaCom):
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         items = self.re.search(r' images = (\[{[^;]+}\])', content)
         if not items:
             return []

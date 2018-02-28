@@ -10,7 +10,7 @@ class MangaParkMe(Provider, Std):
 
     def get_chapter_index(self) -> str:
         selector = r'/manga/[^/]+/s.+?(?:/v(\d+))?/c(\d+[^/]*)'
-        idx = self.re.search(selector, self.get_current_chapter())
+        idx = self.re.search(selector, self.chapter)
         return '{}-{}'.format(
             1 if idx[0] is None else idx[0],
             idx[1]
@@ -23,11 +23,10 @@ class MangaParkMe(Provider, Std):
         return self._get_name('/manga/([^/]+)')
 
     def get_chapters(self):
-        c, s = self.get_storage_content(), 'div.stream:last-child em a:last-child'
-        return self.document_fromstring(c, s)
+        return self._elements('div.stream:last-child em a:last-child')
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         return self._images_helper(parser, '#viewer img.img')
 
     def get_cover(self):

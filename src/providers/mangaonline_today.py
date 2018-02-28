@@ -10,7 +10,7 @@ class MangaOnlineToday(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'\.today/[^/]+/([^/]+)', self.get_current_chapter())
+        idx = self.re.search(r'\.today/[^/]+/([^/]+)', self.chapter)
         idx = idx.group(1).split('.')
         return '{}-{}'.format(*self._idx_to_x2(idx))
 
@@ -25,7 +25,7 @@ class MangaOnlineToday(Provider, Std):
 
     def _pages_helper(self, options):
         images = []
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         for n in range(1, int(options)):
             content = self.html_fromstring('{}{}/'.format(chapter, n * 2))
             img = content.cssselect(self.__img_selector)
@@ -35,7 +35,7 @@ class MangaOnlineToday(Provider, Std):
 
     def get_files(self):
         images = []
-        content = self.html_fromstring(self.get_current_chapter())
+        content = self.html_fromstring(self.chapter)
         img = content.cssselect(self.__img_selector)
         if img:
             images = [i.get('src') for i in img]

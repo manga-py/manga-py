@@ -9,7 +9,7 @@ class HakiHomeCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         selector = '.+/([^/]+)/'
-        url = self.get_current_chapter()
+        url = self.chapter
         idx = self.re.search(selector, url)
         return idx.group(1)
 
@@ -29,7 +29,7 @@ class HakiHomeCom(Provider, Std):
     def get_files(self):
         img_selector = '#con img'
         n = self.http().normalize_uri
-        uri = n(self.get_current_chapter())
+        uri = n(self.chapter)
         parser = self.html_fromstring(uri, '#contentchap', 0)
         pages = self._first_select_options(parser, '#botn span > select[onchange]')
         images = self._images_helper(parser, img_selector)

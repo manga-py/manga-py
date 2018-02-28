@@ -8,7 +8,7 @@ class MangabbCo(Provider, Std):
         return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         idx = chapter.rfind('/chapter-')
         return chapter[1 + idx:]
 
@@ -19,7 +19,7 @@ class MangabbCo(Provider, Std):
         return self._get_name(r'\.co/(?:manga/)?([^/]+)')
 
     def get_chapters(self):
-        content = self.document_fromstring(self.get_storage_content(), '#chapters a')
+        content = self.document_fromstring(self.content, '#chapters a')
         if not content:
             return []
         selector = '#asset_1 select.chapter_select > option'
@@ -43,7 +43,7 @@ class MangabbCo(Provider, Std):
             images.append(self.__get_img(parser))
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter(), '#body', 0)
+        parser = self.html_fromstring(self.chapter, '#body', 0)
         result = parser.cssselect('#asset_2 select.page_select option + option')
         pages_list = [i.get('value') for i in result]
         _first_image = self.__get_img(parser)

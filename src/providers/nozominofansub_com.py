@@ -13,7 +13,7 @@ class NozomiNoFansubCom(Provider, Std):  # MangaZukiCo
 
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'/manga/[^/]+/.+?(\d+(?:[^\d/]\d+)?)')
-        ch = self.get_current_chapter()
+        ch = self.chapter
         return re.search(ch).group(1)
 
     def get_main_content(self):
@@ -26,7 +26,7 @@ class NozomiNoFansubCom(Provider, Std):  # MangaZukiCo
         return self._elements('.chapter-title-rtl > a')
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         return self._images_helper(parser, '#all img.img-responsive', 'data-src')
 
     def get_cover(self) -> str:

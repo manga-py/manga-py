@@ -12,7 +12,7 @@ class GoMangaCo(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        url = self.get_current_chapter()
+        url = self.chapter
         index_re = r'/rea\w+/[^/]+/[^/]+/(?:[^/]+/)?(\d+/\d+(?:/\d+)?)'
         group = self.re.search(index_re, url).group(1)
         return group.replace('/', '-')
@@ -31,7 +31,7 @@ class GoMangaCo(Provider, Std):
         return r'var\s{}\s*=\s*(\[.+\])'.format(idx)
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         selector = self._get_json_selector(content)
         items = self.json.loads(self.re.search(selector, content).group(1))
         return [i.get('url') for i in items]

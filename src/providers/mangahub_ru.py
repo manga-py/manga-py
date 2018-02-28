@@ -11,7 +11,7 @@ class MangaHubRu(Provider, Std):
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'/read/[^/]+/[^\d]+(\d+)/(\d+)/', self.get_current_chapter()).groups()
+        idx = self.re.search(r'/read/[^/]+/[^\d]+(\d+)/(\d+)/', self.chapter).groups()
         return '{}-{}'.format(*idx)
 
     def get_main_content(self):
@@ -21,15 +21,15 @@ class MangaHubRu(Provider, Std):
         return self.re.search(r'\.ru/([^/]+)/?', self.get_url())
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '.b-catalog-list__name a[href^="/"]')
+        return self.document_fromstring(self.content, '.b-catalog-list__name a[href^="/"]')
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter(), '.b-main-container .b-reader__full')
+        parser = self.html_fromstring(self.chapter, '.b-main-container .b-reader__full')
         if not parser:
             return []
         result = parser[0].get('data-js-scans')
         result = self.json.loads(html.unescape(result.replace('\/', '/')))
-        domain = self.get_domain()
+        domain = self.domain
         return [domain + i['src'] for i in result]
 
     def get_cover(self):

@@ -9,7 +9,7 @@ class MangaReaderNet(Provider, Std):
         return 'vol_{:0>3}'.format(idx)
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         return self.re.search(r'\.net/[^/]+/([^/]+)', chapter).group(1)
 
     def get_main_content(self):
@@ -26,11 +26,11 @@ class MangaReaderNet(Provider, Std):
         return [i.get('src') for i in parser.cssselect('#img')]
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         pages = self._first_select_options(parser, 'select#pageMenu')
         images = self._get_img(parser)
         for i in pages:
-            parser = self.html_fromstring(self.get_domain() + i.get('value'))
+            parser = self.html_fromstring(self.domain + i.get('value'))
             images += self._get_img(parser)
         return images
 

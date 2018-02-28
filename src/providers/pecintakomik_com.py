@@ -12,7 +12,7 @@ class PecintaKomikCom(Provider, Std):
         return fmt.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.get_current_chapter()
+        idx = self.chapter
         idx = self.re.search('/manga/[^/]+/(\d+(?:,\d)?)', idx)
         return '-'.join(idx.group(1).split(','))
 
@@ -26,7 +26,7 @@ class PecintaKomikCom(Provider, Std):
         return self._elements('.post-cnt ul > li > a')
 
     def get_files(self):
-        url = self.get_current_chapter() + '/full'
+        url = self.chapter + '/full'
         parser = self.html_fromstring(url)
         items = parser.cssselect('td a .picture')
         base = parser.cssselect('base[href]')

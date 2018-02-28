@@ -5,13 +5,13 @@ from .helpers.std import Std
 class TuMangaOnlineCom(Provider, Std):
 
     def get_archive_name(self) -> str:
-        return 'vol_{:0>3}-{}'.format(*self.get_current_chapter())
+        return 'vol_{:0>3}-{}'.format(*self.chapter)
 
     def get_chapter_index(self) -> str:
-        return '{}-{}'.format(*self.get_current_chapter())
+        return '{}-{}'.format(*self.chapter)
 
     def get_main_content(self):
-        url = '{}/api/v1/mangas/{}'.format(self.get_domain(), self._get_id())
+        url = '{}/api/v1/mangas/{}'.format(self.domain, self._get_id())
         data = self.http_get(url=url, headers=self._get_headers())
         return self.json.loads(data)
 
@@ -31,7 +31,7 @@ class TuMangaOnlineCom(Provider, Std):
         url = '{}/api/v1/mangas/{}/capitulos?page=1&tomo=-1'
         idx = self._get_id()
 
-        url = url.format(self.get_domain(), idx)
+        url = url.format(self.domain, idx)
         data = self.http_get(url=url, headers=self._get_headers())
         items = self.json.loads(data).get('data', [])
 
@@ -57,21 +57,20 @@ class TuMangaOnlineCom(Provider, Std):
 
     def get_files(self):
         idx = self._get_id()
-        domain = self.get_domain()
+        domain = self.domain
         url = '{}/api/v1/imagenes?idManga={}&idScanlation={}&numeroCapitulo={}&visto=true'
-        ch = self.get_current_chapter()
-        data = self.http_get(url=url.format(domain, idx, ch[1], ch[0]), headers=self._get_headers())
+        ch = self.chapter
+        data = self.http_get(url=url.format(domain, idx, *ch), headers=self._get_headers())
 
         items = self.json.loads(self.json.loads(data).get('imagenes', '[]'))
         url = 'https://img1.tumangaonline.com/subidas/{}/{}/{}/{}'
 
-        return [url.format(idx, ch[0], ch[1], i) for i in items]
+        return [url.format(idx, *ch, i) for i in items]
 
     def get_cover(self) -> str:
-        content = self.get_storage_content()
-        url = self.get_domain(), content.get('imageUrl', None)
+        url = self.domain, self.content.get('imageUrl', None)
         if url:
-            return '{}/{}'.format(self.get_domain(), url)
+            return '{}/{}'.format(self.domain, url)
 
 
 main = TuMangaOnlineCom

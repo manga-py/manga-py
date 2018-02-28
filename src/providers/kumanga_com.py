@@ -21,29 +21,28 @@ class KuMangaCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         selector = r'pagination\(\d+,\'(.+)\',\'pagination\''
-        parser = self.re.search(selector, self.get_main_content())
+        parser = self.re.search(selector, self.content)
         return parser.group(1).strip()
 
     def __chapters(self, parser):
         items = parser.cssselect('.table h4.title > a')
         chapters = []
         for i in items:
-            c = '{}/{}'.format(self.get_domain(), i.get('href'))
+            c = '{}/{}'.format(self.domain, i.get('href'))
             chapters.append(c.replace('/c/', '/leer/'))
         return chapters
 
     def _chapters_helper(self):
         idx = self.re.search(r'\.com/manga/(\d+)', self.get_url())
-        name = self.get_manga_name()
         return '{}/manga/{}/p/%d/{}'.format(
-            self.get_domain(),
+            self.domain,
             idx.group(1),
-            name
+            self.manga_name
         )
 
     def get_chapters(self):
         selector = r'\'pagination\',\d+,(\d+),(\d+)'
-        pages = self.re.search(selector, self.get_storage_content()).groups()
+        pages = self.re.search(selector, self.content).groups()
         pages = ceil(float(pages[0]) / float(pages[1]))
         chapters = []
         url_path = self._chapters_helper()
@@ -60,7 +59,7 @@ class KuMangaCom(Provider, Std):
     def get_files(self):
         r = self.http().get_redirect_url
         selector = r'(\[\{"npage".+\}\])'
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         items = self.json.loads(self.re.search(selector, content))
         return [r(i.get('imgURL')) for i in items.group(1)]
 

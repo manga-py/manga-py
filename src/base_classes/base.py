@@ -35,17 +35,12 @@ class Base:
         }
         self._http_kwargs = {}
 
-    def get_storage_content(self):
-        return self._storage.get('main_content', '')
-
     def get_url(self):
         return self._params['url']
 
     def get_domain(self):
-        domain_uri = self._storage.get('domain_uri', None)
-        if not domain_uri:
+        if not self._storage.get('domain_uri', None):
             self._storage['domain_uri'] = re.search('(https?://[^/]+)', self._params['url']).group(1)
-
         return self._storage['domain_uri']
 
     def image_auto_crop(self, src_path, dest_path=None):

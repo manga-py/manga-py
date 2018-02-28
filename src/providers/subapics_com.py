@@ -10,7 +10,7 @@ class SubaPicsCom(MangaShiroNet, Std):
         return self._cover_from_content('.imgdesc > img')
 
     def get_files(self):
-        url = self.get_current_chapter()
+        url = self.chapter
         parser = self.html_fromstring(url)
         items = parser.cssselect('#readerarea img')
         return [i.get('src') for i in items]

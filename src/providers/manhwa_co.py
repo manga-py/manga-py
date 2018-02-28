@@ -8,7 +8,7 @@ class ManhwaCo(Provider, Std):
         return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         return self.re.search(r'\.co/[^/]+/([^/]+)', chapter).group(1)
 
     def get_main_content(self):
@@ -21,7 +21,7 @@ class ManhwaCo(Provider, Std):
         return self._elements('.list-group .list-group-item')
 
     def get_files(self):
-        content = self.http_get(self.get_current_chapter())
+        content = self.http_get(self.chapter)
         return self._images_helper(content, 'img.img-fluid')
 
     def get_cover(self) -> str:

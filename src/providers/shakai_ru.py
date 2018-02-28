@@ -3,19 +3,16 @@ from .helpers.std import Std
 
 
 class ShakaiRu(Provider, Std):
-    __local_storage = None
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-', 2)
         return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
 
     def get_chapter_index(self) -> str:
-        idx = self.get_current_chapter().get('data-first')
+        idx = self.chapter.get('data-first')
         return idx.replace('_', '-')
 
     def get_main_content(self):
-        if self.__local_storage:
-            return self.__local_storage
         idx = self._get_name(r'/manga[^/]*/(\d+)')
         _ = {
             'dataRun': 'api-manga',
@@ -25,18 +22,16 @@ class ShakaiRu(Provider, Std):
         return self.json.loads(page_content)
 
     def get_manga_name(self) -> str:
-        if not self.__local_storage:
-            self.__local_storage = self.get_main_content()
-        parser = self.__local_storage.get('post', [])
+        parser = self.content.get('post', [])
         idx = self._get_name(r'/manga[^/]*/(\d+)')
         parser = parser[3] if len(parser) > 3 else idx
         return parser.split('/')[0].strip()
 
     def get_chapters(self):
-        return self.get_storage_content().get('data', [])[::-1]
+        return self.content.get('data', [])[::-1]
 
     def get_files(self):
-        chapter = self.get_current_chapter()
+        chapter = self.chapter
         if isinstance(chapter, dict):
             return chapter.get('data-second', [])
         return []

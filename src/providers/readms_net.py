@@ -5,11 +5,11 @@ from .helpers.std import Std
 class ReadMsNet(Provider, Std):
 
     def get_archive_name(self) -> str:
-        idx = self.re.search('/r/[^/]+/([^/]+)/([^/]+)', self.get_current_chapter()).groups()
+        idx = self.re.search('/r/[^/]+/([^/]+)/([^/]+)', self.chapter).groups()
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/r/[^/]+/[^/]+/([^/]+)', self.get_current_chapter())
+        idx = self.re.search('/r/[^/]+/[^/]+/([^/]+)', self.chapter)
         return '{}'.format(idx.group(1))
 
     def get_main_content(self):
@@ -19,11 +19,11 @@ class ReadMsNet(Provider, Std):
         return self._get_name(r'\.net/(?:manga|r)/([^/]+)')
 
     def get_chapters(self):
-        return self.document_fromstring(self.get_storage_content(), '.table-striped td > a')
+        return self.document_fromstring(self.content, '.table-striped td > a')
 
     def get_files(self):
         img_selector = 'img#manga-page'
-        parser = self.html_fromstring(self.get_current_chapter())
+        parser = self.html_fromstring(self.chapter)
         img = self._images_helper(parser, img_selector)
         images = []
         img and images.append(img)

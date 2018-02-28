@@ -10,7 +10,7 @@ class MangaHomeCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         selector = r'/manga/[^/]+/[^\d]+(\d+)(?:\.(\d+))?'
-        idx = self.re.search(selector, self.get_current_chapter()).groups()
+        idx = self.re.search(selector, self.chapter).groups()
         return self._join_groups(idx)
 
     def get_main_content(self):
@@ -25,7 +25,7 @@ class MangaHomeCom(Provider, Std):
     def get_files(self):
         n = self.http().normalize_uri
         img_selector = 'img#image'
-        _url = n(self.get_current_chapter())
+        _url = n(self.chapter)
         parser = self.html_fromstring(_url)
         p_selector = '.mangaread-top .mangaread-pagenav select'
         pages = self._first_select_options(parser, p_selector)
