@@ -16,11 +16,6 @@ class EHentaiOrg:
             max_idx = max(max_idx, int(idx.group(1)))
         return max_idx
 
-    def parse_background(self, image):
-        selector = r'background.+?url\([\'"]?([^\s]+?)[\'"]?\)'
-        url = self.provider.re.search(selector, image.get('style'))
-        return self.provider.http().normalize_uri(url.group(1))
-
     def get_image(self, i):
         url = i.get('href')
         src = self.provider.html_fromstring(url, 'img#img', 0)

@@ -310,6 +310,9 @@ providers_list = {
     'pecintakomik_com': [
         r'pecintakomik\.com/.',
     ],
+    'psychoplay_co': [
+        r'psychoplay\.co/(series|read)/.',
+    ],
     'puzzmos_com': [
         r'puzzmos\.com/manga/.',
     ],

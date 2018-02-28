@@ -1,10 +1,8 @@
 from src.provider import Provider
 from .helpers.std import Std
-from .helpers.e_hentai_org import EHentaiOrg
 
 
 class TruyenVnsharingSite(Provider, Std):
-    pb = None
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -32,10 +30,6 @@ class TruyenVnsharingSite(Provider, Std):
     def get_chapters(self):
         return self._elements('#manga-info-list a.title')
 
-    def prepare_cookies(self):
-        e_h = EHentaiOrg(self)
-        self.pb = e_h.parse_background
-
     def get_files(self):
         parser = self.html_fromstring(self.get_current_chapter())
         return self._images_helper(parser, '.read_content .br_frame > img')
@@ -43,7 +37,7 @@ class TruyenVnsharingSite(Provider, Std):
     def get_cover(self) -> str:
         img = self._elements('.info_ava.manga')
         if img and len(img):
-            return self.pb(img[0])
+            return self.parse_background(img[0])
 
 
 main = TruyenVnsharingSite

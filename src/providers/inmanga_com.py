@@ -1,11 +1,9 @@
 from src.provider import Provider
 from .helpers.std import Std
-from .helpers.e_hentai_org import EHentaiOrg
 
 
 class InMangaCom(Provider, Std):
     __local_storage = None
-    pb = None
 
     def get_archive_name(self) -> str:
         return 'vol_{:0>3}'.format(self.get_chapter_index())
@@ -39,8 +37,6 @@ class InMangaCom(Provider, Std):
         return self.get_storage_content()['result'][::-1]
 
     def prepare_cookies(self):
-        e_h = EHentaiOrg(self)
-        self.pb = e_h.parse_background
         self.__local_storage = {}
 
     def get_files(self):

@@ -50,3 +50,8 @@ class Std:
     def _base_cookies(self):
         cookies = self.http().get_base_cookies(self.get_url())
         self._storage['cookies'] = cookies.get_dict()
+
+    def parse_background(self, image):  # Todo. m.b. bug
+        selector = r'background.+?url\([\'"]?([^\s]+?)[\'"]?\)'
+        url = self.re.search(selector, image.get('style'))
+        return self.http().normalize_uri(url.group(1))
