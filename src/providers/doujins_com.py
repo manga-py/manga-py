@@ -12,16 +12,16 @@ class DoujinsCom(Provider, Std):
         return '0'
 
     def get_main_content(self):
-        pass
+        return self._get_content('{}/gallery/{}')
 
     def get_manga_name(self) -> str:
         return self._get_name('/gallery/([^/]+)')
 
     def get_chapters(self):
-        return [self.get_url()]
+        return [b'']
 
     def get_files(self):
-        items = self.html_fromstring(self.get_current_chapter(), self.img_selector)
+        items = self.document_fromstring(self.get_storage_content(), self.img_selector)
         return [i.get('data-file').replace('&amp;', '&') for i in items]
 
     def get_cover(self) -> str:

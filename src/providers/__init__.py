@@ -316,6 +316,9 @@ providers_list = {
     'puzzmos_com': [
         r'puzzmos\.com/manga/.',
     ],
+    r'pururin_io': [
+        r'pururin\.io/(gallery|read)/.',
+    ],
     'pzykosis666hfansub_com': [
         r'pzykosis666hfansub\.com/online/.',
     ],
