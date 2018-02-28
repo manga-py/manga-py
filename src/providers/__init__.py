@@ -254,6 +254,9 @@ providers_list = {
     'manhuagui_com': [
         r'manhuagui\.com/comic/\d',
     ],
+    'manhuatai_com': [
+        r'manhuatai\.com/.',
+    ],
     'manhwa_co': [
         r'manhwa\.co/.',
     ],
