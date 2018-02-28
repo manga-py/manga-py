@@ -24,19 +24,7 @@ build:
         node: 6.0.0
 
 filter:
-  paths: ['src/*']
+  paths:
+    - src/*
   excluded_paths:
-    - 'docs/'
-    - 'tests/'
-    - 'storage/'
-    - 'providers/'
-    - 'src/providers/*.py'
-    - 'src/providers/README.*'
-    - 'helpers/__future__/*.py'
-    - 'helpers/main/*.js'
-    - 'helpers/inmanga_com.py'
-    - 'helpers/unixmanga_nl.sh'
-    - "LICENSE"
-    - "README.*"
-    - "*.yml"
-    - "storage/"
+    - src/providers/
