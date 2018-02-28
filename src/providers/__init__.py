@@ -46,7 +46,7 @@ providers_list = {
         r'e-hentai\.org/g/\d',
     ],
     'eight_muses_com': [
-        r'8muses\.com/comics/album/.'
+        r'8muses\.com/comics/album/.',
     ],
     'funmanga_com': [
         r'funmanga\.com/.',
@@ -351,7 +351,7 @@ providers_list = {
         r'ravens-scans\.com(/lector)?/(serie/|read/).',
     ],
     'raw_senmanga_com': [
-        r'raw\.senmanga\.com/.'
+        r'raw\.senmanga\.com/.',
     ],
     'rawdevart_com': [
         r'rawdevart\.com/manga/.',
@@ -373,7 +373,7 @@ providers_list = {
         r'readmanga\.eu/manga/\d+/.',
     ],
     'readmng_com': [
-        r'readmng\.com/.'
+        r'readmng\.com/.',
     ],
     'readms_net': [
         r'readms\.net/(r|manga)/.',
@@ -385,10 +385,17 @@ providers_list = {
         r'selfmanga\.ru/.',
     ],
     'senmanga_com': [
-        r'senmanga\.com/.'
+        r'senmanga\.com/.',
     ],
     'shakai_ru': [
         r'shakai\.ru/manga.*?/\d',
+    ],
+    'shogakukan_co_jp': [
+        r'shogakukan\.co\.jp/books/\d',
+        r'shogakukan\.co\.jp/magazines/series/\d',
+    ],
+    'shogakukan_tameshiyo_me': [
+        r'shogakukan\.tameshiyo\.me/\d',
     ],
     'somanga_net': [
         r'somanga\.net/(leitor|manga)/.',

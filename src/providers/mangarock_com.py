@@ -32,7 +32,7 @@ class MangaRockCom(Provider, Std):
         return items.get('data')
 
     # decrypt
-    def _loop_callback_files(self, _path):
+    def after_file_save(self, _path):
         _path_wp = _path + 'wp'
         file_r = open(_path, 'rb')
         file_w = open(_path_wp, 'wb')

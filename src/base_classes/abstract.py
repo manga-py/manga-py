@@ -30,13 +30,15 @@ class Abstract:
     @abstractmethod
     def get_chapter_index(self) -> str:
         pass
-        # return self.get_archive_name()
 
-    def _loop_callback_chapters(self):
-        pass
-
-    def _loop_callback_files(self, _path: str):
+    def loop_callback_chapters(self):
         pass
 
     def get_cover(self):
+        pass
+
+    def before_file_save(self, url, idx) -> str:  # return url !
+        return url
+
+    def after_file_save(self, _path: str):
         pass

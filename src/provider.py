@@ -71,7 +71,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         if isinstance(volumes, list):
             for idx, __url in enumerate(volumes):
                 self._storage['current_chapter'] = idx
-                self._loop_callback_chapters()
+                self.loop_callback_chapters()
 
                 if self._check_archive():
                     continue
@@ -98,6 +98,8 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         else:
             _url = url
 
+        url = self.before_file_save(url, idx)
+
         if idx is None:
             idx = self._storage['current_file']
 
@@ -113,7 +115,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             self.http().download_file(_url, _path)
             self._archive.add_file(_path, in_arc_name)
         callable(callback) and callback()
-        self._loop_callback_files(_path)
+        self.after_file_save(_path)
 
         return _path
 

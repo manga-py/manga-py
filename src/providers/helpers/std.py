@@ -58,15 +58,24 @@ class Std:
 
     @property
     def content(self):
-        return self._storage.get('main_content', self.get_main_content())
+        content = self._storage.get('main_content', None)
+        if content is None:
+            content = self.get_main_content()
+        return content
 
     @property
     def manga_name(self) -> str:
-        return self._storage.get('manga_name', self.get_manga_name())
+        name = self._storage.get('manga_name', None)
+        if name is None:
+            name = self.get_manga_name()
+        return name
 
     @property
     def domain(self) -> str:
-        return self._storage.get('domain_uri', self.get_domain())
+        domain = self._storage.get('domain_uri', None)
+        if domain is None:
+            domain = self.get_domain()
+        return domain
 
     @property
     def chapter(self) -> str:
