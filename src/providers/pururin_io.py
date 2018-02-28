@@ -2,7 +2,7 @@ from src.provider import Provider
 from .helpers.std import Std
 
 
-class _Template(Provider, Std):
+class PururinIo(Provider, Std):
 
     def get_archive_name(self) -> str:
         return 'archive'
@@ -54,4 +54,4 @@ class _Template(Provider, Std):
         return self._cover_from_content('.cover > a > img')
 
 
-main = _Template
+main = PururinIo

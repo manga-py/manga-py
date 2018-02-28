@@ -347,6 +347,9 @@ providers_list = {
     'ravens_scans_com': [
         r'ravens-scans\.com(/lector)?/(serie/|read/).',
     ],
+    'raw_senmanga_com': [
+        r'raw\.senmanga\.com/.'
+    ],
     'rawdevart_com': [
         r'rawdevart\.com/manga/.',
     ],
@@ -374,6 +377,9 @@ providers_list = {
     ],
     'selfmanga_ru': [
         r'selfmanga\.ru/.',
+    ],
+    'senmanga_com': [
+        r'senmanga\.com/.'
     ],
     'shakai_ru': [
         r'shakai\.ru/manga.*?/\d',
