@@ -25,9 +25,8 @@ script:
   - coverage run --omit=src/providers/*.py --source=src tests/pytest.py
 after_script:
   - coverage xml
-  - ./cc-test-reporter after-build -t coverage.py --exit-code $TRAVIS_TEST_RESULT || true
-before_deploy:
   - source ./before_deploy.sh
+  - ./cc-test-reporter after-build -t coverage.py --exit-code $TRAVIS_TEST_RESULT || true
 deploy:
   - provider: releases
     api_key:
