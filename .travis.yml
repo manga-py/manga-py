@@ -27,6 +27,7 @@ after_script:
   - coverage xml
   - source ./before_deploy.sh
   - ./cc-test-reporter after-build -t coverage.py --exit-code $TRAVIS_TEST_RESULT || true
+  - echo "$allow_deploy"
 deploy:
   - provider: releases
     api_key:
