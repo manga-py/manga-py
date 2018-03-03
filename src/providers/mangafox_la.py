@@ -26,7 +26,7 @@ class MangaFoxMe(Provider, Std):
     def __get_files_url(self):
         volume = self.chapter
         url = self.http().normalize_uri(volume)
-        if url.find('.html') > 0:
+        if ~url.find('.html'):
             url = url[: url.rfind('/')]
         return url
 

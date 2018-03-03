@@ -413,6 +413,10 @@ providers_list = {
     'taadd_com': [
         r'taadd\.com/(book|chapter)/.',
     ],
+    'tapas_io': [
+        r'tapas.io/episode/\d',
+        r'tapas.io/series/\w',
+    ],
     'tenmanga_com': [
         r'tenmanga\.com/(book|chapter)/.',
     ],

@@ -43,7 +43,7 @@ class MangaRussiaCom(Provider, Std):
         img = parser.cssselect('img#comicpic')[0]
         urls = [img.get('src')]
         onload = img.get('onload')
-        if onload and onload.find('(\'') > 0:
+        if ~onload and onload.find('(\''):
             urls.append(self.re.search('\(\'(.+)\'\)', onload).group(1))
         return urls
 

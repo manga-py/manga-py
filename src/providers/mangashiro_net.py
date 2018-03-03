@@ -20,7 +20,7 @@ class MangaShiroNet(Provider, Std):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        if url.find('/manga/') > 0:
+        if ~url.find('/manga/'):
             re = '/manga/([^/]+)'
         else:
             re = self.alter_re_name

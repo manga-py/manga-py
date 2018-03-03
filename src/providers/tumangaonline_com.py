@@ -17,7 +17,7 @@ class TuMangaOnlineCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        if url.find('/lector/') > 0:
+        if ~url.find('/lector/'):
             re = '/lector/([^/]+)'
         else:
             re = r'/mangas/\d+/([^/]+)'
@@ -44,7 +44,7 @@ class TuMangaOnlineCom(Provider, Std):
     def _get_id(self):
         url = self.get_url()
         re = r'/mangas/(\d+)'
-        if url.find('/lector/') > 0:
+        if ~url.find('/lector/'):
             re = r'/lector/[^/]+/(\d+)'
         return self.re.search(re, url).group(1)
 

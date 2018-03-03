@@ -23,8 +23,8 @@ class EHentaiOrg:
 
     def get_url(self):
         url = self.provider.get_url()
-        if url.find('?') > 0:
+        if ~url.find('?'):
             url = url[:url.find('?')]
-        if url.find('#') > 0:
+        if ~url.find('#'):
             url = url[:url.find('#')]
         return url

@@ -13,7 +13,7 @@ class GoodMangaNet(Provider, Std):
 
     def get_main_content(self):
         url = self.get_url()
-        if url.find('/chapter/') > 0:
+        if ~url.find('/chapter/'):
             url = self.html_fromstring(url, '#manga_head h3 > a', 0).get('href')
         _id = self.re.search(r'net/(\d+/[^/]+)', url).group(1)
         return self.http_get('{}/{}'.format(self.domain, _id))

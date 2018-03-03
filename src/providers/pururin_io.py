@@ -12,7 +12,7 @@ class PururinIo(Provider, Std):
 
     def get_main_content(self):
         url = self.get_url()
-        if url.find('/gallery/') > 0:
+        if ~url.find('/gallery/'):
             re = r'/gallery/(\d+)/([^/]+)'
         else:
             re = r'/read/(\d+)/\d+/([^/]+)'
@@ -23,7 +23,7 @@ class PururinIo(Provider, Std):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        if url.find('/gallery/') > 0:
+        if ~url.find('/gallery/'):
             re = r'/gallery/\d+/([^/]+)'
         else:
             re = r'/read/\d+/\d+/([^/]+)'

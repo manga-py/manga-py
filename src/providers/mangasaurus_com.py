@@ -17,7 +17,7 @@ class MangaSaurusCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        if url.find('/view/') > 0:
+        if ~url.find('/view/'):
             url = self.html_fromstring(url, '#m_reader_bottom + div > a', 0).get('href')
         result = self.re.search(r'/manga/(\d+)/([^/]+)', url).groups()
         return '{1}_{0}'.format(*result)

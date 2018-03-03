@@ -16,7 +16,7 @@ class Base:
 
         self._storage = {
             'cookies': {},
-            'main_content': '',
+            'main_content': None,
             'chapters': [],
             'current_chapter': 0,
             'current_file': 0,

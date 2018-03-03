@@ -17,7 +17,7 @@ class BlogTruyenCom(Provider, Std):
         return self.http_get(self.http().normalize_uri(url))
 
     def _test_main_url(self, url):
-        if url.find('.com/c') > 0:
+        if ~url.find('.com/c'):
             selector = '.breadcrumbs a + a'
             url = self.html_fromstring(url, selector, 0).get('href')
         return url

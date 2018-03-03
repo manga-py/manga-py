@@ -27,7 +27,7 @@ class MangaOnNet(Provider, Std):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        if url.find('read-online') > 0:
+        if ~url.find('read-online'):
             url = self.html_fromstring(url, '.back-info a', 0).get('href')
         return self.re.search(r'/manga-info/([^/]+)', url).group(1)
 

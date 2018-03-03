@@ -24,7 +24,7 @@ class MangaDexCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        if url.find('/manga/') > 0:
+        if ~url.find('/manga/'):
             name = self.html_fromstring(url, 'h3.panel-title', 0)
         else:
             name = self.html_fromstring(url, '.toggle.col-sm-2 > a', 0)

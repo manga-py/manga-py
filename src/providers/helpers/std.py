@@ -78,5 +78,5 @@ class Std:
         return domain
 
     @property
-    def chapter(self) -> str:
+    def chapter(self):
         return self.get_current_chapter()

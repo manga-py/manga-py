@@ -49,7 +49,7 @@ class VizCom(Provider, Std):
             #
             # for i in parser:
             #     img_url = i.get('url')
-            #     if img_url.find('blankpage.jpg') > 0:
+            #     if ~img_url.find('blankpage.jpg'):
             #         break
             #     # see manga.py:280
             #     t.addThread(download_one_file, (img_url,))

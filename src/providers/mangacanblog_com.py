@@ -13,7 +13,7 @@ class MangaCanBlogCom(Provider, Std):
         if not idx:
             idx = self.re.search(r'/.+/(.+)\.html', ch)
         idx = idx.group(1)
-        if idx.find('-terbaru') > 0:
+        if ~idx.find('-terbaru'):
             idx = idx[:idx.find('-terbaru')]
         return 'vol_{:0>3}-{}'.format(
             self._chapter_index(),
@@ -30,7 +30,7 @@ class MangaCanBlogCom(Provider, Std):
     def _clear_name(a):
         name = a[0].text_content()
         name = unquote_plus(name.split('|')[0].strip())
-        if name.find(' Indonesia') > 0:
+        if ~name.find(' Indonesia'):
             name = name[:name.find(' Indonesia')]
         return name
 
