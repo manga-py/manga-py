@@ -4,14 +4,18 @@ env:
 addons:
   artifacts: true
 language: python
+python:
+  - "3.5"
+  - "3.6"
+  - "nightly"
 martix:
   include:
-  - python: "3.5"
-    env: ALLOW_DEPLOY=false
-  - python: "3.6"
-    env: ALLOW_DEPLOY=true
-  - python: "nightly"
-    env: ALLOW_DEPLOY=false
+    - python: "3.5"
+      env: ALLOW_DEPLOY=false
+    - python: "3.6"
+      env: ALLOW_DEPLOY=true
+    - python: "nightly"
+      env: ALLOW_DEPLOY=false
 cache: pip
 before_install:
   - sudo apt-get -y install nodejs
