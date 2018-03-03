@@ -13,7 +13,7 @@ class MangaSh(Provider, Std):
 
     def get_chapter_index(self) -> str:
         chapter = self.chapter
-        _ch = chapter.get('ChapterNumberAbsolute', self._chapter_index())
+        _ch = chapter.get('ChapterNumberAbsolute', self.chapter_index)
         _vol = chapter.get('VolumeNumber', 0)
         _ch_v = chapter.get('ChapterNumberVolume', '')
         if _ch_v:

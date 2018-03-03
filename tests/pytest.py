@@ -186,7 +186,7 @@ class TestBaseClass(unittest.TestCase):
         domain = 'http://example.org'
         bp._params['url'] = domain + '/manga/here.html'
         self.assertEqual(bp._params['url'], bp.get_url())
-        self.assertEqual(domain, bp.get_domain())
+        self.assertEqual(domain, bp.domain)
 
     def test_base1(self):
         bp = Base()

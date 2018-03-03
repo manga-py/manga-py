@@ -115,7 +115,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             self.http().download_file(_url, _path)
             self._archive.add_file(_path, in_arc_name)
         callable(callback) and callback()
-        self.after_file_save(_path)
+        self.after_file_save(_path, idx)
 
         return _path
 

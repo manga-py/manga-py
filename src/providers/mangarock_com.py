@@ -12,7 +12,7 @@ class MangaRockCom(Provider, Std):
         return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        return str(self._chapter_index())
+        return str(self.chapter_index)
 
     def get_main_content(self):
         pass
@@ -32,7 +32,7 @@ class MangaRockCom(Provider, Std):
         return items.get('data')
 
     # decrypt
-    def after_file_save(self, _path):
+    def after_file_save(self, _path, idx: int):
         _path_wp = _path + 'wp'
         file_r = open(_path, 'rb')
         file_w = open(_path_wp, 'wb')

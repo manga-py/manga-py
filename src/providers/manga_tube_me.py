@@ -14,7 +14,7 @@ class MangaTubeMe(Provider, Std):
         txt = chapter[0]
         idx = self.re.search(r'(?:.*?)(\d+(?:\.\d+)?)', txt)
         if not idx:
-            return str(self._chapter_index())
+            return str(self.chapter_index)
         return '-'.join(self._idx_to_x2(idx.group(1).split('.')))
 
     def get_main_content(self):

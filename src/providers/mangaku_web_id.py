@@ -7,12 +7,12 @@ class MangakuWebId(Provider, Std):
     def get_archive_name(self) -> str:
         ch = self.chapter
         return 'vol_{:0>3}-{}'.format(
-            self._chapter_index(),
+            self.chapter_index,
             self.re.search(':[^/]+/([^/]+)', ch).group(1)
         )
 
     def get_chapter_index(self) -> str:
-        return str(self._chapter_index())
+        return str(self.chapter_index)
 
     def get_main_content(self):
         return self.http_get(self.get_url())

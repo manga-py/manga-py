@@ -11,7 +11,7 @@ class ShogakukanCoJp(ShogakukanTameshiyoMe, Std):
         )
 
     def get_chapter_index(self) -> str:
-        return str(self._chapter_index())
+        return str(self.chapter_index)
 
     def get_main_content(self):
         types = [

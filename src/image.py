@@ -42,7 +42,9 @@ class Image:
         image.save(dest_path, quality=quality)
         return dest_path
 
-    def crop_manual_with_offsets(self, offsets, dest_path: str = None):
+    def crop_manual_with_offsets(self, offsets = None, dest_path: str = None):
+        if offsets is None:
+            return
         image = self.__open(self.src_path)
         if dest_path is None:
             dest_path = self.src_path
@@ -56,12 +58,14 @@ class Image:
         ))
         self.transparency_fixed_before_save(image, dest_path).save(dest_path)
 
-    def crop_manual(self, sizes: tuple, dest_path: str = None):
+    def crop_manual(self, sizes: tuple = None, dest_path: str = None):
         """
         :param sizes: The crop rectangle, as a (left, upper, right, lower)-tuple.
         :param dest_path:
         :return:
         """
+        if sizes is None:
+            return
         image = self.__open(self.src_path)
         image = image.crop(sizes)
         if dest_path is None:

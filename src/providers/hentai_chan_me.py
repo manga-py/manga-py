@@ -9,7 +9,7 @@ class HentaiChanMe(MangaChanMe):
         return 'vol_{:0>3}'.format(idx)
 
     def get_chapter_index(self) -> str:
-        return str(self._chapter_index())
+        return str(self.chapter_index)
 
     def _login(self, **kwargs):
         url = self.domain + '/index.php'

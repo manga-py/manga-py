@@ -8,7 +8,7 @@ class MangaForAllCom(Provider, Std):
         idx = self.get_chapter_index().split('-')
         return 'vol_{:0>3}-{}_{}'.format(
             *self._idx_to_x2(idx),
-            self._chapter_index()
+            self.chapter_index
         )
 
     def get_chapter_index(self) -> str:

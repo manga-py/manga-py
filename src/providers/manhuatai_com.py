@@ -14,7 +14,7 @@ class ManhuaTaiCom(Provider, Std):
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
         return 'vol_{:0>3}-{}'.format(
-            self._chapter_index(),
+            self.chapter_index,
             idx
         )
 

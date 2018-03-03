@@ -7,12 +7,6 @@ class Callbacks:
             _max, _current = len(self._storage['files']), self._storage['current_file']
             self.progress(_max, _current, _current < 1)
 
-    def get_current_chapter(self):
-        return self._storage['chapters'][self._storage['current_chapter']]
-
-    def get_current_file(self):
-        return self._storage['files'][self._storage['current_file']]
-
     def set_quest_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
         setattr(self, 'quest', callback)
 

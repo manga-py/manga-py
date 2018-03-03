@@ -8,7 +8,7 @@ class MyReadingMangaInfo(Provider, Std):
         return 'vol_{:0>3}'.format(idx)
 
     def get_chapter_index(self, no_increment=False) -> str:
-        return str(self._chapter_index())
+        return str(self.chapter_index)
 
     def get_main_content(self):
         return self._get_content('{}/{}/')

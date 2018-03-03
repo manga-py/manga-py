@@ -7,7 +7,7 @@ class JapScanCom(GoMangaCo):
     _chapters_selector = '#liste_chapitres ul li a'
 
     def get_archive_name(self) -> str:
-        idx = self._chapter_index(), self.get_chapter_index()
+        idx = self.chapter_index, self.get_chapter_index()
         return 'vol_{:0>3}-{}'.format(*idx)
 
     def get_chapter_index(self) -> str:

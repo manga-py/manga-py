@@ -69,14 +69,3 @@ class Std:
         if name is None:
             name = self.get_manga_name()
         return name
-
-    @property
-    def domain(self) -> str:
-        domain = self._storage.get('domain_uri', None)
-        if domain is None:
-            domain = self.get_domain()
-        return domain
-
-    @property
-    def chapter(self):
-        return self.get_current_chapter()

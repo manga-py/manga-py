@@ -5,10 +5,10 @@ from .helpers.std import Std
 class VizCom(Provider, Std):
 
     def get_archive_name(self) -> str:
-        return 'vol_{}'.format(self._chapter_index())
+        return 'vol_{}'.format(self.chapter_index)
 
     def get_chapter_index(self) -> str:
-        return str(self._chapter_index())
+        return str(self.chapter_index)
 
     def get_main_content(self):
         url = self.re.search('/([^/]+/chapters/[^/]+)').group(1)

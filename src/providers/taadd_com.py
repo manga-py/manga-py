@@ -11,7 +11,7 @@ class TaaddCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
-        name = 'vol_{:0>3}-{}'.format(self._chapter_index(), idx)
+        name = 'vol_{:0>3}-{}'.format(self.chapter_index, idx)
         return self.remove_not_ascii(name)
 
     def get_chapter_index(self) -> str:

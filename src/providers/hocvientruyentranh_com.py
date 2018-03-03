@@ -10,7 +10,7 @@ class HocVienTruyenTranhCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         idx = self.re.search(r'/chapter/(\d+)', self.chapter)
-        return '{}-{}'.format(self._chapter_index(), idx.group(1))
+        return '{}-{}'.format(self.chapter_index, idx.group(1))
 
     def _test_main_url(self, url):
         if self.re.search('/chapter/', url):

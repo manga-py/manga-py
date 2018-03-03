@@ -38,16 +38,15 @@ class Base:
     def get_url(self):
         return self._params['url']
 
-    def get_domain(self):
+    @property
+    def domain(self) -> str:
         if not self._storage.get('domain_uri', None):
             self._storage['domain_uri'] = re.search('(https?://[^/]+)', self._params['url']).group(1)
-        return self._storage['domain_uri']
+        return self._storage.get('domain_uri')
 
-    def image_auto_crop(self, src_path, dest_path=None):
+    @staticmethod
+    def image_auto_crop(src_path, dest_path=None):
         image = Image(src_path=src_path)
-        if isinstance(self._image_params['auto_crop'], dict):
-            for i in self._image_params['auto_crop']:
-                image.params[i] = self._image_params['auto_crop'][i]
         image.crop_auto(dest_path=dest_path)
 
     def image_manual_crop(self, src_path, dest_path=None):  # sizes: (left, top, right, bottom)
@@ -61,7 +60,7 @@ class Base:
     def http(self, new=False) -> Http:
         http_params = {
             'allow_webp': not self._params.get('disallow_webp', None),
-            'referer': self._storage.get('referer', self.get_domain()),
+            'referer': self._storage.get('referer', self.domain),
             'user_agent': self._get_user_agent(),
             'proxies': self._storage.get('proxies', None),
             'cookies': self._storage.get('cookies', None),
@@ -87,7 +86,8 @@ class Base:
             return ua_storage
         return ua_params
 
-    def _chapter_index(self):
+    @property
+    def chapter_index(self):
         return self._storage.get('current_chapter', 0)
 
     @classmethod
@@ -106,3 +106,10 @@ class Base:
                 url = self.__normalize_chapters(n, i)
                 items.append(url)
         return items
+
+    @property
+    def chapter(self):
+        return self._storage['chapters'][self._storage['current_chapter']]
+
+    def get_current_file(self):
+        return self._storage['files'][self._storage['current_file']]

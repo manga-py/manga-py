@@ -11,7 +11,7 @@ class JavZipOrg:
 
     def __init__(self, parser: Provider):
         self.parser = parser
-        url = parser.get_current_chapter()
+        url = parser.chapter
         if parser.re.search(r'jav-zip\.org', url):
             self.url = url
             _ = urlparse(url)

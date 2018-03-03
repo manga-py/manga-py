@@ -8,10 +8,10 @@ class KuMangaCom(Provider, Std):
     __local_storage = None
 
     def get_archive_name(self) -> str:
-        return 'vol_{:0>3}'.format(self._chapter_index())
+        return 'vol_{:0>3}'.format(self.chapter_index)
 
     def get_chapter_index(self) -> str:
-        return '{}'.format(self._chapter_index())
+        return '{}'.format(self.chapter_index)
 
     def get_main_content(self):
         if not self.__local_storage:

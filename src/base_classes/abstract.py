@@ -40,5 +40,5 @@ class Abstract:
     def before_file_save(self, url, idx) -> str:  # return url !
         return url
 
-    def after_file_save(self, _path: str):
+    def after_file_save(self, _path: str, idx: int):
         pass

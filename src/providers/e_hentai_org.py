@@ -18,7 +18,7 @@ class EHentaiOrg(Provider, Std):
         return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        return str(self._chapter_index())
+        return str(self.chapter_index)
 
     def get_main_content(self):
         return self.http_get(self.helper.get_url())
