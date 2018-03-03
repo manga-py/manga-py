@@ -27,7 +27,7 @@ after_script:
   - coverage xml
   - chmod +x before_deploy.sh
   - source ./before_deploy.sh
-  - echo "$ALLOW_DEPLOY"
+  - echo "${ALLOW_DEPLOY}"
 before_deploy:
   - echo "Start make gh-pages content"
   - cp helpers/.builder.py .
@@ -54,7 +54,6 @@ deploy:
     github-token: $MANGADL_TOKEN
     on:
       branch: master
-      condition: "$ALLOW_DEPLOY == true"
 #    fqdn: yuru-yuri.sttv.me
 #see https://docs.travis-ci.com/user/deployment/pages/
 allow_failures:
