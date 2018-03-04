@@ -5,7 +5,7 @@ from json import dumps
 from datetime import datetime
 
 start_items = [
-    ['http://bato.to', 0, ' - Batoto will be closing down permanently (Jan 18, 2018)'],
+    # ['http://bato.to', 0, ' - Batoto will be closing down permanently (Jan 18, 2018)'],
     ['http://bulumanga.com', 0, ' - Closed'],
     ['http://bwahahacomics.ru', 0, ' - Very little content. Possibly, will be done in the future.'],
     ['http://com-x.life', 1, ' - One thread only!!! --no-multi-threads. <i class="v0"></i>'],
