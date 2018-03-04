@@ -1,13 +1,16 @@
 # Manga-Downloader [![Travis CI result](https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=master)](https://travis-ci.org/yuru-yuri/manga-dl/branches) [![Build status](https://ci.appveyor.com/api/projects/status/dssxq36cflv32gjr?svg=true)](https://ci.appveyor.com/project/1271/manga-downloader) ![Python version](https://img.shields.io/badge/Pyhton%20version-3.5--3.6-blue.svg)
 
-Universal assistant download manga.<br/>
-Supports more than 150 resources now.<br>
+Universal assistant download manga.
+
+Supports more than 150 resources now.
 
 [![Code Climate](https://codeclimate.com/github/yuru-yuri/manga-dl/badges/gpa.svg)](https://codeclimate.com/github/yuru-yuri/manga-dl)
-[![Issue Count](https://codeclimate.com/github/yuru-yuri/manga-dl/badges/issue_count.svg)](https://codeclimate.com/github/yuru-yuri/manga-dl)<br/>
+[![Issue Count](https://codeclimate.com/github/yuru-yuri/manga-dl/badges/issue_count.svg)](https://codeclimate.com/github/yuru-yuri/manga-dl)
+
 [![Scrutinizer CI result](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl)
 [![Scrutinizer CI coverage](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl)
-[![GitHub issues](https://img.shields.io/github/issues/yuru-yuri/manga-dl.svg)](https://github.com/yuru-yuri/manga-dl/issues)<br/>
+[![GitHub issues](https://img.shields.io/github/issues/yuru-yuri/manga-dl.svg)](https://github.com/yuru-yuri/manga-dl/issues)
+
 
 ## Supported resources
 
