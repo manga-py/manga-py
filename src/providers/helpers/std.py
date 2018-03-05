@@ -41,8 +41,10 @@ class Std:
                 result += '{}'.format(i)
         return result
 
-    def _get_name(self, selector):
-        return self.re.search(selector, self.get_url()).group(1)
+    def _get_name(self, selector, url=None):
+        if url is None:
+            url = self.get_url()
+        return self.re.search(selector, url).group(1)
 
     def _get_content(self, selector):
         return self.http_get(selector.format(self.domain, self.manga_name))

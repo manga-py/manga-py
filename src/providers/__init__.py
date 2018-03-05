@@ -11,6 +11,9 @@ providers_list = {
     'antisensescans_com': [
         r'antisensescans\.com/online/(series|read)/.',
     ],
+    'bato_to': [
+        r'bato\.to/(series|chapter)/\d'
+    ],
     'blogtruyen_com': [
         r'blogtruyen\.com/.',
     ],

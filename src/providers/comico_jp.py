@@ -1,13 +1,14 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class Comico(Provider):
+class ComicoJp(Provider, Std):
 
     def get_archive_name(self) -> str:
-        return 'vol_{:0>3}'.format(self._storage['current_chapter'])
+        return 'vol_{:0>3}'.format(self.chapter_index)
 
     def get_chapter_index(self) -> str:
-        return str(self._storage['current_chapter'])
+        return str(self.chapter_index)
 
     def get_main_content(self):
         title_no = self.re.search(r'\.jp/.+titleNo=(\d+)', self.get_url())
@@ -35,5 +36,8 @@ class Comico(Provider):
         items = self.html_fromstring(self.chapter, '.comic-image._comicImage > img.comic-image__image')
         return [i.get('src') for i in items]
 
+    def get_cover(self):
+        pass
 
-main = Comico
+
+main = ComicoJp
