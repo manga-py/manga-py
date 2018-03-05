@@ -27,9 +27,7 @@ before_script:
 script:
   - coverage run --omit=src/providers/*.py --source=src tests/pytest.py
 after_script:
-  - coverage xml
   - echo "$allow_deploy"
-before_deploy:
   - echo "Start make gh-pages content"
   - source ./before_deploy.sh
 deploy:

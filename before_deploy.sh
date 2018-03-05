@@ -14,6 +14,7 @@ html-minifier helpers/gh_pages_content/improvement.html --output helpers/gh_page
 git add -A
 git commit -a -m upd
 
+coverage xml
 ./cc-test-reporter after-build -t coverage.py --exit-code $TRAVIS_TEST_RESULT || true
 
 if [[ "$TRAVIS_TAG" != "" ]]
