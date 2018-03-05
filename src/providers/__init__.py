@@ -424,7 +424,7 @@ providers_list = {
         r'tenmanga\.com/(book|chapter)/.',
     ],
     'tonarinoyj_jp': [
-        r'tonarinoyj.jp'
+        r'tonarinoyj.jp/episode/.'
     ],
     'triplesevenscans_com': [
         r'triplesevenscans\.com/reader/(series|read)/.',
