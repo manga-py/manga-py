@@ -3,11 +3,13 @@
 
 import json
 import unittest
+import math, operator
 from os import path
 from shutil import copyfile
 from sys import path as sys_path
+from functools import reduce
 
-from PIL import Image as PilImage
+from PIL import Image as PilImage, ImageChops
 
 root_path = path.dirname(path.realpath(__file__))
 sys_path.append(path.realpath(path.join(root_path, '..')))
@@ -18,6 +20,7 @@ from src.provider import Provider
 from src.image import Image
 from src import fs
 from src.http.url_normalizer import normalize_uri
+from src.crypt.puzzle import Puzzle
 
 
 class TestCase(unittest.TestCase):
@@ -310,8 +313,55 @@ class TestGhPages(unittest.TestCase):
         main()
 
 
-# class TestMatrix(unittest.TestCase):
-#     pass
+class TestMatrix(unittest.TestCase):
+    @staticmethod
+    def _rmsdiff(im1, im2):
+        """Calculate the root-mean-square difference between two images"""
+        h = ImageChops.difference(im1, im2).histogram()
+        # calculate rms
+        return math.sqrt(reduce(operator.add, map(lambda h, i: h * (i ** 2), h, range(256))) / (float(im1.size[0]) * im1.size[1]))
+
+    def test_jpg(self):
+        file_src = root_path + '/mosaic/tonarinoyj_jp_orig.jpg'  # tonarinoyj.jp  image
+        file_ref = root_path + '/mosaic/tonarinoyj_jp_reference.jpg'
+        file_dst = root_path + '/temp/tonarinoyj_jp_mosaic.jpg'
+
+        div_num = 4
+        matrix = {}
+        for i in range(div_num * div_num):
+            matrix[i] = (i % div_num) * div_num + int(i / div_num)
+        p = Puzzle(div_num, div_num, matrix, 8)
+        p.need_copy_orig = True
+        p.de_scramble(file_src, file_dst)
+
+        src = PilImage.open(file_dst)
+        ref = PilImage.open(file_ref)
+
+        deviation = self._rmsdiff(src, ref)
+        src.close()
+        ref.close()
+        self.assertTrue(deviation < 10)
+
+    def test_png(self):
+        file_src = root_path + '/mosaic/tonarinoyj_jp_orig.png'  # tonarinoyj.jp  image
+        file_ref = root_path + '/mosaic/tonarinoyj_jp_reference.png'
+        file_dst = root_path + '/temp/tonarinoyj_jp_mosaic.png'
+
+        div_num = 4
+        matrix = {}
+        for i in range(div_num * div_num):
+            matrix[i] = (i % div_num) * div_num + int(i / div_num)
+        p = Puzzle(div_num, div_num, matrix, 8)
+        p.need_copy_orig = True
+        p.de_scramble(file_src, file_dst)
+
+        src = PilImage.open(file_dst)
+        ref = PilImage.open(file_ref)
+
+        deviation = self._rmsdiff(src, ref)
+        src.close()
+        ref.close()
+        self.assertTrue(deviation < 10)
 
 
 if __name__ == '__main__':

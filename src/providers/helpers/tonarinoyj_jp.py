@@ -1,12 +1,22 @@
 from src.provider import Provider
+from src.fs import get_temp_path, move, unlink
+from src.crypt.puzzle import Puzzle
 
 
 class TonariNoYjJp:
     provider = None
-    divide = 4
+    div_num = 4
+    multiply = 8
+    matrix = None
+    temp_path = None
 
     def __init__(self, provider: Provider):
         self.provider = provider
+        self.temp_path = get_temp_path('__image_matrix{}.png')
+        matrix = {}
+        for i in range(self.div_num * self.div_num):
+            matrix[i] = (i % self.div_num) * self.div_num + int(i / self.div_num)
+        self.matrix = matrix
 
     def _chapter_api_content(self, idx) -> dict:
         api = '{}/api/viewer/readable_products?current_readable_product_id={}&' \
@@ -31,3 +41,13 @@ class TonariNoYjJp:
             items += self.get_chapters(content.get('nextUrl'))
         re = self.provider.re.compile(r'/episode-thumbnail/(\d+)')
         return [re.search(i.get('src')).group(1) for i in items]
+
+    def solve_image(self, path, idx):
+        try:
+            solver = Puzzle(self.div_num, self.div_num, self.matrix, self.multiply)
+            solver.need_copy_orig = True
+            _ = self.temp_path.format(idx)
+            solver.de_scramble(path, _)
+            move(_, path)
+        except Exception:
+            pass

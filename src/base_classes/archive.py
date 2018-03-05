@@ -1,6 +1,7 @@
 from zipfile import ZipFile, ZIP_DEFLATED
 
 from src.fs import is_file, make_dirs, basename, dirname, unlink
+from os.path import splitext
 
 
 class Archive:
@@ -9,9 +10,16 @@ class Archive:
     def __init__(self):
         self.files = []
 
+    @staticmethod
+    def _check_ext(name):
+        name, ext = splitext(name)
+        if ext == '' or ext == '.':
+            return name + '.png'
+        return name
+
     def add_file(self, file, in_arc_name=None):
         if in_arc_name is None:
-            in_arc_name = basename(file)
+            in_arc_name = self._check_ext(basename(file))
         self.files.append((file, in_arc_name))
 
     def set_files_list(self, files):

@@ -8,7 +8,7 @@ class TonariNoYjJp(Provider, Std):
     helper = None
 
     def get_archive_name(self) -> str:
-        return self.get_chapter_index()
+        return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
         return str(self.chapter_index)
@@ -32,9 +32,9 @@ class TonariNoYjJp(Provider, Std):
 
     def get_files(self):
         doc = self.html_fromstring(self.chapter)
-        img = doc.cssselect('.link-slot > img')
         images = []
-        img and images.append(img[0].get('src'))
+        # img = doc.cssselect('.link-slot > img')  # sometimes 1x1 px
+        # img and images.append(img[0].get('src'))
         images += [i.get('data-src') for i in doc.cssselect('img.js-page-image')]
         return images
 
@@ -46,7 +46,7 @@ class TonariNoYjJp(Provider, Std):
 
     def after_file_save(self, _path: str, idx: int):
         if idx:
-            puzzle = Puzzle(4, 4)
+            self.helper.solve_image(_path, idx)
 
 
 main = TonariNoYjJp
