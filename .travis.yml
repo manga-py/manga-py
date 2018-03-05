@@ -13,6 +13,8 @@ before_install:
   - sudo apt-get -y install nodejs
   - sudo apt-get install python3-setuptools
   - python3 -V
+  - chmod +x before_deploy.sh
+  - source ./before_deploy.sh
 install:
   - npm install -g less less-plugin-clean-css html-minifier
   - pip3 install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller
@@ -25,8 +27,6 @@ script:
   - coverage run --omit=src/providers/*.py --source=src tests/pytest.py
 after_script:
   - coverage xml
-  - chmod +x before_deploy.sh
-  - source ./before_deploy.sh
   - echo "${ALLOW_DEPLOY}"
 before_deploy:
   - echo "Start make gh-pages content"
@@ -48,12 +48,14 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
+      condition: "$allow_deploy == true"
   - provider: pages
     local-dir: helpers/gh_pages_content
     target-branch: gh-pages
     github-token: $MANGADL_TOKEN
     on:
       branch: master
+      condition: "$allow_deploy == true"
 #    fqdn: yuru-yuri.sttv.me
 #see https://docs.travis-ci.com/user/deployment/pages/
 allow_failures:
