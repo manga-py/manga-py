@@ -432,6 +432,9 @@ providers_list = {
     'truyen_vnsharing_site': [
         r'truyen\.vnsharing\.site/index/read/.',
     ],
+    'truyentranhtuan_com': [
+        r'truyentranhtuan.com/.'
+    ],
     'tumangaonline_com': [
         r'tumangaonline\.com/.',
     ],

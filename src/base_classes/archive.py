@@ -20,6 +20,7 @@ class Archive:
     def add_file(self, file, in_arc_name=None):
         if in_arc_name is None:
             in_arc_name = self._check_ext(basename(file))
+        in_arc_name = self._check_ext(in_arc_name)
         self.files.append((file, in_arc_name))
 
     def set_files_list(self, files):

@@ -10,7 +10,7 @@ class Std:
             return self.http().normalize_uri(image[0].get(attr))
 
     @staticmethod
-    def _first_select_options(parser, selector, skip_first=True):
+    def _first_select_options(parser, selector, skip_first=True) -> list:
         options = 'option'
         if skip_first:
             options = 'option + option'
@@ -20,7 +20,7 @@ class Std:
         return []
 
     @classmethod
-    def _images_helper(cls, parser, selector, attr='src'):
+    def _images_helper(cls, parser, selector, attr='src') -> list:
         image = parser.cssselect(selector)
         return [i.get(attr).strip(r' \r\n') for i in image]
 
@@ -32,7 +32,7 @@ class Std:
         ]
 
     @staticmethod
-    def _join_groups(idx, glue='-'):
+    def _join_groups(idx, glue='-') -> str:
         result = ''
         for n, i in enumerate(idx):
             if i is not None and i != '':
@@ -41,19 +41,19 @@ class Std:
                 result += '{}'.format(i)
         return result
 
-    def _get_name(self, selector, url=None):
+    def _get_name(self, selector, url=None) -> str:
         if url is None:
             url = self.get_url()
         return self.re.search(selector, url).group(1)
 
-    def _get_content(self, selector):
+    def _get_content(self, selector) -> str:
         return self.http_get(selector.format(self.domain, self.manga_name))
 
     def _base_cookies(self):
         cookies = self.http().get_base_cookies(self.get_url())
         self._storage['cookies'] = cookies.get_dict()
 
-    def parse_background(self, image):
+    def parse_background(self, image) -> str:
         selector = r'background.+?url\([\'"]?([^\s]+?)[\'"]?\)'
         url = self.re.search(selector, image.get('style'))
         return self.http().normalize_uri(url.group(1))
