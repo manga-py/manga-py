@@ -435,6 +435,10 @@ providers_list = {
     'truyentranhtuan_com': [
         r'truyentranhtuan.com/.'
     ],
+    'tsumino_com': [
+        r'tsumino.com/Book/Info/\d',
+        r'tsumino.com/Read/View/\d',
+    ],
     'tumangaonline_com': [
         r'tumangaonline\.com/.',
     ],
