@@ -270,6 +270,7 @@ class TestArchive(unittest.TestCase):
             copyfile(root_path + item[0], root_path + item[1])
             orig_size += int(fs.file_size(root_path + item[1]))
             arc.add_file(root_path + item[1])
+        arc.add_file(root_path + 'archive_test_file')
         arc.make(arc_path)
         size = fs.file_size(arc_path)
         self.assertTrue(size and 1024 < int(size) < orig_size)
