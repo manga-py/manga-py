@@ -23,112 +23,105 @@ from src.http.url_normalizer import normalize_uri
 from src.crypt.puzzle import Puzzle
 
 
-class TestCase(unittest.TestCase):
-    paths = [
-        ['/img1.jpg', '/temp/img1.jpg'],
-        ['/img2.png', '/temp/img2.png'],
-        ['/img3.jpg', '/temp/img3.jpg'],
-        ['/img4.jpg', '/temp/img4.jpg'],
-        ['/img5.png', '/temp/img5.png'],
-        ['/img6.gif', '/temp/img6.gif'],
-    ]
+files_paths = [
+    ['/img1.jpg', '/temp/img1.jpg'],
+    ['/img2.png', '/temp/img2.png'],
+    ['/img3.jpg', '/temp/img3.jpg'],
+    ['/img4.jpg', '/temp/img4.jpg'],
+    ['/img5.png', '/temp/img5.png'],
+    ['/img6.gif', '/temp/img6.gif'],
+    ['/img7.webp', '/temp/img7.webp'],
+]
+
+
+class TestImages(unittest.TestCase):
 
     def test_manual_crop(self):
-        for file in self.paths:
+        for file in files_paths:
             fs.unlink(root_path + file[1])
 
             image = PilImage.open(root_path + file[0])
+            sizes = image.size
+            image.close()
 
             img = Image(root_path + file[0])
-
             img.crop_manual((10, 0, image.size[0], image.size[1]), root_path + file[1])
             img.close()
 
             cropped_image = PilImage.open(root_path + file[1])
-
-            sizes = image.size
             cropped_sizes = cropped_image.size
-            image.close()
             cropped_image.close()
 
             self.assertTrue((sizes[0] - cropped_sizes[0]) == 10)
 
     def test_manual_crop_with_offsets(self):
-        for file in self.paths:
+        for file in files_paths:
             fs.unlink(root_path + file[1])
 
             image = PilImage.open(root_path + file[0])
+            sizes = image.size
+            image.close()
 
             img = Image(root_path + file[0])
-
             img.crop_manual_with_offsets((10, 0, 0, 0), root_path + file[1])
             img.close()
 
             cropped_image = PilImage.open(root_path + file[1])
-
-            sizes = image.size
             cropped_sizes = cropped_image.size
-            image.close()
             cropped_image.close()
 
             self.assertTrue((sizes[0] - cropped_sizes[0]) == 10)
 
     def test_auto_crop1(self):
-        file = self.paths[0]
+        file = files_paths[0]
         fs.unlink(root_path + file[1])
 
         image = PilImage.open(root_path + file[0])
+        sizes = image.size
+        image.close()
 
         img = Image(root_path + file[0])
-
         img.crop_auto(root_path + file[1])
         img.close()
 
         cropped_image = PilImage.open(root_path + file[1])
-
-        sizes = image.size
         cropped_sizes = cropped_image.size
-        image.close()
         cropped_image.close()
 
         self.assertTrue(sizes[0] > cropped_sizes[0])
 
     def test_auto_crop2(self):
-        file = self.paths[1]
+        file = files_paths[1]
         fs.unlink(root_path + file[1])
 
         image = PilImage.open(root_path + file[0])
+        sizes = image.size
+        image.close()
 
         img = Image(root_path + file[0])
-
         img.crop_auto(root_path + file[1])
         img.close()
 
         cropped_image = PilImage.open(root_path + file[1])
-
-        sizes = image.size
         cropped_sizes = cropped_image.size
-        image.close()
         cropped_image.close()
 
         self.assertTrue(sizes[0] == cropped_sizes[0])
 
     def test_auto_crop3(self):
-        file = self.paths[4]
+        file = files_paths[4]
         fs.unlink(root_path + file[1])
 
         image = PilImage.open(root_path + file[0])
+        sizes = image.size
+        image.close()
 
         img = Image(root_path + file[0])
-
         img.crop_auto(root_path + file[1])
         img.close()
 
         cropped_image = PilImage.open(root_path + file[1])
-
-        sizes = image.size
         cropped_sizes = cropped_image.size
-        image.close()
         cropped_image.close()
 
         self.assertTrue(sizes[0] == (2 + cropped_sizes[0]))  # 2px black line
@@ -137,10 +130,10 @@ class TestCase(unittest.TestCase):
         self.assertRaises(AttributeError, lambda: Image(root_path))
 
     def test_gray1(self):
-        file = self.paths[1]
+        file = files_paths[1]
         fs.unlink(root_path + file[1])
-        image = Image(root_path + file[0])
 
+        image = Image(root_path + file[0])
         image.gray(root_path + file[1])
         image.close()
 
@@ -151,7 +144,7 @@ class TestCase(unittest.TestCase):
         self.assertTrue(index == 0)
 
     def test_convert(self):
-        file = self.paths[0][0]
+        file = files_paths[0][0]
         image = Image(root_path + file)
 
         basename = file[0:file.find('.')]
@@ -160,6 +153,9 @@ class TestCase(unittest.TestCase):
         image.close()
 
         self.assertTrue(path.isfile(basename))
+
+
+class TestInitProvider(unittest.TestCase):
 
     # success
     def test_get_provider1(self):
@@ -197,14 +193,14 @@ class TestBaseClass(unittest.TestCase):
 
     def test_autocrop(self):
         bp = Base()
-        img = TestCase.paths[0]
+        img = files_paths[0]
         fs.unlink(root_path + img[1])
         bp.image_auto_crop(root_path + img[0], root_path + img[1])
         self.assertTrue(fs.is_file(root_path + img[1]))
 
     def test_manualcrop0(self):
         bp = Base()
-        img = TestCase.paths[0]
+        img = files_paths[0]
         fs.unlink(root_path + img[1])
         bp._image_params['crop'] = (10, 2, 100, 100)
         bp.image_manual_crop(root_path + img[0], root_path + img[1])
@@ -212,7 +208,7 @@ class TestBaseClass(unittest.TestCase):
 
     def test_manualcrop1(self):
         bp = Base()
-        img = TestCase.paths[0]
+        img = files_paths[0]
         fs.unlink(root_path + img[1])
         bp._image_params['offsets_crop'] = (10, 32, 12, 5)
         bp.image_manual_crop(root_path + img[0], root_path + img[1])
@@ -268,16 +264,12 @@ class TestArchive(unittest.TestCase):
         arc = Archive()
         arc_path = root_path + '/temp/arc.zip'
         fs.unlink(arc_path)
-        paths = TestCase.paths
         orig_size = 0
-        for idx, item in enumerate(paths):
+        for idx, item in enumerate(files_paths):
             fs.unlink(root_path + item[1])
             copyfile(root_path + item[0], root_path + item[1])
             orig_size += int(fs.file_size(root_path + item[1]))
-            if idx % 2:
-                arc.add_file(root_path + item[1])
-            else:
-                arc.add_file(root_path + item[1])
+            arc.add_file(root_path + item[1])
         arc.make(arc_path)
         size = fs.file_size(arc_path)
         self.assertTrue(size and 1024 < int(size) < orig_size)

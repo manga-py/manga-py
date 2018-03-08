@@ -48,14 +48,17 @@ class Base:
     def image_auto_crop(src_path, dest_path=None):
         image = Image(src_path=src_path)
         image.crop_auto(dest_path=dest_path)
+        image.close()
 
     def image_manual_crop(self, src_path, dest_path=None):  # sizes: (left, top, right, bottom)
         if isinstance(self._image_params['crop'], tuple):
             image = Image(src_path=src_path)
             image.crop_manual(sizes=self._image_params['crop'], dest_path=dest_path)
+            image.close()
         elif isinstance(self._image_params['offsets_crop'], tuple):
             image = Image(src_path=src_path)
             image.crop_manual_with_offsets(offsets=self._image_params['offsets_crop'], dest_path=dest_path)
+            image.close()
 
     def http(self, new=False) -> Http:
         http_params = {

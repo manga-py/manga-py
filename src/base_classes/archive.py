@@ -1,4 +1,5 @@
 from zipfile import ZipFile, ZIP_DEFLATED
+from PIL import Image
 
 from src.fs import is_file, make_dirs, basename, dirname, unlink
 from os.path import splitext
@@ -11,16 +12,21 @@ class Archive:
         self.files = []
 
     @staticmethod
-    def _check_ext(name):
+    def _check_ext(file, name):
         name, ext = splitext(name)
         if ext == '' or ext == '.':
-            return name + '.png'
+            try:
+                image = Image.open(file)
+                name = name.rstrip('.') + '.' + image.format.lower()
+                image.close()
+            except (FileNotFoundError, OSError):
+                pass
         return name
 
     def add_file(self, file, in_arc_name=None):
         if in_arc_name is None:
-            in_arc_name = self._check_ext(basename(file))
-        in_arc_name = self._check_ext(in_arc_name)
+            in_arc_name = basename(file)
+        in_arc_name = self._check_ext(file, in_arc_name)
         self.files.append((file, in_arc_name))
 
     def set_files_list(self, files):
@@ -36,8 +42,6 @@ class Archive:
         for file in self.files:
             if is_file(file[0]):
                 archive.write(file[0], file[1])
-            else:
-                print(file[0], ' - IS NOT FILE!!!')
 
         info_file and archive.writestr('info.txt', info_file)
 
