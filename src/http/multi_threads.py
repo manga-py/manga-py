@@ -4,9 +4,11 @@ from threading import Thread
 class MultiThreads:
     threads = None
     max_threads = 2
+    to_run = None
 
     def __init__(self):
         self.threads = []
+        self.to_run = []
         try:
             import multiprocessing
             self.max_threads = multiprocessing.cpu_count()
@@ -16,18 +18,16 @@ class MultiThreads:
     def add(self, target: callable, args: tuple):
         self.threads.append(Thread(target=target, args=args))
 
-    def _run_processes(self, to_run, callback: callable=None):
-        for t in to_run:
-            t.join()
+    def _run_processes(self, callback: callable=None, n: int = None):
+        for t in self.to_run:
+            if not n:
+                t.join()
+                callback is not None and callback()
 
     def start(self, callback: callable=None):
-        to_run = []
         for n, t in enumerate(self.threads):  # starting all threads
             t.start()
-            to_run.append(t)
-            if n > 0 and n % self.max_threads == 0:
-                self._run_processes(to_run, callback)
-                to_run = []
-        if len(to_run):
-            self._run_processes(to_run, callback)
+            self.to_run.append(t)
+            self._run_processes(callback, n % self.max_threads)
+        self._run_processes(callback)
         self.threads = []
