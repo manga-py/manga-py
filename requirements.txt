@@ -10,3 +10,4 @@ tldextract>2.1
 urllib3
 packaging
 html-purifier>=0.1.9
+selenium>=3.0.2

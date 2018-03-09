@@ -1,3 +1,2 @@
 pydub>=0.20.0
-selenium>=3.0.2
 SpeechRecognition>=3.8.0
