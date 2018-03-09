@@ -1,5 +1,5 @@
 from selenium import webdriver  # need, if captcha detected
-from src.fs import get_current_path, get_temp_path, is_file, dirname
+from src.fs import get_current_path, get_temp_path, is_file, dirname, is_dir, make_dirs
 from sys import platform
 from zipfile import ZipFile
 from requests import get
@@ -15,13 +15,16 @@ class WebDriver:
 
     def download_drivder(self):
         url_prefix = 'https://chromedriver.storage.googleapis.com/'
-        url = 'chromedriver_linux64.zip'
+        url = '/chromedriver_linux64.zip'
         if ~platform.find('darwin'):
-            url = 'chromedriver_mac64.zip'
+            url = '/chromedriver_mac64.zip'
         if ~platform.find('win32'):
-            url = 'chromedriver_win32.zip'
+            url = '/chromedriver_win32.zip'
 
         path = get_temp_path('driver.zip')
+
+        if not is_dir(dirname(path)):
+            make_dirs(dirname(path))
 
         with open(path, 'wb') as driver:
             driver.write(get(url_prefix + self.driver_version + url).content)

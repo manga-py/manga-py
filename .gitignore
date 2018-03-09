@@ -5,6 +5,8 @@ tests/temp/
 src/rebreakcaptcha
 
 storage/.passwords.json
+storage/chromedriver
+storage/chromedriver.exe
 
 ### Python template
 # Byte-compiled / optimized / DLL files

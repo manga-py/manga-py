@@ -21,6 +21,7 @@ from src.image import Image
 from src import fs
 from src.http.url_normalizer import normalize_uri
 from src.crypt.puzzle import Puzzle
+from src.base_classes import WebDriver
 
 
 files_paths = [
@@ -356,6 +357,16 @@ class TestMatrix(unittest.TestCase):
         src.close()
         ref.close()
         self.assertTrue(deviation < 10)
+
+
+class TestWebDriver(unittest.TestCase):
+    def test_driver(self):
+        driver = WebDriver().get_driver()
+        driver.get('http://httpbin.org')
+        elements = driver.find_elements_by_css_selector('#manpage ul > li > a')
+        count = len(elements)
+        driver.close()
+        self.assertTrue(count > 0)
 
 
 if __name__ == '__main__':

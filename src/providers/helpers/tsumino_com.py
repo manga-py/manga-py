@@ -1,5 +1,5 @@
 from src.provider import Provider
-from src.base_classes.web_driver import WebDriver
+from src.base_classes import WebDriver
 from requests import Session
 
 
@@ -12,8 +12,8 @@ class TsuminoCom:
     def get_cookies(self, url):
         web_driver = WebDriver()
         driver = web_driver.get_driver()
-        page = driver.get(url)
-        iframe = page.find_element_by_css_selector(".g-recaptcha iframe")
+        driver.get(url)
+        iframe = driver.find_element_by_css_selector(".g-recaptcha iframe")
         src = self.provider.http_get(iframe.get_attribute('src'))
         driver.close()
 
