@@ -44,7 +44,7 @@ class WebDriver:
         driver_path = self._driver_path()
         if not is_file(driver_path):
             self.download_drivder()
-        self.is_win() and chmod(driver_path, 0o755)
+        self.is_win() or chmod(driver_path, 0o755)
         driver = webdriver.Chrome(executable_path=driver_path)
         driver.set_window_size(500, 600)
         return driver
