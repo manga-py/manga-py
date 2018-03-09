@@ -10,8 +10,7 @@ python:
 #  - "nightly"
 cache: pip
 before_install:
-  - sudo apt-get -y install nodejs
-  - sudo apt-get install python3-setuptools
+  - sudo apt-get -y install nodejs chromium-browser python3-setuptools
   - python3 -V
   - chmod +x after_script.sh
   - chmod +x before_deploy.sh
@@ -19,7 +18,7 @@ before_install:
   - source ./before_script.sh
 install:
   - npm install -g less less-plugin-clean-css html-minifier
-  - pip3 install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller
+  - pip3 install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
   - pip3 install -r requirements.txt
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter

@@ -11,7 +11,9 @@ build:
         override: true
       tests:
         before:
+          - 'sudo apt-get install chromium-browser'
           - 'pip3 install coverage'
+          - 'pip3 install pyvirtualdisplay'
         override:
           -
             command: 'coverage run --omit=src/providers/*.py --source=src tests/pytest.py'
