@@ -54,6 +54,9 @@ providers_list = {
     'eight_muses_com': [
         r'8muses\.com/comics/album/.',
     ],
+    'freeadultcomix_com': [
+        r'freeadultcomix\.com/.'
+    ],
     'funmanga_com': [
         r'funmanga\.com/.',
     ],
