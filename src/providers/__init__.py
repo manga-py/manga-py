@@ -316,6 +316,9 @@ providers_list = {
     'pecintakomik_com': [
         r'pecintakomik\.com/.',
     ],
+    'porncomix_info': [
+        r'porncomix.info/.'
+    ],
     'psychoplay_co': [
         r'psychoplay\.co/(series|read)/.',
     ],
@@ -443,7 +446,7 @@ providers_list = {
         r'tumangaonline\.com/.',
     ],
     'unionmangas_net': [
-        r'unionmangas\.net/(leitor|manga)/.',
+        r'unionmangas\.(net|cc)/(leitor|manga)/.',
     ],
     # 'viz_com': [r'viz\.com/shonenjump/chapters/.',],
     'wmanga_ru': [

@@ -32,7 +32,7 @@ start_items = [
     ['http://rawdevart.com', 1, '<i class="v0"></i>, very little content'],
     ['http://s-manga.net', 0, ' - Maybe'],
     ['http://tapas.io', 1, '<i class="v0"></i>, only public downloading now'],
-    ['http://tsumino.com', 1, 'Provider working, but the site is protected by recaptcha. I\'m working on it.'],
+    ['http://tsumino.com', 1, '<i class="d"></i>'],
     ['http://zip.raw.im', 0, ' - Will not be implemented'],
 ]
 
