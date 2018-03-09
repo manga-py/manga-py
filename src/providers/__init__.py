@@ -17,6 +17,9 @@ providers_list = {
     'blogtruyen_com': [
         r'blogtruyen\.com/.',
     ],
+    'chochox_com': [
+        r'chochox\.com/.'
+    ],
     'comicextra_com': [
         r'comicextra\.com/.',
     ],
@@ -317,7 +320,7 @@ providers_list = {
         r'pecintakomik\.com/.',
     ],
     'porncomix_info': [
-        r'porncomix.info/.'
+        r'porncomix\.info/.'
     ],
     'psychoplay_co': [
         r'psychoplay\.co/(series|read)/.',
