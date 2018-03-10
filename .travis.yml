@@ -42,7 +42,7 @@ before_deploy:
 deploy:
   - edge:
     branch: v1.8.47
-  - provider: pages
+    provider: pages
     local-dir: helpers/gh_pages_content
     target-branch: gh-pages
     github-token: $GH_TOKEN
