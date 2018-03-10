@@ -40,9 +40,9 @@ before_deploy:
   - git add -A
   - git commit -a -m upd
 deploy:
-  - edge:
-    branch: v1.8.47
-    provider: pages
+  - provider: pages
+    edge:
+      branch: v1.8.47
     local-dir: helpers/gh_pages_content
     target-branch: gh-pages
     github-token: $GH_TOKEN
