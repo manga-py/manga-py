@@ -14,6 +14,18 @@ jobs:
           - v1-dependencies-{{ checksum "requirements.txt" }}
 
       - run:
+          name: install node
+          command: |
+            sudo apt-get install build-essential libssl-dev
+            curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh -o install_nvm.sh
+            chmod +x install_nvm.sh
+            ./install_nvm.sh
+            source ~/.profile
+            nvm install 6.0.0
+            nvm alias default 6.0.0
+            nvm use default
+
+      - run:
           name: install dependencies
           command: |
             python3 -m venv venv
