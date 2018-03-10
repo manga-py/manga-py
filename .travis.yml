@@ -11,16 +11,17 @@ python:
 cache: pip
 before_install:
   - wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O /tmp/chrome.deb && sudo dpkg -i /tmp/chrome.deb && sudo apt-get install -y -f --fix-missing
-  - sudo apt-get -y install nodejs python3-setuptools
-  - python3 -V
+  - sudo apt-get -y install nodejs python-setuptools
+  - python -V
+  - pwd
   - chmod +x helpers/after_script.sh
   - chmod +x helpers/before_deploy.sh
   - chmod +x helpers/before_script.sh
   - source ./helpers/before_script.sh
 install:
   - npm install -g less less-plugin-clean-css html-minifier
-  - pip3 install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
-  - pip3 install -r requirements.txt
+  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
+  - pip install -r requirements.txt
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter

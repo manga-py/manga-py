@@ -19,6 +19,8 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+            npm install -g less less-plugin-clean-css html-minifier
+            pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
 
       - save_cache:
           paths:
