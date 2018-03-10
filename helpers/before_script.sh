@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+cd ..
+
 allow_deploy="false"
 
 py_version=$(python --version)

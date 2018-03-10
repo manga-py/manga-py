@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+cd ..
+
 if [[ "$allow_deploy" = "true" ]]
 then
 
