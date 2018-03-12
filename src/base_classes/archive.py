@@ -13,11 +13,11 @@ class Archive:
 
     @staticmethod
     def _check_ext(file, name):
-        name, ext = splitext(name)
-        if ext == '' or ext == '.':
+        file_name, file_ext = splitext(name)
+        if file_ext == '' or file_ext == '.':
             try:
                 image = Image.open(file)
-                name = name.rstrip('.') + '.' + image.format.lower()
+                name = file_name.rstrip('.') + '.' + image.format.lower()
                 image.close()
             except (FileNotFoundError, OSError):
                 pass

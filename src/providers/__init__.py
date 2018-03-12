@@ -11,6 +11,9 @@ providers_list = {
     'antisensescans_com': [
         r'antisensescans\.com/online/(series|read)/.',
     ],
+    'authrone_com': [
+        r'authrone\.com/manga/.'
+    ],
     'bato_to': [
         r'bato\.to/(series|chapter)/\d'
     ],
