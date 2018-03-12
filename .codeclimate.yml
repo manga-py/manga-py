@@ -2,8 +2,9 @@ exclude_paths:
 - 'docs/'
 - 'tests/'
 - 'storage/'
-- 'src/providers/*.py'
+- 'src/providers/'
 - 'helpers/'
+- 'Dockerfile'
 - 'LICENSE'
 - 'README*'
 - '*.yml'
@@ -11,6 +12,8 @@ exclude_paths:
 - '.scrutinizer.yml'
 - '.travis.yml'
 - '.codeclimate.yml'
+- '.gitignore'
+- '.gitmodules'
 languages:
    Python: true
 pep8:
