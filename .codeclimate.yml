@@ -4,9 +4,13 @@ exclude_paths:
 - 'storage/'
 - 'src/providers/*.py'
 - 'helpers/'
-- "LICENSE"
-- "README.*"
-- "*.yml"
+- 'LICENSE'
+- 'README*'
+- '*.yml'
+- '*.txt'
+- '.scrutinizer.yml'
+- '.travis.yml'
+- '.codeclimate.yml'
 languages:
    Python: true
 pep8:
