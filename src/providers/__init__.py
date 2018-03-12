@@ -378,6 +378,9 @@ providers_list = {
         r'readcomicbooksonline\.net/.',
         r'readcomicbooksonline\.org/.',
     ],
+    'readhentaimanga_com': [
+        r'readhentaimanga\.com/.'
+    ],
     'readcomiconline_to': [
         r'readcomiconline\.to/Comic/.',
     ],
