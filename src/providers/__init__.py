@@ -285,6 +285,9 @@ providers_list = {
     'mintmanga_com': [
         r'mintmanga\.com/.',
     ],
+    'mngcow_co': [
+        r'mngcow\.co/.'
+    ],
     'mngdoom_com': [
         r'mangadoom\.co/.',
         r'mngdoom\.com/.',

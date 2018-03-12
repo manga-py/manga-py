@@ -20,16 +20,16 @@ class AuthroneCom(Provider, Std):
         return self._get_name('/manga/([^/]+)')
 
     def get_chapters(self):  # need sorting chapters: /manga/love_stage/
-        items = self._elements('.mng_det ul.lst > li > a')
+        ch_selector = '.mng_det ul.lst > li > a'
+        items = self._elements(ch_selector)
         pages = self._elements('ul.lst + ul.pgg li:last-child > a')
         patern = r'list/(\d+)/'
-        n = self.http().normalize_uri
         if pages and len(pages):
             link = pages[-1].get('href')
             page = self.re.search(patern, link).group(1)
             for i in range(2, int(page) + 1):
                 page_link = self.re.sub(patern, 'list/%d/' % i, link)
-                items += self._elements('.mng_det ul.lst > li > a', self.http_get(page_link))
+                items += self._elements(ch_selector, self.http_get(page_link))
         return items
 
     def _get_image(self, parser):
