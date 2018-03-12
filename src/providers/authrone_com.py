@@ -1,8 +1,8 @@
-from src.provider import Provider
+from src.providers.mangaonline_today import MangaOnlineToday
 from .helpers.std import Std
 
 
-class AuthroneCom(Provider, Std):
+class AuthroneCom(MangaOnlineToday, Std):
 
     def get_archive_name(self) -> str:
         idx = self.re.search('/manga/[^/]+/([^/]+/[^/]+)', self.chapter).group(1).split('.', 2)
@@ -31,23 +31,6 @@ class AuthroneCom(Provider, Std):
                 page_link = self.re.sub(patern, 'list/%d/' % i, link)
                 items += self._elements(ch_selector, self.http_get(page_link))
         return items
-
-    def _get_image(self, parser):
-        img = parser.cssselect('.prw > a > img')
-        if not img:
-            return []
-        img = img[0].get('src')
-        img = self.re.sub(r'\w\.mhcdn', 'c.mhcdn', img)  # only C cnd working now!
-        return [img]
-
-    def get_files(self):
-        parser = self.html_fromstring(self.chapter)
-        pages = self._first_select_options(parser, 'select.cbo_wpm_pag')
-        images = self._get_image(parser)
-        for i in pages:
-            parser = self.html_fromstring(self.chapter + i.get('value') + '/')
-            images += self._get_image(parser)
-        return images
 
     def get_cover(self) -> str:
         return self._cover_from_content('#sct_content img.cvr')

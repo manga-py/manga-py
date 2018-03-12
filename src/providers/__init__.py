@@ -177,6 +177,9 @@ providers_list = {
     'mangaclub_ru': [
         r'mangaclub\.ru/.',
     ],
+    'mangadeep_com': [
+        r'mangadeep\.com/.'
+    ],
     'mangadex_com': [
         r'mangadex\.com/(manga|chapter)/.',
     ],

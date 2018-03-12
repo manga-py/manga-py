@@ -3,16 +3,18 @@ from .helpers.std import Std
 
 
 class MangaOnlineToday(Provider, Std):
-    __img_selector = '#sct_content img'
+    _img_selector = '#sct_content img'
 
     def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(*idx)
+        idx = self.get_chapter_index().split('.')
+        fmt = 'vol_{:0>3}'
+        if len(idx) > 1:
+            fmt += '-{}'
+        return fmt.format(*idx)
 
     def get_chapter_index(self) -> str:
         idx = self.re.search(r'\.today/[^/]+/([^/]+)', self.chapter)
-        idx = idx.group(1).split('.')
-        return '{}-{}'.format(*self._idx_to_x2(idx))
+        return idx.group(1)
 
     def get_main_content(self):
         return self._get_content('{}/{}/')
@@ -27,8 +29,8 @@ class MangaOnlineToday(Provider, Std):
         images = []
         chapter = self.chapter
         for n in range(1, int(options)):
-            content = self.html_fromstring('{}{}/'.format(chapter, n * 2))
-            img = content.cssselect(self.__img_selector)
+            content = self.html_fromstring('{}{}/'.format(chapter, n * 2 + 1))
+            img = content.cssselect(self._img_selector)
             for i in img:
                 images.append(i.get('src'))
         return images
@@ -36,7 +38,7 @@ class MangaOnlineToday(Provider, Std):
     def get_files(self):
         images = []
         content = self.html_fromstring(self.chapter)
-        img = content.cssselect(self.__img_selector)
+        img = content.cssselect(self._img_selector)
         if img:
             images = [i.get('src') for i in img]
 
