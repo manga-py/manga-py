@@ -97,6 +97,9 @@ providers_list = {
     'hentaihere_com': [
         r'hentaihere\.com/m/.',
     ],
+    'hentairead_com': [
+        r'hentairead\.com/.'
+    ],
     'hitomi_la': [
         r'hitomi\.la/(galleries|reader)/.',
     ],

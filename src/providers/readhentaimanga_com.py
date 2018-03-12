@@ -9,7 +9,7 @@ class ReadHentaiMangaCom(Provider, Std):
         return 'vol_' + self.get_chapter_index()
 
     def get_chapter_index(self) -> str:
-        return self.re.search(r'\.com/[^/]+/([^/]+)').group(1)
+        return self.re.search(r'\.com/[^/]+/([^/]+)', self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/{}/')
@@ -22,9 +22,9 @@ class ReadHentaiMangaCom(Provider, Std):
 
     def get_files(self):
         content = self.http_get(self.chapter)
-        escaped_images = self.re.search(r'_img_lst\s*=.+?unescape\((\'.+\')\)', content)
+        escaped_images = self.re.search(r'_img_lst\s*=.+?unescape\(\'(.+)\'\)', content)
         if escaped_images:
-            return self.json.loads(unquote_plus(escaped_images))
+            return self.json.loads(unquote_plus(escaped_images.group(1)))
         return []
 
     def get_cover(self) -> str:
