@@ -3,9 +3,7 @@ exclude_paths:
 - 'tests/'
 - 'storage/'
 - 'src/providers/*.py'
-- 'helpers/main/*.js'
-- 'helpers/inmanga_com.py'
-- 'helpers/unixmanga_nl.sh'
+- 'helpers/'
 - "LICENSE"
 - "README.*"
 - "*.yml"
