@@ -3,6 +3,7 @@ exclude_paths:
 - 'tests/'
 - 'storage/'
 - 'src/providers/'
+- 'src/gui/langs/*.json'
 - 'helpers/'
 - 'Dockerfile'
 - 'LICENSE'
