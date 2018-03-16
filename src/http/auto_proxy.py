@@ -6,11 +6,13 @@ class AutoProxy:
     checked_url = 'https://httpbin.org/ip'
 
     @staticmethod
-    def _s(item):
-        s = lambda n: n.text_content().strip()
+    def __strip(text):
+        return text.text_content().strip(' \n\t\r\0')
+
+    def _s(self, item):
         td = item.cssselect('td')
-        if s(td[4]) == 'anonymous' and s(td[6]) == 'yes':
-            return s(td[0]) + ':' + s(td[1])
+        if self.__strip(td[4]) == 'anonymous' and self.__strip(td[6]) == 'yes':
+            return self.__strip(td[0]) + ':' + self.__strip(td[1])
         return None
 
     def _test_proxy(self, url):

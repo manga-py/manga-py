@@ -18,13 +18,11 @@ class WebDriver:
         url = '/chromedriver_linux64.zip'
         if ~platform.find('darwin'):
             url = '/chromedriver_mac64.zip'
-        if ~platform.find('win32'):
+        if self.is_win():
             url = '/chromedriver_win32.zip'
 
         path = get_temp_path('driver.zip')
-
-        if not is_dir(dirname(path)):
-            make_dirs(dirname(path))
+        make_dirs(dirname(path))
 
         with open(path, 'wb') as driver:
             driver.write(get(url_prefix + self.driver_version + url).content)

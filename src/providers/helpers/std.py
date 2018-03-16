@@ -33,13 +33,11 @@ class Std:
 
     @staticmethod
     def _join_groups(idx, glue='-') -> str:
-        result = ''
-        for n, i in enumerate(idx):
-            if i is not None and i != '':
-                if n > 0:
-                    result += glue
-                result += '{}'.format(i)
-        return result
+        result = []
+        for i in idx:
+            if i:
+                result.append(i)
+        return glue.join(result)
 
     def _get_name(self, selector, url=None) -> str:
         if url is None:
