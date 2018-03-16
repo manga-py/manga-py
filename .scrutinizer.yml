@@ -26,4 +26,4 @@ build:
         node: 6.0.0
 filter:
   excluded_paths:
-    src/crypt/sunday_webry_com.py
+    - src/crypt/sunday_webry_com.py
