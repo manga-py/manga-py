@@ -34,6 +34,7 @@ class MatrixSunday:
 
 
 class SundayWebryCom:
+    _result = None
 
     def solve_by_img(self, src: str, element_width: int, element_height: int, n: int):
         img = Image.open(src)
@@ -51,7 +52,7 @@ class SundayWebryCom:
         g = int(t / i)
         f = e % r
         b = t % i
-        S = []
+        self._result = []
 
         s = y - 43 * n % y
         if s % y == 0:
@@ -63,10 +64,22 @@ class SundayWebryCom:
         if 0 == a:
             a = g - 1
 
+        self.def1(f, b, s, r, a, i)
+
+        self.def2(y, i, n, a, s, f, r, g, b)
+
+        if f > 0:
+            self.def3(g, n, s, a, y, b, i, r, f)
+
+        self.def4(y, g, n, r, f, s, a, i, b)
+
+        return self._result
+
+    def def1(self, f, b, s, r, a, i):
         if f > 0 and b > 0:
             o = s * r
             u = a * i
-            S.append({
+            self._result.append({
                 'srcX': o,
                 'srcY': u,
                 'destX': o,
@@ -76,39 +89,41 @@ class SundayWebryCom:
                 # 'debug': 1
             })
 
-            for l in range(y):
-                d = self._calc_x_x(l, y, n)
-                h = self._calc_y_x(d, s, a, g, n)
-                c = self._calc_pos_rest(d, s, f, r)
-                p = h * i
-                o = self._calc_pos_rest(l, s, f, r)
-                u = a * i
-                S.append({
-                    'srcX': o,
-                    'srcY': u,
-                    'destX': c,
-                    'destY': p,
-                    'width': r,
-                    'height': b,
-                    # 'debug': 2
-                })
+    def def2(self, y, i, n, a, s, f, r, g, b):
+        for l in range(y):
+            d = self._calc_x_x(l, y, n)
+            h = self._calc_y_x(d, s, a, g, n)
+            c = self._calc_pos_rest(d, s, f, r)
+            p = h * i
+            o = self._calc_pos_rest(l, s, f, r)
+            u = a * i
+            self._result.append({
+                'srcX': o,
+                'srcY': u,
+                'destX': c,
+                'destY': p,
+                'width': r,
+                'height': b,
+                # 'debug': 2
+            })
 
-        if f > 0:
-            for m in range(g):
-                h = self._calc_y_y(m, g, n)
-                d = self._calc_x_y(h, s, a, y, n)
-                p = self._calc_pos_rest(h, a, b, i)
-                u = self._calc_pos_rest(m, a, b, i)
-                S.append({
-                    'srcX': s * r,
-                    'srcY': u,
-                    'destX': d * r,
-                    'destY': p,
-                    'width': f,
-                    'height': i,
-                    # 'debug': 3
-                })
+    def def3(self, g, n, s, a, y, b, i, r, f):
+        for m in range(g):
+            h = self._calc_y_y(m, g, n)
+            d = self._calc_x_y(h, s, a, y, n)
+            p = self._calc_pos_rest(h, a, b, i)
+            u = self._calc_pos_rest(m, a, b, i)
+            self._result.append({
+                'srcX': s * r,
+                'srcY': u,
+                'destX': d * r,
+                'destY': p,
+                'width': f,
+                'height': i,
+                # 'debug': 3
+            })
 
+    def def4(self, y, g, n, r, f, s, a, i, b):
         for l in range(y):
             for m in range(g):
                 d = (l + 29 * n + 31 * m) % y
@@ -117,7 +132,7 @@ class SundayWebryCom:
                 p = h * i + (b if h >= self._calc_y_x(d, s, a, g, n) else 0)
                 o = l * r + (f if l >= s else 0)
                 u = m * i + (b if m >= a else 0)
-                S.append({
+                self._result.append({
                     'srcX': o,
                     'srcY': u,
                     'destX': c,
@@ -126,8 +141,6 @@ class SundayWebryCom:
                     'height': i,
                     # 'debug': 4
                 })
-
-        return S
 
     @staticmethod
     def _calc_pos_rest(e, t, r, i):

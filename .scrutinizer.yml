@@ -27,3 +27,4 @@ build:
 filter:
   excluded_paths:
     - src/crypt/sunday_webry_com.py
+    - tests/*.py

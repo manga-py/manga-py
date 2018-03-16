@@ -11,7 +11,7 @@ python:
 cache: pip
 before_install:
   - wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O /tmp/chrome.deb && sudo dpkg -i /tmp/chrome.deb && sudo apt-get install -y -f --fix-missing
-  - sudo apt-get -y install nodejs python-setuptools
+  - sudo apt-get -y install nodejs python-setuptools libwebp-dev
   - python -V
   - pwd
   - chmod +x helpers/after_script.sh
