@@ -1,4 +1,4 @@
-from PIL import Image as PilImage
+from PIL import Image
 
 
 class Puzzle:
@@ -20,14 +20,14 @@ class Puzzle:
         self.__multiply = multiply
 
     def de_scramble(self, path_src: str, path_dst: str):
-        self.__image_src = PilImage.open(path_src, 'r')
+        self.__image_src = Image.open(path_src, 'r')
         self._process()
         self.__image_dst.save(path_dst)
         self.__image_src.close()
         self.__image_dst.close()
 
     def _process(self):
-        self.__image_dst = PilImage.new(self.__image_src.mode, self.__image_src.size)
+        self.__image_dst = Image.new(self.__image_src.mode, self.__image_src.size)
         self._calc_block_size()
         self._check_copy_orig_image()
         self._solve_matrix()

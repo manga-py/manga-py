@@ -2,14 +2,16 @@
 # -*- coding: utf-8 -*-
 
 import json
+import math
+import operator
 import unittest
-import math, operator
+from functools import reduce
 from os import path
 from shutil import copyfile
 from sys import path as sys_path
-from functools import reduce
 
 from PIL import Image as PilImage, ImageChops
+from pyvirtualdisplay import Display
 
 root_path = path.dirname(path.realpath(__file__))
 sys_path.append(path.realpath(path.join(root_path, '..')))
@@ -21,8 +23,8 @@ from src.image import Image
 from src import fs
 from src.http.url_normalizer import normalize_uri
 from src.crypt.puzzle import Puzzle
+from src.crypt import sunday_webry_com
 from src.base_classes import WebDriver
-from pyvirtualdisplay import Display
 
 
 files_paths = [
@@ -357,6 +359,50 @@ class TestMatrix(unittest.TestCase):
         deviation = self._rmsdiff(src, ref)
         src.close()
         ref.close()
+        self.assertTrue(deviation < 10)
+
+    def test_sunday_webry_com(self):
+        decoder = sunday_webry_com.SundayWebryCom()
+
+        with open(root_path + '/mosaic/sunday_reference_matrix.json') as f:
+            result = json.loads(f.read())
+
+        n = 0
+        for _i, _r in enumerate(result):
+
+            result_py = decoder.solve(848, 1200, 64, 64, _i + 1)
+
+            for i, r in enumerate(_r):
+                p = result_py[i]
+                if (
+                    r['srcX'] != p['srcX'] or
+                    r['srcY'] != p['srcY'] or
+                    r['destX'] != p['destX'] or
+                    r['destY'] != p['destY'] or
+                    r['width'] != p['width'] or
+                    r['height'] != p['height']
+                ):
+                    n += 1
+
+        self.assertTrue(n < 1)
+
+    def test_solve_sunday_webry_com(self):
+        decoder = sunday_webry_com.SundayWebryCom()
+        puzzle = sunday_webry_com.MatrixSunday()
+
+        src = root_path + '/mosaic/sunday_orig.jpg'
+        file_dst = root_path + '/temp/sunday_mosaic2.jpg'
+        file_ref = root_path + '/mosaic/sunday_reference.jpg'
+
+        result_py2 = decoder.solve_by_img(src, 64, 64, 2)
+
+        puzzle.de_scramble(src, file_dst, result_py2)
+
+        src = PilImage.open(file_dst)
+        ref = PilImage.open(file_ref)
+
+        deviation = self._rmsdiff(src, ref)
+
         self.assertTrue(deviation < 10)
 
 

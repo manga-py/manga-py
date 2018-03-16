@@ -437,6 +437,9 @@ providers_list = {
         r'mangavy\.com/manga/.',
         r'mangavy\.com/[^/]/.+-chapter-',
     ],
+    'sunday_webry_com': [
+        r'sunday-webry\.com/series/\d'
+    ],
     'taadd_com': [
         r'taadd\.com/(book|chapter)/.',
     ],
