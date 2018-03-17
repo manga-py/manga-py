@@ -429,13 +429,13 @@ providers_list = {
     ],
     'subapics_com': [
         r'subapics\.com/manga/.',
-        r'subapics\.com/[^/]/.+-chapter-',
+        r'subapics\.com/.+-chapter-',
         r'mangakita\.net/manga/.',
-        r'mangakita\.net/[^/]/.+-chapter-',
+        r'mangakita\.net/.+-chapter-',
         r'komikstation\.com/manga/.',
-        r'komikstation\.com/[^/]/.+-chapter-',
+        r'komikstation\.com/.+-chapter-',
         r'mangavy\.com/manga/.',
-        r'mangavy\.com/[^/]/.+-chapter-',
+        r'mangavy\.com/.+-chapter-',
     ],
     'sunday_webry_com': [
         r'sunday-webry\.com/series/\d'
@@ -473,6 +473,9 @@ providers_list = {
         r'unionmangas\.(net|cc)/(leitor|manga)/.',
     ],
     # 'viz_com': [r'viz\.com/shonenjump/chapters/.',],
+    'webtoontr_com': [
+        r'webtoontr.com/_/.'
+    ],
     'wmanga_ru': [
         r'wmanga\.ru/starter/manga_.',
     ],
