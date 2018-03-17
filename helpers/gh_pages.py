@@ -31,6 +31,7 @@ start_items = [
     ['http://mg-zip.com', 0, ' - Will not be implemented'],
     ['http://rawdevart.com', 1, '<i class="v0"></i>, very little content'],
     ['http://s-manga.net', 0, ' - Maybe'],
+    ['http://sunday-webry.com', 0, ' - Not worked decription images now. In work.'],
     ['http://tapas.io', 1, '<i class="v0"></i>, only public downloading now'],
     ['http://tsumino.com', 1, '<i class="d"></i>'],
     ['http://zip.raw.im', 0, ' - Will not be implemented'],
