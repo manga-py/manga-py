@@ -473,6 +473,9 @@ providers_list = {
         r'unionmangas\.(net|cc)/(leitor|manga)/.',
     ],
     # 'viz_com': [r'viz\.com/shonenjump/chapters/.',],
+    'webtoons_com': [
+        r'webtoons\.com/[^/]+/[^/]+/[^/]+'
+    ],
     'webtoontr_com': [
         r'webtoontr.com/_/.'
     ],

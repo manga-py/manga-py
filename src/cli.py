@@ -46,6 +46,8 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
 
     args_parser.add_argument('url', metavar='url', type=str, help='Downloaded url', default='', nargs='?')
     args_parser.add_argument('--version', action='version', version=__version__)
+
+    # TODO: Do not override original name! Do not skip name check!
     args_parser.add_argument('-n', '--name', metavar='name', type=str, required=False, help='Manga name', default='')
     args_parser.add_argument('-d', '--destination', metavar='destination', type=str, required=False,
                              help='Destination folder (Default = current directory', default='')
