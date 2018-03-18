@@ -479,6 +479,9 @@ providers_list = {
     'webtoontr_com': [
         r'webtoontr.com/_/.'
     ],
+    # 'wiemanga_com': [
+    #     r'wiemanga\.com/(manga|chapter)/.'
+    # ],
     'wmanga_ru': [
         r'wmanga\.ru/starter/manga_.',
     ],
