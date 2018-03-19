@@ -439,6 +439,8 @@ providers_list = {
         r'komikstation\.com/.+-chapter-',
         r'mangavy\.com/manga/.',
         r'mangavy\.com/.+-chapter-',
+        r'mangakid\.net/manga/',
+        r'mangakid\.net/.+-chapter-',
     ],
     'sunday_webry_com': [
         r'sunday-webry\.com/series/\d',
