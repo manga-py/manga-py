@@ -133,6 +133,7 @@ providers_list = {
         r'komikid\.com/manga/.',
         r'mangazuki\.co/manga/.',
         r'mangaforest\.com/manga/.',
+        r'mangadenizi\.com/.',
     ],
     'kumanga_com': [
         r'kumanga\.com/manga/\d',
