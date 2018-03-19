@@ -43,6 +43,7 @@ providers_list = {
         r'menudo-fansub\.com/slide/.',
         r'npscan\.mangaea\.net/slide/.',
         r'snf\.mangaea\.net/slide/.',
+        r'yuri-ism\.net/slide/.',
     ],
     'desu_me': [
         r'desu\.me/manga/.',
@@ -117,6 +118,9 @@ providers_list = {
         r'hotchocolatescans\.com/fs/(series|read)/.',
         r'mangaichiscans\.mokkori\.fr/fs/(series|read)/.',
     ],
+    'riceballicious_info': [
+        r'riceballicious\.info/fs/reader/(series|read)/.'
+    ],
     'inmanga_com': [
         r'inmanga\.com/ver/manga/.',
     ],
@@ -134,9 +138,15 @@ providers_list = {
         r'mangazuki\.co/manga/.',
         r'mangaforest\.com/manga/.',
         r'mangadenizi\.com/.',
-        r'mangadoor\.com/.',
-        r'mangaid\.co/.',
-        r'manga\.fascans\.com/.',
+        r'mangadoor\.com/manga/.',
+        r'mangaid\.co/mangao/.',
+        r'manga\.fascans\.com/manga/.',
+        r'mangadesu\.net/manga/.',
+        r'cmreader\.info/manga/.',
+        r'rawmangaupdate\.com/manga/.',
+        r'mangaraw\.online/manga/.',
+        r'manhua-tr\.com/manga/.',
+        r'manga-v2\.mangavadisi\.org/manga/.',
     ],
     'kumanga_com': [
         r'kumanga\.com/manga/\d',
@@ -191,6 +201,7 @@ providers_list = {
     ],
     'mangadeep_com': [
         r'mangadeep\.com/.',
+        r'manga99\.com/.',
     ],
     'mangadex_com': [
         r'mangadex\.com/(manga|chapter)/.',
@@ -370,7 +381,6 @@ providers_list = {
         r'manga\.animefrontline\.com/(series|read)/.',
         r'reader\.s2smanga\.com/(series|read)/.',
         r'reader\.seaotterscans\.com/(series|read)/.',
-        r'reader\.seaotterscans\.com/(series|read)/.',
         r'reader\.idkscans\.com/(series|read)/.',
         r'reader\.thecatscans\.com/(series|read)/.',
         r'reader\.deathtollscans\.net/(series|read)/.',
@@ -378,6 +388,13 @@ providers_list = {
         r'reader\.jokerfansub\.com/(series|read)/.',
         r'lector\.patyscans\.com/(series|read)/.',
         r'truecolorsscans\.miocio\.org/(series|read)/.',
+        r'reader\.letitgo\.scans\.today/(series|read)/.',
+        r'reader\.fos-scans\.com/(series|read)/.',
+        r'reader\.serenade\.moe/(series|read)/.',
+        r'reader\.vortex-scans\.com/(series|read)/.',
+        r'reader\.roseliascans\.com/(series|read)/.',
+        r'reader\.silentsky-scans\.net/(series|read)/.',
+        r'lector\.dangolinenofansub\.com/(series|read)/.',
     ],
     'ravens_scans_com': [
         r'ravens-scans\.com(/lector)?/(serie/|read/).',
