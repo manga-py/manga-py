@@ -129,6 +129,9 @@ providers_list = {
     'kissmanga_com': [
         r'kissmanga\.com/Manga/.',
     ],
+    'komikid_com': [
+        r'komikid\.com/manga/.'
+    ],
     'kumanga_com': [
         r'kumanga\.com/manga/\d',
     ],

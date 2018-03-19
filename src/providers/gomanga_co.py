@@ -9,7 +9,10 @@ class GoMangaCo(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-', 2)
-        return 'vol_{:0>3}-{}'.format(*idx)
+        fmt = 'vol_{:0>3}'
+        if len(idx) > 1:
+            fmt += '-{}'
+        return fmt.format(*idx)
 
     def get_chapter_index(self) -> str:
         url = self.chapter
