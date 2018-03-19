@@ -134,6 +134,7 @@ providers_list = {
         r'mangazuki\.co/manga/.',
         r'mangaforest\.com/manga/.',
         r'mangadenizi\.com/.',
+        r'mangadoor\.com/.',
     ],
     'kumanga_com': [
         r'kumanga\.com/manga/\d',
