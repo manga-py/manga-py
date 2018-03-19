@@ -515,6 +515,9 @@ providers_list = {
     'wmanga_ru': [
         r'wmanga\.ru/starter/manga_.',
     ],
+    'zeroscans_com': [
+        r'zeroscans\.com/manga/.',
+    ],
     'zingbox_me': [
         r'zingbox\.me/.',
     ],

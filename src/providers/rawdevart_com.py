@@ -3,6 +3,7 @@ from .helpers.std import Std
 
 
 class RawDevArtCom(Provider, Std):
+    _chapter_selector = r'/chapter/[^\d]+(\d+(?:\.\d+)?)'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -13,11 +14,11 @@ class RawDevArtCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         ch = self.chapter
-        idx = self.re.search(r'/chapter/[^\d]+(\d+(?:\.\d+)?)', ch)
+        idx = self.re.search(self._chapter_selector, ch)
         return '-'.join(idx.group(1).split('.'))
 
     def get_main_content(self):
-        self._get_content('{}/manga/{}')
+        return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:
         return self._get_name('/manga/([^/]+)')
