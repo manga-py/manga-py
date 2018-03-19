@@ -7,5 +7,4 @@ class RiceBallIciousInfo(GoMangaCo, Std):
     _content_str = '{}/fs/reader/series/{}/'
 
 
-
 main = RiceBallIciousInfo

@@ -2,7 +2,7 @@
 
 Universal assistant download manga.
 
-Supports more than 180 resources now.
+Supports more than 190 resources now.
 
 [![Code Climate](https://codeclimate.com/github/yuru-yuri/manga-dl/badges/gpa.svg)](https://codeclimate.com/github/yuru-yuri/manga-dl)
 [![Issue Count](https://codeclimate.com/github/yuru-yuri/manga-dl/badges/issue_count.svg)](https://codeclimate.com/github/yuru-yuri/manga-dl)
