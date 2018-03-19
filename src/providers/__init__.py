@@ -130,7 +130,9 @@ providers_list = {
         r'kissmanga\.com/Manga/.',
     ],
     'komikid_com': [
-        r'komikid\.com/manga/.'
+        r'komikid\.com/manga/.',
+        r'mangazuki\.co/manga/.',
+        r'mangaforest\.com/manga/.',
     ],
     'kumanga_com': [
         r'kumanga\.com/manga/\d',
@@ -286,10 +288,6 @@ providers_list = {
     ],
     'manhwa_co': [
         r'manhwa\.co/.',
-    ],
-    'mangazuki_co': [
-        r'mangazuki\.co/manga/.',
-        r'mangaforest\.com/manga/.',
     ],
     'merakiscans_com': [
         r'merakiscans\.com/.',
