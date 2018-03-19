@@ -12,16 +12,16 @@ providers_list = {
         r'antisensescans\.com/online/(series|read)/.',
     ],
     'authrone_com': [
-        r'authrone\.com/manga/.'
+        r'authrone\.com/manga/.',
     ],
     'bato_to': [
-        r'bato\.to/(series|chapter)/\d'
+        r'bato\.to/(series|chapter)/\d',
     ],
     'blogtruyen_com': [
         r'blogtruyen\.com/.',
     ],
     'chochox_com': [
-        r'chochox\.com/.'
+        r'chochox\.com/.',
     ],
     'comicextra_com': [
         r'comicextra\.com/.',
@@ -58,7 +58,7 @@ providers_list = {
         r'8muses\.com/comics/album/.',
     ],
     'freeadultcomix_com': [
-        r'freeadultcomix\.com/.'
+        r'freeadultcomix\.com/.',
     ],
     'funmanga_com': [
         r'funmanga\.com/.',
@@ -82,6 +82,9 @@ providers_list = {
     'hakihome_com': [
         r'hakihome\.com/.',
     ],
+    'heavenmanga_biz': [
+        r'heavenmanga\.biz/.',
+    ],
     'hentai2read_com': [
         r'hentai2read\.com/.',
     ],
@@ -98,7 +101,7 @@ providers_list = {
         r'hentaihere\.com/m/.',
     ],
     'hentairead_com': [
-        r'hentairead\.com/.'
+        r'hentairead\.com/.',
     ],
     'hitomi_la': [
         r'hitomi\.la/(galleries|reader)/.',
@@ -178,7 +181,7 @@ providers_list = {
         r'mangaclub\.ru/.',
     ],
     'mangadeep_com': [
-        r'mangadeep\.com/.'
+        r'mangadeep\.com/.',
     ],
     'mangadex_com': [
         r'mangadex\.com/(manga|chapter)/.',
@@ -292,7 +295,7 @@ providers_list = {
         r'mintmanga\.com/.',
     ],
     'mngcow_co': [
-        r'mngcow\.co/.'
+        r'mngcow\.co/.',
     ],
     'mngdoom_com': [
         r'mangadoom\.co/.',
@@ -335,7 +338,7 @@ providers_list = {
         r'pecintakomik\.com/.',
     ],
     'porncomix_info': [
-        r'porncomix\.info/.'
+        r'porncomix\.info/.',
     ],
     'psychoplay_co': [
         r'psychoplay\.co/(series|read)/.',
@@ -388,7 +391,7 @@ providers_list = {
         r'readcomicbooksonline\.org/.',
     ],
     'readhentaimanga_com': [
-        r'readhentaimanga\.com/.'
+        r'readhentaimanga\.com/.',
     ],
     'readcomiconline_to': [
         r'readcomiconline\.to/Comic/.',
@@ -438,7 +441,7 @@ providers_list = {
         r'mangavy\.com/.+-chapter-',
     ],
     'sunday_webry_com': [
-        r'sunday-webry\.com/series/\d'
+        r'sunday-webry\.com/series/\d',
     ],
     'taadd_com': [
         r'taadd\.com/(book|chapter)/.',
@@ -451,7 +454,7 @@ providers_list = {
         r'tenmanga\.com/(book|chapter)/.',
     ],
     'tonarinoyj_jp': [
-        r'tonarinoyj.jp/episode/.'
+        r'tonarinoyj.jp/episode/.',
     ],
     'triplesevenscans_com': [
         r'triplesevenscans\.com/reader/(series|read)/.',
@@ -460,7 +463,7 @@ providers_list = {
         r'truyen\.vnsharing\.site/index/read/.',
     ],
     'truyentranhtuan_com': [
-        r'truyentranhtuan.com/.'
+        r'truyentranhtuan.com/.',
     ],
     'tsumino_com': [
         r'tsumino.com/Book/Info/\d',
@@ -474,13 +477,13 @@ providers_list = {
     ],
     # 'viz_com': [r'viz\.com/shonenjump/chapters/.',],
     'webtoons_com': [
-        r'webtoons\.com/[^/]+/[^/]+/[^/]+'
+        r'webtoons\.com/[^/]+/[^/]+/[^/]+',
     ],
     'webtoontr_com': [
-        r'webtoontr.com/_/.'
+        r'webtoontr.com/_/.',
     ],
     # 'wiemanga_com': [
-    #     r'wiemanga\.com/(manga|chapter)/.'
+    #     r'wiemanga\.com/(manga|chapter)/.',
     # ],
     'wmanga_ru': [
         r'wmanga\.ru/starter/manga_.',
