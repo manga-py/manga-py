@@ -14,7 +14,7 @@ class KomikIdCom(GoMangaCo, Std):
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter)
-        return self._images_helper(parser, '#all img', 'data-src')
+        return self._images_helper(parser, '#all img[data-src]', 'data-src')
 
     def get_cover(self) -> str:
         return self._cover_from_content('.boxed img')
