@@ -35,6 +35,9 @@ providers_list = {
     'comicsandmanga_ru': [
         r'comicsandmanga\.ru/online-reading/.',
     ],
+    # 'comicvn_net': [
+    #     r'comicvn\.net/truyen-tranh-online/.'
+    # ],
     'darkskyprojects_org': [
         r'darkskyprojects\.org/biblioteca/.',
     ],
