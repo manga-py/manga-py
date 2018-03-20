@@ -17,7 +17,7 @@
                 zip.setAttribute('href', response.zipball_url);
                 zip.setAttribute('active', 'true');
             });
-        const ul = d.querySelector('ul.list');
+        const ul = d.querySelector('#supported-list');
         if(!ul)
         {
             return;
