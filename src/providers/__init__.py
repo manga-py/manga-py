@@ -20,6 +20,9 @@ providers_list = {
     'blogtruyen_com': [
         r'blogtruyen\.com/.',
     ],
+    'bns_shounen_ai_net': [
+        r'bns\.shounen-ai\.net/read/(series|read)/.'
+    ],
     'chochox_com': [
         r'chochox\.com/.',
     ],
