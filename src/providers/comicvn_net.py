@@ -15,12 +15,11 @@ class ComicNnNet(Provider, Std):
         return self._get_content('{}/truyen-tranh-online/{}')
 
     def _iframe_hook(self, url):
-        content = self.html_fromstring(self.get_url())
+        content = self.html_fromstring(url)
         iframe = content.cssselect('iframe')
-        url = self.get_url()
         if iframe:
-            print('Iframe!')
             url = iframe[0].get('src')
+            print('Iframe!\n' + url)
         return self.html_fromstring(url)
 
     def get_manga_name(self) -> str:
@@ -36,10 +35,10 @@ class ComicNnNet(Provider, Std):
 
     def get_files(self):
         content = self._iframe_hook(self.chapter)
-        files = content.cssselect('textarea#txtarea')
-        print(len(files))
+        files = content.cssselect('textarea#txtarea img')
         if files:
-            return self._elements('img', files[0].text_content())
+            n = self.http().normalize_uri
+            return [n(i.get('src')) for i in files]
         return []
 
     def prepare_cookies(self):
