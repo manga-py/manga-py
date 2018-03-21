@@ -480,6 +480,9 @@ providers_list = {
     'tenmanga_com': [
         r'tenmanga\.com/(book|chapter)/.',
     ],
+    'trashscanlations_com': [
+        r'trashscanlations\.com/series/.'
+    ],
     'tonarinoyj_jp': [
         r'tonarinoyj.jp/episode/.',
     ],
