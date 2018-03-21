@@ -21,7 +21,7 @@ providers_list = {
         r'blogtruyen\.com/.',
     ],
     'bns_shounen_ai_net': [
-        r'bns\.shounen-ai\.net/read/(series|read)/.'
+        r'bns\.shounen-ai\.net/read/(series|read)/.',
     ],
     'chochox_com': [
         r'chochox\.com/.',
@@ -39,7 +39,7 @@ providers_list = {
         r'comicsandmanga\.ru/online-reading/.',
     ],
     'comicvn_net': [
-        r'comicvn\.net/truyen-tranh-online/.'
+        r'comicvn\.net/truyen-tranh-online/.',
     ],
     'darkskyprojects_org': [
         r'darkskyprojects\.org/biblioteca/.',
@@ -128,7 +128,7 @@ providers_list = {
         r'mangaichiscans\.mokkori\.fr/fs/(series|read)/.',
     ],
     'riceballicious_info': [
-        r'riceballicious\.info/fs/reader/(series|read)/.'
+        r'riceballicious\.info/fs/reader/(series|read)/.',
     ],
     'inmanga_com': [
         r'inmanga\.com/ver/manga/.',
@@ -404,6 +404,7 @@ providers_list = {
         r'reader\.roseliascans\.com/(series|read)/.',
         r'reader\.silentsky-scans\.net/(series|read)/.',
         r'lector\.dangolinenofansub\.com/(series|read)/.',
+        r'hoshiscans\.shounen-ai\.net/(series|read)/.',
     ],
     'ravens_scans_com': [
         r'ravens-scans\.com(/lector)?/(serie/|read/).',
@@ -487,13 +488,16 @@ providers_list = {
         r'tenmanga\.com/(book|chapter)/.',
     ],
     'trashscanlations_com': [
-        r'trashscanlations\.com/series/.'
+        r'trashscanlations\.com/series/.',
     ],
     'tonarinoyj_jp': [
         r'tonarinoyj.jp/episode/.',
     ],
     'triplesevenscans_com': [
         r'triplesevenscans\.com/reader/(series|read)/.',
+        r'cm-scans\.shounen-ai\.net/reader/(series|read)/.',
+        r'yaoislife\.shounen-ai\.net/reader/(series|read)/.',
+        r'fujoshibitches\.shounen-ai\.net/reader/(series|read)/.',
     ],
     'truyen_vnsharing_site': [
         r'truyen\.vnsharing\.site/index/read/.',
@@ -513,7 +517,7 @@ providers_list = {
     ],
     # 'viz_com': [r'viz\.com/shonenjump/chapters/.',],
     'web_ace_jp': [
-        r'web-ace\.jp/youngaceup/contents/\d'
+        r'web-ace\.jp/youngaceup/contents/\d',
     ],
     'webtoons_com': [
         r'webtoons\.com/[^/]+/[^/]+/[^/]+',
