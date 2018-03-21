@@ -4,6 +4,7 @@ providers_list = {
     'adulto_seinagi_org': [
         r'adulto\.seinagi\.org/(series|read)/.',
         r'xanime-seduccion\.com/(series|read)/.',
+        r'twistedhelscans\.com/(series|read)/.',
     ],
     'animextremist_com': [
         r'animextremist\.com/mangas-online/.',
@@ -126,6 +127,7 @@ providers_list = {
     'hotchocolatescans_com': [
         r'hotchocolatescans\.com/fs/(series|read)/.',
         r'mangaichiscans\.mokkori\.fr/fs/(series|read)/.',
+        r'taptaptaptaptap.net/fs/(series|read)/.',
     ],
     'riceballicious_info': [
         r'riceballicious\.info/fs/reader/(series|read)/.',
@@ -245,6 +247,9 @@ providers_list = {
     ],
     'mangainn_net': [
         r'mangainn\.net/.',
+    ],
+    'mangajinnofansub_com': [  # normal
+        r'mangajinnofansub.com/lector/(series|read)/.'
     ],
     'mangakakalot_com': [
         r'mangakakalot\.com/(manga|chapter)/.',
@@ -403,7 +408,6 @@ providers_list = {
         r'reader\.vortex-scans\.com/(series|read)/.',
         r'reader\.roseliascans\.com/(series|read)/.',
         r'reader\.silentsky-scans\.net/(series|read)/.',
-        r'lector\.dangolinenofansub\.com/(series|read)/.',
         r'hoshiscans\.shounen-ai\.net/(series|read)/.',
     ],
     'ravens_scans_com': [
