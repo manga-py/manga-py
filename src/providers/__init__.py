@@ -86,6 +86,9 @@ providers_list = {
     'hakihome_com': [
         r'hakihome\.com/.',
     ],
+    'hatigarmscans_eu': [
+        r'hatigarmscans.eu/hs/(series|read)',
+    ],
     'heavenmanga_biz': [
         r'heavenmanga\.biz/.',
     ],
