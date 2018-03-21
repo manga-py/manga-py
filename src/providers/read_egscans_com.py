@@ -6,11 +6,7 @@ class ReadEgScansCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        if len(idx) > 1:
-            f = 'vol_{:0>3}-{}'
-        else:
-            f = 'vol_{:0>3}'
-        return f.format(*idx)
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
         idx = self.re.search(r'/Chapter_(\d+)(.*)', self.chapter)

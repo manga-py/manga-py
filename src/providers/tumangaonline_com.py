@@ -17,10 +17,9 @@ class TuMangaOnlineCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
+        re = r'/mangas/\d+/([^/]+)'
         if ~url.find('/lector/'):
             re = '/lector/([^/]+)'
-        else:
-            re = r'/mangas/\d+/([^/]+)'
         return self.re.search(re, url).group(1)
 
     @staticmethod
@@ -53,7 +52,7 @@ class TuMangaOnlineCom(Provider, Std):
         return {'Cache-mode': 'no-cache', 'X-Requested-With': 'XMLHttpRequest'}
 
     def prepare_cookies(self):
-        self._storage['cookies'] = self.http().get_base_cookies(self.get_url()).get_dict()
+        self._base_cookies()
 
     def get_files(self):
         idx = self._get_id()

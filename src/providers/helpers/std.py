@@ -69,3 +69,10 @@ class Std:
         if name is None:
             name = self.get_manga_name()
         return name
+
+    @staticmethod
+    def normal_arc_name(idx):
+        fmt = 'vol_{:0>3}'
+        if len(idx) > 1:
+            fmt += '-{}'
+        return fmt.format(*idx)

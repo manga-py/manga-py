@@ -1,7 +1,8 @@
 from src.provider import Provider
+from .helpers.std import Std
 
 
-class MangaTailCom(Provider):
+class MangaTailCom(Provider, Std):
     __local_storage = None
 
     def get_archive_name(self) -> str:
@@ -39,7 +40,7 @@ class MangaTailCom(Provider):
         return [(i.text_content().strip(), n(i.get('href'))) for i in items]
 
     def prepare_cookies(self):
-        self._storage['cookies'] = self.http().get_base_cookies(self.get_url()).get_dict()
+        self._base_cookies()
 
     def get_files(self):
         url = self.chapter[1]

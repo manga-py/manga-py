@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from atexit import register as atexit_register
-from os import makedirs
+from os import makedirs, name
 from os.path import isdir
 from shutil import rmtree
 from sys import argv, exit as sys_exit
@@ -30,11 +30,11 @@ def main():
     if parse_args.cli:
         cli = Cli(args)
         cli.start()
-        exit(int(cli.status))
+        exit(cli.status)
 
     # if parse_args.server:
     #     cli = Server(args)
-    #     exit(0 if cli.status else 1)
+    #     exit(cli.status)
 
     # else run GUI
     app = QApplication(argv)

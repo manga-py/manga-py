@@ -6,10 +6,7 @@ class MngCowCo(AuthroneCom, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('.')
-        fmt = 'vol_{:0>3}'
-        if len(idx) > 1:
-            fmt += '-{}'
-        return fmt.format(*idx)
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
         return self.re.search(r'\.co/[^/]+/([^/]+)', self.chapter).group(1)

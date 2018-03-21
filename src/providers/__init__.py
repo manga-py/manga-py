@@ -144,6 +144,9 @@ providers_list = {
     'kissmanga_com': [
         r'kissmanga\.com/Manga/.',
     ],
+    # 'komikcast_com': [
+    #     r'komikcast\.com/.'
+    # ],
     'komikid_com': [
         r'komikid\.com/manga/.',
         r'mangazuki\.co/manga/.',
@@ -528,6 +531,9 @@ providers_list = {
     ],
     'webtoontr_com': [
         r'webtoontr.com/_/.',
+    ],
+    'westmanga_info': [
+        r'westmanga\.info/.'
     ],
     'wiemanga_com': [
         r'wiemanga\.com/(manga|chapter)/.',

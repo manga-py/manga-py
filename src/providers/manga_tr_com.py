@@ -18,10 +18,9 @@ class MangaTrCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
+        re = r'\d-read-(.+)-chapter-'
         if ~url.find('/manga-'):
             re = r'/manga-(.+)\.html'
-        else:
-            re = r'\d-read-(.+)-chapter-'
         return self.re.search(re, url).group(1)
 
     def get_chapters(self):
