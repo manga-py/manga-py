@@ -1,0 +1,34 @@
+from manga_dl.provider import Provider
+from .helpers.std import Std
+
+
+class ReadComicOnlineTo(Provider, Std):
+    def get_archive_name(self) -> str:
+        chapter = self.re.search('id=(\d+)', self.chapter).group(1)
+        return 'vol_{:0>3}-{}'.format(self.chapter_index, chapter)
+
+    def get_chapter_index(self, no_increment=False) -> str:
+        return str(self.chapter_index)
+
+    def get_main_content(self):
+        return self._get_content('{}/Comic/{}')
+
+    def get_manga_name(self) -> str:
+        return self.re.search(r'\.to/Comic/([^/]+)', self.get_url())
+
+    def get_chapters(self):
+        return self.document_fromstring(self.content, 'table.listing td > a')
+
+    def prepare_cookies(self):
+        self.cf_protect(self.get_url())
+
+    def get_files(self):
+        content = self.http_get(self.chapter + '&readType=1')
+        items = self.re.findall('lstImages.push\("([^"]+)"\)', content)
+        return items
+
+    def get_cover(self):
+        return self._cover_from_content('.rightBox .barContent img[width]')
+
+
+main = ReadComicOnlineTo

@@ -2,7 +2,7 @@
 Manga/
 tests/temp/
 
-src/rebreakcaptcha
+manga_dl/rebreakcaptcha
 
 storage/.passwords.json
 storage/chromedriver

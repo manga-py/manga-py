@@ -62,6 +62,14 @@ deploy:
       branch: master
       tags: true
       condition: $allow_deploy == true
+  - provider: pypi
+    user: 1271
+    password:
+      secure: "ydzw2Q+wnJ41HAlP+rPMqrMsdfJ0yBn8I2EPYnbiPllhlgTv1NnggcbCAlf8k5qKn5P1aKWPj23t1U0c474owJ1Scykdrge4iNcRKysY95ojru5yveEoURRkBehloP6yN0a0FdKNy4qMRWp6VutAKpJzQxVDTZ4kp410/pIPRrA5j/Kdxy9TByw1PiV+jJNe3/9YAxh+V6EH79wbTRvKcUwYEgxDtldxEKx/9NlwMECGHYvhIAkiFNhFck9bHU89j2mKx1LShV+YCE20rZjXQhEnbo/+ZQGyKltgAX/KV3zL/e7sELqj1pMPutcswpKp66buGG/YjzB61Y+BdmBy4i8W0bj4g4peWUfs4SITH++vOL6Wd4P9y06Qqs+y3/o3zm4q6B2j8Na4sWrXKDRxqgHlp5vNOtZAzgmOMax2DQMZfXzGDTxqpAjy0HSSjvFeuGb4IZjeM+gEM5PXbhPY2dGNuEcvj5wuJhRXqXDFJXL/bbAczFqZskzkvXpFS7O0zi2aTMAClhry+EVVykUyR3OafXzq4yFTasg9ah6nNzHvHS/YPMzfjqUUg7Uh4EyJ2TiE2C0rpL3NG/R6GHBzqLC+dqlp2ARCFNh9xVIHdZ79zTvQSewMNNJPsvGYHIHz4KeWDtbL9GxVXtkzk3+Z6wgzox45ZLdA0fCKlsTl/Wg="
+    on:
+      branch: master
+      condition: $allow_deploy == true
+  tags: true
 #    fqdn: yuru-yuri.sttv.me
 #see https://docs.travis-ci.com/user/deployment/pages/
 allow_failures:

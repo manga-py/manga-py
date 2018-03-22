@@ -16,15 +16,15 @@ from pyvirtualdisplay import Display
 root_path = path.dirname(path.realpath(__file__))
 sys_path.append(path.realpath(path.join(root_path, '..')))
 
-from src.providers import get_provider
-from src.base_classes import Base, Archive, Static
-from src.provider import Provider
-from src.image import Image
-from src import fs
-from src.http.url_normalizer import normalize_uri
-from src.crypt.puzzle import Puzzle
-from src.crypt import sunday_webry_com
-from src.base_classes import WebDriver
+from manga_dl.src.providers import get_provider
+from manga_dl.src.base_classes import Base, Archive, Static
+from manga_dl.provider import Provider
+from manga_dl.image import Image
+from manga_dl import fs
+from manga_dl.src.http.url_normalizer import normalize_uri
+from manga_dl.src.crypt.puzzle import Puzzle
+from manga_dl.src.crypt import sunday_webry_com
+from manga_dl.src.base_classes import WebDriver
 
 
 files_paths = [
