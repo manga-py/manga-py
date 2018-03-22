@@ -17,7 +17,6 @@ before_install:
   - chmod +x helpers/before_deploy.sh
   - chmod +x helpers/before_script.sh
   - source ./helpers/before_script.sh
-  - if [[ "$allow_deploy" = "true" ]] then if [[ "$TRAVIS_TAG" != "" ]] then wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O /tmp/chrome.deb && sudo dpkg -i /tmp/chrome.deb && sudo apt-get install -y -f --fix-missing; fi; fi
 install:
   - npm install -g less less-plugin-clean-css html-minifier
   - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
