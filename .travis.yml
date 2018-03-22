@@ -52,6 +52,7 @@ deploy:
     on:
       branch: master
       condition: $allow_deploy == true
+      tags: false
   - provider: pypi
     user: 1271
     password:
