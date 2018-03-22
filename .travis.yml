@@ -15,12 +15,13 @@ before_install:
   - python -V
   - pwd
   - chmod +x helpers/after_script.sh
-  - chmod +x helpers/before_deploy.sh
+#  - chmod +x helpers/before_deploy.sh
   - chmod +x helpers/before_script.sh
   - source ./helpers/before_script.sh
 install:
   - npm install -g less less-plugin-clean-css html-minifier
-  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
+#  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
+  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyvirtualdisplay
   - pip install -r requirements.txt
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -33,7 +34,7 @@ after_script:
 before_deploy:
   - echo "$allow_deploy"
   - echo "Start make gh-pages content"
-  - source ./helpers/before_deploy.sh
+#  - source ./helpers/before_deploy.sh
   - lessc helpers/gh_pages_content/style.less helpers/gh_pages_content/style.css
   - html-minifier helpers/gh_pages_content/index.html --output helpers/gh_pages_content/index.html --html5 --remove-comments --remove-tag-whitespace --collapse-inline-tag-whitespace --remove-attribute-quotes --collapse-whitespace
   - html-minifier helpers/gh_pages_content/improvement.html --output helpers/gh_pages_content/improvement.html --html5 --remove-comments --remove-tag-whitespace --collapse-inline-tag-whitespace --remove-attribute-quotes --collapse-whitespace
