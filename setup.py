@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 from setuptools import setup
+from glob import glob
 from manga_dl.meta import __version__, __downloader_uri__
 
 
@@ -20,7 +21,16 @@ REQUIREMENTS = [
 
 setup(
     name='manga-dl',
-    packages=['manga_dl'],
+    packages=[
+        'manga_dl',
+        'manga_dl.base_classes',
+        'manga_dl.crypt',
+        'manga_dl.gui',
+        'manga_dl.http',
+        'manga_dl.providers',
+        'manga_dl.providers.helpers',
+        'manga_dl.server',
+    ],
     include_package_data=True,
     version=__version__,
     description='Universal assistant download manga.',
@@ -28,11 +38,9 @@ setup(
     author_email='sttv-pc@mail.ru',
     url=__downloader_uri__,
     zip_safe=False,
-    package_data={
-        'manga_dl': [
-            'manga_dl/gui/langs/*',
-        ]
-    },
+    data_files=[
+        ('manga_dl/gui/langs', glob('manga_dl/gui/langs/*.json'))
+    ],
     download_url='{}/archive/{}.tar.gz'.format(__downloader_uri__, __version__),
     keywords=['manga-downloader', 'manga'],
     license='MIT',
@@ -50,7 +58,7 @@ setup(
     install_requires=REQUIREMENTS,
     entry_points={
         'console_scripts': [
-            'manga_dl = manga:main',
+            'manga-dl = manga_dl:main',
         ]
     }
 )
