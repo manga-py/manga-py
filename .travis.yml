@@ -15,13 +15,12 @@ before_install:
   - python -V
   - pwd
   - chmod +x helpers/after_script.sh
-#  - chmod +x helpers/before_deploy.sh
+  - chmod +x helpers/before_deploy.sh
   - chmod +x helpers/before_script.sh
   - source ./helpers/before_script.sh
 install:
   - npm install -g less less-plugin-clean-css html-minifier
-#  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
-  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyvirtualdisplay
+  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
   - pip install -r requirements.txt
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -34,12 +33,7 @@ after_script:
 before_deploy:
   - echo "$allow_deploy"
   - echo "Start make gh-pages content"
-#  - source ./helpers/before_deploy.sh
-  - lessc helpers/gh_pages_content/style.less helpers/gh_pages_content/style.css
-  - html-minifier helpers/gh_pages_content/index.html --output helpers/gh_pages_content/index.html --html5 --remove-comments --remove-tag-whitespace --collapse-inline-tag-whitespace --remove-attribute-quotes --collapse-whitespace
-  - html-minifier helpers/gh_pages_content/improvement.html --output helpers/gh_pages_content/improvement.html --html5 --remove-comments --remove-tag-whitespace --collapse-inline-tag-whitespace --remove-attribute-quotes --collapse-whitespace
-  - git add -A
-  - git commit -a -m upd
+  - source ./helpers/before_deploy.sh
 deploy:
   - provider: pages
     edge:
@@ -53,17 +47,6 @@ deploy:
       branch: master
       condition: $allow_deploy == true
       tags: false
-  - provider: releases
-    api_key:
-      secure: BP/yWdetaib7sGB4Xya//3YN+tRio0daBbz1PyTGl7gIDtyBmOScfF7vkREca+LlFJYjih6Sg4sNLbqzfZ0TPHOWxAlYxU+HPw8isBl5josJdjoc+ae31LA0HRbE48kwFnOOePbyv2YBnXa+15I2tDsS+VwTwTX4p9+yoASz/usHcXC8m+M1A/wxAV7GfbWSXP9Ny5pJDDI5wlKO/5euWqgDcAZXHHjEQVfc90dEpBVDkBD3Aft8QYwwP0tqU4IxyngXLm24DQrkNlhFhssBb1LyE4Z3S8EL8oH3vQrSSPLGBZ+8McHlxZioYh1LMTsS9SiOYT2LJlYtBshXaEqG01iSnbrfsysvjYChl/mi+R/P5Lp8iIlu3pSu4W7vXZkGHLySeiYoymR9r2Vz73ogBvnJWi+61K0gqDeN5qZuKwyWzHdFUS3RjIt+wjve7hBeeMmbmLPpXIb49O5Jsj2KEAhHVwgBRkVXHy+StrBRGiCzY576IgFcF/eLO3RR1x9MbBvDONuRd+JZaAJVdHnBqkJNmPsruLKN5SGjSETh96Fpa4zp7S1+MEK6BHex/ldgQjGbbFSdJrYvC84ajQh/DZ12r+2XFSUu0W4dFpDtTm5GngPYLolQbmmoY68f1NAnSJCcrKDTO9bFKIIrOsXzGFlJAIZe6jv+SNtuUjSbELk=
-    file_glob: true
-    file: dist/manga
-    skip-cleanup: true
-    skip_cleanup: true
-    on:
-      branch: master
-      tags: false
-      condition: $allow_deploy == true
   - provider: pypi
     user: 1271
     password:
