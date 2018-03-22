@@ -2,7 +2,7 @@ from __future__ import print_function
 
 from setuptools import setup
 from glob import glob
-from MangaDL.meta import __version__, __downloader_uri__
+from manga_raw.meta import __version__, __downloader_uri__
 
 
 REQUIREMENTS = [
@@ -20,16 +20,16 @@ REQUIREMENTS = [
 ]
 
 setup(
-    name='MangaDL',
+    name='manga_raw',
     packages=[
-        'MangaDL',
-        'MangaDL.base_classes',
-        'MangaDL.crypt',
-        'MangaDL.gui',
-        'MangaDL.http',
-        'MangaDL.providers',
-        'MangaDL.providers.helpers',
-        'MangaDL.server',
+        'manga_raw',
+        'manga_raw.base_classes',
+        'manga_raw.crypt',
+        'manga_raw.gui',
+        'manga_raw.http',
+        'manga_raw.providers',
+        'manga_raw.providers.helpers',
+        'manga_raw.server',
     ],
     include_package_data=True,
     version=__version__,
@@ -39,7 +39,7 @@ setup(
     url=__downloader_uri__,
     zip_safe=False,
     data_files=[
-        ('MangaDL/gui/langs', glob('MangaDL/gui/langs/*.json'))
+        ('manga_raw/gui/langs', glob('manga_raw/gui/langs/*.json'))
     ],
     download_url='{}/archive/{}.tar.gz'.format(__downloader_uri__, __version__),
     keywords=['manga-downloader', 'manga'],
@@ -58,7 +58,7 @@ setup(
     install_requires=REQUIREMENTS,
     entry_points={
         'console_scripts': [
-            'manga-dl = MangaDL:main',
+            'manga-raw = manga_raw:main',
         ]
     }
 )

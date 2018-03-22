@@ -1,6 +1,6 @@
-from MangaDL.providers import providers_list
-from MangaDL.fs import get_current_path
-from MangaDL.meta import __repo_name__
+from manga_raw.providers import providers_list
+from manga_raw.fs import get_current_path
+from manga_raw.meta import __repo_name__
 from json import dumps
 from datetime import datetime
 
