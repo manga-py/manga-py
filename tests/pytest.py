@@ -320,7 +320,7 @@ class TestMatrix(unittest.TestCase):
         return math.sqrt(reduce(operator.add, map(lambda h, i: h * (i ** 2), h, range(256))) / (float(im1.size[0]) * im1.size[1]))
 
     def test_jpg(self):
-        file.= root_path + '/mosaic/tonarinoyj_jp_orig.jpg'  # tonarinoyj.jp  image
+        file_src = root_path + '/mosaic/tonarinoyj_jp_orig.jpg'  # tonarinoyj.jp  image
         file_ref = root_path + '/mosaic/tonarinoyj_jp_reference.jpg'
         file_dst = root_path + '/temp/tonarinoyj_jp_mosaic.jpg'
 
@@ -330,18 +330,18 @@ class TestMatrix(unittest.TestCase):
             matrix[i] = (i % div_num) * div_num + int(i / div_num)
         p = Puzzle(div_num, div_num, matrix, 8)
         p.need_copy_orig = True
-        p.de_scramble(file. file_dst)
+        p.de_scramble(file_src, file_dst)
 
-       .= PilImage.open(file_dst)
+        src = PilImage.open(file_dst)
         ref = PilImage.open(file_ref)
 
-        deviation = self._rmsdiff. ref)
-       .close()
+        deviation = self._rmsdiff(src, ref)
+        src.close()
         ref.close()
         self.assertTrue(deviation < 10)
 
     def test_png(self):
-        file.= root_path + '/mosaic/tonarinoyj_jp_orig.png'  # tonarinoyj.jp  image
+        file_src = root_path + '/mosaic/tonarinoyj_jp_orig.png'  # tonarinoyj.jp  image
         file_ref = root_path + '/mosaic/tonarinoyj_jp_reference.png'
         file_dst = root_path + '/temp/tonarinoyj_jp_mosaic.png'
 
@@ -351,13 +351,13 @@ class TestMatrix(unittest.TestCase):
             matrix[i] = (i % div_num) * div_num + int(i / div_num)
         p = Puzzle(div_num, div_num, matrix, 8)
         p.need_copy_orig = True
-        p.de_scramble(file. file_dst)
+        p.de_scramble(file_src, file_dst)
 
-       .= PilImage.open(file_dst)
+        src = PilImage.open(file_dst)
         ref = PilImage.open(file_ref)
 
-        deviation = self._rmsdiff. ref)
-       .close()
+        deviation = self._rmsdiff(src, ref)
+        src.close()
         ref.close()
         self.assertTrue(deviation < 10)
 
@@ -375,8 +375,8 @@ class TestMatrix(unittest.TestCase):
             for i, r in enumerate(_r):
                 p = result_py[i]
                 if (
-                    r[.'] != p[.'] or
-                    r[.'] != p[.'] or
+                    r['srcX'] != p['srcX'] or
+                    r['srcY'] != p['srcY'] or
                     r['destX'] != p['destX'] or
                     r['destY'] != p['destY'] or
                     r['width'] != p['width'] or
@@ -390,18 +390,18 @@ class TestMatrix(unittest.TestCase):
         decoder = sunday_webry_com.SundayWebryCom()
         puzzle = sunday_webry_com.MatrixSunday()
 
-       .= root_path + '/mosaic/sunday_orig.jpg'
+        src = root_path + '/mosaic/sunday_orig.jpg'
         file_dst = root_path + '/temp/sunday_mosaic2.jpg'
         file_ref = root_path + '/mosaic/sunday_reference.jpg'
 
-        result_py2 = decoder.solve_by_img. 64, 64, 2)
+        result_py2 = decoder.solve_by_img(src, 64, 64, 2)
 
-        puzzle.de_scramble. file_dst, result_py2)
+        puzzle.de_scramble(src, file_dst, result_py2)
 
-       .= PilImage.open(file_dst)
+        src = PilImage.open(file_dst)
         ref = PilImage.open(file_ref)
 
-        deviation = self._rmsdiff. ref)
+        deviation = self._rmsdiff(src, ref)
 
         self.assertTrue(deviation < 10)
 
