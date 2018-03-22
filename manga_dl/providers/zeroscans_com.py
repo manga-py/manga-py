@@ -1,4 +1,4 @@
-from manga_dl.providers.rawdevart_com import RawDevArtCom
+from .rawdevart_com import RawDevArtCom
 
 
 class ZeroScansCom(RawDevArtCom):

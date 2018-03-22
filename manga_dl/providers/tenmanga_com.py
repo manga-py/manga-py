@@ -1,4 +1,4 @@
-from manga_dl.providers.taadd_com import TaaddCom
+from .taadd_com import TaaddCom
 
 
 class TenMangaCom(TaaddCom):

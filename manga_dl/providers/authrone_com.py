@@ -1,4 +1,4 @@
-from manga_dl.providers.mangaonline_today import MangaOnlineToday
+from .mangaonline_today import MangaOnlineToday
 from .helpers.std import Std
 
 

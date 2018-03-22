@@ -1,4 +1,4 @@
-from manga_dl.providers.hentaifox_com import HentaiFoxCom
+from .hentaifox_com import HentaiFoxCom
 
 
 class nHentaiNet(HentaiFoxCom):

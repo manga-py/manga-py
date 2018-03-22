@@ -561,6 +561,6 @@ def __check_provider(provider, url):
 def get_provider(url):
     for i in providers_list:
         if __check_provider(providers_list[i], url):
-            provider = __import__('src.providers.{}'.format(i), fromlist=['src.providers'])
+            provider = __import__('manga_dl.providers.{}'.format(i), fromlist=['manga_dl.providers'])
             return provider.main
     return False

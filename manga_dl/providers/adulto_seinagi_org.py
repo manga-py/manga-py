@@ -1,4 +1,4 @@
-from manga_dl.providers.pzykosis666hfansub_com import Pzykosis666HFansubCom
+from .pzykosis666hfansub_com import Pzykosis666HFansubCom
 
 
 class AdultoSeinagiOrg(Pzykosis666HFansubCom):

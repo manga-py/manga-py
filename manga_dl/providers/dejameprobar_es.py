@@ -1,4 +1,4 @@
-from manga_dl.providers.helveticascans_com import HelveticaScansCom
+from .helveticascans_com import HelveticaScansCom
 
 
 class DejameProbarEs(HelveticaScansCom):

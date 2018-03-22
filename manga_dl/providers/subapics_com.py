@@ -1,4 +1,4 @@
-from manga_dl.providers.mangashiro_net import MangaShiroNet
+from .mangashiro_net import MangaShiroNet
 from .helpers.std import Std
 
 

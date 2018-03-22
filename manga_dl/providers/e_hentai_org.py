@@ -1,7 +1,7 @@
 from lxml.html import HtmlElement
 
 from manga_dl.provider import Provider
-from manga_dl.providers.helpers import e_hentai_org
+from .helpers import e_hentai_org
 from .helpers.std import Std
 
 

@@ -1,4 +1,4 @@
-from manga_dl.providers.somanga_net import SoMangaNet
+from .somanga_net import SoMangaNet
 
 
 class UnionMangasNet(SoMangaNet):

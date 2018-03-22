@@ -1,4 +1,4 @@
-from manga_dl.providers.mangalife_us import MangaLifeUs
+from .mangalife_us import MangaLifeUs
 
 
 class MangaSeeOnlineUs(MangaLifeUs):

@@ -1,4 +1,4 @@
-from manga_dl.providers.readmanga_me import ReadmangaMe
+from .readmanga_me import ReadmangaMe
 
 
 class SelfMangaRu(ReadmangaMe):

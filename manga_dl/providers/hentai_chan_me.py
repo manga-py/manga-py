@@ -1,5 +1,5 @@
 from manga_dl.fs import get_current_path, path_join, is_file
-from manga_dl.providers.mangachan_me import MangaChanMe
+from .mangachan_me import MangaChanMe
 
 
 class HentaiChanMe(MangaChanMe):

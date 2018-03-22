@@ -1,4 +1,4 @@
-from manga_dl.providers.readhentaimanga_com import ReadHentaiMangaCom
+from .readhentaimanga_com import ReadHentaiMangaCom
 from .helpers.std import Std
 
 

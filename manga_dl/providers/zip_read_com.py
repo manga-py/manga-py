@@ -1,5 +1,5 @@
 from manga_dl.provider import Provider
-from manga_dl.providers.helpers.jav_zip_org import JavZipOrg
+from .helpers.jav_zip_org import JavZipOrg
 from .helpers.std import Std
 
 

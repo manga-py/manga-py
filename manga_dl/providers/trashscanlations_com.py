@@ -1,4 +1,4 @@
-from manga_dl.providers.zeroscans_com import ZeroScansCom
+from .zeroscans_com import ZeroScansCom
 
 
 class TrashScanlationsCom(ZeroScansCom):

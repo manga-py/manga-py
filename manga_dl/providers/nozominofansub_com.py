@@ -1,4 +1,4 @@
-from manga_dl.providers.komikid_com import KomikIdCom
+from .komikid_com import KomikIdCom
 from .helpers.std import Std
 
 

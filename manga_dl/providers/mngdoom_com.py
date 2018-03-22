@@ -1,4 +1,4 @@
-from manga_dl.providers.funmanga_com import FunMangaCom
+from .funmanga_com import FunMangaCom
 
 
 class MngDoomCom(FunMangaCom):

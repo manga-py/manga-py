@@ -1,4 +1,4 @@
-from manga_dl.providers.read_powermanga_org import ReadPowerMangaOrg
+from .read_powermanga_org import ReadPowerMangaOrg
 
 
 class HatigarmScansEu(ReadPowerMangaOrg):

@@ -1,6 +1,6 @@
 from urllib.parse import unquote_plus
 
-from manga_dl.providers.hentaifox_com import HentaiFoxCom
+from .hentaifox_com import HentaiFoxCom
 
 
 class HitomiLa(HentaiFoxCom):

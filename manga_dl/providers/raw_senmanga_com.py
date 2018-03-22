@@ -1,4 +1,4 @@
-from manga_dl.providers.senmanga_com import SenMangaCom
+from .senmanga_com import SenMangaCom
 
 
 class RawSenmangaCom(SenMangaCom):

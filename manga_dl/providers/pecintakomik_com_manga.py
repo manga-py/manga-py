@@ -1,4 +1,4 @@
-from manga_dl.providers.pecintakomik_com import PecintaKomikCom
+from .pecintakomik_com import PecintaKomikCom
 from .helpers.std import Std
 
 

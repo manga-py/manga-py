@@ -1,4 +1,4 @@
-from manga_dl.providers.authrone_com import AuthroneCom
+from .authrone_com import AuthroneCom
 from .helpers.std import Std
 
 

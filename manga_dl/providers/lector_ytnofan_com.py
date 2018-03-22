@@ -1,4 +1,4 @@
-from manga_dl.providers.gomanga_co import GoMangaCo
+from .gomanga_co import GoMangaCo
 
 
 class LectorYTNoFanCom(GoMangaCo):
