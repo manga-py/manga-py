@@ -48,7 +48,6 @@ deploy:
       condition: $allow_deploy == true
       tags: false
   - provider: pypi
-    distributions: pass
     server: https://upload.pypi.org/legacy/
     user: 1271
     password:
