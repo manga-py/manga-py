@@ -48,9 +48,12 @@ deploy:
       condition: $allow_deploy == true
       tags: false
   - provider: pypi
+    distributions: pass
+    server: https://upload.pypi.org/legacy/
     user: 1271
     password:
-      secure: F0yAFJ0Oe8sE+ARZuZIxhJ7Qcl4lAvDL1B8mTnX12KFqYKG6VF+LRR5MYemi394EC9+iaDq6k9OO0uaz6SHiB4buAvvF6RizNiVbeF2v6ZknGGCHF4uMiI7AgulVei3j7GW3YfTCBSbMZWpiM9cKLry3ubd3/5hyZNjJHS2DSAD3mIdPXmBKQyQkoyI+vzIuTyERZYqONu+eQLNSrSpL5nb2uLnU9YS/1htVKaD9FXT9fP3xQajqfQMuaWj4FeFwzN2zy20TNX9f0zdC6qIPURr6JdNU6OmdPrebOD+kik2x1ng9QqftJXxOsuw+ZYRqVacORjEDdIedZ5hwp+rwSTfpT3R9be+2LMl8IRl7tDU5m/vzQHwrc1UhBqT9SeOIkedoScUEAYrKBBPD1t9y2nXM4X3va6sG/DB9fpEz5mNtXGNDEby4eFjDbWkK4Q2XX4Hh+iMUDZzjr4eJc5Y1QF5LVR+B8WiSJZF3ze620MXJMTwfc9zYm9d3qiZt154+Psn+LSsIowpHxLjUVvfWySx1396Vw28/vpYuWnWLRSrOkc+VAOLLawCiseJLWCS2s13w2frA0CukY8nZ8jgF2zoLmN4t44Lp4WSlcplTXfmToY01FHsxdPHJ2F+mAkyFwVWHEpb7NcTWmgwSr1v+s3hseDhhgmDvwhTyuhx487I=
+      secure: "F0yAFJ0Oe8sE+ARZuZIxhJ7Qcl4lAvDL1B8mTnX12KFqYKG6VF+LRR5MYemi394EC9+iaDq6k9OO0uaz6SHiB4buAvvF6RizNiVbeF2v6ZknGGCHF4uMiI7AgulVei3j7GW3YfTCBSbMZWpiM9cKLry3ubd3/5hyZNjJHS2DSAD3mIdPXmBKQyQkoyI+vzIuTyERZYqONu+eQLNSrSpL5nb2uLnU9YS/1htVKaD9FXT9fP3xQajqfQMuaWj4FeFwzN2zy20TNX9f0zdC6qIPURr6JdNU6OmdPrebOD+kik2x1ng9QqftJXxOsuw+ZYRqVacORjEDdIedZ5hwp+rwSTfpT3R9be+2LMl8IRl7tDU5m/vzQHwrc1UhBqT9SeOIkedoScUEAYrKBBPD1t9y2nXM4X3va6sG/DB9fpEz5mNtXGNDEby4eFjDbWkK4Q2XX4Hh+iMUDZzjr4eJc5Y1QF5LVR+B8WiSJZF3ze620MXJMTwfc9zYm9d3qiZt154+Psn+LSsIowpHxLjUVvfWySx1396Vw28/vpYuWnWLRSrOkc+VAOLLawCiseJLWCS2s13w2frA0CukY8nZ8jgF2zoLmN4t44Lp4WSlcplTXfmToY01FHsxdPHJ2F+mAkyFwVWHEpb7NcTWmgwSr1v+s3hseDhhgmDvwhTyuhx487I="
+    skip_cleanup: true
     on:
       branch: master
       tags: true
