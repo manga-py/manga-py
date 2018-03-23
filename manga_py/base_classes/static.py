@@ -34,7 +34,6 @@ class Static:
         o = ord(i)
         _ = 39 < o < 127
         _ = _ and o not in [42, 47, 92, 94]
-        print(_, _ or o > 191, o, i)
         return _ or o > 161
 
     @staticmethod
