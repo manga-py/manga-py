@@ -96,6 +96,6 @@ class TestBaseClass(unittest.TestCase):
         self.assertRaises(AttributeError, bp.http_get, url)
 
     def test_ascii(self):
-        string = u'/\\\0⼢⼣⼤abcde123@#$йцуڪڦ'
-        normal_string = '⼢⼣⼤abcde123@#$йцуڪڦ'
+        string = u'/\\\0@#$⼢⼣⼤abCde123йцуڪڦ'
+        normal_string = '@⼢⼣⼤abCde123йцуڪڦ'
         self.assertEqual(Static.remove_not_ascii(string), normal_string)
