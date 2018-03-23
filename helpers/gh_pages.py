@@ -1,5 +1,5 @@
 from manga_py.providers import providers_list
-from manga_py.fs import get_current_path
+from manga_py.fs import root_path
 from manga_py.meta import __repo_name__
 from json import dumps
 from datetime import datetime

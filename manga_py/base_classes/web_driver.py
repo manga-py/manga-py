@@ -1,5 +1,5 @@
 from selenium import webdriver  # need, if captcha detected
-from manga_py.fs import get_current_path, get_temp_path, is_file, dirname, make_dirs
+from manga_py.fs import root_path, get_temp_path, is_file, dirname, make_dirs
 from sys import platform
 from zipfile import ZipFile
 from requests import get

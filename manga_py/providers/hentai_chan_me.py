@@ -1,4 +1,4 @@
-from manga_py.fs import get_current_path, path_join, is_file
+from manga_py.fs import root_path, path_join, is_file
 from .mangachan_me import MangaChanMe
 
 
