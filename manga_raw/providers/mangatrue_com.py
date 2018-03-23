@@ -11,4 +11,5 @@ class MangaTrueCom(RawDevArtCom, Std):
     def get_cover(self) -> str:
         return self._cover_from_content('.summary_image img.img-responsive', 'data-src')
 
+
 main = MangaTrueCom
