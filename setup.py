@@ -3,6 +3,7 @@ from __future__ import print_function
 from setuptools import setup
 from glob import glob
 from manga_raw.meta import __version__, __downloader_uri__
+from os.path import isfile
 
 
 REQUIREMENTS = [
@@ -19,6 +20,11 @@ REQUIREMENTS = [
     'packaging',
 ]
 
+long_description = ''
+if isfile('README.rst'):
+    with open('README.rst') as f:
+        long_description = f.read()
+
 setup(
     name='manga_raw',
     packages=[
@@ -34,6 +40,7 @@ setup(
     include_package_data=True,
     version=__version__,
     description='Universal assistant download manga.',
+    long_description=long_description,
     author='Zharkov Sergey',
     author_email='sttv-pc@mail.ru',
     url=__downloader_uri__,

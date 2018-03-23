@@ -312,6 +312,9 @@ providers_list = {
     'mangatown_com': [
         r'mangatown\.com/manga/.',
     ],
+    'mangatrue_com': [
+        r'mangatrue\.com/manga/.'
+    ],
     'manhuagui_com': [
         r'manhuagui\.com/comic/\d',
     ],

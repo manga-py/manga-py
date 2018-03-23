@@ -35,7 +35,7 @@ class Static:
         _ = 39 < o < 58
         _ = _ or 63 < o < 94
         _ = _ or 96 < o < 127
-        return _
+        return _ or o > 191
 
     @staticmethod
     def remove_not_ascii(value):

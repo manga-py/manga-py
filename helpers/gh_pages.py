@@ -20,6 +20,7 @@ start_items = [
     ['http://comic.k-manga.jp', 0, ' - Maybe...'],
     ['http://luscious.net', 1, '<i class="td"></i>'],
     ['http://lezhin.com', 0, ' - Maybe...'],
+    ['http://mangaall.com', 0, 'Please, see mangatrue.com'],
     ['http://mangaforall.com', 1, ''],
     ['http://mangafreak.net', 1, '<i class="v0"></i>, site down now'],
     ['http://mangahead.me', 1, '<i class="v0"></i>, site down now'],
