@@ -1,10 +1,11 @@
-# Manga-Downloader [![Travis CI result](https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=master)](https://travis-ci.org/yuru-yuri/manga-dl/branches) ![Python version](https://img.shields.io/badge/py-3.5--3.6-blue.svg)
+# Manga-Downloader [![Travis CI result](https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=master)](https://travis-ci.org/yuru-yuri/manga-dl/branches)
 
 ##### Universal assistant download manga.
 ##### Supports more than 220 resources now.
 
 [![Code Climate](https://codeclimate.com/github/yuru-yuri/manga-dl/badges/gpa.svg)](https://codeclimate.com/github/yuru-yuri/manga-dl)
 [![Issue Count](https://codeclimate.com/github/yuru-yuri/manga-dl/badges/issue_count.svg)](https://codeclimate.com/github/yuru-yuri/manga-dl)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/manga-py.svg)](https://pypi.org/project/manga-py/)
 
 [![Scrutinizer CI result](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl)
 [![Scrutinizer CI coverage](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yuru-yuri/manga-dl)
@@ -30,7 +31,7 @@ https://www.python.org/downloads/
 ```bash
 pip install manga-py
 ```
-3) Run program: 
+3) Run program:
 
 __*nix, MacOS:__
 ```bash
@@ -41,7 +42,7 @@ __Windows__
 
 3.1) Press < Win+r >
 
-3.2) Enter cmd
+3.2) Enter __cmd__
 
 3.2.1) _Gui in develop_
 
@@ -69,6 +70,8 @@ manga-py http://manga-url-here/manga-name --name 'Manga Name'
 manga-py http://manga-url-here/manga-name -d /manga/destination/path/
 # skip 3 volumes
 manga-py --skip-volumes 3 http://manga-url-here/manga-name
+# skip 3 volumes and download 2 volumes
+manga-py --skip-volumes 3 --max-volumes 2 http://manga-url-here/manga-name
 # reverse volumes downloading (24 -> 1)
 manga-py --reverse-downloading http://manga-url-here/manga-name
 manga-py --no-progress http://manga-url-here/manga-name  # Disable progressbar

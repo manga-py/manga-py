@@ -1,4 +1,4 @@
-# Manga Downloader
+# Manga Downloader [![Travis CI result](https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=master)](https://travis-ci.org/yuru-yuri/manga-dl/branches)
 
 ## Поддерживаемые ресурсы
 
@@ -9,22 +9,30 @@
 
 ### Установка
 
-
+1) Установить python 3.5+
+https://www.python.org/downloads/
+2) Установить pip пакет:
 ```bash
-git clone --progress --prune --recurse-submodules=no origin  https://github.com/yuru-yuri/manga-dl.git
-cd manga-dl
-# install requirements
-pip3 install -r requirements.txt
+pip install manga-py
 ```
+3) Запустить программу:
 
-#### Альтернативная установка:
-1) Загрузить исходные файлы: https://github.com/yuru-yuri/manga-dl/archive/master.zip
-2) Распаковать архив
-3) Установить зависимости:
+__*nix, MacOS:__
 ```bash
-cd manga-dl
-pip3 install -r requirements.txt
+manga-py  # gui mode (Not worked now. In develop)
+manga-py -- cli http://manga.url/manga/name  # For download manga
 ```
+__Windows__
+
+3.1) Нажать < Win+r >
+
+3.2) Ввести __cmd__
+
+3.2.1) _Gui в разработке_
+
+3.3) Нажать < Enter >
+
+3.4) Смотрите *nix инструкции
 
 ####  Если используется Windows, обязательно к установке: http://landinghub.visualstudio.com/visual-cpp-build-tools
 _Если в процессе установки пакета pycrypto возникает ошибка на Windows, смотреть 'https://github.com/sfbahr/PyCrypto-Wheels'_
@@ -33,32 +41,29 @@ _Если в процессе установки пакета pycrypto возн�
 
 ___:warning:Для использования с сайтами, защищенными cloudflare, необходима установка Node.js___
 
-
 ___:warning:По умолчанию, изображения скачиваются в мультипоточном режиме___
 
 ___Для переопределения этого поведения можно использовать ключ  --no-multi-threads___
 
-___:warning:Утилита всегда добавляет к пути имя манги___
-
-___Для переопределения этого поведения можно использовать ключ --no-name___
-
 ```bash
-# Загрузка в папку ./manga
-./manga.py -i -p -u http://manga-url-here/manga-name
+# Загрузка в папку "./Manga"
+manga-py http://manga-url-here/manga-name
+# Загрузка в папку "./Manga Name"
+manga-py http://manga-url-here/manga-name --name 'Manga Name'
 # или в указаную папку /manga/destination/path/
-./manga.py -i -p -u http://manga-url-here/manga-name -d /manga/destination/path/
-# Использование в интерактивном режиме
-./manga.py -i -p
+manga-py http://manga-url-here/manga-name -d /manga/destination/path/
 # Пропустить первые 3 главы
-./manga.py --skip-volumes 3 -u http://manga-url-here/manga-name
+manga-py --skip-volumes 3 http://manga-url-here/manga-name
+# Пропустить первые 3 главы и загрузить 2
+manga-py --skip-volumes 3 --max-volumes 2 http://manga-url-here/manga-name
 # Можно инвертировать порядок загрузки глав (24 -> 1)
-./manga.py --reverse-downloading -u http://manga-url-here/manga-name
+manga-py --reverse-downloading http://manga-url-here/manga-name
 ```
 
 ### Помощь
 
 ```bash
-./manga.py -h
+manga-py -h
 # или
-./manga.py --help
+manga-py --help
 ```
