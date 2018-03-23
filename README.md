@@ -33,7 +33,7 @@ pip install manga-py
 ```
 3) Run program:
 
-__*nix, MacOS:__
+**\*nix, MacOS:**
 ```bash
 manga-py  # gui mode (Not worked now. In develop)
 manga-py -- cli http://manga.url/manga/name  # For download manga

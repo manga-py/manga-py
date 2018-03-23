@@ -36,7 +36,7 @@ Installation
 
 3) Run program:
 
-\_\_\*nix, MacOS:\_\_
+**\*nix, MacOS:**
 
 .. code:: bash
 

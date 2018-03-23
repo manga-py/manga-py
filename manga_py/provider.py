@@ -78,17 +78,16 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         volumes = self._storage['chapters']
         _min = self._params.get('skip_volumes', 0)
         _max = self._params.get('max_volumes', 0)
-        if isinstance(volumes, list):
-            for idx, __url in enumerate(volumes):
-                self._storage['current_chapter'] = idx
+        for idx, __url in enumerate(volumes):
+            self._storage['current_chapter'] = idx
 
-                if idx < _min or (idx > _min + _max) or self._check_archive():
-                    continue
+            if idx < _min or (idx > _min + _max) or self._check_archive():
+                continue
 
-                self.loop_callback_chapters()
+            self.loop_callback_chapters()
 
-                self._storage['files'] = self.get_files()
-                self.loop_files()
+            self._storage['files'] = self.get_files()
+            self.loop_files()
 
     def __add_file_to_archive(self):
         if self._params.get('no_multi_threads', False):

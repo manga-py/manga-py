@@ -17,18 +17,15 @@ pip install manga-py
 ```
 3) Запустить программу:
 
-__*nix, MacOS:__
+**\*nix, MacOS:**
 ```bash
-manga-py  # gui mode (Not worked now. In develop)
-manga-py -- cli http://manga.url/manga/name  # For download manga
+manga-py http://manga.url/manga/name
 ```
 __Windows__
 
 3.1) Нажать < Win+r >
 
 3.2) Ввести __cmd__
-
-3.2.1) _Gui в разработке_
 
 3.3) Нажать < Enter >
 
