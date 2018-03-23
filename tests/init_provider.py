@@ -24,7 +24,7 @@ class TestInitProvider(unittest.TestCase):
         self.assertFalse(provider)
 
     def test_root_path(self):
-        self.assertEqual(path.realpath(fs.path_join(root_path, '..')), fs.get_current_path())
+        self.assertEqual(path.realpath(fs.path_join(root_path, '..')), fs.root_path())
 
     def test_file_name_query_remove(self):
         name = '/addr/to/filename'
