@@ -4,7 +4,7 @@
 import unittest
 from os import path
 
-from manga_raw import fs
+from manga_py import fs
 from tests import *
 
 root_path = path.join(path.dirname(path.realpath(__file__)), 'tests')

@@ -3,7 +3,7 @@
 
 import unittest
 
-from manga_raw.http.url_normalizer import normalize_uri
+from manga_py.http.url_normalizer import normalize_uri
 
 
 class TestHttpClasses(unittest.TestCase):

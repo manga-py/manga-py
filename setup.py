@@ -2,7 +2,7 @@ from __future__ import print_function
 
 from setuptools import setup
 from glob import glob
-from manga_raw.meta import __version__, __downloader_uri__
+from manga_py.meta import __version__, __downloader_uri__
 from os.path import isfile
 
 
@@ -26,16 +26,16 @@ if isfile('README.rst'):
         long_description = f.read()
 
 setup(
-    name='manga_raw',
+    name='manga_py',
     packages=[
-        'manga_raw',
-        'manga_raw.base_classes',
-        'manga_raw.crypt',
-        'manga_raw.gui',
-        'manga_raw.http',
-        'manga_raw.providers',
-        'manga_raw.providers.helpers',
-        'manga_raw.server',
+        'manga_py',
+        'manga_py.base_classes',
+        'manga_py.crypt',
+        'manga_py.gui',
+        'manga_py.http',
+        'manga_py.providers',
+        'manga_py.providers.helpers',
+        'manga_py.server',
     ],
     include_package_data=True,
     version=__version__,
@@ -46,7 +46,7 @@ setup(
     url=__downloader_uri__,
     zip_safe=False,
     data_files=[
-        ('manga_raw/gui/langs', glob('manga_raw/gui/langs/*.json'))
+        ('manga_py/gui/langs', glob('manga_py/gui/langs/*.json'))
     ],
     download_url='{}/archive/{}.tar.gz'.format(__downloader_uri__, __version__),
     keywords=['manga-downloader', 'manga'],
@@ -65,7 +65,7 @@ setup(
     install_requires=REQUIREMENTS,
     entry_points={
         'console_scripts': [
-            'manga-raw = manga_raw:main',
+            'manga-py = manga_py:main',
         ]
     }
 )

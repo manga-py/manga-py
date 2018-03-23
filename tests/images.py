@@ -6,8 +6,8 @@ from os import path
 
 from PIL import Image as PilImage
 
-from manga_raw.image import Image
-from manga_raw import fs
+from manga_py.image import Image
+from manga_py import fs
 
 root_path = path.dirname(path.realpath(__file__))
 

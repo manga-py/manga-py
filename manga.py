@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from manga_raw import main
+from manga_py import main
 
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'

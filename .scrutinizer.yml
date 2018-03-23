@@ -16,7 +16,7 @@ build:
           - 'pip3 install pyvirtualdisplay'
         override:
           -
-            command: 'coverage run --omit=manga_raw/providers/*.py --source=manga_raw pytest.py'
+            command: 'coverage run --omit=manga_py/providers/*.py --source=manga_py pytest.py'
             coverage:
               file: '.coverage'
               format: 'py-cc'
@@ -26,6 +26,6 @@ build:
         node: 6.0.0
 filter:
   excluded_paths:
-    - manga_raw/crypt/sunday_webry_com.py
+    - manga_py/crypt/sunday_webry_com.py
     - tests/*.py
     - pytest.py

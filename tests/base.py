@@ -5,8 +5,8 @@ import json
 import unittest
 from os import path
 
-from manga_raw.base_classes import Base, Static
-from manga_raw import fs
+from manga_py.base_classes import Base, Static
+from manga_py import fs
 
 root_path = path.dirname(path.realpath(__file__))
 
@@ -96,6 +96,6 @@ class TestBaseClass(unittest.TestCase):
         self.assertRaises(AttributeError, bp.http_get, url)
 
     def test_ascii(self):
-        string = '⼢⼣⼤abcde123@#$йцуڪڦ'
-        normal_string = 'abcde123@'
+        string = u'/\\\0⼢⼣⼤abcde123@#$йцуڪڦ'
+        normal_string = '⼢⼣⼤abcde123@#$йцуڪڦ'
         self.assertEqual(Static.remove_not_ascii(string), normal_string)

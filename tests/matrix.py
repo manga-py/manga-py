@@ -10,8 +10,8 @@ from os import path
 
 from PIL import Image as PilImage, ImageChops
 
-from manga_raw.crypt.puzzle import Puzzle
-from manga_raw.crypt import sunday_webry_com
+from manga_py.crypt.puzzle import Puzzle
+from manga_py.crypt import sunday_webry_com
 
 root_path = path.dirname(path.realpath(__file__))
 

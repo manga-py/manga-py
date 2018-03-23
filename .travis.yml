@@ -26,7 +26,7 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-  - if [[ "$TRAVIS_TAG" = "" ]]; then coverage run --omit=manga_raw/providers/*.py --source=manga_raw tests/pytest.py; fi
+  - if [[ "$TRAVIS_TAG" = "" ]]; then coverage run --omit=manga_py/providers/*.py --source=manga_py pytest.py; fi
   - if [[ "$TRAVIS_TAG" != "" ]]; then echo 'Tag'; fi
 after_script:
   - source ./helpers/after_script.sh

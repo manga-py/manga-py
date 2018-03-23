@@ -22,26 +22,33 @@ see https://yuru-yuri.github.io/manga-dl/improvement.html
 
 ## How to use
 
-### Simple use:
-Download executable file from https://github.com/yuru-yuri/manga-dl/releases/latest
-
 ### Installation
 
+1) Download python 3.5+
+https://www.python.org/downloads/
+2) Install pip package:
 ```bash
-git clone --progress --prune --recurse-submodules=no origin  https://github.com/yuru-yuri/manga-dl.git
-cd manga-dl
-# install requirements
-pip3 install -r requirements.txt
+pip install manga-py
 ```
+3) Run program: 
 
-#### Or alternative installation:
-1) Downloading repo: https://github.com/yuru-yuri/manga-dl/releases/latest
-2) Extract archive
-3) Install requirements
+__*nix, MacOS:__
 ```bash
-cd manga-dl
-pip3 install -r requirements.txt
+manga-py  # gui mode (Not worked now. In develop)
+manga-py -- cli http://manga.url/manga/name  # For download manga
 ```
+__Windows__
+
+3.1) Press < Win+r >
+
+3.2) Enter cmd
+
+3.2.1) _Gui in develop_
+
+3.3) Press < Enter >
+
+3.4) See *nix instruction
+
 
 #### If you using windows, require http://landinghub.visualstudio.com/visual-cpp-build-tools
 
@@ -49,35 +56,30 @@ pip3 install -r requirements.txt
 
 ___:warning:For sites with cloudflare protect need installed Node.js___
 
-
 ___:warning:Notice! By default, the mode of multithreaded image loading is enabled___
 
 ___To change this behavior, add the key --no-multi-threads___
 
-
-___:warning:Notice! The name of the manga is always added to the path!___
-
-___To change this behavior, add the key --no-name___
-
 ```bash
-# download to ./manga directory
-./manga.py -i -p -u http://manga-url-here/manga-name
+# download to "./Manga" directory
+manga-py http://manga-url-here/manga-name
+# download to "./Manga Name" directory
+manga-py http://manga-url-here/manga-name --name 'Manga Name'
 # or download to /manga/destination/path/ directory
-./manga.py -i -p -u http://manga-url-here/manga-name -d /manga/destination/path/
-# or interactive mode
-./manga.py -i -p
+manga-py http://manga-url-here/manga-name -d /manga/destination/path/
 # skip 3 volumes
-./manga.py --skip-volumes 3 -u http://manga-url-here/manga-name
+manga-py --skip-volumes 3 http://manga-url-here/manga-name
 # reverse volumes downloading (24 -> 1)
-./manga.py --reverse-downloading -u http://manga-url-here/manga-name
+manga-py --reverse-downloading http://manga-url-here/manga-name
+manga-py --no-progress http://manga-url-here/manga-name  # Disable progressbar
 ```
 
 ### Help
 
 ```bash
-./manga.py -h
+manga-py -h
 # or
-./manga.py --help
+manga-py --help
 ```
 
 ### Docker
@@ -85,5 +87,5 @@ ___To change this behavior, add the key --no-name___
 ```bash
 cd manga-dl
 docker build -t MangaDownloader . # build a docker image
-docker run -v /path/to/store/mangas:/app/Manga MangaDownloader ./manga.py -i -p -u http://manga-url-here/manga-name # run it
+docker run -v /path/to/store/mangas:/app/Manga MangaDownloader ./manga.py --cli http://manga-url-here/manga-name # run it
 ```

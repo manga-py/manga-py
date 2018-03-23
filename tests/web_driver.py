@@ -6,7 +6,7 @@ from os import path
 
 from pyvirtualdisplay import Display
 
-from manga_raw.base_classes import WebDriver
+from manga_py.base_classes import WebDriver
 
 
 class TestWebDriver(unittest.TestCase):

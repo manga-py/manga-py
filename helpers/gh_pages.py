@@ -1,6 +1,6 @@
-from manga_raw.providers import providers_list
-from manga_raw.fs import get_current_path
-from manga_raw.meta import __repo_name__
+from manga_py.providers import providers_list
+from manga_py.fs import get_current_path
+from manga_py.meta import __repo_name__
 from json import dumps
 from datetime import datetime
 
@@ -89,7 +89,7 @@ def build_providers():
 
 
 def main():
-    path = get_current_path() + '/helpers/gh_pages_content/'
+    path = root_path() + '/helpers/gh_pages_content/'
     with open(path + 'providers.json', 'w') as w:
         w.write(build_providers())
     prepare_html(path + 'index.html')
