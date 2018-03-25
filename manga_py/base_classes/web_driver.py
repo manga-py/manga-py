@@ -1,4 +1,3 @@
-from selenium import webdriver  # need, if captcha detected
 from manga_py.fs import is_file, dirname, storage
 from sys import platform
 from zipfile import ZipFile
@@ -37,6 +36,7 @@ class WebDriver:
         return storage(driver)
 
     def get_driver(self):
+        from selenium import webdriver  # need, if captcha detected
         driver_path = self._driver_path()
         if not is_file(driver_path):
             self.download_drivder()
