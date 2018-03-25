@@ -82,3 +82,8 @@ def rename(_from, _to):
     if is_file(_from) or is_dir(_from):
         is_dir(dirname(_to)) or makedirs(dirname(_to))
         move(_from, _to)
+
+
+def storage(_path):
+    # if is_file()  # TODO!
+    return path_join(root_path(), 'manga_py', 'storage', _path)

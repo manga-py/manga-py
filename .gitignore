@@ -4,9 +4,9 @@ tests/temp/
 
 manga_py/rebreakcaptcha
 
-storage/.passwords.json
-storage/chromedriver
-storage/chromedriver.exe
+manga_py/storage/.passwords.json
+manga_py/storage/chromedriver
+manga_py/storage/chromedriver.exe
 
 ### Python template
 # Byte-compiled / optimized / DLL files

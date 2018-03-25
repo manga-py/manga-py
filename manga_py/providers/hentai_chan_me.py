@@ -1,4 +1,4 @@
-from manga_py.fs import root_path, path_join, is_file
+from manga_py.fs import is_file, storage
 from .mangachan_me import MangaChanMe
 
 
@@ -24,10 +24,10 @@ class HentaiChanMe(MangaChanMe):
         return cookies
 
     def prepare_cookies(self):
-        storage = path_join(root_path(), 'storage', '.passwords.json')
-        if not is_file(storage):
+        _storage = storage('.passwords.json')
+        if not is_file(_storage):
             return
-        file = open(storage, 'r').read()
+        file = open(_storage, 'r').read()
         data = self.json.loads(file).get('hentai_chan_me', {})
         cookies = self._login(**data)
         for i in cookies:
