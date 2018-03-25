@@ -85,5 +85,6 @@ def rename(_from, _to):
 
 
 def storage(_path):
-    # if is_file()  # TODO!
-    return path_join(root_path(), 'manga_py', 'storage', _path)
+    _path = get_temp_path('storage', _path)
+    make_dirs(dirname(_path))
+    return _path
