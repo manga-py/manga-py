@@ -7,17 +7,17 @@ from os.path import isfile
 
 
 REQUIREMENTS = [
-    'setuptools',
     'lxml>=3.7.2',
     'cssselect>=1.0.0',
     'Pillow>=4.3',
     'requests>=2.14',
     'pycrypto>=2.5',
     'cfscrape>=1.9.1',
+    'PyQT5>=5.4',
     'progressbar2>3.34',
-    'html-purifier>=0.1.9',
     'urllib3',
     'packaging',
+    'html-purifier>=0.1.9',
 ]
 
 long_description = ''
