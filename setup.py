@@ -7,17 +7,17 @@ from os.path import isfile
 
 
 REQUIREMENTS = [
-    'lxml>=3.7.2',
-    'cssselect>=1.0.0',
-    'Pillow>=4.3',
-    'requests>=2.14',
-    'pycrypto>=2.5',
-    'cfscrape>=1.9.1',
-    'PyQT5>=5.4',
-    'progressbar2>3.34',
+    'lxml',
+    'cssselect',
+    'Pillow',
+    'requests',
+    'pycrypto',
+    'cfscrape',
+    'PyQT5',
+    'progressbar2',
     'urllib3',
     'packaging',
-    'html-purifier>=0.1.9',
+    'html-purifier',
 ]
 
 long_description = ''
@@ -46,7 +46,11 @@ setup(
     url=__downloader_uri__,
     zip_safe=False,
     data_files=[
-        ('manga_py/gui/langs', glob('manga_py/gui/langs/*.json'))
+        ('manga_py/gui/langs', glob('manga_py/gui/langs/*.json')),
+        ('manga_py/storage', [
+            'manga_py/storage/.passwords.json.dist',
+            'manga_py/storage/.proxy.txt',
+        ])
     ],
     download_url='{}/archive/{}.tar.gz'.format(__downloader_uri__, __version__),
     keywords=['manga-downloader', 'manga'],

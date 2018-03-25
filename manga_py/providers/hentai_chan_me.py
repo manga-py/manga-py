@@ -27,7 +27,7 @@ class HentaiChanMe(MangaChanMe):
     def prepare_cookies(self):
         _storage = storage('.passwords.json')
         if not is_file(_storage):
-            copy(path_join(root_path(), 'manga_py', '.passwords.json'), _storage)
+            copy(path_join(root_path(), 'manga_py', '.passwords.json.dist'), _storage)
         file = open(_storage, 'r').read()
         data = self.json.loads(file).get('hentai_chan_me', {})
         cookies = self._login(**data)
