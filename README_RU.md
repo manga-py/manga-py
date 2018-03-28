@@ -31,7 +31,7 @@ __Windows__
 
 3.4) Смотрите *nix инструкции
 
-####  Если используется Windows, обязательно к установке: http://landinghub.visualstudio.com/visual-cpp-build-tools
+####  Если используется Windows, обязательно к установке: https://www.microsoft.com/en-us/download/details.aspx?id=48159
 _Если в процессе установки пакета pycrypto возникает ошибка на Windows, смотреть 'https://github.com/sfbahr/PyCrypto-Wheels'_
 
 ### Загрузка манги
