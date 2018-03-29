@@ -51,7 +51,7 @@ __Windows__
 3.4) See *nix instruction
 
 
-#### If you using windows, require http://landinghub.visualstudio.com/visual-cpp-build-tools
+#### If you using windows, require https://www.microsoft.com/en-us/download/details.aspx?id=48159
 
 ### Downloading manga
 
