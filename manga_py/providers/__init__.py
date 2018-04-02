@@ -177,6 +177,9 @@ providers_list = {
     'manga_ae': [
         r'manga\.ae/.',
     ],
+    'manga_fox_com': [
+        r'manga-fox.com/.'
+    ],
     'manga_online_biz': [
         r'manga-online\.biz/.',
     ],
@@ -265,6 +268,9 @@ providers_list = {
     ],
     'mangalife_us': [
         r'mangalife\.us/(read-online|manga)/.',
+    ],
+    'manganelo_com': [
+        r'manganelo\.com/(manga|chapter)/.',
     ],
     'mangaon_net': [
         r'mangaon\.net/(manga-info|read-online)/.',
