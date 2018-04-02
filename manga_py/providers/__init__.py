@@ -544,6 +544,9 @@ providers_list = {
     'westmanga_info': [
         r'westmanga\.info/.'
     ],
+    'whitecloudpavilion_com': [
+        r'whitecloudpavilion\.com/manga/free/manga/.'
+    ],
     'wiemanga_com': [
         r'wiemanga\.com/(manga|chapter)/.',
     ],
