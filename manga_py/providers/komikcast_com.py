@@ -5,6 +5,14 @@ from .helpers.std import Std
 class KomikCastCom(Provider, Std):
     _chapter_re = r'\.com/[^/]+-(\d+(?:-\d+)?)'
 
+    def get_archive_name(self) -> str:
+        idx = self.get_chapter_index()
+        return self.normal_arc_name(idx.split('-'))
+
+    def get_chapter_index(self) -> str:
+        re = self.re.compile('-chapter-(\d+(?:-\d+)?)')
+        return re.search(self.chapter).group(1)
+
     def get_main_content(self):
         return self._get_content('{}/{}')
 
@@ -15,6 +23,16 @@ class KomikCastCom(Provider, Std):
             self._params['url'] = self.http().normalize_uri(url)
             return self.get_manga_name()
         return self._get_name(r'\.com/([^/]+)')
+
+    def get_chapters(self) -> list:
+        return self._elements('.mangainfo .leftoff a')
+
+    def get_files(self) -> list:
+        parser = self.html_fromstring(self.chapter)
+        return self._images_helper(parser, '#readerarea img')
+
+    def get_cover(self):
+        return self._cover_from_content('.topinfo img')
 
 
 main = KomikCastCom

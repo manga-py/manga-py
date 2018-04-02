@@ -144,9 +144,9 @@ providers_list = {
     'kissmanga_com': [
         r'kissmanga\.com/Manga/.',
     ],
-    # 'komikcast_com': [
-    #     r'komikcast\.com/.'
-    # ],
+    'komikcast_com': [
+        r'komikcast\.com/.'
+    ],
     'komikid_com': [
         r'komikid\.com/manga/.',
         r'mangazuki\.co/manga/.',
@@ -571,8 +571,9 @@ def __check_provider(provider, url):
 
 
 def get_provider(url):
+    fromlist = 'manga_py.providers'
     for i in providers_list:
         if __check_provider(providers_list[i], url):
-            provider = __import__('manga_py.providers.{}'.format(i), fromlist=['manga_py.providers'])
+            provider = __import__('{}.{}'.format(fromlist, i), fromlist=[fromlist])
             return provider.main
     return False
