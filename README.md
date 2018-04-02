@@ -1,7 +1,7 @@
 # Manga-Downloader [![Travis CI result](https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=master)](https://travis-ci.org/yuru-yuri/manga-dl/branches)
 
 ##### Universal assistant download manga.
-##### Supports more than 220 resources now.
+##### Supports more than 230 resources now.
 
 [![Code Climate](https://codeclimate.com/github/yuru-yuri/manga-dl/badges/gpa.svg)](https://codeclimate.com/github/yuru-yuri/manga-dl)
 [![Issue Count](https://codeclimate.com/github/yuru-yuri/manga-dl/badges/issue_count.svg)](https://codeclimate.com/github/yuru-yuri/manga-dl)
@@ -35,8 +35,8 @@ pip install manga-py
 
 **\*nix, MacOS:**
 ```bash
-manga-py  # gui mode (Not worked now. In develop)
-manga-py -- cli http://manga.url/manga/name  # For download manga
+manga-py --gui # gui mode (Not worked now. In develop)
+manga-py http://manga.url/manga/name  # For download manga
 ```
 __Windows__
 
@@ -90,5 +90,5 @@ manga-py --help
 ```bash
 cd manga-dl
 docker build -t MangaDownloader . # build a docker image
-docker run -v /path/to/store/mangas:/app/Manga MangaDownloader ./manga.py --cli http://manga-url-here/manga-name # run it
+docker run -v /path/to/store/mangas:/app/Manga MangaDownloader ./manga.py http://manga-url-here/manga-name # run it
 ```

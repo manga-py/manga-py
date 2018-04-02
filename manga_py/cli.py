@@ -54,8 +54,8 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
     #                          default=False, help='Verbose log')
     args_parser.add_argument('-np', '--no-progress', metavar='no-progress', action='store_const', required=False,
                              const=True, help='Don\'t show progress bar', default=False)
-    args_parser.add_argument('--cli', action='store_const', required=False, const=True, help='Use cli interface',
-                             default=True)  # TODO
+    args_parser.add_argument('--gui', action='store_const', required=False, const=True, help='Use GUI interface',
+                             default=False)  # TODO
     # future
     args_parser.add_argument('--server', action='store_const', required=False, const=True, help='Run web interface',
                              default=False)

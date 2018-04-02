@@ -28,20 +28,20 @@ try:
 
         args = get_cli_arguments()
         parse_args = args.parse_args()
-        if parse_args.cli:
-            cli = Cli(args)
-            cli.start()
-            exit(1 if cli.status else 0)
 
         # if parse_args.server:
-        #     cli = Server(args)
-        #     exit(1 if cli.status else 0)
+        #     server_mode = Server(args)
+        #     exit(1 if server_mode.status else 0)
 
-        # else run GUI
-        app = QApplication(argv)
-        gui = Gui(args)
-        gui.main()
-        exit(app.exec_())
+        if parse_args.gui:
+            app = QApplication(argv)
+            gui_mode = Gui(args)
+            gui_mode.main()
+            exit(app.exec_())
+
+        cli_mode = Cli(args)
+        cli_mode.start()
+        exit(1 if cli_mode.status else 0)
 
 except Exception:
     def main():

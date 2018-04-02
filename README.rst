@@ -56,7 +56,7 @@ Installation
 3.4) See \*nix instruction
 
 If you using windows, require https://www.microsoft.com/en-us/download/details.aspx?id=48159
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Downloading manga
 ~~~~~~~~~~~~~~~~~
@@ -100,7 +100,7 @@ Docker
 
     cd manga-dl
     docker build -t MangaDownloader . # build a docker image
-    docker run -v /path/to/store/mangas:/app/Manga MangaDownloader ./manga.py --cli http://manga-url-here/manga-name # run it
+    docker run -v /path/to/store/mangas:/app/Manga MangaDownloader ./manga.py http://manga-url-here/manga-name # run it
 
 .. |Travis CI result| image:: https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=master
    :target: https://travis-ci.org/yuru-yuri/manga-dl/branches
