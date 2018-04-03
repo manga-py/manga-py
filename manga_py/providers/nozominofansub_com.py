@@ -1,8 +1,7 @@
 from .komikid_com import KomikIdCom
-from .helpers.std import Std
 
 
-class NozomiNoFansubCom(KomikIdCom, Std):
+class NozomiNoFansubCom(KomikIdCom):
     _content_str = '{}/public/manga/{}'
 
     def get_chapter_index(self) -> str:

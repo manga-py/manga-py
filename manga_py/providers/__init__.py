@@ -145,7 +145,7 @@ providers_list = {
         r'kissmanga\.com/Manga/.',
     ],
     'komikcast_com': [
-        r'komikcast\.com/.'
+        r'komikcast\.com/.',
     ],
     'komikid_com': [
         r'komikid\.com/manga/.',
@@ -161,6 +161,7 @@ providers_list = {
         r'mangaraw\.online/manga/.',
         r'manhua-tr\.com/manga/.',
         r'manga-v2\.mangavadisi\.org/manga/.',
+        r'universoyuri\.com/manga/.',
     ],
     'kumanga_com': [
         r'kumanga\.com/manga/\d',
@@ -178,7 +179,7 @@ providers_list = {
         r'manga\.ae/.',
     ],
     'manga_fox_com': [
-        r'manga-fox.com/.'
+        r'manga-fox.com/.',
     ],
     'manga_online_biz': [
         r'manga-online\.biz/.',
@@ -255,7 +256,7 @@ providers_list = {
         r'mangainn\.net/.',
     ],
     'mangajinnofansub_com': [  # normal
-        r'mangajinnofansub.com/lector/(series|read)/.'
+        r'mangajinnofansub.com/lector/(series|read)/.',
     ],
     'mangakakalot_com': [
         r'mangakakalot\.com/(manga|chapter)/.',
@@ -319,7 +320,7 @@ providers_list = {
         r'mangatown\.com/manga/.',
     ],
     'mangatrue_com': [
-        r'mangatrue\.com/manga/.'
+        r'mangatrue\.com/manga/.',
     ],
     'manhuagui_com': [
         r'manhuagui\.com/comic/\d',
@@ -542,10 +543,10 @@ providers_list = {
         r'webtoontr.com/_/.',
     ],
     'westmanga_info': [
-        r'westmanga\.info/.'
+        r'westmanga\.info/.',
     ],
     'whitecloudpavilion_com': [
-        r'whitecloudpavilion\.com/manga/free/manga/.'
+        r'whitecloudpavilion\.com/manga/free/manga/.',
     ],
     'wiemanga_com': [
         r'wiemanga\.com/(manga|chapter)/.',
