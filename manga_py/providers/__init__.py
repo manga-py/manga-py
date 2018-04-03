@@ -172,6 +172,9 @@ providers_list = {
     'leomanga_com': [
         r'leomanga\.com/manga/.',
     ],
+    'lolivault_net': [
+        r'lolivault.net/online/(series|read)',
+    ],
     'luscious_net': [
         r'luscious\.net/c/incest_manga/pictures/.', r'luscious\.net/albums/.',
     ],
