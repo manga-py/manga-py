@@ -162,6 +162,7 @@ providers_list = {
         r'manhua-tr\.com/manga/.',
         r'manga-v2\.mangavadisi\.org/manga/.',
         r'universoyuri\.com/manga/.',
+        r'digitalteam1\.altervista\.org/manga/.',
     ],
     'kumanga_com': [
         r'kumanga\.com/manga/\d',
@@ -259,7 +260,7 @@ providers_list = {
         r'mangainn\.net/.',
     ],
     'mangajinnofansub_com': [  # normal
-        r'mangajinnofansub.com/lector/(series|read)/.',
+        r'mangajinnofansub\.com/lector/(series|read)/.',
     ],
     'mangakakalot_com': [
         r'mangakakalot\.com/(manga|chapter)/.',
@@ -425,6 +426,7 @@ providers_list = {
         r'reader\.roseliascans\.com/(series|read)/.',
         r'reader\.silentsky-scans\.net/(series|read)/.',
         r'hoshiscans\.shounen-ai\.net/(series|read)/.',
+        r'digitalteamreader\.netsons\.org/(series|read)/.',
     ],
     'ravens_scans_com': [
         r'ravens-scans\.com(/lector)?/(serie/|read/).',
