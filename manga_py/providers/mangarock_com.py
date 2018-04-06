@@ -1,4 +1,4 @@
-from manga_py.crypt.manga_rock_com_crypt import MangaRockComCrypt
+from manga_py.crypt import MangaRockComCrypt
 from manga_py.fs import rename, unlink, basename
 from manga_py.provider import Provider
 from .helpers.std import Std

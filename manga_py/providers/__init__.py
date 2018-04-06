@@ -97,7 +97,7 @@ providers_list = {
         r'hatigarmscans.eu/hs/(series|read)',
     ],
     'heavenmanga_biz': [
-        r'heavenmanga\.biz/.',
+        r'heavenmanga\.site/.',
     ],
     'hentai2read_com': [
         r'hentai2read\.com/.',
@@ -139,7 +139,7 @@ providers_list = {
         r'inmanga\.com/ver/manga/.',
     ],
     'japscan_com': [
-        r'japscan\.com/.',
+        r'japscan\.cc/.',
     ],
     'jurnalu_ru': [
         r'jurnalu\.ru/online-reading/.',

@@ -1,6 +1,6 @@
 import random
 
-from manga_py.crypt.manhuagui_com_crypt import ManhuaGuiComCrypt
+from manga_py.crypt import ManhuaGuiComCrypt
 from manga_py.provider import Provider
 from .helpers.std import Std
 

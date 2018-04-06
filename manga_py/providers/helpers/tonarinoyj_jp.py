@@ -1,6 +1,6 @@
 from manga_py.provider import Provider
 from manga_py.fs import get_temp_path, move
-from manga_py.crypt.puzzle import Puzzle
+from manga_py.crypt import Puzzle
 
 
 class TonariNoYjJp:
