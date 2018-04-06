@@ -3,7 +3,7 @@ from __future__ import print_function
 from setuptools import setup
 from glob import glob
 from manga_py.meta import __version__, __downloader_uri__
-from os.path import isfile
+from os import path
 
 
 REQUIREMENTS = [
@@ -17,11 +17,12 @@ REQUIREMENTS = [
     'progressbar2',
     'urllib3',
     'packaging',
+    'pyexecjs>=1.5.1',
     'html-purifier',
 ]
 
 long_description = ''
-if isfile('README.rst'):
+if path.isfile('README.rst'):
     with open('README.rst') as f:
         long_description = f.read()
 
