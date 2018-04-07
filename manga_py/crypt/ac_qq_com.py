@@ -7,7 +7,7 @@ class AcQqComCrypt:
 
     def decode(self):
         content = self._provider.http_get(self._provider.chapter)
-        data = self._provider.re.search(r'var\s+DATA[^=*=[^\']*\'([^\']*)', content).group(1)
+        data = self._provider.re.search(r'var\s+DATA[^=]*=[^\']*\'([^\']*)', content).group(1)
         data = self._provider.re.sub('[^A-Za-z0-9%+/=]', '', data)
         a = ''
         e = 0

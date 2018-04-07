@@ -7,7 +7,7 @@ class AcQqCom(Provider, Std):
     _decoder = None
 
     def get_archive_name(self) -> str:
-        return 'vol_{}'.format(self.get_chapter_index())
+        return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
         return self.re.search(r'/cid/(\d+)', self.chapter).group(1)
@@ -17,14 +17,14 @@ class AcQqCom(Provider, Std):
         if content is not None:
             return content
         idx = self._get_name(r'/id/(\d+)')
-        return '{}/Comic/comicInfo/id/{}'.format(self.domain, idx)
+        return self.http_get('{}/Comic/comicInfo/id/{}'.format(self.domain, idx))
 
     def get_manga_name(self) -> str:
         title = self.document_fromstring(self.content, '.works-intro-title strong', 0)
         return title.text_content()
 
     def get_chapters(self):
-        return self._elements('.chapter-page-all li a')
+        return self._elements('.chapter-page-all li a')[::-1]
 
     def get_files(self):
         data = self._decoder.decode()
