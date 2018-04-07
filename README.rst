@@ -40,8 +40,8 @@ Installation
 
 .. code:: bash
 
-    manga-py  # gui mode (Not worked now. In develop)
-    manga-py -- cli http://manga.url/manga/name  # For download manga
+    manga-py --gui # gui mode (Not worked now. In develop)
+    manga-py http://manga.url/manga/name  # For download manga
 
 **Windows**
 
