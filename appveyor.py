@@ -3,10 +3,10 @@ from manga_py.meta import __version__
 
 base = None
 
-executables = [Executable("manga.py", base=base)]
+executables = [Executable('manga.py', base=base)]
 
 packages = [
-    "idna",
+    'idna',
 
     'manga_py',
     'manga_py.base_classes',
@@ -24,7 +24,7 @@ options = {
 }
 
 setup(
-    name="manga-py",
+    name='manga-py',
     options=options,
     version=__version__,
     description='Manga downloader',

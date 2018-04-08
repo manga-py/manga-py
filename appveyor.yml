@@ -1,7 +1,6 @@
 version: 1.0.1.{build}
 skip_non_tags: true
 image: Visual Studio 2015
-clone_folder: C:\projects\manga-py
 init:
 - ps: git config --global core.autocrlf false
 environment:
@@ -9,22 +8,17 @@ environment:
   python: C:/Python35/python.exe
 install:
 - ps: >-
-    cd C:\projects\manga-py
-
     C:/Python35/Scripts/pip.exe install --disable-pip-version-check --user --upgrade pip setuptools
-
     pip install cx_Freeze idna
-
     C:/Python35/Scripts/pip.exe install -r requirements.txt
 
 build: off
 test_script:
 - cmd: >-
-    python .\executable.py build
+    python appveyor.py build
 artifacts:
-- path: dist/manga.exe
-  name: manga.exe
-  type: WebDeployPackage
+- path: build
+  type: zip
 deploy:
 - provider: GitHub
   auth_token:

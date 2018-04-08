@@ -11,13 +11,13 @@ from manga_py import fs
 root_path = path.dirname(path.realpath(__file__))
 
 files_paths = [
-    ['/img1.jpg', '/temp/img1.jpg'],
-    ['/img2.png', '/temp/img2.png'],
-    ['/img3.jpg', '/temp/img3.jpg'],
-    ['/img4.jpg', '/temp/img4.jpg'],
-    ['/img5.png', '/temp/img5.png'],
-    ['/img6.gif', '/temp/img6.gif'],
-    ['/img7.webp', '/temp/img7.webp'],
+    ['/files/img1.jpg', '/temp/img1.jpg'],
+    ['/files/img2.png', '/temp/img2.png'],
+    ['/files/img3.jpg', '/temp/img3.jpg'],
+    ['/files/img4.jpg', '/temp/img4.jpg'],
+    ['/files/img5.png', '/temp/img5.png'],
+    ['/files/img6.gif', '/temp/img6.gif'],
+    ['/files/img7.webp', '/temp/img7.webp'],
 ]
 
 
@@ -33,8 +33,8 @@ class TestArchive(unittest.TestCase):
             copyfile(root_path + item[0], root_path + item[1])
             orig_size += int(fs.file_size(root_path + item[1]))
             arc.add_file(root_path + item[1])
-        arc.add_file(root_path + 'archive_test_file')
-        arc.add_file(root_path + 'archive_test_image')
+        arc.add_file(root_path + '/files/archive_test_file')
+        arc.add_file(root_path + '/files/archive_test_image')
         arc.make(arc_path)
         size = fs.file_size(arc_path)
         self.assertTrue(size and 1024 < int(size) < orig_size)
