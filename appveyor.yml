@@ -4,8 +4,8 @@ image: Visual Studio 2015
 init:
 - ps: git config --global core.autocrlf false
 environment:
-  pip: C:/Python36/Scripts/pip.exe
-  python: C:/Python36/python.exe
+  pip: C:/Python35/Scripts/pip.exe
+  python: C:/Python35/python.exe
 install:
 - ps: >-
     C:/Python35/Scripts/pip.exe install --disable-pip-version-check --upgrade pip setuptools
@@ -14,12 +14,12 @@ install:
 
     C:/Python35/Scripts/pip.exe install --upgrade cx_Freeze
 
-    C:/Python35/Scripts/pip.exe install --upgrade cx_Freeze idna
+    C:/Python35/Scripts/pip.exe install --upgrade idna
 
 build: off
 test_script:
 - cmd: >-
-    python appveyor.py build
+    C:/Python35/python.exe appveyor.py build
 artifacts:
 - path: build
   type: zip
