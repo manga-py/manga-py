@@ -320,7 +320,7 @@ providers_list = {
         r'mangasupa\.com/(manga|chapter)/.',
     ],
     'mangatail_com': [
-        r'mangatail.com/(manga|chapter|node|content)/.',
+        r'mangatail.me/(manga|chapter|node|content)/.',
         r'mangasail.com/(manga|chapter|node|content)/.',
     ],
     'mangatown_com': [
@@ -439,6 +439,9 @@ providers_list = {
     ],
     'rawdevart_com': [
         r'rawdevart\.com/manga/.',
+    ],
+    'rawlh_com': [
+        r'rawlh\.com/(manga|read)-.'
     ],
     'read_egscans_com': [
         r'read.egscans.com/.',

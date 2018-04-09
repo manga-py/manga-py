@@ -5,6 +5,7 @@ from json import dumps
 from datetime import datetime
 
 start_items = [
+    # [ address, (0 - not worked, 1 - worked, 2 - alias), 'Comment']
     # ['http://bato.to', 0, ' - Batoto will be closing down permanently (Jan 18, 2018)'],
     ['http://bulumanga.com', 0, ' - Closed'],
     ['http://bwahahacomics.ru', 0, ' - Very little content. Possibly, will be done in the future.'],
@@ -15,15 +16,16 @@ start_items = [
     ['http://e-hentai.org', 1, '<i class="td"></i>'],
     ['http://eatmanga.me', 1, '<i class="v0"></i>'],
     ['http://gogomanga.co', 1, '<i class="v0"></i>'],
-    ['http://heavenmanga.biz', 1, '- See heavenmanga.site'],
+    ['http://heavenmanga.biz', 2, '- See heavenmanga.site'],
     ['http://hentai-chan.me', 1, '- Need fill access file'],
     ['http://heymanga.me', 1, '<i class="v0"></i>'],
     ['http://comic.k-manga.jp', 0, ' - Maybe...'],
-    ['http://japscan.com', 0, ' - See japscan.cc'],
+    ['http://japscan.com', 2, ' - See japscan.cc'],
+    ['http://lhscans.com', 1, '- See rawlh.com'],
     ['http://luscious.net', 1, '<i class="td"></i>'],
     ['http://lezhin.com', 0, ' - Maybe...'],
     ['http://manga-zone.org', 0, ' - Will not be implemented'],
-    ['http://mangaall.com', 0, 'Please, see mangatrue.com'],
+    ['http://mangaall.com', 2, '- See mangatrue.com'],
     ['http://mangaforall.com', 1, ''],
     ['http://mangafreak.net', 1, '<i class="v0"></i>, site down now'],
     ['http://mangahead.me', 1, '<i class="v0"></i>, site down now'],
@@ -31,6 +33,7 @@ start_items = [
     ['http://mangamove.com', 1, '<i class="v0"></i>, site down now'],
     ['http://manganel.com', 1, '<i class="v0"></i>, site down now'],
     ['http://mangaroot.com', 1, '<i class="v0"></i>, site down now, one thread only!!! --no-multi-threads'],
+    ['http://mangatail.com', 2, '- See mangatail.me'],
     ['http://mangaz.com', 0, ' - Maybe...'],
     ['http://mg-zip.com', 0, ' - Will not be implemented'],
     ['http://raw-zip.com', 0, ' - Will not be implemented'],
@@ -41,7 +44,7 @@ start_items = [
     ['http://tsumino.com', 1, '<i class="d"></i>'],
     ['http://viz.com', 1, '<i class="v0"></i> - In develop v1.x'],
     ['http://zip.raw.im', 0, ' - Will not be implemented'],
-    ['http://ac.qq.com',0 , '<i class="d"></i>']
+    ['http://ac.qq.com', 0, '<i class="d"></i>']
 ]
 
 

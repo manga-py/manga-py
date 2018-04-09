@@ -175,8 +175,8 @@ ul.list li {
     color: #63a7d2;
     line-height: 1.7rem;
   }
-  @blue: rgba(66, 145, 219, 0.53);
-  @active-blue: rgba(186, 214, 241, 0.53);
+  $blue: rgba(66, 145, 219, 0.53);
+  $active-blue: rgba(186, 214, 241, 0.53);
   label {
     position: relative;
     cursor: pointer;
@@ -198,7 +198,7 @@ ul.list li {
       top: -.01rem;
       position: relative;
       border-radius: 3px;
-      border: 2px solid @active-blue;
+      border: 2px solid $active-blue;
       //transition: border .3s ease;
       font-size: 1rem;
       box-sizing: border-box;
@@ -206,11 +206,11 @@ ul.list li {
     }
     &:checked {
       & + label {
-        background-image: data-uri('ok_flag.svg');
+        background-image: url('ok_flag.svg');
         background-repeat: no-repeat;
         background-position: center left 2px;
         background-size: 75%;
-        border-color: @blue;
+        border-color: $blue;
       }
     }
   }
@@ -225,7 +225,7 @@ ul.list li {
   top: .5rem;
   right: 1rem;
   a {
-    background: data-uri('sprite_download.png');
+    background: url('sprite_download.png');
     background-position-y: bottom;
     display: inline-block;
     width: 90px;
@@ -254,7 +254,7 @@ ul.list li {
   .header h1.panel,
   .header h2 {
     max-width: 20rem;
-    max-width: calc(100% ~'-' 185px);
+    max-width: calc(100% - 185px);
     font-size: 2.2rem;
   }
 }
@@ -268,7 +268,7 @@ ul.list li {
 @media (max-width: 575px) {
   .header h1.panel {
     max-width: 16rem;
-    max-width: calc(100% ~'-' 165px);
+    max-width: calc(100% - 165px);
   }
 
   .download-links {

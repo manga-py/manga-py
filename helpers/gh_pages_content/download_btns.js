@@ -3,18 +3,19 @@
     d.addEventListener('DOMContentLoaded', () => {
         if(typeof repoUrl == 'undefined')
         {
+            // example: https://api.github.com/repos/yuru-yuri/manga-dl/releases/latest
             return;
         }
         fetch(repoUrl)
-            .then(response => response.json())
-            .then((response) => {
+            .then(r => r.json())
+            .then((r) => {
                 const links = d.querySelector('#download-links');
                 const tar = links.querySelector('.tar');
                 const zip = links.querySelector('.zip');
 
-                tar.setAttribute('href', response.tarball_url);
+                tar.setAttribute('href', r.tarball_url);
                 tar.setAttribute('active', 'true');
-                zip.setAttribute('href', response.zipball_url);
+                zip.setAttribute('href', r.zipball_url);
                 zip.setAttribute('active', 'true');
             });
         const ul = d.querySelector('#supported-list');
@@ -23,22 +24,22 @@
             return;
         }
         fetch('./providers.json')
-            .then(response => response.json())
-            .then((list) => {
+            .then(r => r.json())
+            .then((r) => {
                 let html = '', m = 0, done = 0;
-                for(let i in list) {
-                    if (!list.hasOwnProperty(i)) continue;
+                for(let i in r) {
+                    if (!r.hasOwnProperty(i)) continue;
                     m+=1;
                     html += '<li><input id="I' + m + '" type="checkbox" ' +
-                        (list[i][1] ? 'checked="" ' : '') +
+                        (r[i][1] ? 'checked="" ' : '') +
                         'disabled=""><label for="I' + m + '"></label><span>' +
                         '<a target="_blank" href="' +
-                        list[i][0] + '">' +
-                        list[i][0] + '</a> ' +
-                        list[i][2] + '</span></li>';
-                    done += parseInt(list[i][1]);
+                        r[i][0] + '">' +
+                        r[i][0] + '</a> ' +
+                        r[i][2] + '</span></li>';
+                    done += r[i][1] === 1 ? 1 : 0;
                 }
-                ul.innerHTML = html + ('<!-- ' + list.length + ' ( ' + done + ' ) -->');
+                ul.innerHTML = html + ('<!-- ' + r.length + ' ( ' + done + ' ) -->');
             });
     });
 })(document);

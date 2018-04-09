@@ -18,7 +18,7 @@ before_install:
   - chmod +x helpers/before_script.sh
   - source ./helpers/before_script.sh
 install:
-  - npm install -g less less-plugin-clean-css html-minifier
+  - npm install -g sass node-sass html-minifier
   - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
   - pip install -r requirements.txt
 before_script:
