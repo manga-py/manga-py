@@ -10,7 +10,7 @@ install:
 - ps: >-
     C:/Python35/Scripts/pip.exe install --disable-pip-version-check --user --upgrade pip setuptools
 
-    C:/Python35/Scripts/pip install cx_Freeze idna
+    C:/Python35/Scripts/pip.exe install cx_Freeze idna
 
     C:/Python35/Scripts/pip.exe install -r requirements.txt
 
