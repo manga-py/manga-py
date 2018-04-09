@@ -8,13 +8,11 @@ environment:
   python: C:/Python35/python.exe
 install:
 - ps: >-
-    C:/Python35/Scripts/pip.exe install --disable-pip-version-check --upgrade pip setuptools
+    C:/Python35/Scripts/pip.exe install --disable-pip-version-check --user --upgrade pip setuptools
 
     C:/Python35/Scripts/pip.exe install -r requirements.txt
 
-    C:/Python35/Scripts/pip.exe install --upgrade cx_Freeze
-
-    C:/Python35/Scripts/pip.exe install --upgrade idna
+    C:/Python35/Scripts/pip.exe install --user --upgrade cx_Freeze idna
 
 build: off
 test_script:
