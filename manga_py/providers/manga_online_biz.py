@@ -32,9 +32,12 @@ class MangaOnlineBiz(Provider, Std):
         rename(temp_path, self.get_arc_path())
 
     def loop_chapters(self):
+        _min = self._params.get('skip_volumes', 0)
+        _max = _min + self._params.get('max_volumes', 0)
         volumes = self._storage['chapters']
         for idx, url in enumerate(volumes):
-            # todo: skip manual
+            if idx < _min or (idx > _max > 0) or self._check_archive():
+                continue
             self.chapter_url = url
             self.download_volume(idx, url, self.manga_name)
 

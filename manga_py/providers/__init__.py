@@ -2,7 +2,7 @@ import re
 
 providers_list = {
     'ac_qq_com': {
-      r'ac\.qq\.com/Comic.+?/id/\d'
+      r'ac\.qq\.com/Comic.+?/id/\d',
     },
     'adulto_seinagi_org': [
         r'adulto\.seinagi\.org/(series|read)/.',
@@ -67,6 +67,9 @@ providers_list = {
     ],
     'eight_muses_com': [
         r'8muses\.com/comics/album/.',
+    ],
+    'fanfox_net': [
+        r'fanfox.net/manga/.',
     ],
     'freeadultcomix_com': [
         r'freeadultcomix\.com/.',
@@ -237,6 +240,9 @@ providers_list = {
     ],
     'mangaforall_com': [
         r'mangaforall\.com/m/.',
+    ],
+    'mangafreak_net_download': [
+        r'mangafreak\.net/Manga/',
     ],
     'mangago_me': [
         r'mangago\.me/read-manga/.',
@@ -441,7 +447,7 @@ providers_list = {
         r'rawdevart\.com/manga/.',
     ],
     'rawlh_com': [
-        r'rawlh\.com/(manga|read)-.'
+        r'rawlh\.com/(manga|read)-.',
     ],
     'read_egscans_com': [
         r'read.egscans.com/.',

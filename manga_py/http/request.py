@@ -18,6 +18,7 @@ class Request:
     cookies = None
     kwargs = None
     _headers = None
+    debug = False
 
     def __init__(self):
         self.proxies = {}

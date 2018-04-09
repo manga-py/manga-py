@@ -42,7 +42,8 @@ class Http(Request):
                 out_file.write(response.content)
                 response.close()
                 out_file.close()
-        except OSError:
+        except OSError as ex:
+            self.debug and print(ex)
             return False
         return True
 
@@ -59,11 +60,11 @@ class Http(Request):
             callable(callback) and callback(text=mode)
         return False
 
-    def download_file(self, url: str, dst: str = None) -> bool:
+    def download_file(self, url: str, dst: str = None, callback: callable = None) -> bool:
         if not dst:
             name = basename(remove_file_query_params(url))
             dst = path_join(get_temp_path(), name)
-        return self._download_one_file_helper(url, dst)
+        return self._download_one_file_helper(url, dst, callback)
 
     def normalize_uri(self, uri, referer=None):
         if not referer:

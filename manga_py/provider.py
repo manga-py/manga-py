@@ -77,8 +77,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
     def loop_chapters(self):
         volumes = self._storage['chapters']
         _min = self._params.get('skip_volumes', 0)
-        _max = self._params.get('max_volumes', 0)
-        _max = _min + _max
+        _max = _min + self._params.get('max_volumes', 0)
         for idx, __url in enumerate(volumes):
             self._storage['current_chapter'] = idx
 
