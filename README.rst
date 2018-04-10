@@ -40,23 +40,11 @@ Installation
 
 .. code:: bash
 
-    manga-py --gui # gui mode (Not worked now. In develop)
     manga-py http://manga.url/manga/name  # For download manga
 
 **Windows**
 
-3.1) Press < Win+r >
-
-3.2) Enter **cmd**
-
-3.2.1) *Gui in develop*
-
-3.3) Press < Enter >
-
-3.4) See \*nix instruction
-
-If you using windows, require https://www.microsoft.com/en-us/download/details.aspx?id=48159
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Use version 0.x or Ubuntu bash (https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 
 Downloading manga
 ~~~~~~~~~~~~~~~~~
@@ -70,11 +58,11 @@ is enabled***
 
 .. code:: bash
 
-    # download to "./Manga" directory
+    # download to "./Manga/<manga-name-here>" directory
     manga-py http://manga-url-here/manga-name
-    # download to "./Manga Name" directory
+    # download to "./Manga/Manga Name" directory
     manga-py http://manga-url-here/manga-name --name 'Manga Name'
-    # or download to /manga/destination/path/ directory
+    # or download to /manga/destination/path/<manga-name-here> directory
     manga-py http://manga-url-here/manga-name -d /manga/destination/path/
     # skip 3 volumes
     manga-py --skip-volumes 3 http://manga-url-here/manga-name
@@ -92,15 +80,6 @@ Help
     manga-py -h
     # or
     manga-py --help
-
-Docker
-~~~~~~
-
-.. code:: bash
-
-    cd manga-dl
-    docker build -t MangaDownloader . # build a docker image
-    docker run -v /path/to/store/mangas:/app/Manga MangaDownloader ./manga.py http://manga-url-here/manga-name # run it
 
 .. |Travis CI result| image:: https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=master
    :target: https://travis-ci.org/yuru-yuri/manga-dl/branches
