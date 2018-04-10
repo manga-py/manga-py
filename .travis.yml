@@ -27,7 +27,6 @@ before_script:
   - ./cc-test-reporter before-build
 script:
   - if [[ "$TRAVIS_TAG" = "" ]]; then coverage run --omit=manga_py/providers/*.py --source=manga_py pytest.py; fi
-  - if [[ "$TRAVIS_TAG" != "" ]]; then echo 'Tag'; fi
 after_script:
   - source ./helpers/after_script.sh
 before_deploy:

@@ -50,15 +50,15 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
     args_parser.add_argument('-n', '--name', metavar='name', type=str, required=False, help='Manga name', default='')
     args_parser.add_argument('-d', '--destination', metavar='destination', type=str, required=False,
                              help='Destination folder (Default = current directory', default='')
-    # args_parser.add_argument('-v', '--verbose', metavar='info', action='store_const', required=False, const=True,
+    # args_parser.add_argument('-vv', '--log', metavar='info', action='store_const', required=False, const=True,
     #                          default=False, help='Verbose log')
+    # args_parser.add_argument('-vvv', '--verbose-log', metavar='verbose_info', action='store_const', required=False,
+    #                          const=True, default=False, help='Verbose log')
     args_parser.add_argument('-np', '--no-progress', metavar='no-progress', action='store_const', required=False,
                              const=True, help='Don\'t show progress bar', default=False)
-    args_parser.add_argument('--gui', action='store_const', required=False, const=True, help='Use GUI interface',
-                             default=False)  # TODO
     # future
-    args_parser.add_argument('--server', action='store_const', required=False, const=True, help='Run web interface',
-                             default=False)
+    # args_parser.add_argument('--server', action='store_const', required=False, const=True, help='Run web interface',
+    #                          default=False)
 
     _image_args(args_parser)
     _downloading_args(args_parser)
