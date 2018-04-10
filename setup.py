@@ -31,7 +31,6 @@ setup(
         'manga_py',
         'manga_py.base_classes',
         'manga_py.crypt',
-        'manga_py.gui',
         'manga_py.http',
         'manga_py.providers',
         'manga_py.providers.helpers',
