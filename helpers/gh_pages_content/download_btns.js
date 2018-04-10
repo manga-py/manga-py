@@ -1,6 +1,7 @@
 
 ((d) => {
     d.addEventListener('DOMContentLoaded', () => {
+        /** global: repoUrl */
         if(typeof repoUrl == 'undefined')
         {
             // example: https://api.github.com/repos/yuru-yuri/manga-dl/releases/latest
