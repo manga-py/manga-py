@@ -89,17 +89,17 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             self._storage['files'] = self.get_files()
             self.loop_files()
 
-    def __add_file_to_archive(self):
-        if self._params.get('no_multi_threads', False):
-            self._one_thread_save(self._storage['files'])
-
-        else:
-            self._multi_thread_save(self._storage['files'])
-
     def loop_files(self):
         if isinstance(self._storage['files'], list) and len(self._storage['files']) > 0:
             self._archive = Archive()
-            self.__add_file_to_archive()
+            self._call_files_progress_callback()
+
+            if self._params.get('no_multi_threads', False):
+                self._one_thread_save(self._storage['files'])
+
+            else:
+                self._multi_thread_save(self._storage['files'])
+
             self.make_archive()
 
     def _save_file_params_helper(self, url, idx):

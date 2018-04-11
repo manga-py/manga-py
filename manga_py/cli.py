@@ -109,7 +109,10 @@ class Cli:
         if not items_count:
             return
         if not self.args.no_progress:
-            self.__init_progress(items_count, re_init)
+            current_val = 0
+            if self.__progress_bar:
+                current_val = self.__progress_bar.value
+            self.__init_progress(items_count, re_init and current_val > 0)
             self.__progress_bar.update(current_item)
 
     def print(self, text, end='\n'):

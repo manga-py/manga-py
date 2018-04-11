@@ -1,9 +1,8 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
-from manga_py.http.auto_proxy import AutoProxy
 
 
-class HentaiImageCom(Provider, Std, AutoProxy):
+class HentaiImageCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         return 'archive'
@@ -38,9 +37,6 @@ class HentaiImageCom(Provider, Std, AutoProxy):
             parser = self.document_fromstring(content)
             images += self._images_helper(parser, selector)
         return images
-
-    # def prepare_cookies(self):
-    #     self._storage['proxies'] = AutoProxy().auto_proxy()
 
     def get_cover(self) -> str:
         pass

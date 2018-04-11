@@ -46,6 +46,9 @@ providers_list = {
     'comicvn_net': [
         r'comicvn\.net/truyen-tranh-online/.',
     ],
+    'danbooru_donmai_us': [
+        r'danbooru\.donmai\.us/posts.'
+    ],
     'darkskyprojects_org': [
         r'darkskyprojects\.org/biblioteca/.',
     ],
