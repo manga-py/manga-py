@@ -380,6 +380,7 @@ providers_list = {
     ],
     'ninemanga_com': [
         r'ninemanga\.com/(manga|chapter).',
+        r'addfunny\.com/(manga|chapter).',
     ],
     'noranofansub_com': [
         r'noranofansub\.com(/lector)?/(series/|read/)?.',
