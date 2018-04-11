@@ -5,7 +5,7 @@
 ## Functions:
 
 ```python
-from manga_dl.provider import Provider
+from manga_py.provider import Provider
 # from .helpers.std import Std
 
 
@@ -23,7 +23,6 @@ class _Template(Provider):
         pass
 
     def prepare_cookies(self):  # if site with cookie protect
-MangaDL
 #        self._storage['proxies'] = auto_proxy()
 
 #        self._storage['cookies'] = self.http().get_base_cookies(self.get_url()).get_dict()  # base cookies

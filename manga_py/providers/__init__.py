@@ -8,6 +8,7 @@ providers_list = {
         r'adulto\.seinagi\.org/(series|read)/.',
         r'xanime-seduccion\.com/(series|read)/.',
         r'twistedhelscans\.com/(series|read)/.',
+        r'reader\.evilflowers\.com/(series|read)/.',
     ],
     'animextremist_com': [
         r'animextremist\.com/mangas-online/.',
@@ -110,6 +111,9 @@ providers_list = {
     ],
     'hentai_chan_me': [
         r'hentai-chan\.me/(related|manga|online)/.',  # todo
+    ],
+    'hentai_image_com': [
+        r'hentai-image.com/image/.'
     ],
     'hentaifox_com': [
         r'hentaifox\.com/.',
