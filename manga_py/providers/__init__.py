@@ -258,6 +258,7 @@ providers_list = {
         r'mangahub\.io/(manga|chapter)/.',
         r'mangareader\.site/(manga|chapter)/.',
         r'mangakakalot\.fun/(manga|chapter)/.',
+        r'mangahere\.onl/(manga|chapter)/.',
     ],
     'mangahub_ru': [
         r'mangahub\.ru/.',
@@ -334,6 +335,7 @@ providers_list = {
     ],
     'mangatrue_com': [
         r'mangatrue\.com/manga/.',
+        r'mangaall\.com/manga/.',
     ],
     'manhuagui_com': [
         r'manhuagui\.com/comic/\d',
@@ -377,6 +379,7 @@ providers_list = {
     ],
     'nozominofansub_com': [  # mangazuki_co
         r'nozominofansub\.com/public(/index.php)?/manga/.',
+        r'godsrealmscan\.com/public(/index.php)?/manga/.',
     ],
     'otakusmash_com': [
         r'otakusmash\.com/.',
@@ -409,7 +412,7 @@ providers_list = {
         r'pzykosis666hfansub\.com/online/.',
     ],
     'read_powermanga_org': [
-        r'lector\.dangolinenofansub\.com/(read|series)/.',
+        r'lector\.dangolinenofansub\.com/(series|read)/.',
         r'read\.powermanga\.org/(series|read)/.',
         r'read\.yagami\.me/(series|read)/.',
         r'reader\.championscans\.com/(series|read)/.',
@@ -436,6 +439,7 @@ providers_list = {
         r'reader\.silentsky-scans\.net/(series|read)/.',
         r'hoshiscans\.shounen-ai\.net/(series|read)/.',
         r'digitalteamreader\.netsons\.org/(series|read)/.',
+        r'reader\.manga-download\.org/(series|read)/.',
     ],
     'ravens_scans_com': [
         r'ravens-scans\.com(/lector)?/(serie/|read/).',
