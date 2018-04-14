@@ -9,21 +9,16 @@
 
 ### Установка
 
-1) Установить python 3.5+
-https://www.python.org/downloads/
+1) Установить python 3.5+ https://www.anaconda.com/downloads
 2) Установить pip пакет:
 ```bash
 pip install manga-py
 ```
 3) Запустить программу:
 
-**\*nix, MacOS:**
 ```bash
 manga-py http://manga.url/manga/name
 ```
-__Windows__
-
-Использовать версию 0.x или Ubuntu bash (https://docs.microsoft.com/ru-ru/windows/wsl/install-win10)
 
 ```bash
 # Загрузка в папку "./Manga"

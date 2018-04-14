@@ -27,7 +27,7 @@ How to use
 Installation
 ~~~~~~~~~~~~
 
-1) Download python 3.5+ https://www.python.org/downloads/
+1) Download python 3.5+ https://www.anaconda.com/downloads
 2) Install pip package:
 
    .. code:: bash
@@ -36,15 +36,9 @@ Installation
 
 3) Run program:
 
-**\*nix, MacOS:**
-
 .. code:: bash
 
     manga-py http://manga.url/manga/name  # For download manga
-
-**Windows**
-
-Use version 0.x or Ubuntu bash (https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 
 Downloading manga
 ~~~~~~~~~~~~~~~~~
