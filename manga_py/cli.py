@@ -100,7 +100,7 @@ class Cli:
 
     def __init_progress(self, items_count: int, re_init: bool):
         if re_init or not self.__progress_bar:
-            self.__progress_bar and print('')  # break line
+            re_init and self.__progress_bar.finish()
             bar = ProgressBar()
             self.__progress_bar = bar(range(items_count))
             self.__progress_bar.init()

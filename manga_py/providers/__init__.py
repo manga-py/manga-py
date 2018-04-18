@@ -34,6 +34,9 @@ providers_list = {
     'comicextra_com': [
         r'comicextra\.com/.',
     ],
+    'comico_co_id_titles': [
+        r'comico\.co\.id/titles/\d'
+    ],
     'comic_webnewtype_com': [
         r'comic\.webnewtype\.com/contents/.',
     ],
@@ -467,6 +470,9 @@ providers_list = {
     'readcomicbooksonline_org': [
         r'readcomicbooksonline\.net/.',
         r'readcomicbooksonline\.org/.',
+    ],
+    'reader_imangascans_org': [
+        r'reader\.imangascans\.org/.',
     ],
     'readhentaimanga_com': [
         r'readhentaimanga\.com/.',
