@@ -94,13 +94,16 @@ class Cli:
             quest=self.quest,
         )
         self.parser.start()
+        self.print(' ')
 
     def input(self, prompt: str = ''):
         return input(prompt=prompt + '\n')
 
     def __init_progress(self, items_count: int, re_init: bool):
         if re_init or not self.__progress_bar:
-            re_init and self.__progress_bar.finish()
+            if re_init:
+                print(' ')
+                self.__progress_bar.finish()
             bar = ProgressBar()
             self.__progress_bar = bar(range(items_count))
             self.__progress_bar.init()

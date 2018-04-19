@@ -28,14 +28,20 @@ providers_list = {
     'bns_shounen_ai_net': [
         r'bns\.shounen-ai\.net/read/(series|read)/.',
     ],
+    'cdmnet_com_br': [
+        r'cdmnet\.com\.br/titulos/.',
+    ],
     'chochox_com': [
         r'chochox\.com/.',
     ],
     'comicextra_com': [
         r'comicextra\.com/.',
     ],
+    # 'comico_co_id_content': [
+    #     r'comico\.co\.id/content\?contentId=\d',
+    # ],
     'comico_co_id_titles': [
-        r'comico\.co\.id/titles/\d'
+        r'comico\.co\.id/titles/\d',
     ],
     'comic_webnewtype_com': [
         r'comic\.webnewtype\.com/contents/.',
@@ -50,7 +56,7 @@ providers_list = {
         r'comicvn\.net/truyen-tranh-online/.',
     ],
     'danbooru_donmai_us': [
-        r'danbooru\.donmai\.us/posts.'
+        r'danbooru\.donmai\.us/posts.',
     ],
     'darkskyprojects_org': [
         r'darkskyprojects\.org/biblioteca/.',
@@ -119,7 +125,7 @@ providers_list = {
         r'hentai-chan\.me/(related|manga|online)/.',  # todo
     ],
     'hentai_image_com': [
-        r'hentai-image.com/image/.'
+        r'hentai-image.com/image/.',
     ],
     'hentaifox_com': [
         r'hentaifox\.com/.',
@@ -510,6 +516,9 @@ providers_list = {
     ],
     'shogakukan_tameshiyo_me': [
         r'shogakukan\.tameshiyo\.me/\d',
+    ],
+    'siberowl_com': [
+        r'siberowl\.com/mangas/.',
     ],
     'somanga_net': [
         r'somanga\.net/(leitor|manga)/.',

@@ -12,17 +12,23 @@ class ComicoCoIdTitles(Provider, Std):
     def get_chapter_index(self) -> str:
         return self.chapter.get('id', 0)
 
+    def _manga_id(self):
+        idx = self.re.search(r'/titles/(\d+)', self.get_url())
+        return idx.group(1)
+
     def get_main_content(self):
-        id = self.re.search(r'/titles/(\d+)', self.get_url())
         self._url = '{}/titles/{}'.format(
             self.domain,
-            id.group(1),
+            self._manga_id(),
         )
         return self.http_get(self._url)
 
     def get_manga_name(self) -> str:
         h2 = self.document_fromstring(self.content, '.con > h2', 0)
-        return h2.text_content()
+        return '{} - {}'.format(
+            h2.text_content(),
+            self._manga_id()
+        )
 
     @staticmethod
     def __parse_page(content):

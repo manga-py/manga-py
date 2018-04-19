@@ -28,6 +28,6 @@ class MultiThreads:
         for n, t in enumerate(self.threads):  # starting all threads
             t.start()
             self.to_run.append(t)
-            self._run_processes(callback, n % self.max_threads)
+            self._run_processes(callback, (n + 1) % self.max_threads)
         self._run_processes(callback)
         self.threads = []
