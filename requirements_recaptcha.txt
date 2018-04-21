@@ -1,2 +1,0 @@
-pydub>=0.20.0
-SpeechRecognition>=3.8.0
