@@ -185,6 +185,7 @@ providers_list = {
         r'manga-v2\.mangavadisi\.org/manga/.',
         r'universoyuri\.com/manga/.',
         r'digitalteam1\.altervista\.org/manga/.',
+        r'sosscanlation\.com/manga/.',
     ],
     'kumanga_com': [
         r'kumanga\.com/manga/\d',
@@ -206,6 +207,7 @@ providers_list = {
     ],
     'manga_fox_com': [
         r'manga-fox.com/.',
+        r'manga-here\.io/.',
     ],
     'manga_online_biz': [
         r'manga-online\.biz/.',
@@ -582,7 +584,7 @@ providers_list = {
         r'web-ace\.jp/youngaceup/contents/\d',
     ],
     'webtoon_bamtoki_com': [
-        r'webtoon\.bamtoki\.com/.'
+        r'webtoon\.bamtoki\.com/.',
     ],
     'webtoons_com': [
         r'webtoons\.com/[^/]+/[^/]+/[^/]+',

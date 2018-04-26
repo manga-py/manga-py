@@ -16,7 +16,7 @@ class MangaFoxCom(Provider, Std):
         return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.com/([^/]+)')
+        return self._get_name(r'\.(?:com|io)/([^/]+)')
 
     def get_chapters(self):
         return self._elements('.list_chapter a')
