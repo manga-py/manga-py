@@ -38,6 +38,7 @@ class KissMangaCom(Provider, Std):
 
     def prepare_cookies(self):
         self.cf_protect(self.get_url())
+        self._storage['cookies']['rco_quality'] = 'hq'
 
     def __decrypt_images(self, crypt, key, hexes):
         images = []

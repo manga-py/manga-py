@@ -581,6 +581,9 @@ providers_list = {
     'web_ace_jp': [
         r'web-ace\.jp/youngaceup/contents/\d',
     ],
+    'webtoon_bamtoki_com': [
+        r'webtoon\.bamtoki\.com/.'
+    ],
     'webtoons_com': [
         r'webtoons\.com/[^/]+/[^/]+/[^/]+',
     ],

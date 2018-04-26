@@ -21,6 +21,7 @@ class ReadComicOnlineTo(Provider, Std):
 
     def prepare_cookies(self):
         self.cf_protect(self.get_url())
+        self._storage['cookies']['rco_quality'] = 'hq'
 
     def get_files(self):
         content = self.http_get(self.chapter + '&readType=1')
