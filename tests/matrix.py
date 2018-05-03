@@ -109,3 +109,29 @@ class TestMatrix(unittest.TestCase):
         deviation = self._rmsdiff(src, ref)
 
         self.assertTrue(deviation < 10)
+
+    def test_solve_plus_comico_js(self):
+        src = root_path + '/mosaic/plus_comico_jp_orig.jpg'
+        file_dst = root_path + '/temp/plus_comico_jp_mosaic.jpg'
+        file_ref = root_path + '/mosaic/plus_comico_jp_reference.jpg'
+
+        _matrix = '3,14,5,8,10,12,4,2,1,6,15,13,7,11,0,9'.split(',')
+
+        div_num = 4
+        matrix = {}
+        n = 0
+        for i in _matrix:
+            matrix[int(i)] = n
+            n += 1
+
+        p = Puzzle(div_num, div_num, matrix, 8)
+        p.need_copy_orig = True
+        p.de_scramble(src, file_dst)
+
+        src = PilImage.open(file_dst)
+        ref = PilImage.open(file_ref)
+
+        deviation = self._rmsdiff(src, ref)
+        src.close()
+        ref.close()
+        self.assertTrue(deviation < 10)

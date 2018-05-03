@@ -415,6 +415,12 @@ providers_list = {
     'pecintakomik_com': [
         r'pecintakomik\.com/.',
     ],
+    'plus_comico_jp_manga': [
+        r'plus\.comico\.jp/manga/\d+/',
+    ],
+    'plus_comico_jp': [
+        r'plus\.comico\.jp/store/\d+/',
+    ],
     'porncomix_info': [
         r'porncomix\.info/.',
     ],

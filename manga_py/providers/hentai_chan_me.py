@@ -18,7 +18,7 @@ class HentaiChanMe(MangaChanMe):
         password = kwargs.get('password', '')
         method = kwargs.get('method', 'post')
         data = {'login_name': login, 'login_password': password, 'image': 'Вход', 'login': 'submit'}
-        response = self.http()._requests(method=method, data=data, url=url)
+        response = self.http().requests(method=method, data=data, url=url)
         cookies = {}
         for i in response.cookies.items():
             cookies[i[0]] = i[1]

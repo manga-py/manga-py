@@ -87,11 +87,11 @@ class Request:
             )
         return r
 
-    def _requests(
+    def requests(
             self, url: str, headers: dict=None, cookies: dict=None,
             data=None, method='get', files=None, timeout=None, **kwargs
     ) -> requests.Response:
-        if not headers:
+        if not isinstance(headers, dict):
             headers = {}
         cookies = self._get_cookies(cookies)
         headers.setdefault('User-Agent', self.user_agent)
@@ -99,19 +99,15 @@ class Request:
         headers.setdefault('Accept-Language', self.default_lang)
         if self.allow_webp:
             headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=1.0,image/webp,image/apng,*/*;q=1.0'
-        if 'proxies' in kwargs.keys():
-            proxy = kwargs['proxies']
-            del kwargs['proxies']
-        else:
-            proxy = self.proxies
+        kwargs.setdefault('proxies', self.proxies)
         return self._requests_helper(
             method=method, url=url, headers=headers, cookies=cookies,
-            data=data, files=files, timeout=timeout, proxies=proxy,
+            data=data, files=files, timeout=timeout,
             **kwargs
         )
 
     def get(self, url: str, headers: dict = None, cookies: dict = None, **kwargs) -> str:
-        response = self._requests(
+        response = self.requests(
             url=url,
             headers=headers,
             cookies=cookies,
@@ -123,7 +119,7 @@ class Request:
         return text
 
     def post(self, url: str, headers: dict = None, cookies: dict = None, data: dict = (), files=None, **kwargs) -> str:
-        response = self._requests(
+        response = self.requests(
             url=url,
             headers=headers,
             cookies=cookies,

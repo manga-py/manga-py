@@ -43,7 +43,7 @@ class GoMangaCo(Provider, Std):
         self.cf_protect(self.get_url())
         data = {'adult': 'true'}
         url = self.get_url()
-        response = self.http()._requests(method='post', data=data, url=url)
+        response = self.http().requests(method='post', data=data, url=url)
         cookies = response.cookies.items()
         for i in cookies:
             self._storage['cookies'][i[0]] = i[1]

@@ -38,7 +38,7 @@ class Http(Request):
             make_dirs(dirname(file_name))
             url = self.normalize_uri(url)
             with open(file_name, 'wb') as out_file:
-                response = self._requests(url, method=method, timeout=60)
+                response = self.requests(url, method=method, timeout=60)
                 out_file.write(response.content)
                 response.close()
                 out_file.close()
@@ -80,6 +80,6 @@ class Http(Request):
         threading.start(callback)
 
     def get_redirect_url(self, url, **kwargs):
-        location = self._requests(url=url, method='head', **kwargs)
+        location = self.requests(url=url, method='head', **kwargs)
         url = location.headers.get('Location', url)
         return self.normalize_uri(url)

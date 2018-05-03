@@ -53,7 +53,7 @@ class KuMangaCom(Provider, Std):
         return chapters
 
     def _get_real_url(self, url):
-        location = self.http()._requests(url=url, method='head')
+        location = self.http().requests(url=url, method='head')
         return location.headers.get('Location', url)
 
     def get_files(self):
