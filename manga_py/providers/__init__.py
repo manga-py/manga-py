@@ -10,6 +10,9 @@ providers_list = {
         r'twistedhelscans\.com/(series|read)/.',
         r'reader\.evilflowers\.com/(series|read)/.',
     ],
+    'allhentai_ru': [
+        r'allhentai\.ru/.',
+    ],
     'animextremist_com': [
         r'animextremist\.com/mangas-online/.',
     ],
