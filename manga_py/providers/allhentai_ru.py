@@ -36,20 +36,24 @@ class AllHentaiRu(Provider, Std):
 
     def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
         _path = None
-        _url = None
-        for i in ['a', 'b', 'c']:
-            try:
-                _path, idx, _url = self._save_file_params_helper(url, idx)
-                _url = self.re.sub(r'//\w\.', '//%s.' % i, url)
+        try:
+            _path = super().save_file(idx, callback, url, in_arc_name)
+        except AttributeError:
+            pass
+        if _path is None:
+            for i in ['a', 'b', 'c']:
+                try:
+                    _path, idx, _url = self._save_file_params_helper(url, idx)
+                    _url = self.re.sub(r'//\w\.', '//%s.' % i, url)
 
-                self.http().download_file(_url, _path)
-                self._archive.add_file(_path, in_arc_name)
+                    self.http().download_file(_url, _path)
+                    self._archive.add_file(_path, in_arc_name)
 
-                callable(callback) and callback()
-                self.after_file_save(_path, idx)
-                break
-            except Exception as e:
-                pass
+                    callable(callback) and callback()
+                    self.after_file_save(_path, idx)
+                    break
+                except AttributeError:
+                    pass
         return _path
 
 
