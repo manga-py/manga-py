@@ -9,7 +9,7 @@ Supports more than 250 resources now.
 
 |Code Climate| |Issue Count| |PyPI - Python Version|
 
-|Scrutinizer CI result| |Scrutinizer CI coverage| |GitHub issues|
+|Scrutinizer CI result| |Scrutinizer CI coverage| |GitHub issues| |PyPi version|
 
 Supported resources
 -------------------
@@ -89,3 +89,6 @@ Help
    :target: https://scrutinizer-ci.com/g/yuru-yuri/manga-dl
 .. |GitHub issues| image:: https://img.shields.io/github/issues/yuru-yuri/manga-dl.svg
    :target: https://github.com/yuru-yuri/manga-dl/issues
+.. |PyPi version| image:: https://img.shields.io/pypi/v/manga_py.svg
+   :alt: PyPI
+   :target: https://pypi.org/project/manga-py/
