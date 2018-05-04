@@ -4,7 +4,7 @@ Manga-Downloader |Travis CI result|
 Universal assistant download manga.
 '''''''''''''''''''''''''''''''''''
 
-Supports more than 230 resources now.
+Supports more than 250 resources now.
 '''''''''''''''''''''''''''''''''''''
 
 |Code Climate| |Issue Count| |PyPI - Python Version|
