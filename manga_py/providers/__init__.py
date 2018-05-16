@@ -479,7 +479,8 @@ providers_list = {
         r'rawdevart\.com/manga/.',
     ],
     'rawlh_com': [
-        r'rawlh\.com/(manga|read)-.',
+        r'rawlh\.com/(truyen|manga|read)-.',
+        r'rawqq.com/(truyen|manga|read)-.',
     ],
     'read_egscans_com': [
         r'read.egscans.com/.',
@@ -594,6 +595,7 @@ providers_list = {
     ],
     'webtoon_bamtoki_com': [
         r'webtoon\.bamtoki\.com/.',
+        r'webtoon\.bamtoki\.se/.',
     ],
     'webtoons_com': [
         r'webtoons\.com/[^/]+/[^/]+/[^/]+',

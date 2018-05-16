@@ -40,13 +40,16 @@ class GoMangaCo(Provider, Std):
         return self._cover_from_content('.thumbnail img')
 
     def prepare_cookies(self):
-        self.cf_protect(self.get_url())
-        data = {'adult': 'true'}
         url = self.get_url()
-        response = self.http().requests(method='post', data=data, url=url)
-        cookies = response.cookies.items()
-        for i in cookies:
-            self._storage['cookies'][i[0]] = i[1]
+        self.cf_protect(url)
+        data = {'adult': 'true'}
+        try:
+            response = self.http().requests(method='post', data=data, url=url)
+            cookies = response.cookies.items()
+            for i in cookies:
+                self._storage['cookies'][i[0]] = i[1]
+        except Exception:
+            pass
 
 
 main = GoMangaCo

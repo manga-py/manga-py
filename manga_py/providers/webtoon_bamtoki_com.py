@@ -17,7 +17,7 @@ class WebtoonBamtokiCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        _selector = r'\.com/(.+)'
+        _selector = r'\.(?:com|se)/(.+)'
         if ~url.find('.html'):
             _selector += r'-\d+\.html'
         return self._get_name(_selector)
