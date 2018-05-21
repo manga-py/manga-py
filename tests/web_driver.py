@@ -15,7 +15,7 @@ class TestWebDriver(unittest.TestCase):
         display.start()
         driver = WebDriver().get_driver()
         driver.get('http://httpbin.org')
-        elements = driver.find_elements_by_css_selector('#manpage ul > li > a')
+        elements = driver.find_elements_by_css_selector('a')
         count = len(elements)
         driver.close()
         display.stop()
