@@ -10,8 +10,7 @@ class RawDevArtCom(Provider, Std):
         return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
-        ch = self.chapter
-        idx = self.re.search(self._chapter_selector, ch)
+        idx = self.re.search(self._chapter_selector, self.chapter)
         return '-'.join(idx.group(1).split('.'))
 
     def get_main_content(self):

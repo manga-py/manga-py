@@ -14,7 +14,10 @@ class KomikIdCom(GoMangaCo, Std):
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter)
-        items = self._images_helper(parser, '#all img[data-src]', 'data-src')
+        if ~self.get_url().find('mangaid.'):
+            items = self._images_helper(parser, '#all img.img-responsive')
+        else:
+            items = self._images_helper(parser, '#all img[data-src]', 'data-src')
         return [i.strip(' \n\r\t\0') for i in items]
 
     def get_cover(self) -> str:

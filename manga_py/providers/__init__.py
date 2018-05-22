@@ -117,6 +117,7 @@ providers_list = {
     ],
     'heavenmanga_biz': [
         r'heavenmanga\.site/.',
+        r'heavenmanga\.world/.',
     ],
     'hentai2read_com': [
         r'hentai2read\.com/.',
@@ -178,9 +179,10 @@ providers_list = {
         r'mangaforest\.com/manga/.',
         r'mangadenizi\.com/.',
         r'mangadoor\.com/manga/.',
-        r'mangaid\.co/mangao/.',
+        r'mangaid\.co/manga/.',
         r'manga\.fascans\.com/manga/.',
         r'mangadesu\.net/manga/.',
+        r'mangahis\.com/manga/.',
         r'cmreader\.info/manga/.',
         r'rawmangaupdate\.com/manga/.',
         r'mangaraw\.online/manga/.',
@@ -481,6 +483,9 @@ providers_list = {
     'rawlh_com': [
         r'rawlh\.com/(truyen|manga|read)-.',
         r'rawqq.com/(truyen|manga|read)-.',
+    ],
+    'rawneko_com': [
+        r'rawneko\.com/manga/.',
     ],
     'read_egscans_com': [
         r'read.egscans.com/.',
