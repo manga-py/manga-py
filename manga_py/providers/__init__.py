@@ -220,6 +220,9 @@ providers_list = {
     'manga_online_com_ua': [
         r'manga-online\.com\.ua/.+html',
     ],
+    'manga_room_com': [
+        r'manga-room\.com/manga/.',
+    ],
     'manga_sh': [
         r'manga\.sh/comics/.',
     ],
