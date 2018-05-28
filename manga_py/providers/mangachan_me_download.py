@@ -20,9 +20,13 @@ class MangaChanMe(Provider, Std):
 
     def loop_chapters(self):
         arc_name = self.get_archive_name()
-        path = path_join(dirname(self.get_archive_path()), arc_name + '.zip')
+        arc = self._archive_type()
+        path = path_join(dirname(self.get_archive_path()), arc_name + '.%s' % arc)
         url = self.chapter
-        temp_path = get_temp_path('{:0>2}_{}-temp_arc.zip'.format(self._storage['current_chapter'], arc_name))
+        temp_path = get_temp_path('{:0>2}_{}-temp_arc.zip'.format(
+            self._storage['current_chapter'],
+            arc_name
+        ))
         self.save_file(url, temp_path)
         rename(temp_path, path)
 

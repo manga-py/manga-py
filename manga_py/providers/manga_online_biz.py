@@ -24,7 +24,8 @@ class MangaOnlineBiz(Provider, Std):
     def get_arc_path(self):
         path = self.get_archive_name()
         name = dirname(self.get_archive_path())
-        return path_join(path, name + '.zip')
+        arc = self._archive_type()
+        return path_join(path, name + '.%s' % arc)
 
     def download_volume(self, idx, url, manga_name):
         temp_path = get_temp_path('{:0>2}_{}-temp_arc.zip'.format(idx, manga_name))

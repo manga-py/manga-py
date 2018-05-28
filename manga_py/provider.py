@@ -129,6 +129,12 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
 
         return _path
 
+    def _archive_type(self):
+        arc_type = 'zip'
+        if self._params['cbz']:
+            arc_type = 'cbz'
+        return arc_type
+
     def get_archive_path(self):
         _path = remove_file_query_params(self.get_archive_name())
         _path = self.remove_not_ascii(_path)
@@ -143,7 +149,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         return path_join(
             self._params.get('path_destination', 'Manga'),
             name,
-            _path + '.zip'
+            _path + '.%s' % self._archive_type()
         )
 
     def make_archive(self):
