@@ -24,7 +24,7 @@ class Base:
             'domain_uri': None,
         }
         self._params = {
-            'path_destination': 'Manga',
+            'destination': 'Manga',
         }
         self._image_params = {
             'crop': (0, 0, 0, 0),
