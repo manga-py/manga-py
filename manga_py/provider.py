@@ -46,7 +46,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
              params.get('xl', 0))
         )
         # downloading params
-        self._set_if_not_none(self._params, 'path_destination', params.get('path_destination', None))
+        self._set_if_not_none(self._params, 'destination', params.get('destination', None))
 
     def process(self, url, params=None):  # Main method
         self._params['url'] = url
@@ -194,7 +194,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             name = self._storage['manga_name']
 
         return path_join(
-            self._params.get('path_destination', 'Manga'),
+            self._params.get('destination', 'Manga'),
             name,
             _path + '.%s' % self._archive_type()
         )

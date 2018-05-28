@@ -94,7 +94,7 @@ class Http2:
         if not len(archive):
             archive = self.provider._storage['manga_name']
         return self.path_join(
-            self.provider._params.get('path_destination', 'Manga'),
+            self.provider._params.get('destination', 'Manga'),
             archive,
             url[0]
         )
