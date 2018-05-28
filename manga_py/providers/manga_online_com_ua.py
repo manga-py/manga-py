@@ -67,5 +67,9 @@ class MangaOnlineCom(Provider, Std):
             images += self._images_helper(parser, 'img')
         return images
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaOnlineCom

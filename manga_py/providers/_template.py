@@ -27,5 +27,20 @@ class _Template(Provider, Std):
         # return self._cover_from_content('.cover img')
         pass
 
+    def book_meta(self) -> dict:
+        """
+        :see http://acbf.wikia.com/wiki/Meta-data_Section_Definition
+        :return  {
+            'author': str,
+            'title': str,
+            'genre': list('manga', 'real_life',),
+            'annotation': str,
+            'keywords': str,
+            'cover': str,
+            'rating': str,
+          }
+        """
+        pass
+
 
 main = _Template

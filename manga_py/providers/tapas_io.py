@@ -36,5 +36,9 @@ class TapasIo(Provider, Std):  # TODO: Login\Password
     def prepare_cookies(self):
         self.helper = tapas_io.TapasIo(self)
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = TapasIo

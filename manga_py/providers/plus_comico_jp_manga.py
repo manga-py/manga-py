@@ -1,7 +1,5 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
-from urllib import parse
-from time import time
 
 
 class PlusComicoJp(Provider, Std):
@@ -53,6 +51,10 @@ class PlusComicoJp(Provider, Std):
         if in_arc_name is None:
             in_arc_name = '{}_image.jpg'.format(idx)
         super().save_file(idx, callback, url, in_arc_name)
+
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
 
 
 main = PlusComicoJp

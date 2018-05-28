@@ -25,5 +25,9 @@ class MangaKakalotCom(Provider, Std):
         result = self.html_fromstring(self.chapter, '#vungdoc img')
         return [i.get('src') for i in result]
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaKakalotCom

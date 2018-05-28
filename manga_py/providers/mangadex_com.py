@@ -75,5 +75,9 @@ class MangaDexCom(Provider, Std):
             count = re.search(pages[-1].get('href')).group(1)
         return int(count / self._links_on_page)
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaDexCom

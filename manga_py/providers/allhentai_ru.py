@@ -56,5 +56,9 @@ class AllHentaiRu(Provider, Std):
                     pass
         return _path
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = AllHentaiRu

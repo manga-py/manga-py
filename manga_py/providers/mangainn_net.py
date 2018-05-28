@@ -32,5 +32,9 @@ class MangaInnNet(Provider, Std):
     def get_cover(self):
         pass  # TODO
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaInnNet

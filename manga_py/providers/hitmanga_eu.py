@@ -58,5 +58,9 @@ class HitMangaEu(Provider, Std):
         n = self.http().normalize_uri
         self._n = lambda u, r: n(u, r)
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = HitMangaEu

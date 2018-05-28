@@ -35,5 +35,9 @@ class AuthroneCom(MangaOnlineToday, Std):
     def get_cover(self) -> str:
         return self._cover_from_content('#sct_content img.cvr')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = AuthroneCom

@@ -47,5 +47,9 @@ class TaaddCom(Provider, Std):
             images += self._images_helper(parser, self.img_selector)
         return images
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = TaaddCom

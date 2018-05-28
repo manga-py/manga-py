@@ -33,5 +33,9 @@ class ReadMngCom(Provider, Std):
     def get_cover(self) -> str:
         return self._cover_from_content('.panel-body img.img-responsive')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = ReadMngCom

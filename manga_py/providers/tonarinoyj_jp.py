@@ -47,5 +47,9 @@ class TonariNoYjJp(Provider, Std):
         if idx:
             self.helper.solve_image(_path, idx)
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = TonariNoYjJp

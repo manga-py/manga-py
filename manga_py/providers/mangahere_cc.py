@@ -42,5 +42,9 @@ class MangaHereCc(Provider, Std):
     def prepare_cookies(self):
         self._base_cookies()
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaHereCc

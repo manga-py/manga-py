@@ -63,5 +63,9 @@ class MangaRussiaCom(Provider, Std):
     def loop_callback_chapters(self):
         self._storage['referer'] = self.path_url(self.chapter)
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaRussiaCom

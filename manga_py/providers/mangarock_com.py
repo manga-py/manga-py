@@ -57,5 +57,9 @@ class MangaRockCom(Provider, Std):
     def prepare_cookies(self):
         self.crypt = MangaRockComCrypt()
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaRockCom

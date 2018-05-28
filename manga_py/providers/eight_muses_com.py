@@ -44,5 +44,9 @@ class EightMusesCom(Provider, Std):
         self._base_cookies()
         self.helper = eight_muses_com.EightMusesCom(self)
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = EightMusesCom

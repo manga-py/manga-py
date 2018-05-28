@@ -36,5 +36,9 @@ class TruyenVnsharingSite(Provider, Std):
         if img and len(img):
             return self.parse_background(img[0])
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = TruyenVnsharingSite

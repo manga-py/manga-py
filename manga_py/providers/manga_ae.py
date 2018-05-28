@@ -33,5 +33,9 @@ class MangaAe(Provider, Std):
     def get_cover(self) -> str:
         return self._cover_from_content('img.manga-cover')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaAe

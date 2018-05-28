@@ -65,5 +65,9 @@ class ComicoCoIdTitles(Provider, Std):
     def get_cover(self) -> str:
         return self._cover_from_content('.bg_img_small img')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = ComicoCoIdTitles

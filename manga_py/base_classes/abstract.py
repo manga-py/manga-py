@@ -31,6 +31,9 @@ class Abstract:
     def get_chapter_index(self) -> str:
         pass
 
+    def book_meta(self) -> dict:
+        pass
+
     def loop_callback_chapters(self):
         pass
 

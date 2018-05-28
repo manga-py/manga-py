@@ -35,5 +35,9 @@ class MangaHubRu(Provider, Std):
     def get_cover(self):
         return self._cover_from_content('.manga-section-image__img img')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaHubRu

@@ -35,5 +35,9 @@ class LusciousNet(Provider, Std):
     def get_cover(self) -> str:
         return self._cover_from_content('.album_cover_item img')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = LusciousNet

@@ -41,5 +41,9 @@ class HentaiChanMe(MangaChanMe):
         nu = self.http().normalize_uri
         return [nu(i.get('href').replace('/manga/', '/online/')) for i in chapters]
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = HentaiChanMe

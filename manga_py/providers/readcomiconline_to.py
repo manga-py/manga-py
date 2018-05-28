@@ -31,5 +31,9 @@ class ReadComicOnlineTo(Provider, Std):
     def get_cover(self):
         return self._cover_from_content('.rightBox .barContent img[width]')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = ReadComicOnlineTo

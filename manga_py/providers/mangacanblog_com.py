@@ -69,5 +69,9 @@ class MangaCanBlogCom(Provider, Std):
         # return self._cover_from_content('.cover img')
         pass
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaCanBlogCom

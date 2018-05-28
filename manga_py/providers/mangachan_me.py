@@ -51,5 +51,9 @@ class MangaChanMe(Provider, Std):
         if img and len(img):
             return img[0].get('src')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaChanMe

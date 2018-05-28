@@ -39,5 +39,9 @@ class WieMangaCom(Provider, Std):
     def get_cover(self) -> str:
         return self._cover_from_content('.bookfrontpage a > img')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = WieMangaCom

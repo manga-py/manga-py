@@ -55,5 +55,9 @@ class MangaTailCom(Provider, Std):
         cover = self.document_fromstring(cover.get(key), '.field-type-image img', 0)
         return self.http().normalize_uri(cover.get('src'))
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaTailCom

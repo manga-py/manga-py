@@ -51,5 +51,9 @@ class GoMangaCo(Provider, Std):
         except Exception:
             pass
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = GoMangaCo

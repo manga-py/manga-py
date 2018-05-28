@@ -32,5 +32,9 @@ class MangaClubRu(Provider, Std):
         result = self.html_fromstring(self.chapter, '.manga-lines-page a.manga-lines')
         return [i.get('data-i') for i in result]
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaClubRu

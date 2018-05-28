@@ -43,5 +43,9 @@ class WebToonsCom(Provider, Std):
         img = self.html_fromstring(self.content, '#content > .detail_bg', 0)
         return self.parse_background(img)
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = WebToonsCom

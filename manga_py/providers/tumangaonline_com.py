@@ -71,5 +71,9 @@ class TuMangaOnlineCom(Provider, Std):
         if url:
             return '{}/{}'.format(self.domain, url)
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = TuMangaOnlineCom

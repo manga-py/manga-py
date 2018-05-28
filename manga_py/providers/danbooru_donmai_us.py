@@ -83,5 +83,9 @@ class DanbooruDonmaiUs(Provider, Std):
     def get_cover(self) -> str:
         pass
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = DanbooruDonmaiUs

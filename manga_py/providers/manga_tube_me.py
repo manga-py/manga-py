@@ -39,5 +39,9 @@ class MangaTubeMe(Provider, Std):
     def get_cover(self):
         return self._cover_from_content('.owl-carousel img', 'data-original')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaTubeMe

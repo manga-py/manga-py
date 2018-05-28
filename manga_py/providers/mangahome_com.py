@@ -38,5 +38,9 @@ class MangaHomeCom(Provider, Std):
     def get_cover(self):
         return self._cover_from_content('.detail-cover')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaHomeCom

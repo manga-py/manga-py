@@ -34,5 +34,9 @@ class WebtoonBamtokiCom(Provider, Std):
     def get_cover(self) -> str:
         return self._cover_from_content('.title-section-inner .col-md-6 > img')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = WebtoonBamtokiCom

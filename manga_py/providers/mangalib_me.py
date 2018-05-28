@@ -32,5 +32,9 @@ class MangaLibMe(Provider, Std):
     def get_cover(self):
         return self._cover_from_content('.topuserinfo-avatar > img')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaLibMe

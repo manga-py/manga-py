@@ -29,5 +29,9 @@ class WMangaRu(Provider, Std):
     def get_cover(self):
         pass  # FIXME HOME
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = WMangaRu

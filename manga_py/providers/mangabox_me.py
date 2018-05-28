@@ -34,5 +34,9 @@ class MangaBoxMe(Provider, Std):
     def get_cover(self):
         return self._cover_from_content('.episodes_img_main', 'data-src')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaBoxMe

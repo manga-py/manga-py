@@ -49,5 +49,9 @@ class MangaSaurusCom(Provider, Std):
     def get_cover(self):
         self._cover_from_content('.gallery-info__cover img')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaSaurusCom

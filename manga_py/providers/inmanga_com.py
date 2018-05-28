@@ -55,5 +55,9 @@ class InMangaCom(Provider, Std):
         idx = self.__local_storage['uri_hex']
         return '{}/manga/getMangaImage?identification={}'.format(self.domain, idx)
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = InMangaCom

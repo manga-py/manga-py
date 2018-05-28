@@ -34,5 +34,9 @@ class ShogakukanCoJp(ShogakukanTameshiyoMe, Std):
             img = self._cover_from_content('.image01 > img', 'data-original')
         return img
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = ShogakukanCoJp

@@ -51,5 +51,9 @@ class SiberOwlCom(Provider, Std):
             re.search(self.content).group(1)
         )
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = SiberOwlCom

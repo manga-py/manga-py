@@ -48,5 +48,9 @@ class MangaSh(Provider, Std):
         content = content.get('SeriesId').get('CoverImage')
         return '{}/covers/{}'.format(self._cdn_url, content)
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = MangaSh

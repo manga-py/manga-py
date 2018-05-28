@@ -36,5 +36,9 @@ class HocVienTruyenTranhCom(Provider, Std):
     def get_cover(self):
         return self._cover_from_content('.__info-container .__image img')
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = HocVienTruyenTranhCom

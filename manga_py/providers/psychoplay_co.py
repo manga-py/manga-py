@@ -37,5 +37,9 @@ class PsychoPlayCo(Provider, Std):
         if item:
             return self.parse_background(item[0])
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = PsychoPlayCo

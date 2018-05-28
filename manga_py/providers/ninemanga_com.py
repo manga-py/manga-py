@@ -44,5 +44,9 @@ class NineMangaCom(NineHelper, Std):
             images += self.get_files_on_page(content)
         return images
 
+    def book_meta(self) -> dict:
+        # todo meta
+        pass
+
 
 main = NineMangaCom
