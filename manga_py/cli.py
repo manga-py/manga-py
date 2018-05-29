@@ -55,7 +55,7 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
 
     args_parser.add_argument('-n', '--name', metavar='name', type=str, required=False, help='Manga name', default='')
     args_parser.add_argument('-d', '--destination', metavar='destination', type=str, required=False,
-                             help='Destination folder (Default = current directory', default='')
+                             help='Destination folder (Default = current directory', default=None)
     # args_parser.add_argument('-vv', '--log', metavar='info', action='store_const', required=False, const=True,
     #                          default=False, help='Verbose log')
     # args_parser.add_argument('-vvv', '--verbose-log', metavar='verbose_info', action='store_const', required=False,

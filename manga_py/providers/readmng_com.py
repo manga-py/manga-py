@@ -10,7 +10,7 @@ class ReadMngCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         ch = self.chapter
-        re = r'\.com/[^/]+/(\d+(?:\.\d+)?)/'
+        re = r'\.com/[^/]+/(\d+(?:\.\d+)?)/?'
         idx = self.re.search(re, ch)
         if not idx:
             return self.re.search(r'\.com/[^/]+/([^/]+)', ch).group(1)

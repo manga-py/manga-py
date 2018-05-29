@@ -143,36 +143,24 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
     {rating}
 </book-info>
 """
-        author = info.get('author', None)
-        title = info.get('title', None)
-        genre = info.get('genre', None)
-        annotation = info.get('annotation', None)
-        keywords = info.get('keywords', None)
-        coverpage = info.get('cover', None)
-        rating = info.get('rating', None)
-        result = {
-            'author': '',
-            'title': '',
-            'genre': '',
-            'annotation': '',
-            'keywords': '',
-            'cover': '',
-            'rating': '',
+
+        key_vars = {
+            'author': 'author',
+            'title': 'book-title',
+            'genre': 'genre',
+            'annotation': 'annotation',
+            'keywords': 'keywords',
+            'cover': 'coverpage',
+            'rating': 'content-rating',
         }
-        if author is not None:
-            result['author'] = '<author>%s</author>' % author
-        if title is not None:
-            result['title'] = '<book-title>%s</book-title>' % title
-        if genre is not None:
-            result['genre'] = '<genre>%s</genre>' % genre
-        if annotation is not None:
-            result['annotation'] = '<annotation><![CDATA[%s]]></annotation>' % annotation
-        if keywords is not None:
-            result['keywords'] = '<keywords>%s</keywords>' % keywords
-        if coverpage is not None:
-            result['cover'] = '<coverpage>%s</coverpage>' % coverpage
-        if rating is not None:
-            result['rating'] = '<content-rating>%s</content-rating>' % rating
+
+        result = {}
+
+        for i in info:
+            value = info.get(i)
+            result[i] = ''
+            if value is not None:
+                result[i] = '<{0}>{1}</{0}>'.format(key_vars[i], value)
 
         return xml.format(**result)
 
@@ -210,7 +198,8 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         # if self._params['cbz']:
         #     self._archive.add_book_info(self._arc_meta_info())
 
-        self._archive.make(_path, info)
+        self._archive.add_info(info)
+        self._archive.make(_path)
 
     def html_fromstring(self, url, selector: str = None, idx: int = None):
         params = {}

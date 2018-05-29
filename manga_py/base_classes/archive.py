@@ -6,12 +6,13 @@ from os.path import splitext
 
 
 class Archive:
+    _archive = None
     files = None
     _writes = None
 
     def __init__(self):
         self.files = []
-        self._writes = []
+        self._writes = {}
 
     @staticmethod
     def _check_ext(file, name):
@@ -26,7 +27,7 @@ class Archive:
         return name
 
     def write_file(self, data, in_arc_name):
-        self._writes.append((data, in_arc_name,))
+        self._writes[in_arc_name] = data
 
     def add_file(self, file, in_arc_name=None):
         if in_arc_name is None:
@@ -40,23 +41,28 @@ class Archive:
     def add_book_info(self, data):
         self.write_file('comicbook.xml', data)
 
-    def make(self, dst, info_file=None):
+    def __add_files(self):
+        for file in self.files:
+            if is_file(file[0]):
+                self._archive.write(file[0], file[1])
+
+    def __add_writes(self):
+        for file in self._writes:
+            self._archive.writestr(file, self._writes[file])
+
+    def add_info(self, data):
+        self.write_file(data, 'info.txt')
+
+    def make(self, dst):
         if not len(self.files) and not len(self._writes):
             return
 
         make_dirs(dirname(dst))
-        archive = ZipFile(dst, 'w', ZIP_DEFLATED)
 
-        for file in self.files:
-            if is_file(file[0]):
-                archive.write(file[0], file[1])
-        for file in self._writes:
-            archive.writestr(*file)
-
-        info_file and archive.writestr('info.txt', info_file)
-
-        archive.close()
-
+        self._archive = ZipFile(dst, 'w', ZIP_DEFLATED)
+        self.__add_files()
+        self.__add_writes()
+        self._archive.close()
         self._maked()
 
     def _maked(self):
