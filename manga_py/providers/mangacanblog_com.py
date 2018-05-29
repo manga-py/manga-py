@@ -28,7 +28,7 @@ class MangaCanBlogCom(Provider, Std):
 
     @staticmethod
     def _clear_name(a):
-        name = a[0].text_content()
+        name = a.text_content()
         name = unquote_plus(name.split('|')[0].strip())
         if ~name.find(' Indonesia'):
             name = name[:name.find(' Indonesia')]
@@ -45,8 +45,8 @@ class MangaCanBlogCom(Provider, Std):
             a = a.cssselect(selector)
             self._home_link = url
         else:
-            a = is_chapter
-            self._home_link = a[0].get('href')
+            a = is_chapter[0]
+            self._home_link = a.get('href')
         return self._clear_name(a)
 
     def get_chapters(self):

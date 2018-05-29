@@ -23,7 +23,8 @@ class ComicoJp(Provider, Std):
         return []
 
     def get_manga_name(self):
-        name = self.html_fromstring(self.get_url(), 'title', 0).text_content()
+        content = self.http_get(self.get_url())
+        name = self.text_content(content, 'title')
         return name[:name.rfind('|')].strip(' \n\t\r')
 
     def get_chapters(self):

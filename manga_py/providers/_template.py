@@ -33,7 +33,6 @@ class _Template(Provider, Std):
         :return  {
             'author': str,
             'title': str,
-            'genre': list('manga', 'real_life',),
             'annotation': str,
             'keywords': str,
             'cover': str,

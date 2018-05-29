@@ -74,6 +74,9 @@ providers_list = {
     'desu_me': [
         r'desu\.me/manga/.',
     ],
+    # 'dm5_com': [
+    #     r'dm5\.com/manhua-.'
+    # ],
     'doujins_com': [
         r'doujins\.com/gallery/.',
         r'doujin-moe\.us/gallery/.',
@@ -114,6 +117,7 @@ providers_list = {
     ],
     'hatigarmscans_eu': [
         r'hatigarmscans.eu/hs/(series|read)',
+        r'hatigarmscans.net/hs/(series|read)',
     ],
     'heavenmanga_biz': [
         r'heavenmanga\.site/.',

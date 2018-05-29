@@ -22,8 +22,7 @@ class HentaiFoxCom(Provider, Std):
         return self.__local_storage
 
     def get_manga_name(self) -> str:
-        text = self.document_fromstring(self.content, self._name_selector, 0)
-        return text.text_content().strip()
+        return self.text_content(self.content, self._name_selector)
 
     def get_chapters(self):
         return [b'']

@@ -20,8 +20,7 @@ class AcQqCom(Provider, Std):
         return self.http_get('{}/Comic/comicInfo/id/{}'.format(self.domain, idx))
 
     def get_manga_name(self) -> str:
-        title = self.document_fromstring(self.content, '.works-intro-title strong', 0)
-        return title.text_content()
+        return self.text_content(self.content, '.works-intro-title strong', 0)
 
     def get_chapters(self):
         return self._elements('.chapter-page-all li a')[::-1]
@@ -38,20 +37,13 @@ class AcQqCom(Provider, Std):
         self._base_cookies()
 
     def book_meta(self) -> dict:
-        result = {}
-        author = self._elements('.works-intro-digi em')
-        if author:
-            result['author'] = author[0].text_content().strip()
-        rating = self._elements('p.ui-left strong')
-        if rating:
-            result['rating'] = rating[0].text_content().strip()
-        cover = self.get_cover()
-        if cover:
-            result['cover'] = cover
-        annotation = self._elements('.works-intro-short')
-        if annotation:
-            result['annotation'] = annotation[0].text_content().strip()
-        result['language'] = 'cn'
+        result = {
+            'author': self.text_content(self.content, '.works-intro-digi em'),
+            'rating': self.text_content(self.content, 'p.ui-left strong'),
+            'cover': self.get_cover(),
+            'annotation': self.text_content(self.content, '.works-intro-short'),
+            'language': 'cn',
+        }
 
         return result
 

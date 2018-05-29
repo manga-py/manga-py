@@ -1,8 +1,8 @@
 class Std:
-    def _elements(self, idx, content=None) -> list:
+    def _elements(self, selector, content=None) -> list:
         if not content:
             content = self.content
-        return self.document_fromstring(content, idx)
+        return self.document_fromstring(content, selector)
 
     def _cover_from_content(self, selector, attr='src') -> str:
         image = self._elements(selector)
@@ -76,6 +76,15 @@ class Std:
         if len(idx) > 1:
             fmt += '-{}'
         return fmt.format(*idx)
+
+    def text_content(self, content, selector, idx: int = 0, strip: bool = True):
+        doc = self.document_fromstring(content, selector)
+        if not doc:
+            return None
+        text = doc[idx].text_content()
+        if strip:
+            text = text.strip()
+        return text
 
 
 class Http2:

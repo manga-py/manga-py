@@ -21,12 +21,16 @@ class BatoTo(Provider, Std):
 
     def get_manga_name(self) -> str:
         selector = '.nav-path .nav-title > a,.title-set .item-title > a'
-        return self.html_fromstring(self.get_url(), selector, 0).text_content()
+        content = self.http_get(self.get_url())
+        return self.text_content(content, selector, 0)
 
     def get_chapters(self):
         items = self._elements('.main > .item > a')
         n = self.http().normalize_uri
-        return [(n(i.get('href')), i.cssselect('b')[0].text_content().strip(' \n\t\r')) for i in items]
+        return [(
+            n(i.get('href')),
+            i.cssselect('b')[0].text_content().strip(' \n\t\r'),
+        ) for i in items]
 
     @staticmethod
     def _sort_files(data):

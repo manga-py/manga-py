@@ -40,8 +40,7 @@ class WebAceJp(Provider, Std):
         return self.__content
 
     def get_manga_name(self) -> str:
-        el = self._elements('.credit h1')[0]
-        return el.text_content().strip(' \n\r\t\0')
+        return self.text_content(self.content, '.credit h1')
 
     def get_chapters(self):
         content = self.http_get(self.__url() + 'episode/')
