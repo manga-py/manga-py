@@ -8,7 +8,8 @@ class SoMangaNet(Provider, Std):
         return 'vol_{:0>3}'.format(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        return self.re.search('/leitor/[^/]+/([^/]+)').group(1)
+        re = self.re.compile('/leitor/[^/]+/([^/]+)')
+        return re.search(self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/manga/{}')
@@ -17,14 +18,14 @@ class SoMangaNet(Provider, Std):
         return self._get_name(r'\.net/[^/]+/([^/]+)')
 
     def get_chapters(self):
-        return self.document_fromstring(self.content, 'ul.capitulos li > a')
+        return self._elements('ul.capitulos li > a')
 
     def get_files(self):
-        parser = self.html_fromstring(self.chapter, 'img.img-manga')
-        return [i.get('src') for i in parser]
+        parser = self.html_fromstring(self.chapter)
+        return self._images_helper(parser, 'img.img-manga')
 
     def get_cover(self):
-        pass  # FIXME HOME
+        return self._cover_from_content('.manga .col-sm-4 .img-responsive')
 
     def book_meta(self) -> dict:
         # todo meta

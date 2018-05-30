@@ -75,7 +75,7 @@ providers_list = {
         r'desu\.me/manga/.',
     ],
     # 'dm5_com': [
-    #     r'dm5\.com/manhua-.'
+    #     r'dm5\.com/manhua-.',
     # ],
     'doujins_com': [
         r'doujins\.com/gallery/.',
@@ -490,6 +490,7 @@ providers_list = {
     'rawlh_com': [
         r'rawlh\.com/(truyen|manga|read)-.',
         r'rawqq.com/(truyen|manga|read)-.',
+        r'rawqv.com/(truyen|manga|read)-.',
     ],
     'rawneko_com': [
         r'rawneko\.com/manga/.',
@@ -546,6 +547,7 @@ providers_list = {
     ],
     'somanga_net': [
         r'somanga\.net/(leitor|manga)/.',
+        r'somangas\.net/(leitor|manga)/.',
     ],
     'subapics_com': [
         r'subapics\.com/manga/.',
@@ -558,6 +560,9 @@ providers_list = {
         r'mangavy\.com/.+-chapter-',
         r'mangakid\.net/manga/',
         r'mangakid\.net/.+-chapter-',
+    ],
+    'submanga_online': [
+        r'submanga\.online/manga/.',
     ],
     'sunday_webry_com': [
         r'sunday-webry\.com/series/\d',

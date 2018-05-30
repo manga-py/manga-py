@@ -30,7 +30,7 @@ class _Template(Provider, Std):
     def book_meta(self) -> dict:
         """
         :see http://acbf.wikia.com/wiki/Meta-data_Section_Definition
-        :return  {
+        return {
             'author': str,
             'title': str,
             'annotation': str,
