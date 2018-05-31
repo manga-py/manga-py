@@ -1,7 +1,10 @@
 from urllib.parse import quote_plus
+
+import execjs
+
+from manga_py.fs import is_file
 from manga_py.provider import Provider
 from .helpers.std import Std
-import execjs
 
 
 class Dm5Com(Provider, Std):
@@ -32,11 +35,6 @@ class Dm5Com(Provider, Std):
         return content
 
     def get_manga_name(self) -> str:
-
-        # a = r"""eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('b 8(){1 4=3;1 a=\'9\';1 7="g://h-k-e-j-5.c.f/5/p/3";1 2=["/o.6","/q.6"];l(1 i=0;i<2.m;i++){2[i]=7+2[i]+\'?4=3&a=9\'}n 2}1 d;d=8();',27,27,'|var|pvalue|115710|cid|10|jpg|pix|dm5imagefun|2ebb01b581e29b598ad616275b9cb866|key|function|cdndm5||250|com|http|manhua1021||150|104|for|length|return|1_1557|9404|2_3610'.split('|'),0,{}))"""
-        # print(execjs.eval(a))
-        # exit()
-
         title = self.text_content(self.content, '.info .title')
         if title:
             return title
@@ -69,6 +67,7 @@ class Dm5Com(Provider, Std):
         url = '{}/{}/chapterfun.ashx?cid={}&page={}&key={}&language=1&gtk=6&_cid={}&_mid={}&_dt={}&_sign={}'
         items = []
         for page in range(pages):
+            print(page+1)
             data = self.http_get(url.format(
                 self.domain, chapter_idx,
                 cid, page + 1, key, cid,
@@ -78,6 +77,19 @@ class Dm5Com(Provider, Std):
             if item_url:
                 items += item_url
         return items
+
+    def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
+        # ref = self._storage['referer']
+        self._storage['referer'] = self.chapter[0]
+        _path, idx, _url = self._save_file_params_helper(url, idx)
+
+        if not is_file(_path):
+            self.http(True).download_file(_url, _path)
+            self._archive.add_file(_path, in_arc_name)
+        callable(callback) and callback()
+        self.after_file_save(_path, idx)
+        # self._storage['referer'] = ref
+        return _path
 
     @staticmethod
     def _get_headers():
