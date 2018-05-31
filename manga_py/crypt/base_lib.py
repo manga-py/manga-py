@@ -8,7 +8,7 @@ from binascii import unhexlify
 
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256, MD5
-from execjs import compile as js_compile
+from execjs import compile
 
 
 class BaseLib:
@@ -51,7 +51,7 @@ class BaseLib:
 
     @staticmethod
     def exec_js(source, js):  # pragma: no cover
-        return js_compile(source).eval(js)
+        return compile(source).eval(js)
 
     @staticmethod
     def gunzip(data):  # pragma: no cover

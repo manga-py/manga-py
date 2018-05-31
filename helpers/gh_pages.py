@@ -15,6 +15,7 @@ start_items = [
     ['http://comixology.com', 0, ' - Buy only. Not reading.'],
     ['http://e-hentai.org', 1, '<i class="td"></i>'],
     ['http://eatmanga.me', 1, '<i class="v0"></i>'],
+    ['http://dm5.com', 0, '<i class="d"></i>'],
     ['http://gogomanga.co', 1, '<i class="v0"></i>'],
     ['http://heavenmanga.biz', 2, '- See heavenmanga.site'],
     ['http://hentai-chan.me', 1, '- Need fill access file'],
