@@ -198,6 +198,7 @@ providers_list = {
         r'universoyuri\.com/manga/.',
         r'digitalteam1\.altervista\.org/manga/.',
         r'sosscanlation\.com/manga/.',
+        r'komikgue\.com/manga/.',
     ],
     'kumanga_com': [
         r'kumanga\.com/manga/\d',
@@ -588,6 +589,9 @@ providers_list = {
     ],
     'tonarinoyj_jp': [
         r'tonarinoyj.jp/episode/.',
+    ],
+    'toonkor_co': [
+        r'toonkor\.co/.',
     ],
     'triplesevenscans_com': [
         r'triplesevenscans\.com/reader/(series|read)/.',

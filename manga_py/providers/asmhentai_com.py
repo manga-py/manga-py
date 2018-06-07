@@ -33,8 +33,9 @@ class AsmHentaiCom(Provider, Std):
         src = self.re.search(r'\$\(\[[\'"]//(.+)/[\'"]', content).group(1)
         pages = self.re.search(r'var +Pages ?=.*?(\d+)', content).group(1)
         result = []
+        http = self.re.search('(https?):', self.get_url()).group(1)
         for i in range(int(pages)):
-            result.append('http://{}/{}.jpg'.format(src, 1 + i))
+            result.append('{}://{}/{}.jpg'.format(http, src, 1 + i))
         return result
 
     def get_cover(self) -> str:
