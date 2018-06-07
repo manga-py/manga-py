@@ -5,8 +5,8 @@ requests>=2.14
 pycrypto>=2.5
 cfscrape>=1.9.1
 progressbar2>3.34
-urllib3
-packaging
+urllib3>=1.20
+packaging>=17
 html-purifier>=0.1.9
 selenium>=3.0.2
 pyexecjs>=1.5.1
