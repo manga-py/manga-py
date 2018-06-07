@@ -7,11 +7,14 @@ class WebToonsCom(Provider, Std):
     __mainUrl = ''
 
     def get_archive_name(self) -> str:
-        i = self.re.search(r'\.com/[^/]+/[^/]+/[^/]+/([^/]+)', self.chapter)
+        i = self.re.search(r'\.com%s%s' % (
+            r'(?:/|%2F)[^/%]+'*3,
+            r'(?:/|%2F)([^/%]+)',
+        ), self.chapter)
         return 'vol_{:0>3}-{}'.format(self.chapter_id, i.group(1))
 
     def get_chapter_index(self) -> str:
-        return self.re.search(r'episode_no=(\d+)', self.chapter).group(1)
+        return self.re.search(r'\bepisode_no=(\d+)', self.chapter).group(1)
 
     def get_main_content(self):
         return self.http_get(self.__mainUrl)

@@ -19,6 +19,9 @@ providers_list = {
     'antisensescans_com': [
         r'antisensescans\.com/online/(series|read)/.',
     ],
+    'asmhentai_com': [
+        r'asmhentai\.com/(g|gallery)/\d'
+    ],
     'authrone_com': [
         r'authrone\.com/manga/.',
     ],
@@ -576,6 +579,9 @@ providers_list = {
     ],
     'tenmanga_com': [
         r'tenmanga\.com/(book|chapter)/.',
+    ],
+    'translate_webtoons_com': [
+        r'translate\.webtoons\.com/webtoonVersion\?webtoonNo.',
     ],
     'trashscanlations_com': [
         r'trashscanlations\.com/series/.',
