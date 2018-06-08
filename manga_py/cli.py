@@ -13,62 +13,75 @@ from manga_py.meta import __version__, __repo_name__
 
 def _image_args(args_parser):
     pass
-    # args_parser.add_argument('--force-png', action='store_const', required=False,
+    # args = args_parser.add_argument_group('Image arguments')
+
+    # args.add_argument('--force-png', action='store_const', 
     #                          help='Force conversation images to png format', const=True, default=False)
-    # args_parser.add_argument('--force-jpg', action='store_const', required=False,
+    # args.add_argument('--force-jpg', action='store_const', 
     #                          help='Force conversation images to jpg format', const=True, default=False)
 
-    # args_parser.add_argument('-xt', required=False, type=int, help='Manual image crop with top side', default=0)
-    # args_parser.add_argument('-xr', required=False, type=int, help='Manual image crop with right side', default=0)
-    # args_parser.add_argument('-xb', required=False, type=int, help='Manual image crop with bottom side', default=0)
-    # args_parser.add_argument('-xl', required=False, type=int, help='Manual image crop with left side', default=0)
-    # args_parser.add_argument('--crop-blank', action='store_const', required=False, help='Crop white lines on image',
+    # args.add_argument('-xt', type=int, help='Manual image crop with top side', default=0)
+    # args.add_argument('-xr', type=int, help='Manual image crop with right side', default=0)
+    # args.add_argument('-xb', type=int, help='Manual image crop with bottom side', default=0)
+    # args.add_argument('-xl', type=int, help='Manual image crop with left side', default=0)
+    # args.add_argument('--crop-blank', action='store_const', help='Crop white lines on image',
     #                          const=True, default=False)
 
 
+def _debug_args(args_parser):
+    pass
+    # args = args_parser.add_argument_group('Debug arguments')
+
+    # args.add_argument('-vv', '--log', metavar='info', action='store_const', const=True,
+    #                          default=False, help='Verbose log')
+    # args.add_argument('-vvv', '--verbose-log', metavar='verbose_info', action='store_const',
+    #                          const=True, default=False, help='Verbose log')
+
+
 def _downloading_args(args_parser):
-    args_parser.add_argument('-s', '--skip-volumes', metavar='skip-volumes', type=int, required=False,
+    args = args_parser.add_argument_group('Downloading arguments')
+
+    args.add_argument('-s', '--skip-volumes', metavar='skip-volumes', type=int, 
                              help='Skip volumes (count)', default=0)
-    args_parser.add_argument('-c', '--max-volumes', metavar='max-volumes', type=int, required=False,
+    args.add_argument('-c', '--max-volumes', metavar='max-volumes', type=int, 
                              help='Maximum volumes for downloading 0=All (count)', default=0)
-    args_parser.add_argument('--user-agent', required=False, type=str, help='Don\'t work from protected sites',
-                             default=None)
-    args_parser.add_argument('--proxy', required=False, type=str, help='Http proxy', default=None)
-    args_parser.add_argument('--reverse-downloading', action='store_const', required=False,
+    args.add_argument('--user-agent', type=str, help='Don\'t work from protected sites')
+    args.add_argument('--proxy', type=str, help='Http proxy')
+    args.add_argument('--reverse-downloading', action='store_const', 
                              help='Reverse volumes downloading', const=True, default=False)
-    args_parser.add_argument('--rewrite-exists-archives', action='store_const', required=False, const=True,
+    args.add_argument('--rewrite-exists-archives', action='store_const', const=True,
                              default=False)
-    args_parser.add_argument('-nm', '--no-multi-threads', action='store_const', required=False,
+    args.add_argument('-nm', '--no-multi-threads', action='store_const', 
                              help='Disallow multi-threads images downloading', const=True, default=False)
 
 
 def _reader_args(args_parser):
-    args_parser.add_argument('--cbz', action='store_const', required=False,
+    args = args_parser.add_argument_group('Archive arguments')
+
+    args.add_argument('--cbz', action='store_const', 
                              const=True, help='Make *.cbz archives (for reader)', default=False)
 
 
 def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
     args_parser = ArgumentParser()
+    args = args_parser.add_argument_group('General arguments')
 
-    args_parser.add_argument('url', metavar='url', type=str, help='Downloaded url', default='', nargs='?')
-    args_parser.add_argument('--version', action='version', version=__version__)
+    args.add_argument('url', metavar='url', type=str, help='Downloaded url', nargs=1)
+    args.add_argument('--version', action='version', version=__version__)
 
-    args_parser.add_argument('-n', '--name', metavar='name', type=str, required=False, help='Manga name', default='')
-    args_parser.add_argument('-d', '--destination', metavar='destination', type=str, required=False,
-                             help='Destination folder (Default = current directory', default=None)
-    # args_parser.add_argument('-vv', '--log', metavar='info', action='store_const', required=False, const=True,
-    #                          default=False, help='Verbose log')
-    # args_parser.add_argument('-vvv', '--verbose-log', metavar='verbose_info', action='store_const', required=False,
-    #                          const=True, default=False, help='Verbose log')
-    args_parser.add_argument('-np', '--no-progress', metavar='no-progress', action='store_const', required=False,
+    args.add_argument('-n', '--name', metavar='name', type=str, help='Manga name', default='')
+    args.add_argument('-d', '--destination', metavar='destination', type=str, 
+                             help='Destination folder (Default = current directory')
+    args.add_argument('-np', '--no-progress', metavar='no-progress', action='store_const', 
                              const=True, help='Don\'t show progress bar', default=False)
     # future
-    # args_parser.add_argument('--server', action='store_const', required=False, const=True, help='Run web interface',
+    # args_parser.add_argument('--server', action='store_const', const=True, help='Run web interface',
     #                          default=False)
 
     _image_args(args_parser)
     _reader_args(args_parser)
     _downloading_args(args_parser)
+    _debug_args(args_parser)
 
     return args_parser
 
