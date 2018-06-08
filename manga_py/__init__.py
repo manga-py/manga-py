@@ -5,8 +5,8 @@ try:
     from shutil import rmtree
     from sys import argv, exit
 
-    from manga_py.cli import Cli, get_cli_arguments
-    from manga_py.fs import get_temp_path
+    from .cli import Cli, get_cli_arguments
+    from .fs import get_temp_path
 
     __author__ = 'Sergey Zharkov'
     __license__ = 'MIT'

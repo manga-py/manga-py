@@ -1,6 +1,7 @@
+from lxml import html
+
 from manga_py.provider import Provider
 from .helpers.std import Std
-from lxml import html
 
 
 class CdmNetComBr(Provider, Std):
@@ -50,7 +51,8 @@ class CdmNetComBr(Provider, Std):
         images = self.re.sub("'", '"', images)
         images = self.json.loads(self.re.sub(r'",\]', '"]', images))
 
-        print(['{}{}{}'.format(suffix, i, file_type) for i in images]);exit()
+        print(['{}{}{}'.format(suffix, i, file_type) for i in images]);
+        exit()
 
         return ['{}{}{}'.format(suffix, i, file_type) for i in images]
 

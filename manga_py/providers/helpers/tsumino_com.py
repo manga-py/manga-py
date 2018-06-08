@@ -1,6 +1,7 @@
-from manga_py.provider import Provider
-from manga_py.base_classes import WebDriver
 from requests import Session
+
+from manga_py.base_classes import WebDriver
+from manga_py.provider import Provider
 
 
 class TsuminoCom:

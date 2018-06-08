@@ -17,7 +17,7 @@ class nHentaiNet(HentaiFoxCom):
         idx = imgs.get('media_id')
         images = []
         for n, i in enumerate(imgs.get('images', {}).get('pages', [])):
-            images.append('{}{}/{}.{}'.format(self._cdn, idx, n+1, self.__ext.get(i.get('t'))))
+            images.append('{}{}/{}.{}'.format(self._cdn, idx, n + 1, self.__ext.get(i.get('t'))))
         return images
 
     def get_cover(self) -> str:

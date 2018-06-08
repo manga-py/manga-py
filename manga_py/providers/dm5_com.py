@@ -67,7 +67,6 @@ class Dm5Com(Provider, Std):
         url = '{}/{}/chapterfun.ashx?cid={}&page={}&key={}&language=1&gtk=6&_cid={}&_mid={}&_dt={}&_sign={}'
         items = []
         for page in range(pages):
-            print(page+1)
             data = self.http_get(url.format(
                 self.domain, chapter_idx,
                 cid, page + 1, key, cid,
@@ -79,7 +78,6 @@ class Dm5Com(Provider, Std):
         return items
 
     def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
-        # ref = self._storage['referer']
         self._storage['referer'] = self.chapter[0]
         _path, idx, _url = self._save_file_params_helper(url, idx)
 
@@ -88,7 +86,6 @@ class Dm5Com(Provider, Std):
             self._archive.add_file(_path, in_arc_name)
         callable(callback) and callback()
         self.after_file_save(_path, idx)
-        # self._storage['referer'] = ref
         return _path
 
     @staticmethod

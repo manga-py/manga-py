@@ -1,9 +1,16 @@
 import json
 import re
-# import time
 from abc import ABCMeta
 
-from .meta import __downloader_uri__
+from .base_classes import (
+    Abstract,
+    Archive,
+    Base,
+    Callbacks,
+    # TODO
+    CloudFlareProtect,
+    Static
+)
 from .fs import (
     get_temp_path,
     is_file,
@@ -12,22 +19,14 @@ from .fs import (
     path_join,
 )
 from .http import MultiThreads
-from .base_classes import (
-    Abstract,
-    Archive,
-    Base,
-    Callbacks,
-    ChapterHelper,  # TODO
-    CloudFlareProtect,
-    Static
-)
+from .meta import __downloader_uri__
 from .meta import __version__
 
 
 class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
-
     _volumes_count = 0
     _archive = None
+    _zero_fill = False
 
     def __init__(self):
         super().__init__()
@@ -47,6 +46,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         )
         # downloading params
         self._set_if_not_none(self._params, 'destination', params.get('destination', None))
+        self._zero_fill = params.get('zero_fill')
 
     def process(self, url, params=None):  # Main method
         self._params['url'] = url

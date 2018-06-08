@@ -5,8 +5,8 @@ import unittest
 from os import path
 from shutil import copyfile
 
-from manga_py.base_classes import Archive
 from manga_py import fs
+from manga_py.base_classes import Archive
 
 root_path = path.dirname(path.realpath(__file__))
 

@@ -8,7 +8,7 @@ class WebToonsCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         i = self.re.search(r'\.com%s%s' % (
-            r'(?:/|%2F)[^/%]+'*3,
+            r'(?:/|%2F)[^/%]+' * 3,
             r'(?:/|%2F)([^/%]+)',
         ), self.chapter)
         return 'vol_{:0>3}-{}'.format(self.chapter_id, i.group(1))

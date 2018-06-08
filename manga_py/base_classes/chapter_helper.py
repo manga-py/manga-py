@@ -1,5 +1,3 @@
-
-
 # cli chapters parser
 class ChapterHelper:
     chapters = ''
@@ -15,4 +13,3 @@ class ChapterHelper:
             if i in self.chapters:
                 chapters.append(urls)
         return chapters
-

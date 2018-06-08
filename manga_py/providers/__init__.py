@@ -2,7 +2,7 @@ import re
 
 providers_list = {
     'ac_qq_com': {
-      r'ac\.qq\.com/Comic.+?/id/\d',
+        r'ac\.qq\.com/Comic.+?/id/\d',
     },
     'adulto_seinagi_org': [
         r'adulto\.seinagi\.org/(series|read)/.',
@@ -655,8 +655,16 @@ providers_list = {
 
 
 def __check_provider(provider, url):
-    reg = '(?:' + '|'.join(provider) + ')'
-    return re.search(reg, url)
+    try:
+        reg = '(?:' + '|'.join(provider) + ')'
+        return re.search(reg, url)
+    except Exception as e:
+        print(reg)
+        print(type(reg))
+        print(provider, url)
+        print(type(provider), type(url))
+        print(e)
+        exit()
 
 
 def get_provider(url):

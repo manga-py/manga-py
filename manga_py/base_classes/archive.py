@@ -1,8 +1,9 @@
 from zipfile import ZipFile, ZIP_DEFLATED
+
 from PIL import Image
+from os.path import splitext
 
 from manga_py.fs import is_file, make_dirs, basename, dirname, unlink
-from os.path import splitext
 
 
 class Archive:

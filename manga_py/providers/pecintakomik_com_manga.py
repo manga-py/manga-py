@@ -1,5 +1,5 @@
-from .pecintakomik_com import PecintaKomikCom
 from .helpers.std import Std
+from .pecintakomik_com import PecintaKomikCom
 
 
 class PecintaKomikComManga(PecintaKomikCom, Std):

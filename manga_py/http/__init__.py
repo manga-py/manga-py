@@ -5,7 +5,6 @@ from .url_normalizer import normalize_uri
 
 
 class Http(Request):
-
     count_retries = 20
 
     def __init__(

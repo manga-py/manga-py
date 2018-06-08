@@ -1,6 +1,6 @@
-
-import time
 import random
+import time
+
 from manga_py.crypt.base_lib import BaseLib
 from .request import Request
 

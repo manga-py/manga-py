@@ -1,6 +1,7 @@
+from shutil import copy
+
 from manga_py.fs import is_file, storage, root_path, path_join
 from .mangachan_me import MangaChanMe
-from shutil import copy
 
 
 class HentaiChanMe(MangaChanMe):

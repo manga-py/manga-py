@@ -18,13 +18,13 @@ class MultiThreads:
     def add(self, target: callable, args: tuple):
         self.threads.append(Thread(target=target, args=args))
 
-    def _run_processes(self, callback: callable=None, n: int = None):
+    def _run_processes(self, callback: callable = None, n: int = None):
         for t in self.to_run:
             if not n:
                 t.join()
                 callback is not None and callback()
 
-    def start(self, callback: callable=None):
+    def start(self, callback: callable = None):
         for n, t in enumerate(self.threads):  # starting all threads
             t.start()
             self.to_run.append(t)

@@ -1,6 +1,6 @@
 from manga_py.provider import Provider
-from .helpers.std import Std
 from .helpers import tonarinoyj_jp
+from .helpers.std import Std
 
 
 class TonariNoYjJp(Provider, Std):

@@ -36,7 +36,7 @@ class SubMangaOnline(Provider, Std):
             'keywords': None,
             'cover': self.get_cover(),
             'rating': None,
-          }
+        }
 
 
 main = SubMangaOnline

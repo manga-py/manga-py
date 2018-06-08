@@ -15,9 +15,9 @@ class HentaiHereCom(Provider, Std):
         return idx.group(1).replace('/', '-')
 
     def get_main_content(self):
-            url = self.re.search('(/m/[^/]+)', self.get_url())
-            url = '{}{}'.format(self.domain, url.group(1))
-            return self.http_get(url)
+        url = self.re.search('(/m/[^/]+)', self.get_url())
+        url = '{}{}'.format(self.domain, url.group(1))
+        return self.http_get(url)
 
     def get_manga_name(self) -> str:
         selector = 'span.hide[itemscope] span[itemprop="name"]'

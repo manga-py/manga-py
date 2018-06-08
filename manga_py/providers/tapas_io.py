@@ -1,6 +1,6 @@
 from manga_py.provider import Provider
-from .helpers.std import Std
 from .helpers import tapas_io
+from .helpers.std import Std
 
 
 class TapasIo(Provider, Std):  # TODO: Login\Password

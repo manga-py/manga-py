@@ -1,8 +1,10 @@
-from packaging import version
 import json
-from requests import get
-from manga_py.meta import __version__, __repo_name__
 import webbrowser
+
+from packaging import version
+from requests import get
+
+from manga_py.meta import __version__, __repo_name__
 
 
 def check_version():

@@ -1,8 +1,10 @@
-from manga_py.fs import is_file, dirname, storage
+from os import chmod
 from sys import platform
 from zipfile import ZipFile
+
 from requests import get
-from os import chmod
+
+from manga_py.fs import is_file, dirname, storage
 
 
 class WebDriver:

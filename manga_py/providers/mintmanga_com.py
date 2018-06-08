@@ -1,5 +1,5 @@
-from .readmanga_me import ReadmangaMe
 from .helpers.std import Std
+from .readmanga_me import ReadmangaMe
 
 
 class MintMangaCom(ReadmangaMe, Std):

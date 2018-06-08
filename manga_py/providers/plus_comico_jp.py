@@ -1,9 +1,10 @@
-from manga_py.provider import Provider
-from .helpers.std import Std
-from urllib import parse
 from time import time
+from urllib import parse
+
 from manga_py.crypt.puzzle import Puzzle
 from manga_py.fs import move
+from manga_py.provider import Provider
+from .helpers.std import Std
 
 
 class PlusComicoJp(Provider, Std):
@@ -57,7 +58,7 @@ class PlusComicoJp(Provider, Std):
             parse.quote_plus(params.get('param')[0]),
             ts,
             ts + 1305,
-            )
+        )
 
         pages_url = base_url + '&mode=7&file=face.xml&callback=jQ12_34'
         scramble_url = base_url + '&mode=8&file={:0>4}.xml'

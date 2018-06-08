@@ -1,6 +1,7 @@
+from time import time
+
 from manga_py.provider import Provider
 from .helpers.std import Std
-from time import time
 
 
 class ComicoCoIdTitles(Provider, Std):

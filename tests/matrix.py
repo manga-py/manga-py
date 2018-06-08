@@ -10,8 +10,8 @@ from os import path
 
 from PIL import Image as PilImage, ImageChops
 
-from manga_py.crypt.puzzle import Puzzle
 from manga_py.crypt import sunday_webry_com
+from manga_py.crypt.puzzle import Puzzle
 
 root_path = path.dirname(path.realpath(__file__))
 
@@ -22,7 +22,12 @@ class TestMatrix(unittest.TestCase):
         """Calculate the root-mean-square difference between two images"""
         h = ImageChops.difference(im1, im2).histogram()
         # calculate rms
-        return math.sqrt(reduce(operator.add, map(lambda h, i: h * (i ** 2), h, range(256))) / (float(im1.size[0]) * im1.size[1]))
+        return math.sqrt(
+            reduce(
+                operator.add,
+                map(lambda h, i: h * (i ** 2), h, range(256))
+            ) / (float(im1.size[0]) * im1.size[1])
+        )
 
     def test_jpg(self):
         file_src = root_path + '/mosaic/tonarinoyj_jp_orig.jpg'  # tonarinoyj.jp  image
@@ -80,12 +85,12 @@ class TestMatrix(unittest.TestCase):
             for i, r in enumerate(_r):
                 p = result_py[i]
                 if (
-                    r['srcX'] != p['srcX'] or
-                    r['srcY'] != p['srcY'] or
-                    r['destX'] != p['destX'] or
-                    r['destY'] != p['destY'] or
-                    r['width'] != p['width'] or
-                    r['height'] != p['height']
+                        r['srcX'] != p['srcX'] or
+                        r['srcY'] != p['srcY'] or
+                        r['destX'] != p['destX'] or
+                        r['destY'] != p['destY'] or
+                        r['width'] != p['width'] or
+                        r['height'] != p['height']
                 ):
                     n += 1
 

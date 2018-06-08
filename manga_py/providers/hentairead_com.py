@@ -1,5 +1,5 @@
-from .readhentaimanga_com import ReadHentaiMangaCom
 from .helpers.std import Std
+from .readhentaimanga_com import ReadHentaiMangaCom
 
 
 class HentaiReadCom(ReadHentaiMangaCom, Std):

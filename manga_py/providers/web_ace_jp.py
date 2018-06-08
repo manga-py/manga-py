@@ -30,9 +30,9 @@ class WebAceJp(Provider, Std):
 
     def __idx(self):
         return self.re.search(
-                r'/contents/(\d+)',
-                self.get_url()
-            ).group(1)
+            r'/contents/(\d+)',
+            self.get_url()
+        ).group(1)
 
     def get_main_content(self):
         if self.__content is None:

@@ -1,5 +1,5 @@
-from .mangaonline_today import MangaOnlineToday
 from .helpers.std import Std
+from .mangaonline_today import MangaOnlineToday
 
 
 class MangaDeepCom(MangaOnlineToday, Std):

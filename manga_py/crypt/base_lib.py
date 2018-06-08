@@ -1,10 +1,9 @@
-
 import base64
 import codecs
 import gzip
 import zlib
-from struct import pack, unpack
 from binascii import unhexlify
+from struct import pack, unpack
 
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256, MD5
@@ -120,6 +119,6 @@ class BaseLib:
         if isinstance(string, bytes):
             string = string.decode()
         for counter in range(0, len(string), 2):
-            hex_char = string[counter]+string[counter+1]
+            hex_char = string[counter] + string[counter + 1]
             clear_str += unhexlify(hex_char)
         return clear_str

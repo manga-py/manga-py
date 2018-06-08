@@ -82,13 +82,13 @@ class Request:
                 kwargs['proxies'] = proxy
             return self._requests_helper(
                 method=method, url=location, headers=headers,
-                data=data, max_redirects=(max_redirects-1),
+                data=data, max_redirects=(max_redirects - 1),
                 **kwargs
             )
         return r
 
     def requests(
-            self, url: str, headers: dict=None, cookies: dict=None,
+            self, url: str, headers: dict = None, cookies: dict = None,
             data=None, method='get', files=None, timeout=None, **kwargs
     ) -> requests.Response:
         if not isinstance(headers, dict):

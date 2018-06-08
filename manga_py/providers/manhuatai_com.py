@@ -1,6 +1,7 @@
+from random import randrange
+
 from manga_py.provider import Provider
 from .helpers.std import Std
-from random import randrange
 
 
 class ManhuaTaiCom(Provider, Std):

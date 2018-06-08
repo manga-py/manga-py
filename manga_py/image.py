@@ -4,7 +4,6 @@ from PIL import Image as PilImage, ImageChops
 
 
 class Image:
-
     image = None
     src_path = None
 
@@ -93,4 +92,3 @@ class Image:
 
     def close(self):
         self.image is not None and self.image.close()
-

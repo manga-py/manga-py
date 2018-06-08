@@ -1,6 +1,7 @@
+from urllib.parse import unquote_plus
+
 from manga_py.provider import Provider
 from .helpers.std import Std
-from urllib.parse import unquote_plus
 
 
 class NightowNet(Provider, Std):

@@ -1,6 +1,6 @@
 from manga_py.provider import Provider
-from .helpers.std import Std
 from .helpers import eight_muses_com
+from .helpers.std import Std
 
 
 class EightMusesCom(Provider, Std):

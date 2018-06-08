@@ -1,5 +1,5 @@
-from .shogakukan_tameshiyo_me import ShogakukanTameshiyoMe
 from .helpers.std import Std
+from .shogakukan_tameshiyo_me import ShogakukanTameshiyoMe
 
 
 class ShogakukanCoJp(ShogakukanTameshiyoMe, Std):

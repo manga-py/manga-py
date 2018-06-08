@@ -1,5 +1,5 @@
-from .rawdevart_com import RawDevArtCom
 from .helpers.std import Std
+from .rawdevart_com import RawDevArtCom
 
 
 class RawNekoCom(RawDevArtCom, Std):

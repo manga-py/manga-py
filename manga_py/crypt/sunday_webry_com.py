@@ -4,18 +4,18 @@ from PIL import Image
 # DO NOT SEE HERE! IT WORKED!
 
 
-class MatrixSunday:  
+class MatrixSunday:
     __image_src = None
     __image_dst = None
 
-    def de_scramble(self, path_src: str, path_dst: str, data: list):  
+    def de_scramble(self, path_src: str, path_dst: str, data: list):
         self.__image_src = Image.open(path_src, 'r')
         self.__process(data)
         self.__image_dst.save(path_dst)
         self.__image_src.close()
         self.__image_dst.close()
 
-    def __process(self, data: list):  
+    def __process(self, data: list):
         size_src = self.__image_src.size
 
         self.__image_dst = Image.new(self.__image_src.mode, size_src)
@@ -42,7 +42,7 @@ class SundayWebryCom:
         img.close()
         return self.solve(*sizes, element_width, element_height, n)
 
-    def solve(self, width: int, height: int, element_width: int, element_height: int, n: int):  
+    def solve(self, width: int, height: int, element_width: int, element_height: int, n: int):
         e = width
         t = height
         r = element_width
@@ -150,11 +150,11 @@ class SundayWebryCom:
         return e * i + m
 
     @staticmethod
-    def _calc_x_x(e, t, r):  
+    def _calc_x_x(e, t, r):
         return (e + 61 * r) % t
 
     @staticmethod
-    def _calc_x_y(e, t, r, i, n):  
+    def _calc_x_y(e, t, r, i, n):
         o = (n % 2 == 1)
         if (e < r and o) or (e >= r and not o):
             a = i - t
@@ -165,7 +165,7 @@ class SundayWebryCom:
         return (e + 67 * n + t + 71) % a + s
 
     @staticmethod
-    def _calc_y_x(e, t, r, i, n):  
+    def _calc_y_x(e, t, r, i, n):
         o = (n % 2 == 1)
         if (e < t and o) or (e >= t and not o):
             a = r
@@ -176,5 +176,5 @@ class SundayWebryCom:
         return (e + 53 * n + 59 * r) % a + s
 
     @staticmethod
-    def _calc_y_y(e, t, r):  
+    def _calc_y_y(e, t, r):
         return (e + 73 * r) % t

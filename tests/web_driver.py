@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from os import path
 
 from pyvirtualdisplay import Display
 

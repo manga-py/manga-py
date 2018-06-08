@@ -1,5 +1,5 @@
-from manga_py.provider import Provider
 from manga_py.meta import __downloader_uri__
+from manga_py.provider import Provider
 
 
 class TapasIo:
@@ -36,5 +36,3 @@ class TapasIo:
         if _content is None:
             self._error(content)
         return _content
-
-

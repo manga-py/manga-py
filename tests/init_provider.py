@@ -4,9 +4,9 @@
 import unittest
 from os import path
 
-from manga_py.providers import get_provider
-from manga_py.provider import Provider
 from manga_py import fs
+from manga_py.provider import Provider
+from manga_py.providers import get_provider
 
 root_path = path.dirname(path.realpath(__file__))
 

@@ -1,9 +1,7 @@
-
 import cfscrape
 
 
 class CloudFlareProtect:
-
     protector = []
 
     def run(self, url):  # pragma: no cover

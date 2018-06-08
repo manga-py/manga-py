@@ -1,5 +1,5 @@
-from .mangashiro_net import MangaShiroNet
 from .helpers.std import Std
+from .mangashiro_net import MangaShiroNet
 
 
 class SubaPicsCom(MangaShiroNet, Std):

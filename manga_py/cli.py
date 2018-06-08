@@ -7,8 +7,8 @@ import requests
 from packaging import version
 from progressbar import ProgressBar
 
-from manga_py.parser import Parser
-from manga_py.meta import __version__, __repo_name__
+from .meta import __version__, __repo_name__
+from .parser import Parser
 
 
 def _image_args(args_parser):
@@ -41,39 +41,41 @@ def _debug_args(args_parser):
 def _downloading_args(args_parser):
     args = args_parser.add_argument_group('Downloading arguments')
 
-    args.add_argument('-s', '--skip-volumes', metavar='skip-volumes', type=int, 
-                             help='Skip volumes (count)', default=0)
-    args.add_argument('-c', '--max-volumes', metavar='max-volumes', type=int, 
-                             help='Maximum volumes for downloading 0=All (count)', default=0)
+    args.add_argument('-s', '--skip-volumes', metavar='skip-volumes', type=int,
+                      help='Skip volumes (count)', default=0)
+    args.add_argument('-c', '--max-volumes', metavar='max-volumes', type=int,
+                      help='Maximum volumes for downloading 0=All (count)', default=0)
     args.add_argument('--user-agent', type=str, help='Don\'t work from protected sites')
     args.add_argument('--proxy', type=str, help='Http proxy')
-    args.add_argument('--reverse-downloading', action='store_const', 
-                             help='Reverse volumes downloading', const=True, default=False)
+    args.add_argument('--reverse-downloading', action='store_const',
+                      help='Reverse volumes downloading', const=True, default=False)
     args.add_argument('--rewrite-exists-archives', action='store_const', const=True,
-                             default=False)
-    args.add_argument('-nm', '--no-multi-threads', action='store_const', 
-                             help='Disallow multi-threads images downloading', const=True, default=False)
+                      default=False)
+    args.add_argument('-nm', '--no-multi-threads', action='store_const',
+                      help='Disallow multi-threads images downloading', const=True, default=False)
+    args.add_argument('--zero-fill', action='store_const', const=True, default=False,
+                      help='Adds 0 to the end for all chapters (vol_001.zip -> vol_001-0.zip)')
 
 
 def _reader_args(args_parser):
     args = args_parser.add_argument_group('Archive arguments')
 
-    args.add_argument('--cbz', action='store_const', 
-                             const=True, help='Make *.cbz archives (for reader)', default=False)
+    args.add_argument('--cbz', action='store_const',
+                      const=True, help='Make *.cbz archives (for reader)', default=False)
 
 
 def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
     args_parser = ArgumentParser()
     args = args_parser.add_argument_group('General arguments')
 
-    args.add_argument('url', metavar='url', type=str, help='Downloaded url', nargs=1)
+    args.add_argument('url', metavar='url', type=str, help='Downloaded url')
     args.add_argument('--version', action='version', version=__version__)
 
     args.add_argument('-n', '--name', metavar='name', type=str, help='Manga name', default='')
-    args.add_argument('-d', '--destination', metavar='destination', type=str, 
-                             help='Destination folder (Default = current directory')
-    args.add_argument('-np', '--no-progress', metavar='no-progress', action='store_const', 
-                             const=True, help='Don\'t show progress bar', default=False)
+    args.add_argument('-d', '--destination', metavar='destination', type=str,
+                      help='Destination folder (Default = current directory')
+    args.add_argument('-np', '--no-progress', metavar='no-progress', action='store_const',
+                      const=True, help='Don\'t show progress bar', default=False)
     # future
     # args_parser.add_argument('--server', action='store_const', const=True, help='Run web interface',
     #                          default=False)

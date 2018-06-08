@@ -5,8 +5,8 @@ import json
 import unittest
 from os import path
 
-from manga_py.base_classes import Base, Static
 from manga_py import fs
+from manga_py.base_classes import Base, Static
 
 root_path = path.dirname(path.realpath(__file__))
 

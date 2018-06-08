@@ -20,7 +20,7 @@ class WieMangaCom(Provider, Std):
         url = self.get_url()
         if ~url.find('/chapter/'):
             url = self.html_fromstring(url, '.sitemaplist a + a', 0).get('href')
-            url= self.http().normalize_uri(url)
+            url = self.http().normalize_uri(url)
         return self.re.search(r'/manga/([^/]+)\.html', url).group(1)
 
     def get_chapters(self):

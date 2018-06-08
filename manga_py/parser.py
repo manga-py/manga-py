@@ -1,10 +1,9 @@
 from argparse import ArgumentParser
 
-from manga_py.providers import get_provider
+from .providers import get_provider
 
 
 class Parser:
-
     params = None
     provider = None
 
