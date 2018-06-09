@@ -6,7 +6,7 @@ class DesuMe(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.re.search(r'/vol(\d+)/ch(\d+)', self.chapter).groups()
-        return 'vol_{:0>3}-{}'.format(*idx)
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
         result = self.re.search(r'/vol(\d+)/ch(\d+)', self.chapter).groups()

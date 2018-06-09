@@ -5,11 +5,10 @@ from .helpers.std import Std
 class ComicExtra(Provider, Std):
 
     def get_archive_name(self) -> str:
-        return 'vol_{:0>3}'.format(self._storage['current_chapter'])
+        return self.normal_arc_name(self._storage['current_chapter'])
 
     def get_chapter_index(self) -> str:
         return self._storage['current_chapter']
-        # return self.re.search('(\d+)', self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/comic/{}')

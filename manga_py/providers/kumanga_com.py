@@ -8,7 +8,7 @@ class KuMangaCom(Provider, Std):
     __local_storage = None
 
     def get_archive_name(self) -> str:
-        return 'vol_{:0>3}'.format(self.chapter_id)
+        return self.normal_arc_name(self.chapter_id)
 
     def get_chapter_index(self) -> str:
         return '{}'.format(self.chapter_id)

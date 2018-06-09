@@ -15,10 +15,7 @@ class MangaCanBlogCom(Provider, Std):
         idx = idx.group(1)
         if ~idx.find('-terbaru'):
             idx = idx[:idx.find('-terbaru')]
-        return 'vol_{:0>3}-{}'.format(
-            self.chapter_id,
-            idx
-        )
+        return self.normal_arc_name([self.chapter_id, idx])
 
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)

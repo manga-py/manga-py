@@ -7,7 +7,7 @@ class Hentai2ReadCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
         chapter = self.chapter

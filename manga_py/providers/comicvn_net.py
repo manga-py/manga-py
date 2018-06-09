@@ -7,7 +7,7 @@ class ComicNnNet(Provider, Std):
     def get_archive_name(self) -> str:
         return self.get_chapter_index()
 
-    def get_chapter_index(self) -> str:
+    def get_chapter_index(self) -> str:  # todo
         re = self.re.compile('/truyen-tranh-online/[^/]+/([^/]+)')
         return re.search(self.chapter).group(1)
 

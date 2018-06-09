@@ -5,10 +5,10 @@ from .helpers.std import Std
 class DarkSkyProjectsOrg(Provider, Std):
 
     def get_archive_name(self) -> str:
-        return 'vol_{:0>3}-{}'.format(
+        return self.normal_arc_name([
             self.chapter_id,
             self.get_chapter_index()
-        )
+        ])
 
     def get_chapter_index(self) -> str:
         ch = self.chapter

@@ -10,9 +10,9 @@ class CdmNetComBr(Provider, Std):
         url = self.chapter
         idx = self.get_chapter_index()
         if ~url.find('/manga/'):
-            return 'vol_{}'.format(idx)
+            return 'vol_{:0>3}'.format(idx)
         if ~url.find('/novel/'):
-            return 'novel_{}'.format(idx)
+            return 'novel_{:0>3}'.format(idx)
 
     def get_chapter_index(self) -> str:
         re = self.re.compile('/titulos/[^/]+/[^/]+/[^/]+/([^/]+)')

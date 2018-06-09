@@ -7,7 +7,7 @@ class DanbooruDonmaiUs(Provider, Std):
 
     def get_archive_name(self) -> str:
         if self.chapter:
-            return 'page_{}'.format(self.chapter)
+            return 'page_{:0>2}'.format(self.chapter)
         return 'archive'
 
     def get_chapter_index(self) -> str:

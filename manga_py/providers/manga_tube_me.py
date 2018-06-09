@@ -5,9 +5,7 @@ from .helpers.std import Std
 class MangaTubeMe(Provider, Std):
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
-        if ~idx.find('-'):
-            return 'vol_{:0>3}-{}'.format(*idx.split('-'))
-        return 'vol_{:0>3}'.format(idx)
+        return self.normal_arc_name(idx.split('-'))
 
     def get_chapter_index(self) -> str:
         chapter = self.chapter

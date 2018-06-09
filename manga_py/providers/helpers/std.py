@@ -72,6 +72,8 @@ class Std:
 
     def normal_arc_name(self, idx):
         fmt = 'vol_{:0>3}'
+        if not isinstance(idx, list):
+            idx = list(idx)
         if len(idx) > 1:
             fmt += '-{}'
         elif self._zero_fill:

@@ -6,7 +6,7 @@ class MangaBoxMe(Provider, Std):
     _local_storage = False
 
     def get_archive_name(self) -> str:
-        return 'vol_{:0>3}'.format(self._storage['current_chapter'])
+        return self.normal_arc_name(self._storage['current_chapter'])
 
     def get_chapter_index(self) -> str:
         return self.re.search(r'/episodes/(\d+)', self.chapter).group(1)

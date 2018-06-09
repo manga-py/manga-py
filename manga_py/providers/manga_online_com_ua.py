@@ -12,7 +12,7 @@ class MangaOnlineCom(Provider, Std):
     def get_archive_name(self) -> str:
         self.__init_storage()
         idx = self.get_chapter_index().split('-')
-        return 'vol_{}-{}'.format(*idx)
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
         self.__init_storage()

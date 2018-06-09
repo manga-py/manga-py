@@ -11,7 +11,7 @@ class JurnaluRu(Provider, Std):
         # )
         # if arc_name:
         #     pass
-        return 'vol_{:0>3}'.format(self.get_chapter_index())
+        return self.normal_arc_name(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
         return str(self._storage['current_chapter'])

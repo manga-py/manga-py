@@ -9,7 +9,7 @@ class HentaiCafe(GoMangaCo, Std):
     _chapters_selector = '.content .last .x-btn'  # TODO
 
     def get_archive_name(self) -> str:
-        return 'archive_{}'.format(self.chapter_id)
+        return 'archive_{:0>2}'.format(self.chapter_id)
 
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)
