@@ -2,7 +2,7 @@ Manga-Downloader |Travis CI result|
 ===================================
 
 Universal assistant download manga.
-'''''''''''''''''''''''''''''''''''
+-----------------------------------
 
 Supports more than 250 resources now.
 '''''''''''''''''''''''''''''''''''''
@@ -40,15 +40,20 @@ Installation
 
     manga-py http://manga.url/manga/name  # For download manga
 
+Installation on the Android
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+See https://github.com/yuru-yuri/manga-dl/issues/48
+
+
 Downloading manga
-~~~~~~~~~~~~~~~~~
+-----------------
 
-***:warning:For sites with cloudflare protect need installed Node.js***
+**:warning:For sites with cloudflare protect need installed Node.js**
 
-***:warning:Notice! By default, the mode of multithreaded image loading
-is enabled***
+**:warning:Notice! By default, the mode of multithreaded image loading
+is enabled**
 
-***To change this behavior, add the key --no-multi-threads***
+**To change this behavior, add the key --no-multi-threads**
 
 .. code:: bash
 
@@ -67,7 +72,7 @@ is enabled***
     manga-py --no-progress http://manga-url-here/manga-name  # Disable progressbar
 
 Help
-~~~~
+----
 
 .. code:: bash
 
