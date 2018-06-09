@@ -9,7 +9,7 @@ class FunMangaCom(Provider, Std):
         return re.search(self.chapter).group(1)
 
     def get_archive_name(self) -> str:
-        return 'vol_{:0>3}'.format(self._get_chapter_idx())
+        return self.normal_arc_name(self._get_chapter_idx().split('.'))
 
     def get_chapter_index(self) -> str:
         return self._get_chapter_idx().replace('.', '-')
@@ -26,7 +26,6 @@ class FunMangaCom(Provider, Std):
 
     def get_files(self):
         items = self.html_fromstring(self.chapter, '.content-inner > img.img-responsive')
-        print(items)
         return [i.get('src') for i in items]
 
     def get_cover(self):
