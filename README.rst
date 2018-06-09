@@ -2,7 +2,7 @@ Manga-Downloader |Travis CI result|
 ===================================
 
 Universal assistant download manga.
------------------------------------
+'''''''''''''''''''''''''''''''''''
 
 Supports more than 250 resources now.
 '''''''''''''''''''''''''''''''''''''
