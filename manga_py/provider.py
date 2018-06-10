@@ -21,18 +21,23 @@ from .fs import (
 from .http import MultiThreads
 from .meta import __downloader_uri__
 from .meta import __version__
+from .info import Info
 
 
 class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
     _volumes_count = 0
     _archive = None
     _zero_fill = False
+    _info = None
 
-    def __init__(self):
+    def __init__(self, info: Info):
         super().__init__()
         self.re = re
         self.json = json
         self._params['temp_directory'] = get_temp_path()
+        self._info = info
+        if info is not None:
+            info.set_ua(self.http().user_agent)
 
     def _params_parser(self, params):
         # image params
@@ -131,47 +136,6 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
 
         return _path
 
-    def _arc_meta_info(self):
-        info = self.book_meta()
-
-        # {genre}
-        xml = """
-<book-info>
-    {author}
-    {title}
-    {annotation}
-    {keywords}
-    {cover}
-    {rating}
-</book-info>
-"""
-
-        key_vars = {
-            'author': 'author',
-            'title': 'book-title',
-            # 'genre': 'genre',
-            'annotation': 'annotation',
-            'keywords': 'keywords',
-            'cover': 'coverpage',
-            'rating': 'content-rating',
-        }
-
-        result = {}
-
-        for i in info:
-            value = info.get(i, None)
-            result[i] = ''
-            if value is not None:
-                result[i] = '<{0}>{1}</{0}>'.format(key_vars[i], value)
-
-        return xml.format(**result)
-
-    def _archive_type(self):
-        arc_type = 'zip'
-        if self._params['cbz']:
-            arc_type = 'cbz'
-        return arc_type
-
     def get_archive_path(self):
         _path = remove_file_query_params(self.get_archive_name())
         _path = self.remove_not_ascii(_path)
@@ -240,6 +204,10 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         params = cf.run(url)
         if len(params):
             self._storage['cookies'] = params[0]
-            self._storage['user_agent'] = params[1]
-            self.http().user_agent = params[1]
+            self.update_ua(params[1])
             self._params['cf-protect'] = True
+
+    def update_ua(self, ua):
+        self._storage['user_agent'] = ua
+        self.http().user_agent = ua
+        self._info.set_ua(ua)

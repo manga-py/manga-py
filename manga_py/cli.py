@@ -13,7 +13,7 @@ from .parser import Parser
 
 def _image_args(args_parser):
     pass
-    # args = args_parser.add_argument_group('Image arguments')
+    # args = args_parser.add_argument_group('Image options')
 
     # args.add_argument('--force-png', action='store_const', 
     #                          help='Force conversation images to png format', const=True, default=False)
@@ -29,17 +29,21 @@ def _image_args(args_parser):
 
 
 def _debug_args(args_parser):
-    pass
-    # args = args_parser.add_argument_group('Debug arguments')
+    args = args_parser.add_argument_group('Debug / Simulation options')
 
-    # args.add_argument('-vv', '--log', metavar='info', action='store_const', const=True,
-    #                          default=False, help='Verbose log')
-    # args.add_argument('-vvv', '--verbose-log', metavar='verbose_info', action='store_const',
-    #                          const=True, default=False, help='Verbose log')
+    args.add_argument('--print-json', action='store_const', const=True, default=False,
+                      help='Print information about the results in the form of json (after completion)' +
+                      ' - Not worked now')
+
+    args.add_argument('--simulate', action='store_const', const=True, default=False,
+                      help='Do not download the files and do not write anything to disk' +
+                      ' - Not worked now')
+
+    # args.add_argument('-vv', '--log', metavar='info', type='str', help='Verbose log')
 
 
 def _downloading_args(args_parser):
-    args = args_parser.add_argument_group('Downloading arguments')
+    args = args_parser.add_argument_group('Downloading options')
 
     args.add_argument('-s', '--skip-volumes', metavar='skip-volumes', type=int,
                       help='Skip volumes (count)', default=0)
@@ -58,7 +62,7 @@ def _downloading_args(args_parser):
 
 
 def _reader_args(args_parser):
-    args = args_parser.add_argument_group('Archive arguments')
+    args = args_parser.add_argument_group('Archive options')
 
     args.add_argument('--cbz', action='store_const',
                       const=True, help='Make *.cbz archives (for reader)', default=False)
@@ -66,7 +70,7 @@ def _reader_args(args_parser):
 
 def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
     args_parser = ArgumentParser()
-    args = args_parser.add_argument_group('General arguments')
+    args = args_parser.add_argument_group('General options')
 
     args.add_argument('url', metavar='url', type=str, help='Downloaded url')
     args.add_argument('--version', action='version', version=__version__)
@@ -100,7 +104,6 @@ def check_version():
 
 
 class Cli:
-    status = True
     args = None
     parser = None
     __progress_bar = None

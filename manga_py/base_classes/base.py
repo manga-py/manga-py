@@ -35,6 +35,12 @@ class Base:
         }
         self._http_kwargs = {}
 
+    def _archive_type(self):
+        arc_type = 'zip'
+        if self._params['cbz']:
+            arc_type = 'cbz'
+        return arc_type
+
     def get_url(self):
         return self._params['url']
 
@@ -112,3 +118,41 @@ class Base:
 
     def get_current_file(self):
         return self._storage['files'][self._storage['current_file']]
+
+    def book_meta(self) -> dict:
+        return {}
+
+    def _arc_meta_info(self):
+        info = self.book_meta()
+
+        # {genre}
+        xml = """
+<book-info>
+    {author}
+    {title}
+    {annotation}
+    {keywords}
+    {cover}
+    {rating}
+</book-info>
+"""
+
+        key_vars = {
+            'author': 'author',
+            'title': 'book-title',
+            # 'genre': 'genre',
+            'annotation': 'annotation',
+            'keywords': 'keywords',
+            'cover': 'coverpage',
+            'rating': 'content-rating',
+        }
+
+        result = {}
+
+        for i in info:
+            value = info.get(i, None)
+            result[i] = ''
+            if value is not None:
+                result[i] = '<{0}>{1}</{0}>'.format(key_vars[i], value)
+
+        return xml.format(**result)

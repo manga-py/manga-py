@@ -24,3 +24,6 @@ class Callbacks:
 
     def log(self, *args, **kwargs):
         pass
+
+    def book_meta(self) -> dict:
+        return {}
