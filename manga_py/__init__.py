@@ -25,6 +25,17 @@ def before_shutdown():
     path.isdir(temp_dir) and rmtree(temp_dir)
 
 
+def _init_cli(args, _info):
+    try:
+        cli_mode = Cli(args)
+        cli_mode.start()
+        code = 0
+    except Exception as e:
+        code = 1
+        _info.set_error(e, code)
+    return code
+
+
 def main():
     temp_path = get_temp_path()
     path.isdir(temp_path) or makedirs(temp_path)
@@ -38,13 +49,7 @@ def main():
 
     _info = Info(parse_args)
 
-    try:
-        cli_mode = Cli(args)
-        cli_mode.start()
-        code = 0
-    except Exception as e:
-        code = 1
-        _info.set_error(e, code)
+    code = _init_cli(args, _info)
 
     if parse_args.print_json:
         print(dumps(_info.get()))
