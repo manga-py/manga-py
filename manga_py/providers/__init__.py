@@ -452,11 +452,30 @@ providers_list = {
     'pzykosis666hfansub_com': [
         r'pzykosis666hfansub\.com/online/.',
     ],
+    'ravens_scans_com': [
+        r'ravens-scans\.com(/lector)?/(serie/|read/).',
+    ],
+    'raw_senmanga_com': [
+        r'raw\.senmanga\.com/.',
+    ],
+    'rawdevart_com': [
+        r'rawdevart\.com/manga/.',
+    ],
+    'rawlh_com': [
+        r'rawlh\.com/(truyen|manga|read)-.',
+        r'rawqq.com/(truyen|manga|read)-.',
+        r'rawqv.com/(truyen|manga|read)-.',
+    ],
+    'rawneko_com': [
+        r'rawneko\.com/manga/.',
+    ],
+    'read_egscans_com': [
+        r'read.egscans.com/.',
+    ],
     'read_powermanga_org': [
         r'lector\.dangolinenofansub\.com/(series|read)/.',
         r'read\.powermanga\.org/(series|read)/.',
         r'read\.yagami\.me/(series|read)/.',
-        r'reader\.championscans\.com/(series|read)/.',
         r'reader\.kireicake\.com/(series|read)/.',
         r'reader\.shoujosense\.com/(series|read)/.',
         r'reader\.sensescans\.com/(series|read)/.',
@@ -482,29 +501,12 @@ providers_list = {
         r'digitalteamreader\.netsons\.org/(series|read)/.',
         r'reader\.manga-download\.org/(series|read)/.',
     ],
-    'ravens_scans_com': [
-        r'ravens-scans\.com(/lector)?/(serie/|read/).',
-    ],
-    'raw_senmanga_com': [
-        r'raw\.senmanga\.com/.',
-    ],
-    'rawdevart_com': [
-        r'rawdevart\.com/manga/.',
-    ],
-    'rawlh_com': [
-        r'rawlh\.com/(truyen|manga|read)-.',
-        r'rawqq.com/(truyen|manga|read)-.',
-        r'rawqv.com/(truyen|manga|read)-.',
-    ],
-    'rawneko_com': [
-        r'rawneko\.com/manga/.',
-    ],
-    'read_egscans_com': [
-        r'read.egscans.com/.',
-    ],
     'readcomicbooksonline_org': [
         r'readcomicbooksonline\.net/.',
         r'readcomicbooksonline\.org/.',
+    ],
+    'reader_championscans_com': [
+        r'reader\.championscans\.com/(series|read)/.',
     ],
     'reader_imangascans_org': [
         r'reader\.imangascans\.org/.',

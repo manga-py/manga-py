@@ -7,11 +7,15 @@ class MangaLifeUs(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>2}-{:0>3}'.format(*idx)
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
-        selector = r'-chapter-(\d+).+(?:-index-(\d+))?'
-        chapter = self.re.search(selector, self.chapter).groups()
+        selector = r'-chapter-(\d+).+-index-(\d+)'
+        chapter = self.re.search(selector, self.chapter)
+        if chapter is None:   # http://mangalife.us/manga/Ubau-Mono-Ubawareru-Mono  #51
+            selector = r'-chapter-(\d+(?:\.\d+)?)'
+            chapter = self.re.search(selector, self.chapter).group(1).split('.')
+            return '-'.join(chapter)
         return '{}-{}'.format(
             1 if chapter[1] is None else chapter[1],  # todo: maybe 0 ?
             chapter[0]
