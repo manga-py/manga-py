@@ -30,7 +30,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
     _zero_fill = False
     _info = None
 
-    def __init__(self, info: Info):
+    def __init__(self, info: Info = None):
         super().__init__()
         self.re = re
         self.json = json
