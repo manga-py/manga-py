@@ -241,4 +241,5 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         if len(params):
             self._storage['cookies'] = params[0]
             self._storage['user_agent'] = params[1]
+            self.http().user_agent = params[1]
             self._params['cf-protect'] = True
