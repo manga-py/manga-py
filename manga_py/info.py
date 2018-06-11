@@ -33,31 +33,16 @@ class Info:
             'rewrite-exists-archives': None,
             'no-multi-threads': None,
         },
-        'return_code': 0,
-        'error': '',
+        'error': False,
+        'error_msg': '',
         'volumes': [
             {
               'name': 'Kumo desu ga, nani ka? - 0',
               'path': 'Manga/kumo-desu-ga-nani-ka/vol_000.zip',
-              'error': False,
-
-              'num_pages': '8',  # Only with option --full-json-info
-              'pages': [  # Only with option --full-json-info
-                    '000_p_00001.jpg',  # Only with option --full-json-info
-                    '001_p_00002.jpg',  # Only with option --full-json-info
-                    '002_p_00003.jpg',  # Only with option --full-json-info
-                    '003_p_00004.jpg',  # Only with option --full-json-info
-                    '004_p_00005.jpg',  # Only with option --full-json-info
-                    '005_p_00006.jpg',  # Only with option --full-json-info
-                    '006_p_00007.jpg',  # Only with option --full-json-info
-                    '007_p_00008.jpg',  # Only with option --full-json-info
-              ],  # Only with option --full-json-info
-
             },
             {
               'name': 'Kumo desu ga, nani ka? - 1',
               'path': 'Manga/kumo-desu-ga-nani-ka/vol_001.zip',
-              'error': False,
             },
         ],
     }
@@ -85,7 +70,8 @@ class Info:
             'cookies': None,
             'args': _args,
             'return_code': None,
-            'error': '',
+            'error': False,
+            'error_msg': False,
             'volumes': [],
         }
         self._volumes = []
@@ -107,6 +93,19 @@ class Info:
     def set_volumes(self, volumes: list):
         self._data['volumes'] = volumes
 
+    def add_volume(self, name: str, path: str, files: list = None):
+        volume = {
+            'name': name,
+            'path': path,
+        }
+
+        if files is not None:
+            volume['files'] = files
+            volume['num_files'] = len(files)
+
+        self._data['volumes'].append(volume)
+
     def get(self):
+        self._data['start'] = self._dt(self._init_time)
         self._data['end'] = self._dt(datetime.now())
         return self._data

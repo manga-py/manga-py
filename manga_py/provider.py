@@ -29,6 +29,8 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
     _archive = None
     _zero_fill = False
     _info = None
+    _simulate = False
+    _volume = None
 
     def __init__(self, info: Info = None):
         super().__init__()
@@ -52,6 +54,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         # downloading params
         self._set_if_not_none(self._params, 'destination', params.get('destination', None))
         self._zero_fill = params.get('zero_fill')
+        self._simulate = params.get('simulate')
 
     def process(self, url, params=None):  # Main method
         self._params['url'] = url
@@ -88,13 +91,16 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         for idx, __url in enumerate(volumes):
             self._storage['current_chapter'] = idx
 
+            self._info.add_volume(self.chapter, self.get_archive_path())
+
             if idx < _min or (idx > _max > 0) or self._check_archive():
                 continue
 
-            self.loop_callback_chapters()
+            if not self._simulate:
+                self.loop_callback_chapters()
 
-            self._storage['files'] = self.get_files()
-            self.loop_files()
+                self._storage['files'] = self.get_files()
+                self.loop_files()
 
     def loop_files(self):
         if isinstance(self._storage['files'], list) and len(self._storage['files']) > 0:
