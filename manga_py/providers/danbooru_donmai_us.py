@@ -4,6 +4,7 @@ from .helpers.std import Std
 
 class DanbooruDonmaiUs(Provider, Std):
     _is_tag = False
+    _archive_prefix = 'danbooru_'
 
     def get_archive_name(self) -> str:
         if self.chapter:
@@ -21,19 +22,20 @@ class DanbooruDonmaiUs(Provider, Std):
     def get_manga_name(self) -> str:
         if ~self.get_url().find('?tags='):
             self._is_tag = True
-            return self._get_name(r'\?tags=([^&]+)')
-        return 'danbooru_' + self._get_name(r'/posts/(\d+)')
+            return self._archive_prefix + self._get_name(r'\?tags=([^&]+)')
+        return self._archive_prefix + self._get_name(r'/posts/(\d+)')
 
     def get_chapters(self):  # pragma: no cover
         if self._is_tag:
             pages = self._elements('.paginator .current-page > span')
+            images_on_page = len(self._elements('#posts > div > article'))
             if pages:
                 count = self.html_fromstring('{}/counts/posts?tags={}'.format(
                     self.domain,
                     self.manga_name,
                 ), '#a-posts', 0).text_content()
                 page = self.re.search(r'\n\s+(\d+)', count).group(1)
-                max_page = int(int(page) / 20) + 1
+                max_page = int(int(page) / images_on_page) + 1
                 if max_page > 1001:
                     self.log('1000 pages maximum!')
                     max_page = 1000

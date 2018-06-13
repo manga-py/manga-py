@@ -22,6 +22,9 @@ providers_list = {
     'asmhentai_com': [
         r'asmhentai\.com/(g|gallery)/\d'
     ],
+    'atfbooru_ninja': [
+        r'atfbooru.ninja/posts.',
+    ],
     'authrone_com': [
         r'authrone\.com/manga/.',
     ],
