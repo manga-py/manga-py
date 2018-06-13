@@ -6,7 +6,7 @@ class ShakaiRu(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-', 2)
-        return 'vol_{:0>3}-{}'.format(*self._idx_to_x2(idx))
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
         idx = self.chapter.get('data-first')

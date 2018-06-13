@@ -7,15 +7,15 @@ class MangaOnlineHereCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(*idx)
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
         selector = r'/read-online/[^/]+?(\d+)(?:.(\d+))?'
         idx = self.re.search(selector, self.chapter)
-        return '{}-{}'.format(
+        return '-'.join([
             idx[0],
             0 if idx[1] is None else idx[1]
-        )
+        ])
 
     def get_main_content(self):
         return self._get_content('{}/manga-info/{}')

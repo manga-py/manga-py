@@ -14,10 +14,9 @@ class ManhuaTaiCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
-        return 'vol_{:0>3}-{}'.format(
-            self.chapter_id,
-            idx
-        )
+        return self.normal_arc_name([
+            self.chapter_id, idx
+        ])
 
     def get_chapter_index(self) -> str:
         ch = self.chapter

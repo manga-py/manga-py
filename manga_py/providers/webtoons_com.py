@@ -11,7 +11,7 @@ class WebToonsCom(Provider, Std):
             r'(?:/|%2F)[^/%]+' * 3,
             r'(?:/|%2F)([^/%]+)',
         ), self.chapter)
-        return 'vol_{:0>3}-{}'.format(self.chapter_id, i.group(1))
+        return self.normal_arc_name([self.chapter_id, i.group(1)])
 
     def get_chapter_index(self) -> str:
         return self.re.search(r'\bepisode_no=(\d+)', self.chapter).group(1)

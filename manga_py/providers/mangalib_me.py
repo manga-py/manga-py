@@ -6,12 +6,12 @@ class MangaLibMe(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return 'vol_{:0>3}-{}'.format(*idx)
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
         selector = r'\.me/[^/]+/[^\d]+(\d+)/[^\d]+([^/]+)'
         idx = self.re.search(selector, self.chapter).groups()
-        return '{}-{}'.format(*idx)
+        return '-'.join(idx)
 
     def get_main_content(self):
         return self._get_content('{}/{}')

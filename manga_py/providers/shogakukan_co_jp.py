@@ -5,10 +5,10 @@ from .shogakukan_tameshiyo_me import ShogakukanTameshiyoMe
 class ShogakukanCoJp(ShogakukanTameshiyoMe, Std):
 
     def get_archive_name(self) -> str:
-        return 'vol_{:0>3}-{}'.format(
+        return self.normal_arc_name([
             self.get_chapter_index(),
             self.re.search(r'/(\d+)', self.chapter).group(1)
-        )
+        ])
 
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)

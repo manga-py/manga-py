@@ -9,13 +9,7 @@ class NightowNet(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
-        if self.re.search('^\d+', idx):
-            if ~idx.find('-'):
-                return 'vol_{:0>3}-{}'.format(
-                    *idx.split('-')
-                )
-            return 'vol_{:0>3}'.format(idx)
-        return idx
+        return self.normal_arc_name(idx.split('-'))
 
     def get_chapter_index(self) -> str:
         ch = unquote_plus(self.chapter)

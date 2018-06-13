@@ -7,7 +7,7 @@ class TonariNoYjJp(Provider, Std):
     helper = None
 
     def get_archive_name(self) -> str:
-        return 'vol_{:0>3}'.format(self.get_chapter_index())
+        return self.normal_arc_name(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)

@@ -6,11 +6,11 @@ class ReadMsNet(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.re.search('/r/[^/]+/([^/]+)/([^/]+)', self.chapter).groups()
-        return 'vol_{:0>3}-{}'.format(*idx)
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
         idx = self.re.search('/r/[^/]+/[^/]+/([^/]+)', self.chapter)
-        return '{}'.format(idx.group(1))
+        return idx.group(1)
 
     def get_main_content(self):
         return self._get_content('{}/manga/{}')

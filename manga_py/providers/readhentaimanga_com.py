@@ -7,7 +7,7 @@ from .helpers.std import Std
 class ReadHentaiMangaCom(Provider, Std):
 
     def get_archive_name(self) -> str:
-        return 'vol_' + self.get_chapter_index()
+        return self.normal_arc_name(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
         return self.re.search(r'\.com/[^/]+/([^/]+)', self.chapter).group(1)

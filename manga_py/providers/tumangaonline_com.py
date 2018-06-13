@@ -5,7 +5,7 @@ from .helpers.std import Std
 class TuMangaOnlineCom(Provider, Std):
 
     def get_archive_name(self) -> str:
-        return 'vol_{:0>3}-{}'.format(*self.chapter)
+        return self.normal_arc_name(self.chapter)
 
     def get_chapter_index(self) -> str:
         return '{}-{}'.format(*self.chapter)

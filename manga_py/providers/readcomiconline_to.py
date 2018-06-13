@@ -5,7 +5,7 @@ from .helpers.std import Std
 class ReadComicOnlineTo(Provider, Std):
     def get_archive_name(self) -> str:
         chapter = self.re.search('id=(\d+)', self.chapter).group(1)
-        return 'vol_{:0>3}-{}'.format(self.chapter_id, chapter)
+        return self.normal_arc_name([self.chapter_id, chapter])
 
     def get_chapter_index(self, no_increment=False) -> str:
         return str(self.chapter_id)

@@ -8,10 +8,10 @@ class TapasIo(Provider, Std):  # TODO: Login\Password
 
     def get_archive_name(self) -> str:
         ch = self.chapter
-        return 'vol_{}-{}'.format(
+        return self.normal_arc_name([
             ch['scene'],
             ch['title']
-        )
+        ])
 
     def get_chapter_index(self) -> str:
         return str(self.chapter['scene'])

@@ -6,7 +6,7 @@ class ReadmangaMe(Provider, Std):
 
     def get_archive_name(self):
         name = self.re.search('/.+/([^/]+/[^/]+)/?', self.chapter)
-        return name.group(1).replace('/', '-')
+        return self.normal_arc_name(name.group(1).split('/'))
 
     def get_chapter_index(self):
         name = self.re.search('/.+/(?:vol)?([^/]+/[^/]+)/?', self.chapter)

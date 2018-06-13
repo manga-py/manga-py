@@ -6,10 +6,10 @@ class MangakuWebId(Provider, Std):
 
     def get_archive_name(self) -> str:
         ch = self.chapter
-        return 'vol_{:0>3}-{}'.format(
+        return self.normal_arc_name([
             self.chapter_id,
             self.re.search(':[^/]+/([^/]+)', ch).group(1)
-        )
+        ])
 
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)

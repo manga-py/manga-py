@@ -6,19 +6,19 @@ class ZingBoxMe(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
-        return 'vol_{:0>3}'.format(idx)
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
         return str(self.chapter.get('title', '0'))
 
     def get_main_content(self):
         idx = self.re.search('/manga/(?:[^/]+/)?(\d+)/', self.get_url())
-        _ = {
+        data = {
             'url': '/manga/getBookDetail/{}'.format(idx.group(1)),
             'method': 'GET',
             'api': '/mangaheatapi/web',
         }
-        return self.http_post(self.domain + '/api', data=_)
+        return self.http_post(self.domain + '/api', data=data)
 
     def get_manga_name(self) -> str:
         return self._get_name(r'\.me/manga/(?:\d+/)?([^/]+)')

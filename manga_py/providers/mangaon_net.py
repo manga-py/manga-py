@@ -5,7 +5,8 @@ from .helpers.std import Std
 class MangaOnNet(Provider, Std):
 
     def get_archive_name(self) -> str:
-        return 'vol_' + self.get_chapter_index()
+        idx = self.get_chapter_index().split('-')
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
         selector = r'(?:vol-?(\d+))?(?:-ch-?(\d+))'

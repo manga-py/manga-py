@@ -11,8 +11,9 @@ class TaaddCom(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
-        name = 'vol_{:0>3}-{}'.format(self.chapter_id, idx)
-        return self.remove_not_ascii(name)
+        return self.remove_not_ascii(self.normal_arc_name([
+            self.chapter_id, idx
+        ]))
 
     def get_chapter_index(self) -> str:
         idx = self.re.search('/chapter/([^/]+)/', self.chapter).group(1)
