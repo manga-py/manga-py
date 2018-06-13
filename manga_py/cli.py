@@ -64,8 +64,11 @@ def _downloading_args(args_parser):
 def _reader_args(args_parser):
     args = args_parser.add_argument_group('Archive options')
 
-    args.add_argument('--cbz', action='store_const',
-                      const=True, help='Make *.cbz archives (for reader)', default=False)
+    args.add_argument('--cbz', action='store_const', default=False,
+                      const=True, help='Make *.cbz archives (for reader)')
+
+    args.add_argument('--rename-pages', action='store_const', default=False, const=True,
+                      help='Normalize images names. (example: 0_page_1.jpg -> 0001.jpg)')
 
 
 def get_cli_arguments() -> ArgumentParser:  # pragma: no cover

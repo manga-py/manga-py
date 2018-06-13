@@ -122,37 +122,45 @@ class Base:
     def book_meta(self) -> dict:
         return {}
 
-    def _arc_meta_info(self):
-        info = self.book_meta()
+#     def _arc_meta_info(self):
+#         info = self.book_meta()
+#
+#         # {genre}
+#         xml = """
+# <book-info>
+#     {author}
+#     {title}
+#     {annotation}
+#     {keywords}
+#     {cover}
+#     {rating}
+# </book-info>
+# """
+#
+#         key_vars = {
+#             'author': 'author',
+#             'title': 'book-title',
+#             # 'genre': 'genre',
+#             'annotation': 'annotation',
+#             'keywords': 'keywords',
+#             'cover': 'coverpage',
+#             'rating': 'content-rating',
+#         }
+#
+#         result = {}
+#
+#         for i in info:
+#             value = info.get(i, None)
+#             result[i] = ''
+#             if value is not None:
+#                 result[i] = '<{0}>{1}</{0}>'.format(key_vars[i], value)
+#
+#         return xml.format(**result)
 
-        # {genre}
-        xml = """
-<book-info>
-    {author}
-    {title}
-    {annotation}
-    {keywords}
-    {cover}
-    {rating}
-</book-info>
-"""
-
-        key_vars = {
-            'author': 'author',
-            'title': 'book-title',
-            # 'genre': 'genre',
-            'annotation': 'annotation',
-            'keywords': 'keywords',
-            'cover': 'coverpage',
-            'rating': 'content-rating',
-        }
-
-        result = {}
-
-        for i in info:
-            value = info.get(i, None)
-            result[i] = ''
-            if value is not None:
-                result[i] = '<{0}>{1}</{0}>'.format(key_vars[i], value)
-
-        return xml.format(**result)
+    def _image_name(self, idx, filename):
+        if idx is None:
+            idx = self._storage['current_file']
+        _path = '{:0>3}_{}'.format(idx, filename)
+        if self._params['rename_pages']:
+            _path = '{:0>3}{}'.format(idx, filename[filename.rfind('.'):])
+        return _path

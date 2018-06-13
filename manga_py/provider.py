@@ -122,11 +122,9 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
 
         url = self.before_file_save(url, idx)
 
-        if idx is None:
-            idx = self._storage['current_file']
-
         filename = remove_file_query_params(basename(_url))
-        _path = get_temp_path(self.remove_not_ascii('{:0>3}_{}'.format(idx, filename)))
+        _path = self.remove_not_ascii(self._image_name(idx, filename))
+        _path = get_temp_path(_path)
 
         return _path, idx, url
 
