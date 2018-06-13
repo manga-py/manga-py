@@ -69,9 +69,9 @@ class Info:
             'user_agent': None,
             'cookies': None,
             'args': _args,
-            'return_code': None,
+            'return_code': 0,
             'error': False,
-            'error_msg': False,
+            'error_msg': None,
             'volumes': [],
         }
         self._volumes = []

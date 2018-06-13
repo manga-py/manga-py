@@ -143,7 +143,7 @@ class Cli:
     def progress(self, items_count: int, current_item: int, re_init: bool = False):
         if not items_count:
             return
-        if not self.args.no_progress:
+        if not self.args.no_progress and not self.args.print_json:
             current_val = 0
             if self.__progress_bar:
                 current_val = self.__progress_bar.value
