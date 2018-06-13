@@ -9,6 +9,7 @@ class KissMangaComCrypt(BaseLib):
         data = self.base64decode(data)
 
         try:
-            return self.decrypt_aes(iv, key, data).decode('utf-8').strip()
-        except Exception:
+            return self.decrypt_aes(iv, key, data)
+        except Exception as e:
+            print(e)
             return False

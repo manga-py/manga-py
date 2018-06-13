@@ -24,8 +24,8 @@ class KissMangaCom(Provider, Std):
         if name:
             name = name.groups()
             return '{1}-{0}-0'.format(*name)
-        name = self.re.search(r'Ch\w+-*(\d+)', bn).group(1)
-        return '{}-{}-0'.format(name, '0' * len(name))
+        name = self.re.search(r'Ch\w*?-(\d+)(?:-v(\d+))?', bn).groups()
+        return '{}-{}-0'.format(*name, '0')
 
     def get_main_content(self):
         return self._get_content('{}/Manga/{}')
@@ -48,16 +48,24 @@ class KissMangaCom(Provider, Std):
 
         return images
 
-    def get_files(self):
-        crypt = KissMangaComCrypt()
-
-        content = self.http_get(self.chapter)
-
+    def __check_key(self, crypt, content):
         # if need change key
         need = self.re.search(r'\["([^"]+)"\].+chko.?=.?chko', content)
         key = self.__local_data['key']
         if need:
             key += crypt.decode_escape(need.group(1))
+        else:
+            # if need change key
+            need = self.re.search(r'\["([^"]+)"\].*?chko.*?=.*?chko', content)
+            if need:
+                key = crypt.decode_escape(need.group(1))
+        return key
+
+    def get_files(self):
+        crypt = KissMangaComCrypt()
+
+        content = self.http_get(self.chapter)
+        key = self.__check_key(crypt, content)
 
         hexes = self.re.findall(r'lstImages.push\(wrapKA\(["\']([^"\']+?)["\']\)', content)
 

@@ -38,8 +38,6 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         self.json = json
         self._params['temp_directory'] = get_temp_path()
         self._info = info
-        if info is not None:
-            info.set_ua(self.http().user_agent)
 
     def _params_parser(self, params):
         # image params
@@ -72,6 +70,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             self._storage['chapters'] = self._storage['chapters'][::-1]
 
         self._storage['init_cookies'] = self._storage['cookies']
+        self._info and self._info.set_ua(self.http().user_agent)
 
         self.loop_chapters()
 
@@ -216,4 +215,4 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
     def update_ua(self, ua):
         self._storage['user_agent'] = ua
         self.http().user_agent = ua
-        self._info.set_ua(ua)
+        self._info and self._info.set_ua(ua)

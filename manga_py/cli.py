@@ -106,19 +106,23 @@ def check_version():
 class Cli:
     args = None
     parser = None
+    _info = None
     __progress_bar = None
 
-    def __init__(self, args: ArgumentParser):
+    def __init__(self, args: ArgumentParser, info=None):
         self.args = args.parse_args()
         self.parser = Parser(args)
+        self._info = info
 
     def start(self):
         self.parser.init_provider(
             progress=self.progress,
             log=self.print,
             quest=self.quest,
+            info=self._info,
         )
         self.parser.start()
+        self.__progress_bar and self.__progress_bar.value > 0 and self.__progress_bar.finish()
         self.print(' ')
 
     def input(self, prompt: str = ''):

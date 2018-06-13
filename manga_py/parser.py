@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 
 from .providers import get_provider
+from .info import Info
 
 
 class Parser:
@@ -23,12 +24,13 @@ class Parser:
             self,
             progress: callable = None,
             log: callable = None,
-            quest: callable = None
+            quest: callable = None,
+            info: Info = None,
     ):
         provider = get_provider(self.params.get('url', ''))
         if not provider:
             raise AttributeError('Provider not found')
-        self.provider = provider()  # provider __init__
+        self.provider = provider(info)  # provider __init__
 
         self.provider.set_progress_callback(progress)
         self.provider.set_log_callback(log)

@@ -3,8 +3,9 @@ try:
     from os import makedirs
     from os import path
     from shutil import rmtree
-    from sys import argv, exit
+    from sys import argv, exit, exc_info, stderr
     from json import dumps
+    import traceback
 
     from .cli import Cli, get_cli_arguments
     from .fs import get_temp_path
@@ -27,12 +28,13 @@ def before_shutdown():
 
 def _init_cli(args, _info):
     try:
-        cli_mode = Cli(args)
+        cli_mode = Cli(args, _info)
         cli_mode.start()
         code = 0
     except Exception as e:
+        traceback.print_tb(e.__traceback__, -2, file=stderr)
         code = 1
-        _info.set_error(e, code)
+        _info.set_error(e)
     return code
 
 
