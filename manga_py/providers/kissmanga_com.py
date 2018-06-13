@@ -74,7 +74,8 @@ class KissMangaCom(Provider, Std):
 
         images = self.__decrypt_images(crypt, key, hexes)
 
-        return [i.decode().replace('\x10', '').replace('\x0f', '') for i in images]
+        self._storage['referer'] = self.http().referer = ''
+        return [i.decode('utf-8').replace('\x10', '').replace('\x0f', '') for i in images]
 
     def get_cover(self):
         return self._cover_from_content('.rightBox .barContent img')
