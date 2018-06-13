@@ -36,8 +36,11 @@ def get_images(main_content=None, volume=None, get=None, post=None):
     need = re.search('\["([^"]+)"\].+chko.?=.?chko', content)
     key = _key
     if need:
-        _ = crypt.decode_escape(need.groups()[0])
-        key = _key + _
+        key += crypt.decode_escape(need.groups()[0])
+    else:
+        need = re.search(r'\["([^"]+)"\].*?chko.*?=.*?chko', content)
+        if need:
+            key = crypt.decode_escape(need.group(1))
 
     hexes = re.findall('lstImages.push\(wrapKA\(["\']([^"\']+?)["\']\)', content)
 
