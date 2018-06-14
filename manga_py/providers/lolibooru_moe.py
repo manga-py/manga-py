@@ -10,7 +10,7 @@ class LoliBooruMoe(DanbooruDonmaiUs, Std):
             self._is_tag = True
             self._manga_name = self._get_name(r'\?tags=([^&]+)')
         else:
-            self._manga_name = self._get_name(r'/post/(\d+)')
+            self._manga_name = self._get_name(r'/post/show/(\d+)')
         return self._archive_prefix + self._manga_name
 
     def get_chapters(self):  # pragma: no cover
