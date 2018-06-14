@@ -1,9 +1,12 @@
 import re
 
 providers_list = {
-    'ac_qq_com': {
+    '3asq_info': [
+        r'3asq\.info/',
+    ],
+    'ac_qq_com': [
         r'ac\.qq\.com/Comic.+?/id/\d',
-    },
+    ],
     'adulto_seinagi_org': [
         r'adulto\.seinagi\.org/(series|read)/.',
         r'xanime-seduccion\.com/(series|read)/.',

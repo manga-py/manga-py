@@ -3,6 +3,7 @@ from .mangaonline_today import MangaOnlineToday
 
 
 class AuthroneCom(MangaOnlineToday, Std):
+    _ch_selector = '.mng_det ul.lst > li > a'
 
     def get_archive_name(self) -> str:
         idx = self.re.search('/manga/[^/]+/([^/]+/[^/]+)', self.chapter).group(1).split('.', 2)
@@ -20,8 +21,7 @@ class AuthroneCom(MangaOnlineToday, Std):
         return self._get_name('/manga/([^/]+)')
 
     def get_chapters(self):  # need sorting chapters: /manga/love_stage/
-        ch_selector = '.mng_det ul.lst > li > a'
-        items = self._elements(ch_selector)
+        items = self._elements(self._ch_selector)
         pages = self._elements('ul.lst + ul.pgg li:last-child > a')
         patern = r'list/(\d+)/'
         if pages and len(pages):
@@ -29,7 +29,7 @@ class AuthroneCom(MangaOnlineToday, Std):
             page = self.re.search(patern, link).group(1)
             for i in range(2, int(page) + 1):
                 page_link = self.re.sub(patern, 'list/%d/' % i, link)
-                items += self._elements(ch_selector, self.http_get(page_link))
+                items += self._elements(self._ch_selector, self.http_get(page_link))
         return items
 
     def get_cover(self) -> str:
