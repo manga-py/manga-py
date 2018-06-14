@@ -16,12 +16,9 @@ class LoliBooruMoe(DanbooruDonmaiUs, Std):
     def get_chapters(self):  # pragma: no cover
         if self._is_tag:
             pages = self._elements('#paginator .pagination > a')
-            images_on_page = len(self._elements('ul#post-list-posts > li'))
-            print('Pages!')
             if pages:
                 count = self.re.search(r'\bpage=(\d+)', pages[-2].get('href')).group(1)
-                max_page = int(int(count) / images_on_page) + 1
-                print(max_page)
+                max_page = int(count)
                 if max_page > 1001:
                     self.log('1000 pages maximum!')
                     max_page = 1000
