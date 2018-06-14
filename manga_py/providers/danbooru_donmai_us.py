@@ -5,6 +5,7 @@ from .helpers.std import Std
 class DanbooruDonmaiUs(Provider, Std):
     _is_tag = False
     _archive_prefix = 'danbooru_'
+    _manga_name = None
 
     def get_archive_name(self) -> str:
         if self.chapter:
@@ -22,8 +23,10 @@ class DanbooruDonmaiUs(Provider, Std):
     def get_manga_name(self) -> str:
         if ~self.get_url().find('?tags='):
             self._is_tag = True
-            return self._archive_prefix + self._get_name(r'\?tags=([^&]+)')
-        return self._archive_prefix + self._get_name(r'/posts/(\d+)')
+            self._manga_name = self._get_name(r'\?tags=([^&]+)')
+        else:
+            self._manga_name = self._get_name(r'/posts/(\d+)')
+        return self._archive_prefix + self._manga_name
 
     def get_chapters(self):  # pragma: no cover
         if self._is_tag:
@@ -45,7 +48,7 @@ class DanbooruDonmaiUs(Provider, Std):
     def _tag_images(self):  # pragma: no cover
         url = '{}/posts?tags={}&page={}'.format(
             self.domain,
-            self.manga_name,
+            self._manga_name,
             self.chapter,
         )
         parser = self.html_fromstring(url, '#posts article a')

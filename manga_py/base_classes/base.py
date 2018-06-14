@@ -162,9 +162,9 @@ class Base:
             idx = self._storage['current_file']
         _path = '{:0>3}_{}'.format(idx, filename)
         if self._params['rename_pages']:
-            idx = filename.rfind('.')
-            if ~idx and len(idx) < 6:  # (.png, .webp) == True, .image-file-jpg == False
-                fmt = filename[idx:]
+            finding = filename.rfind('.')
+            if ~finding and (len(filename) - finding) < 6:  # (.png, .webp) == True, .image-file-jpg == False
+                fmt = filename[finding:]
             else:
                 fmt = '.jpg'
             _path = '{:0>3}{}'.format(idx, fmt)

@@ -212,6 +212,9 @@ providers_list = {
     'leomanga_com': [
         r'leomanga\.com/manga/.',
     ],
+    'lolibooru_moe': [
+        r'lolibooru\.moe/post.',
+    ],
     'lolivault_net': [
         r'lolivault.net/online/(series|read)',
     ],
