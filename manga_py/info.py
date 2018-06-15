@@ -48,7 +48,6 @@ class Info:
     }
     """
     _data = None
-    _init_time = None
     _start_time = None
 
     @staticmethod
@@ -56,7 +55,6 @@ class Info:
         return dt.strftime(fmt)
 
     def __init__(self, args: Namespace):  # see manga_py.cli arguments
-        self._init_time = datetime.now()
         _args = args.__dict__
         _args['_raw_params'] = ' '.join(argv)
         self._data = {
@@ -64,6 +62,7 @@ class Info:
             'downloader': meta.__downloader_uri__,
             'version': meta.__version__,
             'delta': None,
+            'init': self._dt(datetime.now()),
             'start': None,
             'end': None,
             'user_agent': None,
@@ -85,7 +84,6 @@ class Info:
 
     def start(self):
         self._start_time = datetime.now()
-        self._data['delta'] = str(self._start_time - self._init_time)
 
     def set_cookies(self, cookies):
         self._data['cookies'] = cookies
@@ -106,6 +104,7 @@ class Info:
         self._data['volumes'].append(volume)
 
     def get(self):
-        self._data['start'] = self._dt(self._init_time)
+        self._data['delta'] = str(datetime.now() - self._start_time)
+        self._data['start'] = self._dt(self._start_time)
         self._data['end'] = self._dt(datetime.now())
         return self._data

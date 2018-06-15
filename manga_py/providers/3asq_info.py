@@ -18,5 +18,8 @@ class ThreeAsqInfo(AuthroneCom, Std):
     def get_manga_name(self) -> str:
         return self._get_name(r'\.info/([^/]+)')
 
+    def get_files(self):
+        return list(set(super().get_files()))  # remove doubles
+
 
 main = ThreeAsqInfo
