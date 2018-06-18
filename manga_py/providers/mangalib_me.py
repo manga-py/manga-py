@@ -24,13 +24,17 @@ class MangaLibMe(Provider, Std):
 
     def get_files(self):
         content = self.http_get(self.chapter)
-        base_url = self.re.search(r'\.scan-page.+src\'.+?\'([^\'"]+)\'', content).group(1)
-        images = self.re.search(r'var\s+pages\s*=\s*(\[\{.+\}\])', content).group(1)
-        imgs = ['{}/{}'.format(base_url, i.get('page_image')) for i in self.json.loads(images)]
+        base_url = self.re.search(r'\bimgUrl: *[\'"]([^\'"]+)', content).group(1)
+        images = self.re.search(r'\bpages: *(\[\{.+\}\])', content).group(1)
+        images = self.json.loads(images)
+        imgs = ['https://img2.mangalib.me{}{}'.format(
+            base_url,
+            i.get('page_image'),
+        ) for i in images]
         return imgs
 
     def get_cover(self):
-        return self._cover_from_content('.topuserinfo-avatar > img')
+        return self._cover_from_content('img.manga__cover')
 
     def book_meta(self) -> dict:
         # todo meta

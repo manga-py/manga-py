@@ -1,3 +1,5 @@
+from time import sleep
+
 from manga_py.fs import get_temp_path, make_dirs, remove_file_query_params, basename, path_join, dirname
 from .multi_threads import MultiThreads
 from .request import Request
@@ -32,15 +34,23 @@ class Http(Request):
                 raise AttributeError('{} type not {}'.format(name, _type))
             setattr(self, name, value)
 
+    def __download(self, file_name, url, method):
+            while True:
+                with open(file_name, 'wb') as out_file:
+                    response = self.requests(url, method=method, timeout=60, allow_redirects=True)
+                    if response.status_code >= 400:
+                        sleep(.25)
+                        continue
+                    out_file.write(response.content)
+                    response.close()
+                    out_file.close()
+                    break
+
     def _safe_downloader(self, url, file_name, method='get') -> bool:
         try:
             make_dirs(dirname(file_name))
             url = self.normalize_uri(url)
-            with open(file_name, 'wb') as out_file:
-                response = self.requests(url, method=method, timeout=60)
-                out_file.write(response.content)
-                response.close()
-                out_file.close()
+            self.__download(file_name, url, method)
         except OSError as ex:
             self.debug and print(ex)
             return False

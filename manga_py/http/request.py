@@ -68,11 +68,15 @@ class Request:
     ) -> requests.Response:
         self._prepare_redirect_base_url(url)
         headers = self.__patch_headers(headers)
-        r = getattr(requests, method)(
-            url=url, headers=headers, data=data,
-            allow_redirects=False, **kwargs,
-            **self._get_kwargs()
-        )
+        args = {
+            'url': url,
+            'headers': headers,
+            'data': data,
+            'allow_redirects': False,
+        }
+        self.__set_defaults(args, kwargs)
+        self.__set_defaults(args, self._get_kwargs())
+        r = getattr(requests, method)(**args)
         self.__update_cookies(r)
         if r.is_redirect and method != 'head':
             if max_redirects < 1:
@@ -86,6 +90,11 @@ class Request:
                 **kwargs
             )
         return r
+
+    @staticmethod
+    def __set_defaults(args_orig: dict, args_vars: dict):
+        for idx in args_vars:
+            args_orig.setdefault(idx, args_vars[idx])
 
     def requests(
             self, url: str, headers: dict = None, cookies: dict = None,
