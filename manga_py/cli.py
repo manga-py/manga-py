@@ -31,6 +31,7 @@ def _image_args(args_parser):
 def _debug_args(args_parser):
     args = args_parser.add_argument_group('Debug / Simulation options')
 
+    args.add_argument('-h', '--help', action='help', help='show help and exit')
     args.add_argument('--print-json', action='store_const', const=True, default=False,
                       help='Print information about the results in the form of json (after completion)' +
                       ' - Not worked now')
@@ -72,7 +73,7 @@ def _reader_args(args_parser):
 
 
 def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
-    args_parser = ArgumentParser()
+    args_parser = ArgumentParser(add_help=False)
     args = args_parser.add_argument_group('General options')
 
     args.add_argument('url', metavar='url', type=str, help='Downloaded url')
