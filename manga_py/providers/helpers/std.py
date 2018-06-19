@@ -78,7 +78,7 @@ class Std:
         if not isinstance(idx, list):
             idx = list(idx)
         if len(idx) > 1:
-            fmt += '-{}'
+            fmt += '-{}' * (len(idx) - 1)
         elif self._zero_fill:
             idx.append(0)
             fmt += '-{}'

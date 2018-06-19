@@ -93,7 +93,7 @@ providers_list = {
     'e_hentai_org': [
         r'e-hentai\.org/g/\d',
     ],
-    'eight_muses_com': [
+    '8muses_com': [
         r'8muses\.com/comics/album/.',
     ],
     'fanfox_net': [

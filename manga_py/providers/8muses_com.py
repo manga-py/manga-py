@@ -4,6 +4,7 @@ from .helpers.std import Std
 
 
 class EightMusesCom(Provider, Std):
+    _chapters = None
     chapter_selector = '.gallery a.c-tile[href^="/comics/"]'
     helper = None
     _images_path = 'image/fl'
@@ -12,8 +13,13 @@ class EightMusesCom(Provider, Std):
         return self.normal_arc_name(self.get_chapter_index().split('-'))
 
     def get_chapter_index(self) -> str:
-        re = self.re.compile(r'/album/([^/]+/[^/]+(?:/[^/]+)?)')
-        idx = re.search(self.chapter).group(1)
+        re = self.re.compile(r'/(?:album|picture)/([^/]+/[^/]+(?:/[^/]+)?)')
+        ch = self.chapter
+        if isinstance(ch, list) and len(ch) > 0:
+            ch = ch[0]
+        if isinstance(ch, object):
+            ch = ch.get('href')
+        idx = re.search(ch).group(1)
         return '-'.join(idx.split('/'))
 
     def get_main_content(self):
@@ -27,13 +33,18 @@ class EightMusesCom(Provider, Std):
         return self.helper.chapters(chapters)
 
     def _parse_images(self, images) -> list:
-        return ['{}/{}/{}'.format(self.domain, self._images_path, i.get('value')) for i in images]
+        return ['{}/{}/{}'.format(
+            self.domain,
+            self._images_path,
+            i.get('value')
+        ) for i in images if i.get('value')]
 
     def get_files(self):
         images = []
         _n = self.http().normalize_uri
+        _z = 0
         for n, i in enumerate(self.chapter):
-            if n % 2 == 0:
+            if n % 4 < 2:
                 images += self.html_fromstring(_n(i.get('href')), '#imageName,#imageNextName')
         return self._parse_images(images)
 
@@ -41,6 +52,7 @@ class EightMusesCom(Provider, Std):
         pass
 
     def prepare_cookies(self):
+        self._chapters = []
         self._base_cookies()
         self.helper = eight_muses_com.EightMusesCom(self)
 
