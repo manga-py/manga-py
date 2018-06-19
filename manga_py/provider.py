@@ -104,6 +104,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
     def loop_files(self):
         if isinstance(self._storage['files'], list) and len(self._storage['files']) > 0:
             self._archive = Archive()
+            self._archive.not_change_files_extension = self._params.get('not_change_files_extension', False)
             self._call_files_progress_callback()
 
             if self._params.get('no_multi_threads', False):
@@ -132,8 +133,12 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         _path, idx, _url = self._save_file_params_helper(url, idx)
 
         if not is_file(_path):
-            self.http().download_file(_url, _path)
-            self._archive.add_file(_path, in_arc_name)
+            # issue 55
+            if in_arc_name is None:
+                self.http().download_file(_url, _path, success_callback=self._archive.lazy_add)
+            else:
+                self.http().download_file(_url, _path)
+                self._archive.add_file(_path, in_arc_name)
         callable(callback) and callback()
         self.after_file_save(_path, idx)
 

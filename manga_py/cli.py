@@ -12,8 +12,10 @@ from .parser import Parser
 
 
 def _image_args(args_parser):
-    pass
-    # args = args_parser.add_argument_group('Image options')
+    args = args_parser.add_argument_group('Image options')
+
+    args.add_argument('--not-change-files-extension', action='store_const',
+                      help='Save files to archive "as is"', const=True, default=False)
 
     # args.add_argument('--force-png', action='store_const', 
     #                          help='Force conversation images to png format', const=True, default=False)

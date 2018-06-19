@@ -1,6 +1,7 @@
 from os import path
 
 from PIL import Image as PilImage, ImageChops
+import imghdr
 
 
 class Image:
@@ -92,3 +93,10 @@ class Image:
 
     def close(self):
         self.image is not None and self.image.close()
+
+    @staticmethod
+    def real_extension(_path):
+        img = imghdr.what(_path)
+        if img:
+            return '.' + img
+        return None

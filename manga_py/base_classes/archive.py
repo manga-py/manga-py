@@ -1,31 +1,21 @@
 from zipfile import ZipFile, ZIP_DEFLATED
 
-from PIL import Image
-from os.path import splitext
+# from PIL import Image as PilImage
+from manga_py.image import Image
+from os import path
 
-from manga_py.fs import is_file, make_dirs, basename, dirname, unlink
+from manga_py.fs import is_file, make_dirs, basename, dirname, unlink, get_temp_path
 
 
 class Archive:
     _archive = None
-    files = None
     _writes = None
+    files = None
+    not_change_files_extension = False
 
     def __init__(self):
         self.files = []
         self._writes = {}
-
-    @staticmethod
-    def _check_ext(file, name):
-        file_name, file_ext = splitext(name)
-        if file_ext == '' or file_ext == '.':
-            try:
-                image = Image.open(file)
-                name = file_name.rstrip('.') + '.' + image.format.lower()
-                image.close()
-            except (FileNotFoundError, OSError):
-                pass
-        return name
 
     def write_file(self, data, in_arc_name):
         self._writes[in_arc_name] = data
@@ -33,7 +23,6 @@ class Archive:
     def add_file(self, file, in_arc_name=None):
         if in_arc_name is None:
             in_arc_name = basename(file)
-        in_arc_name = self._check_ext(file, in_arc_name)
         self.files.append((file, in_arc_name))
 
     def set_files_list(self, files):
@@ -69,3 +58,14 @@ class Archive:
     def _maked(self):
         for file in self.files:
             unlink(file[0])
+
+    def __update_image_extension(self, filename) -> tuple:
+        fn, extension = path.splitext(filename)
+        if not self.not_change_files_extension:
+            ext = Image.real_extension(get_temp_path(filename))
+            if ext:
+                extension = ext
+        return basename(fn + extension)
+
+    def lazy_add(self, _path):
+        self.add_file(_path, self.__update_image_extension(_path))

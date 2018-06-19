@@ -1,4 +1,5 @@
 import re
+from os import path
 
 from lxml.html import HtmlElement
 
@@ -160,12 +161,8 @@ class Base:
     def _image_name(self, idx, filename):
         if idx is None:
             idx = self._storage['current_file']
-        _path = '{:0>3}_{}'.format(idx, filename)
+        fn, extension = path.splitext(filename)
+        _path = '{:0>3}_{}'.format(idx, fn)
         if self._params['rename_pages']:
-            finding = filename.rfind('.')
-            if ~finding and (len(filename) - finding) < 6:  # (.png, .webp) == True, .image-file-jpg == False
-                fmt = filename[finding:]
-            else:
-                fmt = '.jpg'
-            _path = '{:0>3}{}'.format(idx, fmt)
-        return _path
+            _path = '{:0>3}'.format(idx)
+        return _path + extension
