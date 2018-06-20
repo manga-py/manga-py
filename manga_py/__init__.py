@@ -7,7 +7,7 @@ try:
     from json import dumps
     import traceback
 
-    from .cli import Cli, get_cli_arguments
+    from .cli import Cli, get_cli_arguments, check_version
     from .fs import get_temp_path
     from .info import Info
 
@@ -28,12 +28,16 @@ def before_shutdown():
 
 
 def _init_cli(args, _info):
+    error_lvl = -2
+    if args.parse_args().full_error:
+        error_lvl = -10
     try:
+        _info.start()
         cli_mode = Cli(args, _info)
         cli_mode.start()
         code = 0
     except Exception as e:
-        traceback.print_tb(e.__traceback__, -2, file=stderr)
+        traceback.print_tb(e.__traceback__, error_lvl, file=stderr)
         code = 1
         _info.set_error(e)
     return code
@@ -61,4 +65,11 @@ def main():
 
 
 if __name__ == '__main__':
+    # version = check_version()  # maybe
+    # if version['need_update']:
+    #     print('Found new version! %s \nSee here: %s' % (
+    #         version['tag'],
+    #         version['url']
+    #     ), file=stderr)
+
     main()

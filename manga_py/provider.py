@@ -96,10 +96,13 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
                 continue
 
             if not self._simulate:
-                self.loop_callback_chapters()
+                try:
+                    self.loop_callback_chapters()
 
-                self._storage['files'] = self.get_files()
-                self.loop_files()
+                    self._storage['files'] = self.get_files()
+                    self.loop_files()
+                except Exception as e:
+                    self._info.set_last_volume_error(e)
 
     def loop_files(self):
         if isinstance(self._storage['files'], list) and len(self._storage['files']) > 0:

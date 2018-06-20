@@ -39,8 +39,10 @@ def _debug_args(args_parser):
                       ' - Not worked now')
 
     args.add_argument('--simulate', action='store_const', const=True, default=False,
-                      help='Do not download the files and do not write anything to disk' +
-                      ' - Not worked now')
+                      help='Do not download the files and do not write anything to disk')
+
+    args.add_argument('--full-error', action='store_const', const=True, default=False,
+                      help='Show full stack trace')
 
     # args.add_argument('-vv', '--log', metavar='info', type='str', help='Verbose log')
 
@@ -103,8 +105,11 @@ def check_version():
     api_content = json.loads(requests.get(api_url).text)
     tag_name = api_content['tag_name']
     if version.parse(tag_name) > version.parse(__version__):
-        download_addr = api_content['assets'][0]
-        url = download_addr['browser_download_url']
+        download_addr = api_content['assets']
+        if len(download_addr):
+            url = download_addr[0]['browser_download_url']
+        else:
+            url = api_content['html_url']
         return {'message': 'Found new version', 'tag': tag_name, 'url': url, 'need_update': True}
     return {'message': 'Ok', 'need_update': False, 'tag': '', 'url': ''}
 

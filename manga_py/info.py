@@ -91,10 +91,19 @@ class Info:
     def set_volumes(self, volumes: list):
         self._data['volumes'] = volumes
 
-    def add_volume(self, name: str, path: str, files: list = None):
+    def set_last_volume_error(self, error_message):
+        try:
+            self._data['volumes'][-1]['error'] = True
+            self._data['volumes'][-1]['error_message'] = error_message
+        except IndexError:
+            pass
+
+    def add_volume(self, url: str, path: str, files: list = None):
         volume = {
-            'name': name,
+            'url': url,
             'path': path,
+            'error': False,
+            'error_message': '',
         }
 
         if files is not None:

@@ -221,7 +221,6 @@ providers_list = {
     ],
     'lolibooru_moe': [
         r'lolibooru\.moe/post.',
-        r'yande\.re/post.',
     ],
     'lolivault_net': [
         r'lolivault.net/online/(series|read)',
@@ -663,6 +662,9 @@ providers_list = {
     ],
     'wmanga_ru': [
         r'wmanga\.ru/starter/manga_.',
+    ],
+    'yande_re': [
+        r'yande\.re/post.',
     ],
     'zeroscans_com': [
         r'zeroscans\.com/manga/.',
