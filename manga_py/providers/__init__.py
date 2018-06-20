@@ -217,6 +217,7 @@ providers_list = {
     ],
     'lolibooru_moe': [
         r'lolibooru\.moe/post.',
+        r'yande\.re/post.',
     ],
     'lolivault_net': [
         r'lolivault.net/online/(series|read)',

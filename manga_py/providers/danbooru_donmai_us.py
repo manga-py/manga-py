@@ -21,9 +21,9 @@ class DanbooruDonmaiUs(Provider, Std):
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
-        if ~self.get_url().find('?tags='):
+        if ~self.get_url().find('tags='):
             self._is_tag = True
-            self._manga_name = self._get_name(r'\?tags=([^&]+)')
+            self._manga_name = self._get_name(r'[\?&]tags=([^&]+)')
         else:
             self._manga_name = self._get_name(r'/posts/(\d+)')
         return self._archive_prefix + self._manga_name
