@@ -11,7 +11,8 @@ try:
     from .fs import get_temp_path
     from .info import Info
 
-except Exception:
+except Exception as e:
+    print(e)
     print('Setup in progress?')
     exit()
 
