@@ -120,14 +120,11 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             _url = self.http().normalize_uri(self.get_current_file())
         else:
             _url = url
-
-        url = self.before_file_save(url, idx)
-
+        _url = self.before_file_save(_url, idx)
         filename = remove_file_query_params(basename(_url))
         _path = self.remove_not_ascii(self._image_name(idx, filename))
         _path = get_temp_path(_path)
-
-        return _path, idx, url
+        return _path, idx, _url
 
     def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
         _path, idx, _url = self._save_file_params_helper(url, idx)
@@ -201,6 +198,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             self._storage['current_file'] = idx
             self._call_files_progress_callback()
             self.save_file()
+        self.progress()
 
     def cf_protect(self, url):
         """

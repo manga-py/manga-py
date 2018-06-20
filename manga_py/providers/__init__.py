@@ -193,6 +193,7 @@ providers_list = {
         r'mangadenizi\.com/.',
         r'mangadoor\.com/manga/.',
         r'mangaid\.co/manga/.',
+        r'mangaid\.net/manga/.',
         r'manga\.fascans\.com/manga/.',
         r'mangadesu\.net/manga/.',
         r'mangahis\.com/manga/.',
@@ -616,6 +617,10 @@ providers_list = {
     ],
     'truyen_vnsharing_site': [
         r'truyen\.vnsharing\.site/index/read/.',
+    ],
+    'truyenchon_com': [
+        r'truyenchon\.com/truyen/.',
+        r'nettruyen\.com/truyen-tranh/.',
     ],
     'truyentranhtuan_com': [
         r'truyentranhtuan.com/.',

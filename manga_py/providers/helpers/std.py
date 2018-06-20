@@ -25,7 +25,7 @@ class Std:
     @classmethod
     def _images_helper(cls, parser, selector, attr='src') -> list:
         image = parser.cssselect(selector)
-        return [i.get(attr).strip(r' \r\n\t\0') for i in image]
+        return [i.get(attr).strip(' \r\n\t\0') for i in image]
 
     @classmethod
     def _idx_to_x2(cls, idx, default=0) -> list:

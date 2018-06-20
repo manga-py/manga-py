@@ -48,10 +48,10 @@ def _debug_args(args_parser):
 def _downloading_args(args_parser):
     args = args_parser.add_argument_group('Downloading options')
 
-    args.add_argument('-s', '--skip-volumes', metavar='skip-volumes', type=int,
-                      help='Skip volumes (count)', default=0)
-    args.add_argument('-c', '--max-volumes', metavar='max-volumes', type=int,
-                      help='Maximum volumes for downloading 0=All (count)', default=0)
+    args.add_argument('-s', '--skip-volumes', metavar='count', type=int,
+                      help='Skip volumes', default=0)
+    args.add_argument('-c', '--max-volumes', metavar='count', type=int,
+                      help='Maximum volumes for downloading 0=All', default=0)
     args.add_argument('--user-agent', type=str, help='Don\'t work from protected sites')
     args.add_argument('--proxy', type=str, help='Http proxy')
     args.add_argument('--reverse-downloading', action='store_const',

@@ -35,16 +35,21 @@ class Http(Request):
             setattr(self, name, value)
 
     def __download(self, file_name, url, method):
-            while True:
-                with open(file_name, 'wb') as out_file:
-                    response = self.requests(url, method=method, timeout=60, allow_redirects=True)
-                    if response.status_code >= 400:
-                        sleep(.25)
-                        continue
-                    out_file.write(response.content)
-                    response.close()
-                    out_file.close()
-                    break
+        now_try_count = 0
+        while now_try_count < 10:
+            with open(file_name, 'wb') as out_file:
+                now_try_count += 1
+                response = self.requests(url, method=method, timeout=60, allow_redirects=True)
+                if response.status_code >= 400:
+                    self.debug and print('ERROR! Code {}\nUrl: {}'.format(
+                        response.status_code,
+                        url,
+                    ))
+                    continue
+                out_file.write(response.content)
+                response.close()
+                out_file.close()
+                break
 
     def _safe_downloader(self, url, file_name, method='get') -> bool:
         try:
