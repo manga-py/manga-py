@@ -212,6 +212,9 @@ providers_list = {
     'lector_kirishimafansub_com': [
         r'lector\.kirishimafansub\.com/(lector/)?(series|read)/.',
     ],
+    'leitor_net': [
+        r'leitor\.net/manga/.',
+    ],
     'leomanga_com': [
         r'leomanga\.com/manga/.',
     ],
