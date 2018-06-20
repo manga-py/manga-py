@@ -631,10 +631,12 @@ providers_list = {
     ],
     'tumangaonline_com': [
         r'tumangaonline\.com/.',
+        r'tumangaonline\.me/.',
     ],
     'unionmangas_net': [
         r'unionmangas\.cc/(leitor|manga)/.',
         r'unionmangas\.net/(leitor|manga)/.',
+        r'unionmangas\.site/(leitor|manga)/.',
     ],
     # 'viz_com': [r'viz\.com/shonenjump/chapters/.',],
     'web_ace_jp': [
