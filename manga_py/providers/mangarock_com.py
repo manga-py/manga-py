@@ -5,6 +5,7 @@ from .helpers.std import Std
 
 
 class MangaRockCom(Provider, Std):
+    __name = None
     crypt = None
     __api_uri = 'https://api.mangarockhd.com/query/web400/'
 
@@ -18,7 +19,12 @@ class MangaRockCom(Provider, Std):
         pass
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'/manga/([^/]+)-\d+')
+        self.__name = self._get_name(r'/manga/([^/]+-\d+)')
+        content = self.http_get('{}/manga/{}'.format(
+            self.domain,
+            self.__name
+        ))
+        return self.text_content(content, 'h1')
 
     def get_chapters(self):
         idx = self._get_name('/manga/([^/]+)')
