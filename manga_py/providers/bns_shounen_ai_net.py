@@ -1,7 +1,7 @@
-from .pzykosis666hfansub_com import Pzykosis666HFansubCom
+from .read_powermanga_org import ReadPowerMangaOrg
 
 
-class BnsShounenAiNet(Pzykosis666HFansubCom):
+class BnsShounenAiNet(ReadPowerMangaOrg):
     _name_re = '/read/[^/]+/([^/]+)/'
     _content_str = '{}/read/series/{}/'
 

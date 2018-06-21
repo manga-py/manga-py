@@ -37,7 +37,7 @@ class GoMangaCo(Provider, Std):
         return [i.get('url') for i in items]
 
     def get_cover(self) -> str:
-        return self._cover_from_content('.thumbnail img')
+        return self._cover_from_content('.cover img')
 
     def prepare_cookies(self):
         url = self.get_url()

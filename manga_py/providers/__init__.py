@@ -83,6 +83,9 @@ providers_list = {
     'desu_me': [
         r'desu\.me/manga/.',
     ],
+    'digitalteam1_altervista_org': [
+        r'digitalteam1\.altervista\.org/reader/read/.',
+    ],
     # 'dm5_com': [
     #     r'dm5\.com/manhua-.',
     # ],

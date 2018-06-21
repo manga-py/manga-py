@@ -45,6 +45,7 @@ class Http(Request):
                         response.status_code,
                         url,
                     ))
+                    sleep(2)
                     continue
                 out_file.write(response.content)
                 response.close()

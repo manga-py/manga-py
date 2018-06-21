@@ -5,6 +5,7 @@ from .url_normalizer import normalize_uri
 
 class Request:
     __redirect_base_url = ''
+    _headers = None
     referer = ''
     proxies = None
     allow_webp = True
@@ -17,8 +18,7 @@ class Request:
     default_lang = 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
     cookies = None
     kwargs = None
-    _headers = None
-    debug = True
+    debug = False
 
     def __init__(self):
         self.proxies = {}
