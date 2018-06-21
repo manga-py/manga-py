@@ -159,6 +159,9 @@ providers_list = {
     'hitomi_la': [
         r'hitomi\.la/(galleries|reader)/.',
     ],
+    'hgamecg_com': [
+        r'hgamecg\.com/index/category/\d',
+    ],
     'hitmanga_eu': [
         r'hitmanga\.eu/.',
         r'mymanga\.io/.',

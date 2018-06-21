@@ -201,7 +201,8 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             self._storage['current_file'] = idx
             self._call_files_progress_callback()
             self.save_file()
-        self.progress()
+        _max = len(self._storage['files'])
+        self.progress(_max, _max)
 
     def cf_protect(self, url):
         """
