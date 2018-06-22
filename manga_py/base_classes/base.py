@@ -166,3 +166,6 @@ class Base:
         if self._params['rename_pages']:
             _path = '{:0>3}'.format(idx)
         return _path + extension
+
+    def chapter_for_json(self) -> str:
+        return self.chapter

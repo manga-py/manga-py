@@ -53,5 +53,8 @@ class HGameCGCom(Provider, Std):
     def book_meta(self) -> dict:
         pass
 
+    def chapter_for_json(self):
+        return self.get_url()
+
 
 main = HGameCGCom

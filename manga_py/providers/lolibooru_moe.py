@@ -45,5 +45,8 @@ class LoliBooruMoe(DanbooruDonmaiUs, Std):
             return [full_size[0].get('href')]
         return [parser.cssselect('#image')[0].get('src')]
 
+    def chapter_for_json(self):
+        return self.get_url()
+
 
 main = LoliBooruMoe

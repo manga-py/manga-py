@@ -30,10 +30,10 @@ class MangaRockCom(Provider, Std):
         idx = self._get_name('/manga/([^/]+)')
         url = '{}info?oid={}&last=0&country=Japan'.format(self.__api_uri, idx)
         items = self.json.loads(self.http_get(url))
-        return [i.get('oid').encode() for i in items.get('data', {}).get('chapters', [])]
+        return [(i.get('oid'),) for i in items.get('data', {}).get('chapters', [])]
 
     def get_files(self):
-        url = '{}pages?oid={}&country=Japan'.format(self.__api_uri, self.chapter.decode())
+        url = '{}pages?oid={}&country=Japan'.format(self.__api_uri, self.chapter[0])
         items = self.json.loads(self.http_get(url))
         return items.get('data')
 
@@ -65,6 +65,10 @@ class MangaRockCom(Provider, Std):
 
     def book_meta(self) -> dict:
         # todo meta
+        pass
+
+    def chapter_for_json(self):
+        # FIXME #60
         pass
 
 

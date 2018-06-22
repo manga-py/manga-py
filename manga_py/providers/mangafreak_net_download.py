@@ -18,11 +18,11 @@ class MangaFreakNet(Provider, Std):
 
     def get_chapters(self):
         items = self._elements('.manga_series_list td a[download]')
-        print([(i.get('download'), i.get('href')) for i in items])
         return [(i.get('download'), i.get('href')) for i in items]
 
     def loop_chapters(self):
-        Http2(self).download_archives()
+        items = self._storage['chapters'][::-1]
+        Http2(self).download_archives([i[1] for i in items])
 
     def get_files(self):
         pass
@@ -36,6 +36,9 @@ class MangaFreakNet(Provider, Std):
     def book_meta(self) -> dict:
         # todo meta
         pass
+
+    def chapter_for_json(self):
+        return self.chapter[1]
 
 
 main = MangaFreakNet

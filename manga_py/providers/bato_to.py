@@ -51,5 +51,8 @@ class BatoTo(Provider, Std):
         # todo meta
         pass
 
+    def chapter_for_json(self):
+        return self.chapter[0]
+
 
 main = BatoTo

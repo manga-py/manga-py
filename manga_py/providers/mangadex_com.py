@@ -13,7 +13,11 @@ class MangaDexCom(Provider, Std):
     def get_chapter_index(self) -> str:
         ch = self.chapter[0]
         re = self.re.compile(r'[vV]ol.+?(\d+).+?[cC]h.+?(\d+(?:.\d+)?)')
-        return '{}-{}'.format(*self._idx_to_x2(re.search(ch).groups()))
+        idx = re.search(ch).groups()
+        fmt = '{}'
+        if idx[1]:
+            fmt += '-{}'
+        return fmt.format(*idx)
 
     def get_main_content(self):
         url = self.get_url()
@@ -78,6 +82,9 @@ class MangaDexCom(Provider, Std):
     def book_meta(self) -> dict:
         # todo meta
         pass
+
+    def chapter_for_json(self):
+        return self.chapter[1]
 
 
 main = MangaDexCom

@@ -1,6 +1,6 @@
-from manga_py.fs import dirname, path_join, get_temp_path, rename
+# from manga_py.fs import dirname, path_join, get_temp_path, rename
 from manga_py.provider import Provider
-from .helpers.std import Std
+from .helpers.std import Std, Http2
 
 
 class MangaChanMe(Provider, Std):
@@ -19,21 +19,14 @@ class MangaChanMe(Provider, Std):
         return self._get_name(name)
 
     def loop_chapters(self):
-        arc_name = self.get_archive_name()
-        arc = self._archive_type()
-        path = path_join(dirname(self.get_archive_path()), arc_name + '.%s' % arc)
-        url = self.chapter
-        temp_path = get_temp_path('{:0>2}_{}-temp_arc.zip'.format(
-            self._storage['current_chapter'],
-            arc_name
-        ))
-        self.save_file(url, temp_path)
-        rename(temp_path, path)
+        items = self._storage['chapters'][::-1]
+        n = self.http().normalize_uri
+        Http2(self).download_archives([n(i) for i in items])
 
     def get_chapters(self):
         selector = r'\.me/[^/]+/(\d+-.+\.html)'
         url = self._get_name(selector)
-        url = '/download/{}'.format(url)
+        url = '{}/download/{}'.format(self.domain, url)
         return self.html_fromstring(url, 'table#download_table tr td + td > a')
 
     def get_files(self):

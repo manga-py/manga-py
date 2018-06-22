@@ -73,5 +73,8 @@ class LeitorNet(Provider, Std):
     def book_meta(self) -> dict:
         pass
 
+    def chapter_for_json(self):
+        return self.domain + self.chapter['link']
+
 
 main = LeitorNet

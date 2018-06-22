@@ -8,8 +8,7 @@ class MangaTubeMe(Provider, Std):
         return self.normal_arc_name(idx.split('-'))
 
     def get_chapter_index(self) -> str:
-        chapter = self.chapter
-        txt = chapter[0]
+        txt = self.chapter[0].strip()
         idx = self.re.search(r'(?:.*?)(\d+(?:\.\d+)?)', txt)
         if not idx:
             return str(self.chapter_id)
@@ -40,6 +39,9 @@ class MangaTubeMe(Provider, Std):
     def book_meta(self) -> dict:
         # todo meta
         pass
+
+    def chapter_for_json(self):
+        return self.chapter[1]
 
 
 main = MangaTubeMe

@@ -21,7 +21,7 @@ class ComicExtra(Provider, Std):
         return self.re.search('/([^/]+)/chapter', url).group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.content, '#list td a')
+        return self._elements('#list td a')
 
     def get_files(self):
         url = self.chapter + '/full'

@@ -5,10 +5,10 @@ from .helpers.std import Std
 class LusciousNet(Provider, Std):
 
     def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index())
+        return 'archive'
 
     def get_chapter_index(self) -> str:
-        return str(self.get_chapter_index())
+        return '0'
 
     def get_main_content(self):
         name = self._get_name('/albums?/([^/]+)/')
@@ -18,11 +18,10 @@ class LusciousNet(Provider, Std):
         return self._get_name('/albums?/([^/]+)_\d+/')
 
     def get_chapters(self):
-        return [b'']
+        return [b'0']
 
     def get_files(self):
-        url = self.chapter
-        items = self.html_fromstring(url, '#album_meta_ds .item > a')
+        items = self._elements('#album_meta_ds .item > a')
         n = self.http().normalize_uri
         images = []
         for i in items:
@@ -38,6 +37,9 @@ class LusciousNet(Provider, Std):
     def book_meta(self) -> dict:
         # todo meta
         pass
+
+    def chapter_for_json(self):
+        return self.get_url()
 
 
 main = LusciousNet

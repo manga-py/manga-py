@@ -16,7 +16,13 @@ class Callbacks:
     def set_log_callback(self, callback: Callable):  # Required call from initiator (CLI, GUI)
         setattr(self, 'log', callback)
 
+    def set_quest_password_callback(self, callback: Callable):  # Required call from iterator (CLI, GUI)
+        setattr(self, 'quest_password', callback)
+
     def quest(self, *args, **kwargs):
+        pass
+
+    def quest_password(self, *args, **kwargs):
         pass
 
     def progress(self, *args, **kwargs):

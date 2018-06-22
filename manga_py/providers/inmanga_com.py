@@ -32,23 +32,31 @@ class InMangaCom(Provider, Std):
         self.__local_storage['uri_hex'] = uri_hex
         return self.__local_storage['manga_name']
 
+    @staticmethod
+    def __sort_chapters(items, reverse=False):
+        return sorted(items, key=lambda i: float(i['FriendlyChapterNumber']), reverse=reverse)
+
     def get_chapters(self):
-        return self.content['result'][::-1]
+        items = self.content['result']
+        return self.__sort_chapters(items, True)
 
     def prepare_cookies(self):
         self.__local_storage = {}
 
-    def get_files(self):
-        chapter = self.chapter
-        domain = self.domain
-        files_url = '{}/page/getPageImage/?identification={}'
-        url = '{}/ver/manga/{}/{}/{}'.format(
-            domain,
+    def _make_url(self, chapter):
+        return '{}/ver/manga/{}/{}/{}'.format(
+            self.domain,
             self.manga_name,
             chapter['FriendlyChapterNumber'],
             chapter['Identification']
         )
+
+    def get_files(self):
+        files_url = '{}/page/getPageImage/?identification={}'
+        url = self._make_url(self.chapter)
         images = self.html_fromstring(url, '.PagesContainer img.ImageContainer')
+
+        domain = self.domain
         return [files_url.format(domain, i.get('id')) for i in images]
 
     def get_cover(self):
@@ -58,6 +66,9 @@ class InMangaCom(Provider, Std):
     def book_meta(self) -> dict:
         # todo meta
         pass
+
+    def chapter_for_json(self):
+        return self._make_url(self.chapter)
 
 
 main = InMangaCom

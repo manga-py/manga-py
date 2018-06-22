@@ -109,5 +109,8 @@ class Dm5Com(Provider, Std):
             'rating': rating,
         }
 
+    def chapter_for_json(self):
+        return self.chapter[0]
+
 
 main = Dm5Com

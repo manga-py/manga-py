@@ -85,14 +85,14 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         volumes = self._storage['chapters']
         _min = self._params.get('skip_volumes', 0)
         _max = self._params.get('max_volumes', 0)
-        if _max > 0:
+        if _max > 0 and _min > 0:
             _max += _min - 1
         for idx, __url in enumerate(volumes):
             self._storage['current_chapter'] = idx
 
             self._info.add_volume(self.chapter, self.get_archive_path())
 
-            if idx < _min or (idx > _max > 0) or self._check_archive():
+            if idx < _min or (idx >= _max > 0) or self._check_archive():
                 continue
 
             if not self._simulate:

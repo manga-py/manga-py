@@ -30,7 +30,7 @@ class MangaOnlineHereCom(Provider, Std):
         return self.__local_storage['name']
 
     def get_chapters(self):
-        return self.document_fromstring(self.content, '.list-chapter a')
+        return self._elements('.list-chapter a')
 
     def prepare_cookies(self):
         self.__local_storage = {}

@@ -39,7 +39,8 @@ class MangaOnlineCom(Provider, Std):
         return self.html_fromstring(self.get_url(), s)[::-1]
 
     def _get_chapters_manga(self):
-        items = self.html_fromstring(self.get_url(), '.fullstory_main select.selectmanga option')
+        s = '.fullstory_main select.selectmanga option'
+        items = self.html_fromstring(self.get_url(), s)
         return [i.get('value') for i in items[::-1]]
 
     def get_chapters(self):

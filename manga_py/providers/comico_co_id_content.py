@@ -35,5 +35,8 @@ class ComicoCoIdContent(ComicoCoIdTitles, Std):  # maybe
     def get_cover(self) -> str:
         pass
 
+    def chapter_for_json(self):
+        return self.get_url()
+
 
 main = ComicoCoIdContent

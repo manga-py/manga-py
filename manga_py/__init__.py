@@ -7,7 +7,8 @@ try:
     from json import dumps
     import traceback
 
-    from .cli import Cli, get_cli_arguments, check_version
+    from .cli import Cli, check_version
+    from .cli.args import get_cli_arguments
     from .fs import get_temp_path
     from .info import Info
 

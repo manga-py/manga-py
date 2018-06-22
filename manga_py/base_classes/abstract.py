@@ -45,3 +45,7 @@ class Abstract:
 
     def after_file_save(self, _path: str, idx: int):
         pass
+
+    @abstractmethod
+    def chapter_for_json(self) -> str:
+        pass

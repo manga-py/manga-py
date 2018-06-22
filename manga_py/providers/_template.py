@@ -41,5 +41,10 @@ class _Template(Provider, Std):
         """
         pass
 
+    def chapter_for_json(self) -> str:
+        # overload std param, if need
+        # return self.chapter
+        pass
+
 
 main = _Template

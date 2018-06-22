@@ -26,7 +26,7 @@ providers_list = {
         r'antisensescans\.com/online/(series|read)/.',
     ],
     'asmhentai_com': [
-        r'asmhentai\.com/(g|gallery)/\d'
+        r'asmhentai\.com/(g|gallery)/\d',
     ],
     'atfbooru_ninja': [
         r'atfbooru.ninja/posts.',
@@ -100,7 +100,7 @@ providers_list = {
         r'e-hentai\.org/g/\d',
     ],
     'exhentai_org': [
-        r'exhentai\.org/g/\d'
+        r'exhentai\.org/g/\d',
     ],
     'fanfox_net': [
         r'fanfox.net/manga/.',
@@ -235,7 +235,8 @@ providers_list = {
         r'lolivault.net/online/(series|read)',
     ],
     'luscious_net': [
-        r'luscious\.net/c/incest_manga/pictures/.', r'luscious\.net/albums/.',
+        r'luscious\.net/.+/album/.',
+        r'luscious\.net/albums/.',
     ],
     'manga_ae': [
         r'manga\.ae/.',
@@ -243,6 +244,9 @@ providers_list = {
     'manga_fox_com': [
         r'manga-fox.com/.',
         r'manga-here\.io/.',
+    ],
+    'manga_mexat_com': [
+        r'manga\.mexat\.com/category/.',
     ],
     'manga_online_biz': [
         r'manga-online\.biz/.',

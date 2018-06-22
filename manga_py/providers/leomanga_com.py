@@ -28,12 +28,14 @@ class LeoMangaCom(Provider, Std):
         return None
 
     def get_chapters(self):
-        chapter0 = self.document_fromstring(self.content, '.caps-list a')
-        if chapter0:
-            url = self._get_first_href(chapter0)
+        chapter = self.document_fromstring(self.content, '.caps-list a')
+        if chapter:
+            url = self._get_first_href(chapter)
             if url:
-                select0 = self.html_fromstring(url, '.viewcap-info select.form-control', 0)
-                return [i.get('value') for i in select0.cssselect('option')[::-1]]
+                selector = '.viewcap-info select.form-control'
+                parser = self.html_fromstring(url)
+                options = self._first_select_options(parser, selector)
+                return [i.get('value') for i in options[::-1]]
         return []
 
     def get_files(self):

@@ -35,11 +35,15 @@ class MangaSh(Provider, Std):
     def get_chapters(self):
         return list(self.content.get('response', []))
 
+    def _url_helper(self, chapter):
+        return '{}series_chapters/{}'.format(
+            self._api_url,
+            chapter.get('Hash')
+        )
+
     def get_files(self):
-        chapter = self.chapter
-        _hash = chapter.get('Hash')
-        url = '{}series_chapters/{}'
-        items = self.json.loads(self.http_get(url.format(self._api_url, _hash)))
+        url = self._url_helper(self.chapter)
+        items = self.json.loads(self.http_get(url))
         items = items.get('response', [{}])[0].get('SeriesChaptersFiles', {})
         return [self._cdn_url + i.get('Name') for i in items]
 
@@ -51,6 +55,9 @@ class MangaSh(Provider, Std):
     def book_meta(self) -> dict:
         # todo meta
         pass
+
+    def chapter_for_json(self):
+        return self._url_helper(self.chapter)
 
 
 main = MangaSh
