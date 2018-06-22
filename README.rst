@@ -94,6 +94,6 @@ Help
    :target: https://scrutinizer-ci.com/g/yuru-yuri/manga-dl
 .. |GitHub issues| image:: https://img.shields.io/github/issues/yuru-yuri/manga-dl.svg
    :target: https://github.com/yuru-yuri/manga-dl/issues
-.. |PyPi version| image:: https://img.shields.io/pypi/v/manga_py.svg
+.. |PyPi version| image:: https://badge.fury.io/py/manga-py.svg
    :alt: PyPI
    :target: https://pypi.org/project/manga-py/
