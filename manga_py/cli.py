@@ -136,9 +136,6 @@ class Cli:
         self.__progress_bar and self.__progress_bar.value > 0 and self.__progress_bar.finish()
         self.print(' ')
 
-    def input(self, prompt: str = ''):
-        return input(prompt=prompt + '\n')
-
     def __init_progress(self, items_count: int, re_init: bool):
         if re_init or not self.__progress_bar:
             if re_init:
@@ -167,7 +164,7 @@ class Cli:
         self.print(title)
         for v in variants:
             self.print(v)
-        return self.input()
+        return input()
 
     def _multiple_quest(self, variants, title):
         self.print('Accept - blank line + enter')
@@ -176,7 +173,7 @@ class Cli:
             self.print(v)
         result = []
         while True:
-            _ = self.input().strip()
+            _ = input().strip()
             if not len(_):
                 return result
             result.append(_)

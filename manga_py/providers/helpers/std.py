@@ -50,8 +50,10 @@ class Std:
     def _get_content(self, selector) -> str:
         return self.http_get(selector.format(self.domain, self.manga_name))
 
-    def _base_cookies(self):
-        cookies = self.http().get_base_cookies(self.get_url())
+    def _base_cookies(self, url=None):
+        if url is None:
+            url = self.get_url()
+        cookies = self.http().get_base_cookies(url)
         self._storage['cookies'] = cookies.get_dict()
 
     def parse_background(self, image) -> str:

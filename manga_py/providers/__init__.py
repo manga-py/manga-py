@@ -4,6 +4,9 @@ providers_list = {
     '3asq_info': [
         r'3asq\.info/',
     ],
+    '8muses_com': [
+        r'8muses\.com/comics/album/.',
+    ],
     'ac_qq_com': [
         r'ac\.qq\.com/Comic.+?/id/\d',
     ],
@@ -96,8 +99,8 @@ providers_list = {
     'e_hentai_org': [
         r'e-hentai\.org/g/\d',
     ],
-    '8muses_com': [
-        r'8muses\.com/comics/album/.',
+    'exhentai_org': [
+        r'exhentai\.org/g/\d'
     ],
     'fanfox_net': [
         r'fanfox.net/manga/.',

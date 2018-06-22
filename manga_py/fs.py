@@ -6,6 +6,14 @@ from shutil import rmtree, move
 __dir_name__ = '.PyMangaDownloader'
 
 
+def mark_as_hidden(_path: str):
+    try:
+        from ctypes import windll
+        windll.kernel32.SetFileAttributesW(_path, 2)
+    except Exception:
+        pass
+
+
 def get_temp_path(*args):
     temp = 'temp_%s' % getpid()
     return path.join(tempfile.gettempdir(), __dir_name__, temp, *args)
@@ -20,6 +28,7 @@ def get_util_home_path():
         home = path.join(str(Path.home()), 'AppData', 'Roaming', __dir_name__)
     else:
         home = path.join(str(Path.home()), __dir_name__)
+    make_dirs(home)
     return home
 
 
