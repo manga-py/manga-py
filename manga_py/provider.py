@@ -81,6 +81,17 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
 
         return not_allow_archive and is_file(_path)
 
+    def _download_chapter(self, idx, _min, _max):
+        if idx < _min or (idx >= _max > 0) or self._check_archive():
+            return
+        if not self._simulate:
+            try:
+                self.before_download_chapter()
+                self._storage['files'] = self.get_files()
+                self.loop_files()
+            except Exception as e:
+                self._info.set_last_volume_error(e)
+
     def loop_chapters(self):
         volumes = self._storage['chapters']
         _min = self._params.get('skip_volumes', 0)
@@ -89,20 +100,8 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             _max += _min - 1
         for idx, __url in enumerate(volumes):
             self._storage['current_chapter'] = idx
-
             self._info.add_volume(self.chapter, self.get_archive_path())
-
-            if idx < _min or (idx >= _max > 0) or self._check_archive():
-                continue
-
-            if not self._simulate:
-                try:
-                    self.loop_callback_chapters()
-
-                    self._storage['files'] = self.get_files()
-                    self.loop_files()
-                except Exception as e:
-                    self._info.set_last_volume_error(e)
+            self._download_chapter(idx, _min, _max)
 
     def loop_files(self):
         if isinstance(self._storage['files'], list) and len(self._storage['files']) > 0:

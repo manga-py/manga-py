@@ -60,7 +60,7 @@ class MangaRussiaCom(Provider, Std):
     def get_cover(self):
         self._cover_from_content('.bookfrontpage > a > img')
 
-    def loop_callback_chapters(self):
+    def before_download_chapter(self):
         self._storage['referer'] = self.path_url(self.chapter)
 
     def book_meta(self) -> dict:

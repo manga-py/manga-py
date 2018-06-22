@@ -34,7 +34,7 @@ class Abstract:
     def book_meta(self) -> dict:
         pass
 
-    def loop_callback_chapters(self):
+    def before_download_chapter(self):
         pass
 
     def get_cover(self):

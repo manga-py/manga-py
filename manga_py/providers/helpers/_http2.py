@@ -59,7 +59,7 @@ class Http2:
             chapters = self.provider._storage['chapters']
         self.chapters = chapters
         for idx, url in enumerate(chapters):
-            self.provider.loop_callback_chapters()
+            self.provider.before_download_chapter()
             self.provider._storage['current_chapter'] = idx
             name = self._get_name(idx)
             idx, url, name = self.before_download(idx, url, name)
