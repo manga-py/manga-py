@@ -9,7 +9,7 @@ try:
 
     from .cli import Cli, check_version
     from .cli.args import get_cli_arguments
-    from .fs import get_temp_path
+    from .fs import get_temp_path, get_info
     from .info import Info
 
 except Exception as e:
@@ -44,11 +44,7 @@ def _init_cli(args, _info):
     return code
 
 
-def main():
-    temp_path = get_temp_path()
-    path.isdir(temp_path) or makedirs(temp_path)
-
-    args = get_cli_arguments()
+def _run_util(args) -> tuple:
     parse_args = args.parse_args()
 
     # if parse_args.server:
@@ -59,8 +55,40 @@ def main():
 
     code = _init_cli(args, _info)
 
-    if parse_args.print_json:
-        print(dumps(_info.get()))
+    _info = dumps(_info.get())
+
+    return code, _info
+
+
+def _update_all(args):
+    parse_args = args.parse_args()
+    print('Update all', file=stderr)
+    multi_info = {}
+
+    dst = parse_args.destination
+    json_info = get_info(dst)
+
+    for i in json_info:
+        parse_args.manga_name = i['manga_name']
+        parse_args.url = i['url']
+        code, _info = _run_util(args)
+        multi_info[i['directory']] = _info
+    parse_args.print_json and print(multi_info)
+
+
+def main():
+    temp_path = get_temp_path()
+    path.isdir(temp_path) or makedirs(temp_path)
+
+    args = get_cli_arguments()
+    parse_args = args.parse_args()
+
+    code = 0
+    if parse_args.update_all:
+        _update_all(args)
+    else:
+        code, _info = _run_util(args)
+        parse_args.print_json and print(_info)
 
     exit(code)
 

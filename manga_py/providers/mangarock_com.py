@@ -32,9 +32,11 @@ class MangaRockCom(Provider, Std):
         items = self.json.loads(self.http_get(url))
         return [(i.get('oid'),) for i in items.get('data', {}).get('chapters', [])]
 
+    def __get_url(self):
+        return '{}pages?oid={}&country=Japan'.format(self.__api_uri, self.chapter[0])
+
     def get_files(self):
-        url = '{}pages?oid={}&country=Japan'.format(self.__api_uri, self.chapter[0])
-        items = self.json.loads(self.http_get(url))
+        items = self.json.loads(self.http_get(self.__get_url()))
         return items.get('data')
 
     # decrypt
@@ -68,8 +70,7 @@ class MangaRockCom(Provider, Std):
         pass
 
     def chapter_for_json(self):
-        # FIXME #60
-        pass
+        return self.get_url()
 
 
 main = MangaRockCom

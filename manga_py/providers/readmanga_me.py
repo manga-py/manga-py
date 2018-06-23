@@ -5,7 +5,7 @@ from .helpers.std import Std
 class ReadmangaMe(Provider, Std):
 
     def __current_ch(self):
-        _re = '/.+/(?:vol)?([^/]+/[^/]+)(?:/|\?ma?t)?'
+        _re = r'/.+/(?:vol)?([^/]+/[^/]+)(?:/|\?ma?t)?'
         name = self.re.search(_re, self.chapter).group(1)
         if ~name.find('?'):
             name = name[:name.find('?')]

@@ -42,6 +42,8 @@ def _debug_args(args_parser):
 def _downloading_args(args_parser):
     args = args_parser.add_argument_group('Downloading options')
 
+    args.add_argument('-U', '--update-all', action='store_const',
+                      help='Update all', const=True, default=False)
     args.add_argument('-s', '--skip-volumes', metavar='count', type=int,
                       help='Skip volumes', default=0)
     args.add_argument('-c', '--max-volumes', metavar='count', type=int,
@@ -76,8 +78,8 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
     args.add_argument('--version', action='version', version=__version__)
 
     args.add_argument('-n', '--name', metavar='name', type=str, help='Manga name', default='')
-    args.add_argument('-d', '--destination', metavar='destination', type=str,
-                      help='Destination folder (Default = current directory')
+    args.add_argument('-d', '--destination', metavar='path', type=str,
+                      help='Destination folder (Default = current directory', default='Manga')
     args.add_argument('-np', '--no-progress', metavar='no-progress', action='store_const',
                       const=True, help='Don\'t show progress bar', default=False)
     # future

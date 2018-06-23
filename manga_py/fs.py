@@ -1,7 +1,8 @@
 import tempfile
-from os import path, name as os_name, getpid, unlink as os_unlink, makedirs, stat
+from os import path, name as os_name, getpid, unlink as os_unlink, makedirs, stat, walk
 from pathlib import Path
 from shutil import rmtree, move
+from json import loads as json_loads
 
 __dir_name__ = '.PyMangaDownloader'
 
@@ -97,3 +98,35 @@ def storage(_path):
     _path = get_temp_path('storage', _path)
     make_dirs(dirname(_path))
     return _path
+
+
+def listing(_path) -> dict:
+    """
+    :param _path:
+    :return: {'directories': [], 'files': []}
+    """
+    _dirname, _dirnames, _filenames = walk(_path)
+    return {'directories': _dirnames, 'files': _filenames}
+
+
+def __get_info(_path):
+    try:
+        with open(path_join(_path, 'info.json'), 'r') as r:
+            return json_loads(r.read())
+    except FileNotFoundError:
+        return None
+
+
+def get_info(_path) -> dict:
+    """
+    listing subdirectories and reading info.json files
+    :param _path: [{..}, {..}, {..}]
+    :return:
+    """
+    result = {}
+    for d in listing(_path)['directories']:
+        directory = path_join(_path, d)
+        info = __get_info(directory)
+        if info is not None:
+            result[directory] = info
+    return result
