@@ -3,7 +3,10 @@ from .helpers.std import Std
 
 
 class MangaEdenCom(Provider, Std):
-    uriRegex = r'/[^/]+/([^/]+-manga)/([^/]+)/?'
+    uriRegex = r'/([^/]+)/[^/]+-manga/([^/]+)/?'
+    apiUri = '{}/api/{}/{}/'  # (domain, chapter|manga,
+    __lang = 'en'
+    __cdn_url = 'https://cdn.mangaeden.com/mangasimg/{}'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -14,25 +17,33 @@ class MangaEdenCom(Provider, Std):
         return '{}-0'.format(idx)
 
     def get_main_content(self):
-        result = self.re.search(self.uriRegex, self.get_url())
-        groups = result.groups()
-        return self.http_get('{}/en/{}/{}/'.format(self.domain, *groups))
+        return self.http_get('{domain}/{lang}/{lang}/{name}/'.format(
+            domain=self.domain,
+            lang=self.__lang,
+            name=self.manga_name,
+        ))
 
     def get_manga_name(self) -> str:
-        return self.re.search(self.uriRegex, self.get_url()).group(2)
+        re = self.re.search(self.uriRegex, self.get_url())
+        self.__lang = re.group(1)
+        return re.group(2)
 
-    def get_chapters(self):
-        return self._elements('a.chapterLink')
+    def get_chapters(self):  # issue #61
+        manga_idx = self.re.search('window.manga_id2 ?= ?".+?";', self.content).group(1)
+        return self.json.loads(self.http_get(self.apiUri.format(
+            self.domain,
+            'manga',
+            manga_idx,
+        ))).get('chapters', [])
 
     def get_files(self):
-        content = self.http_get(self.chapter)
-        result = self.re.search(r'var\s+pages\s+=\s+(\[{.+}\])', content)
-        items = []
-        if not result:
-            return []
-        for i in self.json.loads(result.group(1)):
-            items.append('http:' + i['fs'])
-        return items
+        items = self.json.loads(self.http_get(self.apiUri.format(
+            self.domain,
+            'chapter',
+            self.chapter[3]
+        ))).get('images', [])
+        print(items);exit()
+        return [self.__cdn_url + i for i in items[1]]
 
     def get_cover(self) -> str:
         return self._cover_from_content('#rightContent .info img')
