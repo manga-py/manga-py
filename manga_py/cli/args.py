@@ -35,7 +35,8 @@ def _debug_args(args_parser):
     args.add_argument('--full-error', action='store_const', const=True, default=False,
                       help='Show full stack trace')
 
-    # args.add_argument('-vv', '--log', metavar='info', type='str', help='Verbose log')
+    args.add_argument('-V', '--verbose', action='store_const', const=True, default=False,
+                      help='Verbose log')
 
 
 def _downloading_args(args_parser):
@@ -69,8 +70,7 @@ def _reader_args(args_parser):
                       help='Normalize images names. (example: 0_page_1.jpg -> 0001.jpg)')
 
 
-def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
-    args_parser = ArgumentParser(add_help=False)
+def _general_args(args_parser):
     args = args_parser.add_argument_group('General options')
 
     args.add_argument('url', metavar='url', type=str, help='Downloaded url')
@@ -81,13 +81,14 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
                       help='Destination folder (Default = current directory', default='Manga')
     args.add_argument('-np', '--no-progress', metavar='no-progress', action='store_const',
                       const=True, help='Don\'t show progress bar', default=False)
-    # future
-    # args_parser.add_argument('--server', action='store_const', const=True, help='Run web interface',
-    #                          default=False)
 
+
+def get_cli_arguments() -> dict:
+    args_parser = ArgumentParser(add_help=False)
+    _general_args(args_parser)
     _image_args(args_parser)
     _reader_args(args_parser)
     _downloading_args(args_parser)
     _debug_args(args_parser)
 
-    return args_parser
+    return args_parser.parse_args().__dict__

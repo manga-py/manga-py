@@ -1,8 +1,7 @@
 from __future__ import print_function
 
 from setuptools import setup
-from manga_py.meta import __version__, __downloader_uri__
-from manga_py import __author__, __email__, __license__
+from manga_py.meta import __version__, __downloader_uri__, __author__, __email__, __license__
 from os import path
 
 
@@ -32,21 +31,21 @@ if path.isfile('README.rst'):
         long_description = f.read()
 
 
-release_status = 'Development Status :: 4 - Beta'
-if __version__.find('alpha'):
-    release_status = 'Development Status :: 3 - Alpha'
+release_status = 'Development Status :: 1 - Planning'
+# release_status = 'Development Status :: 4 - Beta'
+# if __version__.find('alpha'):
+#     release_status = 'Development Status :: 3 - Alpha'
 
 
 setup(
     name='manga_py',
     packages=[
         'manga_py',
-        'manga_py.base_classes',
-        'manga_py.crypt',
-        'manga_py.http',
-        'manga_py.providers',
-        'manga_py.providers.helpers',
-        'manga_py.server',
+        'manga_py.cli',
+        'manga_py.libs.base',
+        'manga_py.libs.crypt',
+        'manga_py.libs.http',
+        'manga_py.libs.providers',
     ],
     include_package_data=True,
     version=__version__,
@@ -57,10 +56,10 @@ setup(
     url=__downloader_uri__,
     zip_safe=False,
     data_files=[
-        ('manga_py/storage', [
-            'manga_py/storage/.passwords.json.dist',
-            'manga_py/storage/.proxy.txt',
-        ]),
+        # ('manga_py/storage', [
+        #     'manga_py/storage/.passwords.json.dist',
+        #     'manga_py/storage/.proxy.txt',
+        # ]),
     ],
     download_url='{}/archive/{}.tar.gz'.format(__downloader_uri__, __version__),
     keywords=['manga-downloader', 'manga', 'manga-py'],

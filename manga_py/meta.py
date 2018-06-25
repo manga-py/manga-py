@@ -1,3 +1,6 @@
-__version__ = '1.3.1.0'
+__version__ = '2.0.0-alpha'
 __repo_name__ = 'yuru-yuri/manga-dl'
 __downloader_uri__ = 'https://github.com/%s' % __repo_name__
+__author__ = 'Sergey Zharkov'
+__license__ = 'MIT'
+__email__ = 'sttv-pc@mail.ru'
