@@ -35,6 +35,7 @@ start_items = [
     ['http://manganel.com', 1, '<i class="v0"></i>, site down now'],
     ['http://mangaroot.com', 1, '<i class="v0"></i>, site down now, one thread only!!! --no-multi-threads'],
     ['http://mangatail.com', 2, '- See mangatail.me'],
+    ['http://mangatrue.com', 1, ' - Site down now.'],
     ['http://mangaz.com', 0, ' - Maybe...'],
     ['http://mg-zip.com', 0, ' - Will not be implemented'],
     ['http://raw-zip.com', 0, ' - Will not be implemented'],

@@ -23,17 +23,18 @@ class MangaHereCc(Provider, Std):
 
     @staticmethod
     def __get_img(parser):
-        return parser.cssselect('img#image')[0].get('src')
+        return [i.get('src') for i in parser.cssselect('img#image')]
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter)
         pages = parser.cssselect('.go_page select.wid60 option + option')
         pages_list = [value.get('value') for value in pages]
         first_image = self.__get_img(parser)
-        images = [first_image]
+        images = first_image
+        n = self.http().normalize_uri
         for i in pages_list:
-            parser = self.html_fromstring(i)
-            images.append(self.__get_img(parser))
+            parser = self.html_fromstring(n(i))
+            images += self.__get_img(parser)
         return images
 
     def get_cover(self):

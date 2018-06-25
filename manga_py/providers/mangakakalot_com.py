@@ -9,17 +9,17 @@ class MangaKakalotCom(Provider, Std):
         return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/chapter_([^/]+)', self.chapter).split('.')
-        return '{}-{}'.format(*self._idx_to_x2(idx))
+        re = self.re.search('/chapter_([^/]+)', self.chapter)
+        return re.group(1).replace('.', '-', 2)
 
     def get_main_content(self):
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:
-        return self.re.search('/(?:manga|chapter)/([^/]+)/?', self.get_url())
+        return self._get_name('/(?:manga|chapter)/([^/]+)/?')
 
     def get_chapters(self):
-        return self.document_fromstring(self.content, '.chapter-list span a')
+        return self._elements('.chapter-list span a')
 
     def get_files(self):
         result = self.html_fromstring(self.chapter, '#vungdoc img')
