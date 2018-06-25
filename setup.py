@@ -1,7 +1,6 @@
 from __future__ import print_function
 
 from setuptools import setup
-from glob import glob
 from manga_py.meta import __version__, __downloader_uri__
 from manga_py import __author__, __email__, __license__
 from os import path
@@ -22,15 +21,21 @@ REQUIREMENTS = [
 ]
 
 
-if path.isfile('requirements.txt'):
-    with open('requirements.txt') as f:
-        REQUIREMENTS = f.read()
+# if path.isfile('requirements.txt'):
+#     with open('requirements.txt') as f:
+#         REQUIREMENTS = f.read()
 
 
 long_description = ''
 if path.isfile('README.rst'):
     with open('README.rst') as f:
         long_description = f.read()
+
+
+release_status = 'Development Status :: 4 - Beta'
+if __version__.find('alpha'):
+    release_status = 'Development Status :: 3 - Alpha'
+
 
 setup(
     name='manga_py',
@@ -61,8 +66,7 @@ setup(
     keywords=['manga-downloader', 'manga', 'manga-py'],
     license=__license__,
     classifiers=[  # look here https://pypi.python.org/pypi?%3Aaction=list_classifiers
-        'Development Status :: 3 - Alpha',
-        # 'Development Status :: 4 - Beta',
+        release_status,
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Environment :: Console',

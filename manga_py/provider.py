@@ -100,7 +100,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             _max += _min - 1
         for idx, __url in enumerate(volumes):
             self._storage['current_chapter'] = idx
-            self._info.add_volume(self.chapter, self.get_archive_path())
+            self._info.add_volume(self.chapter_for_json(), self.get_archive_path())
             self._download_chapter(idx, _min, _max)
 
     def loop_files(self):

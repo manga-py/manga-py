@@ -386,9 +386,11 @@ providers_list = {
     'mangasupa_com': [
         r'mangasupa\.com/(manga|chapter)/.',
     ],
+    'mangasail_com': [
+        r'mangasail.com/(manga|chapter|node|content)/.',
+    ],
     'mangatail_com': [
         r'mangatail.me/(manga|chapter|node|content)/.',
-        r'mangasail.com/(manga|chapter|node|content)/.',
     ],
     'mangatown_com': [
         r'mangatown\.com/manga/.',
