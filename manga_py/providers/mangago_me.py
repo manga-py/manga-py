@@ -6,19 +6,25 @@ class MangaGoMe(Provider, Std):
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        tp = self.re.search('/(mf|raw)', self.chapter).group(1)
-        return 'vol_{:0>3}-{}-{}'.format(*idx, tp)
+        tp = self.re.search('/(\w{1,4})/[^/]*?\d+', self.chapter).group(1)
+        idx = [self.chapter_id, idx[-1]]  # do not touch this!
+        idx.append(tp)
+        return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
-        selector = r'/(?:mf|raw)/.*?(\d+)(?:\.(\d+))?'
-        chapter = self.chapter
-        idx = self.re.search(selector, chapter).groups()
-        return '{}-{}'.format(*self._idx_to_x2(idx))
+        selector = r'/\w{1,4}/[^/]*?(\d+)(?:[^\d]+(\d+))?'
+        idx = self.re.search(selector, self.chapter).groups()
+        if idx[1] is not None:
+            fmt = '{}-{}'
+            return fmt.format(*idx)
+        return idx[0]
 
     def get_main_content(self):
         return self._get_content('{}/read-manga/{}/')
 
     def get_manga_name(self) -> str:
+        self.log('NOT WORKED NOW! Wait update, please!')
+        exit()
         return self._get_name(r'/read-manga/([^/]+)/')
 
     def get_chapters(self):
@@ -31,11 +37,16 @@ class MangaGoMe(Provider, Std):
         self.cf_protect(self.get_url())
 
     def get_files(self):
-        content = self.http_get(self.chapter)
-        parser = self.re.search("imgsrcs.+[^.]+?var.+?=\s?'(.+)'", content)
-        if not parser:
-            return []
-        return parser.group(0).split(',')
+        # content = self.http(True, {
+        #     'referer': self.chapter,
+        #     'cookies': self.http().cookies,
+        #     'user_agent': self.http().user_agent
+        # }).get(self.chapter)
+        # parser = self.re.search(r"var\s?imgsrcs\s+?=\s?['\"](.+)['\"]", content)  # TODO: NEED DECRYPT!
+        # if not parser:
+        #     return []
+        # return parser.group(0).split(',')
+        pass
 
     def get_cover(self):
         return self._cover_from_content('#information .cover img')

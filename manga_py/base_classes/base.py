@@ -63,15 +63,19 @@ class Base:
             image.crop_manual_with_offsets(offsets=self._image_params['crop'], dest_path=dest_path)
             image.close()
 
-    def http(self, new=False) -> Http:
-        http_params = {
-            'allow_webp': not self._params.get('disallow_webp', None),
-            'referer': self._storage.get('referer', self.domain),
-            'user_agent': self._get_user_agent(),
-            'proxies': self._storage.get('proxies', None),
-            'cookies': self._storage.get('cookies', None),
-            'kwargs': self._http_kwargs
-        }
+    def _build_http_params(self, params):
+        if params is None:
+            params = {}
+        params.setdefault('allow_webp', not self._params.get('disallow_webp', None))
+        params.setdefault('referer', self._storage.get('referer', self.domain))
+        params.setdefault('user_agent', self._get_user_agent())
+        params.setdefault('proxies', self._storage.get('proxies', None))
+        params.setdefault('cookies', self._storage.get('cookies', None))
+        params.setdefault('kwargs', self._http_kwargs)
+        return params
+
+    def http(self, new=False, params=None) -> Http:
+        http_params = self._build_http_params(params)
         if new:
             http = Http(**http_params)
             return http
