@@ -26,7 +26,7 @@ class ShogakukanCoJp(ShogakukanTameshiyoMe, Std):
         return self._get_name(r'/(?:series|books)/(\d+)')
 
     def get_chapters(self):
-        return self._elements('a[href*="shogakukan.tameshiyo.me"]')
+        return self._elements('a[href*="shogakukan.tameshiyo.me"]')  # todo: watch this
 
     def get_cover(self) -> str:
         img = self._cover_from_content('.mainimg01')

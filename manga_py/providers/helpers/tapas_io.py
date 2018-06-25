@@ -24,11 +24,14 @@ class TapasIo:
         items = self.provider.document_fromstring(content.get('data', {}).get('html', '<html></html>'), '.art-image')
         return [i.get('src') for i in items]
 
-    def parse_chapter_content(self):
-        content = self.provider.json.loads(self.provider.http_get('{}/episode/view/{}'.format(
+    def chapter_url(self):
+        return '{}/episode/view/{}'.format(
             self.provider.domain,
             self.provider.chapter['id']
-        )))
+        )
+
+    def parse_chapter_content(self):
+        content = self.provider.json.loads(self.provider.http_get(self.chapter_url()))
         if content['code'] != 200:
             self._error(content)
             return []

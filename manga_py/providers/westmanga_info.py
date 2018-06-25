@@ -25,7 +25,7 @@ class WestMangaInfo(Provider, Std):
         return self.get_manga_name()
 
     def get_chapters(self):
-        print(self.manga_name)
+        # print(self.manga_name)
         return self._elements('span.leftoff > a')
 
     def get_files(self):

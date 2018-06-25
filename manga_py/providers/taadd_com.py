@@ -34,7 +34,7 @@ class TaaddCom(Provider, Std):
         return name.group(1)
 
     def get_chapters(self):
-        return self.document_fromstring(self.content, self._chapters_selector)
+        return self._elements(self._chapters_selector)
 
     def prepare_cookies(self):
         self.__local_storage = 0

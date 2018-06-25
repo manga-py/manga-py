@@ -20,8 +20,7 @@ class ReadComicBooksOnlineOrg(Provider, Std):
         return self._get_name(r'\.(?:org|net)/(?:reader/)?([^/]+)')
 
     def get_chapters(self):
-        s = '#chapterlist .chapter > a'
-        return self.document_fromstring(self.content, s)
+        return self._elements('#chapterlist .chapter > a')
 
     def _get_image(self, parser):
         src = parser.cssselect('a > img.picture')

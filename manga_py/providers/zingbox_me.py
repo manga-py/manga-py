@@ -29,10 +29,13 @@ class ZingBoxMe(Provider, Std):
         except self.json.JSONDecodeError:
             return []
 
-    def get_files(self):
+    def _chapter_url(self):
         idx = self.chapter.get('chapterId', 0)
+        return '/manga/getChapterImages/{}'.format(idx)
+
+    def get_files(self):
         _ = {
-            'url': '/manga/getChapterImages/{}'.format(idx),
+            'url': self._chapter_url(),
             'method': 'GET',
             'api': '/mangaheatapi/web',
         }
@@ -45,6 +48,9 @@ class ZingBoxMe(Provider, Std):
     def book_meta(self) -> dict:
         # todo meta
         pass
+
+    def chapter_for_json(self):
+        return self._chapter_url()
 
 
 main = ZingBoxMe

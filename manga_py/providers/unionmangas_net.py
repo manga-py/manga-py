@@ -5,7 +5,7 @@ class UnionMangasNet(SoMangaNet):
 
     def get_chapters(self):
         selector = '.tamanho-bloco-perfil .lancamento-linha a[href*="/leitor/"]'
-        return self.document_fromstring(self.content, selector)
+        return self._elements(selector)
 
 
 main = UnionMangasNet

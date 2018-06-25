@@ -17,7 +17,7 @@ class ReadComicOnlineTo(Provider, Std):
         return self.re.search(r'\.to/Comic/([^/]+)', self.get_url())
 
     def get_chapters(self):
-        return self.document_fromstring(self.content, 'table.listing td > a')
+        return self._elements('table.listing td > a')
 
     def prepare_cookies(self):
         self.cf_protect(self.get_url())

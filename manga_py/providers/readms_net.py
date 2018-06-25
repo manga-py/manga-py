@@ -19,7 +19,7 @@ class ReadMsNet(Provider, Std):
         return self._get_name(r'\.net/(?:manga|r)/([^/]+)')
 
     def get_chapters(self):
-        return self.document_fromstring(self.content, '.table-striped td > a')
+        return self._elements('.table-striped td > a')
 
     def get_files(self):
         img_selector = 'img#manga-page'

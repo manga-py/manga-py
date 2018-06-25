@@ -57,5 +57,8 @@ class PururinIo(Provider, Std):
         # todo meta
         pass
 
+    def chapter_for_json(self):
+        return self.get_url()
+
 
 main = PururinIo

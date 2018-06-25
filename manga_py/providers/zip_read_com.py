@@ -20,7 +20,7 @@ class ZipReadCom(Provider, Std):
         return self._get_name(r'\.com/([^/]+)')
 
     def get_chapters(self):
-        return self.html_fromstring(self.get_url(), '#content .entry > p > a')
+        return self._elements('#content .entry > p > a')
 
     def get_files(self):
         jav_zip_org = JavZipOrg(self)

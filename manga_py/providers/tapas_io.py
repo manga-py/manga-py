@@ -40,5 +40,8 @@ class TapasIo(Provider, Std):  # TODO: Login\Password
         # todo meta
         pass
 
+    def chapter_for_json(self):
+        return self.helper.chapter_url()
+
 
 main = TapasIo

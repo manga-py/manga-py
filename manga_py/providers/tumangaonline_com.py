@@ -54,12 +54,17 @@ class TuMangaOnlineCom(Provider, Std):
     def prepare_cookies(self):
         self._base_cookies()
 
-    def get_files(self):
+    def _chapter_url(self):
         idx = self._get_id()
         domain = self.domain
         url = '{}/api/v1/imagenes?idManga={}&idScanlation={}&numeroCapitulo={}&visto=true'
         ch = self.chapter
-        data = self.http_get(url=url.format(domain, idx, *ch), headers=self._get_headers())
+        return url.format(domain, idx, *ch)
+
+    def get_files(self):
+        idx = self._get_id()
+        ch = self.chapter
+        data = self.http_get(url=self._chapter_url(), headers=self._get_headers())
 
         items = self.json.loads(self.json.loads(data).get('imagenes', '[]'))
         url = 'https://img1.tumangaonline.com/subidas/{}/{}/{}/{}'
@@ -74,6 +79,9 @@ class TuMangaOnlineCom(Provider, Std):
     def book_meta(self) -> dict:
         # todo meta
         pass
+
+    def chapter_for_json(self):
+        return self._chapter_url()
 
 
 main = TuMangaOnlineCom
