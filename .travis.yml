@@ -43,7 +43,7 @@ deploy:
     skip-cleanup: true
     skip_cleanup: true
     on:
-      branch: master
+      branch: stable_1.x
       condition: $allow_deploy == true
       tags: false
   - provider: pypi
@@ -52,7 +52,7 @@ deploy:
     password: $PYPI_PASS
     skip_cleanup: true
     on:
-      branch: master
+      branch: stable_1.x
       tags: true
       condition: $allow_deploy == true
 #    fqdn: yuru-yuri.sttv.me
