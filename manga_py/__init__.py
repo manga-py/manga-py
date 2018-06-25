@@ -11,10 +11,12 @@ try:
     from .cli.args import get_cli_arguments
     from .fs import get_temp_path, get_info
     from .info import Info
+    from .meta import __version__
 
 except Exception as e:
     print(e)
-    print('Setup in progress?')
+    print('Setup in progress?', file=stderr)
+    print('manga-py version: %s' % __version__, file=stderr)
     exit()
 
 __author__ = 'Sergey Zharkov'
@@ -77,6 +79,8 @@ def _update_all(args):
 
 
 def main():
+    if __version__.find('alpha'):
+        print('Alpha release! There may be errors!', file=stderr)
     temp_path = get_temp_path()
     path.isdir(temp_path) or makedirs(temp_path)
 

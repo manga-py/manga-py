@@ -1,5 +1,6 @@
 import re
 from os import path
+from sys import stderr
 
 from lxml.html import HtmlElement
 
@@ -47,9 +48,13 @@ class Base:
 
     @property
     def domain(self) -> str:
-        if not self._storage.get('domain_uri', None):
-            self._storage['domain_uri'] = re.search('(https?://[^/]+)', self._params['url']).group(1)
-        return self._storage.get('domain_uri', '')
+        try:
+            if not self._storage.get('domain_uri', None):
+                self._storage['domain_uri'] = re.search('(https?://[^/]+)', self._params['url']).group(1)
+            return self._storage.get('domain_uri', '')
+        except Exception:
+            print('url is broken!', file=stderr)
+            exit()
 
     @staticmethod
     def image_auto_crop(src_path, dest_path=None):
@@ -173,3 +178,7 @@ class Base:
 
     def chapter_for_json(self) -> str:
         return self.chapter
+
+    def put_info_json(self, meta):
+        # manga_name, url, directory
+        pass

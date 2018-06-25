@@ -61,7 +61,8 @@ setup(
     keywords=['manga-downloader', 'manga', 'manga-py'],
     license=__license__,
     classifiers=[  # look here https://pypi.python.org/pypi?%3Aaction=list_classifiers
-        'Development Status :: 4 - Beta',
+        'Development Status :: 3 - Alpha',
+        # 'Development Status :: 4 - Beta',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Environment :: Console',
