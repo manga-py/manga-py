@@ -32,8 +32,8 @@ def _debug_args(args_parser):
     args.add_argument('--simulate', action='store_const', const=True, default=False,
                       help='Do not download the files and do not write anything to disk')
 
-    args.add_argument('--full-error', action='store_const', const=True, default=False,
-                      help='Show full stack trace')
+    # args.add_argument('--full-error', action='store_const', const=True, default=False,
+    #                   help='Show full stack trace')
 
     # args.add_argument('-vv', '--log', metavar='info', type='str', help='Verbose log')
 
@@ -41,8 +41,8 @@ def _debug_args(args_parser):
 def _downloading_args(args_parser):
     args = args_parser.add_argument_group('Downloading options')
 
-    args.add_argument('-U', '--update-all', action='store_const',
-                      help='Update all. Not worked now!', const=True, default=False)
+    # args.add_argument('-U', '--update-all', action='store_const',
+    #                   help='Update all. Not worked now!', const=True, default=False)
     args.add_argument('-s', '--skip-volumes', metavar='count', type=int,
                       help='Skip volumes', default=0)
     args.add_argument('-c', '--max-volumes', metavar='count', type=int,
