@@ -80,7 +80,7 @@ Help
     # or
     manga-py --help
 
-.. |Travis CI result| image:: https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=master
+.. |Travis CI result| image:: https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=stable_1.x
    :target: https://travis-ci.org/yuru-yuri/manga-dl/branches
 .. |Code Climate| image:: https://codeclimate.com/github/yuru-yuri/manga-dl/badges/gpa.svg
    :target: https://codeclimate.com/github/yuru-yuri/manga-dl
@@ -88,9 +88,9 @@ Help
    :target: https://codeclimate.com/github/yuru-yuri/manga-dl
 .. |PyPI - Python Version| image:: https://img.shields.io/pypi/pyversions/manga-py.svg
    :target: https://pypi.org/project/manga-py/
-.. |Scrutinizer CI result| image:: https://scrutinizer-ci.com/g/yuru-yuri/manga-dl/badges/quality-score.png?b=master
+.. |Scrutinizer CI result| image:: https://scrutinizer-ci.com/g/yuru-yuri/manga-dl/badges/quality-score.png?b=stable_1.x
    :target: https://scrutinizer-ci.com/g/yuru-yuri/manga-dl
-.. |Scrutinizer CI coverage| image:: https://scrutinizer-ci.com/g/yuru-yuri/manga-dl/badges/coverage.png?b=master
+.. |Scrutinizer CI coverage| image:: https://scrutinizer-ci.com/g/yuru-yuri/manga-dl/badges/coverage.png?b=stable_1.x
    :target: https://scrutinizer-ci.com/g/yuru-yuri/manga-dl
 .. |GitHub issues| image:: https://img.shields.io/github/issues/yuru-yuri/manga-dl.svg
    :target: https://github.com/yuru-yuri/manga-dl/issues
