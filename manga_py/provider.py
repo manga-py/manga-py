@@ -212,7 +212,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         cf = CloudFlareProtect()
         params = cf.run(url)
         if len(params):
-            self._storage['cookies'] = params[0]
+            self.update_cookies(params[0])
             self.update_ua(params[1])
             self._params['cf-protect'] = True
 
@@ -220,3 +220,8 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         self._storage['user_agent'] = ua
         self.http().user_agent = ua
         self._info and self._info.set_ua(ua)
+
+    def update_cookies(self, cookies):
+        for k in cookies:
+            self._storage['cookies'][k] = cookies[k]
+            self.http().cookies[k] = cookies[k]

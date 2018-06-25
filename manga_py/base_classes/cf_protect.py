@@ -1,3 +1,4 @@
+from sys import stderr
 import cfscrape
 
 
@@ -10,7 +11,7 @@ class CloudFlareProtect:
             scr = cfscrape.create_scraper()
             try:
                 self.protector = scr.get_tokens(url)
-            except Exception:
-                pass
+            except Exception as e:
+                print('CF error! %s' % e, file=stderr)
 
         return self.protector

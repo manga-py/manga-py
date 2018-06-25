@@ -2,7 +2,7 @@ import re
 
 providers_list = {
     '3asq_info': [
-        r'3asq\.info/',
+        r'3asq\.info/.',
     ],
     '8muses_com': [
         r'8muses\.com/comics/album/.',
@@ -131,8 +131,8 @@ providers_list = {
         r'hakihome\.com/.',
     ],
     'hatigarmscans_eu': [
-        r'hatigarmscans.eu/hs/(series|read)',
-        r'hatigarmscans.net/hs/(series|read)',
+        r'hatigarmscans.eu/hs/(series|read).',
+        r'hatigarmscans.net/hs/(series|read).',
     ],
     'heavenmanga_biz': [
         r'heavenmanga\.site/.',
@@ -232,7 +232,7 @@ providers_list = {
         r'lolibooru\.moe/post.',
     ],
     'lolivault_net': [
-        r'lolivault.net/online/(series|read)',
+        r'lolivault.net/online/(series|read).',
     ],
     'luscious_net': [
         r'luscious\.net/.+/album/.',
@@ -302,10 +302,13 @@ providers_list = {
         r'mangaforall\.com/m/.',
     ],
     'mangafreak_net_download': [
-        r'mangafreak\.net/Manga/',
+        r'mangafreak\.net/Manga/.',
     ],
     'mangago_me': [
         r'mangago\.me/read-manga/.',
+    ],
+    'mangahasu_se': [
+        r'mangahasu\.se/.',
     ],
     'mangahere_cc': [
         r'mangahere\.co/manga/.',
@@ -430,6 +433,9 @@ providers_list = {
     'nhentai_net': [
         r'nhentai\.net/g/.',
     ],
+    'niadd_com': [
+        r'niadd.com/manga/.',
+    ],
     'nightow_net': [
         r'nightow\.net/online/\?manga=.',
     ],
@@ -460,10 +466,10 @@ providers_list = {
         r'pecintakomik\.com/.',
     ],
     'plus_comico_jp_manga': [
-        r'plus\.comico\.jp/manga/\d+/',
+        r'plus\.comico\.jp/manga/\d',
     ],
     'plus_comico_jp': [
-        r'plus\.comico\.jp/store/\d+/',
+        r'plus\.comico\.jp/store/\d',
     ],
     'porncomix_info': [
         r'porncomix\.info/.',
@@ -585,15 +591,15 @@ providers_list = {
     ],
     'subapics_com': [
         r'subapics\.com/manga/.',
-        r'subapics\.com/.+-chapter-',
+        r'subapics\.com/.+-chapter-.',
         r'mangakita\.net/manga/.',
-        r'mangakita\.net/.+-chapter-',
+        r'mangakita\.net/.+-chapter-.',
         r'komikstation\.com/manga/.',
-        r'komikstation\.com/.+-chapter-',
+        r'komikstation\.com/.+-chapter-.',
         r'mangavy\.com/manga/.',
-        r'mangavy\.com/.+-chapter-',
-        r'mangakid\.net/manga/',
-        r'mangakid\.net/.+-chapter-',
+        r'mangavy\.com/.+-chapter-.',
+        r'mangakid\.net/manga/.',
+        r'mangakid\.net/.+-chapter-.',
     ],
     'submanga_online': [
         r'submanga\.online/manga/.',
@@ -661,7 +667,7 @@ providers_list = {
         r'webtoon\.bamtoki\.se/.',
     ],
     'webtoons_com': [
-        r'webtoons\.com/[^/]+/[^/]+/[^/]+',
+        r'webtoons\.com/[^/]+/[^/]+/.',
     ],
     'webtoontr_com': [
         r'webtoontr.com/_/.',

@@ -28,6 +28,7 @@ class Base:
         }
         self._params = {
             'destination': 'Manga',
+            'cf-protect': False,
         }
         self._image_params = {
             'crop': (0, 0, 0, 0),

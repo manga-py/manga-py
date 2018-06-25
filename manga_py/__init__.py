@@ -57,7 +57,10 @@ def _run_util(args) -> tuple:
 
     code = _init_cli(args, _info)
 
-    _info = dumps(_info.get())
+    if parse_args.print_json:
+        _info = dumps(_info.get())
+    else:
+        _info = []
 
     return code, _info
 
