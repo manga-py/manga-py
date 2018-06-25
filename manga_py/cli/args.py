@@ -27,8 +27,7 @@ def _debug_args(args_parser):
 
     args.add_argument('-h', '--help', action='help', help='show help and exit')
     args.add_argument('--print-json', action='store_const', const=True, default=False,
-                      help='Print information about the results in the form of json (after completion)' +
-                      ' - Not worked now')
+                      help='Print information about the results in the form of json (after completion)')
 
     args.add_argument('--simulate', action='store_const', const=True, default=False,
                       help='Do not download the files and do not write anything to disk')
@@ -43,7 +42,7 @@ def _downloading_args(args_parser):
     args = args_parser.add_argument_group('Downloading options')
 
     args.add_argument('-U', '--update-all', action='store_const',
-                      help='Update all', const=True, default=False)
+                      help='Update all. Not worked now!', const=True, default=False)
     args.add_argument('-s', '--skip-volumes', metavar='count', type=int,
                       help='Skip volumes', default=0)
     args.add_argument('-c', '--max-volumes', metavar='count', type=int,
