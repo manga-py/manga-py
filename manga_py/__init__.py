@@ -7,17 +7,19 @@ try:
     from json import dumps
     import traceback
 
+except Exception as e:
+    print(e)
+
+
+try:
     from .cli import Cli, check_version
     from .cli.args import get_cli_arguments
     from .fs import get_temp_path, get_info
     from .info import Info
     from .meta import __version__
-
-except Exception as e:
-    print(e)
+except Exception:
     print('Setup in progress?', file=stderr)
-    print('manga-py version: %s' % __version__, file=stderr)
-    exit()
+
 
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
