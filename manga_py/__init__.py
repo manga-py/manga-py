@@ -45,13 +45,7 @@ def _init_cli(args, _info):
 
 def _run_util(args) -> tuple:
     parse_args = args.parse_args()
-
-    # if parse_args.server:
-    #     server_mode = Server(args)
-    #     exit()
-
     _info = Info(parse_args)
-
     code = _init_cli(args, _info)
 
     if parse_args.print_json:
@@ -87,22 +81,11 @@ def main():
     args = get_cli_arguments()
     parse_args = args.parse_args()
 
-    code = 0
-    if parse_args.update_all:
-        _update_all(args)
-    else:
-        code, _info = _run_util(args)
-        parse_args.print_json and print(_info)
+    code, _info = _run_util(args)
+    parse_args.print_json and print(_info)
 
     exit(code)
 
 
 if __name__ == '__main__':
-    # version = check_version()  # maybe
-    # if version['need_update']:
-    #     print('Found new version! %s \nSee here: %s' % (
-    #         version['tag'],
-    #         version['url']
-    #     ), file=stderr)
-
     main()
