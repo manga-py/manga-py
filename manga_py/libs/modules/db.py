@@ -37,5 +37,16 @@ class Manga(Db):
         table_name = 'manga'
 
 
+class Cookies(Db):
+    id = peewee.PrimaryKeyField(primary_key=True)
+    domain = peewee.CharField()
+    key = peewee.CharField()
+    value = peewee.CharField()
+    expires = peewee.IntegerField()
+
+    class Meta:
+        table_name = 'cookies'
+
+
 def make_db(path=None):
     _db_cache(path).create_tables([Manga], safe=True)
