@@ -28,9 +28,7 @@ def before_shutdown():
 
 
 def _init_cli(args, _info):
-    error_lvl = -2
-    if args.parse_args().full_error:
-        error_lvl = -10
+    error_lvl = -3
     try:
         _info.start()
         cli_mode = Cli(args, _info)
