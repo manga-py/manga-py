@@ -7,13 +7,8 @@ try:
     from json import dumps
     import traceback
 
-    from .meta import __version__
-
-except Exception as e:
+except ImportError as e:
     print(e)
-    print('Setup in progress?', file=stderr)
-    print('manga-py version: %s' % __version__, file=stderr)
-    exit()
 
 
 def main():

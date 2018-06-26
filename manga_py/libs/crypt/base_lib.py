@@ -2,7 +2,7 @@ import base64
 import codecs
 import gzip
 import zlib
-from binascii import unhexlify
+from binascii import unhexlify, crc32
 from struct import pack, unpack
 from sys import stderr
 
@@ -124,3 +124,7 @@ class BaseLib:
             hex_char = string[counter] + string[counter + 1]
             clear_str += unhexlify(hex_char)
         return clear_str
+
+    @staticmethod
+    def crc32(value):
+        pass

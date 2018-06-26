@@ -1,8 +1,6 @@
 exclude_paths:
 - 'tests/'
-- 'manga_py/storage/'
-- 'manga_py/providers/'
-- 'manga_py/gui/langs/*.json'
+- 'manga_py/'
 - 'helpers/'
 - 'Dockerfile'
 - 'LICENSE'

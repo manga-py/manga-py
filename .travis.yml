@@ -9,52 +9,54 @@ python:
   - "3.6"
 #  - "nightly"
 cache: pip
-before_install:
-  - sudo apt-get -y install nodejs python-setuptools libwebp-dev
-  - python -V
-  - pwd
-  - chmod +x helpers/after_script.sh
-  - chmod +x helpers/before_deploy.sh
-  - chmod +x helpers/before_script.sh
-  - source ./helpers/before_script.sh
-install:
-  - npm install -g sass node-sass html-minifier
-  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
-  - pip install -r requirements.txt
-before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+#before_install:
+#  - sudo apt-get -y install nodejs python-setuptools libwebp-dev
+#  - python -V
+#  - pwd
+#  - chmod +x helpers/after_script.sh
+#  - chmod +x helpers/before_deploy.sh
+#  - chmod +x helpers/before_script.sh
+#  - source ./helpers/before_script.sh
+#install:
+#  - npm install -g sass node-sass html-minifier
+#  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
+#  - pip install -r requirements.txt
+#before_script:
+#  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+#  - chmod +x ./cc-test-reporter
+#  - ./cc-test-reporter before-build
 script:
-  - if [[ "$TRAVIS_TAG" = "" ]]; then coverage run --omit=manga_py/providers/*.py --source=manga_py pytest.py; fi
+  - echo 'Skip'
+#  - if [[ "$TRAVIS_TAG" = "" ]]; then coverage run --omit=manga_py/providers/*.py --source=manga_py pytest.py; fi
 after_script:
   - source ./helpers/after_script.sh
-before_deploy:
-  - echo "$allow_deploy"
-  - echo "Start make gh-pages content"
-  - source ./helpers/before_deploy.sh
-deploy:
-  - provider: pages
-    edge:
-      branch: v1.8.47
-    local-dir: helpers/gh_pages_content
-    target-branch: gh-pages
-    github-token: $GH_TOKEN
-    skip-cleanup: true
-    skip_cleanup: true
-    on:
-      branch: master
-      condition: $allow_deploy == true
-      tags: false
-  - provider: pypi
-    server: https://upload.pypi.org/legacy/
-    user: 1271
-    password: $PYPI_PASS
-    skip_cleanup: true
-    on:
-      branch: master
-      tags: true
-      condition: $allow_deploy == true
+#before_deploy:
+#  - echo "$allow_deploy"
+#  - echo "Start make gh-pages content"
+#  - source ./helpers/before_deploy.sh
+#deploy:
+#  - provider: pages
+#    edge:
+#      branch: v1.8.47
+#    local-dir: helpers/gh_pages_content
+#    target-branch: gh-pages
+#    github-token: $GH_TOKEN
+#    skip-cleanup: true
+#    skip_cleanup: true
+#    on:
+#      branch: master
+#      condition: $allow_deploy == true
+#      tags: false
+#  - provider: pypi
+#    server: https://upload.pypi.org/legacy/
+#    user: 1271
+#    password: $PYPI_PASS
+#    skip_cleanup: true
+#    on:
+#      branch: master
+#      tags: true
+#      condition: $allow_deploy == true
+
 #    fqdn: yuru-yuri.sttv.me
 #see https://docs.travis-ci.com/user/deployment/pages/
 allow_failures:

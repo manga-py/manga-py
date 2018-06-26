@@ -10,3 +10,4 @@ packaging>=17
 html-purifier>=0.1.9
 selenium>=3.0.2
 pyexecjs>=1.5.1
+peewee>3.4.0

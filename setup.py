@@ -17,6 +17,7 @@ REQUIREMENTS = [
     'packaging',
     'pyexecjs>=1.5.1',
     'html-purifier',
+    'peewee>3.4.0',
 ]
 
 
