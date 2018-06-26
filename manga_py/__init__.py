@@ -7,11 +7,6 @@ try:
     from json import dumps
     import traceback
 
-except Exception as e:
-    print(e)
-
-
-try:
     from .cli import Cli, check_version
     from .cli.args import get_cli_arguments
     from .fs import get_temp_path, get_info
