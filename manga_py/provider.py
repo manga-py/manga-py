@@ -1,7 +1,11 @@
+from abc import ABCMeta
 
-class Provider:
+from .libs.base import Base
+
+
+class Provider(Base, metaclass=ABCMeta):
     def __init__(self):
-        pass
+        super().__init__()
 
     def run(self, params: dict):
         pass

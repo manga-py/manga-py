@@ -21,9 +21,9 @@ REQUIREMENTS = [
 ]
 
 
-# if path.isfile('requirements.txt'):
-#     with open('requirements.txt') as f:
-#         REQUIREMENTS = f.read()
+if path.isfile('requirements.txt'):
+    with open('requirements.txt') as f:
+        REQUIREMENTS = f.read()
 
 
 long_description = ''
@@ -46,6 +46,9 @@ setup(
         'manga_py.libs.base',
         'manga_py.libs.crypt',
         'manga_py.libs.http',
+        'manga_py.libs.modules',
+        'manga_py.libs.modules.html',
+        'manga_py.libs.modules.html.templates',
         'manga_py.libs.providers',
     ],
     include_package_data=True,

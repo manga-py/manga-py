@@ -6,10 +6,10 @@ class Config:
     :property download
     :property http
     """
-    __params = None
+    __params = {}
 
-    def __init__(self):
-        self.__params = {}
+    # def __init__(self):
+    #     self.__params = {}
 
     def __dir__(self):
         return self.__params.keys()
