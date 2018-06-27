@@ -27,6 +27,8 @@ class Normalize:
         """
         _restored = urlparse(url)
         scheme, netloc, path = self.__restore_path(self._base, _restored)
+        if scheme == '':
+            scheme = 'http'
         return '%s://%s%s' % (scheme, netloc, path)
 
     @staticmethod
