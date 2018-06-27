@@ -71,8 +71,8 @@ def _update_all(args):
 
 
 def main():
-    if __version__.find('alpha'):
-        print('Alpha release! There may be errors!', file=stderr)
+    # if ~__version__.find('alpha'):
+    #     print('Alpha release! There may be errors!', file=stderr)
     temp_path = get_temp_path()
     path.isdir(temp_path) or makedirs(temp_path)
 

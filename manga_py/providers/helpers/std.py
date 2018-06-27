@@ -78,11 +78,11 @@ class Std:
     def normal_arc_name(self, idx):
         fmt = 'vol_{:0>3}'
         if not isinstance(idx, list):
-            idx = list(idx)
+            idx = [idx]
         if len(idx) > 1:
             fmt += '-{}' * (len(idx) - 1)
         elif self._zero_fill:
-            idx.append(0)
+            idx.append('0')
             fmt += '-{}'
         return fmt.format(*idx)
 
