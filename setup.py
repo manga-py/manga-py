@@ -43,6 +43,7 @@ setup(
     packages=[
         'manga_py',
         'manga_py.cli',
+        'manga_py.cli.args',
         'manga_py.libs.base',
         'manga_py.libs.crypt',
         'manga_py.libs.http',

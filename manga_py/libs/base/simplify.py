@@ -2,11 +2,13 @@ from .html import Html
 
 
 class Simplify:
-    _content = None
-    _manga_name = None
     """
+    :var http: str
     :property http: Http
     """
+    http = None
+    _content = None
+    _manga_name = None
 
     @property
     def content(self):
@@ -23,4 +25,3 @@ class Simplify:
     def images(self, parser, selector: str, attribute: str = 'src'):
         items = Html(self.http).elements(selector, parser)
         return [i.get(attribute) for i in items]
-

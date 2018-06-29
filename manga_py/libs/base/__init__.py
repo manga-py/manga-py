@@ -8,6 +8,14 @@ from .simplify import Simplify
 
 
 class Base(Abstract, Callbacks, Simplify, metaclass=ABCMeta):
+    logger = None
+    print = None
+    print_error = None
+    input = None
+    password = None
+    info = None
+    progressbar = None
+
     _chapters = None
     _files = None
     _http = None
@@ -18,7 +26,7 @@ class Base(Abstract, Callbacks, Simplify, metaclass=ABCMeta):
 
     @property
     def html(self) -> Html:
-        return Html(self._http)
+        return Html(self.http)
 
     @property
     def http(self) -> Http:

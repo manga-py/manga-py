@@ -14,6 +14,8 @@ class MultiThreads:
             self.max_threads = multiprocessing.cpu_count()
         except Exception:
             pass
+        if self.max_threads < 2:
+            self.max_threads = 2
 
     def add(self, target: callable, args: tuple):
         self.threads.append(Thread(target=target, args=args))

@@ -1,5 +1,6 @@
 from lxml.html import document_fromstring, Element
 from manga_py.libs.http import Http
+from tinycss import make_parser
 
 
 class Html:
@@ -35,12 +36,22 @@ class Html:
         """
         return self._check_parser(parser).cssselect(selector)
 
-    def _cover_from_tuple(self, item, attributes):
+    def _cover_from_tuple(self, item: Element, attributes):
         for attr in attributes:
-            value = attributes.get(attr, None)
+            value = item.get(attr, None)
             if value is None:
                 continue
-            self.http.head(self.http. value)
+            value = self.http.normalize_uri(value)
+            test = self.http.check_url(value)
+            if test:
+                return value
+        return None
+
+    @staticmethod
+    def _cssselect(parser: Element, selector) -> list:
+        if selector is None:
+            return [parser]
+        return parser.cssselect(selector)
 
     def cover(self, parser, selector: str, attribute='src', index: int = 0):
         """
@@ -51,10 +62,32 @@ class Html:
         :return:
         """
         parser = self._check_parser(parser)
-        items = parser.cssselect(selector)
+        items = self._cssselect(parser, selector)
         if len(items) > index:
             if isinstance(attribute, str):
                 return items[index].get(attribute, None)
             if isinstance(attribute, tuple):
                 return self._cover_from_tuple(items[index], attribute)
         return None
+
+    def parse_background(self, element: Element) -> str:
+        """
+        :param element:
+        :return:
+        """
+        style = element.get('style', None)
+        value = None
+        if style:
+            css = make_parser(style)
+            try:
+                value = css.parse_style_attr(style)[0][0].value[0].value
+            except IndexError:
+                pass
+        return self.http.normalize_uri(value)
+
+    def text_content(self, parser, selector: str, idx: int = 0, strip: bool = True):
+        items = self._cssselect(parser, selector)
+        text = items[idx].text_content()
+        if strip:
+            text = text.strip()
+        return text

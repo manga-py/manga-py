@@ -47,7 +47,7 @@ class Http(Request):
         with open(self._cookies_file, 'w') as f:
             f.write(json.dumps(all_cookies))
 
-    def _normalize_uri(self, uri):
+    def normalize_uri(self, uri):
         if self._base_uri is not None:
             return normalize(uri, self._base_uri)
         return uri

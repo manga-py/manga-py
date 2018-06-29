@@ -43,8 +43,11 @@ def get_provider(url: str, providers: dict = None, more_namespaces: list = None)
     provider = get_provider (url, providers, namespaces)
 
     :param url: str
+    :type str
     :param providers:
+    :type dict
     :param more_namespaces:
+    :type list
     :return:
     """
     namespaces = __check_namespaces(providers, more_namespaces)

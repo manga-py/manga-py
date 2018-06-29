@@ -127,4 +127,6 @@ class BaseLib:
 
     @staticmethod
     def crc32(value):
-        pass
+        if not isinstance(value, bytes):
+            value = value.encode()
+        return crc32(value)
