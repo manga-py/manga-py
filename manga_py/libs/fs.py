@@ -37,12 +37,14 @@ def make_dirs(directory):
     path.isdir(directory) or makedirs(directory)
 
 
-def remove_file_query_params(name, save_path: bool = True) -> str:
-    file_path = path.dirname(name)
-    name = path.basename(name)
+def remove_query(name, save_path: bool = True) -> str:
+    file_path = ''
+    if ~name.find('/'):
+        file_path = dirname(name)
+        name = basename(name)
     position = name.find('?')
     if position == 0:
-        name = 'image.png'  # fake image name
+        raise AttributeError('Name is empty')
     elif position > 0:
         name = name[:position]
     return path.join(file_path, name) if save_path else name

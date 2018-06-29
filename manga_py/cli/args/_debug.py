@@ -16,5 +16,5 @@ def main(args_parser: ArgumentParser):
     args.add_argument('-l', '--show-log', action='store_const', const=True, default=False,
                       help='Print log')
 
-    args.add_argument('-v', '--verbose', action='store_const', const=True, default=False,
+    args.add_argument('-v', '--verbose-log', action='store_const', const=True, default=False,
                       help='Verbose log')

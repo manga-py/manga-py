@@ -58,3 +58,4 @@ class Http(Request):
         make_dirs(dirname(path_location))
         with open(path_location, 'wb') as w:
             w.write(self.request(method, url).content)
+        return

@@ -11,6 +11,7 @@ from manga_py.cli.args import get_cli_arguments
 from manga_py.libs.fs import get_temp_path, make_dirs
 from manga_py.libs.info import Info
 from manga_py.libs.providers import get_provider
+from manga_py.libs import print_lib
 
 
 class Cli:
@@ -28,7 +29,7 @@ class Cli:
 
     @classmethod
     def print_error(cls, *args):
-        print(*args, file=stderr)
+        print_lib(*args, file=stderr)
 
     def run(self):
         better_exceptions.hook()
@@ -38,13 +39,16 @@ class Cli:
 
         for url in urls:
             provider = get_provider(url)
-            provider.print = print
+
+            provider.print = print_lib
             provider.print_error = self.print_error
             provider.input = input
             provider.password = getpass
             provider.logger = log
             provider.info = self.info
             provider.progressbar = ProgressBar
+
+            args['url'] = url
             provider.run(args)
 
     # @classmethod
