@@ -16,7 +16,7 @@ class MangaDexCom(Provider, Std):
         if len(self.chapter['lng']) > 0:
             fmt += '-{}'
         return fmt.format(
-            self.chapter['ch'],
+            self.chapter['ch'].replace('.', '-'),
             self.chapter['vol'],
             self.chapter['lng'],
         )
