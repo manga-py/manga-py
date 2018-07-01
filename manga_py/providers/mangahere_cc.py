@@ -27,13 +27,12 @@ class MangaHereCc(Provider, Std):
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter)
-        pages = parser.cssselect('.go_page select.wid60 option + option')
-        pages_list = [value.get('value') for value in pages]
+        pages = self._first_select_options(parser, '.go_page select.wid60', True)
         first_image = self.__get_img(parser)
         images = first_image
         n = self.http().normalize_uri
-        for i in pages_list:
-            parser = self.html_fromstring(n(i))
+        for page in pages:
+            parser = self.html_fromstring(n(page.get('value')))
             images += self.__get_img(parser)
         return images
 
