@@ -700,6 +700,9 @@ providers_list = {
     'zip_read_com': [
         r'zip-read\.com/.',
     ],
+    'zmanga_net': [
+        r'zmanga\.net/.',
+    ],
 }
 
 
