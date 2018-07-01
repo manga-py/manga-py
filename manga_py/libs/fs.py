@@ -26,15 +26,15 @@ def root_path():
 
 def get_util_home_path():
     if os_name == 'nt':
-        home = path.join(str(Path.home()), 'AppData', 'Roaming', __dir_name__)
+        home = path_join(str(Path.home()), 'AppData', 'Roaming', __dir_name__)
     else:
-        home = path.join(str(Path.home()), __dir_name__)
+        home = path_join(str(Path.home()), __dir_name__)
     make_dirs(home)
     return home
 
 
 def make_dirs(directory):
-    path.isdir(directory) or makedirs(directory)
+    is_dir(directory) or makedirs(directory)
 
 
 def remove_query(name, save_path: bool = True) -> str:
@@ -51,11 +51,11 @@ def remove_query(name, save_path: bool = True) -> str:
 
 
 def is_file(_path):
-    return path.isfile(_path)
+    return Path(_path).is_file()
 
 
 def is_dir(_path):
-    return path.isdir(_path)
+    return Path(_path).is_dir()
 
 
 def basename(_path):
@@ -67,14 +67,14 @@ def dirname(_path):
 
 
 def path_join(_path, *args):
-    return path.join(_path, *args)
+    return Path.joinpath(_path, *args)
 
 
 def unlink(_path):
     if is_dir(_path):
-        return rmtree(_path)
+        return Path(_path).rmdir()
     if is_file(_path):
-        return os_unlink(_path)
+        return Path(_path).unlink()
 
 
 def os_stat(_path):
