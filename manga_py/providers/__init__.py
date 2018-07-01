@@ -133,10 +133,12 @@ providers_list = {
     'hatigarmscans_eu': [
         r'hatigarmscans.eu/hs/(series|read).',
         r'hatigarmscans.net/hs/(series|read).',
+        r'hatigarmscans.net/manga/.',
     ],
     'heavenmanga_biz': [
         r'heavenmanga\.site/.',
         r'heavenmanga\.world/.',
+        r'heavenmanga\.life/.',
     ],
     'hentai2read_com': [
         r'hentai2read\.com/.',
@@ -293,6 +295,7 @@ providers_list = {
     ],
     'mangadex_com': [
         r'mangadex\.com/(manga|chapter)/.',
+        r'mangadex\.org/(manga|chapter)/.',
     ],
     'mangaeden_com': [
         r'mangaeden\.com/[^/]+/[^/]+-manga/.',

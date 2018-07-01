@@ -40,9 +40,10 @@ class GoodMangaNet(Provider, Std):
         img_selector = '#manga_viewer > a > img'
         parser = self.html_fromstring(self.chapter)
         images = self._images_helper(parser, img_selector)
-        for i in parser.cssselect('#asset_2 select.page_select option + option'):
+        pages = self._first_select_options(parser, 'select.page_select', True)
+        for i in pages:
             _parser = self.html_fromstring(i.get('value'))
-            images += self._images_helper(parser, img_selector)
+            images += self._images_helper(_parser, img_selector)
         return images
 
     def get_cover(self):
