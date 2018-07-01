@@ -12,7 +12,14 @@ class MangaDexCom(Provider, Std):
         return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
-        return self.chapter[0].replace('.', '-')
+        fmt = '{}-{}'
+        if len(self.chapter['lng']) > 0:
+            fmt += '-{}'
+        return fmt.format(
+            self.chapter['ch'],
+            self.chapter['vol'],
+            self.chapter['lng'],
+        )
 
     def get_main_content(self):
         url = self.get_url()
@@ -45,10 +52,10 @@ class MangaDexCom(Provider, Std):
         return self._parse_chapters(items)
 
     def _get_chapters_links(self, parser):
-        return parser.cssselect('.table [id^=chapter] a[href*="/chapter/"]')
+        return parser.cssselect('.table [id^=chapter]')
 
     def get_files(self):
-        content = self.http_get(self.chapter[1])
+        content = self.http_get(self.chapter['link'])
         try:
             files = self.json.loads(self.text_content(content, 'script[data-type="chapter"]'))
             n = self.http().normalize_uri
@@ -56,7 +63,7 @@ class MangaDexCom(Provider, Std):
             dataurl = files.get('dataurl')
             return ['{}/{}/{}'.format(server, dataurl, file) for file in files.get('page_array')]
         except Exception:
-            self.log('Files not found for chapter %s!' % self.chapter[0], file=stderr)
+            self.log('Files not found for chapter %s!' % self.chapter['link'], file=stderr)
             return []
 
     def get_cover(self) -> str:
@@ -67,18 +74,24 @@ class MangaDexCom(Provider, Std):
 
     def _parse_chapters(self, items):
         n = self.http().normalize_uri
-        return [(i.get('data-chapter-num'), n(i.get('href'))) for i in items]
-
-    @staticmethod
-    def _chapters(parser):
-        return parser.cssselect('#chapters tr td:first-child a')
+        result = []
+        for tr in items:
+            ch = tr.cssselect('a[data-chapter-id]')[0]
+            lng = tr.cssselect('.text-center + .text-center > img[alt]')
+            result.append({
+                'ch': ch.get('data-chapter-num'),
+                'vol': ch.get('data-volume-num'),
+                'link': n(ch.get('href')),
+                'lng': lng[0].get('alt') if lng else '',
+            })
+        return result
 
     def book_meta(self) -> dict:
         # todo meta
         pass
 
     def chapter_for_json(self):
-        return self.chapter[1]
+        return self.chapter['link']
 
 
 main = MangaDexCom
