@@ -34,7 +34,7 @@ class BatoTo(Provider, Std):
 
     @staticmethod
     def _sort_files(data):
-        keys = sorted(data, key=lambda _: _)
+        keys = sorted(data, key=lambda _: int(_))
         return [data[i] for i in keys]
 
     def get_files(self):
