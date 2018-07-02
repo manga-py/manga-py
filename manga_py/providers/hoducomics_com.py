@@ -6,10 +6,10 @@ from manga_py.crypt import hoducomics_com
 class HoduComicsCom(Provider, Std):
     _crypt = None
 
-    def debug(self, content ):
+    def debug(self, content):
         if isinstance(content, str):
             content = content.encode()
-        with open('Manga/content.html', 'wb') as f:
+        with open('Manga/content.json', 'wb') as f:
             f.write(content)
         exit()
 
@@ -43,6 +43,7 @@ class HoduComicsCom(Provider, Std):
             return []
         parser = self.document_fromstring(self._crypt.base64decode(images.group(1)))
 
+        # DEBUG!
         self.debug(self.json.dumps(self._images_helper(parser, 'img')))
 
         return self._images_helper(parser, 'img')
@@ -55,11 +56,6 @@ class HoduComicsCom(Provider, Std):
 
     def prepare_cookies(self):
         self._crypt = hoducomics_com.HoduComicsCom()
-
-        with open('Manga/content.html') as f:
-            print([self._crypt.decrypt(i) for i in self.json.loads(f.read())])
-        exit()
-
         self.cf_protect(self.get_url())
 
 
