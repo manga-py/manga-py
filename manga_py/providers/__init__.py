@@ -29,7 +29,7 @@ providers_list = {
         r'asmhentai\.com/(g|gallery)/\d',
     ],
     'atfbooru_ninja': [
-        r'atfbooru.ninja/posts.',
+        r'atfbooru\.ninja/posts.',
     ],
     'authrone_com': [
         r'authrone\.com/manga/.',
@@ -103,7 +103,7 @@ providers_list = {
         r'exhentai\.org/g/\d',
     ],
     'fanfox_net': [
-        r'fanfox.net/manga/.',
+        r'fanfox\.net/manga/.',
     ],
     'freeadultcomix_com': [
         r'freeadultcomix\.com/.',
@@ -131,9 +131,9 @@ providers_list = {
         r'hakihome\.com/.',
     ],
     'hatigarmscans_eu': [
-        r'hatigarmscans.eu/hs/(series|read).',
-        r'hatigarmscans.net/hs/(series|read).',
-        r'hatigarmscans.net/manga/.',
+        r'hatigarmscans\.eu/hs/(series|read).',
+        r'hatigarmscans\.net/hs/(series|read).',
+        r'hatigarmscans\.net/manga/.',
     ],
     'heavenmanga_biz': [
         r'heavenmanga\.site/.',
@@ -151,7 +151,7 @@ providers_list = {
         r'hentai-chan\.me/(related|manga|online)/.',  # todo
     ],
     'hentai_image_com': [
-        r'hentai-image.com/image/.',
+        r'hentai-image\.com/image/.',
     ],
     'hentaifox_com': [
         r'hentaifox\.com/.',
@@ -175,10 +175,13 @@ providers_list = {
     'hocvientruyentranh_com': [
         r'hocvientruyentranh\.com/(manga|chapter)/.',
     ],
+    # 'hoducomics_com': [
+    #     r'hoducomics\.com/webtoon/list/\d',
+    # ],
     'hotchocolatescans_com': [
         r'hotchocolatescans\.com/fs/(series|read)/.',
         r'mangaichiscans\.mokkori\.fr/fs/(series|read)/.',
-        r'taptaptaptaptap.net/fs/(series|read)/.',
+        r'taptaptaptaptap\.net/fs/(series|read)/.',
     ],
     'riceballicious_info': [
         r'riceballicious\.info/fs/reader/(series|read)/.',
@@ -235,17 +238,20 @@ providers_list = {
         r'lolibooru\.moe/post.',
     ],
     'lolivault_net': [
-        r'lolivault.net/online/(series|read).',
+        r'lolivault\.net/online/(series|read).',
     ],
     'luscious_net': [
         r'luscious\.net/.+/album/.',
         r'luscious\.net/albums/.',
     ],
+    'mang_as': [
+        r'mang\.as/manga/.',
+    ],
     'manga_ae': [
         r'manga\.ae/.',
     ],
     'manga_fox_com': [
-        r'manga-fox.com/.',
+        r'manga-fox\.com/.',
         r'manga-here\.io/.',
     ],
     'manga_mexat_com': [
@@ -281,7 +287,7 @@ providers_list = {
     ],
     'mangachan_me_download': [
         r'mangachan\.me/download/.',
-        r'hentai-chan.me/download/.',
+        r'hentai-chan\.me/download/.',
         r'yaoichan\.me/download/.',
     ],
     'mangacanblog_com': [
@@ -388,16 +394,16 @@ providers_list = {
         r'mangaseeonline\.us/(read-online|manga)/.',
     ],
     'mangashiro_net': [
-        r'mangashiro.net/.',
+        r'mangashiro\.net/.',
     ],
     'mangasupa_com': [
         r'mangasupa\.com/(manga|chapter)/.',
     ],
     'mangasail_com': [
-        r'mangasail.com/(manga|chapter|node|content)/.',
+        r'mangasail\.com/(manga|chapter|node|content)/.',
     ],
     'mangatail_com': [
-        r'mangatail.me/(manga|chapter|node|content)/.',
+        r'mangatail\.me/(manga|chapter|node|content)/.',
     ],
     'mangatown_com': [
         r'mangatown\.com/manga/.',
@@ -438,7 +444,7 @@ providers_list = {
         r'nhentai\.net/g/.',
     ],
     'niadd_com': [
-        r'niadd.com/manga/.',
+        r'niadd\.com/manga/.',
     ],
     'nightow_net': [
         r'nightow\.net/online/\?manga=.',
@@ -451,8 +457,8 @@ providers_list = {
         r'noranofansub\.com(/lector)?/(series/|read/)?.',
     ],
     'nozominofansub_com': [  # mangazuki_co
-        r'nozominofansub\.com/public(/index.php)?/manga/.',
-        r'godsrealmscan\.com/public(/index.php)?/manga/.',
+        r'nozominofansub\.com/public(/index\.php)?/manga/.',
+        r'godsrealmscan\.com/public(/index\.php)?/manga/.',
     ],
     'otakusmash_com': [
         r'otakusmash\.com/.',
@@ -501,14 +507,14 @@ providers_list = {
     ],
     'rawlh_com': [
         r'rawlh\.com/(truyen|manga|read)-.',
-        r'rawqq.com/(truyen|manga|read)-.',
-        r'rawqv.com/(truyen|manga|read)-.',
+        r'rawqq\.com/(truyen|manga|read)-.',
+        r'rawqv\.com/(truyen|manga|read)-.',
     ],
     'rawneko_com': [
         r'rawneko\.com/manga/.',
     ],
     'read_egscans_com': [
-        r'read.egscans.com/.',
+        r'read\.egscans\.com/.',
     ],
     'read_powermanga_org': [
         r'lector\.dangolinenofansub\.com/(series|read)/.',
@@ -615,8 +621,8 @@ providers_list = {
         r'taadd\.com/(book|chapter)/.',
     ],
     'tapas_io': [
-        r'tapas.io/episode/\d',
-        r'tapas.io/series/\w',
+        r'tapas\.io/episode/\d',
+        r'tapas\.io/series/\w',
     ],
     'tenmanga_com': [
         r'tenmanga\.com/(book|chapter)/.',
@@ -628,7 +634,7 @@ providers_list = {
         r'trashscanlations\.com/series/.',
     ],
     'tonarinoyj_jp': [
-        r'tonarinoyj.jp/episode/.',
+        r'tonarinoyj\.jp/episode/.',
     ],
     'toonkor_co': [
         r'toonkor\.co/.',
@@ -647,11 +653,11 @@ providers_list = {
         r'nettruyen\.com/truyen-tranh/.',
     ],
     'truyentranhtuan_com': [
-        r'truyentranhtuan.com/.',
+        r'truyentranhtuan\.com/.',
     ],
     'tsumino_com': [
-        r'tsumino.com/Book/Info/\d',
-        r'tsumino.com/Read/View/\d',
+        r'tsumino\.com/Book/Info/\d',
+        r'tsumino\.com/Read/View/\d',
     ],
     'tumangaonline_com': [
         r'tumangaonline\.com/.',
@@ -674,7 +680,7 @@ providers_list = {
         r'webtoons\.com/[^/]+/[^/]+/.',
     ],
     'webtoontr_com': [
-        r'webtoontr.com/_/.',
+        r'webtoontr\.com/_/.',
     ],
     'westmanga_info': [
         r'westmanga\.info/.',
@@ -707,20 +713,12 @@ providers_list = {
 
 
 def __check_provider(provider, url):
-    try:
-        reg = '(?:' + '|'.join(provider) + ')'
-        return re.search(reg, url)
-    except Exception as e:
-        print(reg)
-        print(type(reg))
-        print(provider, url)
-        print(type(provider), type(url))
-        print(e)
-        exit()
+    reg = '(?:' + '|'.join(provider) + ')'
+    return re.search(reg, url)
 
 
 def get_provider(url):
-    fromlist = 'manga_py.providers'
+    fromlist = r'manga_py.providers'
     for i in providers_list:
         if __check_provider(providers_list[i], url):
             provider = __import__('{}.{}'.format(fromlist, i), fromlist=[fromlist])
