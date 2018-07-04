@@ -411,6 +411,9 @@ providers_list = {
         r'mangatrue\.com/manga/.',
         r'mangaall\.com/manga/.',
     ],
+    'mangax_net': [
+        r'mangax\.net/\w/.'
+    ],
     'manhuagui_com': [
         r'manhuagui\.com/comic/\d',
     ],
