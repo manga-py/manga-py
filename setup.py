@@ -32,8 +32,10 @@ if path.isfile('README.rst'):
         long_description = f.read()
 
 
-release_status = 'Development Status :: 4 - Beta'
-if __version__.find('alpha'):
+release_status = 'Development Status :: 5 - Production/Stable'
+if ~__version__.find('beta'):
+    release_status = 'Development Status :: 4 - Beta'
+if ~__version__.find('alpha'):
     release_status = 'Development Status :: 3 - Alpha'
 
 
