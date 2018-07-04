@@ -1,23 +1,18 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
-from manga_py.crypt import hoducomics_com
+from manga_py.crypt.base_lib import BaseLib
 
 
 class HoduComicsCom(Provider, Std):
-    _crypt = None
-
-    def debug(self, content):
-        if isinstance(content, str):
-            content = content.encode()
-        with open('Manga/content.json', 'wb') as f:
-            f.write(content)
-        exit()
 
     def get_archive_name(self) -> str:
-        return 'ep'
+        return self.normal_arc_name([
+            self.chapter_id,
+            self.get_chapter_index()
+        ])
 
     def get_chapter_index(self) -> str:
-        pass
+        return self.re.search(r'view/(\d+)', self.chapter).group(1)
 
     def get_main_content(self):
         content = self._storage.get('main_content', None)
@@ -34,17 +29,21 @@ class HoduComicsCom(Provider, Std):
         items = self._elements('.episode_list .episode_tr.not_need_pay')
         re = self.re.compile(r'(/webtoon/.+?/\d+)')
         n = self.http().normalize_uri
+        if len(items) == 0:
+            print(self.content);exit()
+        print('items: %d' % len(items))
         return [n(re.search(i.get('onclick')).group(1)) for i in items]
 
     def get_files(self):
         content = self.http_get(self.chapter)
-        images = self.re.search(r'var\s+toon_img\s*=\s*[\'"](.+?)[\'"]', content)
+        images = self.re.search(r'toon_img\s*=\s*[\'"](.+?)[\'"]', content)
         if not images:
             return []
-        parser = self.document_fromstring(self._crypt.base64decode(images.group(1)))
+
+        parser = self.document_fromstring(BaseLib.base64decode(images.group(1)).decode())
 
         # DEBUG!
-        self.debug(self.json.dumps(self._images_helper(parser, 'img')))
+        self.log(self._images_helper(parser, 'img'))
 
         return self._images_helper(parser, 'img')
 
@@ -55,7 +54,6 @@ class HoduComicsCom(Provider, Std):
         pass
 
     def prepare_cookies(self):
-        self._crypt = hoducomics_com.HoduComicsCom()
         self.cf_protect(self.get_url())
 
 

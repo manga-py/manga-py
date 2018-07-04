@@ -175,9 +175,10 @@ providers_list = {
     'hocvientruyentranh_com': [
         r'hocvientruyentranh\.com/(manga|chapter)/.',
     ],
-    # 'hoducomics_com': [
-    #     r'hoducomics\.com/webtoon/list/\d',
-    # ],
+    'hoducomics_com': [
+        r'hoducomics\.com/webtoon/list/\d',
+        r'hodu1\.com/webtoon/list/\d',
+    ],
     'hotchocolatescans_com': [
         r'hotchocolatescans\.com/fs/(series|read)/.',
         r'mangaichiscans\.mokkori\.fr/fs/(series|read)/.',
@@ -399,10 +400,8 @@ providers_list = {
     'mangasupa_com': [
         r'mangasupa\.com/(manga|chapter)/.',
     ],
-    'mangasail_com': [
-        r'mangasail\.com/(manga|chapter|node|content)/.',
-    ],
     'mangatail_com': [
+        r'mangasail\.com/(manga|chapter|node|content)/.',
         r'mangatail\.me/(manga|chapter|node|content)/.',
     ],
     'mangatown_com': [
