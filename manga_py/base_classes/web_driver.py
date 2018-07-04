@@ -8,7 +8,7 @@ from manga_py.fs import is_file, dirname, storage
 
 
 class WebDriver:
-    driver_version = '2.36'
+    driver_version = '2.40'
 
     @staticmethod
     def is_win():
