@@ -245,6 +245,9 @@ providers_list = {
         r'luscious\.net/.+/album/.',
         r'luscious\.net/albums/.',
     ],
+    'mangapark_org': [
+        r'mangapark\.org/(series|chapter)/',   # is different!
+    ],
     'mang_as': [
         r'mang\.as/manga/.',
     ],
