@@ -446,6 +446,9 @@ providers_list = {
         r'mangadoom\.co/.',
         r'mngdoom\.com/.',
     ],
+    'mymangalist_org': [
+        r'mymangalist.org/(read|chapter)-',
+    ],
     'myreadingmanga_info': [
         r'myreadingmanga\.info/.',
     ],
