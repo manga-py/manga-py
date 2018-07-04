@@ -328,6 +328,9 @@ providers_list = {
         r'mangahere\.co/manga/.',
         r'mangahere\.cc/manga/.',
     ],
+    'mangahi_net': [
+        r'mangahi\.net/.'
+    ],
     'mangahome_com': [
         r'mangahome\.com/manga/.',
     ],

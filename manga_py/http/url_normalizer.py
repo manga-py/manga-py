@@ -34,6 +34,8 @@ class UrlNormalizer:
 
     @staticmethod
     def _parse_path(parse, base_parse):
+        if parse.netloc:
+            return parse.path
         _path = UrlNormalizer._test_path_netloc(parse)
         if _path:
             if _path.find('/') == 0:

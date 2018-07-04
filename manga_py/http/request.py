@@ -19,10 +19,12 @@ class Request:
     cookies = None
     kwargs = None
     debug = False
+    _history = None
 
     def __init__(self):
         self.proxies = {}
         self.cookies = {}
+        self._history = []
 
     def __patch_headers(self, headers):
         if isinstance(self._headers, dict):
@@ -50,10 +52,10 @@ class Request:
 
     def __redirect_helper(self, r, url, method):
         proxy = None
+        location = url
         if r.status_code == 303:
             method = 'get'
-        if r.status_code == 305:
-            location = url
+        elif r.status_code == 305:
             proxy = {
                 'http': r.headers['location'],
                 'https': r.headers['location'],
@@ -80,7 +82,10 @@ class Request:
         self.__update_cookies(r)
         if r.is_redirect and method != 'head':
             if max_redirects < 1:
+                print(self._history)
+                exit()
                 raise AttributeError('Too many redirects')
+            self._history.append(url)
             proxy, location, method = self.__redirect_helper(r, url, method)
             if proxy:
                 kwargs['proxies'] = proxy
@@ -102,6 +107,7 @@ class Request:
     ) -> requests.Response:
         if not isinstance(headers, dict):
             headers = {}
+        self._history = []
         cookies = self._get_cookies(cookies)
         headers.setdefault('User-Agent', self.user_agent)
         headers.setdefault('Referer', self.referer)
