@@ -361,6 +361,12 @@ providers_list = {
     'mangalife_us': [
         r'mangalife\.us/(read-online|manga)/.',
     ],
+    'mangamew_com': [
+        r'mangamew\.com/(\w+-)?manga/.',
+    ],
+    'mangamew_com_vn': [
+        r'mangamew\.com/(\w+-)?truyen/.',
+    ],
     'manganelo_com': [
         r'manganelo\.com/(manga|chapter)/.',
     ],
@@ -728,12 +734,13 @@ providers_list = {
 
 
 def __check_provider(provider, url):
-    reg = '(?:' + '|'.join(provider) + ')'
+    items = [r'\b' + i for i in provider]
+    reg = '(?:' + '|'.join(items) + ')'
     return re.search(reg, url)
 
 
 def get_provider(url):
-    fromlist = r'manga_py.providers'
+    fromlist = 'manga_py.providers'
     for i in providers_list:
         if __check_provider(providers_list[i], url):
             provider = __import__('{}.{}'.format(fromlist, i), fromlist=[fromlist])

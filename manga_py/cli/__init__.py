@@ -38,13 +38,19 @@ class Cli:
         self._info = info
 
     def start(self):
-        self.parser.init_provider(
-            progress=self.progress,
-            log=self.print,
-            quest=self.quest,
-            quest_password=self.quest_password,
-            info=self._info,
-        )
+        try:
+            self.parser.init_provider(
+                progress=self.progress,
+                log=self.print,
+                quest=self.quest,
+                quest_password=self.quest_password,
+                info=self._info,
+            )
+        except AttributeError as e:
+            print(e)
+            print('Please check the domain in the table: https://manga-dl.yuru-yuri.sttv.me')
+            print('Make sure that the URL is correct\n')
+            raise e
         self.parser.start()
         self.__progress_bar and self.__progress_bar.value > 0 and self.__progress_bar.finish()
         self.print(' ')
