@@ -108,6 +108,9 @@ providers_list = {
     'freeadultcomix_com': [
         r'freeadultcomix\.com/.',
     ],
+    'freemanga_to': [
+        r'freemanga\.to/(manga|chapter)/.'
+    ],
     'funmanga_com': [
         r'funmanga\.com/.',
     ],
