@@ -82,7 +82,7 @@ class Request:
         self.__update_cookies(r)
         if r.is_redirect and method != 'head':
             if max_redirects < 1:
-                print(self._history)
+                self.debug and print(self._history)
                 raise AttributeError('Too many redirects')
             self._history.append(url)
             proxy, location, method = self.__redirect_helper(r, url, method)
