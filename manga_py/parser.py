@@ -28,9 +28,8 @@ class Parser:
             info: Info = None,
             quest_password: callable = None,
     ):
-        try:
-            provider = get_provider(self.params.get('url', ''))
-        except Exception as e:
+        provider = get_provider(self.params.get('url', ''))
+        if isinstance(provider, bool):
             raise AttributeError('Provider not found')
         self.provider = provider(info)  # provider __init__
 
