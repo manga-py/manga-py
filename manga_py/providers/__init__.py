@@ -411,6 +411,9 @@ providers_list = {
         r'mangatrue\.com/manga/.',
         r'mangaall\.com/manga/.',
     ],
+    'mangawindow_net': [
+        r'mangawindow\.net/(series|chapter)/\d',  # is different!
+    ],
     'mangax_net': [
         r'mangax\.net/\w/.'
     ],
