@@ -10,6 +10,7 @@ from progressbar import ProgressBar
 
 from manga_py.meta import __version__, __repo_name__
 from manga_py.parser import Parser
+from manga_py.fs import check_free_space, get_temp_path
 
 
 def check_version():
@@ -36,6 +37,10 @@ class Cli:
         self.args = args.parse_args()
         self.parser = Parser(args)
         self._info = info
+
+        space = self.args.min_free_space
+        if not check_free_space(get_temp_path(), space) or not check_free_space(self.args.destination, space):
+            raise OSError('No space left on device')
 
     def start(self):
         try:
@@ -74,10 +79,10 @@ class Cli:
             self.__init_progress(items_count, re_init and current_val > 0)
             self.__progress_bar.update(current_item)
 
-    def print(self, text, end='\n'):
+    def print(self, text, **kwargs):
         if os_name == 'nt':
             text = str(text).encode().decode(sys.stdout.encoding, 'ignore')
-        print(text, end=end)
+        print(text, **kwargs)
 
     def _single_quest(self, variants, title):
         self.print(title)

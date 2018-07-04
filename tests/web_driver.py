@@ -1,6 +1,3 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
 import unittest
 
 from pyvirtualdisplay import Display

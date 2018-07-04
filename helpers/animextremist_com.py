@@ -1,6 +1,3 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
 from requests import get
 from os import system, path
 from lxml.html import document_fromstring

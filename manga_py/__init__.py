@@ -1,18 +1,21 @@
-try:
-    from atexit import register as atexit_register
-    from os import makedirs
-    from os import path
-    from shutil import rmtree
-    from sys import argv, exit, exc_info, stderr
-    from json import dumps
-    import traceback
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
 
+from atexit import register as atexit_register
+from os import makedirs
+from os import path
+from shutil import rmtree
+from sys import exit,  stderr
+from json import dumps
+import traceback
+
+try:
     from .cli import Cli, check_version
     from .cli.args import get_cli_arguments
     from .fs import get_temp_path, get_info
     from .info import Info
     from .meta import __version__
-except Exception:
+except ImportError:
     print('Setup in progress?', file=stderr)
 
 
@@ -28,7 +31,7 @@ def before_shutdown():
 
 
 def _init_cli(args, _info):
-    error_lvl = -99
+    error_lvl = -5
     try:
         _info.start()
         cli_mode = Cli(args, _info)

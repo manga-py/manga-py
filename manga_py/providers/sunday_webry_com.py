@@ -49,12 +49,8 @@ class SundayWebryCom(Provider, Std):
             items.append(self.cdn_url + file)
         return items
 
-    def make_archive(self):
-        items = sorted(self._archive.files, key=lambda x: x[1])
-        for i in items:
-            # decrypt i[0]
-            pass
-        super().make_archive()
+    def after_file_save(self, _path: str, idx: int):  # todo issue #36
+        pass
 
     def get_cover(self) -> str:
         return self._cover_from_content('#series .image > img')

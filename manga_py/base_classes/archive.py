@@ -50,8 +50,13 @@ class Archive:
         make_dirs(dirname(dst))
 
         self._archive = ZipFile(dst, 'w', ZIP_DEFLATED)
-        self.__add_files()
-        self.__add_writes()
+        try:
+            self.__add_files()
+            self.__add_writes()
+            self._archive.close()
+        except OSError as e:
+            self._archive.close()
+            raise e
         self._archive.close()
         self._maked()
 

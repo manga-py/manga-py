@@ -1,6 +1,7 @@
 import json
 import re
 from abc import ABCMeta
+from sys import stderr, exit
 
 from .base_classes import (
     Abstract,
@@ -17,6 +18,7 @@ from .fs import (
     basename,
     remove_file_query_params,
     path_join,
+    unlink,
 )
 from .http import MultiThreads
 from .meta import __downloader_uri__
@@ -172,7 +174,14 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         #     self._archive.add_book_info(self._arc_meta_info())
 
         self._archive.add_info(info)
-        self._archive.make(_path)
+        try:
+            self._archive.make(_path)
+        except OSError as e:
+            print('')
+            print(e)
+            self.log(e, file=stderr)
+            self._info.set_last_volume_error(str(e))
+            unlink(_path)
 
     def html_fromstring(self, url, selector: str = None, idx: int = None):
         params = {}

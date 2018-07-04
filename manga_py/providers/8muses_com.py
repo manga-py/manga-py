@@ -42,7 +42,8 @@ class EightMusesCom(Provider, Std):
 
     @staticmethod
     def _sort(items: dict) -> list:
-        return [items[i] for i in sorted(items, key=lambda x: int(x))]
+        items = [items[i] for i in sorted(items, key=lambda x: int(x)) if len(items[i]) > 5]
+        return list(set(items))
 
     def get_files(self):
         images = {}

@@ -1,10 +1,14 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 from __future__ import print_function
 
-from setuptools import setup
-from manga_py.meta import __version__, __downloader_uri__
-from manga_py import __author__, __email__, __license__
 from os import path
 
+from setuptools import setup
+
+from manga_py import __author__, __email__, __license__
+from manga_py.meta import __version__, __downloader_uri__
 
 REQUIREMENTS = [
     'lxml',
