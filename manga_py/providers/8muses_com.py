@@ -23,6 +23,7 @@ class EightMusesCom(Provider, Std):
         return '-'.join(idx.split('/'))
 
     def get_main_content(self):
+        print('Before content')
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
@@ -39,14 +40,19 @@ class EightMusesCom(Provider, Std):
             i.get('value')
         ) for i in images if i.get('value')]
 
+    @staticmethod
+    def _sort(items: dict) -> list:
+        return [items[i] for i in sorted(items, key=lambda x: int(x))]
+
     def get_files(self):
-        images = []
+        images = {}
         _n = self.http().normalize_uri
-        _z = 0
         for n, i in enumerate(self.chapter):
             if n % 4 < 2:
-                images += self.html_fromstring(_n(i.get('href')), '#imageName,#imageNextName')
-        return self._parse_images(images)
+                img = self.html_fromstring(_n(i.get('href')), '#imageName,#imageNextName')
+                images[str(n)] = img[0]
+                images[str(n + 2)] = img[1]
+        return self._parse_images(self._sort(images))
 
     def get_cover(self) -> str:
         pass
