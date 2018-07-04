@@ -83,7 +83,6 @@ class Request:
         if r.is_redirect and method != 'head':
             if max_redirects < 1:
                 print(self._history)
-                exit()
                 raise AttributeError('Too many redirects')
             self._history.append(url)
             proxy, location, method = self.__redirect_helper(r, url, method)
