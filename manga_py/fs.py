@@ -132,28 +132,36 @@ def get_info(_path) -> dict:
     return result
 
 
+def _disk_stat_posix(_path) -> dict:
+    import os
+    st = os.statvfs(_path)
+    free = st.f_bavail * st.f_frsize
+    total = st.f_blocks * st.f_frsize
+    used = (st.f_blocks - st.f_bfree) * st.f_frsize
+    return {'total': total, 'used': used, 'free': free}
+
+
+def _disc_stat_win(_path) -> dict:
+    import ctypes
+    _, total, free = ctypes.c_ulonglong(), ctypes.c_ulonglong(), ctypes.c_ulonglong()
+    fun = ctypes.windll.kernel32.GetDiskFreeSpaceExA
+    ret = fun(_path, ctypes.byref(_), ctypes.byref(total), ctypes.byref(free))
+    if ret == 0:
+        fun = ctypes.windll.kernel32.GetDiskFreeSpaceExW
+        ret = fun(_path, ctypes.byref(_), ctypes.byref(total), ctypes.byref(free))
+        if ret == 0:
+            raise ctypes.WinError()
+    used = total.value - free.value
+    return {'total': total.value, 'used': used, 'free': free.value}
+
+
 def get_disk_stat(_path) -> dict:
     import os
 
     if hasattr(os, 'statvfs'):  # POSIX
-        st = os.statvfs(_path)
-        free = st.f_bavail * st.f_frsize
-        total = st.f_blocks * st.f_frsize
-        used = (st.f_blocks - st.f_bfree) * st.f_frsize
-        return {'total': total, 'used': used, 'free': free}
-
+        return _disk_stat_posix(_path)
     elif os.name == 'nt':  # Windows
-        import ctypes
-        _, total, free = ctypes.c_ulonglong(), ctypes.c_ulonglong(), ctypes.c_ulonglong()
-        fun = ctypes.windll.kernel32.GetDiskFreeSpaceExA
-        ret = fun(_path, ctypes.byref(_), ctypes.byref(total), ctypes.byref(free))
-        if ret == 0:
-            fun = ctypes.windll.kernel32.GetDiskFreeSpaceExW
-            ret = fun(_path, ctypes.byref(_), ctypes.byref(total), ctypes.byref(free))
-            if ret == 0:
-                raise ctypes.WinError()
-        used = total.value - free.value
-        return {'total': total.value, 'used': used, 'free': free.value}
+        return _disc_stat_win(_path)
     else:
         raise NotImplementedError('Platform not supported')
 
@@ -169,8 +177,7 @@ def check_free_space(_path: str, min_size: int = 100, percent: bool = False) -> 
     :return:
     """
     _stat = get_disk_stat(_path)
-    if isinstance(min_size, str) and min_size.find('%'):
-        min_size = int(min_size)
+    if percent:
         _free = _stat['free'] / _stat['total']
         if (_free * 100) < min_size:
             return False
