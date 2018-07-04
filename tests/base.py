@@ -71,7 +71,8 @@ class TestBaseClass(unittest.TestCase):
         bp._params['url'] = 'http://example.org/manga/here.html'
         url = 'https://httpbin.org/cookies'
         cookies = {'test': 'test-cookie'}
-        self.assertEqual(cookies, json.loads(bp.http_get(url, cookies=cookies))['cookies'])
+        bp.http_get('https://httpbin.org/cookies/set?test=' + cookies['test'])
+        self.assertEqual(cookies['test'], json.loads(bp.http_get(url, cookies=cookies))['cookies']['test'])
 
     def test_cookies1(self):
         bp = Base()
