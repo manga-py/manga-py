@@ -4,8 +4,8 @@ Manga-Downloader |Travis CI result|
 Universal assistant download manga.
 '''''''''''''''''''''''''''''''''''
 
-Supports more than 250 resources now.
-'''''''''''''''''''''''''''''''''''''
+Approximately 300 providers are available now.
+''''''''''''''''''''''''''''''''''''''''''''''
 
 |Code Climate| |Issue Count| |PyPI - Python Version|
 
@@ -69,7 +69,8 @@ is enabled**
     manga-py --skip-volumes 3 --max-volumes 2 http://manga-url-here/manga-name
     # reverse volumes downloading (24 -> 1)
     manga-py --reverse-downloading http://manga-url-here/manga-name
-    manga-py --no-progress http://manga-url-here/manga-name  # Disable progressbar
+    # Disable progressbar
+    manga-py --no-progress http://manga-url-here/manga-name
 
 Help
 ----

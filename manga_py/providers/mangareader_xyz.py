@@ -22,14 +22,14 @@ class MangaReaderXyz(Provider, Std):
         return self._get_name(re)
 
     def get_chapters(self):
-        return self._elements('.table td > a')
+        return self._elements('.table td > a,.chapter-list div.row a')
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter + '/0')
-        return self._images_helper(parser, '#view-chapter img')
+        return self._images_helper(parser, '#view-chapter img,#vungdoc img')
 
     def get_cover(self) -> str:
-        return self._cover_from_content('img.img-thumbnail')
+        return self._cover_from_content('img.img-thumbnail,.manga-info-pic > img')
 
     def book_meta(self) -> dict:
         pass
