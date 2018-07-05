@@ -36,7 +36,7 @@ class MangaWindowNet(Provider, Std):
         re = self.re.compile(r'images\s*=\s*({.+});')
         content = self.http_get(self.chapter[1])
         items = self.json.loads(re.search(content).group(1))
-        return list(items.values())
+        return [items[i] for i in sorted(items, key=lambda i: int(i))]
 
     def get_cover(self) -> str:
         return self._cover_from_content('.attr-cover > img')
