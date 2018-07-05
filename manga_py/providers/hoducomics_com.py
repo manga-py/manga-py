@@ -30,8 +30,7 @@ class HoduComicsCom(Provider, Std):
         re = self.re.compile(r'(/webtoon/.+?/\d+)')
         n = self.http().normalize_uri
         if len(items) == 0:
-            print(self.content);exit()
-        print('items: %d' % len(items))
+            return []
         return [n(re.search(i.get('onclick')).group(1)) for i in items]
 
     def get_files(self):
@@ -39,12 +38,7 @@ class HoduComicsCom(Provider, Std):
         images = self.re.search(r'toon_img\s*=\s*[\'"](.+?)[\'"]', content)
         if not images:
             return []
-
         parser = self.document_fromstring(BaseLib.base64decode(images.group(1)).decode())
-
-        # DEBUG!
-        self.log(self._images_helper(parser, 'img'))
-
         return self._images_helper(parser, 'img')
 
     def get_cover(self) -> str:
