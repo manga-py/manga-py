@@ -1,7 +1,7 @@
 import tempfile
-from os import path, name as os_name, getpid, unlink as os_unlink, makedirs, stat, walk
+from os import path, name as os_name, getpid, makedirs, stat, walk
 from pathlib import Path
-from shutil import rmtree, move
+from shutil import move
 from json import loads as json_loads
 
 __dir_name__ = '.PyMangaDownloader'
@@ -17,62 +17,62 @@ def mark_as_hidden(_path: str):
 
 def get_temp_path(*args):
     temp = 'temp_%s' % getpid()
-    return path.join(tempfile.gettempdir(), __dir_name__, temp, *args)
+    return path_join(tempfile.gettempdir(), __dir_name__, temp, *args)
 
 
 def root_path():
-    return path.dirname(path.dirname(path.realpath(__file__)))
+    return dirname(path.dirname(path.realpath(__file__)))
 
 
 def get_util_home_path():
     if os_name == 'nt':
-        home = path.join(str(Path.home()), 'AppData', 'Roaming', __dir_name__)
+        home = path_join(str(Path.home()), 'AppData', 'Roaming', __dir_name__)
     else:
-        home = path.join(str(Path.home()), __dir_name__)
+        home = path_join(str(Path.home()), __dir_name__)
     make_dirs(home)
     return home
 
 
 def make_dirs(directory):
-    path.isdir(directory) or makedirs(directory)
+    is_dir(directory) or makedirs(directory)
 
 
 def remove_file_query_params(name, save_path: bool = True) -> str:
-    file_path = path.dirname(name)
-    name = path.basename(name)
+    file_path = dirname(name)
+    name = basename(name)
     position = name.find('?')
     if position == 0:
         name = 'image.png'  # fake image name
     elif position > 0:
         name = name[:position]
-    return path.join(file_path, name) if save_path else name
+    return path_join(file_path, name) if save_path else name
 
 
 def is_file(_path):
-    return path.isfile(_path)
+    return Path(_path).is_file()
 
 
 def is_dir(_path):
-    return path.isdir(_path)
+    return Path(_path).is_dir()
 
 
 def basename(_path):
-    return path.basename(_path)
+    return Path(_path).name
 
 
 def dirname(_path):
-    return path.dirname(_path)
+    return Path(_path).parent
 
 
 def path_join(_path, *args):
-    return path.join(_path, *args)
+    return Path(_path).joinpath(*args)
 
 
 def unlink(_path):
     if is_dir(_path):
-        return rmtree(_path)
+        return Path(_path).rmdir()
     if is_file(_path):
-        return os_unlink(_path)
+        return Path(_path).unlink()
 
 
 def os_stat(_path):
@@ -132,6 +132,12 @@ def get_info(_path) -> dict:
     return result
 
 
+def __dirname(_path) -> str:
+    if is_dir(_path):
+        return _path
+    return __dirname(dirname(_path))
+
+
 def _disk_stat_posix(_path) -> dict:
     import os
     st = os.statvfs(_path)
@@ -157,6 +163,7 @@ def _disc_stat_win(_path) -> dict:
 
 def get_disk_stat(_path) -> dict:
     import os
+    _path = __dirname(_path)
 
     if hasattr(os, 'statvfs'):  # POSIX
         return _disk_stat_posix(_path)
