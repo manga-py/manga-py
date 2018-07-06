@@ -1,6 +1,6 @@
 import tempfile
 from os import name as os_name, getpid, makedirs, walk
-from pathlib import Path, PurePath
+from pathlib import Path
 from shutil import move
 from json import loads as json_loads
 
@@ -15,24 +15,24 @@ def mark_as_hidden(_path: str):
         pass
 
 
-def get_temp_path(*args) -> PurePath:
+def get_temp_path(*args) -> str:
     temp = 'temp_%s' % getpid()
     return path_join(tempfile.gettempdir(), __dir_name__, temp, *args)
 
 
-def root_path() -> PurePath:
-    file = Path(__file__).resolve()
+def root_path() -> str:
     #      fs.py/manga_py/../
-    return file.parent.parent
+    file = Path(__file__).resolve()
+    return str(file.parent.parent)
 
 
-def get_util_home_path() -> PurePath:
+def get_util_home_path() -> str:
     if os_name == 'nt':
         home = path_join(str(Path.home()), 'AppData', 'Roaming', __dir_name__)
     else:
         home = path_join(str(Path.home()), __dir_name__)
     make_dirs(home)
-    return home
+    return str(home)
 
 
 def make_dirs(directory):
@@ -62,12 +62,12 @@ def basename(_path) -> str:
     return str(Path(_path).name)
 
 
-def dirname(_path) -> PurePath:
-    return Path(_path).parent
+def dirname(_path) -> str:
+    return str(Path(_path).parent)
 
 
-def path_join(_path, *args) -> PurePath:
-    return Path(_path).joinpath(*args)
+def path_join(_path, *args) -> str:
+    return str(Path(_path).joinpath(*args))
 
 
 def unlink(_path):
@@ -101,10 +101,10 @@ def rename(_from, _to):
         move(_from, _to)
 
 
-def storage(_path) -> PurePath:
+def storage(_path) -> str:
     _path = get_temp_path('storage', _path)
     make_dirs(dirname(_path))
-    return _path
+    return str(_path)
 
 
 def listing(_path) -> dict:
