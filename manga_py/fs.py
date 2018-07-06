@@ -1,6 +1,6 @@
 import tempfile
-from os import path, name as os_name, getpid, makedirs, stat, walk
-from pathlib import Path
+from os import name as os_name, getpid, makedirs, walk
+from pathlib import Path, PurePath
 from shutil import move
 from json import loads as json_loads
 
@@ -15,16 +15,18 @@ def mark_as_hidden(_path: str):
         pass
 
 
-def get_temp_path(*args):
+def get_temp_path(*args) -> PurePath:
     temp = 'temp_%s' % getpid()
     return path_join(tempfile.gettempdir(), __dir_name__, temp, *args)
 
 
-def root_path():
-    return dirname(path.dirname(path.realpath(__file__)))
+def root_path() -> PurePath:
+    file = Path(__file__).resolve()
+    #      fs.py/manga_py/../
+    return file.parent.parent
 
 
-def get_util_home_path():
+def get_util_home_path() -> PurePath:
     if os_name == 'nt':
         home = path_join(str(Path.home()), 'AppData', 'Roaming', __dir_name__)
     else:
@@ -45,43 +47,48 @@ def remove_file_query_params(name, save_path: bool = True) -> str:
         name = 'image.png'  # fake image name
     elif position > 0:
         name = name[:position]
-    return path_join(file_path, name) if save_path else name
+    return str(path_join(file_path, name) if save_path else name)
 
 
-def is_file(_path):
+def is_file(_path) -> bool:
     return Path(_path).is_file()
 
 
-def is_dir(_path):
+def is_dir(_path) -> bool:
     return Path(_path).is_dir()
 
 
-def basename(_path):
-    return Path(_path).name
+def basename(_path) -> str:
+    return str(Path(_path).name)
 
 
-def dirname(_path):
+def dirname(_path) -> PurePath:
     return Path(_path).parent
 
 
-def path_join(_path, *args):
+def path_join(_path, *args) -> PurePath:
     return Path(_path).joinpath(*args)
 
 
 def unlink(_path):
     if is_dir(_path):
-        return Path(_path).rmdir()
-    if is_file(_path):
-        return Path(_path).unlink()
+        Path(_path).rmdir()
+    elif is_file(_path):
+        Path(_path).unlink()
 
 
 def os_stat(_path):
     if is_file(_path):
-        return stat(_path)
+        return Path(_path).stat()
     return None
 
 
 def file_size(_path):
+    """
+    :param _path:
+    :return:
+    :rtype: int
+    """
     data = os_stat(_path)
     if data:
         return data.st_size
@@ -94,7 +101,7 @@ def rename(_from, _to):
         move(_from, _to)
 
 
-def storage(_path):
+def storage(_path) -> PurePath:
     _path = get_temp_path('storage', _path)
     make_dirs(dirname(_path))
     return _path
@@ -133,9 +140,9 @@ def get_info(_path) -> dict:
 
 
 def __dirname(_path) -> str:
-    if is_dir(_path):
-        return _path
-    return __dirname(dirname(_path))
+    if not is_dir(_path):
+        _path = __dirname(dirname(_path))
+    return str(_path)
 
 
 def _disk_stat_posix(_path) -> dict:

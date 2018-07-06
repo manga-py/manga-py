@@ -18,6 +18,12 @@ files_paths = [
 ]
 
 
+def httpbin(_path: str):
+    # _httpbin = 'https://httpbin.org'
+    _httpbin = 'https://httpbin-org.herokuapp.com'
+    return '{}/{}'.format(_httpbin, _path.lstrip('/'))
+
+
 class TestBaseClass(unittest.TestCase):
 
     def test_base0(self):
@@ -57,40 +63,40 @@ class TestBaseClass(unittest.TestCase):
     def test_get(self):
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = 'https://httpbin.org/get'
+        url = httpbin('get')
         self.assertEqual(url, json.loads(bp.http_get(url))['url'])
 
     def test_post(self):
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = 'https://httpbin.org/post'
+        url = httpbin('post')
         self.assertEqual(url, json.loads(bp.http_post(url))['url'])
 
     def test_cookies0(self):
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = 'https://httpbin.org/cookies'
+        url = httpbin('cookies')
         cookies = {'test': 'test-cookie'}
-        bp.http_get('https://httpbin.org/cookies/set?test=' + cookies['test'])
+        bp.http_get(httpbin('cookies/set?test=') + cookies['test'])
         self.assertEqual(cookies['test'], json.loads(bp.http_get(url, cookies=cookies))['cookies']['test'])
 
     def test_cookies1(self):
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = 'https://httpbin.org/cookies/set?test=test-cookie'
+        url = httpbin('cookies/set?test=test-cookie')
         self.assertEqual('test-cookie', bp.http().get_base_cookies(url).get('test'))
 
     def test_redirect0(self):
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = 'https://httpbin.org/redirect-to?url=https://httpbin.org/get?test=1'
+        url = httpbin('redirect-to?url=https://httpbin.org/get?test=1')
         test_data = {'test': '1'}
         self.assertEqual(test_data, json.loads(bp.http_get(url))['args'])
 
     def test_redirect1(self):
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = 'https://httpbin.org/redirect/11'
+        url = httpbin('redirect/11')
         self.assertRaises(AttributeError, bp.http_get, url)
 
     def test_ascii(self):
