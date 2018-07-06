@@ -44,21 +44,25 @@ class KissMangaCom(Provider, Std):
         images = []
         for i in hexes:
             img = crypt.decrypt(self.__local_data['iv'], key, i)
+            img = img.decode('utf-8').replace('\x10', '').replace('\x0f', '')
             images.append(img)
 
         return images
 
     def __check_key(self, crypt, content):
         # if need change key
-        need = self.re.search(r'\["([^"]+)"\].+chko.?=.?chko', content)
+        need = self.re.search(r'\["([^"]+)"\].\+chko.?=.?chko', content)
         key = self.__local_data['key']
         if need:
-            key += crypt.decode_escape(need.group(1))
+            # need last group
+            key += crypt.decode_escape(need.group(-1))
         else:
             # if need change key
             need = self.re.search(r'\["([^"]+)"\].*?chko.*?=.*?chko', content)
+            print(self.re.match(r'\["([^"]+)"\].*?chko.*?=.*?chko', content))
+            print(self.re.search(r'\["([^"]+)"\].*?chko.*?=.*?chko', content).groups())
             if need:
-                key = crypt.decode_escape(need.group(1))
+                key = crypt.decode_escape(need.group(-1))
         return key
 
     def get_files(self):
@@ -72,10 +76,12 @@ class KissMangaCom(Provider, Std):
         if not hexes:
             return []
 
+        self._storage['referer'] = self.http().referer = ''
+
         images = self.__decrypt_images(crypt, key, hexes)
 
-        self._storage['referer'] = self.http().referer = ''
-        return [i.decode('utf-8').replace('\x10', '').replace('\x0f', '') for i in images]
+        print(images)
+        return images
 
     def get_cover(self):
         return self._cover_from_content('.rightBox .barContent img')

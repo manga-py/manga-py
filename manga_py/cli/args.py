@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 from manga_py.meta import __version__
 
 
-def _image_args(args_parser):
+def _image_args(args_parser):  # pragma: no cover
     args = args_parser.add_argument_group('Image options')
 
     args.add_argument('--not-change-files-extension', action='store_const',
@@ -22,7 +22,7 @@ def _image_args(args_parser):
     #                          const=True, default=False)
 
 
-def _debug_args(args_parser):
+def _debug_args(args_parser):  # pragma: no cover
     args = args_parser.add_argument_group('Debug / Simulation options')
 
     args.add_argument('-h', '--help', action='help', help='show help and exit')
@@ -38,7 +38,7 @@ def _debug_args(args_parser):
     # args.add_argument('-vv', '--log', metavar='info', type='str', help='Verbose log')
 
 
-def _downloading_args(args_parser):
+def _downloading_args(args_parser):  # pragma: no cover
     args = args_parser.add_argument_group('Downloading options')
 
     # args.add_argument('-U', '--update-all', action='store_const',
@@ -61,7 +61,7 @@ def _downloading_args(args_parser):
                       help='Minimum free disc space', default=100)
 
 
-def _reader_args(args_parser):
+def _reader_args(args_parser):  # pragma: no cover
     args = args_parser.add_argument_group('Archive options')
 
     args.add_argument('--cbz', action='store_const', default=False,

@@ -10,7 +10,7 @@ from json import dumps
 import traceback
 
 try:
-    from .cli import Cli, check_version
+    from .cli import Cli
     from .cli.args import get_cli_arguments
     from .fs import get_temp_path, get_info
     from .info import Info

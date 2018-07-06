@@ -13,21 +13,7 @@ from manga_py.parser import Parser
 from manga_py.fs import check_free_space, get_temp_path
 
 
-def check_version():
-    api_url = 'https://api.github.com/repos/%s/releases/latest' % __repo_name__
-    api_content = json.loads(requests.get(api_url).text)
-    tag_name = api_content['tag_name']
-    if version.parse(tag_name) > version.parse(__version__):
-        download_addr = api_content['assets']
-        if len(download_addr):
-            url = download_addr[0]['browser_download_url']
-        else:
-            url = api_content['html_url']
-        return {'message': 'Found new version', 'tag': tag_name, 'url': url, 'need_update': True}
-    return {'message': 'Ok', 'need_update': False, 'tag': '', 'url': ''}
-
-
-class Cli:
+class Cli:  # pragma: no cover
     args = None
     parser = None
     _info = None
