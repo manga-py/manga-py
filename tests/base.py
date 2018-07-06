@@ -20,6 +20,7 @@ files_paths = [
 
 def httpbin(bp: Base, _path: str):
     variants = [
+        'https://httpbin-sttv.herokuapp.com',
         'https://httpbin-org.herokuapp.com',
         'https://httpbin.org',
     ]
@@ -29,7 +30,7 @@ def httpbin(bp: Base, _path: str):
         if response.ok:
             _httpbin = url
     if _httpbin is None:
-        raise AttributeError('503. Service temporary unavailable')
+        raise AttributeError('503. Service temporary unavailable / Path: %s ' % _path)
     return '{}/{}'.format(_httpbin, _path.lstrip('/'))
 
 
@@ -87,7 +88,9 @@ class TestBaseClass(unittest.TestCase):
         url = httpbin(bp, 'cookies')
         cookies = {'test': 'test-cookie'}
         bp.http_get(httpbin(bp, 'cookies/set?test=') + cookies['test'])
-        self.assertEqual(cookies['test'], json.loads(bp.http_get(url, cookies=cookies))['cookies']['test'])
+        content = bp.http_get(url, cookies=cookies)
+        # print(content)
+        self.assertEqual(cookies['test'], json.loads(content)['cookies']['test'])
 
     def test_cookies1(self):
         bp = Base()
@@ -99,11 +102,10 @@ class TestBaseClass(unittest.TestCase):
         from urllib.parse import quote
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        _domain = httpbin(bp, '')
-        url = _domain + 'redirect-to?url=' + quote(_domain + 'get?test=1')
+        url = httpbin(bp, 'redirect-to?url=' + quote(httpbin(bp, 'get?test=1')))
         test_data = {'test': '1'}
         content = bp.http_get(url)
-        print(content)
+        # print(content)
         self.assertEqual(test_data, json.loads(content)['args'])
 
     def test_redirect1(self):
