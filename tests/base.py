@@ -18,9 +18,18 @@ files_paths = [
 ]
 
 
-def httpbin(_path: str):
-    # _httpbin = 'https://httpbin.org'
-    _httpbin = 'https://httpbin-org.herokuapp.com'
+def httpbin(bp: Base, _path: str):
+    variants = [
+        'https://httpbin-org.herokuapp.com',
+        'https://httpbin.org',
+    ]
+    _httpbin = None
+    for url in variants:
+        response = bp.http().requests(url=url, method='head')
+        if response.ok:
+            _httpbin = url
+    if _httpbin is None:
+        raise AttributeError('503. Service temporary unavailable')
     return '{}/{}'.format(_httpbin, _path.lstrip('/'))
 
 
@@ -63,41 +72,44 @@ class TestBaseClass(unittest.TestCase):
     def test_get(self):
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = httpbin('get')
+        url = httpbin(bp, 'get')
         self.assertEqual(url, json.loads(bp.http_get(url))['url'])
 
     def test_post(self):
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = httpbin('post')
+        url = httpbin(bp, 'post')
         self.assertEqual(url, json.loads(bp.http_post(url))['url'])
 
     def test_cookies0(self):
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = httpbin('cookies')
+        url = httpbin(bp, 'cookies')
         cookies = {'test': 'test-cookie'}
-        bp.http_get(httpbin('cookies/set?test=') + cookies['test'])
+        bp.http_get(httpbin(bp, 'cookies/set?test=') + cookies['test'])
         self.assertEqual(cookies['test'], json.loads(bp.http_get(url, cookies=cookies))['cookies']['test'])
 
     def test_cookies1(self):
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = httpbin('cookies/set?test=test-cookie')
+        url = httpbin(bp, 'cookies/set?test=test-cookie')
         self.assertEqual('test-cookie', bp.http().get_base_cookies(url).get('test'))
 
     def test_redirect0(self):
         from urllib.parse import quote
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = httpbin('redirect-to?url=' + quote(httpbin('get?test=1')))
+        _domain = httpbin(bp, '')
+        url = _domain + 'redirect-to?url=' + quote(_domain + 'get?test=1')
         test_data = {'test': '1'}
-        self.assertEqual(test_data, json.loads(bp.http_get(url))['args'])
+        content = bp.http_get(url)
+        print(content)
+        self.assertEqual(test_data, json.loads(content)['args'])
 
     def test_redirect1(self):
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = httpbin('redirect/11')
+        url = httpbin(bp, 'redirect/11')
         self.assertRaises(AttributeError, bp.http_get, url)
 
     def test_ascii(self):
