@@ -90,7 +90,7 @@ class TestBaseClass(unittest.TestCase):
         from urllib.parse import quote
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'
-        url = httpbin('redirect-to?url=' + quote('https://httpbin.org/get?test=1'))
+        url = httpbin('redirect-to?url=' + quote(httpbin('get?test=1')))
         test_data = {'test': '1'}
         self.assertEqual(test_data, json.loads(bp.http_get(url))['args'])
 
