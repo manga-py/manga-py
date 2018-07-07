@@ -26,10 +26,11 @@ class MangaWindowNet(Provider, Std):
         n = self.http().normalize_uri
         for i in items:
             text = i.cssselect('b')[0].text_content()
-            result.append((
-                re.search(text).group(1),
-                n(i.get('href')),
-            ))
+            if 'deleted' not in text.casefold():
+                result.append((
+                    re.search(text).group(1),
+                    n(i.get('href')),
+                ))
         return result
 
     def get_files(self):
