@@ -45,8 +45,8 @@ class Crypt(unittest.TestCase):
 
     def test_manga_rock_com(self):
         crypt = MangaRockComCrypt()
-        path_cr = Path(root_path).joinpath('files', 'manga_rock_com.mri').resolve()
-        path_test = Path(root_path).joinpath('temp', 'manga_rock_com').resolve()
+        path_cr = str(Path(root_path).joinpath('files', 'manga_rock_com.mri'))
+        path_test = str(Path(root_path).joinpath('temp', 'manga_rock_com'))
 
         self.assertIsNone(Image.real_extension(path_cr))
 
@@ -59,7 +59,8 @@ class Crypt(unittest.TestCase):
     def test_manhuagui_com(self):
         lib = ManhuaGuiComCrypt()
         'view-source:https://www.manhuagui.com/comic/28271/375550.html#p=3'
-        with open(Path(root_path).joinpath('files', 'manhuagui')) as f:
+        path = str(Path(root_path).joinpath('files', 'manhuagui'))
+        with open(path, 'r') as f:
             js = re.search(r'\](\(function\(.+\))\s?<', f.read())
             data = lib.decrypt(js.group(1), '')
             js = re.search(r'\(({.+})\)', data).group(1)
