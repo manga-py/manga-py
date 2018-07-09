@@ -42,11 +42,9 @@ class MangaRockCom(Provider, Std):
     # decrypt
     def after_file_save(self, _path, idx: int):
         _path_wp = _path + 'wp'
-        file_r = open(_path, 'rb')
-        file_w = open(_path_wp, 'wb')
-        file_w.write(self.crypt.decrypt(file_r.read()))
-        file_r.close()
-        file_w.close()
+        with open(_path, 'rb') as file_r:
+            with open(_path_wp, 'wb') as file_w:
+                file_w.write(self.crypt.decrypt(file_r.read()))
         unlink(_path)
         rename(_path_wp, _path)
 

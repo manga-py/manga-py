@@ -77,7 +77,8 @@ class ManhuaGuiCom(Provider, Std):
         if not js:
             return []
         manhuagui = ManhuaGuiComCrypt()
-        data = self.re.search(r'cInfo=(.+)\|\|', manhuagui.decrypt(js.group(1), ''))
+        data = manhuagui.decrypt(js.group(1), '')
+        data = self.re.search(r'\(({.+})\)', data)
         if not data:
             return []
         data = self.json.loads(data.group(1))

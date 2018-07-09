@@ -5,7 +5,7 @@ from os import path
 from manga_py import fs
 from manga_py.base_classes import Base, Static
 
-root_path = path.dirname(path.realpath(__file__))
+root_path = fs.dirname(path.realpath(__file__))
 
 files_paths = [
     ['/files/img1.jpg', '/temp/img1.jpg'],

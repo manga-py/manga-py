@@ -55,14 +55,12 @@ class KissMangaCom(Provider, Std):
         key = self.__local_data['key']
         if need:
             # need last group
-            key += crypt.decode_escape(need.group(-1))
+            key += crypt.decode_escape(need.group(1))
         else:
             # if need change key
-            need = self.re.search(r'\["([^"]+)"\].*?chko.*?=.*?chko', content)
-            print(self.re.match(r'\["([^"]+)"\].*?chko.*?=.*?chko', content))
-            print(self.re.search(r'\["([^"]+)"\].*?chko.*?=.*?chko', content).groups())
+            need = self.re.findall(r'\["([^"]+)"\].*?chko.*?=.*?chko', content)
             if need:
-                key = crypt.decode_escape(need.group(-1))
+                key = crypt.decode_escape(need[-1])
         return key
 
     def get_files(self):
