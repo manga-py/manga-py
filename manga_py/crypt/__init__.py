@@ -5,3 +5,4 @@ from .mangarock_com import MangaRockComCrypt
 from .manhuagui_com import ManhuaGuiComCrypt
 from .puzzle import Puzzle
 from .sunday_webry_com import SundayWebryCom
+from .mangago_me import MangaGoMe

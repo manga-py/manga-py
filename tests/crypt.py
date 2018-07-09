@@ -6,6 +6,7 @@ from manga_py.crypt import AcQqComCrypt
 from manga_py.crypt import KissMangaComCrypt
 from manga_py.crypt import MangaRockComCrypt
 from manga_py.crypt import ManhuaGuiComCrypt
+from manga_py.crypt import MangaGoMe
 from manga_py.image import Image
 import json
 import re
@@ -18,6 +19,7 @@ class Crypt(unittest.TestCase):
         'hkJ+EJR/9dCEuATq4edqK9GZCq4jAmbydCinAnz3hV01EBnqDvmVlxgEsScYB6JxDM99fJN636C/8+qLQnGVZSDaZ5rRIISuamFvWwZBkpHl2UPXxHd/wIRd6CEcBxer6Zs7vjyjx6W33bVh1OHzeFcXJo8eHQCBmOdWEuF61fk=',
         'hkJ+EJR/9dCEuATq4edqKzJtiFoZ4A6if1KVpaBlajzEcGnP+nT58dQpi9VyyFZduSlPLh9JhUtwrnN7SGjkTCaCr12oRm+OsHRJYhcLVjsz/tcnHEeBFUCJUC9IU5mK1ZKiIDQhEHbnJzh1P+WuNirvKIrHJGwpU7+NfxDvva4=',
     ]
+    _mangago_data = 'b/fewbQPsnakoTXxGjVeyvnp1IKTwZlqQJmozPy7EDIwDQP0M+OR+dhAvBSEBk0haWgKUgCELhnL1sDwJFKoJRPD3BPuEScf+m3wIHiDDySKmoG0yuM6D0nYKf3+mRPVeLWbPqEUEs9js8r/rZkMUpg8QBxL2LW9KWj5TFe5jbDieK1k0jKmnlLof+riZ5Lii3ogXBn3LkQ0OjuCEo3mH2495DfPuanMimtK52UCJIe1Slac4VGFmcfMxWggoTVwmxqlO3YvUHS8WvhUtXMSyy5i5PbuFCZ1RP1T7+RxtBr4xi4olxQBi84Lwk9LN9MnIXl3o3r5Jb2Aq8hBiDfG9gpAye+N0SVnONY2xjo/gEo/njWHEqb8Wggr6kuwUdjqtMQA8zOoEmLGGs4zgeddSR5SsE0WfSxc9gXQwUS3Dlz6vfWTSOPacqKonzT7ggG7cZOoR7gHmEUjjKPhumNnxCHLa0uwTdFpBg38c+72j5dpOqLRld6PsvOJalph2Y79'
 
     @property
     def _provider(self):
@@ -67,3 +69,8 @@ class Crypt(unittest.TestCase):
             js = json.loads(js)
         # self.assertIs(js, dict)  # NOT WORKED Oo
         self.assertTrue(isinstance(js, dict))
+
+    def test_mangago_me(self):
+        lib = MangaGoMe()
+        data = lib.decrypt(self._mangago_data)
+        self.assertEqual(data[:4], 'http')

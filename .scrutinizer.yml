@@ -30,5 +30,7 @@ build:
 filter:
   excluded_paths:
     - manga_py/crypt/sunday_webry_com.py
+    - manga_py/crypt/aes.js
+    - manga_py/crypt/aes_zp.js
     - tests/*.py
     - pytest.py

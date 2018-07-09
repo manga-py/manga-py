@@ -36,8 +36,8 @@ class BaseLib:
         return sha.digest()
 
     @staticmethod
-    def decrypt_aes(iv, key, data):  # pragma: no cover
-        aes = AES.new(key, AES.MODE_CBC, iv)
+    def decrypt_aes(iv, key, data, mode: int = AES.MODE_CBC):  # pragma: no cover
+        aes = AES.new(key, mode, iv)
         return aes.decrypt(data)
 
     @staticmethod
@@ -70,8 +70,10 @@ class BaseLib:
 
     @staticmethod
     def md5(string):  # pragma: no cover
+        if isinstance(string, str):
+            string = string.encode()
         _ = MD5.new()
-        _.update(string.encode())
+        _.update(string)
         return _
 
     @staticmethod
