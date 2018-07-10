@@ -162,7 +162,6 @@ class Request:
         :param url:
         :return:
         """
-        session = requests.Session()
-        h = session.head(url)
-        session.close()
-        return h.cookies
+        response = self.requests(url=url, method='head')
+        response.close()
+        return response.cookies

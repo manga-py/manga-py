@@ -34,3 +34,4 @@ filter:
     - manga_py/crypt/aes_zp.js
     - tests/*.py
     - pytest.py
+    - manga.py

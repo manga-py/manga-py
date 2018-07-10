@@ -33,7 +33,7 @@ class MatrixSunday:
                 self.__image_dst.paste(region, (i['srcX'], i['srcY'], x, y))
 
 
-class SundayWebryCom:
+class SundayWebryCom:  # pragma: no cover
     _result = None
 
     def solve_by_img(self, src: str, element_width: int, element_height: int, n: int):
