@@ -4,6 +4,7 @@ from manga_py.libs.fs import make_dirs, is_file, dirname
 from manga_py.libs.fs import storage
 from .normalize import normalize
 from .request import Request
+from requests import Response
 
 
 class Http(Request):

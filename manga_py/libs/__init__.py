@@ -11,4 +11,5 @@ def is_windows():
 def print_lib(*args, sep=' ', end='\n', file=stdout):
     if is_windows():
         print(str(*args).encode().decode(stdout.encoding, 'ignore'), sep=sep, end=end, file=file)
-    print(*args, sep=sep, end=end, file=file)
+    else:
+        print(*args, sep=sep, end=end, file=file)

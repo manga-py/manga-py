@@ -18,3 +18,6 @@ def main(args_parser: ArgumentParser):
 
     args.add_argument('-v', '--verbose-log', action='store_const', const=True, default=False,
                       help='Verbose log')
+
+    args.add_argument('-P', '--no-progress', metavar='no-progress', action='store_const',
+                      const=True, help='Don\'t show progress bar', default=False)

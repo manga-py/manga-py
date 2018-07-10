@@ -10,11 +10,13 @@ class Request:
     _cookies = None
     _allow_default_redirect = False
     _max_redirects = 10
+    _history = None
 
     def __init__(self):
         self._req = requests
         self._headers = {}
         self._cookies = {}
+        self._history = []
 
     def set_user_agent(self, agent=None):
         self._headers['User-Agent'] = self._user_agent(agent)
@@ -60,6 +62,7 @@ class Request:
         response = self.request(method, url, *args, **kwargs)
         response.raise_for_status()
         if response.is_redirect():
+            self._history.append(url)
             if response.status_code == 303:
                 return self._request('get', url, *args, **kwargs)
             if response.status_code == 305:
