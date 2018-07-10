@@ -3,6 +3,7 @@ from os import name as os_name, getpid, makedirs, walk
 from pathlib import Path
 from shutil import move
 from json import loads as json_loads
+from shutil import rmtree
 
 __dir_name__ = '.PyMangaDownloader'
 
@@ -70,9 +71,12 @@ def path_join(_path, *args) -> str:
     return str(Path(_path).joinpath(*args))
 
 
-def unlink(_path):
+def unlink(_path, allow_not_empty=False):
     if is_dir(_path):
-        Path(_path).rmdir()
+        if allow_not_empty:
+            rmtree(_path)
+        else:
+            Path(_path).rmdir()
     elif is_file(_path):
         Path(_path).unlink()
 

@@ -1,5 +1,5 @@
 from manga_py.crypt import Puzzle
-from manga_py.fs import get_temp_path, move
+from manga_py.fs import get_temp_path, rename
 from manga_py.provider import Provider
 
 
@@ -48,6 +48,6 @@ class TonariNoYjJp:
             solver.need_copy_orig = True
             _ = self.temp_path.format(idx)
             solver.de_scramble(path, _)
-            move(_, path)
+            rename(_, path)
         except Exception:
             pass

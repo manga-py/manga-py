@@ -23,9 +23,16 @@ class TestInitProvider(unittest.TestCase):
     def test_root_path(self):
         self.assertEqual(path.realpath(fs.path_join(root_path, '..')), fs.root_path())
 
-    def test_file_name_query_remove(self):
+    def test_file_name_query_remove1(self):
         name = '/addr/to/filename'
         self.assertEqual(
             name,
+            fs.remove_file_query_params(name + '?query=params').replace('\\', '/')  # windows os patch
+        )
+
+    def test_file_name_query_remove2(self):
+        name = '/addr/to/filename/'
+        self.assertEqual(
+            name + 'image.png',
             fs.remove_file_query_params(name + '?query=params').replace('\\', '/')  # windows os patch
         )

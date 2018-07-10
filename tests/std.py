@@ -26,7 +26,7 @@ class M(Std, Provider):
         return '0'
 
 
-class StdCase(unittest.TestCase):
+class TestStd(unittest.TestCase):
     @property
     def _provider(self):
         provider = M()

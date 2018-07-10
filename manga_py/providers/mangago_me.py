@@ -1,7 +1,7 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
 from manga_py.crypt import mangago_me
-from manga_py.fs import move, unlink
+from manga_py.fs import rename, unlink
 
 
 class MangaGoMe(Provider, Std):
@@ -66,7 +66,7 @@ class MangaGoMe(Provider, Std):
             _dst = _path[:_path.rfind('.')] + '_' + _path[_path.rfind('.'):]
             self._crypt.puzzle(_path, _dst, url)
             unlink(_path)
-            move(_dst, _path)
+            rename(_dst, _path)
 
     def get_cover(self):
         return self._cover_from_content('#information .cover img')

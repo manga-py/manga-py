@@ -2,7 +2,7 @@ from time import time
 from urllib import parse
 
 from manga_py.crypt.puzzle import Puzzle
-from manga_py.fs import move
+from manga_py.fs import rename
 from manga_py.provider import Provider
 from .helpers.std import Std
 
@@ -91,7 +91,7 @@ class PlusComicoJp(Provider, Std):
         p = Puzzle(div_num, div_num, matrix, 8)
         p.need_copy_orig = True
         p.de_scramble(_path, '{}.jpg'.format(_path))
-        move('{}.jpg'.format(_path), _path)
+        rename('{}.jpg'.format(_path), _path)
 
     def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
         if in_arc_name is None:
