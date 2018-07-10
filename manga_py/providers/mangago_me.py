@@ -1,6 +1,7 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
 from manga_py.crypt import mangago_me
+from manga_py.fs import move, unlink
 
 
 class MangaGoMe(Provider, Std):
@@ -24,7 +25,7 @@ class MangaGoMe(Provider, Std):
         return idx[0]
 
     def get_main_content(self):
-        return self._get_content('{}/read-manga/{}/?av=1')
+        return self._get_content(self.get_url())
 
     def get_manga_name(self) -> str:
         return self._get_name(r'/read-manga/([^/]+)/')
@@ -42,7 +43,7 @@ class MangaGoMe(Provider, Std):
         self.cf_protect(self.domain)
 
     def get_files(self):
-        self._enc_images = []
+        self._enc_images = {}
         content = self.http(True, {
             'referer': self.chapter,
             'cookies': self.http().cookies,
@@ -56,12 +57,16 @@ class MangaGoMe(Provider, Std):
 
     def before_file_save(self, url, idx):
         if ~url.find('/cspiclink/'):
-            self._enc_images.append(idx)
+            self._enc_images[idx] = url
         return url
 
     def after_file_save(self, _path: str, idx: int):
-        if idx in self._enc_images:
-            print(idx)
+        url = self._enc_images.get(idx, None)
+        if url is not None:
+            _dst = _path[:_path.rfind('.')] + '_' + _path[_path.rfind('.'):]
+            self._crypt.puzzle(_path, _dst, url)
+            unlink(_path)
+            move(_dst, _path)
 
     def get_cover(self):
         return self._cover_from_content('#information .cover img')

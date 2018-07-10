@@ -109,7 +109,7 @@ providers_list = {
         r'freeadultcomix\.com/.',
     ],
     'freemanga_to': [
-        r'freemanga\.to/(manga|chapter)/.'
+        r'freemanga\.to/(manga|chapter)/.',
     ],
     'funmanga_com': [
         r'funmanga\.com/.',
@@ -189,6 +189,9 @@ providers_list = {
     ],
     'riceballicious_info': [
         r'riceballicious\.info/fs/reader/(series|read)/.',
+    ],
+    'rocaca_com': [
+        r'rocaca\.com/manga/.',
     ],
     'inmanga_com': [
         r'inmanga\.com/ver/manga/.',
@@ -332,7 +335,7 @@ providers_list = {
         r'mangahere\.cc/manga/.',
     ],
     'mangahi_net': [
-        r'mangahi\.net/.'
+        r'mangahi\.net/.',
     ],
     'mangahome_com': [
         r'mangahome\.com/manga/.',
@@ -436,7 +439,7 @@ providers_list = {
         r'mangawindow\.net/(series|chapter)/\d',  # is different!
     ],
     'mangax_net': [
-        r'mangax\.net/\w/.'
+        r'mangax\.net/\w/.',
     ],
     'manhuagui_com': [
         r'manhuagui\.com/comic/\d',
