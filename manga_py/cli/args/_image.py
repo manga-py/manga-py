@@ -13,7 +13,7 @@ def main(args_parser: ArgumentParser):
                       help='Force conversation images to jpg format', const=True)
 
     args.add_argument('-B', '--force-black-white', action='store_const', default=False,
-                      help='Force apply black and white image filter', const=True)
+                      help='Force apply "black-and-white" image filter', const=True)
 
     args.add_argument('--Xt', metavar='pix', type=int, help='Manual image crop with top side', default=0)
     args.add_argument('--Xr', metavar='pix', type=int, help='Manual image crop with right side', default=0)
@@ -22,3 +22,6 @@ def main(args_parser: ArgumentParser):
 
     args.add_argument('--crop-blank', action='store_const', default=False,
                       help='Crop blank borders', const=True)
+
+    args.add_argument('--split-image', action='store_const', default=False,
+                      help='Try to split long images', const=True)

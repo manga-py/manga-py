@@ -34,7 +34,7 @@ class Http(Request):
 
     def _load_storage_cookies(self, domain: str = None) -> dict:
         cookies = {}
-        if self._cookies_file:
+        if is_file(self._cookies_file):
             with open(self._cookies_file, 'r') as f:
                 cookies = json.loads(f.read())
         return cookies.get(domain, {})
@@ -45,8 +45,9 @@ class Http(Request):
             all_cookies.update({domain: cookies})
         else:
             all_cookies = cookies
-        with open(self._cookies_file, 'w') as f:
-            f.write(json.dumps(all_cookies))
+        if is_file(self._cookies_file):
+            with open(self._cookies_file, 'w') as f:
+                f.write(json.dumps(all_cookies))
 
     def normalize_uri(self, uri):
         if self._base_uri is not None:

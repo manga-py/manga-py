@@ -43,6 +43,10 @@ def remove_query(name, save_path: bool = True) -> str:
         file_path = dirname(name)
         name = basename(name)
     position = name.find('?')
+
+    # assert position == 0, AttributeError('Name is empty')
+    # if position > 0:
+
     if position == 0:
         raise AttributeError('Name is empty')
     elif position > 0:
@@ -67,7 +71,7 @@ def dirname(_path):
 
 
 def path_join(_path, *args):
-    return Path.joinpath(_path, *args)
+    return Path(_path).joinpath(*args)
 
 
 def unlink(_path):

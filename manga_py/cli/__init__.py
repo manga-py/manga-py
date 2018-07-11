@@ -1,6 +1,5 @@
 import atexit
 import json
-from argparse import Namespace
 from getpass import getpass
 from shutil import rmtree
 from sys import stderr
@@ -11,7 +10,7 @@ from progressbar import ProgressBar
 from zenlog import log
 
 from manga_py import meta
-from manga_py.cli.args import get_cli_arguments
+from manga_py.cli import args
 from manga_py.libs import print_lib
 from manga_py.libs.fs import get_temp_path, make_dirs
 from manga_py.libs.http import Http
@@ -22,10 +21,12 @@ from manga_py.libs.providers import get_provider
 class Cli:
     info = None
     _temp_path = None
+    _args = None
+    __raw_args = None
 
     def __init__(self):
-        atexit.register(self.exit)
         self._temp_path = get_temp_path()
+        atexit.register(self.exit)
         make_dirs(self._temp_path)
 
     def exit(self):
@@ -36,16 +37,23 @@ class Cli:
     def print_error(cls, *_args):
         print_lib(*_args, file=stderr)
 
-    @staticmethod
-    def _print_cli_help(_args: Namespace):
-        print_lib()
+    def _print_cli_help(self):
+        if len(self._args.get('url')) < 1 and not self._args.get('update_all'):
+            self.__raw_args.print_help()
+
+    def fill_args(self):
+        self.__raw_args = args.get_cli_arguments()
+        self._args = args.arguments_to_dict(self.__raw_args)
 
     def run(self):
         better_exceptions.hook()
-        raw__args = get_cli_arguments()
-        _args = raw__args.__dict__
+        _args = self._args.copy()
+        self._print_cli_help()
         self.info = Info(_args)
         urls = _args.get('url', []).copy()
+
+        if len(urls) > 1:
+            _args['name'] = None
 
         for url in urls:
             provider = get_provider(url)
@@ -59,6 +67,7 @@ class Cli:
             provider.progressbar = ProgressBar
 
             _args['url'] = url
+
             provider.run(_args)
 
     @classmethod

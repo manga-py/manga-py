@@ -1,8 +1,9 @@
 from __future__ import print_function
 
 from setuptools import setup
+from setuptools.command.install import install
 from manga_py.meta import __version__, __downloader_uri__, __author__, __email__, __license__
-from os import path
+from os import path, system, name
 
 
 REQUIREMENTS = [
@@ -33,9 +34,22 @@ if path.isfile('README.rst'):
 
 
 release_status = 'Development Status :: 1 - Planning'
-# release_status = 'Development Status :: 4 - Beta'
-# if __version__.find('alpha'):
+# release_status = 'Development Status :: 5 - Production/Stable'
+# if ~__version__.find('beta'):
+#     release_status = 'Development Status :: 4 - Beta'
+# if ~__version__.find('alpha'):
 #     release_status = 'Development Status :: 3 - Alpha'
+
+
+class PostInstallCommand(install):
+    """Post-installation for installation mode."""
+    def run(self):
+        install.run(self)
+        if name.find('nt') == -1:
+            print('Activate argcomplete')
+            system('activate-global-python-argcomplete --user')
+            print('Add scripts to .bashrc')
+            system('if [ `cat ~/.bashrc | grep python-argcomplete | wc -l` -lt 1 ]; then echo ". ~/.bash_completion.d/python-argcomplete.sh" >> ~/.bashrc; fi')
 
 
 setup(
@@ -44,6 +58,7 @@ setup(
         'manga_py',
         'manga_py.cli',
         'manga_py.cli.args',
+        'manga_py.libs',
         'manga_py.libs.base',
         'manga_py.libs.crypt',
         'manga_py.libs.http',
@@ -80,6 +95,9 @@ setup(
     ],
     python_requires='>=3.5',
     install_requires=REQUIREMENTS,
+    cmdclass={
+        'install': PostInstallCommand,
+    },
     entry_points={
         'console_scripts': [
             'manga-py = manga_py:main',

@@ -14,3 +14,4 @@ peewee>3.4.0
 tinycss>=0.4
 better_exceptions>=0.2
 zenlog>=1.1
+argcomplete>=1.9.4

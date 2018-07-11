@@ -1,4 +1,5 @@
-from argparse import ArgumentParser, Namespace
+from argparse import ArgumentParser
+
 from . import _debug
 from . import _downloading
 from . import _general
@@ -6,7 +7,7 @@ from . import _image
 from . import _reader
 
 
-def get_cli_arguments() -> Namespace:
+def get_cli_arguments() -> ArgumentParser:
     """
     :return:
     :rtype Namespace
@@ -19,5 +20,10 @@ def get_cli_arguments() -> Namespace:
     _downloading.main(args_parser)
     _debug.main(args_parser)
 
-    args = args_parser.parse_args()
-    return args
+    return args_parser
+
+
+def arguments_to_dict(arguments: ArgumentParser = None) -> dict:
+    if arguments is None:
+        arguments = get_cli_arguments()
+    return arguments.parse_args().__dict__

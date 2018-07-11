@@ -1,4 +1,5 @@
 import re
+from manga_py.provider import Provider
 from .__list import providers_list
 
 
@@ -21,7 +22,7 @@ def __check_namespaces(providers, namespaces):
     return namespaces
 
 
-def get_provider(url: str, providers: dict = None, more_namespaces: list = None):
+def get_provider(url: str, providers: dict = None, more_namespaces: list = None) -> Provider:
     """
     Allows you to add your namespaces to search for providers.
 
@@ -49,6 +50,7 @@ def get_provider(url: str, providers: dict = None, more_namespaces: list = None)
     :param more_namespaces:
     :type list
     :return:
+    :rtype Provider
     """
     namespaces = __check_namespaces(providers, more_namespaces)
     for provider in providers_list:

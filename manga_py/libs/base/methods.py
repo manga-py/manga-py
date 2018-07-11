@@ -1,6 +1,3 @@
-from typing import overload
-
-
 class Methods:
     __methods = None
     _args = None
@@ -17,6 +14,18 @@ class Methods:
 
     @property
     def logger(self):
+        """
+        Returned logger class with next methods:
+        .debug('text')
+        .info('text')
+        .warn('text')
+        .error('text')
+        .critical('text')
+
+        See https://github.com/manufacturaind/python-zenlog/
+
+        :return:
+        """
         return self.__get_callback('logger')
 
     @logger.setter

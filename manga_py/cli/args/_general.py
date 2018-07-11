@@ -6,6 +6,7 @@ def main(args_parser: ArgumentParser):
 
     args.add_argument('url', metavar='url', type=str, help='Downloaded url(s)', nargs="*")
 
-    args.add_argument('-n', '--name', metavar='name', type=str, help='Manga name', default=None)
+    args.add_argument('-n', '--name', metavar='name', type=str,default=None,
+                      help='Manga name (Works on one only url!)')
     args.add_argument('-d', '--destination', metavar='path', type=str, default='Manga',
-                      help='Destination folder (Default = current directory')
+                      help='Destination folder')
