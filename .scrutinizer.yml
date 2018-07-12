@@ -16,8 +16,7 @@ build:
 #          - 'pip3 install pyvirtualdisplay'
         override:
           -
-            command: echo OK
-#            command: 'coverage run --omit=manga_py/providers/*.py --source=manga_py pytest.py'
+            command: coverage run --omit=manga_py/cli/args/*.py --source=manga_py setup.py test
             coverage:
               file: '.coverage'
               format: 'py-cc'

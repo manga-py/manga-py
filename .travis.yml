@@ -26,8 +26,7 @@ cache: pip
 #  - chmod +x ./cc-test-reporter
 #  - ./cc-test-reporter before-build
 script:
-  - echo 'Skip'
-#  - if [[ "$TRAVIS_TAG" = "" ]]; then coverage run --omit=manga_py/providers/*.py --source=manga_py pytest.py; fi
+  - coverage run --source=manga_py setup.py test
 after_script:
   - source ./helpers/after_script.sh
 #before_deploy:

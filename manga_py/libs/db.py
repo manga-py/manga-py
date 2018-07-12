@@ -10,10 +10,7 @@ def _db_cache(path=None) -> peewee.Database:
     if path is None:
         path = storage('manga.db')
     crc = crc32(path.encode())
-    __db = __cache.get(crc, None)
-    if __db is not None:
-        return __db
-    else:
+    if __cache.get(crc, None) is None:
         __cache[crc] = peewee.SqliteDatabase(path)
     return __cache[crc]
 
@@ -24,7 +21,8 @@ class Db:
 
  
 class Manga(Db):
-    id = peewee.PrimaryKeyField(primary_key=True)
+    # id = peewee.PrimaryKeyField(primary_key=True)
+    id = peewee.UUIDField(primary_key=True)  # sqlite
     url = peewee.CharField(unique=True)
     name = peewee.CharField()
     path = peewee.CharField(max_length=2047)
@@ -32,20 +30,10 @@ class Manga(Db):
     latest_chapter = peewee.IntegerField()
     created = peewee.DateTimeField(default=peewee.datetime.datetime.now)
     updated = peewee.DateTimeField(default=peewee.datetime.datetime.now)
+    data = peewee.TextField()  # cookies, browser, args
 
     class Meta:
         table_name = 'manga'
-
-
-# class Cookies(Db):
-#     id = peewee.PrimaryKeyField(primary_key=True)
-#     domain = peewee.CharField()
-#     key = peewee.CharField()
-#     value = peewee.CharField()
-#     expires = peewee.IntegerField()
-#
-#     class Meta:
-#         table_name = 'cookies'
 
 
 def make_db(path=None):

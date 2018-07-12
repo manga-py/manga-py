@@ -14,9 +14,11 @@ except ImportError as e:
 
 
 def main():
+    print('main')
     _cli = Cli()
     check = _cli.check_version()
     if check['need_update']:
+        print('Please, update manga-py')
         print('See url: %s' % check['url'], file=stderr)
     _cli.run()
 

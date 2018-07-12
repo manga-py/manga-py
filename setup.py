@@ -2,8 +2,12 @@ from __future__ import print_function
 
 from setuptools import setup
 from setuptools.command.install import install
-from manga_py.meta import __version__, __downloader_uri__, __author__, __email__, __license__
-from os import path, system, name
+from manga_py import meta
+from os import path, name, chmod, unlink
+from subprocess import Popen, PIPE
+from re import search
+from tempfile import gettempdir
+from sys import stderr
 
 
 REQUIREMENTS = [
@@ -43,16 +47,44 @@ release_status = 'Development Status :: 1 - Planning'
 
 class PostInstallCommand(install):
     """Post-installation for installation mode."""
+    @staticmethod
+    def _make_sh(_temp_file, complete_sh):
+        with open(_temp_file, 'w') as f:
+            f.write(''.join([
+                '#!/bin/sh\n',
+                'if [ `cat ~/.bashrc | grep {0} | wc -l` -lt 1 ];',
+                ' then echo ". {0}" >> ~/.bashrc &&',
+                ' echo "Please, restart you shell"; fi'
+            ]).format(complete_sh))
+        chmod(_temp_file, 0o755)
+
+    @staticmethod
+    def _parse_out(out):
+        if isinstance(out, bytes):
+            out = out.decode()
+        _sh = search(r'\w\s(/.+?\.sh)', out)
+        return _sh.group(1)
+
     def run(self):
         install.run(self)
         if name.find('nt') == -1:
             print('Activate argcomplete')
-            system('activate-global-python-argcomplete --user')
-            print('Add scripts to .bashrc')
-            system('if [ `cat ~/.bashrc | grep python-argcomplete | wc -l` -lt 1 ]; then echo ". ~/.bash_completion.d/python-argcomplete.sh" >> ~/.bashrc; fi')
+            process = Popen([
+                'activate-global-python-argcomplete',
+                '--user'
+            ], stdout=PIPE, stderr=PIPE)
+            out, err = process.communicate(timeout=1)
+            if process.returncode == 0:
+                sh = self._parse_out(out)
+                _temp_file = path.join(gettempdir(), 'manga-py.sh')
+                self._make_sh(_temp_file, sh)
+                Popen([_temp_file]).communicate(timeout=1)
+                unlink(_temp_file)
+            else:
+                print('ERROR! %s' % err, file=stderr)
 
 
-setup(
+setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-packages
     name='manga_py',
     packages=[
         'manga_py',
@@ -68,22 +100,22 @@ setup(
         'manga_py.libs.providers',
     ],
     include_package_data=True,
-    version=__version__,
+    version=meta.__version__,
     description='Universal assistant download manga.',
     long_description=long_description,
-    author=__author__,
-    author_email=__email__,
-    url=__downloader_uri__,
-    zip_safe=False,
+    author=meta.__author__,
+    author_email=meta.__email__,
+    url=meta.__downloader_uri__,
+    zip_safe=True,
     data_files=[
         # ('manga_py/storage', [
         #     'manga_py/storage/.passwords.json.dist',
         #     'manga_py/storage/.proxy.txt',
         # ]),
     ],
-    download_url='{}/archive/{}.tar.gz'.format(__downloader_uri__, __version__),
-    keywords=['manga-downloader', 'manga', 'manga-py'],
-    license=__license__,
+    download_url='{}/archive/{}.tar.gz'.format(meta.__downloader_uri__, meta.__version__),
+    keywords=['manga-downloader', 'manga', 'manga-py', 'manga-dl'],
+    license=meta.__license__,
     classifiers=[  # look here https://pypi.python.org/pypi?%3Aaction=list_classifiers
         release_status,
         'License :: OSI Approved :: MIT License',
@@ -94,6 +126,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
     ],
     python_requires='>=3.5',
+    tests_requires=['pyvirtualdisplay'],
     install_requires=REQUIREMENTS,
     cmdclass={
         'install': PostInstallCommand,
@@ -102,5 +135,6 @@ setup(
         'console_scripts': [
             'manga-py = manga_py:main',
         ]
-    }
+    },
+    test_suite='tests',
 )
