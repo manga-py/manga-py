@@ -19,7 +19,7 @@ cache: pip
 #  - source ./helpers/before_script.sh
 #install:
 #  - npm install -g sass node-sass html-minifier
-#  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
+  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
 #  - pip install -r requirements.txt
 #before_script:
 #  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter

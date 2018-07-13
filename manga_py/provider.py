@@ -2,11 +2,15 @@ from abc import ABCMeta
 
 from .libs.base import Base
 from .libs import fs
+from .libs.db import Manga
 
 
 class Provider(Base, metaclass=ABCMeta):
+    _db = None
+
     def __init__(self):
         super().__init__()
+        self._db = Manga()
 
     def run(self, args: dict):
         super()._args = args
@@ -24,3 +28,7 @@ class Provider(Base, metaclass=ABCMeta):
                 self.download(url, filename, idx)
             except AttributeError:
                 pass
+
+    def _update_db(self):
+        db = self._db.select().where(Manga.url == self.domain)
+        pass

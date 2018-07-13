@@ -22,10 +22,10 @@ class Abstract:
     def get_chapter_name(self):
         pass
 
-    def chapter_url(self) -> str:
+    def get_chapter_url(self) -> str:
         pass
 
-    def cover(self):
+    def get_cover(self):
         pass
 
     def prepare_cookies(self):

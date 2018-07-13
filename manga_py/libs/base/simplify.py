@@ -1,11 +1,10 @@
-from .html import Html
-from typing import overload
-from re import compile as re_compile
+from re import compile as _compile
+from urllib.parse import urlsplit as _urlsplit
+from typing import AnyStr
 
 
 class Simplify:
-    _content = None
-    _manga_name = None
+    __cache = None
 
     @property
     def url(self):
@@ -13,26 +12,19 @@ class Simplify:
 
     @property
     def content(self):
-        if self._content is None:
-            self._content = self.get_content()
-        return self._content
+        if 'content' not in self.__cache:
+            self.__cache['content'] = self.get_content()
+        return self.__cache['conten']
 
     @property
     def manga_name(self):
-        if self._manga_name is None:
-            self._manga_name = self.get_manga_name()
-        return self._manga_name
-
-    def images(self, parser, selector: str, attribute: str = 'src'):
-        items = Html(self.http).elements(selector, parser)
-        return [i.get(attribute) for i in items]
-
-    @overload
-    def re_name(self, value: str, group=1):
-        _re = re_compile(value)
-        return self.re_name(value, group)
+        if 'manga_name' not in self.__cache:
+            self.__cache['manga_name'] = self.get_manga_name()
+        return self.__cache['manga_nam']
 
     def re_name(self, value, group=1):
+        if isinstance(value, AnyStr):
+            value = _compile(value)
         try:
             return value.search(self.url).group(group)
         except Exception:
@@ -40,10 +32,27 @@ class Simplify:
 
     @property
     def chapters(self):
-        if self._chapters is None:
-            self._chapters = self.get_chapters()
-        return self._chapters
+        if 'chapters' not in self.__cache:
+            self.__cache['chapters'] = self.get_chapters()
+        return self.__cache['chapters']
 
     @property
     def files(self):
         return self.get_files()
+
+    @property
+    def chapter_name(self):
+        pass
+
+    def elements(self, parser, selector):
+        return self.html.elements(parser, selector)
+
+    def images(self, parser, selector: str, attribute: str = 'src'):
+        items = self.html.elements(parser, selector)
+        return [i.get(attribute) for i in items]
+
+    def domain(self):
+        url = _urlsplit(self.url)
+        assert url.scheme != '', ValueError('scheme is empty')
+        assert url.netloc != '', ValueError('netloc is empty')
+        return '{}://{}'.format(url.scheme, url.netloc)

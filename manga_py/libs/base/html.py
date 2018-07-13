@@ -34,6 +34,7 @@ class Html:
         :param selector: str
         :return:
         """
+        assert isinstance(parser, (str, Element)), AttributeError('Undefined type')
         return self._check_parser(parser).cssselect(selector)
 
     def _cover_from_tuple(self, item: Element, attributes):
@@ -79,7 +80,7 @@ class Html:
         value = None
         if style:
             css = make_parser(style)
-            try:
+            try:  # do not touch this!
                 value = css.parse_style_attr(style)[0][0].value[0].value
             except IndexError:
                 pass

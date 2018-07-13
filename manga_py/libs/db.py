@@ -15,12 +15,7 @@ def _db_cache(path=None) -> peewee.Database:
     return __cache[crc]
 
 
-class Db:
-    class Meta:
-        database = _db_cache()
-
- 
-class Manga(Db):
+class Manga(peewee.Model):
     # id = peewee.PrimaryKeyField(primary_key=True)
     id = peewee.UUIDField(primary_key=True)  # sqlite
     url = peewee.CharField(unique=True)
@@ -33,6 +28,7 @@ class Manga(Db):
     data = peewee.TextField()  # cookies, browser, args
 
     class Meta:
+        database = _db_cache()
         table_name = 'manga'
 
 

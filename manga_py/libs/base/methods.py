@@ -84,14 +84,14 @@ class Methods:
     def arg(self, key, default=None):
         return self._args.get(key, default)
 
-    def _log(self):
+    def _log(self) -> bool:
         return self.arg('show_log', False)
 
     def _verbose_log(self):
         return self.arg('verbose_log', False)
 
     def log_info(self, *args):
-        self._log() and self.logger.info(*args)
+        self._verbose_log() and self.logger.info(*args)
 
     def log_warning(self, *args):
         self._log() and self.logger.warn(*args)

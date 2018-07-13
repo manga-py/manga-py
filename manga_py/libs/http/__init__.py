@@ -2,9 +2,8 @@ import json
 
 from manga_py.libs.fs import make_dirs, is_file, dirname
 from manga_py.libs.fs import storage
-from .normalize import normalize
 from .request import Request
-from requests import Response
+from urllib.parse import urljoin
 
 
 class Http(Request):
@@ -51,7 +50,7 @@ class Http(Request):
 
     def normalize_uri(self, uri):
         if self._base_uri is not None:
-            return normalize(uri, self._base_uri)
+            return urljoin(self._base_uri, uri)
         return uri
 
     def download(self, url, path_location, method='get'):
