@@ -1,34 +1,44 @@
 from abc import ABCMeta
 
 from .libs.base import Base
-from .libs import fs
 from .libs.db import Manga
+from .libs.base.verify import Verify
+from .libs.base.chapter import Chapter
+from .libs.base.file import File
 
 
 class Provider(Base, metaclass=ABCMeta):
     _db = None
+    _store = None
 
     def __init__(self):
         super().__init__()
+        self._store = {}
         self._db = Manga()
 
     def run(self, args: dict):
+        Verify(args).check()
         super()._args = args
 
     def loop_chapters(self):
-        for chapter in self.chapters:
-            self.chapter = chapter
+        for idx, chapter in enumerate(self.chapters):
+            self.chapter = Chapter(idx, chapter, self)
+            self.loop_files()
 
     def loop_files(self):
-        path_location = fs.get_temp_path()
-        for idx, url in enumerate(self.files):
+        for idx, data in enumerate(self.files):
             try:
-                filename = fs.remove_query(fs.basename(url))
-                filename = fs.path_join(path_location, filename)
-                self.download(url, filename, idx)
+                file = File(idx, data, self)
+                self.download(file)
             except AttributeError:
                 pass
 
-    def _update_db(self):
+    def update_db(self):
+        """
+        Called twice.
+        After receiving the content of the main page and after the completion of work.
+        Updates the current manga data in the database.
+        :return:
+        """
         db = self._db.select().where(Manga.url == self.domain)
         pass

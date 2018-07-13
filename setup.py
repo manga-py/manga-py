@@ -90,6 +90,7 @@ setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-
         'manga_py',
         'manga_py.cli',
         'manga_py.cli.args',
+        'manga_py.exceptions',
         'manga_py.libs',
         'manga_py.libs.base',
         'manga_py.libs.crypt',

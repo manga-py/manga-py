@@ -7,6 +7,8 @@ from .html import Html
 from .simplify import Simplify
 from .methods import Methods
 from manga_py.libs import fs
+from .chapter import Chapter
+from .file import File
 
 
 class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
@@ -30,7 +32,7 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
             self._http = Http(self.url)
         return self._http
 
-    def download(self, url, path_location, idx):
+    def download(self, file):
         self.before_file_save(url, idx)
         self.http.download(url, path_location)
         self.after_file_save(path_location, idx)

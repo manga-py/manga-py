@@ -1,0 +1,2 @@
+class Chapter:
+    pass

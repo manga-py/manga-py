@@ -1,6 +1,7 @@
 from re import compile as _compile
 from urllib.parse import urlsplit as _urlsplit
 from typing import AnyStr
+from .chapter import Chapter
 
 
 class Simplify:
@@ -8,7 +9,11 @@ class Simplify:
 
     @property
     def url(self):
-        return self.arg('url', None)
+        return self.arg['url']
+
+    @url.setter
+    def url(self, url):
+        self.arg['url'] = url
 
     @property
     def content(self):
@@ -31,18 +36,32 @@ class Simplify:
             return None
 
     @property
-    def chapters(self):
+    def chapters(self) -> list:
+        """
+        :return: [Chapter, ...]
+        """
         if 'chapters' not in self.__cache:
             self.__cache['chapters'] = self.get_chapters()
         return self.__cache['chapters']
 
     @property
-    def files(self):
+    def files(self) -> list:
+        """
+        :return: [File, ...]
+        """
         return self.get_files()
 
     @property
-    def chapter_name(self):
-        pass
+    def chapter(self) -> Chapter:
+        return self.chapters[self.chapter_idx]
+
+    @chapter.setter
+    def chapter(self, chapter):
+        self._store[self.chapter_idx] = chapter
+
+    @property
+    def chapter_idx(self):
+        return self._store['chapter_idx']
 
     def elements(self, parser, selector):
         return self.html.elements(parser, selector)
@@ -53,6 +72,6 @@ class Simplify:
 
     def domain(self):
         url = _urlsplit(self.url)
-        assert url.scheme != '', ValueError('scheme is empty')
-        assert url.netloc != '', ValueError('netloc is empty')
         return '{}://{}'.format(url.scheme, url.netloc)
+
+    def
