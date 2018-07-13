@@ -51,7 +51,7 @@ class MangaTailCom(Provider, Std):
             if ~url.find('-fixed'):
                 found.append(_name)
         for i in items:
-            name, href = i.text_content().strip(), n(i.get('href'))
+            name = i.text_content().strip()
             _name = self._parse_ch(name)
             if _name not in found:
                 result.append((name, n(i.get('href'))))
