@@ -53,13 +53,15 @@ class MangaTailCom(Provider, Std):
         for i in items:
             name = i.text_content().strip()
             _name = self._parse_ch(name)
-            if _name not in found:
-                result.append((name, n(i.get('href'))))
+            url = i.get('href')
+            if _name not in found or ~url.find('-fixed'):
+                result.append((name, n(url)))
         return result
 
     def get_chapters(self):
         items = self.document_fromstring(self.content, '.chlist td a')
-        return self._fix_chapters(items)
+        items = self._fix_chapters(items)
+        return sorted(items, key=lambda n: float(self._parse_ch(n[0])), reverse=True)
 
     def prepare_cookies(self):
         self._base_cookies()
