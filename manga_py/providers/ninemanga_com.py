@@ -36,7 +36,8 @@ class NineMangaCom(NineHelper, Std):
 
     def get_files(self):
         content = self._get_page_content(self.chapter)
-        pages = self.document_fromstring(content, '.changepage #page option + option')
+        parser = self.document_fromstring(content)
+        pages = self._first_select_options(parser, '.changepage #page')
         images = self.get_files_on_page(content)
         for i in pages:
             url = self.http().normalize_uri(i.get('value'))
