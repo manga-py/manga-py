@@ -8,15 +8,20 @@ class MangaTailCom(Provider, Std):
     def get_archive_name(self) -> str:
         return self.normal_arc_name([
             self.chapter_id,
-            self.get_chapter_index()
+            self._parse_ch(self.chapter[0]).split('.')
         ])
 
     def get_chapter_index(self) -> str:  # Oh ...
-        idx = self.chapter[0]
-        re = self.re.search(r'.+\s(\d+(?:\.\d+)?)', idx)
+        pass
+
+    def _parse_ch(self, chapter):
+        _re = r'.+?[^\d](\d+(?:\.\d+)?)'
+        if ~chapter.find('-fixed'):
+            _re = r'.+?[^\d](\d+(?:\.\d+)?).+fixed'
+        re = self.re.search(_re, chapter, self.re.I)
         if re:
             return re.group(1)
-        return idx
+        return chapter
 
     def get_main_content(self):
         url = self.get_url()
@@ -34,10 +39,27 @@ class MangaTailCom(Provider, Std):
             header = self.html_fromstring(link, selector, 0)
         return header.text_content().strip().replace('/', '_')  # http://www.mangasail.com/content/12-prince-manga
 
+    def _fix_chapters(self, items):
+        # http://www.mangasail.com/content/go-toubun-no-hanayome-30-%E2%80%93-fixed
+        # I wanted to sleep. Maybe fix it someday.
+        found = []
+        result = []
+        n = self.http().normalize_uri
+        for i in items:
+            name, url = i.text_content().strip(), i.get('href')
+            _name = self._parse_ch(name)
+            if ~url.find('-fixed'):
+                found.append(_name)
+        for i in items:
+            name, href = i.text_content().strip(), n(i.get('href'))
+            _name = self._parse_ch(name)
+            if _name not in found:
+                result.append((name, n(i.get('href'))))
+        return result
+
     def get_chapters(self):
         items = self.document_fromstring(self.content, '.chlist td a')
-        n = self.http().normalize_uri
-        return [(i.text_content().strip(), n(i.get('href'))) for i in items]
+        return self._fix_chapters(items)
 
     def prepare_cookies(self):
         self._base_cookies()
