@@ -8,7 +8,7 @@ class MangaTailCom(Provider, Std):
     def get_archive_name(self) -> str:
         return self.normal_arc_name([
             self.chapter_id,
-            self._parse_ch(self.chapter[0]).split('.')
+            *self._parse_ch(self.chapter[0]).split('.')
         ])
 
     def get_chapter_index(self) -> str:  # Oh ...
