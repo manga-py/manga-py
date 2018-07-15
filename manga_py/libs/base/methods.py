@@ -86,10 +86,10 @@ class Methods:
         return self._args.get(key, default)
 
     def _log(self) -> bool:
-        return self.arg('show_log', False)
+        return self.arg('show-log', False)
 
     def _verbose_log(self):
-        return self.arg('verbose_log', False)
+        return self.arg('verbose-log', False)
 
     def log_info(self, *args):
         self._verbose_log() and self.logger.info(*args)

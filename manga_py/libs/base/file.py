@@ -29,7 +29,7 @@ class File:
         self._name = self._normalize_name(name)
 
     def _normalize_name(self, name):
-        if self._provider.arg('rename_pages'):
+        if self._provider.arg('rename-pages'):
             return '{:0>3}'.format(self._idx)
         return '{:0>3}_{}'.format(self._idx, name)
 

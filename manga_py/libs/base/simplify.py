@@ -25,7 +25,10 @@ class Simplify:
     def manga_name(self):
         if 'manga_name' not in self.__cache:
             self.__cache['manga_name'] = self.get_manga_name()
-        return self.__cache['manga_nam']
+        name = self.__cache['manga_nam']
+        if self.arg('with-website-name'):
+            name = '{}-{}'.format(self.domain, name)
+        return name
 
     def re_name(self, value, group=1):
         if isinstance(value, AnyStr):
@@ -70,8 +73,9 @@ class Simplify:
         items = self.html.elements(parser, selector)
         return [i.get(attribute) for i in items]
 
+    @property
     def domain(self):
         url = _urlsplit(self.url)
         return '{}://{}'.format(url.scheme, url.netloc)
 
-    def
+    # def

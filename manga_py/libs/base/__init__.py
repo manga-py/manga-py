@@ -35,7 +35,7 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
     def download(self, file: File):
         self.before_download(file)
         self.http.download(file.url, file.path_location)
-        if not self.arg('not_change_files_extension'):
+        if not self.arg('not-change-files-xtension'):
             ext = Image.real_extension(file.path_location)
             _name = file.path_location
             file.name = '{}.{}'.format(_name[:_name.rfind('.')], ext)

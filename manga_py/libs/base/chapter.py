@@ -29,9 +29,9 @@ class Chapter:
         self._name = self._normalize_name(name)
 
     def _normalize_name(self, name):
-        if self._provider.arg('zero_fill') and isinstance(name, (list, tuple)):
-                fmt = ('_{}' * (len(name) - 1))
-                return ('vol_{:0>3}' + fmt).format(name)
+        if self._provider.arg('zero-fill') and isinstance(name, (list, tuple)):
+            fmt = ('_{}' * (len(name) - 1))
+            return ('vol_{:0>3}' + fmt).format(name)
         return name
 
     @property
