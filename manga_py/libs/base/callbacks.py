@@ -1,13 +1,16 @@
+from .chapter import Chapter
+from .file import File
+
 
 class Callbacks:
-    def before_chapter(self):
+    def before_chapter(self, chapter: Chapter):
         pass
 
-    def after_chapter(self):
+    def after_chapter(self, chapter: Chapter):
         pass
 
-    def before_download(self, url: str, idx: int) -> str:  # return url!
-        return url
+    def before_download(self, file: File):
+        pass
 
-    def after_download(self, path, idx: int) -> str:  # return path!
-        return path
+    def after_download(self, file: File):
+        pass

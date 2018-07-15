@@ -4,9 +4,6 @@ from argparse import ArgumentParser
 def main(args_parser: ArgumentParser):
     args = args_parser.add_argument_group('Image options')
 
-    args.add_argument('-E', '--not-change-files-extension', action='store_const',
-                      help='Save files "as is"', const=True, default=False)
-
     args.add_argument('--png', action='store_const', default=False,
                       help='Force conversation images to png format', const=True)
     args.add_argument('--jpg', action='store_const', default=False,

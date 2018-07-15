@@ -1,11 +1,9 @@
-
 from manga_py.provider import Provider
 
 
 # see manga_py/libs/base/abstract.py for more data
 class Example(Provider):
     def get_content(self):
-        self.url
         pass
 
     def get_manga_name(self) -> str:

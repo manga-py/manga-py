@@ -10,5 +10,5 @@ def main(args_parser: ArgumentParser):
     args.add_argument('--zip', action='store_const', default=False,
                       const=True, help='Make *.zip archives (for reader)')
 
-    args.add_argument('--rename-pages', action='store_const', default=False, const=True,
+    args.add_argument('-p', '--rename-pages', action='store_const', default=False, const=True,
                       help='Normalize images names. (example: 0_page_1.jpg -> 0001.jpg)')

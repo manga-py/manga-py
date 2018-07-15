@@ -36,9 +36,11 @@ class Abstract:
         The method is required to return a list of the form:
         [etree.Element, ...]
         or
-        [('absolute_url', ('archive_name', 'folder_name')), ...]
+        [('absolute_url', 'archive_name/forlder_name'), ...]
         or
-        [('absolute_url', ('archive_name', 'folder_name')), etree.Element, ...]
+        [('absolute_url', ('0', '1', 2, 3), ...]  # chapter idx
+        or
+        [('absolute_url', 'archive_name/forlder_name'), etree.Element, ...]
 
         The latter is not recommended, but can be used.
         :return:
@@ -61,11 +63,12 @@ class Abstract:
         pass
 
     @abstractmethod
-    def get_chapter_name(self) -> tuple:  # (archive_name_without_extension, folder_name)
+    def get_chapter_name(self):
         """
         Returns the current name of the chapter.
         It is called at each iteration of the chapter list. (Use self.chapter to get RAW data from the provider)
         :return:
+        :rtype str or list or tuple
         """
         pass
 

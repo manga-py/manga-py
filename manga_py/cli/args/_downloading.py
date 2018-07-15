@@ -4,6 +4,8 @@ from argparse import ArgumentParser
 def main(args_parser: ArgumentParser):
     args = args_parser.add_argument_group('Downloading options')
 
+    args.add_argument('-E', '--not-change-files-extension', action='store_const',
+                      help='Save files "as is"', const=True, default=False)
     args.add_argument('-u', '--update-all', action='store_const',
                       help='Update all.', const=True, default=False)
     args.add_argument('-s', '--skip-volumes', metavar='count', type=int,

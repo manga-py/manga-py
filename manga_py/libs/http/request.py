@@ -4,7 +4,7 @@ import requests
 from requests import Response
 
 
-class Request:
+class Request(object):
     _req = None
     _headers = None
     _cookies = None

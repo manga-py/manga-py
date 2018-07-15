@@ -6,9 +6,9 @@ from .callbacks import Callbacks
 from .html import Html
 from .simplify import Simplify
 from .methods import Methods
-from manga_py.libs import fs
 from .chapter import Chapter
 from .file import File
+from manga_py.libs.modules.image import Image
 
 
 class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
@@ -32,7 +32,11 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
             self._http = Http(self.url)
         return self._http
 
-    def download(self, file):
-        self.before_file_save(url, idx)
-        self.http.download(url, path_location)
-        self.after_file_save(path_location, idx)
+    def download(self, file: File):
+        self.before_download(file)
+        self.http.download(file.url, file.path_location)
+        if not self.arg('not_change_files_extension'):
+            ext = Image.real_extension(file.path_location)
+            _name = file.path_location
+            file.name = '{}.{}'.format(_name[:_name.rfind('.')], ext)
+        self.after_download(file)

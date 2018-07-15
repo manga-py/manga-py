@@ -44,7 +44,9 @@ def make_dirs(directory):
 
 def remove_query(name: str) -> str:
     position = name.find('?')
-    if position > 0:
+    if position == 0:
+        name = 'image.png'
+    else:
         name = name[:position]
     return name
 

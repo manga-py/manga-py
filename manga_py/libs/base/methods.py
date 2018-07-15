@@ -82,6 +82,7 @@ class Methods:
         self.__methods['progressbar'] = value
 
     def arg(self, key, default=None):
+        key = key.replace('-', '_')
         return self._args.get(key, default)
 
     def _log(self) -> bool:
