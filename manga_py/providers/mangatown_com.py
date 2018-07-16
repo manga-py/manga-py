@@ -11,8 +11,8 @@ class MangaTownCom(Provider, Std):
         return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search('/manga/[^/]+/c([^/]+)', self.chapter)
-        return '-'.join(idx.group(1).split('.'))
+        idx = self.re.search('/manga/[^/]+(?:/v\d+)?/c([^/]+)', self.chapter)
+        return idx.group(1).replace('.', '-')
 
     def get_main_content(self):
         return self._get_content('{}/manga/{}/')
@@ -24,6 +24,7 @@ class MangaTownCom(Provider, Std):
         return self.document_fromstring(self.content, '.chapter_list a')
 
     def prepare_cookies(self):
+        self._storage['domain_uri'] = self.domain.replace('//m.', '//')
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         self._http_kwargs['verify'] = False
 
