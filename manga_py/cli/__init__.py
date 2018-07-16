@@ -7,19 +7,18 @@ from sys import stderr
 import better_exceptions
 from packaging import version
 from progressbar import ProgressBar
-from zenlog import log
+from zenlog import Log
 
 from manga_py import meta
 from manga_py.cli import args
 from manga_py.libs import print_lib
 from manga_py.libs.fs import get_temp_path, make_dirs
 from manga_py.libs.http import Http
-from manga_py.libs.info import Info
+from manga_py.libs.modules import info
 from manga_py.libs.providers import get_provider
 
 
 class Cli:
-    info = None
     _temp_path = None
     _args = None
     __raw_args = None
@@ -49,26 +48,33 @@ class Cli:
         better_exceptions.hook()
         _args = self._args.copy()
         self._print_cli_help()
-        self.info = Info(_args)
         urls = _args.get('url', []).copy()
+        global_info = info.InfoGlobal()
 
         if len(urls) > 1:
             _args['name'] = None
 
         for url in urls:
-            provider = get_provider(url)
+            local_info = info.Info(_args)
+            try:
+                provider = get_provider(url)
+            except ImportError as e:
+                global_info.add_info(info, global_info.ERROR, e)
+                continue
 
             provider.print = print_lib
             provider.print_error = self.print_error
             provider.input = input
             provider.password = getpass
-            provider.logger = log
-            provider.info = self.info
+            provider.logger = Log()
+            provider.info = local_info
             provider.progressbar = ProgressBar
 
             _args['url'] = url
 
             provider.run(_args)
+
+            global_info.add_info(info)  # todo
 
     @classmethod
     def check_version(cls):

@@ -1,3 +1,12 @@
+try:
+    from progressbar import ProgressBar
+    from zenlog import Log
+    from getpass import getpass
+    from manga_py.libs.modules.info import Info
+except ImportError:
+    pass
+
+
 class Methods:
     __methods = None
     _args = None
@@ -25,6 +34,7 @@ class Methods:
         See https://github.com/manufacturaind/python-zenlog/
 
         :return:
+        :rtype: Log
         """
         return self.__get_callback('logger')
 
@@ -34,6 +44,7 @@ class Methods:
 
     @property
     def print(self):
+        __doc__ = print.__doc__
         return self.__get_callback('print')
 
     @print.setter
@@ -42,6 +53,7 @@ class Methods:
 
     @property
     def print_error(self):
+        __doc__ = print.__doc__
         return self.__get_callback('print_error')
 
     @print_error.setter
@@ -50,6 +62,7 @@ class Methods:
 
     @property
     def input(self):
+        __doc__ = input.__doc__
         return self.__get_callback('input')
 
     @input.setter
@@ -58,15 +71,19 @@ class Methods:
 
     @property
     def password(self):
+        __doc__ = getpass.__doc__
         return self.__get_callback('password')
 
     @password.setter
     def password(self, value):
         self.__methods['password'] = value
-        pass
 
     @property
     def info(self):
+        """
+        :return:
+        :rtype: Info
+        """
         return self.__get_callback('info')
 
     @info.setter
@@ -75,6 +92,10 @@ class Methods:
 
     @property
     def progressbar(self):
+        """
+        :return:
+        :rtype: ProgressBar
+        """
         return self.__get_callback('progressbar')
 
     @progressbar.setter
@@ -97,5 +118,5 @@ class Methods:
     def log_warning(self, *args):
         self._log() and self.logger.warn(*args)
 
-    def log_crit(self, *args):
-        self._log() and self.logger.critical(*args)
+    def log_critical(self, *args):
+        self.logger.critical(*args)

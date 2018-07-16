@@ -1,9 +1,13 @@
-from manga_py import meta
-from datetime import datetime
-from sys import argv
+try:
+    from manga_py import meta
+    from datetime import datetime
+    from sys import argv
+except ImportError:
+    pass
 
 
 class Info:
+    _provider = None
     _data = None
     _start_time = None
 
@@ -14,7 +18,6 @@ class Info:
             'downloader': meta.__downloader_uri__,
             'version': meta.__version__,
             'delta': None,
-            'init': self._dt(self._start_time),
             'start': None,
             'end': None,
             'user_agent': None,
@@ -26,8 +29,8 @@ class Info:
             'chapters': [],
         }
 
-    @staticmethod
-    def _dt(dt: datetime, fmt: str = '%A, %d. %B %Y %H:%M:%S'):
+    @classmethod
+    def _dt(cls, dt: datetime, fmt: str = '%A, %d. %B %Y %H:%M:%S'):
         return dt.strftime(fmt)
 
     def set_ua(self, ua):
@@ -41,6 +44,40 @@ class Info:
 
     def set_chapters(self, chapters):
         self._data['chapters'] = chapters
+
+    def get(self):
+        self._data['delta'] = str(datetime.now() - self._start_time)
+        self._data['start'] = self._dt(self._start_time)
+        self._data['end'] = self._dt(datetime.now())
+        return self._data
+
+
+class InfoGlobal:
+    OK = 1
+    ERROR = 0
+    _data = None
+
+    def __init__(self):
+        self._start_time = datetime.now()
+        self._data = {
+            'version': meta.__version__,
+            'delta': None,
+            'start': None,
+            'end': None,
+            'args_raw': ' '.join(argv),
+            'info': []
+        }
+
+    @classmethod
+    def _dt(cls, dt: datetime, fmt: str = '%A, %d. %B %Y %H:%M:%S'):
+        return dt.strftime(fmt)
+
+    def add_info(self, info, status=OK, message='Success'):
+        self._data['info'].append({
+            'data': info,
+            'status': status,
+            'message': message,
+        })
 
     def get(self):
         self._data['delta'] = str(datetime.now() - self._start_time)

@@ -45,8 +45,8 @@ class Request(object):
         kwargs.setdefault('cookies', self._cookies)
         return request(url, *args, **kwargs)
 
-    @staticmethod
-    def _user_agent(agent=None) -> str:
+    @classmethod
+    def _user_agent(cls, agent=None) -> str:
         agents = [
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36',
             'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',

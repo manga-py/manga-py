@@ -1,4 +1,7 @@
-from manga_py.exceptions import InvalidUrlException
+try:
+    from manga_py.exceptions import InvalidUrlException
+except ImportError:
+    pass
 
 
 class Verify:

@@ -34,9 +34,11 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
 
     def download(self, file: File):
         self.before_download(file)
-        self.http.download(file.url, file.path_location)
+        self.http.download(file.url, file.path_location_with_name)
         if not self.arg('not-change-files-xtension'):
-            ext = Image.real_extension(file.path_location)
-            _name = file.path_location
+            ext = Image.real_extension(file.path_location_with_name)
+            _name = file.name
             file.name = '{}.{}'.format(_name[:_name.rfind('.')], ext)
-        self.after_download(file)
+        self.after_download(file)  # split-image
+        # args.get('split_image') and img.auto_split()
+        Image.process(file, self._args)

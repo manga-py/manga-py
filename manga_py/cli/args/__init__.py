@@ -10,7 +10,7 @@ from . import _reader
 def get_cli_arguments() -> ArgumentParser:
     """
     :return:
-    :rtype Namespace
+    :rtype: ArgumentParser
     """
     args_parser = ArgumentParser(add_help=False)
 
@@ -24,6 +24,11 @@ def get_cli_arguments() -> ArgumentParser:
 
 
 def arguments_to_dict(arguments: ArgumentParser = None) -> dict:
+    """
+    :param arguments:
+    :return:
+    :rtype: dict
+    """
     if arguments is None:
         arguments = get_cli_arguments()
     return arguments.parse_args().__dict__

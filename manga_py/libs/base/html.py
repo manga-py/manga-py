@@ -48,8 +48,8 @@ class Html:
                 return value
         return None
 
-    @staticmethod
-    def _cssselect(parser: Element, selector) -> list:
+    @classmethod
+    def _cssselect(cls, parser: Element, selector) -> list:
         if selector is None:
             return [parser]
         return parser.cssselect(selector)

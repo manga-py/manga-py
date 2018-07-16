@@ -14,8 +14,8 @@ except ImportError as e:
 
 
 def main():
-    print('main')
     _cli = Cli()
+    _cli.fill_args()
     check = _cli.check_version()
     if check['need_update']:
         print('Please, update manga-py')

@@ -3,16 +3,17 @@ from manga_py.provider import Provider
 from .__list import providers_list
 
 
-def __check_provider(reg, provider, url, fromlist=None):
+def __check_provider(reg, provider, url, fromlist: list):
     if re.search(reg, url):
-        try:
-            return __import__('{}.{}'.format(fromlist, provider), fromlist=[fromlist])
-        except ImportError:
-            pass
+        for _from in fromlist:
+            try:
+                return __import__('{}.{}'.format(_from, provider), fromlist=[_from])
+            except ImportError:
+                pass
     return None
 
 
-def __check_namespaces(providers, namespaces):
+def __merge_namespaces(providers, namespaces):
     if namespaces is None:
         namespaces = []
     if providers is None:
@@ -22,7 +23,16 @@ def __check_namespaces(providers, namespaces):
     return namespaces
 
 
-def get_provider(url: str, providers: dict = None, more_namespaces: list = None) -> Provider:
+def _boundary(items):
+    result = []
+    for i in items:
+        if i.find(r'\b') == -1:
+            i = r'\b' + i
+        result.append(i)
+    return result
+
+
+def get_provider(url: str, providers: dict = None, more_namespaces: list = None):
     """
     Allows you to add your namespaces to search for providers.
 
@@ -44,18 +54,19 @@ def get_provider(url: str, providers: dict = None, more_namespaces: list = None)
     provider = get_provider (url, providers, namespaces)
 
     :param url: str
-    :type str
+    :type url str
     :param providers:
-    :type dict
+    :type providers dict
     :param more_namespaces:
-    :type list
+    :type more_namespaces list
     :return:
-    :rtype Provider
+    :rtype: Provider
     """
-    namespaces = __check_namespaces(providers, more_namespaces)
+    namespaces = __merge_namespaces(providers, more_namespaces)
     for provider in providers_list:
-        reg = '(?:' + '|'.join(providers_list[provider]) + ')'
+        items = providers_list[provider]
+        reg = '(?:' + '|'.join(_boundary(items)) + ')'
         provider = __check_provider(reg, provider, url, namespaces)
-        if provider is not None:
+        if isinstance(provider, Provider) and hasattr(provider, 'main'):
             return provider.main
     raise ImportError('Provider not found')

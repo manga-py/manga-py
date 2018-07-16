@@ -9,12 +9,14 @@ class File:
     _name = None
     _provider = None
     _http = None
+    _location = None
 
     def __init__(self, idx, data, provider):
         self._idx = idx
         self._parse_data(data)
         self._provider = provider
         self._http = self._provider.http.copy()
+        self._location = fs.path_join(self._provider.temp_path_location)
 
     def _parse_data(self, data):
         assert isinstance(data, (tuple, Element)), InvalidChapter(data)
@@ -51,4 +53,12 @@ class File:
 
     @property
     def path_location(self):
-        return fs.path_join(self._provider.temp_path_location, self.name)
+        return self._location
+
+    @path_location.setter
+    def path_location(self, location):
+        self._location = location
+
+    @property
+    def path_location_with_name(self):
+        return fs.path_join(self._location, self._name)

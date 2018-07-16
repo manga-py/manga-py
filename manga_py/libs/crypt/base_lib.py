@@ -1,9 +1,6 @@
-import base64
 import codecs
-import gzip
-import zlib
 from binascii import unhexlify, crc32
-from struct import pack, unpack
+import struct
 from sys import stderr
 
 from Crypto.Cipher import AES
@@ -13,9 +10,8 @@ from execjs import compile
 
 class BaseLib:
 
-    @staticmethod
-    def decode_escape(data):  # pragma: no cover
-
+    @classmethod
+    def decode_escape(cls, data):  # pragma: no cover
         if isinstance(data, str):
             data = data.encode()
         try:
@@ -25,76 +21,44 @@ class BaseLib:
             print('decode_escape error %s' % e, file=stderr)
             return ''
 
-    @staticmethod
-    def encode_hex(data):  # pragma: no cover
+    @classmethod
+    def encode_hex(cls, data):  # pragma: no cover
         return codecs.decode(data, 'hex')
 
-    @staticmethod
-    def to_sha_256(data):  # pragma: no cover
+    @classmethod
+    def to_sha_256(cls, data):  # pragma: no cover
         if isinstance(data, str):
             data = data.encode()
         sha = SHA256.new()
         sha.update(data)
         return sha.digest()
 
-    @staticmethod
-    def decrypt_aes(iv, key, data):  # pragma: no cover
+    @classmethod
+    def decrypt_aes(cls, iv, key, data):  # pragma: no cover
         aes = AES.new(key, AES.MODE_CBC, iv)
         return aes.decrypt(data)
 
-    @staticmethod
-    def base64decode(data, *args, **kwargs):  # pragma: no cover
-        return base64.b64decode(data, *args, **kwargs)
-
-    @staticmethod
-    def base64encode(data, *args, **kwargs):  # pragma: no cover
-        return base64.b64encode(data, *args, **kwargs)
-
-    @staticmethod
-    def exec_js(source, js):  # pragma: no cover
+    @classmethod
+    def exec_js(cls, source, js):  # pragma: no cover
         return compile(source).eval(js)
 
-    @staticmethod
-    def gunzip(data):  # pragma: no cover
-        return gzip.decompress(data)
-
-    @staticmethod
-    def gzip(data, lvl: int = 9):  # pragma: no cover
-        return gzip.compress(data, lvl)
-
-    @staticmethod
-    def zlib_decompress(data, **kwargs):  # pragma: no cover
-        return zlib.decompress(data, **kwargs)
-
-    @staticmethod
-    def zlib_compress(data, **kwargs):  # pragma: no cover
-        return zlib.compress(data, **kwargs)
-
-    @staticmethod
-    def md5(string):  # pragma: no cover
+    @classmethod
+    def md5(cls, string):  # pragma: no cover
         md5 = MD5.new()
         md5.update(string.encode())
         return md5
 
-    @staticmethod
-    def pack(fmt, *args):  # pragma: no cover
-        return pack(fmt, *args)
-
-    @staticmethod
-    def unpack(fmt, string):  # pragma: no cover
-        return unpack(fmt, string)
-
-    @staticmethod
-    def pack_auto(int_list) -> bytes:
+    @classmethod
+    def pack_auto(cls, int_list) -> bytes:
         """
         :param int_list: list
         :return: str
         """
         base_frm = '{}B'.format(len(int_list))
-        return pack(base_frm, *int_list)
+        return struct.pack(base_frm, *int_list)
 
-    @staticmethod
-    def unpack_auto(string) -> list:
+    @classmethod
+    def unpack_auto(cls, string) -> list:
         """
         :param string: str
         :return: tuple
@@ -104,8 +68,8 @@ class BaseLib:
 
         return list(string)
 
-    @staticmethod
-    def str2hex(string):
+    @classmethod
+    def str2hex(cls, string):
         hex_str = ''
         if isinstance(string, bytes):
             string = string.decode()
@@ -115,8 +79,8 @@ class BaseLib:
             hex_str += hex_num
         return hex_str
 
-    @staticmethod
-    def hex2str(string):
+    @classmethod
+    def hex2str(cls, string):
         clear_str = ''
         if isinstance(string, bytes):
             string = string.decode()
@@ -125,8 +89,8 @@ class BaseLib:
             clear_str += unhexlify(hex_char)
         return clear_str
 
-    @staticmethod
-    def crc32(value):
+    @classmethod
+    def crc32(cls, value):
         if not isinstance(value, bytes):
             value = value.encode()
         return crc32(value)

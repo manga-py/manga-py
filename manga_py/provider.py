@@ -1,12 +1,13 @@
 from abc import ABCMeta
 
 from .libs.base import Base
-from .libs.db import Manga
-from .libs.base.verify import Verify
 from .libs.base.chapter import Chapter
 from .libs.base.file import File
-from .libs.http.multi_threads import MultiThreads
+from .libs.db import Manga
 from .libs.fs import get_temp_path
+from .libs.http.multi_threads import MultiThreads
+from .libs.modules.verify import Verify
+from .libs.modules.api import Api
 
 
 class Provider(Base, metaclass=ABCMeta):
@@ -14,7 +15,9 @@ class Provider(Base, metaclass=ABCMeta):
     _store = None
     _threads = None
     _progress = None
+    _api = None
     temp_path_location = None
+    chapter_idx = None
 
     def __init__(self):
         super().__init__()
@@ -22,10 +25,11 @@ class Provider(Base, metaclass=ABCMeta):
         self._store = {}
         self._db = Manga()
         self._threads = MultiThreads()
-        if self.progressbar:
+        if not self.arg('no-progress') and self.progressbar:
             self._progress = self.progressbar()
         if self.arg('no_multi_threads'):
             self._threads.max_threads = 1
+        Api(self)
 
     def run(self, args: dict):
         Verify(args).check()
@@ -33,6 +37,7 @@ class Provider(Base, metaclass=ABCMeta):
 
     def loop_chapters(self):
         for idx, data in enumerate(self.chapters):
+            self.chapter_idx = idx
             self.chapter = Chapter(idx, data, self)
             self.loop_files()
 
@@ -56,6 +61,7 @@ class Provider(Base, metaclass=ABCMeta):
         """
         if self._progress:
             if new:
+                self._progress.value > 0 and self._progress.finish()
                 self._progress.start(len(self._threads.threads))
             else:
                 self._progress.update(self._progress.value + 1)
