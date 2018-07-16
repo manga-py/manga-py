@@ -42,6 +42,9 @@ class Abstract:
         or
         [('absolute_url', 'archive_name/forlder_name'), etree.Element, ...]
 
+        or (for download archive, without images) NOT MIXED WITH PREV!
+        [{'url': 'absolute_url', 'name': 'archive_name'}, {'url': 'absolute_url', 'name': 'archive_name'}]
+
         The latter is not recommended, but can be used.
         :return:
         """

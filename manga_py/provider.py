@@ -38,8 +38,11 @@ class Provider(Base, metaclass=ABCMeta):
     def loop_chapters(self):
         for idx, data in enumerate(self.chapters):
             self.chapter_idx = idx
-            self.chapter = Chapter(idx, data, self)
-            self.loop_files()
+            if isinstance(data, dict):
+                pass
+            else:
+                self.chapter = Chapter(idx, data, self)
+                self.loop_files()
 
     def loop_files(self):
         self.progress_next()
