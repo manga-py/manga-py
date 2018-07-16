@@ -49,7 +49,6 @@ class Cli:  # pragma: no cover
     def __init_progress(self, items_count: int, re_init: bool):
         if re_init or not self.__progress_bar:
             if re_init:
-                print(' ')
                 self.__progress_bar.finish()
             bar = ProgressBar()
             self.__progress_bar = bar(range(items_count))

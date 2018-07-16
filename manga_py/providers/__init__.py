@@ -361,6 +361,9 @@ providers_list = {
     'mangakakalot_com': [
         r'mangakakalot\.com/(manga|chapter)/.',
     ],
+    'mangakatana_com': [
+        r'mangakatana\.com/manga/.',
+    ],
     'mangaku_web_id': [
         r'mangaku\.web\.id/.',
     ],
