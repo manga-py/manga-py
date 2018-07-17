@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
 
+from sys import stderr
 try:
     import argcomplete
     from .cli import Cli
     from .cli import args
-    from sys import stderr
 
     argcomplete.autocomplete(args.get_cli_arguments())
 except ImportError as e:

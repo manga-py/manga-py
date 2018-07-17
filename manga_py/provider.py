@@ -36,26 +36,36 @@ class Provider(Base, metaclass=ABCMeta):
         super()._args = args
 
     def loop_chapters(self):
+        if len(self.chapters):
+            if isinstance(self.chapters[0][1], dict):
+                self._archive_chapters()
+            else:
+                self._simple_chapters()
+
+    def _archive_chapters(self):
+        for idx, data in enumerate(self.chapters):
+            try:
+                chapter = Chapter(idx, data, self)
+                self.download(chapter.file)
+            except AttributeError:
+                pass
+        self._threads.start(self.progress_next)
+
+    def _simple_chapters(self):
         for idx, data in enumerate(self.chapters):
             self.chapter_idx = idx
-            if isinstance(data, dict):
-                pass
-            else:
-                self.chapter = Chapter(idx, data, self)
-                self.loop_files()
+            self.chapter = Chapter(idx, data, self)
+            self.loop_files()
 
     def loop_files(self):
         self.progress_next()
         for idx, data in enumerate(self.files):
             try:
                 file = File(idx, data, self)
-                self.download(file)
+                self._threads.add(target=self.download, args=(file,))
             except AttributeError:
                 pass
         self._threads.start(self.progress_next)
-
-    def download(self, file: File):
-        self._threads.add(target=super().download, args=(file,))
 
     def progress_next(self, new=False):
         """

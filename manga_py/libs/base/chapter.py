@@ -1,6 +1,7 @@
 from manga_py.libs import fs
-from manga_py.exceptions import InvalidFile
+from manga_py.exceptions import InvalidChapter
 from lxml.etree import Element
+from .file import File
 
 
 class Chapter:
@@ -9,6 +10,7 @@ class Chapter:
     _name = None
     _provider = None
     _http = None
+    _archive = None
 
     def __init__(self, idx, data, provider):
         self._idx = idx
@@ -17,8 +19,11 @@ class Chapter:
         self._http = provider.http.copy()
 
     def _parse_data(self, data):
-        assert isinstance(data, (tuple, Element)), InvalidFile(data)
-        if isinstance(data, Element):
+        assert isinstance(data, (dict, tuple, Element)), InvalidChapter(data)
+        if isinstance(data, dict):
+            self._url = data['url']
+            name = data['name']
+        elif isinstance(data, Element):
             self._url = self._provider.http.normalize_uri(data.get('src'))
             name = fs.basename(self._url)
             name = fs.remove_query(name)
@@ -53,3 +58,8 @@ class Chapter:
     @property
     def path_location(self):
         return fs.path_join(self._provider.arg('destination'), self.name)
+
+    @property
+    def file(self) -> File:  # FOR ARCHIVE DOWNLOAD
+        assert self._archive is not None, AttributeError('Archive is None')
+        return self.file

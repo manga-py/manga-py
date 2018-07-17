@@ -9,6 +9,8 @@ from .methods import Methods
 from .chapter import Chapter
 from .file import File
 from manga_py.libs.modules.image import Image
+from typing import overload
+from pathlib import Path
 
 
 class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
@@ -30,7 +32,23 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
     def http(self) -> Http:
         if self._http is None:
             self._http = Http(self.url)
+            ua = self.arg('user-agent')
+            if ua:
+                self._http.ua = ua
         return self._http
+
+    def archive_ext(self, name) -> str:
+        ext = '.zip'
+        if self.arg('cbz'):
+            ext = '.cbz'
+        return str(Path(name).with_suffix(ext))
+
+
+    @overload
+    def download(self, file: Chapter):
+        self.before_download(file)
+        self.http.download(file.url, self.archive_ext(file.name))
+        self.after_download(file)
 
     def download(self, file: File):
         self.before_download(file)

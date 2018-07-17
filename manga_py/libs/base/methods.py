@@ -56,6 +56,11 @@ class Methods:
         __doc__ = print.__doc__
         return self.__get_callback('print_error')
 
+    @property
+    def print_info(self):
+        __doc__ = print.__doc__
+        return self.__get_callback('print_error')
+
     @print_error.setter
     def print_error(self, value):
         self.__methods['print_error'] = value

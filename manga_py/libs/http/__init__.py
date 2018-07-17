@@ -18,10 +18,15 @@ class Http(Request):
         self._cookies = self._load_storage_cookies()
         self._base_uri = base_uri
 
+    @property
     def cookies(self):
         if self._domain is None:
             raise AttributeError('Domain is undefined')
         return self._cookies.get(self._domain)
+
+    @cookies.setter
+    def cookies(self, cookies):
+        self._cookies[self._domain] = cookies
 
     def set_headers(self, headers: dict):
         headers.setdefault('Accept', self._accept)
@@ -54,7 +59,7 @@ class Http(Request):
         return uri
 
     def download(self, url, path_location, method='get'):
-        if is_file(path_location):
+        if self.arg() or is_file(path_location):
             raise FileExistsError('File %s exists!' % path_location)
         make_dirs(dirname(path_location))
         with open(path_location, 'wb') as w:

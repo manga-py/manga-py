@@ -20,9 +20,10 @@ REQUIREMENTS = [
     'progressbar2',
     'urllib3',
     'packaging',
-    'pyexecjs>=1.5.1',
+    'pyexecjs',
     'html-purifier',
-    'peewee>3.4.0',
+    'peewee',
+    'better_exceptions',
 ]
 
 

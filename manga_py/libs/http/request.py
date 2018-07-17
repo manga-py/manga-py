@@ -18,8 +18,17 @@ class Request(object):
         self._cookies = {}
         self._history = []
 
-    def set_user_agent(self, agent=None):
-        self._headers['User-Agent'] = self._user_agent(agent)
+    @property
+    def ua(self):
+        ua = self._headers.get('User-Agent', None)
+        if ua is None:
+            ua = self._user_agent()
+            self.ua = ua
+        return ua
+
+    @ua.setter
+    def ua(self, ua):
+        self._headers['User-Agent'] = ua
 
     def set_lang(self, lang='en-US'):
         self._headers['Accept-Language'] = '%s;q=0.9,ja-JP;q=0.8' % lang

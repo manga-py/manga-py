@@ -7,7 +7,7 @@ from sys import stderr
 import better_exceptions
 from packaging import version
 from progressbar import ProgressBar
-from zenlog import Log
+from zenlog import log
 
 from manga_py import meta
 from manga_py.cli import args
@@ -60,13 +60,14 @@ class Cli:
                 provider = get_provider(url)
             except ImportError as e:
                 global_info.add_info(info, global_info.ERROR, e)
+                log.err(e)
                 continue
 
             provider.print = print_lib
             provider.print_error = self.print_error
             provider.input = input
             provider.password = getpass
-            provider.logger = Log()
+            provider.logger = log
             provider.info = local_info
             provider.progressbar = ProgressBar
 
