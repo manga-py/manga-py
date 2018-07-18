@@ -32,10 +32,10 @@ class MangaTownCom(Provider, Std):
         img_selector = 'img#image'
         url = self.http().normalize_uri(self.chapter)
         parser = self.html_fromstring(url)
-        selector = '#top_chapter_list + .page_select select option + option'
+        pages = self._first_select_options(parser, '.page_select')
         images = self._images_helper(parser, img_selector)
 
-        for i in parser.cssselect(selector):
+        for i in pages:
             url = self.http().normalize_uri(i.get('value'))
             img = self.html_fromstring(url)
             images += self._images_helper(img, img_selector)
