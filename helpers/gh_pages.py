@@ -46,6 +46,7 @@ start_items = [
     ['http://tsumino.com', 1, '<i class="d"></i>'],
     ['http://viz.com', 1, '<i class="v0"></i> - In develop v1.x'],
     ['http://zip.raw.im', 0, ' - Will not be implemented'],
+    ['http://rawlh.com', 1, '- See lhscan.net'],
 ]
 
 

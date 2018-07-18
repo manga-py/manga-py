@@ -541,7 +541,7 @@ providers_list = {
         r'rawdevart\.com/manga/.',
     ],
     'rawlh_com': [
-        r'rawlh\.com/(truyen|manga|read)-.',
+        r'lhscan\.net/(truyen|manga|read)-.',
         r'rawqq\.com/(truyen|manga|read)-.',
         r'rawqv\.com/(truyen|manga|read)-.',
     ],
