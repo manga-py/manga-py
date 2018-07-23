@@ -51,6 +51,11 @@ class Cli(CliHelper):
             data_args = data.get('args', {})
             del data_args['rewrite_exists_archives']
             del data_args['user_agent']
+
+            if not fs.is_dir(fs.path_join(data_args['destination'], data_args['name'])):
+                log.warn('Destination not exists. Skip')
+                continue
+
             _args.update({  # re-init args
                 'url': manga.url,
                 **data_args,
