@@ -107,7 +107,7 @@ setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-
     author=meta.__author__,
     author_email=meta.__email__,
     url=meta.__download_uri__,
-    zip_safe=False,
+    zip_safe=True,
     data_files=[
         # ('manga_py/storage', [
         #     'manga_py/storage/.passwords.json.dist',
