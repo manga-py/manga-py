@@ -12,8 +12,10 @@ build:
       tests:
         before:
 #          - 'sudo apt-get install chromium-browser'
-          - 'pip3 install coverage'
-#          - 'pip3 install pyvirtualdisplay'
+          - 'python -mpip install pip -U'
+          - 'python -mpip install setuptools -U'
+          - 'python -mpip install coverage'
+#          - 'python -mpip install pyvirtualdisplay'
         override:
           -
             command: coverage run --omit=manga_py/cli/args/*.py --source=manga_py setup.py test
