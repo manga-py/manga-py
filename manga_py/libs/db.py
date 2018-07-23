@@ -1,14 +1,19 @@
 import peewee
-from .fs import storage
+from .fs import storage, is_file, unlink
 from binascii import crc32
 
 
 __cache = {}
 
 
-def _db_cache(path=None) -> peewee.Database:
+def _db_path(path) -> str:
     if path is None:
         path = storage('manga.db')
+    return str(path)
+
+
+def _db_cache(path=None) -> peewee.Database:
+    path = _db_path(path)
     crc = crc32(path.encode())
     if __cache.get(crc, None) is None:
         __cache[crc] = peewee.SqliteDatabase(path)
@@ -16,12 +21,9 @@ def _db_cache(path=None) -> peewee.Database:
 
 
 class Manga(peewee.Model):
-    # id = peewee.PrimaryKeyField(primary_key=True)
-    id = peewee.UUIDField(primary_key=True)  # sqlite
     url = peewee.CharField(unique=True)
     name = peewee.CharField()
     path = peewee.CharField(max_length=2047)
-    files = peewee.CharField(max_length=2047)  # json data
     latest_chapter = peewee.IntegerField()
     created = peewee.DateTimeField(default=peewee.datetime.datetime.now)
     updated = peewee.DateTimeField(default=peewee.datetime.datetime.now)
@@ -32,5 +34,9 @@ class Manga(peewee.Model):
         table_name = 'manga'
 
 
-def make_db(path=None):
-    _db_cache(path).create_tables([Manga], safe=True)
+def make_db(path=None, force=False):
+    path = _db_path(path)
+    if force:
+        unlink(path)
+    if not is_file(path):
+        _db_cache(path).create_tables([Manga], safe=True)

@@ -6,8 +6,7 @@ from .libs.base.file import File
 from .libs.db import Manga
 from .libs.fs import get_temp_path
 from .libs.http.multi_threads import MultiThreads
-from .libs.modules.verify import Verify
-from .libs.modules.api import Api
+from .libs.modules import verify
 
 
 class Provider(Base, metaclass=ABCMeta):
@@ -16,6 +15,8 @@ class Provider(Base, metaclass=ABCMeta):
     _threads = None
     _progress = None
     _api = None
+    _break = False
+    _allow_db = True
     temp_path_location = None
     chapter_idx = None
 
@@ -29,11 +30,16 @@ class Provider(Base, metaclass=ABCMeta):
             self._progress = self.progressbar()
         if self.arg('no_multi_threads'):
             self._threads.max_threads = 1
-        Api(self)
 
     def run(self, args: dict):
-        Verify(args).check()
-        super()._args = args
+        verify.check_url(args)
+        self._args = args
+        try:
+            pass  # TODO
+        except KeyboardInterrupt:
+            self.print_error('Break. Please, wait')
+            self._break = True
+            self.info.set_error('Break')
 
     def loop_chapters(self):
         if len(self.chapters):
@@ -44,21 +50,22 @@ class Provider(Base, metaclass=ABCMeta):
 
     def _archive_chapters(self):
         for idx, data in enumerate(self.chapters):
-            try:
-                chapter = Chapter(idx, data, self)
-                self.download(chapter.file)
-            except AttributeError:
-                pass
+            if self._break:
+                break
+            chapter = Chapter(idx, data, self)
+            self.download(chapter.file)
         self._threads.start(self.progress_next)
 
     def _simple_chapters(self):
         for idx, data in enumerate(self.chapters):
+            if self._break:
+                break
             self.chapter_idx = idx
             self.chapter = Chapter(idx, data, self)
+            self.progress_next(True)
             self.loop_files()
 
     def loop_files(self):
-        self.progress_next()
         for idx, data in enumerate(self.files):
             try:
                 file = File(idx, data, self)
@@ -86,4 +93,6 @@ class Provider(Base, metaclass=ABCMeta):
         Updates the current manga data in the database.
         :return:
         """
+        if not self._allow_db:
+            return
         db = self._db.select().where(Manga.url == self.domain)

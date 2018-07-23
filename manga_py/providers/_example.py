@@ -31,4 +31,4 @@ class Example(Provider):
         pass
 
 
-main = Example
+main = Example  # Required!

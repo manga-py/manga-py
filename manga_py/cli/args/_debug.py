@@ -21,3 +21,6 @@ def main(args_parser: ArgumentParser):
 
     args.add_argument('-P', '--no-progress', action='store_const',
                       const=True, help='Don\'t show progress bar', default=False)
+
+    args.add_argument('--force-make-db', action='store_const',
+                      const=True, help='Don\'t show progress bar', default=False)

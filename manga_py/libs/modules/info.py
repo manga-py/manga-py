@@ -1,7 +1,7 @@
+from datetime import datetime
+from sys import argv
 try:
     from manga_py import meta
-    from datetime import datetime
-    from sys import argv
 except ImportError:
     pass
 
@@ -15,7 +15,7 @@ class Info:
         self._start_time = datetime.now()
         self._data = {
             'site': args.get('url'),
-            'downloader': meta.__downloader_uri__,
+            'downloader': meta.__download_uri__,
             'version': meta.__version__,
             'delta': None,
             'start': None,
@@ -65,7 +65,7 @@ class InfoGlobal:
             'start': None,
             'end': None,
             'args_raw': ' '.join(argv),
-            'info': []
+            'info': [],
         }
 
     @classmethod

@@ -22,9 +22,10 @@ build:
               format: 'py-cc'
 #          - py-scrutinizer-run
       environment:
-        python: 3.5.3
+        python: 3.6.6
         node: 6.0.0
 filter:
   excluded_paths:
     - tests/*.py
     - pytest.py
+    - manga_py/providers/__list.pyy

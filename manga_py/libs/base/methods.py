@@ -43,6 +43,7 @@ class Methods:
         self.__methods['logger'] = value
 
     @property
+    @callable
     def print(self):
         __doc__ = print.__doc__
         return self.__get_callback('print')
@@ -52,11 +53,13 @@ class Methods:
         self.__methods['print'] = value
 
     @property
+    @callable
     def print_error(self):
         __doc__ = print.__doc__
         return self.__get_callback('print_error')
 
     @property
+    @callable
     def print_info(self):
         __doc__ = print.__doc__
         return self.__get_callback('print_error')
@@ -66,6 +69,7 @@ class Methods:
         self.__methods['print_error'] = value
 
     @property
+    @callable
     def input(self):
         __doc__ = input.__doc__
         return self.__get_callback('input')
@@ -75,6 +79,7 @@ class Methods:
         self.__methods['input'] = value
 
     @property
+    @callable
     def password(self):
         __doc__ = getpass.__doc__
         return self.__get_callback('password')
@@ -84,6 +89,7 @@ class Methods:
         self.__methods['password'] = value
 
     @property
+    @callable
     def info(self):
         """
         :return:
@@ -125,3 +131,7 @@ class Methods:
 
     def log_critical(self, *args):
         self.logger.critical(*args)
+
+    def set_callbacks(self, **kwargs):
+        for key in kwargs:
+            setattr(self, key, kwargs['key'])

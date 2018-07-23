@@ -1,92 +1,72 @@
 import atexit
 import json
-from getpass import getpass
 from shutil import rmtree
-from sys import stderr
 
 import better_exceptions
-from packaging import version
-from progressbar import ProgressBar
 from zenlog import log
 
-from manga_py import meta
 from manga_py.cli import args
-from manga_py.libs import print_lib
-from manga_py.libs.fs import get_temp_path, make_dirs
-from manga_py.libs.http import Http
+from manga_py.libs import fs
+from manga_py.libs.db import Manga, make_db
 from manga_py.libs.modules import info
-from manga_py.libs.providers import get_provider
+from ._helper import CliHelper
 
 
-class Cli:
-    _temp_path = None
-    _args = None
-    __raw_args = None
-
+class Cli(CliHelper):
     def __init__(self):
-        self._temp_path = get_temp_path()
+        self._temp_path = fs.get_temp_path()
         atexit.register(self.exit)
-        make_dirs(self._temp_path)
+        fs.make_dirs(self._temp_path)
+        self.global_info = info.InfoGlobal()
 
     def exit(self):
         # remove temp directory
         rmtree(self._temp_path)
-
-    @classmethod
-    def print_error(cls, *_args):
-        print_lib(*_args, file=stderr)
-
-    def _print_cli_help(self):
-        if len(self._args.get('url')) < 1 and not self._args.get('update_all'):
-            self.__raw_args.print_help()
-
-    def fill_args(self):
-        self.__raw_args = args.get_cli_arguments()
-        self._args = args.arguments_to_dict(self.__raw_args)
 
     def run(self):
         better_exceptions.hook()
         _args = self._args.copy()
         self._print_cli_help()
         urls = _args.get('url', []).copy()
-        global_info = info.InfoGlobal()
+        make_db(force=_args.get('force_make_db', False))
+        if self._args.get('update_all'):
+            self._update_all()
+        else:
+            if len(urls) > 1:
+                _args['name'] = None
+                _args['skip_volumes'] = None
+                _args['max_volumes'] = None
+            self._run_normal(_args, urls)
 
-        if len(urls) > 1:
-            _args['name'] = None
-
-        for url in urls:
-            local_info = info.Info(_args)
-            try:
-                provider = get_provider(url)
-            except ImportError as e:
-                global_info.add_info(info, global_info.ERROR, e)
-                log.err(e)
-                continue
-
-            provider.print = print_lib
-            provider.print_error = self.print_error
-            provider.input = input
-            provider.password = getpass
-            provider.logger = log
-            provider.info = local_info
-            provider.progressbar = ProgressBar
-
-            _args['url'] = url
-
+    def _update_all(self):
+        db = Manga()
+        default_args = self.get_default_args()
+        for manga in db.select():
+            log.info('Update %s', manga.url)
+            _args = default_args.copy()
+            """
+            :var manga Manga
+            """
+            data = json.loads(manga.data)
+            data_args = data.get('args', {})
+            del data_args['rewrite_exists_archives']
+            del data_args['user_agent']
+            _args.update({  # re-init args
+                'url': manga.url,
+                **data_args,
+            })
+            provider = self._get_provider(_args)
+            provider.http.cookies = data.get('cookies')
+            provider.http.ua = data.get('browser')
             provider.run(_args)
+            self.global_info.add_info(info)
+            manga.update()  # TODO
 
-            global_info.add_info(info)  # todo
-
-    @classmethod
-    def check_version(cls):
-        api_url = 'https://api.github.com/repos/%s/releases/latest' % meta.__repo_name__
-        api_content = json.loads(Http().get(api_url).text)
-        tag_name = api_content['tag_name']
-        if version.parse(tag_name) > version.parse(meta.__version__):
-            download_addr = api_content['assets']
-            if len(download_addr):
-                url = download_addr[0]['browser_download_url']
-            else:
-                url = api_content['html_url']
-            return {'message': 'Found new version', 'tag': tag_name, 'url': url, 'need_update': True}
-        return {'message': 'Ok', 'need_update': False, 'tag': '', 'url': ''}
+    def _run_normal(self, _args, urls):
+        for url in urls:
+            manga = Manga()
+            _args['url'] = url
+            provider = self._get_provider(_args)
+            provider.run(_args)
+            self.global_info.add_info(info)
+            manga.update()  # TODO

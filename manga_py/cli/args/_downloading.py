@@ -6,18 +6,19 @@ def main(args_parser: ArgumentParser):
 
     args.add_argument('-E', '--not-change-files-extension', action='store_const',
                       help='Save files "as is"', const=True, default=False)
-    args.add_argument('-u', '--update-all', action='store_const',
+    args.add_argument('-U', '--update-all', action='store_const',
                       help='Update all.', const=True, default=False)
     args.add_argument('-s', '--skip-volumes', metavar='count', type=int,
-                      help='Skip volumes', default=0)
+                      help='Skip volumes (Works on one only url!)', default=0)
     args.add_argument('-c', '--max-volumes', metavar='count', type=int,
-                      help='Maximum volumes for downloading 0=All', default=0)
-    args.add_argument('--user-agent', type=str, help='Don\'t work from protected sites')
+                      help='Maximum volumes for downloading 0=All (Works on one only url!)', default=0)
+    args.add_argument('-u', '--user-agent', type=str,
+                      help='Don\'t work from protected sites, don\'t work on update mode!')
     args.add_argument('--proxy', type=str, help='Http proxy')
     args.add_argument('-r', '--reverse-downloading', action='store_const',
                       help='Reverse volumes downloading', const=True, default=False)
     args.add_argument('-R', '--rewrite-exists-archives', action='store_const', const=True,
-                      default=False)
+                      default=False, help='(Don\'t work on update mode!)')
     args.add_argument('-N', '--no-multi-threads', action='store_const',
                       help='Disallow multi-threads images downloading', const=True, default=False)
     args.add_argument('-z', '--zero-fill', action='store_const', const=True, default=False,

@@ -53,7 +53,7 @@ def get_provider(url: str, providers: dict = None, more_namespaces: list = None)
 
     provider = get_provider (url, providers, namespaces)
 
-    :param url: str
+    :param url:
     :type url str
     :param providers:
     :type providers dict
