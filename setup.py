@@ -128,7 +128,7 @@ setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-
         'Topic :: Internet :: WWW/HTTP',
     ],
     python_requires='>=3.5.3',
-    tests_requires=['pyvirtualdisplay'],
+    # tests_requires=['pyvirtualdisplay'],
     install_requires=REQUIREMENTS,
     cmdclass={
         'install': PostInstallCommand,

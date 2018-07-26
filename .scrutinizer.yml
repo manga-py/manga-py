@@ -12,13 +12,10 @@ build:
       tests:
         before:
 #          - 'sudo apt-get install chromium-browser'
-          - 'python -mpip install pip -U'
-          - 'python -mpip install setuptools -U'
-          - 'python -mpip install coverage'
-#          - 'python -mpip install pyvirtualdisplay'
+          - 'python -mpip install pip setuptools coverage pyvirtualdisplay -U'
         override:
           -
-            command: coverage run --omit=manga_py/cli/args/*.py --source=manga_py setup.py test
+            command: coverage run --omit=manga_py/cli/args/*.py,manga_py/providers/__list.py --source=manga_py setup.py test
             coverage:
               file: '.coverage'
               format: 'py-cc'
@@ -29,5 +26,3 @@ build:
 filter:
   excluded_paths:
     - tests/*.py
-    - pytest.py
-    - manga_py/providers/__list.pyy
