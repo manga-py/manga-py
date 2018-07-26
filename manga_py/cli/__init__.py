@@ -5,10 +5,10 @@ from shutil import rmtree
 import better_exceptions
 from zenlog import log
 
-from manga_py.cli import args
 from manga_py.libs import fs
 from manga_py.libs.db import Manga, make_db
 from manga_py.libs.modules import info
+from . import args
 from ._helper import CliHelper
 
 
