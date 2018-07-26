@@ -24,6 +24,7 @@ class Manga(peewee.Model):
     url = peewee.CharField(unique=True)
     name = peewee.CharField()
     path = peewee.CharField(max_length=2047)
+    active = peewee.BooleanField(default=True)
     latest_chapter = peewee.IntegerField()
     created = peewee.DateTimeField(default=peewee.datetime.datetime.now)
     updated = peewee.DateTimeField(default=peewee.datetime.datetime.now)

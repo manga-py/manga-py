@@ -23,5 +23,9 @@ def main():
     _cli.run()
 
 
+def db():
+    pass
+
+
 if __name__ == '__main__':
     main()

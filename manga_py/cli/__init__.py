@@ -6,7 +6,7 @@ import better_exceptions
 from zenlog import log
 
 from manga_py.libs import fs
-from manga_py.libs.db import Manga, make_db
+from manga_py.libs import db
 from manga_py.libs.modules import info
 from . import args
 from ._helper import CliHelper
@@ -28,7 +28,7 @@ class Cli(CliHelper):
         _args = self._args.copy()
         self._print_cli_help()
         urls = _args.get('url', []).copy()
-        make_db(force=_args.get('force_make_db', False))
+        db.make_db(force=_args.get('force_make_db', False))
         if self._args.get('update_all'):
             self._update_all()
         else:
@@ -39,9 +39,8 @@ class Cli(CliHelper):
             self._run_normal(_args, urls)
 
     def _update_all(self):
-        db = Manga()
         default_args = self.get_default_args()
-        for manga in db.select():
+        for manga in db.Manga().select():
             log.info('Update %s', manga.url)
             _args = default_args.copy()
             """
@@ -69,7 +68,7 @@ class Cli(CliHelper):
 
     def _run_normal(self, _args, urls):
         for url in urls:
-            manga = Manga()
+            manga = db.Manga()
             _args['url'] = url
             provider = self._get_provider(_args)
             provider.run(_args)
