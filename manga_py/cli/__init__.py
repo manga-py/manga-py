@@ -60,17 +60,19 @@ class Cli(CliHelper):
                 **data_args,
             })
             provider = self._get_provider(_args)
-            provider.http.cookies = data.get('cookies')
-            provider.http.ua = data.get('browser')
-            provider.run(_args)
-            self.global_info.add_info(info)
-            manga.update()  # TODO
+            if provider:
+                provider.http.cookies = data.get('cookies')
+                provider.http.ua = data.get('browser')
+                provider.run(_args)
+                self.global_info.add_info(info)
+                manga.update()  # TODO
 
     def _run_normal(self, _args, urls):
         for url in urls:
             manga = db.Manga()
             _args['url'] = url
             provider = self._get_provider(_args)
-            provider.run(_args)
-            self.global_info.add_info(info)
-            manga.update()  # TODO
+            if provider:
+                provider.run(_args)
+                self.global_info.add_info(info)
+                manga.update()  # TODO
