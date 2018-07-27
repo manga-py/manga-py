@@ -20,6 +20,9 @@ class CliHelper:
     _args = None
     global_info = None
 
+    def log(self) -> bool:
+        return self._args.get('show-log') or self._args.get('verbose-log')
+
     @classmethod
     def print_error(cls, *_args):
         print_lib(*_args, file=stderr)
@@ -40,7 +43,7 @@ class CliHelper:
                 provider = get_provider(_args['url'])
             except ImportError as e:
                 self.global_info.add_info(info, self.global_info.ERROR, e)
-                log.err(e)
+                self.log() and log.err(e)
                 return
         provider.set_callbacks(
             print=print_lib,

@@ -35,7 +35,7 @@ class Provider(Base, metaclass=ABCMeta):
         verify.check_url(args)
         self._args = args
         try:
-            pass  # TODO
+            self.loop_chapters()
         except KeyboardInterrupt:
             self.print_error('Break. Please, wait')
             self._break = True
@@ -53,7 +53,9 @@ class Provider(Base, metaclass=ABCMeta):
             if self._break:
                 break
             chapter = Chapter(idx, data, self)
-            self.download(chapter.file)
+            self.before_chapter(chapter)
+            self.download(chapter)
+            self.after_chapter(chapter)
         self._threads.start(self.progress_next)
 
     def _simple_chapters(self):
@@ -63,7 +65,9 @@ class Provider(Base, metaclass=ABCMeta):
             self.chapter_idx = idx
             self.chapter = Chapter(idx, data, self)
             self.progress_next(True)
+            self.before_chapter(self.chapter)
             self.loop_files()
+            self.after_chapter(self.chapter)
 
     def loop_files(self):
         for idx, data in enumerate(self.files):

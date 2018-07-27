@@ -1,13 +1,12 @@
 import json
 
-from manga_py.libs.fs import make_dirs, is_file, dirname
-from manga_py.libs.fs import storage
+from manga_py.libs import fs
 from .request import Request
 from urllib.parse import urljoin
 
 
 class Http(Request):
-    _cookies_file = storage('cookies.json')
+    _cookies_file = fs.storage('cookies.json')
     _domain = None
     _base_uri = None
     _accept = '*/*;q=0.9,text/html,application/xhtml+xml,application/xml;q=0.8,text/css;q=0.1'
@@ -38,7 +37,7 @@ class Http(Request):
 
     def _load_storage_cookies(self, domain: str = None) -> dict:
         cookies = {}
-        if is_file(self._cookies_file):
+        if fs.is_file(self._cookies_file):
             with open(self._cookies_file, 'r') as f:
                 cookies = json.loads(f.read())
         return cookies.get(domain, {})
@@ -49,7 +48,7 @@ class Http(Request):
             all_cookies.update({domain: cookies})
         else:
             all_cookies = cookies
-        if is_file(self._cookies_file):
+        if fs.is_file(self._cookies_file):
             with open(self._cookies_file, 'w') as f:
                 f.write(json.dumps(all_cookies))
 
@@ -59,9 +58,17 @@ class Http(Request):
         return uri
 
     def download(self, url, path_location, method='get'):
-        if self.arg() or is_file(path_location):
+        if fs.is_file(path_location):
             raise FileExistsError('File %s exists!' % path_location)
-        make_dirs(dirname(path_location))
-        with open(path_location, 'wb') as w:
-            w.write(self.request(method, url).content)
-        return
+        fs.make_dirs(fs.dirname(path_location))
+        part = path_location + '.part'
+        mode = 'wb'
+        headers = self._headers.copy()
+        if fs.is_file(part):  # resume
+            part_size = fs.file_size(part)
+            if ~part_size:
+                mode = 'ab'
+                headers['Range'] = 'bytes=%d-' % fs.file_size(part)
+        with open(part, mode) as w:
+            w.write(self.request(method, url, headers=headers).content)
+        fs.rename(part, path_location)

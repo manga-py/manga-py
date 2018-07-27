@@ -1,22 +1,20 @@
-from manga_py.libs import fs
-from manga_py.exceptions import InvalidChapter
 from lxml.etree import Element
+
+from manga_py.exceptions import InvalidChapter
+from manga_py.libs import fs
+from ._file import BaseFile
 from .file import File
 
 
-class Chapter:
-    _idx = None
-    _url = None
-    _name = None
-    _provider = None
-    _http = None
+class Chapter(BaseFile):
     _archive = None
 
     def __init__(self, idx, data, provider):
-        self._idx = idx
-        self._parse_data(data)
-        self._provider = provider
-        self._http = provider.http.copy()
+        super().__init__(idx, data, provider)
+        self._location = fs.path_join(
+            provider.arg('destination'),
+            provider.manga_name
+        )
 
     def _parse_data(self, data):
         assert isinstance(data, (dict, tuple, Element)), InvalidChapter(data)
@@ -38,26 +36,6 @@ class Chapter:
             fmt = ('_{}' * (len(name) - 1))
             return ('vol_{:0>3}' + fmt).format(name)
         return name
-
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        self._name = name
-
-    @property
-    def url(self):
-        return self._url
-
-    @property
-    def idx(self):
-        return self._idx
-
-    @property
-    def path_location(self):
-        return fs.path_join(self._provider.arg('destination'), self.name)
 
     @property
     def file(self) -> File:  # FOR ARCHIVE DOWNLOAD

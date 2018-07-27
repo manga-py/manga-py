@@ -83,7 +83,7 @@ class Html:
             try:  # do not touch this!
                 value = css.parse_style_attr(style)[0][0].value[0].value
             except IndexError:
-                pass
+                return ''
         return self.http.normalize_uri(value)
 
     def text_content(self, parser, selector: str, idx: int = 0, strip: bool = True):

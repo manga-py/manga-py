@@ -41,7 +41,7 @@ class Cli(CliHelper):
     def _update_all(self):
         default_args = self.get_default_args()
         for manga in db.Manga().select():
-            log.info('Update %s', manga.url)
+            self.log() and log.info('Update %s', manga.url)
             _args = default_args.copy()
             """
             :var manga Manga
@@ -52,7 +52,7 @@ class Cli(CliHelper):
             del data_args['user_agent']
 
             if not fs.is_dir(fs.path_join(data_args['destination'], data_args['name'])):
-                log.warn('Destination not exists. Skip')
+                self.log() and log.warn('Destination not exists. Skip')
                 continue
 
             _args.update({  # re-init args

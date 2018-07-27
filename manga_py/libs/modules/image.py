@@ -85,7 +85,7 @@ class Image:
         :return:
         """
         _orig = True
-        img = cls(file.path_location_with_name)
+        img = cls(file.path_location)
 
         # 'crop-blank'
         if args['crop_blank']:

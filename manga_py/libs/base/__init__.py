@@ -43,20 +43,19 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
             ext = '.cbz'
         return str(Path(name).with_suffix(ext))
 
-
     @overload
-    def download(self, file: Chapter):
-        self.before_download(file)
-        self.http.download(file.url, self.archive_ext(file.name))
-        self.after_download(file)
-
     def download(self, file: File):
         self.before_download(file)
-        self.http.download(file.url, file.path_location_with_name)
+        self.http.download(file.url, file.path_location)
         if not self.arg('not-change-files-xtension'):
-            ext = Image.real_extension(file.path_location_with_name)
+            ext = Image.real_extension(file.path_location)
             _name = file.name
             file.name = '{}.{}'.format(_name[:_name.rfind('.')], ext)
         self.after_download(file)  # split-image
         # args.get('split_image') and img.auto_split()
         Image.process(file, self._args)
+
+    def download(self, chapter: Chapter):
+        self.before_download(chapter)
+        self.http.download(chapter.url, self.archive_ext(chapter.path_location))
+        self.after_download(chapter)
