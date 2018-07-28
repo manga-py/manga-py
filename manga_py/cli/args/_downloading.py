@@ -27,5 +27,3 @@ def main(args_parser: ArgumentParser):
                       help='Minimum free disc space')
     args.add_argument('-w', '--with-website-name', action='store_const', const=True, default=False,
                       help='Add website name to manga name (example.org-manga_name)')
-    args.add_argument('--seq', action='store_const', const=True, default=False,
-                      help='Sequentially numbered (vol_1.zip ->{001.jpg,002.jpg,003.jpg}, vol_2.zip ->{004.jpg, ...})')
