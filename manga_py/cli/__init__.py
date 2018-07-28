@@ -6,18 +6,21 @@ import better_exceptions
 from zenlog import log
 
 from manga_py.libs import fs
-from manga_py.libs import db
 from manga_py.libs.modules import info
 from . import args
 from ._helper import CliHelper
+from .db import DataBase
 
 
 class Cli(CliHelper):
+    db = None
+
     def __init__(self):
         self._temp_path = fs.get_temp_path()
         atexit.register(self.exit)
         fs.make_dirs(self._temp_path)
         self.global_info = info.InfoGlobal()
+        self.db = DataBase()
 
     def exit(self):
         # remove temp directory
@@ -28,7 +31,7 @@ class Cli(CliHelper):
         _args = self._args.copy()
         self._print_cli_help()
         urls = _args.get('url', []).copy()
-        db.make_db(force=_args.get('force_make_db', False))
+        _args.get('force_make_db', False) and self.db.clean()
         if self._args.get('update_all'):
             self._update_all()
         else:
@@ -40,7 +43,7 @@ class Cli(CliHelper):
 
     def _update_all(self):
         default_args = self.get_default_args()
-        for manga in db.Manga().select():
+        for manga in self.db.get_all():
             self.log() and log.info('Update %s', manga.url)
             _args = default_args.copy()
             """
@@ -69,7 +72,7 @@ class Cli(CliHelper):
 
     def _run_normal(self, _args, urls):
         for url in urls:
-            manga = db.Manga()
+            manga = self.db.get_db()
             _args['url'] = url
             provider = self._get_provider(_args)
             if provider:

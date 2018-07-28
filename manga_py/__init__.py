@@ -6,14 +6,13 @@ from sys import stderr
 try:
     import argcomplete
     from .cli import Cli
-    from .cli import args
-
-    argcomplete.autocomplete(args.get_cli_arguments())
+    from .cli import args, db
 except ImportError as e:
     print(e, file=stderr)
 
 
 def main():
+    argcomplete.autocomplete(args.get_cli_arguments())
     _cli = Cli()
     _cli.fill_args()
     check = _cli.check_version()
@@ -23,8 +22,10 @@ def main():
     _cli.run()
 
 
-def db():
-    pass
+def db_main():
+    argcomplete.autocomplete(db.args())
+    manga = db.DataBase()
+    manga.run(db.args())
 
 
 if __name__ == '__main__':
