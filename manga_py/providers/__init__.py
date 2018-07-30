@@ -2,6 +2,8 @@ import re
 from manga_py.provider import Provider
 from .__list import providers_list
 
+manga_providers = providers_list.copy()
+
 
 def __check_provider(reg, provider, url, fromlist: list):
     if re.search(reg, url):
@@ -18,7 +20,7 @@ def __merge_namespaces(providers, namespaces):
         namespaces = []
     if providers is None:
         providers = {}
-    providers_list.update(providers)
+    manga_providers.update(providers)
     namespaces.append('manga_py.libs.providers')
     return namespaces
 
@@ -63,8 +65,8 @@ def get_provider(url: str, providers: dict = None, more_namespaces: list = None)
     :rtype: Provider
     """
     namespaces = __merge_namespaces(providers, more_namespaces)
-    for provider in providers_list:
-        items = providers_list[provider]
+    for provider in manga_providers:
+        items = manga_providers[provider]
         reg = '(?:' + '|'.join(_boundary(items)) + ')'
         provider = __check_provider(reg, provider, url, namespaces)
         if isinstance(provider, Provider) and hasattr(provider, 'main'):

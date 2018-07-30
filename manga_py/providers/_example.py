@@ -24,10 +24,13 @@ class Example(Provider):
     def get_cover(self):
         pass
 
-    def prepare_cookies(self):
+    def before_provider(self):
         pass
 
-    def book_meta(self):
+    def after_provider(self):
+        pass
+
+    def meta(self):
         pass
 
 

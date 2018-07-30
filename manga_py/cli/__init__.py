@@ -64,9 +64,11 @@ class Cli(CliHelper):
             })
             provider = self._get_provider(_args)
             if provider:
+                provider.before_provider()
                 provider.http.cookies = data.get('cookies')
                 provider.http.ua = data.get('browser')
                 provider.run(_args)
+                provider.after_provider()
                 self.global_info.add_info(info)
                 manga.update()  # TODO
 
@@ -76,6 +78,8 @@ class Cli(CliHelper):
             _args['url'] = url
             provider = self._get_provider(_args)
             if provider:
+                provider.before_provider()
                 provider.run(_args)
+                provider.after_provider()
                 self.global_info.add_info(info)
                 manga.update()  # TODO

@@ -118,7 +118,7 @@ class Methods:
         return self._args.get(key, default)
 
     def _log(self) -> bool:
-        return self.arg('show-log', False)
+        return self.arg('show-log', False) or self._verbose_log()
 
     def _verbose_log(self):
         return self.arg('verbose-log', False)

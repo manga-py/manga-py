@@ -1,12 +1,14 @@
 from abc import abstractmethod
 
+from .meta import Meta
+
 
 class Abstract:
     @abstractmethod
     def get_content(self):  # mixed
         """
         Returns mixed data on the main page.
-        Used in methods get_manga_name, get_chapters, get_cover, book_meta
+        Used in methods get_manga_name, get_chapters, get_cover, meta
         Ideally, the main page is requested only once.
         (Use self.content to get data from the provider)
 
@@ -86,18 +88,31 @@ class Abstract:
 
     def get_cover(self):
         """
+        Returns the cover of the manga, if possible.
+        :return:
+        :rtype str or None
+        """
+        pass
+
+    def before_provider(self):
+        """
+        The method will be called once, <b>before</b> any other methods in the provider.\
+        Will not be automatically called for API! The developer must do it himself.
         :return:
         """
         pass
 
-    def prepare_cookies(self):
+    def after_provider(self):
         """
+        The method will be called once, <b>after</b> any other methods in the provider.
+        Will not be automatically called for API! The developer must do it himself.
         :return:
         """
         pass
 
-    def book_meta(self):  # Todo
+    def meta(self) -> Meta:  # Todo
         """
         :return:
+        :rtype Meta or None
         """
         pass

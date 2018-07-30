@@ -41,7 +41,7 @@ class Simplify:
     @property
     def chapters(self) -> list:
         """
-        :return: [Chapter, ...]
+        see manga_py/libs/base/abstract:get_chapters
         """
         if 'chapters' not in self.__cache:
             self.__cache['chapters'] = self.get_chapters()
@@ -50,7 +50,7 @@ class Simplify:
     @property
     def files(self) -> list:
         """
-        :return: [File, ...]
+        see manga_py/libs/base/abstract:get_chapters
         """
         return self.get_files()
 

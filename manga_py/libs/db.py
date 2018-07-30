@@ -28,7 +28,11 @@ class Manga(peewee.Model):
     latest_chapter = peewee.IntegerField()
     created = peewee.DateTimeField(default=peewee.datetime.datetime.now)
     updated = peewee.DateTimeField(default=peewee.datetime.datetime.now)
-    data = peewee.TextField()  # cookies, browser, args
+    data = peewee.TextField()  # cookies, browser, args. JSON data
+
+    @classmethod
+    def update_or_insert(cls, data):
+        pass
 
     class Meta:
         database = _db_cache()

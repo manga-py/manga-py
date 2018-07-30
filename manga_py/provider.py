@@ -70,12 +70,15 @@ class Provider(Base, metaclass=ABCMeta):
             self.after_chapter(self.chapter)
 
     def loop_files(self):
+        files_errors = []
         for idx, data in enumerate(self.files):
             try:
                 file = File(idx, data, self)
                 self._threads.add(target=self.download, args=(file,))
-            except AttributeError:
-                pass
+            except AttributeError as e:
+                files_errors.append((str(e), idx))
+        if len(files_errors):
+            self.log_warning('Files error:\n', *files_errors)
         self._threads.start(self.progress_next)
 
     def progress_next(self, new=False):
