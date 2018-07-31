@@ -8,3 +8,7 @@ class InvalidChapter(AttributeError):
 
 class InvalidFile(AttributeError):
     pass
+
+
+class SearchNotImplemented(AttributeError):
+    pass

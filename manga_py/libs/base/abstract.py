@@ -1,5 +1,7 @@
 from abc import abstractmethod
+from typing import List
 
+from manga_py.exceptions import SearchNotImplemented
 from .meta import Meta
 
 
@@ -23,7 +25,7 @@ class Abstract:
     @abstractmethod
     def get_manga_name(self) -> str:
         """
-        Returns the name of the manga.
+        Returns the 'user-friendly' name of the manga.
         Ideally, it is called only once. (Use self.manga_name to get data from the provider)
         :return:
         """
@@ -73,7 +75,7 @@ class Abstract:
         Returns the current name of the chapter.
         It is called at each iteration of the chapter list. (Use self.chapter to get RAW data from the provider)
         :return:
-        :rtype str or list or tuple
+        :rtype (str or list or tuple)
         """
         pass
 
@@ -94,7 +96,7 @@ class Abstract:
         """
         pass
 
-    def before_provider(self) -> None:
+    def before_provider(self, args: dict) -> None:
         """
         The method will be called once, <b>before</b> any other methods in the provider.\
         Will not be automatically called for API! The developer must do it himself.
@@ -116,3 +118,11 @@ class Abstract:
         :rtype Meta or None
         """
         pass
+
+    def search(self, title: str) -> List[str]:
+        """
+        Returns the list of manga if search is possible on the site.
+        :param title: str
+        :return:
+        """
+        raise SearchNotImplemented

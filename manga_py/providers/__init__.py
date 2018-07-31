@@ -34,7 +34,7 @@ def _boundary(items):
     return result
 
 
-def get_provider(url: str, providers: dict = None, more_namespaces: list = None):
+def get_provider(url: str, providers: dict = None, more_namespaces: list = None) -> Provider:
     """
     Allows you to add your namespaces to search for providers.
 

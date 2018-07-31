@@ -27,10 +27,7 @@ def args():
 
 
 class DataBase:
-    _db = None
-    """
-    :var _db Manga 
-    """
+    _db = None  # type Manga
 
     def __init__(self):
         make_db()
@@ -99,10 +96,12 @@ class DataBase:
         else:
             print_lib('Database is empty')
 
-    def get_all(self, *fields) -> List[Manga]:
+    def get_all(self, *fields, _filter: str = None) -> List[Manga]:
+        if _filter:
+            pass
         return self._db.select(*fields)
 
-    def print_all(self):
+    def print_all(self, _filter: str):
         headers = ['id', 'name', 'active', 'path', 'created', 'updated']
         data = []
         for col in self.get_all():

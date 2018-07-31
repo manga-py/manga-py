@@ -1,6 +1,5 @@
-from re import compile as _compile
 from urllib.parse import urlsplit as _urlsplit
-from typing import AnyStr
+
 from .chapter import Chapter
 
 
@@ -13,6 +12,10 @@ class Simplify:
 
     @url.setter
     def url(self, url):
+        """
+        Allows you to fix url manga inside the provider.
+        It is desirable to make corrections in the before_provider method
+        """
         self._args['url'] = url
 
     @property
@@ -30,14 +33,6 @@ class Simplify:
             name = '{}-{}'.format(self.domain, name)
         return name
 
-    def re_name(self, value, group=1):
-        if isinstance(value, AnyStr):
-            value = _compile(value)
-        try:
-            return value.search(self.url).group(group)
-        except Exception:
-            return None
-
     @property
     def chapters(self) -> list:
         """
@@ -52,7 +47,6 @@ class Simplify:
     def files(self) -> list:
         """
         see manga_py/libs/base/abstract:get_chapters
-        :rtype .file.File[]
         """
         return self.get_files()
 

@@ -43,16 +43,14 @@ class Cli(CliHelper):
 
     def _update_all(self):
         default_args = self.get_default_args()
-        for manga in self.db.get_all():
+        for manga in self.db.get_all():  # type Manga
             self.log() and log.info('Update %s', manga.url)
             _args = default_args.copy()
-            """
-            :var manga Manga
-            """
             data = json.loads(manga.data)
             data_args = data.get('args', {})
             del data_args['rewrite_exists_archives']
             del data_args['user_agent']
+            del data_args['url']
 
             if not fs.is_dir(fs.path_join(data_args['destination'], data_args['name'])):
                 self.log() and log.warn('Destination not exists. Skip')
@@ -64,7 +62,8 @@ class Cli(CliHelper):
             })
             provider = self._get_provider(_args)
             if provider:
-                provider.before_provider()
+                provider = provider()  # type Provider
+                provider.before_provider(_args)
                 provider.http.cookies = data.get('cookies')
                 provider.http.ua = data.get('browser')
                 provider.run(_args)
@@ -78,7 +77,8 @@ class Cli(CliHelper):
             _args['url'] = url
             provider = self._get_provider(_args)
             if provider:
-                provider.before_provider()
+                provider = provider()  # type Provider
+                provider.before_provider(_args)
                 provider.run(_args)
                 provider.after_provider()
                 self.global_info.add_info(info)

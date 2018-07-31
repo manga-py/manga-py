@@ -1,8 +1,11 @@
+from typing import List
+
 from manga_py.provider import Provider
 
 
 # see manga_py/libs/base/abstract.py for more data
 class Example(Provider):
+
     def get_content(self):
         pass
 
@@ -15,22 +18,25 @@ class Example(Provider):
     def get_files(self) -> list:
         pass
 
-    def get_chapter_name(self) -> tuple:
+    def get_chapter_name(self):
         pass
 
     def get_chapter_url(self) -> str:
         pass
 
-    def get_cover(self):
+    def get_cover(self) -> str:
         pass
 
-    def before_provider(self):
+    def before_provider(self, args: dict):
         pass
 
     def after_provider(self):
         pass
 
     def meta(self):
+        pass
+
+    def search(self, title: str) -> List[str]:
         pass
 
 
