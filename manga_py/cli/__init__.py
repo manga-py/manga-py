@@ -68,12 +68,11 @@ class Cli(CliHelper):
                 provider.http.ua = data.get('browser')
                 provider.run(_args)
                 provider.after_provider()
+                provider.update_db()
                 self.global_info.add_info(info)
-                manga.update()  # TODO
 
     def _run_normal(self, _args, urls):
         for url in urls:
-            manga = self.db.get_db()
             _args['url'] = url
             provider = self._get_provider(_args)
             if provider:
@@ -81,5 +80,5 @@ class Cli(CliHelper):
                 provider.before_provider(_args)
                 provider.run(_args)
                 provider.after_provider()
+                provider.update_db()
                 self.global_info.add_info(info)
-                manga.update()  # TODO

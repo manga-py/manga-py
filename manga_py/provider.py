@@ -104,4 +104,4 @@ class Provider(Base, metaclass=ABCMeta):
         if not self._allow_db:
             return
         make_db()
-        db = self._db.select().where(Manga.url == self.domain)
+        db = self._db.select().where(Manga.key == self._db_key())
