@@ -1,19 +1,22 @@
 import peewee
 from .fs import storage, is_file, unlink
 from binascii import crc32
+from datetime import datetime
 
 
 __cache = {}
 
 
-def _db_path(path) -> str:
-    if path is None:
-        path = storage('manga.db')
-    return str(path)
+def db_path() -> str:
+    """
+    Overload this to change the path to the database
+    :return:
+    """
+    return storage('manga.db')
 
 
-def _db_cache(path=None) -> peewee.Database:
-    path = _db_path(path)
+def _db_cache() -> peewee.Database:
+    path = db_path()
     crc = crc32(path.encode())
     if __cache.get(crc, None) is None:
         __cache[crc] = peewee.SqliteDatabase(path)
@@ -21,27 +24,32 @@ def _db_cache(path=None) -> peewee.Database:
 
 
 class Manga(peewee.Model):
-    url = peewee.CharField(unique=True)
+    key = peewee.CharField(unique=True)
+    url = peewee.CharField()
     name = peewee.CharField()
     path = peewee.CharField(max_length=2047)
     active = peewee.BooleanField(default=True)
     latest_chapter = peewee.IntegerField()
-    created = peewee.DateTimeField(default=peewee.datetime.datetime.now)
-    updated = peewee.DateTimeField(default=peewee.datetime.datetime.now)
+    created = peewee.DateTimeField(default=datetime.now())
+    updated = peewee.DateTimeField(default=datetime.now())
     data = peewee.TextField()  # cookies, browser, args. JSON data
 
     @classmethod
-    def update_or_insert(cls, data):
-        pass
+    def update_or_insert(cls, data: dict, key='key'):
+        db = cls.get_or_none(getattr(Manga, key) == data.get(key))
+        if db is not None:
+            db.update(**data, updated=datetime.now())
+            db.save()
+        else:
+            db.create(**data)
 
     class Meta:
         database = _db_cache()
         table_name = 'manga'
 
 
-def make_db(path=None, force=False):
-    path = _db_path(path)
-    if force:
-        unlink(path)
+def make_db(force=False):
+    path = db_path()
+    force and unlink(path)
     if not is_file(path):
-        _db_cache(path).create_tables([Manga], safe=True)
+        _db_cache().create_tables([Manga], safe=True)

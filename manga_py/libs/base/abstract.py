@@ -68,7 +68,7 @@ class Abstract:
         pass
 
     @abstractmethod
-    def get_chapter_name(self):
+    def get_chapter_name(self):  # mixed
         """
         Returns the current name of the chapter.
         It is called at each iteration of the chapter list. (Use self.chapter to get RAW data from the provider)
@@ -86,7 +86,7 @@ class Abstract:
         """
         pass
 
-    def get_cover(self):
+    def get_cover(self) -> str:
         """
         Returns the cover of the manga, if possible.
         :return:
@@ -94,7 +94,7 @@ class Abstract:
         """
         pass
 
-    def before_provider(self):
+    def before_provider(self) -> None:
         """
         The method will be called once, <b>before</b> any other methods in the provider.\
         Will not be automatically called for API! The developer must do it himself.
@@ -102,7 +102,7 @@ class Abstract:
         """
         pass
 
-    def after_provider(self):
+    def after_provider(self) -> None:
         """
         The method will be called once, <b>after</b> any other methods in the provider.
         Will not be automatically called for API! The developer must do it himself.

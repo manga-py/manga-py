@@ -3,7 +3,7 @@ from abc import ABCMeta
 from .libs.base import Base
 from .libs.base.chapter import Chapter
 from .libs.base.file import File
-from .libs.db import Manga
+from .libs.db import Manga, make_db
 from .libs.fs import get_temp_path
 from .libs.http.multi_threads import MultiThreads
 from .libs.modules import verify
@@ -17,6 +17,7 @@ class Provider(Base, metaclass=ABCMeta):
     _api = None
     _break = False
     _allow_db = True
+    _db_path = None
     temp_path_location = None
     chapter_idx = None
 
@@ -102,4 +103,5 @@ class Provider(Base, metaclass=ABCMeta):
         """
         if not self._allow_db:
             return
+        make_db()
         db = self._db.select().where(Manga.url == self.domain)

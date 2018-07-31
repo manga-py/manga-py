@@ -1,4 +1,6 @@
-from lxml.html import document_fromstring, Element
+from lxml.html import document_fromstring, HtmlElement
+from typing import List
+
 from manga_py.libs.http import Http
 from tinycss import make_parser
 
@@ -24,20 +26,20 @@ class Html:
     def _check_parser(self, parser):
         if isinstance(parser, str):
             parser = self.from_content(parser)
-        elif not isinstance(parser, Element):
+        elif not isinstance(parser, HtmlElement):
             raise AttributeError('Undefined type')
         return parser
 
     def elements(self, parser, selector: str):
         """
-        :param parser: str|Element
+        :param parser: str|HtmlElement
         :param selector: str
         :return:
         """
-        assert isinstance(parser, (str, Element)), AttributeError('Undefined type')
+        assert isinstance(parser, (str, HtmlElement)), AttributeError('Undefined type')
         return self._check_parser(parser).cssselect(selector)
 
-    def _cover_from_tuple(self, item: Element, attributes):
+    def _cover_from_tuple(self, item: HtmlElement, attributes):
         for attr in attributes:
             value = item.get(attr, None)
             if value is None:
@@ -49,21 +51,21 @@ class Html:
         return None
 
     @classmethod
-    def _cssselect(cls, parser: Element, selector) -> list:
+    def _cssselect(cls, parser: HtmlElement, selector) -> List[HtmlElement]:
         if selector is None:
             return [parser]
         return parser.cssselect(selector)
 
     def cover(self, parser, selector: str, attribute='src', index: int = 0):
         """
-        :param parser: str|Element
+        :param parser: str|HtmlElement
         :param selector: str
         :param attribute: str|tuple
         :param index: int
         :return:
         """
         parser = self._check_parser(parser)
-        items = self._cssselect(parser, selector)
+        items = self._cssselect(parser, selector)  # type: List[HtmlElement]
         if len(items) > index:
             if isinstance(attribute, str):
                 return items[index].get(attribute, None)
@@ -71,7 +73,7 @@ class Html:
                 return self._cover_from_tuple(items[index], attribute)
         return None
 
-    def parse_background(self, element: Element) -> str:
+    def parse_background(self, element: HtmlElement) -> str:
         """
         :param element:
         :return:

@@ -1,5 +1,6 @@
 from argparse import ArgumentParser, Namespace
 from sys import stderr
+from typing import List
 
 from tabulate import tabulate
 
@@ -98,7 +99,7 @@ class DataBase:
         else:
             print_lib('Database is empty')
 
-    def get_all(self, *fields) -> list:
+    def get_all(self, *fields) -> List[Manga]:
         return self._db.select(*fields)
 
     def print_all(self):

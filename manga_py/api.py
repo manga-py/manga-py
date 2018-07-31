@@ -1,7 +1,9 @@
-from manga_py.providers import get_provider, __merge_namespaces as merge_namespaces, manga_providers
-from manga_py.provider import Provider
+from typing import List
+
 from manga_py.libs.base.chapter import Chapter
-from manga_py.libs.base.file import File
+# from manga_py.libs.base.file import File
+from manga_py.provider import Provider
+from manga_py.providers import get_provider, __merge_namespaces as merge_namespaces, manga_providers
 
 
 class Api(object):
@@ -9,8 +11,8 @@ class Api(object):
     def get_provider(cls, url: str, user_providers: dict = None, user_namespaces: list = None) -> Provider:
         return get_provider(url, user_providers, user_namespaces)
 
-    @staticmethod
-    def _clean(providers):
+    @classmethod
+    def _clean(cls, providers) -> List[dict]:
         _list = {}
         for i in providers:
             _ = i.find('/')
@@ -22,14 +24,14 @@ class Api(object):
         return list(_list.keys())
 
     @classmethod
-    def get_providers(cls, user_providers: dict = None, user_namespaces: list = None) -> list:
+    def get_providers(cls, user_providers: dict = None, user_namespaces: list = None) -> List[dict]:
         """
         see get_provider.__doc__
 
         :param user_providers:
         :param user_namespaces:
         :return:
-        :rtype list
+        :rtype Iterable[dict]
         """
         merge_namespaces(user_providers, user_namespaces)
         providers = cls._clean(manga_providers)

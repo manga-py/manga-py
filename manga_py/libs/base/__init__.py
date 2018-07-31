@@ -1,16 +1,18 @@
 from abc import ABCMeta
+from pathlib import Path
+from typing import overload
+from urllib.parse import urlparse
 
+from manga_py.libs.crypt.base_lib import BaseLib
 from manga_py.libs.http import Http
+from manga_py.libs.modules.image import Image
 from .abstract import Abstract
 from .callbacks import Callbacks
-from .html import Html
-from .simplify import Simplify
-from .methods import Methods
 from .chapter import Chapter
 from .file import File
-from manga_py.libs.modules.image import Image
-from typing import overload
-from pathlib import Path
+from .html import Html
+from .methods import Methods
+from .simplify import Simplify
 
 
 class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
@@ -59,3 +61,22 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
         self.before_download(chapter)
         self.http.download(chapter.url, self.archive_ext(chapter.path_location))
         self.after_download(chapter)
+
+    def _db_key(self) -> str:  # max ~150 characters
+        """
+        Returns the unique key of the manga.
+        Do not repeat with different manga!
+        Used to identify the manga in the database
+
+        Overload this if need different key
+
+        :return:
+        :rtype: str
+        """
+        url = urlparse(self.main_page_url)
+        return self.__class__.__name__ + BaseLib.md5('{}{}{}{}'.format(
+            url.netloc,
+            url.path.strip('/'),
+            url.query,
+            url.fragment,
+        ))
