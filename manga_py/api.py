@@ -44,12 +44,12 @@ def download_chapter(chapter: Chapter):
     provider.loop_files()
 
 
-def det_chapter_files(chapter: Chapter) -> List[File]:
+def get_chapter_files(chapter: Chapter) -> List[File]:
     provider = chapter._provider
     provider._store['chapter_idx'] = 0
     provider.chapter = chapter
     return provider.files
 
 
-def det_chapters(provider: Provider) -> List[Chapter]:
+def get_chapters(provider: Provider) -> List[Chapter]:
     return provider.chapters
