@@ -15,28 +15,26 @@ def get_provider(url: str, user_providers: dict = None, user_namespaces: list = 
     return _get_provider(url, user_providers, user_namespaces)
 
 
-def _clean(providers) -> List[dict]:
-    _list = {}
+def _clean(providers) -> List[str]:
+    _list = []
     for i in providers:
         _ = i.find('/')
         if not ~_:
             _ = i.strip('()')
         else:
             _ = i[:_].strip('()')
-        _list['http://' + _.replace(r'\.', '.')] = ''
-    return list(_list.keys())
+        _list.append('http://' + _.replace(r'\.', '.'))
+    return list(set(_list))
 
 
-def get_providers(user_providers: dict = None, user_namespaces: list = None) -> List[dict]:
+def get_supported_resources(user_providers: dict = None, user_namespaces: list = None) -> List[str]:
     """
     :param user_providers:
     :param user_namespaces:
-    :return:
-    :rtype Iterable[{'http://example.org': ]
+    :return: ['http://example.org',]
     """
     _merge_namespaces(user_providers, user_namespaces)
-    providers = _clean(_manga_providers)
-    return providers
+    return _clean(_manga_providers)
 
 
 def download_chapter(provider: Provider, chapter: Chapter):
