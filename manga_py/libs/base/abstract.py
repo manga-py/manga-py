@@ -1,7 +1,6 @@
 from abc import abstractmethod
 from typing import List
 
-from manga_py.exceptions import SearchNotImplemented
 from .meta import Meta
 
 
@@ -125,4 +124,4 @@ class Abstract:
         :param title: str
         :return:
         """
-        raise SearchNotImplemented
+        raise AttributeError('Method search() not implemented')
