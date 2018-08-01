@@ -37,13 +37,15 @@ def get_supported_resources(user_providers: dict = None, user_namespaces: list =
     return _clean(_manga_providers)
 
 
-def download_chapter(provider: Provider, chapter: Chapter):
+def download_chapter(chapter: Chapter):
+    provider = chapter._provider
     provider._store['chapter_idx'] = 0
     provider.chapter = chapter
     provider.loop_files()
 
 
-def det_chapter_files(provider: Provider, chapter: Chapter) -> List[File]:
+def det_chapter_files(chapter: Chapter) -> List[File]:
+    provider = chapter._provider
     provider._store['chapter_idx'] = 0
     provider.chapter = chapter
     return provider.files

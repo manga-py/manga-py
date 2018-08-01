@@ -1,4 +1,4 @@
-from abc import abstractclassmethod
+from abc import abstractmethod
 
 from manga_py.libs import fs
 
@@ -17,7 +17,7 @@ class BaseFile(object):
         self._provider = provider
         self._http = self._provider.http.copy()
 
-    @abstractclassmethod
+    @abstractmethod
     def _parse_data(self, data):
         pass
 
