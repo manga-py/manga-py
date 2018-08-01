@@ -10,7 +10,7 @@ class Abstract:
     def get_content(self):  # mixed
         """
         Returns mixed data on the main page.
-        Used in methods get_manga_name, get_chapters, get_cover, meta
+        Used in methods get_manga_name, get_chapters, get_cover, get_meta
         Ideally, the main page is requested only once.
         (Use self.content to get data from the provider)
 
@@ -94,7 +94,7 @@ class Abstract:
         :return:
         :rtype str or None
         """
-        pass
+        raise AttributeError('Method get_cover() not implemented')
 
     def before_provider(self, args: dict) -> None:
         """
@@ -112,12 +112,12 @@ class Abstract:
         """
         pass
 
-    def meta(self) -> Meta:  # Todo
+    def get_meta(self) -> Meta:  # Todo
         """
         :return:
         :rtype Meta or None
         """
-        pass
+        raise AttributeError('Method get_meta() not implemented')
 
     def search(self, title: str) -> List[str]:
         """

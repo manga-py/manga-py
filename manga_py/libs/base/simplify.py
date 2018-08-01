@@ -86,3 +86,17 @@ class Simplify:
         if url is None:
             self.__cache['main_page_url'] = self.get_main_page_url()
         return self.__cache.get('main_page_url')
+
+    @property
+    def cover(self) -> str:
+        url = self.__cache.get('cover', None)
+        if url is None:
+            self.__cache['cover'] = self.get_cover()
+        return self.__cache.get('cover')
+
+    @property
+    def meta(self) -> str:
+        url = self.__cache.get('meta', None)
+        if url is None:
+            self.__cache['meta'] = self.get_cover()
+        return self.__cache.get('meta')

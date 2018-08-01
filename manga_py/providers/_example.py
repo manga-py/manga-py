@@ -33,7 +33,7 @@ class Example(Provider):
     def after_provider(self):
         pass
 
-    def meta(self):
+    def get_meta(self):
         pass
 
     def search(self, title: str) -> List[str]:
