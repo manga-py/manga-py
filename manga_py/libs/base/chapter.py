@@ -22,7 +22,7 @@ class Chapter(BaseFile):
             self._url = data['url']
             name = data['name']
         elif isinstance(data, Element):
-            self._url = self._provider.http.normalize_uri(data.get('src'))
+            self._url = self.provider.http.normalize_uri(data.get('src'))
             name = fs.basename(self._url)
             name = fs.remove_query(name)
         else:
@@ -32,7 +32,7 @@ class Chapter(BaseFile):
         self._name = self._normalize_name(name)
 
     def _normalize_name(self, name):
-        if self._provider.arg('zero-fill') and isinstance(name, (list, tuple)):
+        if self.provider.arg('zero-fill') and isinstance(name, (list, tuple)):
             fmt = ('_{}' * (len(name) - 1))
             return ('vol_{:0>3}' + fmt).format(name)
         return name

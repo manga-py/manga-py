@@ -87,14 +87,6 @@ class Abstract:
         """
         pass
 
-    def get_cover(self) -> str:
-        """
-        Returns the cover of the manga, if possible.
-        :return:
-        :rtype str or None
-        """
-        raise AttributeError('Method get_cover() not implemented')
-
     def before_provider(self, args: dict) -> None:
         """
         The method will be called once, <b>before</b> any other methods in the provider.\
@@ -110,6 +102,14 @@ class Abstract:
         :return:
         """
         pass
+
+    def get_cover(self) -> str:
+        """
+        Returns the cover of the manga, if possible.
+        :return:
+        :rtype str or None
+        """
+        raise AttributeError('Method get_cover() not implemented')
 
     def get_meta(self) -> Meta:  # Todo
         """

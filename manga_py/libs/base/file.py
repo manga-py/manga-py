@@ -8,7 +8,7 @@ from ._file import BaseFile
 class File(BaseFile):
     def __init__(self, idx, data, provider):
         super().__init__(idx, data, provider)
-        self._location = self._provider.temp_path_location
+        self._location = self.provider.temp_path_location
 
     def _parse_data(self, data):
         assert isinstance(data, (tuple, Element)), InvalidChapter(data)
@@ -23,6 +23,6 @@ class File(BaseFile):
         self._name = self._normalize_name(name)
 
     def _normalize_name(self, name):
-        if self._provider.arg('rename-pages'):
+        if self.provider.arg('rename-pages'):
             return '{:0>3}'.format(self._idx)
         return '{:0>3}_{}'.format(self._idx, name)

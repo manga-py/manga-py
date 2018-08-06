@@ -3,11 +3,12 @@ from __future__ import print_function
 from setuptools import setup
 from setuptools.command.install import install
 from manga_py import meta
-from os import path, name, chmod, unlink
+from os import name, chmod, unlink
 from subprocess import Popen, PIPE
 from re import search
 from tempfile import gettempdir
 from sys import stderr
+from pathlib import Path
 
 
 REQUIREMENTS = [
@@ -27,13 +28,35 @@ REQUIREMENTS = [
 ]
 
 
-if path.isfile('requirements.txt'):
+def walk(_path: str) -> tuple:
+    """
+    :param _path:
+    :return: tuple(_path, tuple('dirs',), tuple('files',))
+    """
+    dirs = []
+    files = []
+    path = Path(_path)
+    for i in path.iterdir():
+        if i.is_file():
+            files.append(str(i))
+        if i.is_dir():
+            dirs.append(str(i))
+    return path.resolve(), dirs, files
+
+
+# generate manga_py/libs/modules/html/templates/__init__.py
+def generate_html_template():
+    data_files = 'manga_py/libs/modules/html/templates'
+    pass
+
+
+if Path('requirements.txt').is_file():
     with open('requirements.txt') as f:
         REQUIREMENTS = f.read()
 
 
 long_description = ''
-if path.isfile('README.rst'):
+if Path('README.rst').is_file():
     with open('README.rst') as f:
         long_description = f.read()
 
@@ -69,7 +92,7 @@ class PostInstallCommand(install):
     def run(self):
         install.run(self)
         if name.find('nt') == -1:
-            print('Activate argcomplete')
+            print_function('Activate argcomplete')
             process = Popen([
                 'activate-global-python-argcomplete',
                 '--user'
@@ -77,12 +100,12 @@ class PostInstallCommand(install):
             out, err = process.communicate(timeout=1)
             if process.returncode == 0:
                 sh = self._parse_out(out)
-                _temp_file = path.join(gettempdir(), 'manga-py.sh')
+                _temp_file = Path(gettempdir()).joinpath('manga-py.sh')
                 self._make_sh(_temp_file, sh)
                 Popen([_temp_file]).communicate(timeout=1)
                 unlink(_temp_file)
             else:
-                print('ERROR! %s' % err, file=stderr)
+                print_function('ERROR! %s' % err, file=stderr)
 
 
 setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-packages
@@ -108,12 +131,7 @@ setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-
     author_email=meta.__email__,
     url=meta.__download_uri__,
     zip_safe=True,
-    data_files=[
-        # ('manga_py/storage', [
-        #     'manga_py/storage/.passwords.json.dist',
-        #     'manga_py/storage/.proxy.txt',
-        # ]),
-    ],
+    data_files=[],
     download_url='{}/archive/{}.tar.gz'.format(meta.__download_uri__, meta.__version__),
     keywords=['manga-downloader', 'manga', 'manga-py', 'manga-dl'],
     license=meta.__license__,
@@ -128,7 +146,6 @@ setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-
         'Topic :: Internet :: WWW/HTTP',
     ],
     python_requires='>=3.5.3',
-    # tests_requires=['pyvirtualdisplay'],
     install_requires=REQUIREMENTS,
     cmdclass={
         'install': PostInstallCommand,

@@ -7,15 +7,15 @@ class BaseFile(object):
     _idx = None
     _url = None
     _name = None
-    _provider = None
+    provider = None
     _http = None
     _location = None
 
     def __init__(self, idx, data, provider):
         self._idx = idx
         self._parse_data(data)
-        self._provider = provider
-        self._http = self._provider.http.copy()
+        self.provider = provider
+        self._http = provider.http.copy()
 
     @abstractmethod
     def _parse_data(self, data):

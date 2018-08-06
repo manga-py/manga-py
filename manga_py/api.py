@@ -17,13 +17,12 @@ def get_provider(url: str, user_providers: dict = None, user_namespaces: list = 
 
 def _clean(providers) -> List[str]:
     _list = []
-    for i in providers:
-        _ = i.find('/')
-        if not ~_:
-            _ = i.strip('()')
-        else:
-            _ = i[:_].strip('()')
-        _list.append('http://' + _.replace(r'\.', '.'))
+    for provider in providers:
+        position = provider.find('/')
+        provider = provider.strip('()')
+        if ~position:
+            provider = provider[:position].strip('()')
+        _list.append('http://' + provider.replace(r'\.', '.'))
     return list(set(_list))
 
 
@@ -38,14 +37,14 @@ def get_supported_resources(user_providers: dict = None, user_namespaces: list =
 
 
 def download_chapter(chapter: Chapter):
-    provider = chapter._provider
+    provider = chapter.provider
     provider._store['chapter_idx'] = 0
     provider.chapter = chapter
     provider.loop_files()
 
 
 def get_chapter_files(chapter: Chapter) -> List[File]:
-    provider = chapter._provider
+    provider = chapter.provider
     provider._store['chapter_idx'] = 0
     provider.chapter = chapter
     return provider.files
@@ -53,3 +52,8 @@ def get_chapter_files(chapter: Chapter) -> List[File]:
 
 def get_chapters(provider: Provider) -> List[Chapter]:
     return provider.chapters
+
+
+@property
+def version():
+    return 1
