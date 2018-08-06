@@ -9,10 +9,28 @@ class MangaFoxMe(Provider, Std):
         return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
-        selector = '/manga/[^/]+/([^/]+)/'
-        chapter = self.chapter
-        idx = self.re.search(selector, chapter).group(1).split('.')
-        return '{}-{}'.format(*self._idx_to_x2(idx))
+        """
+        examples:
+        <domain>/manga/<name>/v03/c020/1.html
+        <domain>/manga/<name>/v03/c020.5/1.html
+        <domain>/manga/<name>/v01/c019/1.html
+        <domain>/manga/<name>/c022/1.html
+        <domain>/manga/<name>/c021/1.html
+        <domain>/manga/<name>/v04/c016.5/1.html
+        <domain>/manga/<name>/v18/c154.5/1.html
+        <domain>/manga/<name>/vTBD/c169/1.html
+        <domain>/manga/<name>/v06/c018.5/1.html]
+        <domain>/manga/<name>/v03/c020.5/1.html
+        <domain>/manga/<name>/v08/c031/1.html
+        """
+        selector = r'/manga/[^/]+/(?:(v[^/]+)/)?c([^/]+)/'
+        groups = self.re.search(selector, self.chapter).groups()
+        idx = groups[1].replace('.', '-')
+        if not ~idx.find('-'):
+            idx = idx + '-0'
+        if groups[0]:
+            return '{}-{}'.format(idx, groups[0])
+        return idx
 
     def get_main_content(self):
         return self._get_content('{}/manga/{}')
@@ -34,19 +52,16 @@ class MangaFoxMe(Provider, Std):
         img_selector = 'img#image'
         _url = self.__get_files_url()
         url = '{}/1.html'.format(_url)
-        selector = '#top_bar .r .l select.m option'
+        selector = '#top_bar .r .l select.m'
         parser = self.html_fromstring(url)
-        pages = [i.get('value') for i in parser.cssselect(selector)]
-
         images = self._images_helper(parser, img_selector)
-
-        for n in pages:
-            if int(n) < 2:
+        for page in self._first_select_options(parser, selector, True):
+            n = page.get('value')
+            if int(n) < 2:  # first / comments page
                 continue
             url = '{}/{}.html'.format(_url, n)
             parser = self.html_fromstring(url)
             images += self._images_helper(parser, img_selector)
-
         return images
 
     def get_cover(self):
