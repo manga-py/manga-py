@@ -31,7 +31,7 @@ class MangaHomeCom(Provider, Std):
         pages = self._first_select_options(parser, p_selector)
         images = self._images_helper(parser, img_selector)
         for i in pages:
-            parser = self.html_fromstring(n(i))
+            parser = self.html_fromstring(n(i.get('value')))
             images += self._images_helper(parser, img_selector)
         return images
 
