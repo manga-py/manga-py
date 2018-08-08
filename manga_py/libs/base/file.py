@@ -1,4 +1,6 @@
-from lxml.etree import Element
+from typing import Union
+
+from lxml.etree import ElementBase
 
 from manga_py.exceptions import InvalidChapter
 from manga_py.libs import fs
@@ -10,9 +12,9 @@ class File(BaseFile):
         super().__init__(idx, data, provider)
         self._location = self.provider.temp_path_location
 
-    def _parse_data(self, data):
-        assert isinstance(data, (tuple, Element)), InvalidChapter(data)
-        if isinstance(data, Element):
+    def _parse_data(self, data: Union[tuple, ElementBase]):
+        assert isinstance(data, (tuple, ElementBase)), InvalidChapter(data)
+        if isinstance(data, ElementBase):
             self._url = self._http.normalize_uri(data.get('src'))
             name = fs.basename(self._url)
             name = fs.remove_query(name)

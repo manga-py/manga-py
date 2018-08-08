@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import List
+from typing import List, Union
 
 from .meta import Meta
 
@@ -69,7 +69,7 @@ class Abstract:
         pass
 
     @abstractmethod
-    def get_chapter_name(self):  # mixed
+    def get_chapter_name(self) -> Union[list, tuple]:  # mixed
         """
         Returns the current name of the chapter.
         It is called at each iteration of the chapter list. (Use self.chapter to get RAW data from the provider)
