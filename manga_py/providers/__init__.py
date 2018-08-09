@@ -429,6 +429,7 @@ providers_list = {
     ],
     'mangatail_com': [
         r'mangasail\.com/(manga|chapter|node|content)/.',
+        r'mangasail\.co/(manga|chapter|node|content)/.',
         r'mangatail\.me/(manga|chapter|node|content)/.',
     ],
     'mangatown_com': [
