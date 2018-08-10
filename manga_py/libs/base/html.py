@@ -12,7 +12,7 @@ class Html:
     def __init__(self, http: Http):
         self.http = http
 
-    def from_content(self, content, selector: str = None, idx: int = None):
+    def from_content(self, content, selector: str = None, idx: int = None) -> ElementBase:
         html = document_fromstring(content)
         if selector is not None:
             html = html.cssselect(selector)
@@ -20,24 +20,23 @@ class Html:
                 return html[idx]
         return html
 
-    def from_url(self, url, selector: str = None, idx: int = None):
+    def from_url(self, url, selector: str = None, idx: int = None) -> ElementBase:
         content = self.http.get(url).text
         return self.from_content(content, selector, idx)
 
-    def _check_parser(self, parser):
+    def _check_parser(self, parser) -> ElementBase:
         if isinstance(parser, str):
             parser = self.from_content(parser)
         elif not isinstance(parser, ElementBase):
             raise AttributeError('Undefined type')
         return parser
 
-    def elements(self, parser: Union[str, ElementBase], selector: str):
+    def elements(self, parser: Union[str, ElementBase], selector: str) -> List[ElementBase]:
         """
         :param parser: str|ElementBase
         :param selector: str
         :return:
         """
-        assert isinstance(parser, (str, ElementBase)), AttributeError('Undefined type')
         return self._check_parser(parser).cssselect(selector)
 
     def _cover_from_tuple(self, item: ElementBase, attributes):
@@ -57,7 +56,7 @@ class Html:
             return [parser]
         return parser.cssselect(selector)
 
-    def cover(self, parser: Union[str, ElementBase], selector: str, attribute='src', index: int = 0):
+    def cover(self, parser: Union[str, ElementBase], selector: str, attribute='src', index: int = 0) -> Union[None, str]:
         """
         :param parser: str|ElementBase
         :param selector: str
@@ -97,7 +96,7 @@ class Html:
                 return ''
         return self.http.normalize_uri(value)
 
-    def text_content(self, parser, selector: str, idx: int = 0, strip: bool = True):
+    def text_content(self, parser, selector: str, idx: int = 0, strip: bool = True) -> str:
         items = self._cssselect(parser, selector)
         text = items[idx].text
         if strip:
