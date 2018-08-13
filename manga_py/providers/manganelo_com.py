@@ -23,7 +23,10 @@ class MangaNeloCom(Provider, Std):
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter)
-        return self._images_helper(parser, '#vungdoc img')
+        images = self._images_helper(parser, '#vungdoc img')
+        if not len(images):
+            images = self._images_helper(parser, '.vung_doc img')
+        return images
 
     def get_cover(self) -> str:
         return self._cover_from_content('.manga-info-pic img')

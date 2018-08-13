@@ -380,6 +380,7 @@ providers_list = {
         r'mangamew\.com/(\w+-)?truyen/.',
     ],
     'manganelo_com': [
+        r'mangabat\.com/(manga|chapter)/.',
         r'manganelo\.com/(manga|chapter)/.',
     ],
     'mangaon_net': [
