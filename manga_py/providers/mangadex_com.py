@@ -24,7 +24,7 @@ class MangaDexCom(Provider, Std):
     def get_main_content(self):
         url = self.get_url()
         if url.find('/manga/') < 0:
-            url = self.html_fromstring(url, '.toggle.col-sm-2 > a', 0)
+            url = self.html_fromstring(url, 'a.manga-link', 0)
             url = self.http().normalize_uri(url.get('href'))
         self._home_url = self.re.search('(.+/manga/\d+/[^/])', url).group(1)
         return self.http_get(self._home_url)
@@ -32,18 +32,18 @@ class MangaDexCom(Provider, Std):
     def get_manga_name(self) -> str:
         url = self.get_url()
         if ~url.find('/manga/'):
-            name = self.html_fromstring(url, 'h3.panel-title', 0)
+            name = self.html_fromstring(url, '.card-header', 0).text
         else:
-            name = self.html_fromstring(url, '.toggle.col-sm-2 > a', 0)
-        return name.text_content().strip()
+            name = self.html_fromstring(url, '.manga-link', 0).get('title')
+        return name.strip()
 
     def get_chapters(self):
         parser = self.document_fromstring(self.content)
         # https://mangadex.org/manga/153/detective-conan
-        pages = parser.cssselect('.pagination li.paging:last-of-type a')
+        pages = parser.cssselect('.pagination li.paging a')
         items = self._get_chapters_links(parser)
         if pages:
-            pages = self.re.search('.+/(\d+)/', pages[0].get('href')).group(1)
+            pages = self.re.search(r'.+/(\d+)', pages[0].get('href')).group(1)
             for i in range(2, int(pages)+1):
                 _parser = self.html_fromstring('{}/chapters/{}/)'.format(
                     self._home_url, i
@@ -52,22 +52,26 @@ class MangaDexCom(Provider, Std):
         return self._parse_chapters(items)
 
     def _get_chapters_links(self, parser):
-        return parser.cssselect('.table [id^=chapter]')
+        return parser.cssselect('div.chapter-row[data-chapter]')
 
     def get_files(self):
-        content = self.http_get(self.chapter['link'])
+        idx = self.re.search(r'/chapter/(\d+)', self.chapter['link']).group(1)
         try:
-            files = self.json.loads(self.text_content(content, 'script[data-type="chapter"]'))
+            data = self.json.loads(self.http_get('{}/api/chapter/{}'.format(
+                self.domain, idx
+            )))
             n = self.http().normalize_uri
-            server = n(files.get('server'))
-            dataurl = files.get('dataurl')
-            return ['{}/{}/{}'.format(server, dataurl, file) for file in files.get('page_array')]
-        except Exception:
-            self.log('Files not found for chapter %s!' % self.chapter['link'], file=stderr)
+            items = []
+            for item in data.get('page_array', []):
+                items.append('{}{}/{}'.format(
+                    n(data.get('server', '/data/')), data.get('hash'), item
+                ))
+            return items
+        except Exception as e:
             return []
 
     def get_cover(self) -> str:
-        return self._cover_from_content('.edit .col-sm-3 img')
+        return self._cover_from_content('.card-body .rounded')
 
     def prepare_cookies(self):
         self._storage['cookies']['mangadex_h_toggle'] = '1'
@@ -76,11 +80,11 @@ class MangaDexCom(Provider, Std):
         n = self.http().normalize_uri
         result = []
         for tr in items:
-            ch = tr.cssselect('a[data-chapter-id]')[0]
-            lng = tr.cssselect('.text-center + .text-center > img[alt]')
+            ch = tr.cssselect('a[href*="/chapter/"]')[0]
+            lng = tr.cssselect('img.flag')
             result.append({
-                'ch': ch.get('data-chapter-num'),
-                'vol': ch.get('data-volume-num'),
+                'ch': tr.get('data-chapter'),
+                'vol': tr.get('data-volume'),
                 'link': n(ch.get('href')),
                 'lng': lng[0].get('alt') if lng else '',
             })
