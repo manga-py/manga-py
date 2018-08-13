@@ -5,8 +5,8 @@ import imghdr
 
 
 class Image:
-    image = None
-    src_path = None
+    _image = None  # type: PilImage
+    src_path = None  # type: str
 
     def __init__(self, src_path):
         """
@@ -18,13 +18,21 @@ class Image:
         self.src_path = src_path
         self.__open(src_path)
 
+    @property
+    def image(self) -> PilImage:
+        return self._image
+
+    @image.setter
+    def image(self, image: PilImage):
+        self._image = image
+
     def __open(self, _path):
         """
         :param _path:
         :return:
         """
         if self.image is None:
-            self.image = PilImage.open(_path)
+            self._image = PilImage.open(_path)
 
     def gray(self, dest_path: str):
         """

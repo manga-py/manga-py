@@ -12,6 +12,7 @@ class Archive:
     _writes = None
     files = None
     not_change_files_extension = False
+    no_webp = False
 
     def __init__(self):
         self.files = []
@@ -64,7 +65,7 @@ class Archive:
         for file in self.files:
             unlink(file[0])
 
-    def __update_image_extension(self, filename) -> tuple:
+    def __update_image_extension(self, filename) -> str:
         fn, extension = path.splitext(filename)
         if not self.not_change_files_extension:
             ext = Image.real_extension(get_temp_path(filename))
@@ -73,4 +74,11 @@ class Archive:
         return basename(fn + extension)
 
     def lazy_add(self, _path):
-        self.add_file(_path, self.__update_image_extension(_path))
+        ext = self.__update_image_extension(_path)
+        if self.no_webp and ext[ext.rfind('.'):] == '.webp':
+            jpeg = ext[:ext.rfind('.')] + '.jpeg'
+            jpeg_path = path.join(dirname(_path), jpeg)
+            Image(_path).convert(jpeg_path)
+            _path = jpeg_path
+            ext = jpeg
+        self.add_file(_path, ext)

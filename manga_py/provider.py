@@ -49,8 +49,9 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             (params.get('xt', 0),
              params.get('xr', 0),
              params.get('xb', 0),
-             params.get('xl', 0))
+             params.get('xl', 0)),
         )
+        self._image_params['no_webp'] = params.get('no_webp', False)
         # downloading params
         self._set_if_not_none(self._params, 'destination', params.get('destination', None))
         self._zero_fill = params.get('zero_fill')
@@ -109,6 +110,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         if isinstance(self._storage['files'], list) and len(self._storage['files']) > 0:
             self._archive = Archive()
             self._archive.not_change_files_extension = self._params.get('not_change_files_extension', False)
+            self._archive.no_webp = self._image_params.get('no_webp', False)
             self._call_files_progress_callback()
 
             if self._params.get('no_multi_threads', False):
