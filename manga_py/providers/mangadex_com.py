@@ -32,7 +32,7 @@ class MangaDexCom(Provider, Std):
     def get_manga_name(self) -> str:
         url = self.get_url()
         if ~url.find('/manga/'):
-            name = self.html_fromstring(url, '.card-header', 0).text
+            name = self.html_fromstring(url, '.card-header', 0).text_content()
         else:
             name = self.html_fromstring(url, '.manga-link', 0).get('title')
         return name.strip()
