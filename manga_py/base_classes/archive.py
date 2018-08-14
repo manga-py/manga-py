@@ -82,3 +82,4 @@ class Archive:
             _path = jpeg_path
             ext = jpeg
         self.add_file(_path, ext)
+        return _path

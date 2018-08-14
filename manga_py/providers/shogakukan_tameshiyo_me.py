@@ -44,8 +44,9 @@ class ShogakukanTameshiyoMe(Provider, Std):
         with open(_path, 'wb') as file:
             file.write(BaseLib.base64decode(_url))
 
-        self._archive.add_file(_path, in_arc_name)
         callable(callback) and callback()
+        self.after_file_save(_path, idx)
+        self._archive.add_file(_path, in_arc_name)
 
         return _path
 

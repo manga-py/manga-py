@@ -1,5 +1,6 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
+from sys import stderr
 
 
 class ComicoJp(Provider, Std):
@@ -30,7 +31,7 @@ class ComicoJp(Provider, Std):
     def get_chapters(self):
         # TODO: see i['freeFlg'] Y = true, W = false #19
         items = [i['articleDetailUrl'] for i in self.content if i['freeFlg'] == 'Y']
-        self.log('Free chapters count: %d' % len(items))
+        self.log('Free chapters count: %d' % len(items), file=stderr)
         return items[::-1]
 
     def get_files(self):

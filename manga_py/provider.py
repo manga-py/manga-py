@@ -19,6 +19,7 @@ from .fs import (
     remove_file_query_params,
     path_join,
     unlink,
+    file_size,
 )
 from .http import MultiThreads
 from .meta import __downloader_uri__
@@ -135,15 +136,16 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
     def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
         _path, idx, _url = self._save_file_params_helper(url, idx)
 
-        if not is_file(_path):
+        if not is_file(_path) or file_size(_path) < 32:
             # issue 55
-            if in_arc_name is None:
-                self.http().download_file(_url, _path, success_callback=self._archive.lazy_add)
-            else:
-                self.http().download_file(_url, _path)
-                self._archive.add_file(_path, in_arc_name)
+            # if in_arc_name is None:
+            self.http().download_file(_url, _path)
+            # else:
+            #     self.http().download_file(_url, _path)
+            #     self._archive.add_file(_path, in_arc_name)
         callable(callback) and callback()
         self.after_file_save(_path, idx)
+        self._archive.lazy_add(_path)
 
         return _path
 

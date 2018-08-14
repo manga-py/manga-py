@@ -47,10 +47,10 @@ class AllHentaiRu(Provider, Std):
                     _url = self.re.sub(r'//\w\.', '//%s.' % i, url)
 
                     self.http().download_file(_url, _path)
-                    self._archive.add_file(_path, in_arc_name)
-
                     callable(callback) and callback()
                     self.after_file_save(_path, idx)
+
+                    self._archive.lazy_add(_path)
                     break
                 except AttributeError:
                     pass
