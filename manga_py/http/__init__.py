@@ -62,11 +62,11 @@ class Http(Request):
             return False
         return True
 
-    def _download_one_file_helper(self, url, dst, callback: callable = None, success_callback: callable = None):
+    def _download_one_file_helper(self, url, dst, callback: callable = None, success_callback: callable = None, callback_args=()):
         r = 0
         while r < self.count_retries:
             if self._safe_downloader(url, dst):
-                success_callback and success_callback(dst)
+                callable(success_callback) and success_callback(dst, *callback_args)
                 return True
 
             r += 1
@@ -79,11 +79,11 @@ class Http(Request):
     def download_file(self, url: str,
                       dst: str = None,
                       callback: callable = None,
-                      success_callback: callable = None) -> bool:
+                      success_callback: callable = None, callback_args=()) -> bool:
         if not dst:
             name = basename(remove_file_query_params(url))
             dst = path_join(get_temp_path(), name)
-        return self._download_one_file_helper(url, dst, callback, success_callback)
+        return self._download_one_file_helper(url, dst, callback, success_callback, callback_args)
 
     def normalize_uri(self, uri, referer=None):
         if not referer:

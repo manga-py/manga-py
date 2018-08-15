@@ -133,19 +133,25 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         _path = get_temp_path(_path)
         return _path, idx, _url
 
+    def _download_callback(self, _path: str, idx: int):
+        self.after_file_save(_path, idx)
+        self._archive.lazy_add(_path)
+
     def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
         _path, idx, _url = self._save_file_params_helper(url, idx)
 
         if not is_file(_path) or file_size(_path) < 32:
             # issue 55
             # if in_arc_name is None:
-            self.http().download_file(_url, _path)
+            self.http().download_file(_url, _path, success_callback=self._download_callback, callback_args=(idx,))
             # else:
             #     self.http().download_file(_url, _path)
             #     self._archive.add_file(_path, in_arc_name)
+        else:
+            self.after_file_save(_path, idx)
+            self._archive.lazy_add(_path)
+
         callable(callback) and callback()
-        self.after_file_save(_path, idx)
-        self._archive.lazy_add(_path)
 
         return _path
 
