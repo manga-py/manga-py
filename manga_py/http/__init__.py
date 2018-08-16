@@ -1,6 +1,7 @@
 from time import sleep
+from sys import stderr
 
-from manga_py.fs import get_temp_path, make_dirs, remove_file_query_params, basename, path_join, dirname
+from manga_py.fs import get_temp_path, make_dirs, remove_file_query_params, basename, path_join, dirname, file_size
 from .multi_threads import MultiThreads
 from .request import Request
 from .url_normalizer import normalize_uri
@@ -66,6 +67,8 @@ class Http(Request):
         r = 0
         while r < self.count_retries:
             if self._safe_downloader(url, dst):
+                if file_size(dst) < 128:
+                    print('\nWarning: 0 bit image downloaded, please check for redirection or broken content', file=stderr)
                 callable(success_callback) and success_callback(dst, *callback_args)
                 return True
 

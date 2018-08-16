@@ -3,6 +3,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 # from PIL import Image as PilImage
 from manga_py.image import Image
 from os import path
+from time import sleep
 
 from manga_py.fs import is_file, make_dirs, basename, dirname, unlink, get_temp_path
 
@@ -35,7 +36,13 @@ class Archive:
     def __add_files(self):
         for file in self.files:
             if is_file(file[0]):
-                self._archive.write(file[0], file[1])
+                ext = self.__update_image_extension(file[0])
+                if self.no_webp and ext[ext.rfind('.'):] == '.webp':
+                    jpeg = ext[:ext.rfind('.')] + '.jpeg'
+                    jpeg_path = path.join(dirname(file[0]), jpeg)
+                    Image(file[0]).convert(jpeg_path)
+                    file = jpeg_path, jpeg
+                self._archive.write(*file)
 
     def __add_writes(self):
         for file in self._writes:
@@ -72,14 +79,3 @@ class Archive:
             if ext:
                 extension = ext
         return basename(fn + extension)
-
-    def lazy_add(self, _path):
-        ext = self.__update_image_extension(_path)
-        if self.no_webp and ext[ext.rfind('.'):] == '.webp':
-            jpeg = ext[:ext.rfind('.')] + '.jpeg'
-            jpeg_path = path.join(dirname(_path), jpeg)
-            Image(_path).convert(jpeg_path)
-            _path = jpeg_path
-            ext = jpeg
-        self.add_file(_path, ext)
-        return _path
