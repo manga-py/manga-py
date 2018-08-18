@@ -13,7 +13,8 @@ class File(BaseFile):
         self._location = self.provider.temp_path_location
 
     def _parse_data(self, data: Union[tuple, ElementBase]):
-        assert isinstance(data, (tuple, ElementBase)), InvalidChapter(data)
+        if not isinstance(data, (tuple, ElementBase)):
+            InvalidChapter(data)
         if isinstance(data, ElementBase):
             self._url = self._http.normalize_uri(data.get('src'))
             name = fs.basename(self._url)

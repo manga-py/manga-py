@@ -17,7 +17,8 @@ class Chapter(BaseFile):
         )
 
     def _parse_data(self, data):
-        assert isinstance(data, (dict, tuple, Element)), InvalidChapter(data)
+        if not isinstance(data, (dict, tuple, Element)):
+            InvalidChapter(data)
         if isinstance(data, dict):
             self._url = data['url']
             name = data['name']
@@ -39,5 +40,6 @@ class Chapter(BaseFile):
 
     @property
     def file(self) -> File:  # FOR ARCHIVE DOWNLOAD
-        assert self._archive is not None, AttributeError('Archive is None')
+        if self._archive is None:
+            AttributeError('Archive is None')
         return self.file

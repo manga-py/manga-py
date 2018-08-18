@@ -119,5 +119,6 @@ class DataBase:
             print_lib('Database is empty')
 
     def get_db(self) -> Manga:
-        assert isinstance(self._db, Manga), AttributeError('DB class not init')
+        if not isinstance(self._db, Manga):
+            AttributeError('DB class not init')
         return self._db
