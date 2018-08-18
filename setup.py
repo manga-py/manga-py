@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 from setuptools import setup
 from setuptools.command.install import install
 from manga_py import meta
@@ -92,7 +90,7 @@ class PostInstallCommand(install):
     def run(self):
         install.run(self)
         if name.find('nt') == -1:
-            print_function('Activate argcomplete')
+            print('Activate argcomplete')
             process = Popen([
                 'activate-global-python-argcomplete',
                 '--user'
@@ -105,7 +103,7 @@ class PostInstallCommand(install):
                 Popen([str(_temp_file)]).communicate(timeout=1)
                 unlink(_temp_file)
             else:
-                print_function('ERROR! %s' % err, file=stderr)
+                print('ERROR! %s' % err, file=stderr)
 
 
 setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-packages
