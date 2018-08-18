@@ -1,7 +1,7 @@
 import json
 
 from manga_py.libs import fs
-from .request import Request
+from ._request import Request
 from urllib.parse import urljoin
 
 

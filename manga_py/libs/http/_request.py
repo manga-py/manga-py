@@ -1,29 +1,24 @@
 from random import randint
 
 import requests
-from requests import Response
 
 
 class Request(object):
     _req = None
     _headers = None
     _cookies = None
-    _allow_default_redirect = False
-    _max_redirects = 10
-    _history = None
 
     def __init__(self):
         self._req = requests
         self._headers = {}
         self._cookies = {}
-        self._history = []
 
     @property
     def ua(self):
         ua = self._headers.get('User-Agent', None)
         if ua is None:
             ua = self._user_agent()
-            self.ua = ua
+            self._headers['User-Agent'] = ua
         return ua
 
     @ua.setter
@@ -39,17 +34,14 @@ class Request(object):
     def check_url(self, url):
         return self.request('head', url).ok
 
-    def get(self, url, *args, **kwargs) -> Response:
+    def get(self, url, *args, **kwargs) -> requests.Response:
         return self.request('get', url, *args, **kwargs)
 
-    def post(self, url, *args, **kwargs) -> Response:
-        kwargs['allow_redirects'] = False
-        if self._allow_default_redirect:
-            return self.request('post', url, *args, **kwargs)
-        return self._request('post', url, *args, **kwargs)
+    def post(self, url, *args, **kwargs) -> requests.Response:
+        return self.request('post', url, *args, **kwargs)
 
-    def request(self, method, url, *args, **kwargs) -> Response:
-        request = getattr(requests, method)
+    def request(self, method, url, *args, **kwargs) -> requests.Response:
+        request = getattr(requests, method)  # get/post/head/ etc
         kwargs.setdefault('headers', self._headers)
         kwargs.setdefault('cookies', self._cookies)
         return request(url, *args, **kwargs)
@@ -67,20 +59,7 @@ class Request(object):
             agent = agents[randint(0, len(agents) - 1)]
         return agent
 
-    def _request(self, method, url, *args, **kwargs) -> Response:
-        response = self.request(method, url, *args, **kwargs)
-        response.raise_for_status()
-        if response.is_redirect():
-            self._history.append(url)
-            if response.status_code == 303:
-                return self._request('get', url, *args, **kwargs)
-            if response.status_code == 305:
-                location = url
-                kwargs['proxy'] = {
-                    'http': response.headers['location'],
-                    'https': response.headers['location'],
-                }
-            else:
-                location = response.headers['location']
-            return self._request(method, location, *args, **kwargs)
-        return response
+    def _update_cookies(self, response: requests.Response):
+        for element in response.history:  # type: requests.Response
+            self._cookies.update(element.cookies.get_dict())
+        self._cookies.update(response.cookies.get_dict())
