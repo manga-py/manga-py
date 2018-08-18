@@ -10,19 +10,23 @@ from pathlib import Path
 
 
 REQUIREMENTS = [
-    'lxml',
-    'cssselect',
-    'Pillow',
-    'requests',
-    'pycrypto',
-    'cfscrape',
-    'progressbar2',
-    'urllib3',
-    'packaging',
-    'pyexecjs',
-    'html-purifier',
-    'peewee',
-    'better_exceptions',
+    'lxml>=3.7.2',
+    'cssselect>=1.0.0',
+    'Pillow>=4.3',
+    'requests>=2.14',
+    'pycrypto>=2.5',
+    'cfscrape>=1.9.5',
+    'progressbar2>3.34',
+    'urllib3<1.23>=1.21.1',
+    'packaging>=17',
+    'html-purifier>=0.1.9',
+    'pyexecjs>=1.5.1',
+    'peewee>3.4.0',
+    'tinycss>=0.4',
+    'better_exceptions>=0.2',
+    'zenlog>=1.1',
+    'argcomplete>=1.9.4',
+    'tabulate>=0.8',
 ]
 
 
