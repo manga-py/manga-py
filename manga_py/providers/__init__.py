@@ -4,9 +4,9 @@ providers_list = {
     '3asq_info': [
         r'3asq\.info/.',
     ],
-    '8muses_com': [
-        r'8muses\.com/comics/album/.',
-    ],
+    # '8muses_com': [
+    #     r'8muses\.com/comics/album/.',
+    # ],
     'ac_qq_com': [
         r'ac\.qq\.com/Comic.+?/id/\d',
     ],

@@ -23,7 +23,6 @@ class EightMusesCom(Provider, Std):
         return '-'.join(idx.split('/'))
 
     def get_main_content(self):
-        print('Before content')
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
