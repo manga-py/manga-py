@@ -9,10 +9,10 @@ class EHentaiOrg(Provider, Std):
     helper = None
 
     def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
-        url = None
+        _url = None
         if isinstance(url, HtmlElement):
-            url = self.helper.get_image(url)
-        return super().save_file(idx=idx, callback=callback, url=url, in_arc_name=in_arc_name)
+            _url = self.helper.get_image(url)
+        return super().save_file(idx=idx, callback=callback, url=_url, in_arc_name=in_arc_name)
 
     def get_archive_name(self) -> str:
         return self.normal_arc_name(self.get_chapter_index())
