@@ -3,6 +3,8 @@ from manga_py.fs import basename
 from manga_py.provider import Provider
 from .helpers.std import Std
 
+from time import sleep
+
 
 class KissMangaCom(Provider, Std):
     __local_data = {
@@ -38,11 +40,16 @@ class KissMangaCom(Provider, Std):
         return self._get_name('/Manga/([^/]+)')
 
     def get_chapters(self):
-        return self._elements('.listing td a')
+        chapters = self._elements('.listing td a')
+        if not len(chapters):
+            print('Chapters not found')
+        return chapters
 
     def prepare_cookies(self):
         self.cf_protect(self.get_url())
         self._storage['cookies']['rco_quality'] = 'hq'
+        if not self._params['cf-protect']:
+            print('CloudFlare protect fail!')
 
     def __decrypt_images(self, crypt, key, hexes):
         images = []
@@ -70,12 +77,17 @@ class KissMangaCom(Provider, Std):
     def get_files(self):
         crypt = KissMangaComCrypt()
 
+        sleep(.5)
+
+        print('chapter %s' % self.chapter)
+
         content = self.http_get(self.chapter)
         key = self.__check_key(crypt, content)
 
         hexes = self.re.findall(r'lstImages.push\(wrapKA\(["\']([^"\']+?)["\']\)', content)
 
         if not hexes:
+            print('Images not found!')
             return []
 
         self._storage['referer'] = self.http().referer = ''
