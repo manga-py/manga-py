@@ -24,8 +24,12 @@ class KissMangaCom(Provider, Std):
         if name:
             name = name.groups()
             return '{1}-{0}-0'.format(*name)
-        name = self.re.search(r'Ch\w*?-(\d+)(?:-v(\d+))?', bn).groups()
-        return '{}-{}-0'.format(*name, '0')
+        name = self.re.search(r'Ch\w*?-(\d+)(?:-v(\d+))?', bn)
+        if name:
+            name = name.groups()
+            return '{}-{}-0'.format(*name, '0')
+        name = self.re.search(r'/Manga/[^/]+/(\d+)', self.chapter)
+        return '{}-000-0'.format(name.group(1))
 
     def get_main_content(self):
         return self._get_content('{}/Manga/{}')
