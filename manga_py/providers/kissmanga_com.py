@@ -4,6 +4,7 @@ from manga_py.provider import Provider
 from .helpers.std import Std
 
 from sys import stderr
+from time import sleep
 
 
 class KissMangaCom(Provider, Std):
@@ -41,11 +42,15 @@ class KissMangaCom(Provider, Std):
 
     def get_chapters(self):
         chapters = self._elements('.listing td a')
+        if not len(chapters):
+            print('Chapters not found', file=stderr)
         return chapters
 
     def prepare_cookies(self):
         self.cf_protect(self.get_url())
         self._storage['cookies']['rco_quality'] = 'hq'
+        if not self._params['cf-protect']:
+            print('CloudFlare protect fail!', file=stderr)
 
     def __decrypt_images(self, crypt, key, hexes):
         images = []
@@ -73,6 +78,10 @@ class KissMangaCom(Provider, Std):
     def get_files(self):
         crypt = KissMangaComCrypt()
 
+        sleep(.5)
+
+        print('chapter %s' % self.chapter)
+
         content = self.http_get(self.chapter)
         key = self.__check_key(crypt, content)
 
@@ -84,7 +93,16 @@ class KissMangaCom(Provider, Std):
 
         self._storage['referer'] = self.http().referer = ''
 
-        return self.__decrypt_images(crypt, key, hexes)
+        print('\n\nImages')
+        print(hexes)
+
+        _images = self.__decrypt_images(crypt, key, hexes)
+
+        print('\n\nDecrypted images:')
+        print(_images)
+        print('\n\n')
+
+        return _images
 
     def get_cover(self):
         return self._cover_from_content('.rightBox .barContent img')
