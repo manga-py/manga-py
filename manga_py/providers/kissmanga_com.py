@@ -55,9 +55,12 @@ class KissMangaCom(Provider, Std):
     def __decrypt_images(self, crypt, key, hexes):
         images = []
         for i in hexes:
-            img = crypt.decrypt(self.__local_data['iv'], key, i)
-            img = img.decode('utf-8').replace('\x10', '').replace('\x0f', '')
-            images.append(img)
+            try:
+                img = crypt.decrypt(self.__local_data['iv'], key, i)
+                img = img.decode('utf-8').replace('\x10', '').replace('\x0f', '')
+                images.append(img)
+            except Exception as e:
+                print('ERROR! %s \n' % str(e), file=stderr)
 
         return images
 
@@ -93,13 +96,11 @@ class KissMangaCom(Provider, Std):
 
         self._storage['referer'] = self.http().referer = ''
 
-        print('\n\nImages')
-        print(hexes)
+        print('\n\nImages: SUCCESS')
 
         _images = self.__decrypt_images(crypt, key, hexes)
 
-        print('\n\nDecrypted images:')
-        print(_images)
+        print('\n\nDecrypted images: SUCCESS')
         print('\n\n')
 
         return _images
