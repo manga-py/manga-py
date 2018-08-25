@@ -4,7 +4,6 @@ from manga_py.provider import Provider
 from .helpers.std import Std
 
 from sys import stderr
-from time import sleep
 
 
 class KissMangaCom(Provider, Std):
@@ -57,10 +56,10 @@ class KissMangaCom(Provider, Std):
         for i in hexes:
             try:
                 img = crypt.decrypt(self.__local_data['iv'], key, i)
-                img = img.decode('utf-8').replace('\x10', '').replace('\x0f', '')
-                images.append(img)
+                images.append(img.decode('utf-8', errors='ignore').replace('\x10', '').replace('\x0f', ''))
+
             except Exception as e:
-                print('ERROR! %s \n' % str(e), file=stderr)
+                pass
 
         return images
 
@@ -80,30 +79,14 @@ class KissMangaCom(Provider, Std):
 
     def get_files(self):
         crypt = KissMangaComCrypt()
-
-        sleep(.5)
-
-        print('chapter %s' % self.chapter)
-
         content = self.http_get(self.chapter)
         key = self.__check_key(crypt, content)
-
         hexes = self.re.findall(r'lstImages.push\(wrapKA\(["\']([^"\']+?)["\']\)', content)
-
         if not hexes:
             print('Images not found!', file=stderr)
             return []
-
         self._storage['referer'] = self.http().referer = ''
-
-        print('\n\nImages: SUCCESS')
-
-        _images = self.__decrypt_images(crypt, key, hexes)
-
-        print('\n\nDecrypted images: SUCCESS')
-        print('\n\n')
-
-        return _images
+        return self.__decrypt_images(crypt, key, hexes)
 
     def get_cover(self):
         return self._cover_from_content('.rightBox .barContent img')
