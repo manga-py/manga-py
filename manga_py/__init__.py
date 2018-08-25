@@ -50,7 +50,12 @@ def _run_util(args) -> tuple:
     code = _init_cli(args, _info)
 
     if parse_args.print_json:
-        _info = dumps(_info.get())
+        _info = dumps(
+            _info.get(),
+            indent=2,
+            separators=(',', ': '),
+            sort_keys=True,
+            )
     else:
         _info = []
 
