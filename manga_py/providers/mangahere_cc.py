@@ -5,11 +5,15 @@ from .helpers.std import Std
 class MangaHereCc(Provider, Std):
 
     def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index())
+        return self.normal_arc_name(self.get_chapter_index().split('-'))
 
     def get_chapter_index(self) -> str:
-        selector = r'/manga/[^/]+/[^\d]+(\d+)'
         chapter = self.chapter
+        selector = r'/manga/[^/]+/[^\d]+(\d+)/[^\d]+(\d+)'
+        idx = self.re.search(selector, chapter)
+        if idx:
+            return '-'.join(idx.groups())
+        selector = r'/manga/[^/]+/[^\d]+(\d+)'
         return self.re.search(selector, chapter).group(1)
 
     def get_main_content(self):
