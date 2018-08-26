@@ -46,7 +46,7 @@ class AllHentaiRu(Provider, Std):
                     _path, idx, _url = self._save_file_params_helper(url, idx)
                     _url = self.re.sub(r'//\w\.', '//%s.' % i, url)
 
-                    self.http().download_file(_url, _path)
+                    self.http().download_file(_url, _path, idx)
                     callable(callback) and callback()
                     self.after_file_save(_path, idx)
 

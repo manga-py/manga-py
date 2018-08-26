@@ -36,7 +36,7 @@ class Http2:
 
         if not self.provider._simulate:
             try:
-                self.provider.http().download_file(url, name)
+                self.provider.http().download_file(url, name, idx)
             except Exception as e:
                 self.provider._info.set_last_volume_error(e)
 

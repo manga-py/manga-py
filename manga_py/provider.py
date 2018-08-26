@@ -138,7 +138,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         _path, idx, _url = self._save_file_params_helper(url, idx)
 
         if not is_file(_path) or file_size(_path) < 32:
-            self.http().download_file(_url, _path)
+            self.http().download_file(_url, _path, idx)
         self.after_file_save(_path, idx)
         self._archive.add_file(_path)
 

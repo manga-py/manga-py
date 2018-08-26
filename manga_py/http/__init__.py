@@ -68,7 +68,7 @@ class Http(Request):
         while r < self.count_retries:
             if self._safe_downloader(url, dst):
                 if file_size(dst) < 128:
-                    print('\nWarning: 0 bit image downloaded, please check for redirection or broken content', file=stderr)
+                    return None
                 callable(success_callback) and success_callback(dst, *callback_args)
                 return True
 
@@ -81,12 +81,19 @@ class Http(Request):
 
     def download_file(self, url: str,
                       dst: str = None,
+                      idx=-1,
                       callback: callable = None,
-                      success_callback: callable = None, callback_args=()) -> bool:
+                      success_callback: callable = None,
+                      callback_args=()) -> bool:
         if not dst:
             name = basename(remove_file_query_params(url))
             dst = path_join(get_temp_path(), name)
-        return self._download_one_file_helper(url, dst, callback, success_callback, callback_args)
+        result = self._download_one_file_helper(url, dst, callback, success_callback, callback_args)
+        if result is None:
+            print('\nWarning: 0 bit image downloaded, please check for redirection or broken content', file=stderr)
+            if ~idx:
+                print('Broken url: %s\nPage idx: %d' % (url, (1 + idx)), file=stderr)
+        return result
 
     def normalize_uri(self, uri, referer=None):
         if not referer:
@@ -97,8 +104,8 @@ class Http(Request):
 
     def multi_download_get(self, urls, dst: str = None, callback: callable = None):
         threading = MultiThreads()
-        for url in urls:
-            threading.add(self.download_file, (url, dst))
+        for idx, url in enumerate(urls):
+            threading.add(self.download_file, (url, dst, idx))
         threading.start(callback)
 
     def get_redirect_url(self, url, **kwargs):

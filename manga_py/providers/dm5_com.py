@@ -82,7 +82,7 @@ class Dm5Com(Provider, Std):
         _path, idx, _url = self._save_file_params_helper(url, idx)
 
         if not is_file(_path):
-            self.http(True).download_file(_url, _path)
+            self.http(True).download_file(_url, _path, idx)
         callable(callback) and callback()
         self.after_file_save(_path, idx)
         self._archive.lazy_add(_path)
