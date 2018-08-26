@@ -46,6 +46,7 @@ class KissMangaCom(Provider, Std):
         return chapters
 
     def prepare_cookies(self):
+        self._params['rename_pages'] = True
         self.cf_protect(self.get_url())
         self._storage['cookies']['rco_quality'] = 'hq'
         if not self._params['cf-protect']:

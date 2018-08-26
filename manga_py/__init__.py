@@ -55,7 +55,7 @@ def _run_util(args) -> tuple:
             indent=2,
             separators=(',', ': '),
             sort_keys=True,
-            )
+        )
     else:
         _info = []
 
