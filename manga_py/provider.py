@@ -109,7 +109,10 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             self._download_chapter(idx, _min, _max)
 
     def loop_files(self):
-        if isinstance(self._storage['files'], list) and len(self._storage['files']) > 0:
+        if isinstance(self._storage['files'], list):
+            if not len(self._storage['files']) == 0:
+                print('Files not found!', file=stderr)
+                return
             self._archive = Archive()
             self._archive.not_change_files_extension = self._params.get('not_change_files_extension', False)
             self._archive.no_webp = self._image_params.get('no_webp', False)
