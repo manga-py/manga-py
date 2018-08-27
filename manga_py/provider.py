@@ -110,8 +110,8 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
 
     def loop_files(self):
         if isinstance(self._storage['files'], list):
-            if not len(self._storage['files']) == 0:
-                print('Files not found!', file=stderr)
+            if len(self._storage['files']) == 0:
+                print('Error processing file: %s' % self.get_archive_name(), file=stderr)
                 return
             self._archive = Archive()
             self._archive.not_change_files_extension = self._params.get('not_change_files_extension', False)
