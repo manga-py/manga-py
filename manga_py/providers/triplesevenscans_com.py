@@ -1,7 +1,7 @@
-from .pzykosis666hfansub_com import Pzykosis666HFansubCom
+from .read_powermanga_org import ReadPowerMangaOrg
 
 
-class TripleSevenScansCom(Pzykosis666HFansubCom):
+class TripleSevenScansCom(ReadPowerMangaOrg):
     _name_re = '/reader/[^/]+/([^/]+)/'
     _content_str = '{}/reader/series/{}/'
 

@@ -1,7 +1,7 @@
-from .pzykosis666hfansub_com import Pzykosis666HFansubCom
+from .read_powermanga_org import ReadPowerMangaOrg
 
 
-class AdultoSeinagiOrg(Pzykosis666HFansubCom):
+class AdultoSeinagiOrg(ReadPowerMangaOrg):
     _name_re = '[^/]/[^/]+/([^/]+)/'
     _content_str = '{}/series/{}/'
 
