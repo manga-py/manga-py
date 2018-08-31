@@ -52,9 +52,9 @@ providers_list = {
     'chochox_com': [
         r'chochox\.com/.',
     ],
-    # 'choutensei_260mb_net': [
-    #     r'choutensei\.260mb\.net/(series|read)/.',
-    # ],
+    'choutensei_260mb_net': [
+        r'choutensei\.260mb\.net/(series|read)/.',
+    ],
     'comicextra_com': [
         r'comicextra\.com/.',
     ],
@@ -587,7 +587,6 @@ providers_list = {
         r'hoshiscans\.shounen-ai\.net/(series|read)/.',
         r'digitalteamreader\.netsons\.org/(series|read)/.',
         r'reader\.manga-download\.org/(series|read)/.',
-        r'choutensei\.260mb\.net/(series|read)/.',
     ],
     'readcomicbooksonline_org': [
         r'readcomicbooksonline\.net/.',

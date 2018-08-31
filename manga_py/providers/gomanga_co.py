@@ -24,7 +24,6 @@ class GoMangaCo(Provider, Std):
         return self._get_name(self._name_re)
 
     def get_chapters(self):
-        print(self.content)
         return self._elements(self._chapters_selector)
 
     def _get_json_selector(self, content):
