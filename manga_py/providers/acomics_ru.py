@@ -17,7 +17,7 @@ class AComicsRu(Provider, Std):
         return self._get_name(r'\.ru/~([^/]+)')
 
     def get_chapters(self):
-        return ['0']
+        return ['~' + self.manga_name]
 
     def get_files(self):
         pages_max = self.text_content(self.content, 'span.issueNumber').split('/')[1]
@@ -41,6 +41,9 @@ class AComicsRu(Provider, Std):
 
     def book_meta(self) -> dict:
         pass
+
+    def prepare_cookies(self):
+        self.update_cookies({'ageRestrict': '21'})
 
 
 main = AComicsRu
