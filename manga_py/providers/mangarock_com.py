@@ -30,7 +30,7 @@ class MangaRockCom(Provider, Std):
         idx = self._get_name('/manga/([^/]+)')
         url = '{}info?oid={}&last=0&country=Japan'.format(self.__api_uri, idx)
         items = self.json.loads(self.http_get(url))
-        return [(i.get('oid'),) for i in items.get('data', {}).get('chapters', [])]
+        return [(i.get('oid'),) for i in items.get('data', {}).get('chapters', [])][::-1]
 
     def __get_url(self):
         return '{}pages?oid={}&country=Japan'.format(self.__api_uri, self.chapter[0])
