@@ -588,6 +588,10 @@ providers_list = {
         r'digitalteamreader\.netsons\.org/(series|read)/.',
         r'reader\.manga-download\.org/(series|read)/.',
     ],
+    'readcomicbooksonline_org_manga': [
+        r'readcomicbooksonline\.net/manga/.',
+        r'readcomicbooksonline\.org/manga/.',
+    ],
     'readcomicbooksonline_org': [
         r'readcomicbooksonline\.net/.',
         r'readcomicbooksonline\.org/.',
