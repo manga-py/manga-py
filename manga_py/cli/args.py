@@ -57,6 +57,8 @@ def _downloading_args(args_parser):  # pragma: no cover
                       default=False)
     args.add_argument('-nm', '--no-multi-threads', action='store_const',
                       help='Disallow multi-threads images downloading', const=True, default=False)
+    args.add_argument('--one-thread', action='store_const',
+                      help='Disallow multi-threads images downloading', const=True, default=False)
     args.add_argument('--zero-fill', action='store_const', const=True, default=False,
                       help='Adds 0 to the end for all chapters (vol_001.zip -> vol_001-0.zip)')
     args.add_argument('--min-free-space', metavar='Mb', type=int,

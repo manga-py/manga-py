@@ -118,7 +118,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             self._archive.no_webp = self._image_params.get('no_webp', False)
             self._call_files_progress_callback()
 
-            if self._params.get('no_multi_threads', False):
+            if self._params.get('one_thread', False):
                 self._one_thread_save(self._storage['files'])
 
             else:
@@ -202,6 +202,8 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         threading = MultiThreads()
         # hack
         self._storage['current_file'] = 0
+        if self._params.get('no_multi_threads', False):
+            threading.threads = 2
         for idx, url in enumerate(files):
             threading.add(self.save_file, (idx, self._multi_thread_callback, url))
 
