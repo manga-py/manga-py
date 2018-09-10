@@ -9,42 +9,30 @@ class ReadComicBooksOnlineOrg(Provider, Std):
         return self.normal_arc_name(idx)
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'/reader/[^/]+/[^/]+_(\d+(?:[\./]\d+)?)', self.chapter)
-        if not idx:
-            idx = self.re.search(r'/reader/[^/]+_(\d+(?:[\./]\d+)?)', self.chapter)
-        print('-'.join(self.re.split(r'[/\.]', idx.group(1))));exit()
-        return '-'.join(self.re.split(r'[/\.]', idx.group(1)))
+        idx = self.re.search(r'/manga/[^/]+/[^/]+[-_](\d+(?:\.\d+)?)', self.chapter)
+        return idx.group(1).replace('.', '-')
 
     def get_main_content(self):
-        return self._get_content('{}/{}')
+        return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.(?:org|net)/(?:reader/)?([^/]+)')
+        return self._get_name(r'/manga/([^/]+)')
 
     def get_chapters(self):
-        return self._elements('#chapterlist .chapter > a')
+        return self._elements('#mangachapterlist .chapter > a')
 
     def _get_image(self, parser):
-        src = parser.cssselect('a > img.picture')
+        src = parser.cssselect('a > img.mangapic')
         if not src:
             return None
         return '{}/reader/{}'.format(self.domain, src[0].get('src'))
 
     def get_files(self):
-        chapter = self.chapter
-        content = self.html_fromstring(chapter, '.pager select[name="page"]', 0)
-        pages = [i.get('value') for i in content.cssselect('option + option')]
-        img = self._get_image(content)
-        images = []
-        img and images.append(img)
-        for i in pages:
-            _content = self.html_fromstring('{}/{}'.format(chapter, i))
-            img = self._get_image(_content)
-            img and images.append(img)
-        return images
+        parser = self.html_fromstring(self.chapter)
+        return self._images_helper(parser, 'img.mangapic')
 
     def get_cover(self):
-        pass
+        self._cover_from_content(self.content, '.field-item > a > img')
 
     def book_meta(self) -> dict:
         # todo meta

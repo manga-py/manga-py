@@ -12,7 +12,6 @@ class ReadComicBooksOnlineOrg(Provider, Std):
         idx = self.re.search(r'/reader/[^/]+/[^/]+_(\d+(?:[\./]\d+)?)', self.chapter)
         if not idx:
             idx = self.re.search(r'/reader/[^/]+_(\d+(?:[\./]\d+)?)', self.chapter)
-        print('-'.join(self.re.split(r'[/\.]', idx.group(1))));exit()
         return '-'.join(self.re.split(r'[/\.]', idx.group(1)))
 
     def get_main_content(self):
@@ -24,27 +23,26 @@ class ReadComicBooksOnlineOrg(Provider, Std):
     def get_chapters(self):
         return self._elements('#chapterlist .chapter > a')
 
+    def prepare_cookies(self):
+        self._storage['domain_uri'] = self.domain.replace('/www.', '/')
+
     def _get_image(self, parser):
-        src = parser.cssselect('a > img.picture')
+        src = parser.cssselect()
         if not src:
             return None
         return '{}/reader/{}'.format(self.domain, src[0].get('src'))
 
     def get_files(self):
-        chapter = self.chapter
-        content = self.html_fromstring(chapter, '.pager select[name="page"]', 0)
-        pages = [i.get('value') for i in content.cssselect('option + option')]
-        img = self._get_image(content)
-        images = []
-        img and images.append(img)
-        for i in pages:
-            _content = self.html_fromstring('{}/{}'.format(chapter, i))
-            img = self._get_image(_content)
-            img and images.append(img)
-        return images
+        parser = self.html_fromstring(self.chapter + '?q=fullchapter')
+        n = self.http().normalize_uri
+        print([n(i) for i in self._images_helper(parser, '#omv td > img')])
+        print('')
+        print(['{}/reader/{}'.format(self.domain, i) for i in self._images_helper(parser, '#omv td > img')])
+        exit()
+        return [self.chapter + i for i in self._images_helper(parser, '#omv td > img')]
 
     def get_cover(self):
-        pass
+        self._cover_from_content(self.content, '.pic > img.series')
 
     def book_meta(self) -> dict:
         # todo meta
