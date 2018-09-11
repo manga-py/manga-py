@@ -4,9 +4,6 @@ from .helpers.std import Std
 
 class ManhwaCo(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index())
-
     def get_chapter_index(self) -> str:
         chapter = self.chapter
         return self.re.search(r'\.co/[^/]+/([^/]+)', chapter).group(1)

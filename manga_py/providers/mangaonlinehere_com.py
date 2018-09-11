@@ -5,10 +5,6 @@ from .helpers.std import Std
 class MangaOnlineHereCom(Provider, Std):
     __local_storage = None
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         selector = r'/read-online/[^/]+?(\d+)(?:.(\d+))?'
         idx = self.re.search(selector, self.chapter)

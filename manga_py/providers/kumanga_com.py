@@ -7,11 +7,8 @@ from .helpers.std import Std
 class KuMangaCom(Provider, Std):
     __local_storage = None
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.chapter_id)
-
     def get_chapter_index(self) -> str:
-        return '{}'.format(self.chapter_id)
+        return str(self.chapter_id)
 
     def get_main_content(self):
         if not self.__local_storage:
@@ -49,7 +46,6 @@ class KuMangaCom(Provider, Std):
         for i in range(int(pages) - 1):
             parser = self.html_fromstring(url_path % (i + 1))
             chapters += self._chapters(parser)
-            return chapters
         return chapters
 
     def _get_real_url(self, url):

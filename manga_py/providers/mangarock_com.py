@@ -9,9 +9,6 @@ class MangaRockCom(Provider, Std):
     crypt = None
     __api_uri = 'https://api.mangarockhd.com/query/web400/'
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index())
-
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)
 

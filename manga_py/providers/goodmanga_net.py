@@ -4,10 +4,6 @@ from .helpers.std import Std
 
 class GoodMangaNet(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index()
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         return self.re.search(r'/chapter/(\d+)', self.chapter).group(1)
 

@@ -6,10 +6,6 @@ from .helpers.std import Std
 
 class MangaHubRu(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         idx = self.re.search(r'/read/[^/]+/[^\d]+(\d+)/(\d+)/', self.chapter).groups()
         return '{}-{}'.format(*idx)

@@ -14,9 +14,6 @@ class EHentaiOrg(Provider, Std):
             _url = self.helper.get_image(url)
         return super().save_file(idx=idx, callback=callback, url=_url, in_arc_name=in_arc_name)
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index())
-
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)
 

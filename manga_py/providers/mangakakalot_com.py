@@ -4,10 +4,6 @@ from .helpers.std import Std
 
 class MangaKakalotCom(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         re = self.re.search('/chapter_([^/]+)', self.chapter)
         return re.group(1).replace('.', '-', 2)

@@ -5,14 +5,13 @@ from .helpers.std import Std
 class DarkSkyProjectsOrg(Provider, Std):
 
     def get_archive_name(self) -> str:
-        return self.normal_arc_name([
+        return self.normal_arc_name({'vol': [
             self.chapter_id,
             self.get_chapter_index()
-        ])
+        ]})
 
     def get_chapter_index(self) -> str:
-        ch = self.chapter
-        return self.re.search('/biblioteca/[^/]+/([^/]+)', ch).group(1)
+        return self.re.search('/biblioteca/[^/]+/([^/]+)', self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/biblioteca/{}')

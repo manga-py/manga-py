@@ -7,12 +7,7 @@ class MangaOnlineCom(Provider, Std):
 
     def __init_storage(self):
         if not self.__local_storage:
-            self.__local_storage = dict()
-
-    def get_archive_name(self) -> str:
-        self.__init_storage()
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
+            self.__local_storage = {}
 
     def get_chapter_index(self) -> str:
         self.__init_storage()

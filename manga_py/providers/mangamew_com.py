@@ -5,9 +5,6 @@ from .helpers.std import Std
 class MangaMewCom(Provider, Std):
     _type = 'manga'
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index().split('-'))
-
     def get_chapter_index(self) -> str:
         re = r'%s/[^/]+/.+?-(\d+(?:-\d+)?)-\d+' % self._type
         return self.re.search(re, self.chapter).group(1)

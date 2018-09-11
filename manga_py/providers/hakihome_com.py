@@ -4,13 +4,9 @@ from .helpers.std import Std
 
 class HakiHomeCom(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index())
-
     def get_chapter_index(self) -> str:
         selector = '.+/([^/]+)/'
-        url = self.chapter
-        idx = self.re.search(selector, url)
+        idx = self.re.search(selector, self.chapter)
         return idx.group(1)
 
     def get_main_content(self):

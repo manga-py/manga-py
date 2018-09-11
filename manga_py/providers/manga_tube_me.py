@@ -3,16 +3,13 @@ from .helpers.std import Std
 
 
 class MangaTubeMe(Provider, Std):
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index()
-        return self.normal_arc_name(idx.split('-'))
 
     def get_chapter_index(self) -> str:
         txt = self.chapter[0].strip()
-        idx = self.re.search(r'(?:.*?)(\d+(?:\.\d+)?)', txt)
+        idx = self.re.search(r'.*?(\d+(?:\.\d+)?)', txt)
         if not idx:
             return str(self.chapter_id)
-        return '-'.join(self._idx_to_x2(idx.group(1).split('.')))
+        return idx.group(1).replace('.', '-')
 
     def get_main_content(self):
         return self._get_content('{}/series/{}/')

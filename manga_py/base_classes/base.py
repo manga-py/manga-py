@@ -125,7 +125,7 @@ class Base:
 
     @property
     def chapter(self):
-        return self._storage['chapters'][self._storage['current_chapter']]
+        return self._storage['chapters'][self.chapter_id]
 
     def get_current_file(self):
         return self._storage['files'][self._storage['current_file']]

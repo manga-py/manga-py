@@ -6,14 +6,9 @@ class GMangaMe(GoMangaCo):
     _content_str = '{}/mangas/{}'
     _chapters_selector = 'a.chapter-link'
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         selector = r'/mangas/[^/]+/(\d+/[^/]+)'
-        url = self.chapter
-        idx = self.re.search(selector, url).group(1)
+        idx = self.re.search(selector, self.chapter).group(1)
         return idx.replace('/', '-')
 
     def _get_json_selector(self, content):

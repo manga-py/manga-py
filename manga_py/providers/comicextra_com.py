@@ -2,13 +2,13 @@ from manga_py.provider import Provider
 from .helpers.std import Std
 
 
-class ComicExtra(Provider, Std):
-
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self._storage['current_chapter'])
+class ComicExtraCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
-        return self._storage['current_chapter']
+        idx = self.re.search(r'/chapter-(.+)', self.chapter)
+        if idx:
+            return '{}-{}'.format(self.chapter_id, idx.group(1))
+        return str(self.chapter_id)
 
     def get_main_content(self):
         return self._get_content('{}/comic/{}')
@@ -36,4 +36,4 @@ class ComicExtra(Provider, Std):
         pass
 
 
-main = ComicExtra
+main = ComicExtraCom

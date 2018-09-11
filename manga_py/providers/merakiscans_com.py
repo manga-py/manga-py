@@ -6,10 +6,6 @@ class MerakiScansCom(Provider, Std):
     _name_re = 'com/([^/]+)'
     _content_str = '{}/{}/'
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         re = self.re.compile(self._name_re + '/([^/]+)')
         idx = re.search(self.chapter).group(2)

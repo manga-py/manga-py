@@ -8,7 +8,7 @@ class JapScanCom(GoMangaCo):
 
     def get_archive_name(self) -> str:
         idx = self.chapter_id, self.get_chapter_index()
-        return self.normal_arc_name(idx)
+        return self.normal_arc_name({'vol': idx})
 
     def get_chapter_index(self) -> str:
         selector = r'\.c(?:om|c)/[^/]+/[^/]+/(\d+)/'

@@ -6,8 +6,8 @@ class MangaClubRu(Provider, Std):
     local_storage = None
 
     def get_archive_name(self) -> str:
-        idx = self.get_chapter_index()
-        return self.normal_arc_name(idx)
+        idx = self.get_chapter_index().split('-')
+        return self.normal_arc_name({'vol': idx[0], 'ch': idx[1]})
 
     def get_chapter_index(self) -> str:
         idx = self.re.search(r'/manga/view/[^/]+/v(\d+)-c(\d+).html')

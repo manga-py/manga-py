@@ -4,10 +4,6 @@ from .helpers.std import Std
 
 class MangaMexatCom(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index()
-        return self.normal_arc_name(idx.split('-'))
-
     def get_chapter_index(self) -> str:
         return self.chapter[1].replace('.', '-')
 

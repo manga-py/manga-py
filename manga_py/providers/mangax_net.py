@@ -6,9 +6,6 @@ from urllib.parse import unquote_plus
 class MangaXNet(Provider, Std):
     __name = None
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index().split('-'))
-
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'\.\w+/\w/[^/]+/([^/]+)')
         return re.search(self.chapter).group(1).replace('.', '-')

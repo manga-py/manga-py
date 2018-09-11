@@ -3,10 +3,6 @@ from .helpers.std import Std
 
 
 class LhScansCom(Provider, Std):
-
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index().split('-'))
-
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'-chapter-(\d+(?:\.\d+)?)')
         return re.search(self.chapter).group(1).replace('.', '-')

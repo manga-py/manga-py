@@ -22,7 +22,7 @@ class Abstract:
     def get_files(self) -> list:  # call ever volume loop
         return []
 
-    @abstractmethod
+    # @abstractmethod
     def get_archive_name(self) -> str:
         pass
 

@@ -5,8 +5,8 @@ from .helpers.std import Std
 class DesuMe(Provider, Std):
 
     def get_archive_name(self) -> str:
-        idx = self.re.search(r'/vol(\d+)/ch(\d+)', self.chapter).groups()
-        return self.normal_arc_name(idx)
+        idx = self.get_chapter_index().split('-')
+        return self.normal_arc_name({'vol': idx[0], 'ch': idx[1]})
 
     def get_chapter_index(self) -> str:
         result = self.re.search(r'/vol(\d+)/ch(\d+)', self.chapter).groups()

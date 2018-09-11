@@ -68,7 +68,7 @@ providers_list = {
         r'comic\.webnewtype\.com/contents/.',
     ],
     'comico_jp': [
-        r'comico\.jp/(detail|articleList).+titleNo.',
+        r'comico\.jp(?:/challenge)?/(detail|articleList).+titleNo.',
     ],
     'comicsandmanga_ru': [
         r'comicsandmanga\.ru/online-reading/.',
@@ -145,10 +145,7 @@ providers_list = {
         r'hatigarmscans\.net/manga/.',
     ],
     'heavenmanga_biz': [
-        r'heavenmanga\.site/.',
-        r'heavenmanga\.world/.',
-        r'heavenmanga\.life/.',
-        r'heavenmanga\.biz/.',
+        r'heavenmanga\.\w+/.',
     ],
     'hentai2read_com': [
         r'hentai2read\.com/.',

@@ -7,9 +7,6 @@ class AcQqCom(Provider, Std):
     _decoder = None
     _re = None
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index())
-
     def get_chapter_index(self) -> str:
         return self.re.search(r'/cid/(\d+)', self.chapter).group(1)
 

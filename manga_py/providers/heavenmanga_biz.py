@@ -4,12 +4,8 @@ from .helpers.std import Std
 
 class HeavenMangaBiz(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-', 2)
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
-        return self.re.search(r'-chap-(\d+)', self.chapter).group(1)
+        return self.re.search(r'-chap-(\d+(?:-\d+)?)', self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/{}/')

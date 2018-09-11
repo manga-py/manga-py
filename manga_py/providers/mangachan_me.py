@@ -6,10 +6,6 @@ class MangaChanMe(Provider, Std):
     _full_name_selector = r'/(?:online|manga|related)/(\d+-.+\.html)'
     _idx_selector = r'/(?:online|manga|related)/(\d+)-'
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         name = self.chapter
         idx = self.re.search(r'_v(\d+)_ch(\d+)', name).groups()

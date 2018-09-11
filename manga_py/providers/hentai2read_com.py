@@ -5,10 +5,6 @@ from .helpers.std import Std
 class Hentai2ReadCom(Provider, Std):
     images_cdn = 'https://static.hentaicdn.com/hentai'
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         chapter = self.chapter
         idx = self.re.search('.+/([^/]+)/', chapter)

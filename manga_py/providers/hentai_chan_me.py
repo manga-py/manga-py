@@ -6,10 +6,6 @@ from .mangachan_me import MangaChanMe
 
 class HentaiChanMe(MangaChanMe):
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index()
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)
 

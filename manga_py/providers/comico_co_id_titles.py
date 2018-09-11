@@ -7,11 +7,8 @@ from .helpers.std import Std
 class ComicoCoIdTitles(Provider, Std):
     _url = None
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index())
-
     def get_chapter_index(self) -> str:
-        return self.chapter.get('id', 0)
+        return str(self.chapter.get('id', '0'))
 
     def _manga_id(self):
         idx = self.re.search(r'/titles/(\d+)', self.get_url())

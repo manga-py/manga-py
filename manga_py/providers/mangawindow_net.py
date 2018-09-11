@@ -5,9 +5,6 @@ from .helpers.std import Std
 class MangaWindowNet(Provider, Std):
     __url = None
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index().split('-'))
-
     def get_chapter_index(self) -> str:
         return self.chapter[0].replace('.', '-')
 

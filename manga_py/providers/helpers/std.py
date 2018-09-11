@@ -1,7 +1,11 @@
 from ._http2 import Http2
+from typing import overload, Union
 
 
 class Std:
+    def get_archive_name(self) -> str:
+        return self.normal_arc_name({'vol': self.get_chapter_index().split('-')})
+
     def _elements(self, selector, content=None) -> list:
         if not content:
             content = self.content
@@ -76,15 +80,42 @@ class Std:
         return name
 
     def normal_arc_name(self, idx):
-        fmt = 'vol_{:0>3}'
-        if not isinstance(idx, list):
+        if isinstance(idx, str):
             idx = [idx]
+        if isinstance(idx, (list, dict)):
+            return self.__normal_name(idx)
+        raise DeprecationWarning('Wrong arc name type: %s' % type(idx))
+
+    @overload
+    def __normal_name(self, idx: Union[str, list]):
+        fmt = 'vol_{:0>3}'
         if len(idx) > 1:
             fmt += '-{}' * (len(idx) - 1)
         elif self._zero_fill:
             idx.append('0')
             fmt += '-{}'
         return fmt.format(*idx)
+
+    @staticmethod
+    def __fill(var, fmt: str = '-{}'):
+        if isinstance(var, str):
+            var = [var]
+        if len(var) > 1:
+            var = (fmt * len(var)).format(*var)
+        return var
+
+    def __normal_name(self, idx: dict):
+        vol = idx.get('vol', '0')
+        ch = idx.get('ch', None)
+        fmt = 'vol{}'
+        data = [self.__fill(vol, '-{:0>3}')]
+        if ch:
+            fmt += '-ch{}'
+            data.append(self.__fill(ch))
+        result = fmt.format(*data)
+        if self._with_manga_name:
+            result = '%s-%s' % (self.manga_name, result)
+        return result
 
     def text_content(self, content, selector, idx: int = 0, strip: bool = True):
         doc = self.document_fromstring(content, selector)

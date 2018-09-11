@@ -4,17 +4,8 @@ from .helpers.std import Std
 
 class JurnaluRu(Provider, Std):
 
-    def get_archive_name(self) -> str:  # TODO ?
-        # arc_name = self.re.search(
-        #     '/{0}/{0}([^/]+)'.format(self.manga_name),
-        #     self.chapter
-        # )
-        # if arc_name:
-        #     pass
-        return self.normal_arc_name(self.get_chapter_index())
-
     def get_chapter_index(self) -> str:
-        return str(self._storage['current_chapter'])
+        return str(self.chapter_id)
 
     def get_main_content(self):
         name = self._get_name(r'(online-reading/[^/]+/[^/]+)')

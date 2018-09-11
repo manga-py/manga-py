@@ -8,9 +8,6 @@ class FunMangaCom(Provider, Std):
         re = self.re.compile(r'\.com/[^/]+/([^/]+)')
         return re.search(self.chapter).group(1)
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self._get_chapter_idx().split('.'))
-
     def get_chapter_index(self) -> str:
         return self._get_chapter_idx().replace('.', '-')
 

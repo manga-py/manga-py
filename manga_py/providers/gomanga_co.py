@@ -7,10 +7,6 @@ class GoMangaCo(Provider, Std):
     _content_str = '{}/reader/series/{}/'
     _chapters_selector = '.list .element .title a'
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-', 2)
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         url = self.chapter
         index_re = r'/rea\w+/[^/]+/[^/]+/(?:[^/]+/)?(\d+/\d+(?:/\d+)?)'

@@ -5,10 +5,6 @@ from .helpers.std import Std
 class KomikCastCom(Provider, Std):
     _chapter_re = r'\.com/[^/]+-(\d+(?:-\d+)?)'
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index()
-        return self.normal_arc_name(idx.split('-'))
-
     def get_chapter_index(self) -> str:
         re = self.re.compile('-chapter-(\d+(?:-\d+)?)')
         return re.search(self.chapter).group(1)

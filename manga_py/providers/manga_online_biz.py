@@ -8,10 +8,6 @@ class MangaOnlineBiz(Provider, Std):
     chapter_url = ''
     _idx = 0
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         url = self._storage['chapters'][self._idx]
         idx = self.re.search(r'/download/[^/]+/.+?_(\d+)_(\d+)', url).groups()

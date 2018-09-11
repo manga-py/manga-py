@@ -14,7 +14,7 @@ class MangaGoMe(Provider, Std):
         idx = [self.chapter_id, idx[-1]]  # do not touch this!
         if tp:
             idx.append(tp.group(1))
-        return self.normal_arc_name(idx)
+        return self.normal_arc_name({'vol': idx})
 
     def get_chapter_index(self) -> str:
         selector = r'/\w{1,4}/[^/]*?(\d+)(?:[^\d]+(\d+))?'

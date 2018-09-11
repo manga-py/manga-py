@@ -5,10 +5,10 @@ from sys import stderr
 
 class ComicoJp(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.chapter_id)
-
     def get_chapter_index(self) -> str:
+        idx = self.re.search(r'articleNo=(\d+)', self.chapter)
+        if idx:
+            return '{}-{}'.format(self.chapter_id, idx.group(1))
         return str(self.chapter_id)
 
     def get_main_content(self):

@@ -4,13 +4,9 @@ from .helpers.std import Std
 
 class MangaFoxCom(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index()
-        return self.normal_arc_name(idx.split('.', 2))
-
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'/chapter-(\d+(?:-\d+)?)')
-        return re.search(self.chapter).group(1)
+        return re.search(self.chapter).group(1).replace('.', '-')
 
     def get_main_content(self):
         return self._get_content('{}/{}')

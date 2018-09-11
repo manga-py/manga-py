@@ -7,8 +7,12 @@ from .helpers.std import Std
 class MangaTownCom(Provider, Std):
 
     def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
+        idx = self.re.search('/manga/[^/]+(?:/v(\d+))?/c([^/]+)', self.chapter).groups()
+        if idx[0]:
+            var = {'vol': idx[0], 'ch': idx[1]}
+        else:
+            var = {'vol': '0', 'ch': idx[1]}
+        return self.normal_arc_name(var)
 
     def get_chapter_index(self) -> str:
         idx = self.re.search('/manga/[^/]+(?:/v\d+)?/c([^/]+)', self.chapter)

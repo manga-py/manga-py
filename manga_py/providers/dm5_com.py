@@ -8,14 +8,9 @@ from .helpers.std import Std
 
 
 class Dm5Com(Provider, Std):
-
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index())
-
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'[^\d+](\d+)')
         return re.search(self.chapter[1]).group(1)
-        pass
 
     def get_main_content(self):
         content = self._storage.get('main_content', None)

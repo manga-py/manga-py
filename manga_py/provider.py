@@ -31,6 +31,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
     _volumes_count = 0
     _archive = None
     _zero_fill = False
+    _with_manga_name = False
     _info = None
     _simulate = False
     _volume = None
@@ -56,6 +57,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         # downloading params
         self._set_if_not_none(self._params, 'destination', params.get('destination', None))
         self._zero_fill = params.get('zero_fill')
+        self._with_manga_name = params.get('with_manga_name')
         self._simulate = params.get('simulate')
 
     def process(self, url, params=None):  # Main method
@@ -104,7 +106,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         if _max > 0 and _min > 0:
             _max += _min - 1
         for idx, __url in enumerate(volumes):
-            self._storage['current_chapter'] = idx
+            self.chapter_id = idx
             self._info.add_volume(self.chapter_for_json(), self.get_archive_path())
             self._download_chapter(idx, _min, _max)
 
@@ -154,7 +156,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         _path = self.remove_not_ascii(_path)
 
         if not _path:
-            _path = str(self._storage['current_chapter'])
+            _path = str(self.chapter_id)
 
         name = self._params.get('name', '')
         if not len(name):

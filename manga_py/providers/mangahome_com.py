@@ -4,10 +4,6 @@ from .helpers.std import Std
 
 class MangaHomeCom(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         selector = r'/manga/[^/]+/[^\d]+(\d+)(?:\.(\d+))?'
         idx = self.re.search(selector, self.chapter).groups()

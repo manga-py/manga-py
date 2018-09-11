@@ -4,10 +4,6 @@ from .helpers.std import Std
 
 class MangaReaderNet(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         chapter = self.chapter
         return self.re.search(r'\.net/[^/]+/([^/]+)', chapter).group(1)

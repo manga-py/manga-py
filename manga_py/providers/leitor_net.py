@@ -7,8 +7,10 @@ class LeitorNet(Provider, Std):
 
     def get_archive_name(self) -> str:
         ch = self.chapter
-        vol = self.normal_arc_name(ch['number'].split('.'))
-        return '{}_{}_{}'.format(vol, ch['id_chapter'], ch['id_release'])
+        return self.normal_arc_name({
+            'vol': ch['number'].split('.'),
+            'ch': [ch['id_chapter'], ch['id_release']],
+        })
 
     def get_chapter_index(self) -> str:
         return '-'.join(self.chapter['number'].split('.'))

@@ -19,8 +19,7 @@ class ManhuaGuiCom(Provider, Std):
         return self.re.search(r'/comic/[^/]+/(\d+)', chapter.get('href')).group(1)
 
     def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx) + '-' + self._get_ch_idx()
+        return super().get_archive_name() + '-' + self._get_ch_idx()
 
     def get_chapter_index(self) -> str:
         chapter = self.chapter

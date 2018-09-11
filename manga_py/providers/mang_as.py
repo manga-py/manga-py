@@ -5,9 +5,6 @@ from sys import stderr
 
 class MangAs(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index().split('-'))
-
     def get_chapter_index(self) -> str:
         idx = self.re.search('/manga/[^/]+/([^/]+)', self.chapter).group(1)
         return idx.replace('.', '-')

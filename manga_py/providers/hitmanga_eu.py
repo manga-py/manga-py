@@ -10,10 +10,6 @@ class HitMangaEu(Provider, Std):
     main_domain = 'http://www.mymanga.io'
     api_url = 'http://www.hitmanga.eu/listener/'
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index()
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         chapter = self.chapter
         idx = self.re.search('[^/]+/[^/]+/[^/]+?-([^/]+)', chapter)

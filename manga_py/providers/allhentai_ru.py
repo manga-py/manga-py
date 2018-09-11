@@ -6,7 +6,7 @@ class AllHentaiRu(Provider, Std):
 
     def get_archive_name(self):
         name = self.re.search('/.+/([^/]+/[^/]+)/?', self.chapter)
-        return self.normal_arc_name(name.group(1).split('/', 2))
+        return self.normal_arc_name({'vol': name.group(1).split('/', 2)})
 
     def get_chapter_index(self):
         name = self.re.search('/.+/(?:vol)?([^/]+/[^/]+)/?', self.chapter)

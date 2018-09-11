@@ -8,8 +8,10 @@ class MangaDexCom(Provider, Std):
     _home_url = ''
 
     def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
+        return self.normal_arc_name({
+            'vol': self.chapter['vol'],
+            'ch': [*self.chapter['ch'].split('.'), self.chapter['lng']],
+        })
 
     def get_chapter_index(self) -> str:
         fmt = '{}-{}'

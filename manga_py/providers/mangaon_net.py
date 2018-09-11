@@ -3,16 +3,22 @@ from .helpers.std import Std
 
 
 class MangaOnNet(Provider, Std):
+    __has_ch = False
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
+        if self.__has_ch:
+            var = {'vol': idx[0], 'ch': idx[1]}
+        else:
+            var = {'vol': idx}
+        return self.normal_arc_name(var)
 
     def get_chapter_index(self) -> str:
         selector = r'(?:vol-?(\d+))?(?:-ch-?(\d+))'
         ch = self.chapter
         re = self.re.search(selector, ch)
         if re:
+            self.__has_ch = True
             re = re.groups()
             return '{}-{}'.format(
                 0 if not re[0] else re[0],

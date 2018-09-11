@@ -9,15 +9,12 @@ class EightMusesCom(Provider, Std):
     helper = None
     _images_path = 'image/fl'
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index().split('-'))
-
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'/(?:album|picture)/([^/]+/[^/]+(?:/[^/]+)?)')
         ch = self.chapter
         if isinstance(ch, list) and len(ch) > 0:
             ch = ch[0]
-        if isinstance(ch, object):
+        if isinstance(ch, dict):
             ch = ch.get('href')
         idx = re.search(ch).group(1)
         return '-'.join(idx.split('/'))

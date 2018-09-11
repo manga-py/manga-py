@@ -8,10 +8,6 @@ class MangaEdenCom(Provider, Std):
     __lang = 'en'
     __cdn_url = 'https://cdn.mangaeden.com/mangasimg/'
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         return str(self.chapter[0]).replace('.', '-')
 

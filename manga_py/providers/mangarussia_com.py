@@ -10,10 +10,6 @@ class MangaRussiaCom(Provider, Std):
     def path_url(url):
         return quote(unquote(url)).replace('%3A//', '://')
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         chapter = self.chapter
         result = self.re.search(r'\+(\d+)\+-\+(\d+)', chapter).groups()

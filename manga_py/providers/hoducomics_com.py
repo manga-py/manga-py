@@ -6,10 +6,10 @@ from manga_py.crypt.base_lib import BaseLib
 class HoduComicsCom(Provider, Std):
 
     def get_archive_name(self) -> str:
-        return self.normal_arc_name([
+        return self.normal_arc_name({'vol': [
             self.chapter_id,
             self.get_chapter_index()
-        ])
+        ]})
 
     def get_chapter_index(self) -> str:
         return self.re.search(r'view/(\d+)', self.chapter).group(1)
