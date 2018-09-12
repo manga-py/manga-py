@@ -1,5 +1,4 @@
 from ._http2 import Http2
-from typing import overload, Union
 
 
 class Std:
@@ -82,12 +81,19 @@ class Std:
     def normal_arc_name(self, idx):
         if isinstance(idx, str):
             idx = [idx]
-        if isinstance(idx, (list, dict)):
-            return self.__normal_name(idx)
+        if isinstance(idx, list):
+            return self.__normal_name_list(idx)
+        if isinstance(idx, dict):
+            return self.__normal_name_dict(idx)
         raise DeprecationWarning('Wrong arc name type: %s' % type(idx))
 
-    @overload
-    def __normal_name(self, idx: Union[str, list]):
+    @staticmethod
+    def __fill(var, fmt: str = '-{}'):
+        if len(var) > 1:
+            var = (fmt * len(var)).format(*var)
+        return var
+
+    def __normal_name_list(self, idx: list):
         fmt = 'vol_{:0>3}'
         if len(idx) > 1:
             fmt += '-{}' * (len(idx) - 1)
@@ -96,15 +102,7 @@ class Std:
             fmt += '-{}'
         return fmt.format(*idx)
 
-    @staticmethod
-    def __fill(var, fmt: str = '-{}'):
-        if isinstance(var, str):
-            var = [var]
-        if len(var) > 1:
-            var = (fmt * len(var)).format(*var)
-        return var
-
-    def __normal_name(self, idx: dict):
+    def __normal_name_dict(self, idx: dict):
         vol = idx.get('vol', '0')
         ch = idx.get('ch', None)
         fmt = 'vol{}'
