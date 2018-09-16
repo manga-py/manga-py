@@ -4,7 +4,7 @@ about: Create a report to help us improve
 
 ---
 
-Enviroment (please complete the following information):
+Environment (please complete the following information):
 
 Q | A
 ---|---
