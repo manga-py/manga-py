@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 
 ---
-
+# Bug report
 Environment (please complete the following information):
 
 Description | Data
