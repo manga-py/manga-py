@@ -3,7 +3,8 @@ name: Request to add a site
 about: Request to add a site
 
 ---
+# Request to add a site
 
-Q | A
+Description | Data
 ---|---
-Url | http://manga/url/here
+Url to add | http://manga/url/here
