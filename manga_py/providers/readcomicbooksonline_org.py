@@ -3,6 +3,7 @@ from .helpers.std import Std
 
 
 class ReadComicBooksOnlineOrg(Provider, Std):
+    _name_re = r'\.(?:org|net)/(?:reader/)?([^/]+)'
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index().split('-')
@@ -15,10 +16,13 @@ class ReadComicBooksOnlineOrg(Provider, Std):
         return '-'.join(self.re.split(r'[/\.]', idx.group(1)))
 
     def get_main_content(self):
-        return self._get_content('{}/{}')
+        if ~self.get_url().find('/reader/'):
+            _url = self.html_fromstring(self.get_url(), 'td .verse a', 0).get('href')
+            self._params['url'] = _url
+        return self.http_get('{}/{}'.format(self.domain, self._get_name(self._name_re)))
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.(?:org|net)/(?:reader/)?([^/]+)')
+        return self._get_name(self._name_re)
 
     def get_chapters(self):
         return self._elements('#chapterlist .chapter > a')
@@ -34,12 +38,13 @@ class ReadComicBooksOnlineOrg(Provider, Std):
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter + '?q=fullchapter')
+        base = parser.cssselect('base')
+        if base is not None and len(base):
+            base = base[0].get('href')
+        else:
+            base = None
         n = self.http().normalize_uri
-        print([n(i) for i in self._images_helper(parser, '#omv td > img')])
-        print('')
-        print(['{}/reader/{}'.format(self.domain, i) for i in self._images_helper(parser, '#omv td > img')])
-        exit()
-        return [self.chapter + i for i in self._images_helper(parser, '#omv td > img')]
+        return [n(i, base) for i in self._images_helper(parser, '#omv td > img')]
 
     def get_cover(self):
         self._cover_from_content(self.content, '.pic > img.series')

@@ -106,6 +106,10 @@ class Base:
     def chapter_id(self):
         return self._storage.get('current_chapter', 0)
 
+    @chapter_id.setter
+    def chapter_id(self, idx):
+        self._storage['current_chapter'] = idx
+
     @classmethod
     def __normalize_chapters(cls, n, element):
         if isinstance(element, HtmlElement):
@@ -132,41 +136,6 @@ class Base:
 
     def book_meta(self) -> dict:
         return {}
-
-#     def _arc_meta_info(self):
-#         info = self.book_meta()
-#
-#         # {genre}
-#         xml = """
-# <book-info>
-#     {author}
-#     {title}
-#     {annotation}
-#     {keywords}
-#     {cover}
-#     {rating}
-# </book-info>
-# """
-#
-#         key_vars = {
-#             'author': 'author',
-#             'title': 'book-title',
-#             # 'genre': 'genre',
-#             'annotation': 'annotation',
-#             'keywords': 'keywords',
-#             'cover': 'coverpage',
-#             'rating': 'content-rating',
-#         }
-#
-#         result = {}
-#
-#         for i in info:
-#             value = info.get(i, None)
-#             result[i] = ''
-#             if value is not None:
-#                 result[i] = '<{0}>{1}</{0}>'.format(key_vars[i], value)
-#
-#         return xml.format(**result)
 
     def _image_name(self, idx, filename):
         if idx is None:

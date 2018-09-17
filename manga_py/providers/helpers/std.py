@@ -12,7 +12,7 @@ class Std:
 
     def _cover_from_content(self, selector, attr='src') -> str:
         image = self._elements(selector)
-        if image and len(image):
+        if image is not None and len(image):
             return self.http().normalize_uri(image[0].get(attr))
 
     @staticmethod
