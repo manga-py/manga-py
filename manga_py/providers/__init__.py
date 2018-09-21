@@ -314,8 +314,8 @@ providers_list = {
         r'manga99\.com/.',
     ],
     'mangadex_com': [
-        r'mangadex\.com/(manga|chapter)/.',
-        r'mangadex\.org/(manga|chapter)/.',
+        r'mangadex\.com/(title|chapter)/.',
+        r'mangadex\.org/(title|chapter)/.',
     ],
     'mangaeden_com': [
         r'mangaeden\.com/[^/]+/[^/]+-manga/.',

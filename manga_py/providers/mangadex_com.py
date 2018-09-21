@@ -1,6 +1,5 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
-from sys import stderr
 
 
 class MangaDexCom(Provider, Std):
@@ -25,15 +24,15 @@ class MangaDexCom(Provider, Std):
 
     def get_main_content(self):
         url = self.get_url()
-        if url.find('/manga/') < 0:
+        if url.find('/title/') < 0:
             url = self.html_fromstring(url, 'a.manga-link', 0)
             url = self.http().normalize_uri(url.get('href'))
-        self._home_url = self.re.search('(.+/manga/\d+/[^/])', url).group(1)
+        self._home_url = self.re.search('(.+/title/\d+/[^/])', url).group(1)
         return self.http_get(self._home_url)
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        if ~url.find('/manga/'):
+        if ~url.find('/title/'):
             name = self.html_fromstring(url, '.card-header', 0).text_content()
         else:
             name = self.html_fromstring(url, '.manga-link', 0).get('title')
