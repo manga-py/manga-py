@@ -5,10 +5,6 @@ from .helpers.std import Std
 class WestMangaInfo(Provider, Std):
     _chapter_re = r'\.info/[^/]+-(\d+(?:-\d+)?)'
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-', 2)
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         re = self.re.compile(self._chapter_re)
         return re.search(self.chapter).group(1)

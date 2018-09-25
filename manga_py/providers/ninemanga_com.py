@@ -5,11 +5,7 @@ from .helpers.std import Std
 class NineMangaCom(NineHelper, Std):
     _local_storage = None
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index(True).split('-')
-        return self.normal_arc_name(idx)
-
-    def get_chapter_index(self, no_increment=False) -> str:
+    def get_chapter_index(self) -> str:
         return str(self.chapter_id)
 
     def get_main_content(self):

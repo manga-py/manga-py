@@ -5,10 +5,6 @@ from .helpers.std import Std
 class RawLHCom(Provider, Std):
     _root_uri = None
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index()
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'-chapter-(.+)\.html')
         return re.search(self.chapter).group(1)

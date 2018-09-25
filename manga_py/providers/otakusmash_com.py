@@ -6,10 +6,6 @@ class OtakuSmashCom(Provider, Std):
     selector = r'https?://[^/]+/(read-\w+/|reader/)?([^/]+)'
     prefix = '/'
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         selector = self.selector + '/([^/]+)'
         idx = self.re.search(selector, self.chapter)

@@ -25,7 +25,7 @@ class TapasIo(Provider, Std):  # TODO: Login\Password
 
     def get_chapters(self):
         items = self.re.search(r'episodeList\s*:\s*(\[.+\]),', self.content).group(1)
-        return self.json.loads(items)[::-1]
+        return [i for i in self.json.loads(items)[::-1] if i['locked'] == False]
 
     def get_files(self):
         return self.helper.parse_chapter_content()

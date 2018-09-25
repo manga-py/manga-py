@@ -7,14 +7,10 @@ class WebtoonTrCom(GoMangaCo, Std):
     _content_str = '{}/_/{}'
     _chapters_selector = '.panel-default table td > a'
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('.', 2)
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         url = self.chapter
         index_re = r'/_/[^/]+/(.+)'
-        return self.re.search(index_re, url).group(1)
+        return self.re.search(index_re, url).group(1).replace('.', '-')
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter)

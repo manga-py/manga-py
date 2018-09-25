@@ -10,9 +10,6 @@ from .helpers.std import Std
 class PlusComicoJp(Provider, Std):
     scrambles = []
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index())
-
     def get_chapter_index(self) -> str:
         return self.re.search('/store/\d+/(\d+)', self.chapter).group(1)
 

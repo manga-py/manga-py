@@ -4,19 +4,11 @@ from .helpers.std import Std
 
 class ReadmangaMe(Provider, Std):
 
-    def __current_ch(self):
+    def get_chapter_index(self):
         _re = r'/.+/(?:vol)?([^/]+/[^/]+)(?:/|\?ma?t)?'
         name = self.re.search(_re, self.chapter).group(1)
         if ~name.find('?'):
             name = name[:name.find('?')]
-        return name
-
-    def get_archive_name(self):
-        name = self.__current_ch()
-        return self.normal_arc_name(name.split('/'))
-
-    def get_chapter_index(self):
-        name = self.__current_ch()
         return name.replace('/', '-')
 
     def get_main_content(self):

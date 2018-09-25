@@ -4,10 +4,6 @@ from .helpers.std import Std
 
 class TruyenTranhTuanCom(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-', 2)
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         idx = self.re.search(r'\.com/[^/]+?-(\d+(?:-\d+)?)', self.chapter)
         return idx.group(1)

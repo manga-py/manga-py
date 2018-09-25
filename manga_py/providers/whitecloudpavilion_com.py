@@ -4,13 +4,9 @@ from .helpers.std import Std
 
 class WhiteCloudPavilionCom(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index()
-        return self.normal_arc_name(idx.split('.'))
-
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'/manga/free/manga/[^/]+/([^/]+)')
-        return re.search(self.chapter).group(1)
+        return re.search(self.chapter).group(1).replace('.', '-')
 
     def get_main_content(self):
         return self._get_content('{}/manga/free/manga/{}')

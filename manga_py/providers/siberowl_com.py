@@ -6,13 +6,9 @@ class SiberOwlCom(Provider, Std):
     _main_fmt = '{}/mangas/{}/'
     n = None
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('.', 2)
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'/mangas/[^/]+/([^/]+)')
-        return re.search(self.chapter).group(1)
+        return re.search(self.chapter).group(1).replace('.', '-')
 
     def get_main_content(self):
         return self._get_content(self._main_fmt)

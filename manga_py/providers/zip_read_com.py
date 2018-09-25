@@ -5,10 +5,6 @@ from .helpers.std import Std
 
 class ZipReadCom(Provider, Std):
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         idx = self.re.search(r'/.p=(\d+)', self.chapter).group(1)
         return '{}-{}'.format(self.chapter_id, idx)

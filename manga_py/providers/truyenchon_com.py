@@ -5,10 +5,6 @@ from .helpers.std import Std
 class TruyenChonCom(Provider, Std):
     __subtype = None
 
-    def get_archive_name(self) -> str:
-        idx = self.get_chapter_index().split('-')
-        return self.normal_arc_name(idx)
-
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'/chap.*?-(\d+(?:\.\d+)?)')
         return re.search(self.chapter).group(1).replace('.', '-')
