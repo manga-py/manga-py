@@ -41,6 +41,8 @@ def make_dirs(directory):
 
 
 def remove_file_query_params(name, save_path: bool = True) -> str:
+    if name is None:
+        raise AttributeError
     file_path = dirname(name)
     name = basename(name)
     position = name.find('?')

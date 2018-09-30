@@ -23,8 +23,8 @@ class Abstract:
         return []
 
     # @abstractmethod
-    def get_archive_name(self) -> str:
-        pass
+    # def get_archive_name(self) -> str:
+    #     pass
 
     #  for chapters selected by manual (cli)
     @abstractmethod
