@@ -38,6 +38,14 @@ class MangaDexCom(Provider, Std):
             name = self.html_fromstring(url, '.manga-link', 0).get('title')
         return name.strip()
 
+    def _all_langs(self, items):
+        raise AttributeError('Not implemented')
+        pass
+
+    def _filter_langs(self, chapters, lng):
+        raise AttributeError('Not implemented')
+        pass
+
     def get_chapters(self):
         parser = self.document_fromstring(self.content)
         # https://mangadex.org/manga/153/detective-conan
@@ -50,7 +58,12 @@ class MangaDexCom(Provider, Std):
                     self._home_url, i
                 ))
                 items += self._get_chapters_links(_parser)
-        return self._parse_chapters(items)
+        chapters = self._parse_chapters(items)
+        lng = self.quest(
+            'Available languages:{}\n\nPlease, select your lang (empty for all, space for delimiter lang):'.format(
+            '\n'.join(self._all_langs(items))
+        ))
+        return self._filter_langs(chapters, lng)
 
     def _get_chapters_links(self, parser):
         return parser.cssselect('div.chapter-row[data-chapter]')
