@@ -39,12 +39,20 @@ class MangaDexCom(Provider, Std):
         return name.strip()
 
     def _all_langs(self, items):
-        raise AttributeError('Not implemented')
-        pass
+        languages = []
+        for i in items:
+            languages.append(i['flag'] + '\t--- ' + i['lng'])
+        return list(set(languages))
 
     def _filter_langs(self, chapters, lng):
-        raise AttributeError('Not implemented')
-        pass
+        if len(lng) < 1:
+            return chapters
+        lng = lng.split(' ')
+        result = []
+        for i in chapters:
+            if i['flag'] == '' or i['flag'] in lng:
+                result.append(i)
+        return result
 
     def get_chapters(self):
         parser = self.document_fromstring(self.content)
@@ -60,9 +68,10 @@ class MangaDexCom(Provider, Std):
                 items += self._get_chapters_links(_parser)
         chapters = self._parse_chapters(items)
         lng = self.quest(
-            'Available languages:{}\n\nPlease, select your lang (empty for all, space for delimiter lang):'.format(
-            '\n'.join(self._all_langs(items))
-        ))
+            [],
+            'Available languages:\n{}\n\nPlease, select your lang (empty for all, space for delimiter lang):'.format(
+                '\n'.join(self._all_langs(chapters))
+            ))
         return self._filter_langs(chapters, lng)
 
     def _get_chapters_links(self, parser):
@@ -93,15 +102,22 @@ class MangaDexCom(Provider, Std):
     def _parse_chapters(self, items):
         n = self.http().normalize_uri
         result = []
+        re = self.re.compile(r'/flags/(.+?)\..+')
         for tr in items:
             ch = tr.cssselect('a[href*="/chapter/"]')[0]
             lng = tr.cssselect('img.flag')
-            result.append({
+            _ch = {
                 'ch': tr.get('data-chapter'),
                 'vol': tr.get('data-volume'),
                 'link': n(ch.get('href')),
-                'lng': lng[0].get('alt') if lng else '',
-            })
+            }
+            if lng:
+                _ch['lng'] = lng[0].get('alt')
+                _ch['flag'] = re.search(lng[0].get('src')).group(1)
+            else:
+                _ch['lng'] = ''
+                _ch['flag'] = ''
+            result.append(_ch)
         return result
 
     def book_meta(self) -> dict:
