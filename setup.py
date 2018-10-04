@@ -155,7 +155,7 @@ setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-
     entry_points={
         'console_scripts': [
             'manga-py = manga_py:main',
-            'manga-py-db = manga_py:db',
+            'manga-py-db = manga_py:db_main',
         ]
     },
     test_suite='tests',

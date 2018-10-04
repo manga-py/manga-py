@@ -22,8 +22,8 @@ try:
 
     def db_main():
         argcomplete.autocomplete(db.args())
-        manga = db.DataBase()
-        manga.run(db.args())
+        _db = db.DataBase()
+        _db.run(db.args())
 
 except ImportError as e:
     print(e, file=stderr)

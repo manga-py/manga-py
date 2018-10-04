@@ -77,3 +77,8 @@ class CliHelper:
             all_defaults[key] = parser.get_default(key)
         return all_defaults
 
+    def _search_for_title(self, title):
+        if len(title) < 1:
+            raise AttributeError('Title is empty!')
+
+        raise UserWarning('Not implemented now')

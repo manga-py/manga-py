@@ -19,11 +19,11 @@ def main(args_parser: ArgumentParser):
                       help='Reverse volumes downloading', const=True, default=False)
     args.add_argument('-R', '--rewrite-exists-archives', action='store_const', const=True,
                       default=False, help='(Don\'t work on update mode!)')
-    args.add_argument('-N', '--no-multi-threads', action='store_const',
+    args.add_argument('-T', '--no-multi-threads', action='store_const',
                       help='Disallow multi-threads images downloading', const=True, default=False)
     args.add_argument('-z', '--zero-fill', action='store_const', const=True, default=False,
                       help='Adds 0 to the end for all chapters (vol_001.zip -> vol_001-0.zip)')
     args.add_argument('--min-free-space', metavar='Mb', type=int, default=100,
-                      help='Minimum free disc space')
-    args.add_argument('-w', '--with-website-name', action='store_const', const=True, default=False,
+                      help='Minimum free disc space in Mb (default=100)')
+    args.add_argument('-N', '--with-website-name', action='store_const', const=True, default=False,
                       help='Add website name to manga name (example.org-manga_name)')

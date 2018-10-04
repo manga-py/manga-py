@@ -29,12 +29,18 @@ class Cli(CliHelper):
     def run(self):
         better_exceptions.hook()
         _args = self._args.copy()
-        self._print_cli_help()
-        urls = _args.get('url', []).copy()
+        if _args.get('title'):
+            urls = self._search_for_title(_args.get('title'))
+        else:
+            self._print_cli_help()
+            urls = _args.get('url', []).copy()
         _args.get('force_make_db', False) and self.db.clean()
+
         if self._args.get('update_all'):
             self._update_all()
         else:
+            if len(urls) == 0:
+                pass
             if len(urls) > 1:
                 _args['name'] = None
                 _args['skip_volumes'] = None

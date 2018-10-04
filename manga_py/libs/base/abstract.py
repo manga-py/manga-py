@@ -1,12 +1,28 @@
 from abc import abstractmethod
 from typing import List, Union
+from requests import Response
 
 from .meta import Meta
 
 
 class Abstract:
     @abstractmethod
-    def get_content(self):  # mixed
+    def get_main_page_url(self) -> str:
+        """
+        Returns manga main page url.
+
+        For example:
+
+        http://example.org/manga/manga-name/chapter1.html
+        ->
+        http://example.org/manga/manga-name.html
+
+        :return:
+        """
+        pass
+
+    @abstractmethod
+    def get_content(self) -> Response:  # mixed
         """
         Returns mixed data on the main page.
         Used in methods get_manga_name, get_chapters, get_cover, get_meta

@@ -1,4 +1,6 @@
-from typing import List
+from typing import List, Union
+
+from requests import Response
 
 from manga_py.provider import Provider
 
@@ -6,7 +8,10 @@ from manga_py.provider import Provider
 # see manga_py/libs/base/abstract.py for more data
 class Example(Provider):
 
-    def get_content(self):
+    def get_main_page_url(self) -> str:
+        pass
+
+    def get_content(self) -> Response:
         pass
 
     def get_manga_name(self) -> str:
@@ -18,7 +23,7 @@ class Example(Provider):
     def get_files(self) -> list:
         pass
 
-    def get_chapter_name(self):
+    def get_chapter_name(self) -> Union[list, tuple]:
         pass
 
     def get_chapter_url(self) -> str:

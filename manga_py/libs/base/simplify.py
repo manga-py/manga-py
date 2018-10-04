@@ -1,4 +1,6 @@
 from urllib.parse import urlsplit
+from requests import Response
+from typing import List
 
 from .chapter import Chapter
 
@@ -7,7 +9,7 @@ class Simplify:  # Few hacks to simplify life.
     __cache = None
 
     @property
-    def url(self):
+    def url(self) -> str:
         return self._args['url']
 
     @url.setter
@@ -19,13 +21,13 @@ class Simplify:  # Few hacks to simplify life.
         self._args['url'] = url
 
     @property
-    def content(self):
+    def content(self) -> Response:
         if 'content' not in self.__cache:
             self.__cache['content'] = self.get_content()
         return self.__cache['conten']
 
     @property
-    def manga_name(self):
+    def manga_name(self) -> str:
         if 'manga_name' not in self.__cache:
             self.__cache['manga_name'] = self.get_manga_name()
         if self.arg('with-website-name'):
@@ -58,18 +60,18 @@ class Simplify:  # Few hacks to simplify life.
         self._store[self.chapter_idx] = chapter
 
     @property
-    def chapter_idx(self):
+    def chapter_idx(self) -> int:
         return self._store.get('chapter_idx', 0)
 
     def elements(self, parser, selector) -> list:
         return self.html.elements(parser, selector)
 
-    def images(self, parser, selector: str, attribute: str = 'src') -> list:
+    def images(self, parser, selector: str, attribute: str = 'src') -> List[str]:
         items = self.elements(parser, selector)
         return [i.get(attribute) for i in items]
 
     @property
-    def domain(self):
+    def domain(self) -> str:
         url = urlsplit(self.url)
         return '{}://{}'.format(url.scheme, url.netloc)
 
@@ -91,11 +93,11 @@ class Simplify:  # Few hacks to simplify life.
         url = self.__cache.get('cover', None)
         if url is None:
             self.__cache['cover'] = self.get_cover()
-        return self.__cache.get('cover')
+        return self.__cache['cover']
 
     @property
     def meta(self) -> str:
         url = self.__cache.get('meta', None)
         if url is None:
             self.__cache['meta'] = self.get_cover()
-        return self.__cache.get('meta')
+        return self.__cache['meta']
