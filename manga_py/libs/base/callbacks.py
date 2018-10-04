@@ -1,6 +1,6 @@
 from .chapter import Chapter
 from .file import File
-from typing import overload
+from typing import Union
 
 
 class Callbacks:
@@ -10,16 +10,8 @@ class Callbacks:
     def after_chapter(self, chapter: Chapter):
         pass
 
-    @overload
-    def before_download(self, file: File):
+    def before_download(self, item: Union[File, Chapter]):
         pass
 
-    def before_download(self, chapter: Chapter):
-        pass
-
-    @overload
-    def after_download(self, file: File):
-        pass
-
-    def after_download(self, chapter: Chapter):
+    def after_download(self, file: Union[File, Chapter]):
         pass

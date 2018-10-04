@@ -1,4 +1,5 @@
 import re
+from importlib import import_module
 from manga_py.provider import Provider
 from .__list import providers_list
 
@@ -9,8 +10,8 @@ def __check_provider(reg, provider, url, fromlist: list):
     if re.search(reg, url):
         for _from in fromlist:
             try:
-                return __import__('{}.{}'.format(_from, provider), fromlist=[_from])
-            except ImportError:
+                return import_module('{}.{}'.format(_from, provider))
+            except (ImportError, ModuleNotFoundError):
                 pass
     return None
 
@@ -21,7 +22,7 @@ def __merge_namespaces(providers, namespaces):
     if providers is None:
         providers = {}
     manga_providers.update(providers)
-    namespaces.append('manga_py.libs.providers')
+    namespaces.append('manga_py.providers')
     return namespaces
 
 

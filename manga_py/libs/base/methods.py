@@ -1,10 +1,7 @@
-try:
-    from progressbar import ProgressBar
-    from zenlog import Log
-    from getpass import getpass
-    from manga_py.libs.modules.info import Info
-except ImportError:
-    pass
+from progressbar import ProgressBar
+from zenlog import Log
+from getpass import getpass
+from manga_py.libs.modules.info import Info
 
 
 class Methods:

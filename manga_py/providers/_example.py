@@ -24,13 +24,14 @@ class Example(Provider):
     def get_chapter_url(self) -> str:
         pass
 
-    def get_cover(self) -> str:
-        pass
-
     def before_provider(self, args: dict):
         pass
 
     def after_provider(self):
+        pass
+
+    # need overload, but not required methods:
+    def get_cover(self) -> str:
         pass
 
     def get_meta(self):

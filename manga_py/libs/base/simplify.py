@@ -1,9 +1,9 @@
-from urllib.parse import urlsplit as _urlsplit
+from urllib.parse import urlsplit
 
 from .chapter import Chapter
 
 
-class Simplify:
+class Simplify:  # Few hacks to simplify life.
     __cache = None
 
     @property
@@ -28,9 +28,8 @@ class Simplify:
     def manga_name(self):
         if 'manga_name' not in self.__cache:
             self.__cache['manga_name'] = self.get_manga_name()
-        name = self.__cache['manga_nam']
         if self.arg('with-website-name'):
-            name = '{}-{}'.format(self.domain, name)
+            name = '{}-{}'.format(self.domain, self.__cache['manga_nam'])
         return name
 
     @property
@@ -71,7 +70,7 @@ class Simplify:
 
     @property
     def domain(self):
-        url = _urlsplit(self.url)
+        url = urlsplit(self.url)
         return '{}://{}'.format(url.scheme, url.netloc)
 
     def _set_cache_value(self, key, value):
@@ -84,8 +83,8 @@ class Simplify:
     def main_page_url(self) -> str:
         url = self.__cache.get('main_page_url', None)
         if url is None:
-            self.__cache['main_page_url'] = self.get_main_page_url()
-        return self.__cache.get('main_page_url')
+            url = self.__cache['main_page_url'] = self.get_main_page_url()
+        return url
 
     @property
     def cover(self) -> str:

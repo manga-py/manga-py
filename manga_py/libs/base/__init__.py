@@ -1,6 +1,6 @@
 from abc import ABCMeta
 from pathlib import Path
-from typing import overload
+from typing import Union
 from urllib.parse import urlparse
 
 from manga_py.libs.crypt.base_lib import BaseLib
@@ -45,8 +45,15 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
             ext = '.cbz'
         return str(Path(name).with_suffix(ext))
 
-    @overload
-    def download(self, file: File):
+    def download(self, item: Union[File, Chapter]):
+        if isinstance(item, File):
+            self._download_file(item)
+        elif isinstance(item, Chapter):
+            self._download_chapter(item)
+        else:
+            raise AttributeError(type(item))
+
+    def _download_file(self, file: File):
         self.before_download(file)
         self.http.download(file.url, file.path_location)
         if not self.arg('not-change-files-xtension'):
@@ -57,7 +64,7 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
         # args.get('split_image') and img.auto_split()
         Image.process(file, self._args)
 
-    def download(self, chapter: Chapter):
+    def _download_chapter(self, chapter: Chapter):
         self.before_download(chapter)
         self.http.download(chapter.url, self.archive_ext(chapter.path_location))
         self.after_download(chapter)
