@@ -89,9 +89,7 @@ class Std:
 
     @staticmethod
     def __fill(var, fmt: str = '-{}'):
-        if len(var) > 1:
-            var = (fmt * len(var)).format(*var)
-        return var
+        return (fmt * len(var)).format(*var)
 
     def __normal_name_list(self, idx: list):
         fmt = 'vol_{:0>3}'
