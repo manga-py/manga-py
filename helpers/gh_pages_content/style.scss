@@ -192,7 +192,7 @@ ul.list li {
     //margin: 0;
     //margin-top: 5px;
     & + label {
-      background: #fff;
+      background: #fff no-repeat center left 2px;
       display: inline-block;
       width: 1rem;
       height: 1.25rem;
@@ -208,8 +208,6 @@ ul.list li {
     &:checked {
       & + label {
         background-image: url('ok_flag.svg');
-        background-repeat: no-repeat;
-        background-position: center left 2px;
         background-size: 75%;
         border-color: $blue;
       }
