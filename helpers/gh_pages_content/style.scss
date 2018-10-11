@@ -183,13 +183,14 @@ ul.list li {
     padding-left: 1em;
   }
   input[type=checkbox] {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    border: 0 none;
-    background: transparent;
-    margin: 0;
-    margin-top: 5px;
+    display: none;
+    //position: absolute;
+    //width: 1px;
+    //height: 1px;
+    //border: 0 none;
+    //background: transparent;
+    //margin: 0;
+    //margin-top: 5px;
     & + label {
       background: #fff;
       display: inline-block;
