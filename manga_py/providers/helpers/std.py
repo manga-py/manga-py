@@ -3,7 +3,8 @@ from ._http2 import Http2
 
 class Std:
     def get_archive_name(self) -> str:
-        return self.normal_arc_name({'vol': self.get_chapter_index().split('-')})
+        idx = self.get_chapter_index()
+        return self.normal_arc_name({'vol': idx.split('-')})
 
     def _elements(self, selector, content=None) -> list:
         if not content:
@@ -101,12 +102,19 @@ class Std:
         return fmt.format(*idx)
 
     def __normal_name_dict(self, idx: dict):
-        vol = idx.get('vol', '0')
+        vol = idx.get('vol', ['0'])
         ch = idx.get('ch', None)
-        fmt = 'vol{}'
-        data = [self.__fill(vol, '-{:0>3}')]
+        fmt = 'vol_{:0>3}'
+        data = [vol[0]]
+        if len(vol) > 1:
+            fmt += '{}'
+            del vol[0]
+            data += [self.__fill(vol, '-{}')]
+        elif self._zero_fill:
+            fmt += '-{}'
+            data += ['0']
         if ch:
-            fmt += '-ch{}'
+            fmt += '-ch_{}'
             data.append(self.__fill(ch))
         result = fmt.format(*data)
         if self._with_manga_name:
