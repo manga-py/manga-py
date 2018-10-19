@@ -5,10 +5,10 @@ from .helpers.std import Std
 class BatoTo(Provider, Std):
 
     def get_chapter_index(self) -> str:
-        return '-'.join([
+        return '{}-{}'.format(
             self.chapter_id,
-            self.chapter[1]
-        ])
+            self.chapter[1],
+        )
 
     def get_main_content(self):
         url = self.get_url()
@@ -24,10 +24,20 @@ class BatoTo(Provider, Std):
     def get_chapters(self):
         items = self._elements('.main > .item > a')
         n = self.http().normalize_uri
-        return [(
-            n(i.get('href')),
-            i.cssselect('b')[0].text_content().strip(' \n\t\r'),
-        ) for i in items]
+        result = []
+        for i in items:
+            title = i.cssselect('b')[0].text_content().strip(' \n\t\r')
+            if ~title.find('DELETED'):  # SKIP DELETED
+                continue
+            result.append((
+                n(i.get('href')),
+                title,
+            ))
+        return result
+        # [(
+        #     n(i.get('href')),
+        #     i.cssselect('b')[0].text_content().strip(' \n\t\r'),
+        # )]
 
     @staticmethod
     def _sort_files(data):
