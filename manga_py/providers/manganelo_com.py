@@ -5,7 +5,7 @@ from .helpers.std import Std
 class MangaNeloCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
-        re = self.re.compile(r'/chapter_(\d+(?:\.\d+)?)')
+        re = self.re.compile(r'/chap(?:ter)?_(\d+(?:\.\d+)?)')
         return re.search(self.chapter).group(1).replace('.', '-')
 
     def get_main_content(self):
