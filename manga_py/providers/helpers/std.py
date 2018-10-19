@@ -98,7 +98,7 @@ class Std:
         fmt = 'vol_{:0>3}'
         if len(idx) > 1:
             fmt += '-{}' * (len(idx) - 1)
-        elif self._zero_fill:
+        if self._zero_fill and len(idx) < 2:
             idx.append('0')
             fmt += '-{}'
         return fmt.format(*idx)
@@ -109,15 +109,15 @@ class Std:
         fmt = 'vol_{:0>3}'
         data = [vol[0]]
         if len(vol) > 1:
-            fmt += '{}'
+            fmt += '-{}'
             del vol[0]
             data += [self.__fill(vol, '-{}')]
+        elif self._zero_fill:
+            fmt += '-{}'
+            data += ['0']
         if ch:
             fmt += '-ch_{}'
             data.append(self.__fill(ch))
-            if self._zero_fill and len(ch) < 2:
-                fmt += '-{}'
-                data += ['0']
         result = fmt.format(*data)
         if self._with_manga_name:
             result = '%s-%s' % (self.manga_name, result)

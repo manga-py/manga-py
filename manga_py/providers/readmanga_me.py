@@ -9,7 +9,7 @@ class ReadmangaMe(Provider, Std):
         name = self.re.search(_re, self.chapter).group(1)
         if ~name.find('?'):
             name = name[:name.find('?')]
-        return name.replace('/', '-')
+        return name.replace('/', '_')[0:1]
 
     def get_main_content(self):
         return self._get_content('{}/{}?mature=1&mtr=1')
