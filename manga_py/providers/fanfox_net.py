@@ -7,13 +7,13 @@ class MangaFoxMe(Provider, Std):
     def get_archive_name(self) -> str:
         groups = self._ch_parser()
         ch = groups[1].replace('.', '-')
-        vol = '0'
+        vol = ['0']
         if groups[0]:
-            vol = groups[0]
+            vol = [groups[0]]
         return self.normal_arc_name({'vol': vol, 'ch': ch})
 
     def _ch_parser(self):
-        selector = r'/manga/[^/]+/(?:(v[^/]+)/)?c([^/]+)/'
+        selector = r'/manga/[^/]+/(?:v([^/]+)/)?c([^/]+)/'
         groups = self.re.search(selector, self.chapter).groups()
         return groups
 

@@ -90,7 +90,9 @@ class Std:
 
     @staticmethod
     def __fill(var, fmt: str = '-{}'):
-        return (fmt * len(var)).format(*var)
+        if isinstance(var, str):
+            var = [var]
+        return (fmt * len(var)).format(*var).lstrip('-')
 
     def __normal_name_list(self, idx: list):
         fmt = 'vol_{:0>3}'
@@ -110,12 +112,12 @@ class Std:
             fmt += '{}'
             del vol[0]
             data += [self.__fill(vol, '-{}')]
-        elif self._zero_fill:
-            fmt += '-{}'
-            data += ['0']
         if ch:
             fmt += '-ch_{}'
             data.append(self.__fill(ch))
+            if self._zero_fill and len(ch) < 2:
+                fmt += '-{}'
+                data += ['0']
         result = fmt.format(*data)
         if self._with_manga_name:
             result = '%s-%s' % (self.manga_name, result)
