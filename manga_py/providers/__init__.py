@@ -288,6 +288,9 @@ providers_list = {
     'manga_tr_com': [
         r'manga-tr\.com/(manga|id)-.',
     ],
+    'mangabat_com': [
+        r'mangabat\.com/(manga|chapter)/.',
+    ],
     'mangabb_co': [
         r'mangabb\.co/.',
     ],
@@ -383,7 +386,6 @@ providers_list = {
         r'mangamew\.com/(\w+-)?truyen/.',
     ],
     'manganelo_com': [
-        r'mangabat\.com/(manga|chapter)/.',
         r'manganelo\.com/(manga|chapter)/.',
     ],
     'mangaon_net': [

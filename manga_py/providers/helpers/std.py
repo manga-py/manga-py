@@ -2,8 +2,11 @@ from ._http2 import Http2
 
 
 class Std:
+    _vol_fill = False
+
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
+        _vol_fill = True
         return self.normal_arc_name({'vol': idx.split('-')})
 
     def _elements(self, selector, content=None) -> list:
@@ -83,6 +86,7 @@ class Std:
         if isinstance(idx, str):
             idx = [idx]
         if isinstance(idx, list):
+            self._vol_fill = True
             return self.__normal_name_list(idx)
         if isinstance(idx, dict):
             return self.__normal_name_dict(idx)
@@ -98,27 +102,21 @@ class Std:
         fmt = 'vol_{:0>3}'
         if len(idx) > 1:
             fmt += '-{}' * (len(idx) - 1)
-        if self._zero_fill and len(idx) < 2:
+        elif self._vol_fill and self._zero_fill:
             idx.append('0')
             fmt += '-{}'
         return fmt.format(*idx)
 
     def __normal_name_dict(self, idx: dict):
-        vol = idx.get('vol', ['0'])
+        vol = idx.get('vol', None)
         ch = idx.get('ch', None)
-        fmt = 'vol_{:0>3}'
-        data = [vol[0]]
-        if len(vol) > 1:
-            fmt += '-{}'
-            del vol[0]
-            data += [self.__fill(vol, '-{}')]
-        elif self._zero_fill:
-            fmt += '-{}'
-            data += ['0']
+        result = ''
+        if vol:
+            if isinstance(vol, str):
+                vol = [vol]
+            result = self.__normal_name_list(vol)
         if ch:
-            fmt += '-ch_{}'
-            data.append(self.__fill(ch))
-        result = fmt.format(*data)
+            result += '-ch_' + self.__fill(ch)
         if self._with_manga_name:
             result = '%s-%s' % (self.manga_name, result)
         return result

@@ -9,9 +9,9 @@ class MangaTownCom(Provider, Std):
     def get_archive_name(self) -> str:
         idx = self.re.search('/manga/[^/]+(?:/v(\d+))?/c([^/]+)', self.chapter).groups()
         if idx[0]:
-            var = {'vol': idx[0], 'ch': idx[1]}
+            var = {'vol': idx[0], 'ch': idx[1].split('.')}
         else:
-            var = {'vol': '0', 'ch': idx[1]}
+            var = {'vol': '0', 'ch': idx[1].split('.')}
         return self.normal_arc_name(var)
 
     def get_chapter_index(self) -> str:
