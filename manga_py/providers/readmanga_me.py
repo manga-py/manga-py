@@ -3,13 +3,17 @@ from .helpers.std import Std
 
 
 class ReadmangaMe(Provider, Std):
+    def get_archive_name(self) -> str:
+        idx = self.get_chapter_index()
+        vol, ch = idx.split('-')
+        return self.normal_arc_name({'vol': vol, 'ch': ch})
 
     def get_chapter_index(self):
         _re = r'/.+/(?:vol)?([^/]+/[^/]+)(?:/|\?ma?t)?'
         name = self.re.search(_re, self.chapter).group(1)
         if ~name.find('?'):
             name = name[:name.find('?')]
-        return name.replace('/', '_')[0:1]
+        return name.replace('/', '-')
 
     def get_main_content(self):
         return self._get_content('{}/{}?mature=1&mtr=1')

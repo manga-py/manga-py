@@ -6,7 +6,7 @@ class Std:
 
     def get_archive_name(self) -> str:
         idx = self.get_chapter_index()
-        _vol_fill = True
+        self._vol_fill = True
         return self.normal_arc_name({'vol': idx.split('-')})
 
     def _elements(self, selector, content=None) -> list:
