@@ -219,6 +219,7 @@ providers_list = {
         r'mangadoor\.com/manga/.',
         r'mangaid\.co/manga/.',
         r'mangaid\.net/manga/.',
+        r'mangaid\.me/manga/.',
         r'manga\.fascans\.com/manga/.',
         r'mangadesu\.net/manga/.',
         r'mangahis\.com/manga/.',
@@ -501,6 +502,9 @@ providers_list = {
     'nozominofansub_com': [  # mangazuki_co
         r'nozominofansub\.com/public(/index\.php)?/manga/.',
         r'godsrealmscan\.com/public(/index\.php)?/manga/.',
+    ],
+    'nude_moon_me': [
+        r'nude-moon\.me/\d'
     ],
     'otakusmash_com': [
         r'otakusmash\.com/.',

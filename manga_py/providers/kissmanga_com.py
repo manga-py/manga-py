@@ -1,5 +1,4 @@
 from manga_py.crypt import KissMangaComCrypt
-from manga_py.fs import basename
 from manga_py.provider import Provider
 from .helpers.std import Std
 
@@ -13,25 +12,14 @@ class KissMangaCom(Provider, Std):
     }
 
     def get_archive_name(self) -> str:
-        idx = self.get_chapter_index()
-        return 'Ch-{:0>3}_Vol-{:0>3}-{:0>1}'.format(*idx.split('-'))
+        return '{:0>3}-{}'.format(
+            self.chapter_id + 1,
+            self.get_chapter_index()
+        )
 
     def get_chapter_index(self) -> str:
-        bn = basename(self.chapter)
-        name = self.re.search(r'Vol-+(\d+)-+Ch\w*?-+(\d+)-+(\d+)', bn)
-        if name:
-            name = name.groups()
-            return '{1}-{0}-{2}'.format(*name)
-        name = self.re.search(r'Vol-+(\d+)-+Ch\w*?-+(\d+)', bn)
-        if name:
-            name = name.groups()
-            return '{1}-{0}-0'.format(*name)
-        name = self.re.search(r'Ch\w*?-(\d+)(?:-v(\d+))?', bn)
-        if name:
-            name = name.groups()
-            return '{}-{}-0'.format(*name, '0')
-        name = self.re.search(r'/Manga/[^/]+/(\d+)', self.chapter)
-        return '{}-000-0'.format(name.group(1))
+        name = self.re.search(r'/Manga/[^/]+/(.+)\?id=(\d+)', self.chapter)
+        return '-'.join(name.groups())
 
     def get_main_content(self):
         return self._get_content('{}/Manga/{}')
