@@ -7,8 +7,11 @@ class MangaDexCom(Provider, Std):
     _home_url = ''
 
     def get_archive_name(self) -> str:
+        vol = self.chapter['vol']
+        if len(vol) == 0:
+            vol = '0'
         return self.normal_arc_name({
-            'vol': self.chapter['vol'],
+            'vol': vol,
             'ch': [*self.chapter['ch'].split('.'), self.chapter['lng']],
         })
 
