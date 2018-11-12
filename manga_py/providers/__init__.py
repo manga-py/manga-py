@@ -217,9 +217,6 @@ providers_list = {
         r'mangaforest\.com/manga/.',
         r'mangadenizi\.com/.',
         r'mangadoor\.com/manga/.',
-        r'mangaid\.co/manga/.',
-        r'mangaid\.net/manga/.',
-        r'mangaid\.me/manga/.',
         r'manga\.fascans\.com/manga/.',
         r'mangadesu\.net/manga/.',
         r'mangahis\.com/manga/.',
@@ -343,6 +340,11 @@ providers_list = {
     ],
     'mangahi_net': [
         r'mangahi\.net/.',
+    ],
+    'mangaid_me': [
+        r'mangaid\.co/manga/.',
+        r'mangaid\.net/manga/.',
+        r'mangaid\.me/manga/.',
     ],
     'mangahome_com': [
         r'mangahome\.com/manga/.',
