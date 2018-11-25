@@ -328,6 +328,9 @@ providers_list = {
     'mangafreak_net_download': [
         r'mangafreak\.net/Manga/.',
     ],
+    'mangafull_org': [
+        r'mangafull\.org/manga/.',
+    ],
     'mangago_me': [
         r'mangago\.me/read-manga/.',
     ],
