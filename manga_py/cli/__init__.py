@@ -10,6 +10,7 @@ from manga_py.libs.modules import info
 from . import args
 from ._helper import CliHelper
 from .db import DataBase
+from manga_py.provider import Provider
 
 
 class Cli(CliHelper):
@@ -29,7 +30,7 @@ class Cli(CliHelper):
     def run(self):
         better_exceptions.hook()
         _args = self._args.copy()
-        if _args.get('title'):
+        if _args.get('title'):  # todo: Maybe search for user-urls only
             urls = self._search_for_title(_args.get('title'))
         else:
             self._print_cli_help()
@@ -39,8 +40,6 @@ class Cli(CliHelper):
         if self._args.get('update_all'):
             self._update_all()
         else:
-            if len(urls) == 0:
-                pass
             if len(urls) > 1:
                 _args['name'] = None
                 _args['skip_volumes'] = None
@@ -68,7 +67,7 @@ class Cli(CliHelper):
             })
             provider = self._get_provider(_args)
             if provider:
-                provider = provider()  # type Provider
+                provider = provider()  # type: Provider
                 provider.before_provider(_args)
                 provider.http.cookies = data.get('cookies')
                 provider.http.ua = data.get('browser')

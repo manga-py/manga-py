@@ -21,31 +21,7 @@
 
 
 ### Provider methods cycle
-
-1) `before_provider()`
-1) `get_main_page_url()`
-1) `get_content()`
-1) `get_manga_name()`
-1) `get_chapters()`<br>
-    ***See <a href="#chapter-methods-lifecycle">chapter lifecycle</a>***
-1) `after_provider()`
-
-#### Chapter methods lifecycle
-
-1) `before_chapter()`
-1) `get_chapter_name()`
-1) `get_chapter_url()`
-1) `get_files()`<br>
-    ***See <a href="#files-methods-lifecycle">files lifecycle</a>***
-1) `after_chapter()`
-
-#### Files methods lifecycle1
-1) `progress_next(True)`
-1) `before_download()`
-1) `manga_py.libs.http.Http.download()`
-1) `manga_py.libs.modules.image.Image.process()`
-1) `after_download()`
-1) `progress_next()`
+ <a href="https://drive.google.com/file/d/1nDThJJo2x6n7kpWfH3pYPaJ_fH1h9Zt4/view?usp=sharing">See schema here</a>
 
 
 ---

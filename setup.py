@@ -105,7 +105,7 @@ class PostInstallCommand(install):
                 _temp_file = Path(gettempdir()).joinpath('manga-py.sh')
                 self._make_sh(_temp_file, sh)
                 Popen([str(_temp_file)]).communicate(timeout=1)
-                unlink(_temp_file)
+                unlink(str(_temp_file))
             else:
                 print('ERROR! %s' % err, file=stderr)
 
