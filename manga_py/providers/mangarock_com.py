@@ -5,23 +5,25 @@ from .helpers.std import Std
 
 
 class MangaRockCom(Provider, Std):
-    __name = None
     crypt = None
-    __api_uri = 'https://api.mangarockhd.com/query/web400/'
+    __content = ''
+    __api_uri = 'https://api.mangarockhd.com/query/'
 
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)
 
     def get_main_content(self):
-        pass
+        if self._storage['main_content'] is not None:
+            return self._storage['main_content']
+        name = self._get_name(r'/manga/([^/]+-\d+)')
+        self._storage['main_content'] = self.http_get('{}/manga/{}'.format(
+            self.domain,
+            name
+        ))
+        return self._storage['main_content']
 
     def get_manga_name(self) -> str:
-        self.__name = self._get_name(r'/manga/([^/]+-\d+)')
-        content = self.http_get('{}/manga/{}'.format(
-            self.domain,
-            self.__name
-        ))
-        return self.text_content(content, 'h1')
+        return self.text_content(self.content, 'h1')
 
     def get_chapters(self):
         idx = self._get_name('/manga/([^/]+)')
@@ -58,6 +60,10 @@ class MangaRockCom(Provider, Std):
             return img[0].get('src')
 
     def prepare_cookies(self):
+        # patch api version
+        v = self.re.compile(r'\bAJAX_MRAPI_VERSION\b\s*=\s*[\'"]?(web\d+)')
+        self.__api_uri += v.search(self.content).group(1) + '/'
+
         self.crypt = MangaRockComCrypt()
 
     def book_meta(self) -> dict:
