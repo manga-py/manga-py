@@ -1,5 +1,6 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
+from manga_py.crypt.base_lib import BaseLib
 
 
 class MangaFoxMe(Provider, Std):
@@ -18,20 +19,6 @@ class MangaFoxMe(Provider, Std):
         return groups
 
     def get_chapter_index(self) -> str:
-        """
-        examples:
-        <domain>/manga/<name>/v03/c020/1.html
-        <domain>/manga/<name>/v03/c020.5/1.html
-        <domain>/manga/<name>/v01/c019/1.html
-        <domain>/manga/<name>/c022/1.html
-        <domain>/manga/<name>/c021/1.html
-        <domain>/manga/<name>/v04/c016.5/1.html
-        <domain>/manga/<name>/v18/c154.5/1.html
-        <domain>/manga/<name>/vTBD/c169/1.html
-        <domain>/manga/<name>/v06/c018.5/1.html]
-        <domain>/manga/<name>/v03/c020.5/1.html
-        <domain>/manga/<name>/v08/c031/1.html
-        """
         groups = self._ch_parser()
         idx = groups[1].replace('.', '-')
         if not ~idx.find('-'):
@@ -47,33 +34,18 @@ class MangaFoxMe(Provider, Std):
         return self._get_name('/manga/([^/]+)/?')
 
     def get_chapters(self):
-        return self._elements('#chapters a.tips')
-
-    def __get_files_url(self):
-        volume = self.chapter
-        url = self.http().normalize_uri(volume)
-        if ~url.find('.html'):
-            url = url[: url.rfind('/')]
-        return url
+        return self._elements('#list-1 a[href]')
 
     def get_files(self):
-        img_selector = 'img#image'
-        _url = self.__get_files_url()
-        url = '{}/1.html'.format(_url)
-        selector = '#top_bar .r .l select.m'
-        parser = self.html_fromstring(url)
-        images = self._images_helper(parser, img_selector)
-        for page in self._first_select_options(parser, selector, True):
-            n = page.get('value')
-            if int(n) < 2:  # first / comments page
-                continue
-            url = '{}/{}.html'.format(_url, n)
-            parser = self.html_fromstring(url)
-            images += self._images_helper(parser, img_selector)
-        return images
+        content = self.http_get(self.chapter)
+        js = self.re.search(r'eval\((function\b.+)\((\'[\w ].+)\)\)', content).groups()
+        data = self.re.search(r'\w=(\[.+\])', BaseLib.exec_js('m = ' + js[0], 'm(' + js[1] + ')')).group(1)
+        data = self.json.loads(data.replace("'", '"'))
+        n = self.http().normalize_uri
+        return [n(i) for i in data]
 
     def get_cover(self):
-        pass  # TODO
+        return self._cover_from_content('img.detail-info-cover-img')
 
     def book_meta(self) -> dict:
         # todo meta
