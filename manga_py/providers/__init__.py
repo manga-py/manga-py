@@ -497,6 +497,9 @@ providers_list = {
     'nightow_net': [
         r'nightow\.net/online/\?manga=.',
     ],
+    'nineanime_com': [
+        r'nineanime\.com/manga/.+\.html'
+    ],
     'ninemanga_com': [
         r'ninemanga\.com/(manga|chapter).',
         r'addfunny\.com/(manga|chapter).',
