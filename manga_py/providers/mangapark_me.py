@@ -21,8 +21,11 @@ class MangaParkMe(Provider, Std):
         return self._elements('div.stream:last-child em a:last-child')
 
     def get_files(self):
-        parser = self.html_fromstring(self.chapter)
-        return self._images_helper(parser, '#viewer img.img')
+        content = self.http_get(self.chapter)
+        data = self.re.search(r'var\simages\s?=\s?(\[.+\])', content)
+        if not data:
+            return []
+        return self.json.loads(data.group(1))
 
     def get_cover(self):
         return self._cover_from_content('.cover img')
