@@ -3,7 +3,6 @@ from .helpers.std import Std
 
 
 class AsmHentaiCom(Provider, Std):
-    _content = None
 
     def get_archive_name(self) -> str:
         return 'archive'
@@ -12,9 +11,7 @@ class AsmHentaiCom(Provider, Std):
         return '0'
 
     def get_main_content(self):
-        if self._content is None:
-            self._content = self.http_get(self.get_url())
-        return self._content
+        return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
         title = self.text_content(self.content, '.info > h1,title')

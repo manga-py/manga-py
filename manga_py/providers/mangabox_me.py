@@ -3,17 +3,12 @@ from .helpers.std import Std
 
 
 class MangaBoxMe(Provider, Std):
-    _local_storage = False
-
     def get_chapter_index(self) -> str:
         return self.re.search(r'/episodes/(\d+)', self.chapter).group(1)
 
     def get_main_content(self):
-        if not self._local_storage:
-            idx = self._get_name(r'/reader/(\d+)/episodes/')
-            self._local_storage = True
-            return self.http_get('{}/reader/{}/episodes/'.format(self.domain, idx))
-        return self.content
+        idx = self._get_name(r'/reader/(\d+)/episodes/')
+        return self.http_get('{}/reader/{}/episodes/'.format(self.domain, idx))
 
     def get_manga_name(self) -> str:
         selector = 'meta[property="og:title"]'

@@ -5,16 +5,12 @@ from .helpers.std import Std
 
 
 class KuMangaCom(Provider, Std):
-    __local_storage = None
-
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)
 
     def get_main_content(self):
-        if not self.__local_storage:
-            url = self.re.search(r'(.+\.com/manga/\d+)', self.get_url())
-            self.__local_storage = self.http_get('%s/' % url.group(1))
-        return self.__local_storage
+        url = self.re.search(r'(.+\.com/manga/\d+)', self.get_url())
+        return self.http_get('%s/' % url.group(1))
 
     def get_manga_name(self) -> str:
         selector = r'pagination\(\d+,\'(.+)\',\'pagination\''

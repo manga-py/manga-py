@@ -5,7 +5,6 @@ from .helpers.std import Std
 class MangaSh(Provider, Std):
     _api_url = 'https://api.manga.sh/api/v1/'
     _cdn_url = 'https://cdn.manga.sh/'
-    __local_storage = None
 
     def get_chapter_index(self) -> str:
         chapter = self.chapter
@@ -17,12 +16,10 @@ class MangaSh(Provider, Std):
         return '{}-{}{}'.format(_vol, _ch, _ch_v)
 
     def get_main_content(self):
-        if not self.__local_storage:
-            idx = self._get_name(r'/comics/(\d+)')
-            url = '{}series_chapters?query=SeriesId.Id:{}&order=asc&sortby=TimeUploaded&limit=0&offset=0'
-            content = self.http_get(url.format(self._api_url, idx))
-            self.__local_storage = self.json.loads(content)
-        return self.__local_storage
+        idx = self._get_name(r'/comics/(\d+)')
+        url = '{}series_chapters?query=SeriesId.Id:{}&order=asc&sortby=TimeUploaded&limit=0&offset=0'
+        content = self.http_get(url.format(self._api_url, idx))
+        return self.json.loads(content)
 
     def get_manga_name(self) -> str:
         content = self.content.get('response')[0]

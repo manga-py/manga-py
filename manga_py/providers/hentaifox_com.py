@@ -3,7 +3,6 @@ from .helpers.std import Std
 
 
 class HentaiFoxCom(Provider, Std):
-    __local_storage = None
     _idx_re = r'/g(?:allery)?/(\d+)'
     _url_str = '{}/gallery/{}/'
     _name_selector = '.info h1'
@@ -15,11 +14,9 @@ class HentaiFoxCom(Provider, Std):
         return 'archive'
 
     def get_main_content(self):
-        if self.__local_storage is None:
-            idx = self._get_name(self._idx_re)
-            url = self._url_str.format(self.domain, idx)
-            self.__local_storage = self.http_get(url)
-        return self.__local_storage
+        idx = self._get_name(self._idx_re)
+        url = self._url_str.format(self.domain, idx)
+        return self.http_get(url)
 
     def get_manga_name(self) -> str:
         return self.text_content(self.content, self._name_selector)

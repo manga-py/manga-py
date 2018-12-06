@@ -69,7 +69,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
 
         self.prepare_cookies()
         self._storage['manga_name'] = self.get_manga_name()
-        self._storage['main_content'] = self.get_main_content()
+        self._storage['main_content'] = self.content
         self._storage['chapters'] = self._prepare_chapters(self.get_chapters())
 
         if not self._params.get('reverse_downloading', False):
@@ -242,3 +242,10 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         for k in cookies:
             self._storage['cookies'][k] = cookies[k]
             self.http().cookies[k] = cookies[k]
+
+    @property
+    def content(self):
+        content = self._storage.get('main_content', None)
+        if content is None:
+            content = self.get_main_content()
+        return content

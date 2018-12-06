@@ -3,8 +3,6 @@ from .helpers.std import Std
 
 
 class TranslateWebToonsCom(Provider, Std):
-    _content = None
-
     def get_archive_name(self) -> str:
         return self.normal_arc_name(self.get_chapter_index())
 
@@ -12,9 +10,7 @@ class TranslateWebToonsCom(Provider, Std):
         return self.re.search(r'\bepisodeNo=(\d+)', self.chapter).group(1)
 
     def get_main_content(self):
-        if self._content is None:
-            self._content = self.http_get(self.get_url())
-        return self._content
+        return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
         return self.text_content(self.content, 'h3.subj')
@@ -22,7 +18,8 @@ class TranslateWebToonsCom(Provider, Std):
     def _chapters(self, content):
         return self._elements('.detail_lst > ul > li > a', content)
 
-    def _filter_chapters(self, chapters):
+    @staticmethod
+    def _filter_chapters(chapters):
         result = []
         for item in chapters:
             content = item.cssselect('.rate_num.cplt')[0].text_content().strip('\n\t\r \0')

@@ -13,14 +13,11 @@ class MangaRockCom(Provider, Std):
         return str(self.chapter_id)
 
     def get_main_content(self):
-        if self._storage['main_content'] is not None:
-            return self._storage['main_content']
         name = self._get_name(r'/manga/([^/]+-\d+)')
-        self._storage['main_content'] = self.http_get('{}/manga/{}'.format(
+        return self.http_get('{}/manga/{}'.format(
             self.domain,
             name
         ))
-        return self._storage['main_content']
 
     def get_manga_name(self) -> str:
         return self.text_content(self.content, 'h1')

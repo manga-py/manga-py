@@ -69,13 +69,6 @@ class Std:
         return self.http().normalize_uri(url.group(1))
 
     @property
-    def content(self):
-        content = self._storage.get('main_content', None)
-        if content is None:
-            content = self.get_main_content()
-        return content
-
-    @property
     def manga_name(self) -> str:
         name = self._storage.get('manga_name', None)
         if name is None:

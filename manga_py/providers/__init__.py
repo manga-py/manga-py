@@ -46,6 +46,9 @@ providers_list = {
     'bns_shounen_ai_net': [
         r'bns\.shounen-ai\.net/read/(series|read)/.',
     ],
+    'boredomsociety_xyz': [
+        r'boredomsociety\.xyz/(titles/info|reader)/\d',
+    ],
     'cdmnet_com_br': [
         r'cdmnet\.com\.br/titulos/.',
     ],

@@ -3,8 +3,6 @@ from .helpers.std import Std
 
 
 class WebAceJp(Provider, Std):
-    __content = None
-
     @staticmethod
     def remove_not_ascii(value):
         return value
@@ -35,9 +33,7 @@ class WebAceJp(Provider, Std):
         ).group(1)
 
     def get_main_content(self):
-        if self.__content is None:
-            self.__content = self.http_get(self.__url())
-        return self.__content
+        return self.http_get(self.__url())
 
     def get_manga_name(self) -> str:
         return self.text_content(self.content, '.credit h1')
