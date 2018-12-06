@@ -18,7 +18,7 @@ class MangaParkMe(Provider, Std):
         return self._get_name('/manga/([^/]+)')
 
     def get_chapters(self):
-        return self._elements('div.stream:last-child em a:last-child')
+        return self._elements('#list a.ch')
 
     def get_files(self):
         content = self.http_get(self.chapter)
