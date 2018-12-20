@@ -36,10 +36,43 @@ class MangaFoxMe(Provider, Std):
     def get_chapters(self):
         return self._elements('#list-1 a[href]')
 
+    def _get_links(self, content):
+        js = self.re.search(r'eval\((function\b.+)\((\'[\w ].+)\)\)', content).groups()
+        return BaseLib.exec_js('m = ' + js[0], 'm(' + js[1] + ')')
+
+    def _one_link_helper(self, content, page):
+        cid = self.re.search(r'chapterid\s*=\s*(\d+)', content).group(1)
+        base_url = self.chapter[0:self.chapter.rfind('/')]
+        links = self._get_links(content)
+        key = ''.join(self.re.findall(r'\'(\w)\'', links))
+        return self.http_get('{}/chapterfun.ashx?cid={}&page={}&key={}'.format(
+            base_url,
+            cid,
+            page,
+            key
+        ))
+
+    def _parse_links(self, data):
+        base_path = self.re.search(r'pix="(.+?)"', data).group(1)
+        images = self.re.findall(r'"(/\w.+?)"', data)
+        return [base_path + i for i in images]
+
+    def _get_links_page_to_page(self, content):
+        last_page = self.document_fromstring(content, '.pager-list-left > span > a:nth-last-child(2)', 0)
+        links = []
+        for i in range(0, int(int(last_page.get('data-page'))/2 + .5)):
+            data = self._one_link_helper(content, (i*2)+1)
+            links += self._parse_links(self._get_links(data))
+        return links
+
     def get_files(self):
         content = self.http_get(self.chapter)
-        js = self.re.search(r'eval\((function\b.+)\((\'[\w ].+)\)\)', content).groups()
-        data = self.re.search(r'\w=(\[.+\])', BaseLib.exec_js('m = ' + js[0], 'm(' + js[1] + ')')).group(1)
+        links = self._get_links(content)
+        if ~links.find('key='):
+            # chapters data example: http://fanfox.net/manga/the_hero_is_overpowered_but_overly_cautious/c001/chapterfun.ashx?cid=567602&page=6&key=6b5367d728d445a8
+            return self._get_links_page_to_page(content)
+
+        data = self.re.search(r'\w=(\[.+\])', links).group(1)
         data = self.json.loads(data.replace("'", '"'))
         n = self.http().normalize_uri
         return [n(i) for i in data]
