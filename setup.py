@@ -67,6 +67,8 @@ setup(
         ('manga_py/storage', [
             'manga_py/storage/.passwords.json.dist',
             'manga_py/storage/.proxy.txt',
+            'manga_py/crypt/aes.js',
+            'manga_py/crypt/aes_zp.js',
         ]),
     ],
     download_url='{}/archive/{}.tar.gz'.format(__downloader_uri__, __version__),
