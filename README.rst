@@ -40,6 +40,29 @@ Installation
 
     manga-py http://manga.url/manga/name  # For download manga
 
+Installation using docker
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1) Have docker installed and running
+2) Clone this repository:
+
+.. code:: bash
+
+    git clone https://github.com/yuru-yuri/manga-dl.git
+    cd manga-dl
+
+3) Build:
+
+.. code:: bash
+
+    docker build -t manga-py .
+
+4) Run program:
+
+.. code:: bash
+
+    docker run -v /full/path/to/manga_root_dir:/data manga-py http://manga.url/manga/name
+
 Installation on the Android
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 See https://github.com/yuru-yuri/manga-dl/issues/48
