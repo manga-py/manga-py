@@ -8,6 +8,10 @@ from .chapter import Chapter
 class Simplify:  # Few hacks to simplify life.
     __cache = None
 
+    def __init__(self):
+        super().__init__()
+        self.__cache = {}
+
     @property
     def url(self) -> str:
         return self._args['url']
@@ -24,7 +28,7 @@ class Simplify:  # Few hacks to simplify life.
     def content(self) -> Response:
         if 'content' not in self.__cache:
             self.__cache['content'] = self.get_content()
-        return self.__cache['conten']
+        return self.__cache['content']
 
     @property
     def manga_name(self) -> str:

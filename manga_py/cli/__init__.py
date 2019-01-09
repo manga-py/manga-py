@@ -65,9 +65,8 @@ class Cli(CliHelper):
                 'url': manga.url,
                 **data_args,
             })
-            provider = self._get_provider(_args)
+            provider = self._get_provider(_args)  # type: Provider
             if provider:
-                provider = provider()  # type: Provider
                 provider.before_provider(_args)
                 provider.http.cookies = data.get('cookies')
                 provider.http.ua = data.get('browser')
@@ -79,9 +78,8 @@ class Cli(CliHelper):
     def _run_normal(self, _args, urls):
         for url in urls:
             _args['url'] = url
-            provider = self._get_provider(_args)
+            provider = self._get_provider(_args)  # type: Provider
             if provider:
-                provider = provider()  # type Provider
                 provider.before_provider(_args)
                 provider.run(_args)
                 provider.after_provider()

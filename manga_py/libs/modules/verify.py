@@ -1,7 +1,7 @@
 try:
     from manga_py.exceptions import InvalidUrlException
 except ImportError:
-    from builtins import AttributeError as InvalidUrlException
+    from builtins import ValueError as InvalidUrlException
 
 
 def check_url(args):

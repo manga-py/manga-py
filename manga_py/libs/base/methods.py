@@ -131,4 +131,4 @@ class Methods:
 
     def set_callbacks(self, **kwargs):
         for key in kwargs:
-            setattr(self, key, kwargs['key'])
+            setattr(self, key, kwargs[key])

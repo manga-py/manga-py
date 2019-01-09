@@ -1,10 +1,10 @@
-class InvalidUrlException(AttributeError):
+class InvalidUrlException(ValueError):
     pass
 
 
-class InvalidChapter(AttributeError):
+class InvalidChapter(ValueError):
     pass
 
 
-class InvalidFile(AttributeError):
+class InvalidFile(ValueError):
     pass

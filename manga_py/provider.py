@@ -27,14 +27,16 @@ class Provider(Base, metaclass=ABCMeta):
         self._store = {}
         self._db = Manga()
         self._threads = MultiThreads()
+
+    def run(self, args: dict):
+        verify.check_url(args)
+        self._args = args
+
         if not self.arg('no-progress') and self.progressbar:
             self._progress = self.progressbar()
         if self.arg('no_multi_threads'):
             self._threads.max_threads = 1
 
-    def run(self, args: dict):
-        verify.check_url(args)
-        self._args = args
         try:
             self.loop_chapters()
         except KeyboardInterrupt:
@@ -76,7 +78,7 @@ class Provider(Base, metaclass=ABCMeta):
             try:
                 file = File(idx, data, self)
                 self._threads.add(target=self.download, args=(file,))
-            except AttributeError as e:
+            except ValueError as e:
                 files_errors.append((str(e), idx))
         if len(files_errors):
             self.log_warning('Files error:\n', *files_errors)

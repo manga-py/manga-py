@@ -45,6 +45,7 @@ class CliHelper:
                 self.global_info.add_info(info, self.global_info.ERROR, e)
                 self.log() and log.err(e)
                 return
+        provider = provider()
         provider.set_callbacks(
             print=print_lib,
             print_error=self.print_error,
@@ -79,6 +80,6 @@ class CliHelper:
 
     def _search_for_title(self, title):
         if len(title) < 1:
-            raise AttributeError('Title is empty!')
+            raise ValueError('Title is empty!')
 
         raise UserWarning('Not implemented now')

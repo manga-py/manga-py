@@ -23,8 +23,8 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
     _http = None
     _html = None
 
-    def __init__(self):
-        super().__init__()
+    # def __init__(self):
+    #     super().__init__()
 
     @property
     def html(self) -> Html:
@@ -51,7 +51,7 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
         elif isinstance(item, Chapter):
             self._download_chapter(item)
         else:
-            raise AttributeError(type(item))
+            raise ValueError(type(item))
 
     def _download_file(self, file: File):
         self.before_download(file)

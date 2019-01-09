@@ -70,6 +70,6 @@ def get_provider(url: str, providers: dict = None, more_namespaces: list = None)
         items = manga_providers[provider]
         reg = '(?:' + '|'.join(_boundary(items)) + ')'
         provider = __check_provider(reg, provider, url, namespaces)
-        if isinstance(provider, Provider) and hasattr(provider, 'main'):
+        if hasattr(provider, 'main'):
             return provider.main
     raise ImportError('Provider not found')

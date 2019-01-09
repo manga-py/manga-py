@@ -1,18 +1,35 @@
-from lxml.html import document_fromstring
-from lxml.etree import ElementBase
 from typing import List, Union
 
-from manga_py.libs.http import Http
+from lxml.etree import ElementBase
+from lxml.html import document_fromstring
+from requests import Response
 from tinycss import make_parser
+
+from manga_py.libs.http import Http
 
 
 class Html:
     http = None
 
     def __init__(self, http: Http):
+        super().__init__()
         self.http = http
 
-    def from_content(self, content, selector: str = None, idx: int = None) -> ElementBase:
+    @staticmethod
+    def _check_response(response) -> str:
+        if isinstance(response, Response):
+            response = response.content
+        return response
+
+    @staticmethod
+    def from_content(content, selector: str = None, idx: int = None) -> Union[ElementBase, List[ElementBase]]:
+        """
+        :param content: str
+        :param selector: str
+        :param idx: int
+        :return: Union[ElementBase, list]
+        """
+        content = Html._check_response(content)
         html = document_fromstring(content)
         if selector is not None:
             html = html.cssselect(selector)
@@ -20,7 +37,13 @@ class Html:
                 return html[idx]
         return html
 
-    def from_url(self, url, selector: str = None, idx: int = None) -> ElementBase:
+    def from_url(self, url, selector: str = None, idx: int = None) -> Union[ElementBase, List[ElementBase]]:
+        """
+        :param url: str
+        :param selector: str
+        :param idx: int
+        :return: Union[ElementBase, list]
+        """
         content = self.http.get(url).text
         return self.from_content(content, selector, idx)
 
@@ -28,7 +51,7 @@ class Html:
         if isinstance(parser, str):
             parser = self.from_content(parser)
         elif not isinstance(parser, ElementBase):
-            raise AttributeError('Undefined type')
+            raise TypeError('parser type error')
         return parser
 
     def elements(self, parser: Union[str, ElementBase], selector: str) -> List[ElementBase]:
@@ -56,11 +79,12 @@ class Html:
             return [parser]
         return parser.cssselect(selector)
 
-    def cover(self, parser: Union[str, ElementBase], selector: str, attribute='src', index: int = 0) -> Union[None, str]:
+    def cover(self, parser: Union[str, ElementBase], selector: str,
+              attribute: Union[str, tuple] ='src', index: int = 0) -> Union[None, str]:
         """
-        :param parser: str|ElementBase
+        :param parser: str or ElementBase
         :param selector: str
-        :param attribute: str|tuple
+        :param attribute: str or tuple
         :param index: int
         :return:
         """
@@ -99,6 +123,8 @@ class Html:
     def text_content(self, parser, selector: str, idx: int = 0, strip: bool = True) -> str:
         items = self._cssselect(parser, selector)
         text = items[idx].text
-        if strip:
-            text = text.strip()
-        return text
+        return text.strip() if strip else text
+
+    def attribute_values(self, parser, selector: str = 'img', attr='src'):
+        items = self._check_parser(parser).cssselect(selector)
+        return [i.get(attr) for i in items]

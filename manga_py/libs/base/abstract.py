@@ -85,7 +85,7 @@ class Abstract:
         pass
 
     @abstractmethod
-    def get_chapter_name(self) -> Union[list, tuple]:  # mixed
+    def get_chapter_name(self) -> Union[str, list, tuple]:  # mixed
         """
         Returns the current name of the chapter.
         It is called at each iteration of the chapter list. (Use self.chapter to get RAW data from the provider)
@@ -119,20 +119,20 @@ class Abstract:
         """
         pass
 
-    def get_cover(self) -> str:
+    def get_cover(self) -> Union[str, list]:
         """
         Returns the cover of the manga, if possible.
         :return:
-        :rtype str or None
+        :rtype str or str[] or None
         """
-        raise AttributeError('Method get_cover() not implemented')
+        raise NotImplementedError
 
     def get_meta(self) -> Meta:  # Todo
         """
         :return:
         :rtype Meta or None
         """
-        raise AttributeError('Method get_meta() not implemented')
+        raise NotImplementedError
 
     def search(self, title: str) -> List[str]:
         """
@@ -140,4 +140,4 @@ class Abstract:
         :param title: str
         :return:
         """
-        raise AttributeError('Method search() not implemented')
+        raise NotImplementedError
