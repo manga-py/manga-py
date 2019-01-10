@@ -1,5 +1,6 @@
 from .base_lib import BaseLib
 from .puzzle import Puzzle
+from pathlib import Path
 
 
 class MangaGoMe(BaseLib):
@@ -9,12 +10,13 @@ class MangaGoMe(BaseLib):
     # https://codepen.io/1271/pen/mKYLrG
     def decrypt(self, data):
         scripts = [
-            'manga_py/crypt/aes.js',
-            'manga_py/crypt/aes_zp.js',
+            'aes.js',
+            'aes_zp.js',
         ]
         script = ''
+        path = Path(__file__).resolve().parent
         for i in scripts:
-            with open(i, 'r') as f:
+            with open(str(path.joinpath(i)), 'r') as f:
                 script += f.read()
         decrypted = self.exec_js(script,'CryptoJS.AES.decrypt("%s",CryptoJS.enc.Hex.parse("%s"),{iv:CryptoJS.enc.Hex.parse("%s"),padding:CryptoJS.pad.ZeroPadding}).toString(CryptoJS.enc.Utf8)' % (data,self._key,self._iv))
         order_js = """function replacePos(e,r,i){return e.substr(0,r)+i+e.substring(r+1,e.length)}function dorder(e,r){for(j=r.length-1;j>=0;j--)for(i=e.length-1;i-r[j]>=0;i--)i%2!=0&&(temp=e[i-r[j]],e=replacePos(e=replacePos(e,i-r[j],e[i]),i,temp));return e}"""
