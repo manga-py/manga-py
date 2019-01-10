@@ -469,6 +469,9 @@ providers_list = {
     'manhwa_co': [
         r'manhwa\.co/.',
     ],
+    'manhwahentai_com': [
+        r'manhwahentai\.com/manhwa/.'
+    ],
     'merakiscans_com': [
         r'merakiscans\.com/.',
     ],
