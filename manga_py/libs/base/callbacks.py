@@ -1,17 +1,14 @@
-from .chapter import Chapter
-from .file import File
-from typing import Union
-
-
 class Callbacks:
-    def before_chapter(self, chapter: Chapter):
+    def before_chapter(self, chapter):
         pass
 
-    def after_chapter(self, chapter: Chapter):
+    def after_chapter(self, chapter):
         pass
 
-    def before_download(self, item: Union[File, Chapter]):
+    def before_download(self, file):
+        """ Before each file """
         pass
 
-    def after_download(self, file: Union[File, Chapter]):
+    def after_download(self, file):
+        """ After each file """
         pass

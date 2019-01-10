@@ -1,5 +1,5 @@
 
-class Meta:
+class Manga:
     __storage = None
 
     def __init__(self, **kwargs):
@@ -21,11 +21,11 @@ class Meta:
         self.__storage['authors'] = authors
 
     @property
-    def year(self) -> str:
+    def year(self) -> int:
         return self.__storage['year']
 
     @year.setter
-    def year(self, year: str):  # 2006-2010
+    def year(self, year: int):
         self.__storage['year'] = year
 
     @property

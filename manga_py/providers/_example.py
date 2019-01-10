@@ -1,7 +1,15 @@
-from typing import List, Union
-
+import json
+import re
+from typing import Union, List
 from requests import Response
 
+from lxml.etree import ElementBase
+
+from manga_py.libs import fs
+from manga_py.libs.base.html import Html
+from manga_py.libs.base.manga import Manga
+from manga_py.libs.http import Http
+from manga_py.libs.meta import Chapter
 from manga_py.provider import Provider
 
 
@@ -23,7 +31,7 @@ class Example(Provider):
     def get_files(self) -> list:
         pass
 
-    def get_chapter_name(self) -> Union[list, tuple]:
+    def get_chapter_name(self, chapter) -> str:
         pass
 
     def get_chapter_url(self) -> str:
@@ -42,7 +50,8 @@ class Example(Provider):
     def get_meta(self):
         pass
 
-    def search(self, title: str) -> List[str]:
+    @staticmethod
+    def search(title: str, http: Http) -> List[str]:
         pass
 
 

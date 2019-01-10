@@ -1,6 +1,7 @@
 from random import randint
 
 import requests
+from copy import copy
 
 
 class Request(object):
@@ -62,3 +63,6 @@ class Request(object):
         for element in response.history:  # type: requests.Response
             self._cookies.update(element.cookies.get_dict())
         self._cookies.update(response.cookies.get_dict())
+
+    def copy(self):
+        return copy(self)

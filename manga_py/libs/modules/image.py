@@ -1,6 +1,5 @@
 from PIL import Image as PilImage, ImageChops
 import imghdr
-from manga_py.libs.base.file import File
 from pathlib import PurePath
 
 

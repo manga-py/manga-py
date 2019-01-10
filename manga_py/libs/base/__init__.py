@@ -1,6 +1,5 @@
 from abc import ABCMeta
 from pathlib import Path
-from typing import Union
 from urllib.parse import urlparse
 
 from manga_py.libs.crypt.base_lib import BaseLib
@@ -8,8 +7,6 @@ from manga_py.libs.http import Http
 from manga_py.libs.modules.image import Image
 from .abstract import Abstract
 from .callbacks import Callbacks
-from .chapter import Chapter
-from .file import File
 from .html import Html
 from .methods import Methods
 from .simplify import Simplify
@@ -45,15 +42,7 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
             ext = '.cbz'
         return str(Path(name).with_suffix(ext))
 
-    def download(self, item: Union[File, Chapter]):
-        if isinstance(item, File):
-            self._download_file(item)
-        elif isinstance(item, Chapter):
-            self._download_chapter(item)
-        else:
-            raise ValueError(type(item))
-
-    def _download_file(self, file: File):
+    def download(self, file):
         self.before_download(file)
         self.http.download(file.url, file.path_location)
         if not self.arg('not-change-files-xtension'):
@@ -63,11 +52,6 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
         self.after_download(file)  # split-image
         # args.get('split_image') and img.auto_split()
         Image.process(file, self._args)
-
-    def _download_chapter(self, chapter: Chapter):
-        self.before_download(chapter)
-        self.http.download(chapter.url, self.archive_ext(chapter.path_location))
-        self.after_download(chapter)
 
     def _db_key(self) -> str:  # max ~150 characters
         """
@@ -86,4 +70,4 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
             url.path.strip('/'),
             url.query,
             url.fragment,
-        ))
+        )).hexdigest()

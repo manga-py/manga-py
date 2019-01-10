@@ -12,7 +12,6 @@ class Html:
     http = None
 
     def __init__(self, http: Http):
-        super().__init__()
         self.http = http
 
     @staticmethod

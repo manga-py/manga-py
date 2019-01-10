@@ -1,8 +1,5 @@
 from typing import List
 
-from manga_py.libs.base import File
-from manga_py.libs.base.chapter import Chapter
-# from manga_py.libs.base.file import File
 from manga_py.provider import Provider
 from manga_py.providers import (
     get_provider as _get_provider,
@@ -36,21 +33,21 @@ def get_supported_resources(user_providers: dict = None, user_namespaces: list =
     return _clean(_manga_providers)
 
 
-def download_chapter(chapter: Chapter):
+def download_chapter(chapter):
     provider = chapter.provider
     provider._store['chapter_idx'] = 0
     provider.chapter = chapter
     provider.loop_files()
 
 
-def get_chapter_files(chapter: Chapter) -> List[File]:
+def get_chapter_files(chapter) -> List[str]:
     provider = chapter.provider
     provider._store['chapter_idx'] = 0
     provider.chapter = chapter
     return provider.files
 
 
-def get_chapters(provider: Provider) -> List[Chapter]:
+def get_chapters(provider: Provider) -> list:
     return provider.chapters
 
 

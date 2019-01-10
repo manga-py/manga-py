@@ -2,10 +2,34 @@ from urllib.parse import urlsplit
 from requests import Response
 from typing import List
 
-from .chapter import Chapter
+from manga_py.libs import fs
 
 
 class Simplify:  # Few hacks to simplify life.
+    """
+    :type _args dict
+    :type __cache dict
+    :type get_content callable
+    :type get_manga_name callable
+    :type get_chapters callable
+    :type get_files callable
+    :type get_main_page_url callable
+    :type get_cover callable
+    :type arg callable
+    :type _store dict
+    :type html manga_py.libs.base.html.Html
+    """
+    _args = None
+    get_content = None
+    get_manga_name = None
+    arg = None
+    _store = None
+    html = None
+    get_chapters = None
+    get_main_page_url = None
+    get_cover = None
+    get_files = None
+
     __cache = None
 
     def __init__(self):
@@ -35,8 +59,8 @@ class Simplify:  # Few hacks to simplify life.
         if 'manga_name' not in self.__cache:
             self.__cache['manga_name'] = self.get_manga_name()
         if self.arg('with-website-name'):
-            name = '{}-{}'.format(self.domain, self.__cache['manga_nam'])
-        return name
+            return '{}-{}'.format(self.domain, self.__cache['manga_nam'])
+        return self.__cache['manga_name']
 
     @property
     def chapters(self) -> list:
@@ -53,10 +77,15 @@ class Simplify:  # Few hacks to simplify life.
         """
         see manga_py/libs/base/abstract:get_chapters
         """
-        return self.get_files()
+        if 'files' not in self.__cache or self.chapter_idx != self.__cache.get('files', (-1, ''))[0]:
+            self.__cache = self.chapter_idx, self.get_files()
+        return self.__cache['files'][1]
 
     @property
-    def chapter(self) -> Chapter:
+    def chapter(self) -> dict:
+        """
+        TODO
+        """
         return self.chapters[self.chapter_idx]
 
     @chapter.setter
@@ -105,3 +134,8 @@ class Simplify:  # Few hacks to simplify life.
         if url is None:
             self.__cache['meta'] = self.get_cover()
         return self.__cache['meta']
+
+    # DEFAULT
+    def get_chapter_name(self, chapter) -> str:
+        name = fs.basename(chapter.get('url'))
+        return fs.remove_query(name)

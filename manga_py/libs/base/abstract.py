@@ -2,7 +2,8 @@ from abc import abstractmethod
 from typing import List, Union
 from requests import Response
 
-from .meta import Meta
+from .manga import Manga
+from manga_py.libs.http import Http
 
 
 class Abstract:
@@ -85,12 +86,12 @@ class Abstract:
         pass
 
     @abstractmethod
-    def get_chapter_name(self) -> Union[str, list, tuple]:  # mixed
+    def get_chapter_name(self, chapter) -> str:
         """
         Returns the current name of the chapter.
         It is called at each iteration of the chapter list. (Use self.chapter to get RAW data from the provider)
         :return:
-        :rtype (str or list or tuple)
+        :rtype str
         """
         pass
 
@@ -127,14 +128,15 @@ class Abstract:
         """
         raise NotImplementedError
 
-    def get_meta(self) -> Meta:  # Todo
+    def get_meta(self) -> Manga:  # Todo
         """
         :return:
-        :rtype Meta or None
+        :rtype Manga or None
         """
         raise NotImplementedError
 
-    def search(self, title: str) -> List[str]:
+    @staticmethod
+    def search(title: str, http: Http) -> List[str]:
         """
         Returns the list of manga if search is possible on the site.
         :param title: str
