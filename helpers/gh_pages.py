@@ -48,6 +48,7 @@ start_items = [
     ['http://zip.raw.im', 0, ' - Will not be implemented'],
     ['http://rawlh.com', 1, '- See lhscan.net'],
     ['http://8muses.com', 0, '- Need decode page.'],
+    ['http://mangago.me', 0, '- Need decode page.'],
 ]
 
 

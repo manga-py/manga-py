@@ -337,9 +337,9 @@ providers_list = {
     'mangafull_org': [
         r'mangafull\.org/manga/.',
     ],
-    'mangago_me': [
-        r'mangago\.me/read-manga/.',
-    ],
+    # 'mangago_me': [
+    #     r'mangago\.me/read-manga/.',
+    # ],
     'mangahasu_se': [
         r'mangahasu\.se/.',
     ],
