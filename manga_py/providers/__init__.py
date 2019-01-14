@@ -4,6 +4,9 @@ providers_list = {
     '3asq_info': [
         r'3asq\.info/.',
     ],
+    '7sama_com': [
+        r'7sama\.com/manga/.',
+    ],
     # '8muses_com': [
     #     r'8muses\.com/comics/album/.',
     # ],
