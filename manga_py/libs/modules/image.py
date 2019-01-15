@@ -1,13 +1,14 @@
 from PIL import Image as PilImage, ImageChops
 import imghdr
 from pathlib import PurePath
+from typing import Union
 
 
 class Image:
     _image = None
     _format = None
 
-    def __init__(self, image):
+    def __init__(self, image: Union[str, PilImage.Image]):
         if isinstance(image, str):
             self._image = PilImage.open(image)
         elif isinstance(image, PilImage.Image):
@@ -57,20 +58,22 @@ class Image:
         diff = ImageChops.add(diff, diff, 2.0, -100)
         bbox = diff.getbbox()
         diff.close()
-        self._image = self._image.crop(bbox)
-        return self
+        return self._image.crop(bbox)
 
     def auto_split(self):  # TODO
         pass
 
-    def manual_crop(self, sides=(0, 0, 0, 0)):  # (top, right, bottom, left)
+    def manual_crop(self, top: int = 0, right: int = 0, bottom: int = 0, left: int = 0):
         """
         Relative sizes!
-        :param sides:
+        :param int top:
+        :param int right:
+        :param int bottom:
+        :param int left:
         :return:
         """
-        self._image = self._image.crop(sides)
-        return self
+        sides = top, right, bottom, left
+        return self._image.crop(sides)
 
     def grayscale(self):
         return self._image.convert('LA')
@@ -93,8 +96,12 @@ class Image:
 
         if args['Xt'] > 0 or args['Xr'] > 0 or args['Xb'] > 0 or args['Xl'] > 0:
             _orig = False
-            param = (args['Xt'], args['Xr'], args['Xb'], args['Xl'])
-            img.manual_crop(param)
+            img.manual_crop(
+                args['Xt'],
+                args['Xr'],
+                args['Xb'],
+                args['Xl'],
+            )
 
         if args['jpg']:
             _orig = False

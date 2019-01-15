@@ -7,6 +7,10 @@ from manga_py.libs.http import Http
 
 
 class Abstract:
+
+    def __init__(self):
+        super().__init__()
+
     @abstractmethod
     def get_main_page_url(self) -> str:
         """

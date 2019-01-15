@@ -1,4 +1,8 @@
 class Callbacks:
+
+    def __init__(self):
+        super().__init__()
+
     def before_chapter(self, chapter):
         pass
 
