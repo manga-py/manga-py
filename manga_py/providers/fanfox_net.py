@@ -34,7 +34,7 @@ class MangaFoxMe(Provider, Std):
         return self._get_name('/manga/([^/]+)/?')
 
     def get_chapters(self):
-        return self._elements('#list-1 a[href]')
+        return self._elements('[id^="list-"] a[href]')
 
     def _get_links(self, content):
         js = self.re.search(r'eval\((function\b.+)\((\'[\w ].+)\)\)', content).groups()
