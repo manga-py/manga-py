@@ -1,6 +1,3 @@
-
-from .http import Http
-from .base.html import Html
 from manga_py.provider import Provider
 
 # Describes the structure of the files, chapters
@@ -11,7 +8,7 @@ class File:
     name = None
     provider = None
 
-    def __init__(self, provider: Provider, idx: int):
+    def __init__(self, provider: Provider, idx: int, data):
         self.provider = provider
         self.idx = idx
 
@@ -26,6 +23,6 @@ class Chapter:
     name = None
     provider = None
 
-    def __init__(self, provider: Provider, idx: int):
+    def __init__(self, provider: Provider, idx: int, data):
         self.provider = provider
         self.idx = idx

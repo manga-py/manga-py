@@ -18,6 +18,7 @@ class Simplify:  # Few hacks to simplify life.
     :type arg callable
     :type _store dict
     :type html manga_py.libs.base.html.Html
+    :type http manga_py.libs.http.Http
     """
     _args = None
     get_content = None
@@ -25,6 +26,7 @@ class Simplify:  # Few hacks to simplify life.
     arg = None
     _store = None
     html = None
+    http = None
     get_chapters = None
     get_main_page_url = None
     get_cover = None
@@ -96,13 +98,6 @@ class Simplify:  # Few hacks to simplify life.
     def chapter_idx(self) -> int:
         return self._store.get('chapter_idx', 0)
 
-    def elements(self, parser, selector) -> list:
-        return self.html.elements(parser, selector)
-
-    def images(self, parser, selector: str, attribute: str = 'src') -> List[str]:
-        items = self.elements(parser, selector)
-        return [i.get(attribute) for i in items]
-
     @property
     def domain(self) -> str:
         url = urlsplit(self.url)
@@ -139,3 +134,11 @@ class Simplify:  # Few hacks to simplify life.
     def get_chapter_name(self, chapter) -> str:
         name = fs.basename(chapter.get('url'))
         return fs.remove_query(name)
+
+    def _base_cookies(self, url=None, *args, **kwargs):
+        if url is None:
+            url = self.url
+        response = self.http.get(url, *args, **kwargs)
+        response.close()
+
+        self.http.cookies = response.cookies.get_dict()

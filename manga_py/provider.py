@@ -1,8 +1,7 @@
 from abc import ABCMeta
 
 from .libs.base import Base
-from .libs.base.chapter import Chapter
-from .libs.base.file import File
+from .libs.meta import Chapter, File
 from .libs.db import Manga, make_db
 from .libs.fs import get_temp_path
 from .libs.http.multi_threads import MultiThreads
@@ -32,9 +31,9 @@ class Provider(Base, metaclass=ABCMeta):
         verify.check_url(args)
         self._args = args
 
-        if not self.arg('no-progress') and self.progressbar:
+        if not self.arg('no-progress'):
             self._progress = self.progressbar()
-        if self.arg('no_multi_threads'):
+        if self.arg('no-multi-threads'):
             self._threads.max_threads = 1
 
         try:
@@ -55,7 +54,7 @@ class Provider(Base, metaclass=ABCMeta):
         for idx, data in enumerate(self.chapters):
             if self._break:
                 break
-            chapter = Chapter(idx, data, self)
+            chapter = Chapter(self, idx, data)
             self.before_chapter(chapter)
             self.download(chapter)
             self.after_chapter(chapter)
@@ -66,7 +65,7 @@ class Provider(Base, metaclass=ABCMeta):
             if self._break:
                 break
             self.chapter_idx = idx
-            self.chapter = Chapter(idx, data, self)
+            self.chapter = Chapter(self, idx, data)
             self.progress_next(True)
             self.before_chapter(self.chapter)
             self.loop_files()
@@ -76,7 +75,7 @@ class Provider(Base, metaclass=ABCMeta):
         files_errors = []
         for idx, data in enumerate(self.files):
             try:
-                file = File(idx, data, self)
+                file = File(self, idx, data)
                 self._threads.add(target=self.download, args=(file,))
             except ValueError as e:
                 files_errors.append((str(e), idx))
@@ -91,7 +90,8 @@ class Provider(Base, metaclass=ABCMeta):
         """
         if self._progress:
             if new:
-                self._progress.value > 0 and self._progress.finish()
+                if self._progress.value > 0:
+                    self._progress.finish()
                 self._progress.start(len(self._threads.threads))
             else:
                 self._progress.update(self._progress.value + 1)

@@ -127,3 +127,7 @@ class Html:
     def attribute_values(self, parser, selector: str = 'img', attr='src'):
         items = self._check_parser(parser).cssselect(selector)
         return [i.get(attr) for i in items]
+
+    def images(self, parser, selector, attr='src') -> list:
+        image = self._cssselect(parser, selector)
+        return [i.get(attr).strip(' \r\n\t\0') for i in image]

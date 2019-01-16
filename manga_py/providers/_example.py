@@ -1,15 +1,7 @@
-import json
-import re
-from typing import Union, List
+from typing import List
 from requests import Response
 
-from lxml.etree import ElementBase
-
-from manga_py.libs import fs
-from manga_py.libs.base.html import Html
-from manga_py.libs.base.manga import Manga
 from manga_py.libs.http import Http
-from manga_py.libs.meta import Chapter
 from manga_py.provider import Provider
 
 

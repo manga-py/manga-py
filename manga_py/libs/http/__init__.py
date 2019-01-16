@@ -7,7 +7,6 @@ from urllib.parse import urljoin
 
 class Http(Request):
     _cookies_file = fs.storage('cookies.json')
-    _domain = None
     _base_uri = None
     _accept = '*/*;q=0.9,text/html,application/xhtml+xml,application/xml;q=0.8,text/css;q=0.1'
 
@@ -17,22 +16,15 @@ class Http(Request):
         self._cookies = self._load_storage_cookies()
         self._base_uri = base_uri
 
-    @property
-    def cookies(self):
-        if self._domain is None:
-            raise AttributeError('Domain is undefined')
-        return self._cookies.get(self._domain)
-
-    @cookies.setter
-    def cookies(self, cookies):
-        self._cookies[self._domain] = cookies
-
-    def set_headers(self, headers: dict):
+    def set_headers(self, headers: dict = None):
+        if headers is None:
+            headers = {}
         headers.setdefault('Accept', self._accept)
         headers.setdefault('User-Agent', self._user_agent())
         headers.setdefault('Accept-Encoding', 'gzip, deflate')
+        super().set_headers(headers)
 
-    def allow_webp(self):
+    def allow_webp(self, url):
         self._headers['Accept'] = 'image/webp,image/apng,' + self._accept
 
     def _load_storage_cookies(self, domain: str = None) -> dict:
@@ -40,6 +32,8 @@ class Http(Request):
         if fs.is_file(self._cookies_file):
             with open(self._cookies_file, 'r') as f:
                 cookies = json.loads(f.read())
+        if domain is None:
+            return cookies
         return cookies.get(domain, {})
 
     def _dump_storage_cookies(self, cookies: dict, domain: str = None):
@@ -72,3 +66,11 @@ class Http(Request):
         with open(part, mode) as w:
             w.write(self.request(method, url, headers=headers).content)
         fs.rename(part, path_location)
+
+    def cookies(self, url=None):
+        if url is None:
+            url = self._base_uri
+        return super().cookies(url)
+
+    def headers(self):
+        return self._headers
