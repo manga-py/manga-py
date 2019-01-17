@@ -2,7 +2,6 @@ import atexit
 import json
 from shutil import rmtree
 
-import better_exceptions
 from zenlog import log
 
 from manga_py.libs import fs
@@ -28,7 +27,6 @@ class Cli(CliHelper):
         rmtree(self._temp_path)
 
     def run(self):
-        better_exceptions.hook()
         _args = self._args.copy()
         if _args.get('title'):  # todo: Maybe search for user-urls only
             urls = self._search_for_title(_args.get('title'))
