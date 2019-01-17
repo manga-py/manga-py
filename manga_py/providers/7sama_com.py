@@ -3,7 +3,6 @@ from .helpers.std import Std
 
 
 class SevenSamaCom(Provider, Std):
-    _api_data = None
 
     def get_archive_name(self) -> str:
         self._vol_fill = True
@@ -25,11 +24,16 @@ class SevenSamaCom(Provider, Std):
 
     def get_chapters(self):
         idx = self.re.search(r'/manga/.+?/(\d+)', self.get_url()).group(1)
-        content = self.http_get('{}/series/chapters_list.json?page=1&id_serie={}'.format(
-            self.domain, idx
-        ), {'x-requested-with': 'XMLHttpRequest'})
-        self._api_data = self.json.loads(content)
-        return self.__prepare_chapters(self._api_data['chapters'])
+        chapters = []
+        for i in range(1, 1000):
+            content = self.http_get('{}/series/chapters_list.json?page={}&id_serie={}'.format(
+                self.domain, i, idx
+            ), {'x-requested-with': 'XMLHttpRequest'})
+            data = self.json.loads(content)
+            if data['chapters'] is False:
+                break
+            chapters += self.__prepare_chapters(data['chapters'])
+        return chapters
 
     @staticmethod
     def __prepare_chapters(items):
