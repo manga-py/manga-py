@@ -84,5 +84,8 @@ class MangaFoxMe(Provider, Std):
         # todo meta
         pass
 
+    def prepare_cookies(self):
+        self.http().cookies['isAdult'] = '1'
+
 
 main = MangaFoxMe
