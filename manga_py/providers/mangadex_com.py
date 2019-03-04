@@ -65,7 +65,7 @@ class MangaDexCom(Provider, Std):
         if pages:
             pages = self.re.search(r'.+/(\d+)', pages[0].get('href')).group(1)
             for i in range(2, int(pages)+1):
-                _parser = self.html_fromstring('{}/chapters/{}/)'.format(
+                _parser = self.html_fromstring('{}/chapters/{}/'.format(
                     self._home_url, i
                 ))
                 items += self._get_chapters_links(_parser)
