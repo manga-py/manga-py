@@ -96,6 +96,8 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
                 self._storage['files'] = self.get_files()
                 self.loop_files()
             except Exception as e:
+                # Main debug here
+                # raise e
                 print([e], file=stderr)
                 self._info.set_last_volume_error(e)
 

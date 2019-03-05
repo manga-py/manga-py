@@ -668,6 +668,9 @@ providers_list = {
     'siberowl_com': [
         r'siberowl\.com/mangas/.',
     ],
+    'sleepypandascans_co': [
+        r'sleepypandascans\.co/(Series|Reader)/.',
+    ],
     'somanga_net': [
         r'somanga\.net/(leitor|manga)/.',
         r'somangas\.net/(leitor|manga)/.',
