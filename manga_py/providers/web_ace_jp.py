@@ -40,7 +40,7 @@ class WebAceJp(Provider, Std):
 
     def get_chapters(self):
         content = self.http_get(self.__url() + 'episode/')
-        selector = '.media > a.navigate-right'
+        selector = '.media:not(.yudo) > a.navigate-right'
         items = []
         n = self.http().normalize_uri
         for el in self._elements(selector, content):
