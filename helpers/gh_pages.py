@@ -35,7 +35,7 @@ start_items = [
     ['http://manganel.com', 1, '<i class="v0"></i>, site down now'],
     ['http://mangaroot.com', 1, '<i class="v0"></i>, site down now, one thread only!!! --no-multi-threads'],
     ['http://mangatail.com', 2, '- See mangatail.me'],
-    ['http://mangatrue.com', 1, ' - Site down now.'],
+    ['http://mangatrue.com', 1, ' - Site down now'],
     ['http://mangaz.com', 0, ' - Maybe...'],
     ['http://mg-zip.com', 0, ' - Will not be implemented'],
     ['http://raw-zip.com', 0, ' - Will not be implemented'],
@@ -49,6 +49,14 @@ start_items = [
     ['http://rawlh.com', 1, '- See lhscan.net'],
     ['http://8muses.com', 0, '- Need decode page.'],
     ['http://mangago.me', 0, '- Need decode page.'],
+
+    ['http://digitalteam1.altervista.org', 0, ' - Site down now'],
+    ['http://heymanga.me', 0, ' - Site down now'],
+    ['http://lector.dangolinenofansub.com', 0, ' - See kumanga.com'],
+    ['http://lector.ytnofan.com', 0, ' - Site down now'],
+    ['http://leomanga.com', 0, ' - Site down now'],
+    ['http://mang.as', 0, ' - Site down now'],
+    ['http://santosfansub.com', 0, ' - Site down now'],
 ]
 
 
