@@ -8,7 +8,7 @@ def main(args_parser: ArgumentParser):
 
     args.add_argument('--title', type=str, default='',
                       help='Search manga from providers. (Not implemented now)')
-    args.add_argument('-n', '--name', metavar='name', type=str, default=None,
-                      help='Manga name (Works on one only url!)')
-    args.add_argument('-d', '--destination', metavar='path', type=str, default='Manga',
-                      help='Destination folder')
+    args.add_argument('-n', '--name', metavar='name', type=str,
+                      help='Manga name (Works on one only url!)', default=None)
+    args.add_argument('-d', '--destination', metavar='path', type=str,
+                      help='Destination folder', default='Manga')

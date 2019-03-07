@@ -38,8 +38,8 @@ def get_util_home_path() -> str:
     return str(home)
 
 
-def make_dirs(directory):
-    Path(directory).mkdir(parents=True, exist_ok=True)
+def make_dirs(_path: str):
+    Path(_path).mkdir(parents=True, exist_ok=True)
 
 
 def remove_query(name: str) -> str:
@@ -51,19 +51,19 @@ def remove_query(name: str) -> str:
     return name
 
 
-def is_file(_path) -> bool:
+def is_file(_path: str) -> bool:
     return Path(_path).is_file()
 
 
-def is_dir(_path) -> bool:
+def is_dir(_path: str) -> bool:
     return Path(_path).is_dir()
 
 
-def basename(_path) -> str:
-    return Path(_path).name
+def basename(_path: str) -> str:
+    return str(Path(_path).name)
 
 
-def dirname(_path) -> str:
+def dirname(_path: str) -> str:
     return str(Path(_path).parent)
 
 
@@ -71,31 +71,31 @@ def path_join(_path, *args) -> str:
     return str(Path(_path).joinpath(*args))
 
 
-def unlink(_path):
+def unlink(_path: str):
     if is_dir(_path):
         Path(_path).rmdir()
     if is_file(_path):
         Path(_path).unlink()
 
 
-def os_stat(_path):
+def os_stat(_path: str):
     if is_file(_path):
         return Path(_path).stat()
     return None
 
 
-def file_size(_path):
+def file_size(_path: str):
     data = os_stat(_path)
     if data is not None:
         return data.st_size
     return -1
 
 
-def rename(_from, _to):
+def rename(_from: str, _to: str):
     Path(_from).rename(_to)
 
 
-def storage(_path):
+def storage(_path: str):
     """
     Returns the root of the installation path manga-py
     :return:
@@ -121,7 +121,7 @@ def walk(_path: str) -> tuple:
     return path.resolve(), dirs, files
 
 
-def listing(_path) -> dict:
+def listing(_path: str) -> dict:
     """
     :param _path:
     :return: {'directories': (,), 'files': (,)}
@@ -130,7 +130,7 @@ def listing(_path) -> dict:
     return {'directories': _dirnames, 'files': _filenames}
 
 
-def __get_info(_path, result: dict):
+def __get_info(_path: str, result: dict):
     file = path_join(_path, 'info.json')
     if is_file(file):
         with open(file, 'r') as r:

@@ -27,7 +27,7 @@ def args():
 
 
 class DataBase:
-    _db = None  # type Manga
+    _db = None  # type: Manga
 
     def __init__(self):
         make_db()

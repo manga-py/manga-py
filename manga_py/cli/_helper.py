@@ -8,6 +8,7 @@ from zenlog import log
 
 from manga_py import meta
 from manga_py.cli import args
+from manga_py.provider import Provider
 from manga_py.libs import print_lib
 from manga_py.libs.http import Http
 from manga_py.libs.modules import info
@@ -45,7 +46,7 @@ class CliHelper:
                 self.global_info.add_info(info, self.global_info.ERROR, e)
                 self.show_log() and log.err(e)
                 return
-        provider = provider()
+        provider = provider()  # type: Provider
         provider.set_callbacks(
             print=print_lib,
             print_error=self.print_error,

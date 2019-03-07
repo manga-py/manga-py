@@ -10,6 +10,7 @@ from . import args
 from ._helper import CliHelper
 from .db import DataBase
 from manga_py.provider import Provider
+from manga_py.libs.db import Manga
 
 
 class Cli(CliHelper):
@@ -46,7 +47,7 @@ class Cli(CliHelper):
 
     def _update_all(self):
         default_args = self.get_default_args()
-        for manga in self.db.get_all():  # type Manga
+        for manga in self.db.get_all():  # type: Manga
             self.show_log() and log.info('Update %s', manga.url)
             _args = default_args.copy()
             data = json.loads(manga.data)
@@ -72,6 +73,8 @@ class Cli(CliHelper):
                 provider.after_provider()
                 provider.update_db()
                 self.global_info.add_info(info)
+            else:
+                self.show_log() and log.error('Provider not exists')
 
     def _run_normal(self, _args, urls):
         for url in urls:
@@ -83,3 +86,5 @@ class Cli(CliHelper):
                 provider.after_provider()
                 provider.update_db()
                 self.global_info.add_info(info)
+            else:
+                self.show_log() and log.warn('Provider not exists')

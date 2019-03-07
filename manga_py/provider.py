@@ -36,6 +36,8 @@ class Provider(Base, metaclass=ABCMeta):
         if self.arg('no-multi-threads'):
             self._threads.max_threads = 1
 
+        self._allow_db = not self.arg('do-not-use-database', False)
+
         try:
             self.loop_chapters()
         except KeyboardInterrupt:
@@ -106,4 +108,10 @@ class Provider(Base, metaclass=ABCMeta):
         if not self._allow_db:
             return
         make_db()
-        db = self._db.select().where(Manga.key == self._db_key())
+        db = self._db.select().where(Manga.key == self._db_key())  # type: Manga
+        if not db:
+            db = Manga()
+            db.key = self._db_key()
+            db.name = self.manga_name
+        db.url = self.main_page_url
+        db.path = self.password

@@ -1,6 +1,8 @@
+# from typing import List
+from pathlib import Path
 from urllib.parse import urlsplit
+
 from requests import Response
-from typing import List
 
 from manga_py.libs import fs
 
@@ -92,7 +94,7 @@ class Simplify:  # Few hacks to simplify life.
 
     @chapter.setter
     def chapter(self, chapter):
-        self._store[self.chapter_idx] = chapter
+        self.chapters[self.chapter_idx] = chapter
 
     @property
     def chapter_idx(self) -> int:
@@ -102,12 +104,6 @@ class Simplify:  # Few hacks to simplify life.
     def domain(self) -> str:
         url = urlsplit(self.url)
         return '{}://{}'.format(url.scheme, url.netloc)
-
-    def _set_cache_value(self, key, value):
-        self.__cache[key] = value
-
-    def _get_cache_value(self, key, default=None):
-        return self.__cache.get(key, default)
 
     @property
     def main_page_url(self) -> str:
@@ -129,6 +125,18 @@ class Simplify:  # Few hacks to simplify life.
         if url is None:
             self.__cache['meta'] = self.get_cover()
         return self.__cache['meta']
+
+    @property
+    def manga_destination(self) -> str:
+        _root = Path(self._args['destination']).resolve()
+        _root.mkdir(parents=True, exist_ok=True)
+        return str(_root.joinpath(self.manga_name))
+
+    def _set_cache_value(self, key, value):
+        self.__cache[key] = value
+
+    def _get_cache_value(self, key, default=None):
+        return self.__cache.get(key, default)
 
     # DEFAULT
     def get_chapter_name(self, chapter) -> str:

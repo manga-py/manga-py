@@ -1,5 +1,7 @@
 from threading import Thread
 
+# see: https://python-scripts.com/threading
+
 
 class MultiThreads:
     threads = None
@@ -13,7 +15,7 @@ class MultiThreads:
         self._current_threads = 0
         try:
             import multiprocessing
-            self.max_threads = multiprocessing.cpu_count()
+            self.max_threads = min(multiprocessing.cpu_count(), 8) / 2
             if self.max_threads < 2:
                 self.max_threads = 2
         except ImportError:

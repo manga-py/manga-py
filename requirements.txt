@@ -16,3 +16,4 @@ better_exceptions>=0.2
 zenlog>=1.1
 argcomplete>=1.9.4
 tabulate>=0.8
+pyScheduler>=0.1
