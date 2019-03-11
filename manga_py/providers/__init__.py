@@ -82,6 +82,9 @@ providers_list = {
     'comicvn_net': [
         r'comicvn\.net/truyen-tranh-online/.',
     ],
+    'cycomi_com': [
+        r'cycomi\.com/fw/cycomibrowser/chapter/title/\d',
+    ],
     'danbooru_donmai_us': [
         r'danbooru\.donmai\.us/posts.',
     ],
