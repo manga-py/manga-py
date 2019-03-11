@@ -7,26 +7,21 @@ class CycomiCom(Provider, Std):
     def remove_not_ascii(value):
         return value
 
-    def get_archive_name(self) -> str:
-        return self.normal_arc_name(self.get_chapter_index())
-
     def get_chapter_index(self) -> str:
         return self.chapter[1]
 
-    def __url(self):
-        return '{}/fw/cycomibrowser/chapter/title/{}'.format(
-            self.domain,
-            self.__idx()
-        )
-
-    def __idx(self):
-        return self.re.search(
+    def get_main_content(self):
+        idx = self.re.search(
             r'/title/(\d+)',
             self.get_url()
         ).group(1)
 
-    def get_main_content(self):
-        return self.http_get(self.__url())
+        url = '{}/fw/cycomibrowser/chapter/title/{}'.format(
+            self.domain,
+            idx
+        )
+
+        return self.http_get(url)
 
     def get_manga_name(self) -> str:
         return self.text_content(self.content, '.title-texts h3')
@@ -44,14 +39,16 @@ class CycomiCom(Provider, Std):
         return items
 
     def get_files(self):
-        n = self.http().normalize_uri
         content = self.http_get(self.chapter[0])
+        parser = self.document_fromstring(content)
         selector = '.comic-image'
-        items = self._elements(selector, content)
-        return [n(i.get('src')) for i in items]
+        return self._images_helper(parser, selector)
 
     def get_cover(self) -> str:
         return self._cover_from_content('.title-image-container img')
+
+    def chapter_for_json(self):
+        return self.chapter[1]
 
     def book_meta(self) -> dict:
         # todo meta
