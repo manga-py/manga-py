@@ -68,13 +68,21 @@ class MangaFoxMe(Provider, Std):
     def get_files(self):
         content = self.http_get(self.chapter)
         links = self._get_links(content)
+
+        n = self.http().normalize_uri
+
         if ~links.find('key='):
             # chapters data example: http://fanfox.net/manga/the_hero_is_overpowered_but_overly_cautious/c001/chapterfun.ashx?cid=567602&page=6&key=6b5367d728d445a8
             return self._get_links_page_to_page(content)
 
+        if ~links.find('token='):
+            links_array = self.re.search(r'(\[.+?\])', links)
+            links_array = links_array.group(1).replace('\'', '"')
+            links_data = self.json.loads(links_array)
+            return [n(i) for i in links_data]
+
         data = self.re.search(r'\w=(\[.+\])', links).group(1)
         data = self.json.loads(data.replace("'", '"'))
-        n = self.http().normalize_uri
         return [n(i) for i in data]
 
     def get_cover(self):
