@@ -738,10 +738,10 @@ providers_list = {
         r'tsumino\.com/Book/Info/\d',
         r'tsumino\.com/Read/View/\d',
     ],
-    'tumangaonline_com': [
-        r'tumangaonline\.com/.',
-        r'tumangaonline\.me/.',
-    ],
+    # 'tumangaonline_com': [
+    #     r'tumangaonline\.com/.',
+    #     r'tumangaonline\.me/.',
+    # ],
     'unionmangas_net': [
         r'unionmangas\.cc/(leitor|manga)/.',
         r'unionmangas\.net/(leitor|manga)/.',
