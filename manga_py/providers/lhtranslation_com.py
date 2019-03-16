@@ -5,7 +5,7 @@ from .helpers.std import Std
 class _Template(GoMangaCo, Std):
     _name_re = r'/manga-([^/]+)\.html'
     _content_str = '{}/manga-{}.html'
-    _chapters_selector = '#tab-chapper td > a.chapter'
+    _chapters_selector = '#tab-chapper td > a.chapter,#list-chapters a.chapter'
 
     def get_chapter_index(self) -> str:
         idx = self.re.search(r'-chapter-(.+?)\.html', self.chapter)
@@ -13,7 +13,7 @@ class _Template(GoMangaCo, Std):
 
     def get_files(self):
         content = self.http_get(self.chapter)
-        parser = self.document_fromstring(content, '.chapter-content', 0)
+        parser = self.document_fromstring(content, 'article#content,.chapter-content', 0)
         return self._images_helper(parser, 'img.chapter-img', 'data-original')
 
 
