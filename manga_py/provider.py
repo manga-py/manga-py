@@ -168,7 +168,12 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             self._params.get('destination', 'Manga'),
             name,
             _path + '.%s' % self._archive_type()
-        )
+        )\
+            .replace('?', '_')\
+            .replace('"', '_')\
+            .replace('>', '_')\
+            .replace('<', '_')\
+            .replace('|', '_')  # Windows...
 
     def make_archive(self):
         _path = self.get_archive_path()

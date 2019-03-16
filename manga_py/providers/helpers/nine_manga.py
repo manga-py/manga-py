@@ -1,6 +1,7 @@
 from abc import ABCMeta
 from time import sleep
 from urllib.parse import unquote
+from requests import get
 
 from manga_py.provider import Provider
 
@@ -39,10 +40,13 @@ class NineHelper(Provider, metaclass=ABCMeta):
 
     def _get_page_content(self, url):
         sleep(.6)
-        return self.http_get(
+        return get(
             url,
-            headers={'Referer': ''}  # fix guard
-        )
+            headers={
+                'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+                'Referer': '',
+            }  # fix guard
+        ).text
 
     def prepare_cookies(self):
         self._storage['cookies'].setdefault('__cfduid', '1a2b3c4d5e')

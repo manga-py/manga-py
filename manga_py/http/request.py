@@ -19,6 +19,7 @@ class Request:
     cookies = None
     kwargs = None
     debug = False
+    response = None
     _history = None
 
     def __init__(self):
@@ -114,11 +115,12 @@ class Request:
         if self.allow_webp:
             headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=1.0,image/webp,image/apng,*/*;q=1.0'
         kwargs.setdefault('proxies', self.proxies)
-        return self._requests_helper(
+        self.response = self._requests_helper(
             method=method, url=url, headers=headers, cookies=cookies,
             data=data, files=files, timeout=timeout,
             **kwargs
         )
+        return self.response
 
     def get(self, url: str, headers: dict = None, cookies: dict = None, **kwargs) -> str:
         response = self.requests(

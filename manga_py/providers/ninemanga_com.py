@@ -30,6 +30,10 @@ class NineMangaCom(NineHelper, Std):
             items.append('{}{}-10-1.html'.format(self.domain, u.group(1)))
         return items
 
+    def get_files_on_page(self, content):
+        parser = self.document_fromstring(content)
+        return self._images_helper(parser, 'img.manga_pic')
+
     def get_files(self):
         content = self._get_page_content(self.chapter)
         parser = self.document_fromstring(content)
@@ -40,6 +44,9 @@ class NineMangaCom(NineHelper, Std):
             content = self._get_page_content(url)
             images += self.get_files_on_page(content)
         return images
+
+    def prepare_cookies(self):
+        self._base_cookies(self.get_url())
 
     def book_meta(self) -> dict:
         # todo meta
