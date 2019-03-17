@@ -252,8 +252,8 @@ providers_list = {
         r'leomanga\.com/manga/.',
     ],
     'lhtranslation_com': [
-        r'read\.lhtranslation\.com/manga-.',
-        r'lhtranslation\.net/manga-.',
+        r'read\.lhtranslation\.com/(truyen|manga)-.',
+        r'lhtranslation\.net/(truyen|manga)-.',
     ],
     'lolibooru_moe': [
         r'lolibooru\.moe/post.',

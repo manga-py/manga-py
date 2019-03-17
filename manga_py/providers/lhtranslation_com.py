@@ -2,7 +2,7 @@ from .gomanga_co import GoMangaCo
 from .helpers.std import Std
 
 
-class _Template(GoMangaCo, Std):
+class LHTranslationCom(GoMangaCo, Std):
     _name_re = r'/manga-([^/]+)\.html'
     _content_str = '{}/manga-{}.html'
     _chapters_selector = '#tab-chapper td > a.chapter,#list-chapters a.chapter'
@@ -17,4 +17,4 @@ class _Template(GoMangaCo, Std):
         return self._images_helper(parser, 'img.chapter-img', 'data-original')
 
 
-main = _Template
+main = LHTranslationCom
