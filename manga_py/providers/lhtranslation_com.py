@@ -3,7 +3,7 @@ from .helpers.std import Std
 
 
 class LHTranslationCom(GoMangaCo, Std):
-    _name_re = r'/manga-([^/]+)\.html'
+    _name_re = r'/(?:truyen|manga)-([^/]+)\.html'
     _content_str = '{}/manga-{}.html'
     _chapters_selector = '#tab-chapper td > a.chapter,#list-chapters a.chapter'
 
