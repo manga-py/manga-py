@@ -105,18 +105,17 @@ class MangaDexCom(Provider, Std):
     def _parse_chapters(self, items):
         n = self.http().normalize_uri
         result = []
-        re = self.re.compile(r'/flags/(.+?)\..+')
         for tr in items:
             ch = tr.cssselect('a[href*="/chapter/"]')[0]
-            lng = tr.cssselect('img.flag')
+            lng = tr.cssselect('span.flag')
             _ch = {
                 'ch': tr.get('data-chapter'),
                 'vol': tr.get('data-volume'),
                 'link': n(ch.get('href')),
             }
             if lng:
-                _ch['lng'] = lng[0].get('alt')
-                _ch['flag'] = re.search(lng[0].get('src')).group(1)
+                _ch['lng'] = lng[0].attrib['title']
+                _ch['flag'] = lng[0].attrib['class'].replace('rounded flag flag-','')
             else:
                 _ch['lng'] = ''
                 _ch['flag'] = ''
