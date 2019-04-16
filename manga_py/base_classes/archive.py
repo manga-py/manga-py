@@ -14,6 +14,7 @@ class Archive:
     files = None
     not_change_files_extension = False
     no_webp = False
+    has_error = False
 
     def __init__(self):
         self.files = []

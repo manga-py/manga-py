@@ -115,6 +115,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
     def loop_files(self):
         if isinstance(self._storage['files'], list):
             if len(self._storage['files']) == 0:
+                # see Std
                 print('Error processing file: %s' % self.get_archive_name(), file=stderr)
                 return
             self._archive = Archive()
@@ -154,6 +155,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         return _path
 
     def get_archive_path(self):
+        # see Std
         _path = remove_file_query_params(self.get_archive_name())
         _path = self.remove_not_ascii(_path)
 
@@ -164,10 +166,15 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         if not len(name):
             name = self._storage['manga_name']
 
+        additional_data_name = ''
+        if self.http().has_error:
+            additional_data_name = '.ERROR'
+            self.http().has_error = False
+
         return path_join(
             self._params.get('destination', 'Manga'),
             name,
-            _path + '.%s' % self._archive_type()
+            _path + '.%s%s' % (additional_data_name, self._archive_type())
         )\
             .replace('?', '_')\
             .replace('"', '_')\
