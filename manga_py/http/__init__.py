@@ -35,7 +35,7 @@ class Http(Request):
                 raise AttributeError('{} type not {}'.format(name, _type))
             setattr(self, name, value)
 
-    def __download(self, file_name, url, method):
+    def _download(self, file_name, url, method):
         now_try_count = 0
         while now_try_count < 10:
             with open(file_name, 'wb') as out_file:
@@ -57,7 +57,7 @@ class Http(Request):
         try:
             make_dirs(dirname(file_name))
             url = self.normalize_uri(url)
-            self.__download(file_name, url, method)
+            self._download(file_name, url, method)
         except OSError as ex:
             self.debug and print(ex)
             return False
