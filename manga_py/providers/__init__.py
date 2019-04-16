@@ -209,7 +209,7 @@ providers_list = {
         r'inmanga\.com/ver/manga/.',
     ],
     'japscan_com': [
-        r'japscan\.cc/.',
+        r'japscan\.to/.',
     ],
     'jurnalu_ru': [
         r'jurnalu\.ru/online-reading/.',
