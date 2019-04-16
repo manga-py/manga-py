@@ -42,6 +42,8 @@ class Archive:
                     jpeg_path = path.join(dirname(file[0]), jpeg)
                     Image(file[0]).convert(jpeg_path)
                     file = jpeg_path, jpeg
+                elif ext:
+                    file = file[0], ext
                 self._archive.write(*file)
 
     def __add_writes(self):
