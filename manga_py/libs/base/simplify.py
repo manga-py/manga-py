@@ -79,10 +79,11 @@ class Simplify:  # Few hacks to simplify life.
     @property
     def files(self) -> list:
         """
+        the first parameter is the sequence number, the second is the file list
         see manga_py/libs/base/abstract:get_chapters
         """
         if 'files' not in self.__cache or self.chapter_idx != self.__cache.get('files', (-1, ''))[0]:
-            self.__cache = self.chapter_idx, self.get_files()
+            self.__cache['files'] = self.chapter_idx, self.get_files()
         return self.__cache['files'][1]
 
     @property

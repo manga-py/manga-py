@@ -20,6 +20,7 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
     _http = None
     _html = None
 
+    _image_process_callbacks = None
     """
     Contains a list of callback functions with priority in the work.
     Each function should return the path to the processed image.
@@ -41,7 +42,6 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
     Также в этом случае следующая функция (2) получит путь /path/to/file.enc
     Это позволит иметь несколько обработчиков одного файла.
     """
-    _image_process_callbacks = None
 
     def __init__(self):
         super().__init__()
@@ -70,15 +70,16 @@ class Base(Abstract, Methods, Callbacks, Simplify, metaclass=ABCMeta):
     def download(self, file):
         self.before_download(file)
         self.http.download(file.url, file.path_location)
+        self.after_download(file)
 
+        success = True
         path = file.path_location
         for callback in self._image_process_callbacks:
             try:
-                _path = callback(path)
+                path, success = callback(path, success)
             except Exception as e:
                 self.logger.error(e.__traceback__)
-                continue
-            path = _path
+                success = False
 
     def _db_key(self) -> str:  # max ~150 characters
         """
