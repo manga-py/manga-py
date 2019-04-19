@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 
 from .providers import get_provider
 from .info import Info
+from loguru import logger
 
 
 class Parser:
@@ -38,5 +39,6 @@ class Parser:
         self.provider.set_quest_callback(quest)
         self.provider.set_quest_password_callback(quest_password)
 
+    @logger.catch
     def start(self):
         self.provider.process(self.params['url'], self.params)
