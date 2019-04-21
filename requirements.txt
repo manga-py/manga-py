@@ -11,3 +11,4 @@ html-purifier>=0.1.9
 selenium>=3.0.2
 pyexecjs>=1.5.1
 numpy
+loguru>0.2
