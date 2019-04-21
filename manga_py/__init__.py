@@ -8,6 +8,8 @@ from shutil import rmtree
 from sys import exit,  stderr
 from json import dumps
 import traceback
+from loguru import logger
+
 
 try:
     from .cli import Cli
@@ -78,6 +80,7 @@ def _update_all(args):
     parse_args.print_json and print(multi_info)
 
 
+@logger.catch
 def main():
     # if ~__version__.find('alpha'):
     #     print('Alpha release! There may be errors!', file=stderr)
