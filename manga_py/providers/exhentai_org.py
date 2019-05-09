@@ -1,6 +1,6 @@
 from time import sleep
 
-from manga_py.fs import get_util_home_path, path_join, is_file
+from manga_py.fs import get_util_home_path, path_join, is_file, unlink
 from .e_hentai_org import EHentaiOrg
 
 
@@ -11,12 +11,12 @@ class exhentai_org(EHentaiOrg):
         cookie_file = path_join(get_util_home_path(), 'cookies_exhentai.dat')
         if is_file(cookie_file):
             with open(cookie_file, 'r') as r:
-                self._storage['cookies'] = self.json.loads(r.read())
+                self.http().cookies = self.json.loads(r.read())
         else:
             # Login on e-hentai!
             name = self.quest([], 'Request login on e-hentai.org')
             password = self.quest_password('Request password on e-hentai.org')
-            content = self.http().post('https://forums.e-hentai.org/index.php?act=Login&CODE=01', data={
+            content = self.http_post('https://forums.e-hentai.org/index.php?act=Login&CODE=01', data={
                 'CookieDate': 1,
                 'b': '',
                 'bt': '',
@@ -33,6 +33,12 @@ class exhentai_org(EHentaiOrg):
                     w.write(self.json.dumps(self._storage['cookies']))
 
             sleep(5)
+        if self.http().requests('http://exhentai.org/').headers['Content-Type'].find('image/'):
+            """
+            if authorization was not successful
+            """
+            unlink(cookie_file)
+            self.prepare_cookies()
 
 
 main = exhentai_org
