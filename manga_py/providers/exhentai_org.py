@@ -37,6 +37,7 @@ class exhentai_org(EHentaiOrg):
             """
             if authorization was not successful
             """
+            self.http().cookies = {}
             unlink(cookie_file)
             self.prepare_cookies()
 
