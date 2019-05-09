@@ -25,6 +25,7 @@ class EHentaiOrg(Provider, Std):
 
     def prepare_cookies(self):
         self.helper = e_hentai_org.EHentaiOrg(self)
+        self.http().cookies['nm'] = "1"  # issue #178
 
     def get_chapters(self):
         parser = self.document_fromstring(self.content)

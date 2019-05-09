@@ -16,11 +16,11 @@ class exhentai_org(EHentaiOrg):
             # Login on e-hentai!
             name = self.quest([], 'Request login on e-hentai.org')
             password = self.quest_password('Request password on e-hentai.org')
-            content = self.http_post('https://forums.e-hentai.org/index.php?act=Login&CODE=01', data={
+            content = self.http().post('https://forums.e-hentai.org/index.php?act=Login&CODE=01', data={
                 'CookieDate': 1,
-                'b': 'd',
-                'bt': '1-1',
-                'ipb_login_submit': 'Login!',
+                'b': '',
+                'bt': '',
+                # 'ipb_login_submit': 'Login!',
                 'UserName': name,
                 'PassWord': password,
             })
