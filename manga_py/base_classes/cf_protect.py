@@ -1,5 +1,5 @@
 from sys import stderr
-import cfscrape
+import cloudscraper
 
 
 class CloudFlareProtect:
@@ -8,9 +8,9 @@ class CloudFlareProtect:
     def run(self, url):  # pragma: no cover
 
         if not self.protector:
-            scr = cfscrape.create_scraper()
+            scraper = cloudscraper.create_scraper()
             try:
-                self.protector = scr.get_tokens(url)
+                self.protector = scraper.get_tokens(url)
             except Exception as e:
                 print('CF error! %s' % e, file=stderr)
 

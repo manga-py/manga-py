@@ -431,8 +431,8 @@ providers_list = {
     'mangareader_xyz': [
         r'mangareader\.xyz/manga/.',
         r'mangareader\.xyz/.+?/chapter-\d',
-        r'mangafox\.cc/manga/.',
-        r'mangafox\.cc/.+?/chapter-\d',
+        # r'mangafox\.cc/manga/.',
+        # r'mangafox\.cc/.+?/chapter-\d',
     ],
     'mangarock_com': [
         r'mangarock\.com/manga/.',
