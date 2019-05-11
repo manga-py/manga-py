@@ -21,6 +21,7 @@ class Request:
     debug = False
     response = None
     _history = None
+    allow_send_referer = True
 
     def __init__(self):
         self.proxies = {}
@@ -110,7 +111,8 @@ class Request:
         self._history = []
         cookies = self._get_cookies(cookies)
         headers.setdefault('User-Agent', self.user_agent)
-        headers.setdefault('Referer', self.referer)
+        if self.allow_send_referer and self.referer:
+            headers.setdefault('Referer', self.referer)
         headers.setdefault('Accept-Language', self.default_lang)
         if self.allow_webp:
             headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=1.0,image/webp,image/apng,*/*;q=1.0'

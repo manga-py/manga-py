@@ -30,7 +30,7 @@ class MangaDexCom(Provider, Std):
         if url.find('/title/') < 0:
             url = self.html_fromstring(url, 'a.manga-link', 0)
             url = self.http().normalize_uri(url.get('href'))
-        self._home_url = self.re.search('(.+/title/\d+/[^/])', url).group(1)
+        self._home_url = self.re.search(r'(.+/title/\d+/[^/])', url).group(1)
         return self.http_get(self._home_url)
 
     def get_manga_name(self) -> str:

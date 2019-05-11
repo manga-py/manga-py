@@ -331,6 +331,9 @@ providers_list = {
         r'mangadex\.com/(title|chapter)/.',
         r'mangadex\.org/(title|chapter)/.',
     ],
+    'mangadex_info': [
+        r'mangadex\.info/manga/.',
+    ],
     'mangaeden_com': [
         r'mangaeden\.com/[^/]+/[^/]+-manga/.',
         r'perveden\.com/[^/]+/[^/]+-manga/.',

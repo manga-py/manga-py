@@ -219,7 +219,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         # hack
         self._storage['current_file'] = 0
         if self._params.get('no_multi_threads', False):
-            threading.threads = 2
+            threading.max_threads = 2
         for idx, url in enumerate(files):
             threading.add(self.save_file, (idx, self._multi_thread_callback, url))
 
