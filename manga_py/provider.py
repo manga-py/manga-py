@@ -35,6 +35,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
     _info = None
     _simulate = False
     _volume = None
+    _show_chapter_info = False
 
     def __init__(self, info: Info = None):
         super().__init__()
@@ -59,6 +60,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         self._zero_fill = params.get('zero_fill')
         self._with_manga_name = params.get('with_manga_name')
         self._simulate = params.get('simulate')
+        self._show_chapter_info = params.get('show_current_chapter_info', False)
 
     def process(self, url, params=None):  # Main method
         self._params['url'] = url
@@ -114,6 +116,8 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
 
     def loop_files(self):
         if isinstance(self._storage['files'], list):
+            if self._show_chapter_info:
+                print('\n\nCurrent chapter url: %s\n' % (self.chapter,))
             if len(self._storage['files']) == 0:
                 # see Std
                 print('Error processing file: %s' % self.get_archive_name(), file=stderr)

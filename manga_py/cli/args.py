@@ -34,6 +34,9 @@ def _debug_args(args_parser):  # pragma: no cover
     args.add_argument('--simulate', action='store_const', const=True, default=False,
                       help='Do not download the files and do not write anything to disk')
 
+    args.add_argument('--show-current-chapter-info', '-cc', action='store_const', const=True, default=False,
+                      help='Show current processing chapter info')
+
     # args.add_argument('--full-error', action='store_const', const=True, default=False,
     #                   help='Show full stack trace')
 
