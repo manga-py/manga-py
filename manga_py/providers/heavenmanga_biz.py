@@ -8,7 +8,9 @@ class HeavenMangaBiz(Provider, Std):
         try:
             return self.re.search(r'-chap-(\d+(?:-\d+)?)', self.chapter).group(1)
         except Exception as e:
-            return '0'
+            if self.re.search(r'-chap$', self.chapter):
+                return '0'
+            raise e
 
     def get_main_content(self):
         return self._get_content('{}/{}/')
