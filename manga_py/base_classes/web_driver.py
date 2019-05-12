@@ -4,7 +4,7 @@ from zipfile import ZipFile
 
 from requests import get
 
-from manga_py.fs import is_file, dirname, storage
+from manga_py.fs import is_file, dirname, storage, path_join, get_util_home_path
 
 
 class WebDriver:
@@ -22,7 +22,7 @@ class WebDriver:
         if self.is_win():
             url = '/chromedriver_win32.zip'
 
-        path = storage('driver.zip')
+        path = path_join(get_util_home_path(), 'driver.zip')
 
         with open(path, 'wb') as driver:
             driver.write(get(url_prefix + self.driver_version + url).content)
@@ -35,7 +35,7 @@ class WebDriver:
             driver = 'chromedriver.exe'
         else:
             driver = 'chromedriver'
-        return storage(driver)
+        return path_join(get_util_home_path(), driver)
 
     def get_driver(self):
         from selenium import webdriver  # need, if captcha detected
