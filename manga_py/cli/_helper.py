@@ -8,11 +8,6 @@ from zenlog import log
 
 from manga_py import meta
 from manga_py.cli import args
-from manga_py.provider import Provider
-from manga_py.libs import print_lib
-from manga_py.libs.http import Http
-from manga_py.libs.modules import info
-from manga_py.providers import get_provider
 
 
 class CliHelper:
@@ -26,7 +21,7 @@ class CliHelper:
 
     @classmethod
     def print_error(cls, *_args):
-        print_lib(*_args, file=stderr)
+        print(*_args, file=stderr)
 
     def _print_cli_help(self):
         if len(self._args.get('url')) < 1 and not self._args.get('update_all'):

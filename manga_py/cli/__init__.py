@@ -4,23 +4,23 @@ from shutil import rmtree
 
 from zenlog import log
 
-from manga_py.libs import fs
-from manga_py.libs.modules import info
+from manga_py.libs.info.glob import InfoGlobal
+from manga_py.libs.info import Info
 from . import args
 from ._helper import CliHelper
 from .db import DataBase
-from manga_py.provider import Provider
-from manga_py.libs.db import Manga
+from manga_py.libs import fs
 
 
 class Cli(CliHelper):
     db = None
+    info = None
 
     def __init__(self):
         self._temp_path = fs.get_temp_path()
         atexit.register(self.exit)
         fs.make_dirs(self._temp_path)
-        self.global_info = info.InfoGlobal()
+        self.global_info = InfoGlobal()
         self.db = DataBase()
 
     def exit(self):
@@ -72,7 +72,7 @@ class Cli(CliHelper):
                 provider.run(_args)
                 provider.after_provider()
                 provider.update_db()
-                self.global_info.add_info(info)
+                self.global_info.add_info()  # TODO
             else:
                 self.show_log() and log.error('Provider not exists')
 

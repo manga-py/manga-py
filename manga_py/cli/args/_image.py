@@ -2,7 +2,7 @@ from argparse import ArgumentParser
 
 
 def main(args_parser: ArgumentParser):
-    args = args_parser.add_argument_group('Image options')
+    args = args_parser.add_argument_group('Image options (Not implemented now)')
 
     args.add_argument('--png', action='store_const', default=False,
                       help='Force conversation images to png format', const=True)
@@ -17,7 +17,7 @@ def main(args_parser: ArgumentParser):
     args.add_argument('--Xb', metavar='px', type=int, help='Manual image crop with bottom side', default=0)
     args.add_argument('--Xl', metavar='px', type=int, help='Manual image crop with left side', default=0)
 
-    args.add_argument('-C', '--crop-blank', action='store_const', default=False,
+    args.add_argument('-b', '--crop-blank', action='store_const', default=False,
                       help='Crop blank borders', const=True)
 
     args.add_argument('--split-image', action='store_const', default=False,
