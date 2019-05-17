@@ -16,12 +16,14 @@ REQUIREMENTS = [
     'Pillow',
     'requests',
     'pycrypto',
-    'cfscrape',
+    'cloudscraper',
     'progressbar2',
     'urllib3',
     'packaging',
     'pyexecjs>=1.5.1',
     'html-purifier',
+    'selenium',
+    'loguru',
 ]
 
 
