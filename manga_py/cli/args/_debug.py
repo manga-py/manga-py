@@ -17,11 +17,6 @@ def main(args_parser: ArgumentParser):
     args.add_argument('-l', '--show-log', action='store_const', const=True, default=False,
                       help='Print log (Don\'t show progress bar)')
 
-    args.add_argument('-L', '--file-log', type=str, default='', help='Print log to file')
-
-    args.add_argument('--verbose-log', action='store_const', const=True, default=False,
-                      help='Verbose log (See -l or -L)')
-
     args.add_argument('-P', '--no-progress', action='store_const',
                       const=True, help='Don\'t show progress bar', default=False)
 

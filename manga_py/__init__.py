@@ -7,8 +7,7 @@ from sys import stderr
 import argcomplete
 import better_exceptions
 
-from .cli import Cli
-from .cli import args, db
+from .cli import Cli, args, db
 
 
 def main():
@@ -19,7 +18,7 @@ def main():
     check = _cli.check_version()
     if check['need_update']:
         print('Please, update manga-py')
-        print('See url: %s' % check['url'], file=stderr)
+        print('See url: %s\n' % check['url'], file=stderr)
     _cli.run()
 
 

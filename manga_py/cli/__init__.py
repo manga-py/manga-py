@@ -13,15 +13,12 @@ from manga_py.libs import fs
 
 
 class Cli(CliHelper):
-    db = None
-    info = None
+    __slots__ = ()
+    db = DataBase()
+    info = InfoGlobal()
 
     def __init__(self):
-        self._temp_path = fs.get_temp_path()
         atexit.register(self.exit)
-        fs.make_dirs(self._temp_path)
-        self.global_info = InfoGlobal()
-        self.db = DataBase()
 
     def exit(self):
         # remove temp directory
