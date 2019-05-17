@@ -1,0 +1,2 @@
+include manga_py/.logger.config.yaml
+graft manga_py/libs/html/templates

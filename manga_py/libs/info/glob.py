@@ -1,22 +1,19 @@
 from datetime import datetime
-from copy import deepcopy
 from sys import argv
-try:
-    from manga_py import meta
-except ImportError:
-    pass
+
+from manga_py import meta
 
 
-class InfoGlobal:
+class InfoGlobal(object):
+    __slots__ = ('_store',)
+    _start_time = datetime.now()
+
     OK = 1
     ERROR = 0
-    _data = None
 
     def __init__(self):
-        self._start_time = datetime.now()
-        self._data = {
+        self._store = {
             'version': meta.__version__,
-            'license': meta.__license__,
             'downloader': meta.__download_uri__,
             'delta': None,
             'start': None,
@@ -30,14 +27,14 @@ class InfoGlobal:
         return dt.strftime(fmt)
 
     def add_info(self, info, status=OK, message='Success'):
-        self._data['info'].append({
+        self._store['info'].append({
             'data': info,
             'status': status,
             'message': message,
         })
 
     def get(self):
-        self._data['delta'] = str(datetime.now() - self._start_time)
-        self._data['start'] = self._dt(self._start_time)
-        self._data['end'] = self._dt(datetime.now())
-        return deepcopy(self._data)
+        self._store['delta'] = str(datetime.now() - self._start_time)
+        self._store['start'] = self._dt(self._start_time)
+        self._store['end'] = self._dt(datetime.now())
+        return self._store

@@ -1,11 +1,11 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 from setuptools.command.install import install
 from manga_py import meta
 from os import name, chmod, unlink
 from subprocess import Popen, PIPE
 from re import search
 from tempfile import gettempdir
-from sys import stderr
+from sys import stderr, exit
 from pathlib import Path
 
 
@@ -13,20 +13,20 @@ REQUIREMENTS = [
     'lxml>=3.7.2',
     'cssselect>=1.0.0',
     'Pillow>=4.3',
-    'requests>=2.14',
-    'pycrypto>=2.5',
-    'cfscrape>=1.9.5',
+    'requests>=2.21',
+    'pycryptodome>=3.5',
+    'cloudscraper>=1.1.1',
     'progressbar2>3.34',
-    'urllib3<1.23>=1.21.1',
+    'urllib3',
     'packaging>=17',
     'html-purifier>=0.1.9',
-    'pyexecjs>=1.5.1',
+    'js2py>=0.60',
     'peewee>3.4.0',
     'tinycss>=0.4',
     'better_exceptions>=0.2',
-    'zenlog>=1.1',
     'argcomplete>=1.9.4',
     'tabulate>=0.8',
+    'PyYAML',
 ]
 
 
@@ -65,31 +65,32 @@ if Path('README.rst').is_file():
 
 release_status = 'Development Status :: 1 - Planning'
 # release_status = 'Development Status :: 5 - Production/Stable'
-# if ~__version__.find('beta'):
+# if ~__version__.find('-beta'):
 #     release_status = 'Development Status :: 4 - Beta'
-# if ~__version__.find('alpha'):
+# if ~__version__.find('-alpha'):
 #     release_status = 'Development Status :: 3 - Alpha'
 
 
-class PostInstallCommand(install):
-    """Post-installation for installation mode."""
-    @staticmethod
-    def _make_sh(_temp_file, complete_sh):
-        with open(_temp_file, 'w') as f:
-            f.write(''.join([
-                '#!/bin/sh\n',
-                'if [ `cat ~/.bashrc | grep {0} | wc -l` -lt 1 ];',
-                ' then echo ". {0}" >> ~/.bashrc &&',
-                ' echo "Please, restart you shell"; fi'
-            ]).format(complete_sh))
-        chmod(_temp_file, 0o755)
+def _parse_out(out):
+    if isinstance(out, bytes):
+        out = out.decode()
+    _sh = search(r'\w\s(/.+?\.sh)', out)
+    return _sh.group(1)
 
-    @staticmethod
-    def _parse_out(out):
-        if isinstance(out, bytes):
-            out = out.decode()
-        _sh = search(r'\w\s(/.+?\.sh)', out)
-        return _sh.group(1)
+
+def _make_sh(_temp_file, complete_sh):
+    """Post-installation for installation mode."""
+    with open(_temp_file, 'w') as f:
+        f.write(''.join([
+            '#!/bin/sh\n',
+            'if [ `cat ~/.bashrc | grep {0} | wc -l` -lt 1 ];',
+            ' then echo ". {0}" >> ~/.bashrc &&',
+            ' echo "Please, restart you shell"; fi'
+        ]).format(complete_sh))
+    chmod(_temp_file, 0o755)
+
+
+class PostInstallCommand(install):
 
     def run(self):
         install.run(self)
@@ -101,39 +102,29 @@ class PostInstallCommand(install):
             ], stdout=PIPE, stderr=PIPE)
             out, err = process.communicate(timeout=1)
             if process.returncode == 0:
-                sh = self._parse_out(out)
-                _temp_file = Path(gettempdir()).joinpath('manga-py.sh')
-                self._make_sh(_temp_file, sh)
-                Popen([str(_temp_file)]).communicate(timeout=1)
-                unlink(str(_temp_file))
+                sh = _parse_out(out)
+                _temp_file = str(Path(gettempdir()).joinpath('manga-py.sh'))
+                _make_sh(_temp_file, sh)
+                Popen([_temp_file]).communicate(timeout=1)
+                unlink(_temp_file)
             else:
                 print('ERROR! %s' % err, file=stderr)
+                exit(1)
 
 
 setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-packages
     name='manga_py',
-    packages=[
-        'manga_py',
-        'manga_py.cli',
-        'manga_py.cli.args',
-        'manga_py.libs',
-        'manga_py.libs.base',
-        'manga_py.libs.crypt',
-        'manga_py.libs.http',
-        'manga_py.libs.modules',
-        'manga_py.libs.modules.html',
-        'manga_py.libs.modules.html.templates',
-        'manga_py.providers',
-    ],
+    packages = find_packages(),
     include_package_data=True,
     version=meta.__version__,
     description='Universal assistant download manga.',
     long_description=long_description,
+    # long_description_content_type='text/markdown',
     author=meta.__author__,
     author_email=meta.__email__,
     url=meta.__download_uri__,
     zip_safe=True,
-    data_files=[],
+    data_files=[],  # look here https://docs.python.org/2/distutils/sourcedist.html#commands
     download_url='{}/archive/{}.tar.gz'.format(meta.__download_uri__, meta.__version__),
     keywords=['manga-downloader', 'manga', 'manga-py', 'manga-dl'],
     license=meta.__license__,

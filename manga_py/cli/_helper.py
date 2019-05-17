@@ -1,9 +1,9 @@
 import json
-from getpass import getpass
+# from getpass import getpass
 from sys import exit, stderr
 
 from packaging import version
-from progressbar import ProgressBar
+# from progressbar import ProgressBar
 from zenlog import log
 
 from manga_py import meta
@@ -32,27 +32,6 @@ class CliHelper:
         self.__raw_args = args.get_cli_arguments()
         self._args = args.arguments_to_dict(self.__raw_args)
 
-    def _get_provider(self, _args, provider=None):
-        local_info = info.Info(_args)
-        if provider is None:
-            try:
-                provider = get_provider(_args['url'])
-            except ImportError as e:
-                self.global_info.add_info(info, self.global_info.ERROR, e)
-                self.show_log() and log.err(e)
-                return
-        provider = provider()  # type: Provider
-        provider.set_callbacks(
-            print=print_lib,
-            print_error=self.print_error,
-            input=input,
-            password=getpass,
-            logger=log,
-            info=local_info,
-            progressbar=ProgressBar,
-        )
-        return provider
-
     @classmethod
     def check_version(cls):
         api_url = 'https://api.github.com/repos/%s/releases/latest' % meta.__repo_name__
@@ -73,9 +52,3 @@ class CliHelper:
         for key in vars(args):
             all_defaults[key] = parser.get_default(key)
         return all_defaults
-
-    def _search_for_title(self, title):
-        if len(title) < 1:
-            raise ValueError('Title is empty!')
-
-        raise UserWarning('Not implemented now')

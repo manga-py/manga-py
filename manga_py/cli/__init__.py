@@ -2,7 +2,7 @@ import atexit
 import json
 from shutil import rmtree
 
-from zenlog import log
+from manga_py.libs.log import logger as log
 
 from manga_py.libs.info.glob import InfoGlobal
 from manga_py.libs.info import Info
