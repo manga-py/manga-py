@@ -9,6 +9,11 @@ handlers:
     level: DEBUG
     formatter: simple
     stream: ext://sys.stderr
+  file-example:
+    class: logging.FileHandler
+    level: WARNING
+    formatter: simple
+    filename: /tmp/manga-py.log
 loggers:
   sampleLogger:
     level: DEBUG
