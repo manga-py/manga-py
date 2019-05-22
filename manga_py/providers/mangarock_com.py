@@ -4,6 +4,10 @@ from manga_py.provider import Provider
 from .helpers.std import Std
 
 
+# api example:
+"""
+curl 'https://api.mangarockhd.com/query/web401/manga_detail?country=Japan' --compressed --data '{"oids":{"mrs-serie-100226981":0},"sections":["basic_info","summary","artworks","sub_genres","social_stats","author","character","publisher","scanlator","other_fact","chapters","related_series","same_author","feature_collections"]}'
+"""
 class MangaRockCom(Provider, Std):
     crypt = None
     __content = ''
