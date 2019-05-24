@@ -455,6 +455,9 @@ providers_list = {
     'mangasupa_com': [
         r'mangasupa\.com/(manga|chapter)/.',
     ],
+    'mangasushi_net': [
+        r'mangasushi\.net/manga/.',
+    ],
     'mangatail_com': [
         r'mangasail\.com/(manga|chapter|node|content)/.',
         r'mangasail\.co/(manga|chapter|node|content)/.',
