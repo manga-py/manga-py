@@ -534,13 +534,14 @@ providers_list = {
         r'godsrealmscan\.com/public(/index\.php)?/manga/.',
     ],
     'nude_moon_me': [
-        r'nude-moon\.me/\d'
+        r'nude-moon\.me/\d',
     ],
     'otakusmash_com': [
         r'otakusmash\.com/.',
         r'mrsmanga\.com/.',
         r'mentalmanga\.com/.',
         r'mangasmash\.com/.',
+        r'omgbeaupeep\.com/comics/.',
     ],
     'otscans_com': [
         r'otscans\.com/foolslide/(series|read)/.',
