@@ -1,6 +1,7 @@
 from abc import ABCMeta
 from time import sleep
 from urllib.parse import unquote
+
 from requests import get
 
 from manga_py.provider import Provider

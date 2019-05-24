@@ -1,8 +1,8 @@
 import tempfile
+from json import loads as json_loads
 from os import name as os_name, getpid, makedirs, walk
 from pathlib import Path
 from shutil import move
-from json import loads as json_loads
 from shutil import rmtree
 
 __dir_name__ = '.PyMangaDownloader'
@@ -207,4 +207,3 @@ def check_free_space(_path: str, min_size: int = 100, percent: bool = False) -> 
         if _free < min_size:
             return False
         return True
-

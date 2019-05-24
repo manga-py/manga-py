@@ -1,6 +1,6 @@
+from manga_py.crypt.base_lib import BaseLib
 from manga_py.provider import Provider
 from .helpers.std import Std
-from manga_py.crypt.base_lib import BaseLib
 
 
 class HoduComicsCom(Provider, Std):

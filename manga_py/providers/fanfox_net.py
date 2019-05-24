@@ -1,6 +1,6 @@
+from manga_py.crypt.base_lib import BaseLib
 from manga_py.provider import Provider
 from .helpers.std import Std
-from manga_py.crypt.base_lib import BaseLib
 
 
 class MangaFoxMe(Provider, Std):
@@ -60,8 +60,8 @@ class MangaFoxMe(Provider, Std):
     def _get_links_page_to_page(self, content):
         last_page = self.document_fromstring(content, '.pager-list-left > span > a:nth-last-child(2)', 0)
         links = []
-        for i in range(0, int(int(last_page.get('data-page'))/2 + .5)):
-            data = self._one_link_helper(content, (i*2)+1)
+        for i in range(0, int(int(last_page.get('data-page')) / 2 + .5)):
+            data = self._one_link_helper(content, (i * 2) + 1)
             links += self._parse_links(self._get_links(data))
         return links
 

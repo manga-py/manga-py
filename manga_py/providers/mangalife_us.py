@@ -8,7 +8,7 @@ class MangaLifeUs(Provider, Std):
     def get_chapter_index(self) -> str:
         selector = r'-chapter-(\d+).+-index-(\d+)'
         chapter = self.re.search(selector, self.chapter)
-        if chapter is None:   # http://mangalife.us/manga/Ubau-Mono-Ubawareru-Mono  #51
+        if chapter is None:  # http://mangalife.us/manga/Ubau-Mono-Ubawareru-Mono  #51
             selector = r'-chapter-(\d+(?:\.\d+)?)'
             chapter = self.re.search(selector, self.chapter).group(1).split('.')
             return '-'.join(chapter)

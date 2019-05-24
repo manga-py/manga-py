@@ -11,7 +11,7 @@ class MangaDexCom(Provider, Std):
     def get_main_content(self):
         if self._content is None:
             self._content = self.http_get(self.get_url())
-        return  self._content
+        return self._content
 
     def get_manga_name(self) -> str:
         return self.text_content(self.content, '.info-title')

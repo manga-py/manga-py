@@ -1,8 +1,8 @@
+from sys import exit
 from time import sleep
 
 from manga_py.fs import get_util_home_path, path_join, is_file, unlink
 from .e_hentai_org import EHentaiOrg
-from sys import exit
 
 
 class exhentai_org(EHentaiOrg):

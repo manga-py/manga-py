@@ -1,8 +1,9 @@
 from argparse import ArgumentParser
 
-from .providers import get_provider
-from .info import Info
 from loguru import logger
+
+from .info import Info
+from .providers import get_provider
 
 
 class Parser:

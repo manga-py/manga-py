@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import traceback
 from atexit import register as atexit_register
+from json import dumps
 from os import makedirs
 from os import path
 from shutil import rmtree
-from sys import exit,  stderr
-from json import dumps
-import traceback
-from loguru import logger
+from sys import exit, stderr
 
+from loguru import logger
 
 try:
     from .cli import Cli
@@ -19,7 +19,6 @@ try:
     from .meta import __version__
 except ImportError:
     print('Setup in progress?', file=stderr)
-
 
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'

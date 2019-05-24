@@ -20,7 +20,7 @@ REQUIREMENTS = [
     'progressbar2',
     'urllib3',
     'packaging',
-    'pyexecjs>=1.5.1',
+    'pyexecjs',
     'html-purifier',
     'selenium',
     'loguru',

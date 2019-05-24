@@ -1,6 +1,3 @@
-from ._http2 import Http2
-
-
 class Std:
     _vol_fill = False
 

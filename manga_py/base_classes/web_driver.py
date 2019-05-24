@@ -4,7 +4,7 @@ from zipfile import ZipFile
 
 from requests import get
 
-from manga_py.fs import is_file, dirname, storage, path_join, get_util_home_path
+from manga_py.fs import is_file, dirname, path_join, get_util_home_path
 
 
 class WebDriver:

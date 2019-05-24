@@ -59,7 +59,8 @@ class LeitorNet(Provider, Std):
             self.domain,
             token, self.chapter['id_release']
         ), headers={'x-requested-with': 'XMLHttpRequest'}))
-        print(images);exit()
+        print(images);
+        exit()
         return images.get('images', {})
 
     def get_cover(self) -> str:

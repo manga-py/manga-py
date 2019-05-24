@@ -1,7 +1,7 @@
 import json
 import re
 from abc import ABCMeta
-from sys import stderr, exit
+from sys import stderr
 
 from .base_classes import (
     Abstract,
@@ -22,10 +22,9 @@ from .fs import (
     file_size,
 )
 from .http import MultiThreads
+from .info import Info
 from .meta import __downloader_uri__
 from .meta import __version__
-from .info import Info
-from pathlib import Path
 
 
 class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
@@ -37,7 +36,6 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
     _simulate = False
     _volume = None
     _show_chapter_info = False
-    _data_debug = None
 
     def __init__(self, info: Info = None):
         super().__init__()
@@ -116,27 +114,6 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             self._info.add_volume(self.chapter_for_json(), self.get_archive_path())
             self._download_chapter(idx, _min, _max)
 
-    def _debug_call(self):
-        path = Path('.').joinpath('manga-py-debug').resolve()
-        path.mkdir(parents=True, exist_ok=True)
-
-        with open(str(path.joinpath('main-content.html')), 'wb') as w:
-            w.write(self.content.encode())
-            w.close()
-
-        data = self._data_debug
-
-        if not isinstance(data, dict):
-            return
-
-        for k in data.keys():
-            flag = 'w'
-            if isinstance(data[k], bytes):
-                flag = 'wb'
-            with open(str(path.joinpath(k)), flag) as w:
-                w.write(data[k])
-                w.close()
-
     def loop_files(self):
         if isinstance(self._storage['files'], list):
             if self._show_chapter_info:
@@ -145,7 +122,6 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
                 # see Std
                 print('Error processing file: %s' % self.get_archive_name(), file=stderr)
                 return
-            self._debug_call()
             self._archive = Archive()
             self._archive.not_change_files_extension = self._params.get('not_change_files_extension', False)
             self._archive.no_webp = self._image_params.get('no_webp', False)
@@ -203,11 +179,11 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
             self._params.get('destination', 'Manga'),
             name,
             _path + '.%s%s' % (additional_data_name, self._archive_type())
-        )\
-            .replace('?', '_')\
-            .replace('"', '_')\
-            .replace('>', '_')\
-            .replace('<', '_')\
+        ) \
+            .replace('?', '_') \
+            .replace('"', '_') \
+            .replace('>', '_') \
+            .replace('<', '_') \
             .replace('|', '_')  # Windows...
 
     def make_archive(self):

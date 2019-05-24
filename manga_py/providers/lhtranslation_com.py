@@ -1,7 +1,9 @@
+from time import sleep
+
+from requests import get
+
 from .gomanga_co import GoMangaCo
 from .helpers.std import Std
-from time import sleep
-from requests import get
 
 
 class LHTranslationCom(GoMangaCo, Std):

@@ -1,8 +1,8 @@
+from sys import stderr
+
 from manga_py.crypt import KissMangaComCrypt
 from manga_py.provider import Provider
 from .helpers.std import Std
-
-from sys import stderr
 
 
 class KissMangaCom(Provider, Std):

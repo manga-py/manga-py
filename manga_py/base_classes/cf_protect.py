@@ -1,4 +1,5 @@
 from sys import stderr
+
 import cloudscraper
 
 

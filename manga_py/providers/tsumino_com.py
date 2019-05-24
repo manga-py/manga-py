@@ -60,4 +60,5 @@ class TsuminoCom(Provider, Std):
     def chapter_for_json(self):
         return self.get_url()
 
+
 main = TsuminoCom

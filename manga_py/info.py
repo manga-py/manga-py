@@ -1,8 +1,8 @@
-from manga_py import meta
-from datetime import datetime
 from argparse import Namespace
-from json import dumps
+from datetime import datetime
 from sys import argv
+
+from manga_py import meta
 
 
 class Info:

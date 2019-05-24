@@ -1,16 +1,12 @@
-import json
 import sys
 from argparse import ArgumentParser
-from os import name as os_name
 from getpass import getpass
+from os import name as os_name
 
-import requests
-from packaging import version
 from progressbar import ProgressBar
 
-from manga_py.meta import __version__, __repo_name__
-from manga_py.parser import Parser
 from manga_py.fs import check_free_space, get_temp_path
+from manga_py.parser import Parser
 
 
 class Cli:  # pragma: no cover
@@ -39,7 +35,7 @@ class Cli:  # pragma: no cover
             )
         except AttributeError as e:
             print(e)
-            print('Please check the domain in the table: https://manga-dl.yuru-yuri.sttv.me')
+            print('Please check the domain in the table: https://yuru-yuri.github.io/manga-dl/')
             print('Make sure that the URL is correct\n')
             raise e
         self.parser.start()

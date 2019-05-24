@@ -1,7 +1,7 @@
+import imghdr
 from os import path
 
 from PIL import Image as PilImage, ImageChops
-import imghdr
 
 
 class Image:

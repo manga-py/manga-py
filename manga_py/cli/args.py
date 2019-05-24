@@ -14,7 +14,7 @@ def _image_args(args_parser):  # pragma: no cover
     # args.add_argument('--force-jpg', action='store_const',
     #                          help='Force conversation images to jpg format', const=True, default=False)
     args.add_argument('--no-webp', action='store_const', const=True, default=False,
-                             help='Force conversation webp images to jpg format')
+                      help='Force conversation webp images to jpg format')
 
     # args.add_argument('-xt', type=int, help='Manual image crop with top side', default=0)
     # args.add_argument('-xr', type=int, help='Manual image crop with right side', default=0)

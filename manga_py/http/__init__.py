@@ -1,5 +1,5 @@
-from time import sleep
 from sys import stderr
+from time import sleep
 
 from manga_py.fs import get_temp_path, make_dirs, remove_file_query_params, basename, path_join, dirname, file_size
 from .multi_threads import MultiThreads
@@ -64,7 +64,8 @@ class Http(Request):
             return False
         return True
 
-    def _download_one_file_helper(self, url, dst, callback: callable = None, success_callback: callable = None, callback_args=()):
+    def _download_one_file_helper(self, url, dst, callback: callable = None, success_callback: callable = None,
+                                  callback_args=()):
         r = 0
         while r < self.count_retries:
             if self._safe_downloader(url, dst):

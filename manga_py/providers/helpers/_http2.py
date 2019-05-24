@@ -1,4 +1,3 @@
-
 class Http2:
     provider = None
     path_join = None

@@ -1,11 +1,9 @@
+from os import path
 from zipfile import ZipFile, ZIP_DEFLATED
 
+from manga_py.fs import is_file, make_dirs, basename, dirname, unlink, get_temp_path
 # from PIL import Image as PilImage
 from manga_py.image import Image
-from os import path
-from time import sleep
-
-from manga_py.fs import is_file, make_dirs, basename, dirname, unlink, get_temp_path
 
 
 class Archive:

@@ -1,6 +1,6 @@
+from manga_py.fs import basename
 from manga_py.provider import Provider
 from .helpers.std import Std
-from manga_py.fs import basename
 
 
 class NudeMoonMe(Provider, Std):

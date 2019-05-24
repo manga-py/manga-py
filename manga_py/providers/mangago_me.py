@@ -1,7 +1,7 @@
-from manga_py.provider import Provider
-from .helpers.std import Std
 from manga_py.crypt import mangago_me
 from manga_py.fs import rename, unlink
+from manga_py.provider import Provider
+from .helpers.std import Std
 
 
 class MangaGoMe(Provider, Std):
