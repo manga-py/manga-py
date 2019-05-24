@@ -622,14 +622,14 @@ providers_list = {
         r'digitalteamreader\.netsons\.org/(series|read)/.',
         r'reader\.manga-download\.org/(series|read)/.',
     ],
-    'readcomicbooksonline_org_manga': [
-        r'readcomicbooksonline\.net/manga/.',
-        r'readcomicbooksonline\.org/manga/.',
-    ],
-    'readcomicbooksonline_org': [
-        r'readcomicbooksonline\.net/.',
-        r'readcomicbooksonline\.org/.',
-    ],
+    # 'readcomicbooksonline_org_manga': [  # todo #168
+    #     r'readcomicbooksonline\.net/manga/.',
+    #     r'readcomicbooksonline\.org/manga/.',
+    # ],
+    # 'readcomicbooksonline_org': [
+    #     r'readcomicbooksonline\.net/.',
+    #     r'readcomicbooksonline\.org/.',
+    # ],
     'reader_championscans_com': [
         r'reader\.championscans\.com/(series|read)/.',
     ],
