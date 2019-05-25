@@ -630,6 +630,9 @@ providers_list = {
     #     r'readcomicbooksonline\.net/.',
     #     r'readcomicbooksonline\.org/.',
     # ],
+    'comicpunch_net': [
+        r'comicpunch\.net/.',
+    ],
     'reader_championscans_com': [
         r'reader\.championscans\.com/(series|read)/.',
     ],
