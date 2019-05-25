@@ -630,6 +630,9 @@ providers_list = {
     #     r'readcomicbooksonline\.net/.',
     #     r'readcomicbooksonline\.org/.',
     # ],
+    'comicpunch_net_manga': [
+        r'comicpunch\.net/asiancomics/.',
+    ],
     'comicpunch_net': [
         r'comicpunch\.net/.',
     ],
