@@ -393,7 +393,8 @@ providers_list = {
         r'mangakatana\.com/manga/.',
     ],
     'mangaku_web_id': [
-        r'mangaku\.web\.id/.',
+        # r'mangaku\.web\.id/.',
+        r'mangaku\.in/.',
     ],
     'mangalib_me': [
         r'mangalib\.me/.',
