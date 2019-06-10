@@ -27,11 +27,10 @@ def args():
 
 
 class DataBase:
-    _db = None  # type: Manga
+    _db = Manga()  # type: Manga
 
     def __init__(self):
         make_db()
-        self._db = Manga
 
     def run(self, args: Namespace):
         if len(args.idx):

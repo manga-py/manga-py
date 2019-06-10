@@ -5,6 +5,7 @@ from . import _downloading
 from . import _general
 from . import _image
 from . import _reader
+from ._args_helper import ArgsListHelper
 
 
 def get_cli_arguments() -> ArgumentParser:
@@ -21,14 +22,3 @@ def get_cli_arguments() -> ArgumentParser:
     _debug.main(args_parser)
 
     return args_parser
-
-
-def arguments_to_dict(arguments: ArgumentParser = None) -> dict:
-    """
-    :param arguments:
-    :return:
-    :rtype: dict
-    """
-    if arguments is None:
-        arguments = get_cli_arguments()
-    return arguments.parse_args().__dict__

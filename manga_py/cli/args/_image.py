@@ -20,5 +20,5 @@ def main(args_parser: ArgumentParser):
     args.add_argument('-b', '--crop-blank', action='store_const', default=False,
                       help='Crop blank borders', const=True)
 
-    args.add_argument('--split-image', action='store_const', default=False,
+    args.add_argument('--split-images', action='store_const', default=False,
                       help='Try to split long images', const=True)

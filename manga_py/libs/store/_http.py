@@ -5,28 +5,28 @@ from urllib import parse
 from typing import Union, Optional
 
 
-def _response2url(resp: Response):
-    url = resp.url
-    if len(url.history):
-        url = str(resp.history[-1].url)
-    return url
-
-
 class HttpStore(object):
     __slots__ = ()
     _store = {}
 
     @staticmethod
+    def _response2url(resp: Response):
+        url = resp.url
+        if len(url.history):
+            url = str(resp.history[-1].url)
+        return url
+
+    @staticmethod
     def _domain(url: Union[Response, str]) -> str:
         if isinstance(url, Response):
-            url = _response2url(url)
+            url = HttpStore._response2url(url)
         r = parse.urlsplit(url)
         return r[1]  # netloc
 
     @staticmethod
     def normalize(base: Union[Response, str], url: str):
         if isinstance(url, Response):
-            url = _response2url(url)
+            url = HttpStore._response2url(url)
         return parse.urljoin(base, url)
 
     def init(self, url: str, cookies: dict = None):
@@ -44,7 +44,7 @@ class HttpStore(object):
         domain = self._domain(url)
         self._store['cookies'][domain] = cookies
 
-    def cookies_autoupdate(self, response: Response):
+    def cookies_auto_update(self, response: Response):
         for i in response.history[::-1]:  # type: Response
             domain = self._domain(i.url)
             self._store['cookies'][domain].update(i)

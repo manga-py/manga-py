@@ -1,6 +1,6 @@
 import json
 # from getpass import getpass
-from sys import exit, stderr
+from sys import exit, stderr, stdout
 
 from packaging import version
 
@@ -8,29 +8,33 @@ from manga_py import meta
 from manga_py.cli import args
 from manga_py.libs import fs
 from requests import get
+from .args import ArgsListHelper
+from manga_py.libs import print_lib
 
 
 class CliHelper:
-    __raw_args = None
-    _temp_path = fs.get_temp_path()
-    _args = None
-    global_info = None
+    __slots__ = ('temp_path', 'raw_args', 'args')
+
+    def __init__(self):
+        self.temp_path = fs.get_temp_path()
+        self.raw_args = args.get_cli_arguments()
+        self.args = ArgsListHelper(self.raw_args)
 
     def show_log(self) -> bool:
-        return self._args.get('show-log') or self._args.get('verbose-log')
+        return self.args.get('show-log') or self.args.get('verbose-log')
+
+    @classmethod
+    def print(cls, *_args):
+        print_lib(*_args, file=stdout)
 
     @classmethod
     def print_error(cls, *_args):
-        print(*_args, file=stderr)
+        print_lib(*_args, file=stderr)
 
     def _print_cli_help(self):
-        if len(self._args.get('url')) < 1 and not self._args.get('update_all'):
-            self.__raw_args.print_help()
+        if len(self.args.get('url')) < 1 and not self.args.get('update_all'):
+            self.raw_args.print_help()
             exit()
-
-    def fill_args(self):
-        self.__raw_args = args.get_cli_arguments()
-        self._args = args.arguments_to_dict(self.__raw_args)
 
     @classmethod
     def check_version(cls):
@@ -47,7 +51,7 @@ class CliHelper:
         return {'message': 'Ok', 'need_update': False, 'tag': '', 'url': ''}
 
     def get_default_args(self):
-        parser = self.__raw_args
+        parser = self.raw_args
         all_defaults = {}
         for key in vars(args):
             all_defaults[key] = parser.get_default(key)

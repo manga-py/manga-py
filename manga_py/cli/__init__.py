@@ -1,6 +1,7 @@
 import atexit
 import json
 from shutil import rmtree
+from typing import Union, Dict
 
 from manga_py.libs.log import logger as log
 
@@ -13,27 +14,30 @@ from manga_py.libs import fs
 
 
 class Cli(CliHelper):
-    __slots__ = ()
+    __slots__ = ('temp_path', 'raw_args', 'args')
     db = DataBase()
     info = InfoGlobal()
 
     def __init__(self):
+        super().__init__()
         atexit.register(self.exit)
 
     def exit(self):
         # remove temp directory
-        rmtree(self._temp_path)
+        if self.args.get('do_not_clear_temporary_directory'):
+            rmtree(self.temp_path)
+            print('Temporary directory: \n' + self.temp_path)
 
     def run(self):
-        _args = self._args.copy()
+        _args = self.args.copy()
         if _args.get('title'):  # todo: Maybe search for user-urls only
-            urls = self._search_for_title(_args.get('title'))
+            urls = self.search_for_title(_args.get('title'))
         else:
             self._print_cli_help()
             urls = _args.get('url', []).copy()
         _args.get('force_make_db', False) and self.db.clean()
 
-        if self._args.get('update_all'):
+        if self.args.get('update_all'):
             self._update_all()
         else:
             if len(urls) > 1:
