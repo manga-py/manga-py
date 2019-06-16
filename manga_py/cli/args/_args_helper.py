@@ -20,7 +20,7 @@ class ArgsListHelper:
 
         return getattr(self.__store, name=name, default=default)
 
-    # general
+    # region general
     @property
     def url(self) -> List[str]:
         return self.__store.url
@@ -64,8 +64,9 @@ class ArgsListHelper:
     @property
     def do_not_clear_temporary_directory(self) -> bool:
         return self.__store.do_not_clear_temporary_directory
+    # endregion
 
-    # downloading
+    # region downloading
     @property
     def not_change_files_extension(self) -> bool:
         return self.__store.not_change_files_extension
@@ -109,8 +110,9 @@ class ArgsListHelper:
     @property
     def with_website_name(self) -> bool:
         return self.__store.with_website_name
+    # endregion
 
-    # image
+    # region image
     @property
     def png(self) -> bool:
         return self.__store.png
@@ -146,8 +148,9 @@ class ArgsListHelper:
     @property
     def split_images(self) -> bool:
         return self.__store.split_images
+    # endregion
 
-    # reader
+    # region reader
     @property
     def cbz(self) -> bool:
         return self.__store.cbz
@@ -163,3 +166,25 @@ class ArgsListHelper:
     @property
     def html(self) -> bool:
         return self.__store.html
+    # endregion
+
+    # region auth
+    @property
+    def login(self) -> Optional[str]:
+        return self.__store.login
+
+    @property
+    def password(self) -> Optional[str]:
+        return self.__store.password
+
+    @property
+    def cookies(self) -> dict:
+        cookies = self.__store.cookies
+        _ = {}
+        if len(cookies) > 0:
+            for i in cookies:
+                key, value = i.split('=')
+                _[key] = value
+            return _
+        return None
+    # endregion
