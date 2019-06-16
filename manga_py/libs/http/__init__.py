@@ -7,6 +7,7 @@ from manga_py import exceptions
 from urllib.parse import ParseResult, urlparse
 from pathlib import Path
 from zlib import crc32
+from random import randint
 
 
 class Http:
@@ -83,3 +84,18 @@ class Http:
 
     def set_base_url(self, url):
         self.base_url = url
+
+
+def default_ua():
+    agents = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0',
+        'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:62.0) Gecko/20100101 Firefox/62.0',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41',
+        # 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1',
+    ]
+    return agents[randint(0, len(agents) - 1)]
+
+
+__all__ = ['Http', 'default_ua']

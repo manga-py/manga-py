@@ -31,12 +31,16 @@ class ArgsListHelper:
 
     @property
     def name(self) -> Optional[str]:
+        if len(self.url) > 1:
+            return None
         return self.__store.name
 
     @property
     def destination(self) -> Optional[str]:
         return self.__store.destination
+    # endregion
 
+    # region debug
     @property
     def print_json(self) -> bool:
         return self.__store.print_json
@@ -64,6 +68,10 @@ class ArgsListHelper:
     @property
     def do_not_clear_temporary_directory(self) -> bool:
         return self.__store.do_not_clear_temporary_directory
+
+    @property
+    def verbose_log(self) -> bool:
+        return self.__store.verbose_log
     # endregion
 
     # region downloading
@@ -77,10 +85,14 @@ class ArgsListHelper:
 
     @property
     def skip_volumes(self) -> Optional[int]:
+        if len(self.url) > 1:
+            return None
         return self.__store.skip_volumes
 
     @property
     def max_volumes(self) -> Optional[int]:
+        if len(self.url) > 1:
+            return None
         return self.__store.max_volumes
 
     @property
@@ -92,7 +104,7 @@ class ArgsListHelper:
         return self.__store.reverse_downloading
 
     @property
-    def rewrite_exists_archives(self) -> bool:
+    def rewrite_exists_files(self) -> bool:
         return self.__store.rewrite_exists_archives
 
     @property
@@ -187,4 +199,10 @@ class ArgsListHelper:
                 _[key] = value
             return _
         return None
+    # endregion
+
+    # region Calculated properties
+    @property
+    def allow_progress(self) -> bool:
+        return False if self.no_progress or self.verbose_log else True
     # endregion

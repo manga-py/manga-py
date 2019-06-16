@@ -17,7 +17,7 @@ def main(args_parser: ArgumentParser):
     args.add_argument('--proxy', type=str, help='Http proxy')
     args.add_argument('-r', '--reverse-downloading', action='store_const',
                       help='Reverse volumes downloading', const=True, default=False)
-    args.add_argument('-R', '--rewrite-exists-archives', action='store_const', const=True,
+    args.add_argument('-R', '--rewrite-exists-files', action='store_const', const=True,
                       default=False, help='(Don\'t work on update mode!)')
     args.add_argument('-T', '--no-multi-threads', action='store_const',
                       help='Disallow multi-threads images downloading', const=True, default=False)

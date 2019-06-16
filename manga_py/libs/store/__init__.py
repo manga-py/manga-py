@@ -1,7 +1,7 @@
 from typing import Optional
 
-from ._http import HttpStore
 from manga_py.cli.args import ArgsListHelper
+from manga_py.libs.store._http import HttpStore
 
 
 class Store(object):

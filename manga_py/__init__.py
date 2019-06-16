@@ -8,18 +8,22 @@ from time import sleep
 import argcomplete
 import better_exceptions
 
-from .cli import Cli, args, db
+from manga_py.cli import Cli, args, db
+from manga_py.libs import print_lib
 
 
 def main():
     argcomplete.autocomplete(args.get_cli_arguments())
     better_exceptions.hook()
     _cli = Cli()
-    check = _cli.check_version()
-    if check['need_update']:
-        print('Please, update manga-py')
-        print('See url: %s\n' % check['url'], file=stderr)
-        sleep(1)
+    try:
+        check = _cli.check_version()
+        if check['need_update']:
+            print_lib('Please, update manga-py')
+            print_lib('See url: %s\n' % check['url'], file=stderr)
+            sleep(1)
+    except Exception:
+        print_lib('Can\'t get manga-py version\n', file=stderr)
     _cli.run()
 
 

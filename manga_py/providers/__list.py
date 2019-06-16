@@ -1,4 +1,4 @@
-from ._example import Example
+from manga_py.providers._example import Example
 
 providers = [
     Example,

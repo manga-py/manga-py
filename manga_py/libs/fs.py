@@ -1,6 +1,7 @@
 import tempfile
 from os import name as os_name, getpid
 from pathlib import Path
+from typing import Union
 
 __dir_name = '.manga-py'
 
@@ -8,7 +9,7 @@ __dir_name = '.manga-py'
 __temp = 'temp_%s' % getpid()
 
 
-def get_temp_path() -> Path:
+def temp_path() -> Path:
     """
     Returns the path of the temporary files manga-py
     """
@@ -24,7 +25,7 @@ def root_path() -> Path:
     return Path(__file__).resolve().parent.parent
 
 
-def system_path() -> Path:
+def user_path() -> Path:
     """
     Returns the root path of the system files manga-py
     """
@@ -34,6 +35,47 @@ def system_path() -> Path:
         home = Path.home().joinpath(__dir_name)
     home.mkdir(parents=True, exist_ok=True)
     return home
+
+
+def get_disk_stat(_path: Path) -> dict:
+    import os
+
+    if hasattr(os, 'statvfs'):  # POSIX
+        st = os.statvfs(str(_path.resolve()))
+        free = st.f_bavail * st.f_frsize
+        total = st.f_blocks * st.f_frsize
+        used = (st.f_blocks - st.f_bfree) * st.f_frsize
+        return {'total': total, 'used': used, 'free': free}
+
+    elif os.name == 'nt':  # Windows
+        import ctypes
+        _, total, free = ctypes.c_ulonglong(), ctypes.c_ulonglong(), ctypes.c_ulonglong()
+        fun = ctypes.windll.kernel32.GetDiskFreeSpaceExA
+        ret = fun(_path, ctypes.byref(_), ctypes.byref(total), ctypes.byref(free))
+        if ret == 0:
+            fun = ctypes.windll.kernel32.GetDiskFreeSpaceExW
+            ret = fun(_path, ctypes.byref(_), ctypes.byref(total), ctypes.byref(free))
+            if ret == 0:
+                raise ctypes.WinError()
+        used = total.value - free.value
+        return {'total': total.value, 'used': used, 'free': free.value}
+    else:
+        raise NotImplementedError('Platform not supported')
+
+
+def check_free_space(_path: Path, min_size: Union[int, str] = 100) -> bool:
+    _stat = get_disk_stat(_path)
+    if isinstance(min_size, str) and min_size.find('%'):
+        min_size = int(min_size)
+        _free = _stat['free'] / _stat['total']
+        if (_free * 100) < min_size:
+            return False
+        return True
+    else:
+        _free = _stat['free'] / (2 << 19)  # 1Mb
+        if _free < min_size:
+            return False
+        return True
 
 
 # def get_storage_path() -> Path:

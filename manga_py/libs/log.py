@@ -10,7 +10,7 @@ __cache = {}
 
 
 def _get():
-    config_file = fs.system_path().joinpath('.logger.config.yaml')
+    config_file = fs.user_path().joinpath('.logger.config.yaml')
 
     # if in-home-directory config not exists, copy this
     if not config_file.is_file():

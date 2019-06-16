@@ -17,6 +17,9 @@ def main(args_parser: ArgumentParser):
     args.add_argument('-l', '--show-log', action='store_true', const=True,
                       help='Print log (Don\'t show progress bar)')
 
+    args.add_argument('-l', '--verbose-log', action='store_true', const=True,
+                      help='More details log (Forcibly turn off progress bar)')
+
     args.add_argument('-P', '--no-progress', action='store_true',
                       const=True, help='Don\'t show progress bar')
 

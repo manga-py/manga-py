@@ -4,7 +4,7 @@ from pathlib import Path
 
 import peewee
 
-from manga_py.libs.fs import system_path
+from manga_py.libs.fs import user_path
 
 __cache = {}
 
@@ -14,7 +14,7 @@ def db_path() -> Path:
     Overload this to change the path to the database
     :return:
     """
-    return system_path().joinpath('manga.db')
+    return user_path().joinpath('manga.db')
 
 
 def make_db(force=False):
