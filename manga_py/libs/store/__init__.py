@@ -1,11 +1,21 @@
 from typing import Optional
 
 from ._http import HttpStore
+from manga_py.cli.args import ArgsListHelper
 
 
 class Store(object):
-    __slots__ = ()
+    """
+    Global app store
+    """
     _store = {}
+    @property
+    def arguments(self) -> ArgsListHelper:
+        return self._store['arguments']
+
+    @arguments.setter
+    def arguments(self, arguments):
+        self._store['arguments'] = arguments
 
     @property
     def content(self) -> Optional[str]:
@@ -25,18 +35,22 @@ class Store(object):
 
     @property
     def ua(self) -> Optional[str]:
-        return self._store['user-agent', None]
+        return self._store.get('user-agent', None)
 
     @ua.setter
     def ua(self, val):
         self._store['user-agent'] = val
 
     @property
-    def http(self) -> HttpStore:
-        http = self._store.get('http', None)
+    def scheme(self):
+        return self._store.get('scheme', 'https')
 
-        if http is None:
-            http = HttpStore()
-            self._store['http'] = http
+    @scheme.setter
+    def scheme(self, scheme: str):
+        if scheme not in ['http', 'https']:
+            raise RuntimeError('Scheme not valid')
+        self._store['scheme'] = scheme
 
-        return http
+
+store = Store()
+http_store = HttpStore()

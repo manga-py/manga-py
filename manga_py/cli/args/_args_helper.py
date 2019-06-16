@@ -15,6 +15,9 @@ class ArgsListHelper:
         return self.__store.__dict__
 
     def get(self, name, default=None):
+        if isinstance(name, str):
+            name = name.replace('-', '_')
+
         return getattr(self.__store, name=name, default=default)
 
     # general

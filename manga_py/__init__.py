@@ -3,6 +3,7 @@
 # PYTHON_ARGCOMPLETE_OK
 
 from sys import stderr
+from time import sleep
 
 import argcomplete
 import better_exceptions
@@ -14,11 +15,11 @@ def main():
     argcomplete.autocomplete(args.get_cli_arguments())
     better_exceptions.hook()
     _cli = Cli()
-    _cli.fill_args()
     check = _cli.check_version()
     if check['need_update']:
         print('Please, update manga-py')
         print('See url: %s\n' % check['url'], file=stderr)
+        sleep(1)
     _cli.run()
 
 

@@ -1,5 +1,6 @@
 import logging.config
 import shutil
+from logging import Logger
 
 import yaml
 
@@ -23,7 +24,7 @@ def _get():
     return logging.getLogger(__name__)
 
 
-def logger():
+def logger() -> Logger:
     if __cache.get('logger', None) is None:
         __cache['logger'] = _get()
     return __cache['logger']

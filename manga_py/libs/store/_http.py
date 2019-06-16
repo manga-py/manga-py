@@ -6,8 +6,10 @@ from typing import Union, Optional
 
 
 class HttpStore(object):
-    __slots__ = ()
-    _store = {}
+    __slots__ = ('_store',)
+
+    def __init__(self):
+        self._store = {}
 
     @staticmethod
     def _response2url(resp: Response):

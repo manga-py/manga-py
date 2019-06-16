@@ -1,3 +1,5 @@
+from manga_py.libs.provider import Provider
 
-class Example:
+
+class Example(Provider):
     pass
