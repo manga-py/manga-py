@@ -2,24 +2,22 @@ import json
 from abc import abstractmethod
 from pathlib import Path
 from re import match
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, Dict
 
 from manga_py import exceptions
 from manga_py.cli.args import ArgsListHelper
 from manga_py.libs.http import Http
-from manga_py.libs.log import logger
+from manga_py.libs.provider.file_tuple import FileTuple, ChapterFilesTuple
 
 
 class Provider:
     __slots__ = ('arguments', 'http', '_url', 'SUPPORTED_URLS')
-    TYPE_IMAGE = 'image'
-    TYPE_ARCHIVE = 'archive'
 
     def __init__(self, store: ArgsListHelper, url: str):
         self.arguments = store
         self.http = Http(url)
         self._url = url
-        self.SUPPORTED_URLS = None  # type: List[str]
+        self.SUPPORTED_URLS = None  # type: Optional[List[str]]
         self.SUPPORTED_URLS.__doc__ = """
         SUPPORTED_URLS: contains a list of possible urls with which the provider works
         Must be set in child classes
@@ -35,12 +33,9 @@ class Provider:
     def new(cls, store: ArgsListHelper, url: str):
         return cls(store, url)
 
-    @classmethod
-    def match(cls, url) -> bool:
-        if cls.SUPPORTED_URLS is None:
-            logger().warning('SUPPORTED_URLS is None for provider %s', cls.__class__.__name__)
-        for i in cls.SUPPORTED_URLS:
-            if match(i, url):
+    def match(self) -> bool:
+        for i in self.SUPPORTED_URLS:
+            if match(i, self._url):
                 return True
         return False
 
@@ -96,7 +91,7 @@ class Provider:
         pass
 
     @abstractmethod
-    def chapter_files(self, idx, url) -> List[dict]:
+    def chapter_files(self, idx, url) -> List[ChapterFilesTuple]:
         """
         :param int idx: Chapter index
         :param str url: Chapter url
@@ -104,8 +99,7 @@ class Provider:
         Example:
 
         [
-         {self.TYPE_IMAGE: 'https://site.example/image.png'},
-         {self.TYPE_ARCHIVE: 'https://site.example/archive.zip'},
+         ChapterFilesTuple(image='https://site.example/image.png', archive='https://site.example/archive.zip'),
         ]
 
         """
@@ -121,21 +115,25 @@ class Provider:
         self.http.download(self.http.get(url), destination)
         return self.after_download(idx, destination)
 
-    def before_download(self, idx: int, url: str, destination: Path) -> Tuple[int, str, Path]:
+    def before_download(self, idx: int, url: str, path: Path) -> Tuple[int, str, Path]:
         """
         Must return arguments
         May change file location or url
         :param idx:
         :param url:
-        :param destination:
+        :param path:
         """
-        return idx, url, destination
+        return idx, url, path
 
-    def after_download(self, idx: int, destination: Path) -> Tuple[int, Path]:
+    def after_download(self, idx: int, path: Path) -> FileTuple:
         """
         Can check file for correctness (for example, its size)
         Should also be used to decrypt files
-        :param idx:
-        :param destination:
+
+        may return multiple images
+        (for example, an image can be split into two or the archive can be unpacked)
+
+        :param int idx:
+        :param str path:
         """
-        return idx, destination
+        return FileTuple(idx, [path])

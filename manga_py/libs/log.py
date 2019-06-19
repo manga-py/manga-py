@@ -9,7 +9,7 @@ from manga_py.libs import fs
 __cache = {}
 
 
-def _get():
+def _get(name: str = 'manga-py-logger'):
     config_file = fs.user_path().joinpath('.logger.config.yaml')
 
     # if in-home-directory config not exists, copy this
@@ -21,7 +21,7 @@ def _get():
         config = yaml.safe_load(f.read())
         logging.config.dictConfig(config)
 
-    return logging.getLogger(__name__)
+    return logging.getLogger(name)
 
 
 def logger() -> Logger:

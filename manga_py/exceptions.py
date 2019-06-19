@@ -34,3 +34,9 @@ class JsonException(RuntimeError):
 
 class FsError(RuntimeError):
     pass
+
+
+class SpaceLeftException(RuntimeError):
+    @classmethod
+    def create(cls, path: str):
+        cls('No space left on device (%s)' % str(path))

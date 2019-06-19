@@ -9,6 +9,8 @@ from sys import stderr, exit
 from pathlib import Path
 
 
+cur_dir = Path(__file__).resolve().parent # type: Path
+
 REQUIREMENTS = [
     'lxml>=3.7.2',
     'cssselect>=1.0.0',
@@ -52,22 +54,22 @@ def generate_html_template():
     pass
 
 
-if Path('requirements.txt').is_file():
+if cur_dir.joinpath('requirements.txt').is_file():
     with open('requirements.txt') as f:
-        REQUIREMENTS = f.read()
+        REQUIREMENTS = f.readlines()
 
 
 long_description = ''
-if Path('README.rst').is_file():
+if cur_dir.joinpath('README.rst').is_file():
     with open('README.rst') as f:
         long_description = f.read()
 
 
 release_status = 'Development Status :: 1 - Planning'
 # release_status = 'Development Status :: 5 - Production/Stable'
-# if ~__version__.find('-beta'):
+# if ~meta.__version__.endswith('-beta'):
 #     release_status = 'Development Status :: 4 - Beta'
-# if ~__version__.find('-alpha'):
+# elif ~meta.__version__.endswith('-alpha'):
 #     release_status = 'Development Status :: 3 - Alpha'
 
 

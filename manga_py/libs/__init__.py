@@ -1,5 +1,9 @@
 from sys import stdout
-from pprint import pprint
+try:  # fixme: debug-only
+    from pprint import pprint
+except ImportError:
+    def pprint(obj, stream=None, indent=1, width=80, depth=None, *args, compact=False):
+        print(obj, *args, file=stream)
 
 
 def print_lib(*_args, file=stdout, **kwargs):

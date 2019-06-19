@@ -116,7 +116,7 @@ class ArgsListHelper:
         return self.__store.zero_fill
 
     @property
-    def min_free_space(self) -> Optional[int]:
+    def min_free_space(self) -> int:
         return self.__store.min_free_space
 
     @property
