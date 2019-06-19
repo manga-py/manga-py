@@ -8,7 +8,7 @@ class HatigarmScansEu(GoMangaCo):
 
     def get_chapter_index(self) -> str:
         url = self.chapter
-        index_re = r'/manga/[^/]+/(\d+(?:\.\d+)?)'
+        index_re = r'/manga/[^/]+/(?:chapter-)?(\d+(?:\.\d+)?)'
         group = self.re.search(index_re, url).group(1)
         return group.replace('.', '-')
 

@@ -5,11 +5,7 @@ from .helpers.std import Std
 class ManhwaHentaiCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
-        try:
-            return self.re.search(r'/manhwa/[^/]+/[\w-]+-(\d+(?:-\d+)?)', self.chapter).group(1)
-        except AttributeError:
-            print(self.chapter)
-            exit(1)
+        return self.re.search(r'/manhwa/[^/]+/[\w-]+-(\d+(?:-\d+)?)', self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/manhwa/{}')
