@@ -44,6 +44,11 @@ Installation on the Android
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 See https://github.com/yuru-yuri/manga-dl/issues/48
 
+Docker image:
+~~~~~~~~~~~~~
+https://hub.docker.com/r/mangadl/manga-py
+
+
 
 Downloading manga
 -----------------
