@@ -38,12 +38,12 @@ class Http(Request):
 
     def _download(self, file_name, url, method):
         now_try_count = 0
-        while now_try_count < 10:
+        while now_try_count < 5:
             with open(file_name, 'wb') as out_file:
                 now_try_count += 1
                 response = self.requests(url, method=method, timeout=60, allow_redirects=True)
                 if response.status_code >= 400:
-                    self.debug and print('ERROR! Code {}\nUrl: {}'.format(
+                    self.debug and print('\nERROR! Code {}\nUrl: {}\n'.format(
                         response.status_code,
                         url,
                     ))

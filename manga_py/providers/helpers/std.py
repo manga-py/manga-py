@@ -1,3 +1,7 @@
+from requests import get
+from time import sleep
+
+
 class Std:
     _vol_fill = False
 
@@ -51,8 +55,8 @@ class Std:
             url = self.get_url()
         return self.re.search(selector, url).group(1)
 
-    def _get_content(self, selector) -> str:
-        return self.http_get(selector.format(self.domain, self.manga_name))
+    def _get_content(self, tpl) -> str:
+        return self.http_get(tpl.format(self.domain, self.manga_name))
 
     def _base_cookies(self, url=None):
         if url is None:
@@ -119,3 +123,22 @@ class Std:
         if strip:
             text = text.strip()
         return text
+
+    def _download(self, file_name, url, method):
+        # clean file downloader
+        now_try_count = 0
+        while now_try_count < 5:
+            with open(file_name, 'wb') as out_file:
+                now_try_count += 1
+                response = get(url, timeout=60, allow_redirects=True)
+                if response.status_code >= 400:
+                    self.http().debug and print('ERROR! Code {}\nUrl: {}'.format(
+                        response.status_code,
+                        url,
+                    ))
+                    sleep(2)
+                    continue
+                out_file.write(response.content)
+                response.close()
+                out_file.close()
+                break

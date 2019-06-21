@@ -353,6 +353,12 @@ providers_list = {
     'mangahasu_se': [
         r'mangahasu\.se/.',
     ],
+    'mangaheaven_club': [
+        r'mangaheaven\.club/read-manga/.',
+    ],
+    'mangaheaven_xyz': [
+        r'mangaheaven\.xyz/manga/.',
+    ],
     'mangahere_cc': [
         r'mangahere\.co/manga/.',
         r'mangahere\.cc/manga/.',
