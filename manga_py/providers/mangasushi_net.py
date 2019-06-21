@@ -8,9 +8,11 @@ class MangaSushiNet(RawDevArtCom):
         idx = self.re.search(self._chapter_selector, self.chapter)
         return idx.group(1)
 
-    @property
-    def chapter(self):
-        return super().chapter.replace('?style=paged', '?style=list')
+    def get_files(self):
+        chapter = self.chapter.replace('p/1/', '?style=list').replace('?style=paged', '?style=list')
+        parser = self.html_fromstring(chapter)
+        _class = '.page-break img.wp-manga-chapter-img'
+        return self._images_helper(parser, _class, 'data-src')
 
 
 main = MangaSushiNet
