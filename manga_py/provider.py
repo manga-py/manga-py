@@ -172,7 +172,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
 
         additional_data_name = ''
         if self.http().has_error:
-            additional_data_name = '.ERROR'
+            additional_data_name = 'ERROR.'
             self.http().has_error = False
 
         return path_join(

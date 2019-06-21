@@ -69,7 +69,7 @@ class Http(Request):
         r = 0
         while r < self.count_retries:
             if self._safe_downloader(url, dst):
-                if file_size(dst) < 128:
+                if file_size(dst) < 64:
                     return None
                 callable(success_callback) and success_callback(dst, *callback_args)
                 return True
