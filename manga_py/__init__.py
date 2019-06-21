@@ -4,12 +4,16 @@
 import traceback
 from atexit import register as atexit_register
 from json import dumps
-from os import makedirs
-from os import path
+from os import makedirs, path
 from shutil import rmtree
 from sys import exit, stderr
 
-from loguru import logger
+try:
+    from loguru import logger
+    catch = logger.catch
+except ImportError:
+    def catch(x):
+        print('Setup in progress?')
 
 try:
     from .cli import Cli
@@ -79,7 +83,7 @@ def _update_all(args):
     parse_args.print_json and print(multi_info)
 
 
-@logger.catch
+@catch
 def main():
     # if ~__version__.find('alpha'):
     #     print('Alpha release! There may be errors!', file=stderr)
