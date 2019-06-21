@@ -793,6 +793,7 @@ providers_list = {
     ],
     'zeroscans_com': [
         r'zeroscans\.com/manga/.',
+        r'manhwareader\.com/manga/.',
     ],
     'zingbox_me': [
         r'zingbox\.me/.',
