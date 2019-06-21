@@ -338,6 +338,10 @@ providers_list = {
         r'mangaeden\.com/[^/]+/[^/]+-manga/.',
         r'perveden\.com/[^/]+/[^/]+-manga/.',
     ],
+    'mangafans_us': [  # MangaNeloCom
+        r'mangafans\.us/manga/.',
+        r'mangahot\.org/read-manga/.',
+    ],
     'mangaforall_com': [
         r'mangaforall\.com/m/.',
     ],
