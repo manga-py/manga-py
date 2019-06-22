@@ -1,5 +1,6 @@
 from sys import stderr
 from time import sleep
+import requests
 
 from manga_py.fs import get_temp_path, make_dirs, remove_file_query_params, basename, path_join, dirname, file_size
 from .multi_threads import MultiThreads
@@ -38,21 +39,23 @@ class Http(Request):
 
     def _download(self, file_name, url, method):
         now_try_count = 0
-        while now_try_count < 5:
-            with open(file_name, 'wb') as out_file:
-                now_try_count += 1
-                response = self.requests(url, method=method, timeout=60, allow_redirects=True)
-                if response.status_code >= 400:
-                    self.debug and print('\nERROR! Code {}\nUrl: {}\n'.format(
-                        response.status_code,
-                        url,
-                    ))
-                    sleep(2)
-                    continue
+        with open(file_name, 'wb') as out_file:
+            now_try_count += 1
+            response = self.requests(url, method=method, timeout=60, allow_redirects=True)
+            if response.status_code >= 400:
+                self.debug and print('\nERROR! Code {}\nUrl: {}\n'.format(
+                    response.status_code,
+                    url,
+                ))
+                sleep(2)
+                if response.status_code == 403:
+                    response = requests.request(method=method, url=url, timeout=60, allow_redirects=True)
+
+            if response.status_code < 400:
                 out_file.write(response.content)
-                response.close()
-                out_file.close()
-                break
+
+            response.close()
+            out_file.close()
 
     def _safe_downloader(self, url, file_name, method='get') -> bool:
         try:

@@ -10,7 +10,7 @@ class ZeroScansCom(RawDevArtCom):
         idx = idx.group(1)
         test = self.re.search(r'(\d+)[^\d](\d+)', idx)
         if test:
-            return '-'.join(*test.groups())
+            return '-'.join(test.groups())
         return idx
 
     def get_chapters(self):

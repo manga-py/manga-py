@@ -32,8 +32,5 @@ class MangaNeloCom(Provider, Std):
     def get_chapter(self):
         return self.chapter
 
-    def prepare_cookies(self):
-        self.http()._download = self._download
-
 
 main = MangaNeloCom

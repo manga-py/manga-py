@@ -23,8 +23,5 @@ class MangaHeavenClub(Provider, Std):
     def get_cover(self) -> str:
         return self._cover_from_content('.detail-info img')
 
-    def prepare_cookies(self):
-        self.http()._download = self._download
-
 
 main = MangaHeavenClub

@@ -18,7 +18,6 @@ class LHTranslationCom(GoMangaCo, Std):
     def get_files(self):
         content = self.http_get(self.chapter)
         parser = self.document_fromstring(content, 'article#content,.chapter-content', 0)
-        self.http()._download = self._download
         return self._images_helper(parser, 'img.chapter-img', 'data-original')
 
 
