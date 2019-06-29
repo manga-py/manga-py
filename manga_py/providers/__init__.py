@@ -659,6 +659,9 @@ providers_list = {
     'readcomiconline_to': [
         r'readcomiconline\.to/Comic/.',
     ],
+    'readcomicsonline_ru': [
+        r'readcomicsonline\.ru/comic/.',
+    ],
     'readmanga_me': [
         r'readmanga\.me/.',
     ],
