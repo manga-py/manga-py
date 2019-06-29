@@ -500,7 +500,7 @@ providers_list = {
         r'manhwahentai\.com/manhwa/.'
     ],
     'merakiscans_com': [
-        r'merakiscans\.com/details/.',
+        r'merakiscans\.com/manga/.',
     ],
     'mintmanga_com': [
         r'mintmanga\.com/.',

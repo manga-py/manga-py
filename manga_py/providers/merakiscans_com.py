@@ -3,12 +3,12 @@ from .helpers.std import Std
 
 
 class MerakiScansCom(Provider, Std):
-    _content_url = '{}/details/{}/'
+    _content_url = '{}/manga/{}/'
 
     def get_chapter_index(self) -> str:
-        re = self.re.compile('com/[^/]+/([^/]+)')
+        re = self.re.compile(r'/manga/[^/]+/(\d+(?:\.\d+)?)')
         idx = re.search(self.chapter).group(1)
-        return '-'.join(idx.split('.'))
+        return idx.replace('.', '-')
 
     def _home_url(self):
         return self._content_url.format(self.domain, self.manga_name)
@@ -17,7 +17,7 @@ class MerakiScansCom(Provider, Std):
         return self.http_get(self._home_url())
 
     def get_manga_name(self) -> str:
-        return self._get_name('com/details/([^/]+)')
+        return self._get_name('com/manga/([^/]+)')
 
     def get_chapters(self):
         selector = '.clickable-chapter'
