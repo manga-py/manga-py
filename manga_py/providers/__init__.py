@@ -487,6 +487,10 @@ providers_list = {
     'mangax_net': [
         r'mangax\.net/\w/.',
     ],
+    'mangazuki_me': [
+        r'mangazuki\.me/manga/.',
+        r'mangazuki\.info/manga/.',
+    ],
     'manhuagui_com': [
         r'manhuagui\.com/comic/\d',
     ],
@@ -496,9 +500,9 @@ providers_list = {
     'manhwa_co': [
         r'manhwa\.co/.',
     ],
-    'manhwahentai_com': [
-        r'manhwahentai\.com/manhwa/.'
-    ],
+    # 'manhwahentai_com': [
+    #     r'manhwahentai\.com/manhwa/.'
+    # ],
     'merakiscans_com': [
         r'merakiscans\.com/manga/.',
     ],
