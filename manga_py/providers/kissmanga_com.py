@@ -74,7 +74,6 @@ class KissMangaCom(Provider, Std):
         if not hexes:
             print('Images not found!', file=stderr)
             return []
-        self._storage['referer'] = self.http().referer = ''
         return self.__decrypt_images(crypt, key, hexes)
 
     def get_cover(self):
