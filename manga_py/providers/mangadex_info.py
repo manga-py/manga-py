@@ -21,7 +21,6 @@ class MangaDexCom(Provider, Std):
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter + '/0')
-        self.http().referer = ''
         return self._images_helper(parser, '#view-chapter img')
 
     def get_cover(self) -> str:
