@@ -24,7 +24,8 @@ class Std:
         return [i.get(attr, default) for i in content]
 
     @staticmethod
-    def document_fromstring(content: str, selector: str = None, idx: int = None):
+    def document_fromstring(content: str, selector: str = None,
+                            idx: int = None) -> Union[HtmlElement, List[HtmlElement]]:
         result = document_fromstring(content)  # type: HtmlElement
         if selector is not None:
             result = result.cssselect(selector)

@@ -1,8 +1,8 @@
-from manga_py.cli.args import ArgsListHelper
-from manga_py.exceptions import ProviderNotFoundException
-from manga_py.libs.log import logger
-from manga_py.libs.provider import Provider
-from manga_py.providers.__list import providers
+from ..cli.args import ArgsListHelper
+from ..exceptions import ProviderNotFoundException
+from ..libs.log import logger
+from ..libs.provider import Provider
+from ..providers.__list import providers
 
 
 def get_provider(url, args: ArgsListHelper) -> Provider:
@@ -21,3 +21,5 @@ def get_provider(url, args: ArgsListHelper) -> Provider:
 
     if not caught:
         raise ProviderNotFoundException.create(url)
+
+__all__ = ['get_provider']

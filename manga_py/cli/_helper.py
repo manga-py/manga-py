@@ -1,14 +1,14 @@
 import json
+from datetime import datetime, timedelta
 from sys import exit, stderr, stdout
 
 from packaging import version
 from requests import get
 
-from manga_py import meta
-from manga_py.cli import args
-from manga_py.libs import fs
-from manga_py.libs import print_lib
-from datetime import datetime, timedelta
+from . import args
+from .. import meta
+from ..libs import fs
+from ..libs import print_lib
 
 gh_check_file = fs.user_path().joinpath('github-check')
 

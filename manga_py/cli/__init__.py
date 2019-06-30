@@ -1,17 +1,19 @@
 import atexit
 from shutil import rmtree
+from sys import stderr
 
-from manga_py.cli import args
-from manga_py.cli._helper import CliHelper
-from manga_py.cli.args import ArgsListHelper
-from manga_py.cli.db import DataBase
-from manga_py.exceptions import ProviderNotFoundException
-from manga_py.libs.info.glob import InfoGlobal
-from manga_py.libs.log import logger
-from manga_py.libs.provider import Provider
-from manga_py.libs.store import Store
-from manga_py.manga import Manga
-from manga_py.providers import get_provider
+from . import args
+from ._helper import CliHelper
+from .args import ArgsListHelper
+from .db import DataBase
+from ..exceptions import ProviderNotFoundException
+from ..libs.info.glob import InfoGlobal
+from ..libs.log import logger
+from ..libs.provider import Provider
+from ..libs.store import Store
+from ..manga import Manga
+from ..providers import get_provider
+from ..libs import print_lib
 
 
 class Cli(CliHelper):
@@ -33,6 +35,10 @@ class Cli(CliHelper):
 
     def run(self):
         urls = self.args.url
+
+        if self.args.force_clean:
+            # TODO
+            pass
 
         # if self.args.get('title'):  # todo: Maybe search for user-urls only
         #     urls = self.search_for_title(self.args.title)
@@ -61,4 +67,4 @@ class Cli(CliHelper):
                 manga = Manga()
                 manga.run(provider)
             except ProviderNotFoundException as e:
-                self.print(e.args)
+                print_lib(e.args, file=stderr)

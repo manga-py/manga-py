@@ -6,5 +6,4 @@ def main(args_parser: ArgumentParser):
 
     args.add_argument('--login', type=str, default=None, help='Authentication login')
     args.add_argument('--password', type=str, default=None, help='Authentication password')
-    args.add_argument('--cookies', type=str, default=[], nargs='*',
-                      help='Authentication cookies (if need)\n\tExample: --cookies ga=ca.ca.d tz=412')
+    args.add_argument('-A', '--dont-save-cookies', action='store_true', help='Don\'t allow save cookies')

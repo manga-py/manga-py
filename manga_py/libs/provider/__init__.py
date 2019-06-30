@@ -2,22 +2,24 @@ import json
 from abc import abstractmethod
 from pathlib import Path
 from re import match
-from typing import Optional, List, Tuple, Dict
+from typing import Optional, List, Tuple
 
-from manga_py import exceptions
-from manga_py.cli.args import ArgsListHelper
-from manga_py.libs.http import Http
-from manga_py.libs.provider.file_tuple import FileTuple, ChapterFilesTuple
+from ...exceptions import JsonException
+from ...cli.args import ArgsListHelper
+from ...libs.http import Http
+from ...libs.provider.file_tuple import FileTuple, ChapterFilesTuple
+from ...libs.log import logger
 
 
 class Provider:
-    __slots__ = ('arguments', 'http', '_url', 'SUPPORTED_URLS')
+    __slots__ = ('arguments', 'http', '_url', 'SUPPORTED_URLS', 'logger', )
 
     def __init__(self, store: ArgsListHelper, url: str):
         self.arguments = store
         self.http = Http(url)
         self._url = url
         self.SUPPORTED_URLS = None  # type: Optional[List[str]]
+        self.logger = logger()
         self.SUPPORTED_URLS.__doc__ = """
         SUPPORTED_URLS: contains a list of possible urls with which the provider works
         Must be set in child classes
@@ -56,7 +58,8 @@ class Provider:
             try:
                 return json.loads(content)
             finally:
-                exceptions.JsonException(content)
+                self.logger.warning('JSON content broken %s ' % content)
+                JsonException(content)
         return content
 
     def main_url(self) -> str:
@@ -137,3 +140,6 @@ class Provider:
         :param str path:
         """
         return FileTuple(idx, [path])
+
+
+__all__ = ['Provider']

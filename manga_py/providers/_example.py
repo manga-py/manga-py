@@ -1,4 +1,4 @@
-from manga_py.libs.provider import Provider
+from ..libs.provider import Provider
 
 
 class Example(Provider):

@@ -4,8 +4,8 @@ from typing import List
 
 from tabulate import tabulate
 
-from manga_py.libs import print_lib
-from manga_py.libs.db import Manga, make_db
+from ..libs import print_lib
+from ..libs.db import Manga, make_db
 
 
 def args():

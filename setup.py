@@ -1,15 +1,16 @@
+from os import name, chmod, unlink
+from pathlib import Path
+from re import search
+from subprocess import Popen, PIPE
+from sys import stderr, exit
+from tempfile import gettempdir
+
 from setuptools import setup, find_packages
 from setuptools.command.install import install
-from manga_py import meta
-from os import name, chmod, unlink
-from subprocess import Popen, PIPE
-from re import search
-from tempfile import gettempdir
-from sys import stderr, exit
-from pathlib import Path
 
+from .manga_py import meta
 
-cur_dir = Path(__file__).resolve().parent # type: Path
+cur_dir = Path(__file__).resolve().parent  # type: Path
 
 REQUIREMENTS = [
     'lxml>=3.7.2',
@@ -29,6 +30,7 @@ REQUIREMENTS = [
     'argcomplete>=1.9.4',
     'tabulate>=0.8',
     'PyYAML',
+    # 'Deprecated>1.2',  # maybe
 ]
 
 
@@ -116,7 +118,7 @@ class PostInstallCommand(install):
 
 setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-packages
     name='manga_py',
-    packages = find_packages(),
+    packages=find_packages(),
     include_package_data=True,
     version=meta.__version__,
     description='Universal assistant download manga.',
@@ -140,7 +142,7 @@ setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-
         'Programming Language :: Python :: 3.7',
         'Topic :: Internet :: WWW/HTTP',
     ],
-    python_requires='>=3.5.3',
+    python_requires='>=3.6',
     install_requires=REQUIREMENTS,
     cmdclass={
         'install': PostInstallCommand,
@@ -148,7 +150,7 @@ setup(  # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-
     entry_points={
         'console_scripts': [
             'manga-py = manga_py:main',
-            'manga-py-db = manga_py:db_main',
+            # 'manga-py-db = manga_py:db_main',
         ]
     },
     test_suite='tests',

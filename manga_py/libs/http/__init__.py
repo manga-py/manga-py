@@ -6,10 +6,10 @@ from zlib import crc32
 from requests import Response
 from requests.api import get, post, request
 
-from manga_py import exceptions
-from manga_py.libs import print_lib
-from manga_py.libs.log import logger
-from manga_py.libs.store import http_store, Store
+from ...exceptions import *
+from ...libs import print_lib
+from ...libs.log import logger
+from ...libs.store import http_store, Store
 
 
 class Http:
@@ -26,7 +26,7 @@ class Http:
         self.__debug_url(response.request.method, response.request.url)
         with destination.open('wb') as w:
             if not w.writable():
-                raise exceptions.FsError('Destination not writable. Please, check permissions')
+                raise FsError('Destination not writable. Please, check permissions')
             content = response.content
             errors = []
             if ~response.headers['Content-Type'].find('text/'):
@@ -61,7 +61,7 @@ class Http:
         try:
             return request(method, url, **kwargs)
         finally:
-            raise exceptions.NetworkException()
+            raise NetworkException()
 
     def __debug_url(self, method, url):
         if self.__debug():
@@ -70,7 +70,6 @@ class Http:
                 'Url: ' + url,
                 ''
             ]))
-
 
     def url_normalize(self, url):
         _url = urlparse(url)  # type: ParseResult
@@ -92,7 +91,7 @@ class Http:
     def _domain_from_url(url):
         fragments = urlparse(url)  # type: ParseResult
         if len(fragments.netloc) < 1:
-            raise exceptions.InvalidUrlException(url)
+            raise InvalidUrlException(url)
         return fragments.netloc
 
     def _scheme_from_url(self, url):
@@ -128,7 +127,7 @@ def check_url(url: str) -> str:
         logger().warning('Url scheme has missing (%s). Use default scheme' % url)
     if check.netloc == '':
         logger().critical('Url netloc has missing (%s)')
-        raise exceptions.InvalidUrlException(url)
+        raise InvalidUrlException(url)
     return check.geturl()
 
 

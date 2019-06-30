@@ -1,5 +1,8 @@
 from argparse import ArgumentParser
+from sys import stderr
 from typing import Optional, List
+
+from ...libs import print_lib
 
 
 class ArgsListHelper:
@@ -19,6 +22,29 @@ class ArgsListHelper:
             name = name.replace('-', '_')
 
         return getattr(self.__store, name=name, default=default)
+
+    # region auth
+    @property
+    def login(self) -> Optional[str]:
+        return self.__store.login
+
+    def password(self) -> Optional[str]:
+        return self.__store.password
+
+    def allow_save_cookies(self) -> bool:
+        """ Allow save cookies """
+        return not self.__store.dont_save_cookies
+
+    def cookies(self):
+        cookies = {}
+        try:
+            for c in self.__store.cookies:  # type: str
+                _ = c.split('=')
+                cookies[_[0]] = _[1]
+        except IndexError:
+            print_lib('Cookies index error (argument)', file=stderr)
+        return cookies
+    # endregion
 
     # region general
     @property
@@ -72,6 +98,10 @@ class ArgsListHelper:
     @property
     def verbose_log(self) -> bool:
         return self.__store.verbose_log
+
+    @property
+    def force_clean(self) -> bool:
+        return self.__store.force_clean
     # endregion
 
     # region downloading
@@ -198,7 +228,7 @@ class ArgsListHelper:
                 key, value = i.split('=')
                 _[key] = value
             return _
-        return None
+        return {}
     # endregion
 
     # region Calculated properties

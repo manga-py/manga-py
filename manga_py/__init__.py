@@ -5,11 +5,14 @@
 from sys import stderr
 from time import sleep
 
-import argcomplete
-import better_exceptions
+try:
+    import argcomplete
+    import better_exceptions
 
-from manga_py.cli import Cli, args, db
-from manga_py.libs import print_lib
+    from .cli import Cli, args, db
+    from .libs import print_lib
+except ImportError:
+    print('Install in progress?', file=stderr)
 
 
 def main():

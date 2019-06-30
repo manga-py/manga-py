@@ -4,7 +4,7 @@ from logging import Logger
 
 import yaml
 
-from manga_py.libs import fs
+from . import fs
 
 __cache = {}
 
@@ -28,3 +28,6 @@ def logger() -> Logger:
     if __cache.get('logger', None) is None:
         __cache['logger'] = _get()
     return __cache['logger']
+
+
+__all__ = ['logger', ]

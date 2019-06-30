@@ -1,7 +1,7 @@
 from datetime import datetime
 from sys import argv
 
-from manga_py import meta
+from ... import meta
 
 
 class InfoGlobal(object):
