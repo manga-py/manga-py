@@ -8,7 +8,7 @@ from tempfile import gettempdir
 from setuptools import setup, find_packages
 from setuptools.command.install import install
 
-from .manga_py import meta
+from manga_py import meta
 
 cur_dir = Path(__file__).resolve().parent  # type: Path
 
@@ -29,7 +29,6 @@ REQUIREMENTS = [
     'better_exceptions>=0.2',
     'argcomplete>=1.9.4',
     'tabulate>=0.8',
-    'PyYAML',
     # 'Deprecated>1.2',  # maybe
 ]
 

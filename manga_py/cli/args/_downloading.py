@@ -15,7 +15,7 @@ def main(args_parser: ArgumentParser):
     args.add_argument('--proxy', type=str, help='Http proxy')
     args.add_argument('-r', '--reverse-downloading', action='store_true', help='Reverse volumes downloading')
     args.add_argument('-R', '--rewrite-exists-files', action='store_true', help='(Don\'t work on update mode!)')
-    args.add_argument('-T', '--no-multi-threads', action='store_true', help='Disallow multi-threads images downloading')
+    args.add_argument('-M', '--no-multi-threads', action='store_true', help='Disallow multi-threads images downloading')
     args.add_argument('-z', '--zero-fill', action='store_true',
                       help='Adds 0 to the end for all chapters (vol_001.zip -> vol_001-0.zip)')
     args.add_argument('--min-free-space', metavar='Mb', type=int, default=200,

@@ -6,4 +6,5 @@ def main(args_parser: ArgumentParser):
 
     args.add_argument('--login', type=str, default=None, help='Authentication login')
     args.add_argument('--password', type=str, default=None, help='Authentication password')
-    args.add_argument('-A', '--dont-save-cookies', action='store_true', help='Don\'t allow save cookies')
+    args.add_argument('-A', '--dont-save-cookies', action='store_true',
+                      help='Don\'t allow save cookies. Important! Cookies required for --update-all option!')

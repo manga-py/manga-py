@@ -3,7 +3,7 @@ from typing import Optional, List, Callable
 
 from progressbar import ProgressBar
 
-from .cli.args import ArgsListHelper
+from .cli.args.args_helper import ArgsListHelper
 from .libs import db
 from .libs import print_lib
 from .libs.fs import check_free_space, temp_path, user_path
@@ -49,8 +49,6 @@ class Manga:
 
     def run(self, provider: Provider):
         self._ = {}  # temporary provider store
-        if self.arguments.verbose_log:
-            print_lib('Provider: %s' % provider.__class__.__name__)
         self.logger.info('Provider: %s' % provider.__class__.__name__)
 
         # if self.arguments.allow_progress:

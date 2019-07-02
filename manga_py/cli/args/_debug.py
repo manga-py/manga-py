@@ -13,11 +13,6 @@ def main(args_parser: ArgumentParser):
     args.add_argument('-S', '--simulate', action='store_true',
                       help='Do not download the files and do not write anything to disk')
 
-    args.add_argument('-l', '--show-log', action='store_true', help='Print log (Don\'t show progress bar)')
-
-    args.add_argument('-L', '--verbose-log', action='store_true',
-                      help='More details log (Forcibly turn off progress bar)')
-
     args.add_argument('-P', '--no-progress', action='store_true', help='Don\'t show progress bar')
 
     args.add_argument('--force-make-db', action='store_true')
@@ -31,5 +26,7 @@ def main(args_parser: ArgumentParser):
     args.add_argument('-Q', '--force-clean', action='store_true',
                       help='Forcibly clear the manga-py service directories')
 
-    args.add_argument('--cookies', type=str, default=[], nargs='*',
-                      help='Force set initial cookies (if need)\n\tExample: --cookies ga=ca.ca.d tz=412')
+    args.add_argument('--cookies', type=str, default=[], nargs='*', metavar='key=value',
+                      help='Force set initial cookies (if need)')
+
+    args.add_argument('-L', '--log-to-file', metavar='/path/to/file.log', type=str, help='Write log to file')

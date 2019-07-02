@@ -13,17 +13,18 @@ from ...libs.store import http_store, Store
 
 
 class Http:
-    __slots__ = ('store', 'base_url')
+    __slots__ = ('store', 'base_url', 'logger')
 
     def __init__(self, base_url: str = None):
         self.store = http_store  # type: Store
         self.base_url = base_url
-
-    def __debug(self):
-        return self.store.arguments.show_log
+        self.logger = logger()
 
     def download(self, response: Response, destination: Path):
-        self.__debug_url(response.request.method, response.request.url)
+        self.logger.debug({
+            'Method': response.request.method,
+            'Url': response.request.url,
+        })
         with destination.open('wb') as w:
             if not w.writable():
                 raise FsError('Destination not writable. Please, check permissions')
@@ -57,19 +58,16 @@ class Http:
         if self.base_url is None:
             self.base_url = url
         __doc__ = request.__doc__
-        self.__debug_url(method, url)
+
+        self.logger.debug({
+            'Method': method,
+            'Url': url,
+        })
+
         try:
             return request(method, url, **kwargs)
-        finally:
+        except Exception:
             raise NetworkException()
-
-    def __debug_url(self, method, url):
-        if self.__debug():
-            logger().debug('\n'.join([
-                'Method: ' + method,
-                'Url: ' + url,
-                ''
-            ]))
 
     def url_normalize(self, url):
         _url = urlparse(url)  # type: ParseResult
@@ -103,6 +101,12 @@ class Http:
     def set_base_url(self, url):
         self.base_url = url
 
+    def check_redirect(self, url: str) -> str:
+        """
+        Return new url (maybe site has redirect)
+        """
+        headers = self.request('head', url)
+        return he
 
 def default_ua():
     agents = [
@@ -125,6 +129,7 @@ def check_url(url: str) -> str:
     check = urlparse(url)  # type: ParseResult
     if check.scheme == '':
         logger().warning('Url scheme has missing (%s). Use default scheme' % url)
+        check.scheme = 'http'
     if check.netloc == '':
         logger().critical('Url netloc has missing (%s)')
         raise InvalidUrlException(url)

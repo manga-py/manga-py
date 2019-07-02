@@ -14,5 +14,3 @@ tinycss>=0.4
 better_exceptions>=0.2
 argcomplete>=1.9.4
 tabulate>=0.8
-PyYAML
-pprint

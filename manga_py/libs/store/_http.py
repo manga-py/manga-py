@@ -5,7 +5,7 @@ from urllib import parse
 from typing import Union, Optional
 
 
-class HttpStore(object):
+class HttpStore(object):  # todo
     __slots__ = ('_store',)
 
     def __init__(self):
@@ -37,11 +37,11 @@ class HttpStore(object):
         domain = self._domain(url)
         self._store['cookies'][domain] = cookiejar_from_dict(cookies)
 
-    def cookies_get(self, url) -> Optional[RequestsCookieJar]:
+    def get_cookies(self, url) -> Optional[RequestsCookieJar]:
         domain = self._domain(url)
         return self._store.get('cookies', {}).get(domain, None)
 
-    def cookies_set(self, url, response: Response):
+    def set_cookies(self, url, response: Response):
         cookies = response.cookies  # type: RequestsCookieJar
         domain = self._domain(url)
         self._store['cookies'][domain] = cookies

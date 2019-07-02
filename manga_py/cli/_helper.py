@@ -9,6 +9,8 @@ from . import args
 from .. import meta
 from ..libs import fs
 from ..libs import print_lib
+from ..libs.store import store
+from .args.args_helper import ArgsListHelper
 
 gh_check_file = fs.user_path().joinpath('github-check')
 
@@ -24,13 +26,7 @@ class CliHelper:
     def __init__(self):
         self.temp_path = fs.temp_path()
         self.raw_args = args.get_cli_arguments()
-        self.args = args.ArgsListHelper(self.raw_args)
-
-    def show_log(self) -> bool:
-        return self.args.show_log or self.args.verbose_log
-
-    def verbose_log(self) -> bool:
-        return self.args.verbose_log
+        store.arguments = self.args = ArgsListHelper(self.raw_args)
 
     @classmethod
     def print(cls, *_args):

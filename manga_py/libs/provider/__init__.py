@@ -5,7 +5,7 @@ from re import match
 from typing import Optional, List, Tuple
 
 from ...exceptions import JsonException
-from ...cli.args import ArgsListHelper
+from ...cli.args.args_helper import ArgsListHelper
 from ...libs.http import Http
 from ...libs.provider.file_tuple import FileTuple, ChapterFilesTuple
 from ...libs.log import logger

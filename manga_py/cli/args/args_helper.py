@@ -12,7 +12,7 @@ class ArgsListHelper:
     """
 
     def __init__(self, args: ArgumentParser):
-        self.__store = args
+        self.__store = args.parse_args()
 
     def as_dict(self):
         return self.__store.__dict__
@@ -76,10 +76,6 @@ class ArgsListHelper:
         return self.__store.simulate
 
     @property
-    def show_log(self) -> bool:
-        return self.__store.show_log
-
-    @property
     def no_progress(self) -> bool:
         return self.__store.no_progress
 
@@ -96,12 +92,12 @@ class ArgsListHelper:
         return self.__store.do_not_clear_temporary_directory
 
     @property
-    def verbose_log(self) -> bool:
-        return self.__store.verbose_log
-
-    @property
     def force_clean(self) -> bool:
         return self.__store.force_clean
+
+    @property
+    def log_to_file(self) -> Optional[str]:
+        return self.__store.log_to_file
     # endregion
 
     # region downloading
@@ -210,29 +206,11 @@ class ArgsListHelper:
         return self.__store.html
     # endregion
 
-    # region auth
-    @property
-    def login(self) -> Optional[str]:
-        return self.__store.login
-
-    @property
-    def password(self) -> Optional[str]:
-        return self.__store.password
-
-    @property
-    def cookies(self) -> dict:
-        cookies = self.__store.cookies
-        _ = {}
-        if len(cookies) > 0:
-            for i in cookies:
-                key, value = i.split('=')
-                _[key] = value
-            return _
-        return {}
-    # endregion
-
     # region Calculated properties
     @property
     def allow_progress(self) -> bool:
         return False if self.no_progress or self.verbose_log else True
     # endregion
+
+
+__all__ = ['ArgsListHelper']
