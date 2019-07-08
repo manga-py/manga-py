@@ -1,6 +1,6 @@
 import json
 import re
-from abc import ABCMeta
+from abc import ABC
 from sys import stderr
 
 from .base_classes import (
@@ -27,7 +27,7 @@ from .meta import __downloader_uri__
 from .meta import __version__
 
 
-class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
+class Provider(Base, Abstract, Static, Callbacks, ABC):
     _volumes_count = 0
     _archive = None
     _zero_fill = False
@@ -89,9 +89,7 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
 
         return not_allow_archive and is_file(_path)
 
-    def _download_chapter(self, idx, _min, _max):
-        if idx < _min or (idx >= _max > 0) or self._check_archive():
-            return
+    def _download_chapter(self):
         if not self._simulate:
             try:
                 self.before_download_chapter()
@@ -107,12 +105,14 @@ class Provider(Base, Abstract, Static, Callbacks, metaclass=ABCMeta):
         volumes = self._storage['chapters']
         _min = self._params.get('skip_volumes', 0)
         _max = self._params.get('max_volumes', 0)
-        if _max > 0 and _min > 0:
-            _max += _min - 1
+        count = 0  # count downloaded chapters
         for idx, __url in enumerate(volumes):
+            if idx < _min or (count >= _max > 0) or self._check_archive():
+                continue
+            count += 1
             self.chapter_id = idx
             self._info.add_volume(self.chapter_for_json(), self.get_archive_path())
-            self._download_chapter(idx, _min, _max)
+            self._download_chapter()
 
     def loop_files(self):
         if isinstance(self._storage['files'], list):

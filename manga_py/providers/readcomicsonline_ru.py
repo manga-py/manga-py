@@ -4,7 +4,7 @@ from .helpers.std import Std
 
 class ReadComicsOnlineRu(Provider, Std):
     def get_chapter_index(self, no_increment=False) -> str:
-        chapter = self.re.search(r'/(\d+(?:[\.-_]\d+)?)$', self.chapter).group(1)
+        chapter = self.re.search(r'/([\w\d_-]+)$', self.chapter).group(1)
         return chapter.replace('.', '-').replace('_', '-')
 
     def get_main_content(self):
