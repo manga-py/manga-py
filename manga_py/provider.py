@@ -107,10 +107,10 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
         _max = self._params.get('max_volumes', 0)
         count = 0  # count downloaded chapters
         for idx, __url in enumerate(volumes):
+            self.chapter_id = idx
             if idx < _min or (count >= _max > 0) or self._check_archive():
                 continue
             count += 1
-            self.chapter_id = idx
             self._info.add_volume(self.chapter_for_json(), self.get_archive_path())
             self._download_chapter()
 
