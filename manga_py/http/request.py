@@ -76,10 +76,10 @@ class Request:
             'url': url,
             'headers': headers,
             'data': data,
-            'allow_redirects': False,
         }
         self.__set_defaults(args, kwargs)
         self.__set_defaults(args, self._get_kwargs())
+        args.setdefault('allow_redirects', False)
         r = getattr(requests, method)(**args)
         self.__update_cookies(r)
         if r.is_redirect and method != 'head':
