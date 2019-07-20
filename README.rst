@@ -49,6 +49,10 @@ Docker image:
 https://hub.docker.com/r/mangadl/manga-py
 
 
+Suported by JetBrains
+---------------------
+|JetBrains logo|
+
 
 Downloading manga
 -----------------
@@ -103,3 +107,7 @@ Help
 .. |PyPi version| image:: https://badge.fury.io/py/manga-py.svg
    :alt: PyPI
    :target: https://pypi.org/project/manga-py/
+.. |JetBrains logo| image:: https://github.com/yuru-yuri/manga-dl/raw/stable_1.x/helpers/jetbrains.png
+   :alt: JetBrains
+   :width: 100 px
+   :target: https://jetbrains.com
