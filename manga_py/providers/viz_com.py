@@ -8,6 +8,7 @@ from manga_py import meta
 class VizCom(Provider, Std):
     cookie_file = None
     __cookies = {}
+    __has_auth = False
 
     def get_chapter_index(self) -> str:
         # return str(self.chapter_id)
@@ -33,7 +34,50 @@ class VizCom(Provider, Std):
         return self._elements('a.flex[href*="/chapter/"],a.pad-r-rg.o_chapter-container[href*="/chapter/"]')
 
     def get_files(self):
+        ch = self.chapter
+        params = [
+            'device_id=3',
+            'manga_id={}'.format(self.re.search(r'/chapter/(\d+)', ch).group(1)),
+            'page={page}',
+        ]
+        url = 'https://www.viz.com/manga/get_manga_url?' + '&'.join(params)
+        if self.__has_auth:
+            params.append('client_login=true')
+
         print(self.get_chapter_index())
+
+        _max = len(self._storage['files'])
+        self.progress(_max, _max)
+
+        # see '.readerImgPage'
+        """
+        preloadImages()
+        pageKeys[]
+        
+        line 3800:
+  if (void 0 !== name && "" != name) {
+    /** @type {number} */
+    var x = parseInt(pageKeys["page" + context].width);
+    /** @type {number} */
+    var h = parseInt(pageKeys["page" + context].height);
+    /** @type {number} */
+    var width = Math.floor(x / 10);
+    /** @type {number} */
+    var y = Math.floor(h / 15);
+    var IEVersion = name.split(":");
+    ctx.drawImage(g_avatarImage, 0, 0, x, y, 0, 0, x, y);
+    ctx.drawImage(g_avatarImage, 0, y + 10, width, h - 2 * y, 0, y, width, h - 2 * y);
+    ctx.drawImage(g_avatarImage, 0, 14 * (y + 10), x, g_avatarImage.height - 14 * (y + 10), 0, 14 * y, x, g_avatarImage.height - 14 * (y + 10));
+    ctx.drawImage(g_avatarImage, 9 * (width + 10), y + 10, width + (x - 10 * width), h - 2 * y, 9 * width, y, width + (x - 10 * width), h - 2 * y);
+    /** @type {number} */
+    i = 0;
+    for (; i < IEVersion.length; i++) {
+      /** @type {number} */
+      IEVersion[i] = parseInt(IEVersion[i], 16);
+      ctx.drawImage(g_avatarImage, Math.floor((i % 8 + 1) * (width + 10)), Math.floor((Math.floor(i / 8) + 1) * (y + 10)), Math.floor(width), Math.floor(y), Math.floor((IEVersion[i] % 8 + 1) * width), Math.floor((Math.floor(IEVersion[i] / 8) + 1) * y), Math.floor(width), Math.floor(y));
+    }
+  }
+        """
 
     def get_cover(self):
         self._cover_from_content('.o_hero-media')
@@ -113,6 +157,7 @@ class VizCom(Provider, Std):
         parser = self.document_fromstring(content)
         profile = parser.cssselect('.o_profile-link')
         success = len(profile) > 0
+        self.__has_auth = success
         if success:
             print('Login as {}'.format(profile[0].text))
         return success
@@ -120,6 +165,11 @@ class VizCom(Provider, Std):
     @staticmethod
     def has_chapters(parser):
         return len(parser.cssselect('.o_chapter-container')) > 0
+
+    def download_file(self, file, idx):
+        self._storage['current_file'] = idx
+        self._call_files_progress_callback()
+        self.save_file()
 
 
 main = VizCom
