@@ -107,7 +107,7 @@ Help
 .. |PyPi version| image:: https://badge.fury.io/py/manga-py.svg
    :alt: PyPI
    :target: https://pypi.org/project/manga-py/
-.. |JetBrains logo| image:: https://github.com/yuru-yuri/manga-dl/raw/stable_1.x/helpers/jetbrains.png
+.. |JetBrains logo| image:: https://github.com/yuru-yuri/manga-dl/raw/stable_1.x/helpers/jetbrains.svg
    :alt: JetBrains
    :width: 100 px
    :target: https://jetbrains.com
