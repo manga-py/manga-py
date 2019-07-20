@@ -36,7 +36,7 @@ class Cli:  # pragma: no cover
         except AttributeError as e:
             print(e)
             print('Please check the domain in the table: https://yuru-yuri.github.io/manga-dl/')
-            print('Make sure that the URL is correct\n')
+            print('Make sure that the URL is correct\n\nTrace:')
             raise e
         self.parser.start()
         self.__progress_bar and self.__progress_bar.value > 0 and self.__progress_bar.finish()

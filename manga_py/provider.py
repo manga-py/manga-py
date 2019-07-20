@@ -69,6 +69,13 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
         for i in params:
             self._params.setdefault(i, params[i])
 
+        proxy = params.get('proxy', None)
+        if proxy is not None:
+            self._storage['proxies'] = {
+                'http': proxy,
+                'https': proxy,
+            }
+
         self.prepare_cookies()
         self._storage['manga_name'] = self.get_manga_name()
         self._storage['main_content'] = self.content
