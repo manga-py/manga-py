@@ -208,6 +208,9 @@ providers_list = {
     'inmanga_com': [
         r'inmanga\.com/ver/manga/.',
     ],
+    'isekaiscan_com': [
+        r'isekaiscan\.com/manga/.',
+    ],
     'japscan_com': [
         r'japscan\.to/.',
     ],
