@@ -3799,24 +3799,55 @@ function handlePageData(context, width, height, key, i) {
   }
   if (void 0 !== name && "" != name) {
     /** @type {number} */
-    var x = parseInt(pageKeys["page" + context].width);
+    const width = parseInt(pageKeys["page" + context].width);
     /** @type {number} */
-    var h = parseInt(pageKeys["page" + context].height);
+    const height = parseInt(pageKeys["page" + context].height);
     /** @type {number} */
-    var width = Math.floor(x / 10);
+    var new_width = Math.floor(width / 10);
     /** @type {number} */
-    var y = Math.floor(h / 15);
+    var new_height = Math.floor(height / 15);
     var IEVersion = name.split(":");
-    ctx.drawImage(g_avatarImage, 0, 0, x, y, 0, 0, x, y);
-    ctx.drawImage(g_avatarImage, 0, y + 10, width, h - 2 * y, 0, y, width, h - 2 * y);
-    ctx.drawImage(g_avatarImage, 0, 14 * (y + 10), x, g_avatarImage.height - 14 * (y + 10), 0, 14 * y, x, g_avatarImage.height - 14 * (y + 10));
-    ctx.drawImage(g_avatarImage, 9 * (width + 10), y + 10, width + (x - 10 * width), h - 2 * y, 9 * width, y, width + (x - 10 * width), h - 2 * y);
+    ctx.drawImage(g_avatarImage,
+        0, 0,
+        width, new_height,
+
+        0, 0,
+        width, new_height
+    );
+    ctx.drawImage(g_avatarImage,
+        0, new_height + 10,
+        new_width, height - 2 * new_height,
+
+        0, new_height,
+        new_width, height - 2 * new_height
+    );
+    ctx.drawImage(g_avatarImage,
+        0, 14 * (new_height + 10),
+        width, g_avatarImage.height - 14 * (new_height + 10),
+
+        0, 14 * new_height,
+        width, g_avatarImage.height - 14 * (new_height + 10)
+    );
+    ctx.drawImage(g_avatarImage,
+        9 * (new_width + 10), new_height + 10,
+        new_width + (width - 10 * new_width), height - 2 * new_height,
+
+        9 * new_width, new_height,
+        new_width + (width - 10 * new_width), height - 2 * new_height
+    );
     /** @type {number} */
     i = 0;
     for (; i < IEVersion.length; i++) {
       /** @type {number} */
       IEVersion[i] = parseInt(IEVersion[i], 16);
-      ctx.drawImage(g_avatarImage, Math.floor((i % 8 + 1) * (width + 10)), Math.floor((Math.floor(i / 8) + 1) * (y + 10)), Math.floor(width), Math.floor(y), Math.floor((IEVersion[i] % 8 + 1) * width), Math.floor((Math.floor(IEVersion[i] / 8) + 1) * y), Math.floor(width), Math.floor(y));
+      ctx.drawImage(
+          g_avatarImage,
+          Math.floor((i % 8 + 1) * (new_width + 10)), Math.floor((Math.floor(i / 8) + 1) * (new_height + 10)),
+          Math.floor(new_width), Math.floor(new_height),
+
+          Math.floor((IEVersion[i] % 8 + 1) * new_width), Math.floor((Math.floor(IEVersion[i] / 8) + 1) * new_height),
+          Math.floor(new_width), Math.floor(new_height)
+      );
     }
   }
   switch($("#canvas_" + key + "_" + i).css({

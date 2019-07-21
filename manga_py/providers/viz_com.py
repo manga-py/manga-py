@@ -49,36 +49,6 @@ class VizCom(Provider, Std):
         _max = len(self._storage['files'])
         self.progress(_max, _max)
 
-        # see '.readerImgPage'
-        """
-        preloadImages()
-        pageKeys[]
-        
-        line 3800:
-  if (void 0 !== name && "" != name) {
-    /** @type {number} */
-    var x = parseInt(pageKeys["page" + context].width);
-    /** @type {number} */
-    var h = parseInt(pageKeys["page" + context].height);
-    /** @type {number} */
-    var width = Math.floor(x / 10);
-    /** @type {number} */
-    var y = Math.floor(h / 15);
-    var IEVersion = name.split(":");
-    ctx.drawImage(g_avatarImage, 0, 0, x, y, 0, 0, x, y);
-    ctx.drawImage(g_avatarImage, 0, y + 10, width, h - 2 * y, 0, y, width, h - 2 * y);
-    ctx.drawImage(g_avatarImage, 0, 14 * (y + 10), x, g_avatarImage.height - 14 * (y + 10), 0, 14 * y, x, g_avatarImage.height - 14 * (y + 10));
-    ctx.drawImage(g_avatarImage, 9 * (width + 10), y + 10, width + (x - 10 * width), h - 2 * y, 9 * width, y, width + (x - 10 * width), h - 2 * y);
-    /** @type {number} */
-    i = 0;
-    for (; i < IEVersion.length; i++) {
-      /** @type {number} */
-      IEVersion[i] = parseInt(IEVersion[i], 16);
-      ctx.drawImage(g_avatarImage, Math.floor((i % 8 + 1) * (width + 10)), Math.floor((Math.floor(i / 8) + 1) * (y + 10)), Math.floor(width), Math.floor(y), Math.floor((IEVersion[i] % 8 + 1) * width), Math.floor((Math.floor(IEVersion[i] / 8) + 1) * y), Math.floor(width), Math.floor(y));
-    }
-  }
-        """
-
     def get_cover(self):
         self._cover_from_content('.o_hero-media')
 
@@ -103,11 +73,8 @@ class VizCom(Provider, Std):
     def auth(self):
         token = self.get_token()
 
-        # name = self.quest([], 'Request login on viz.com')
-        # password = self.quest_password('Request password on viz.com\n')
-
-        name = 'sttvpc'
-        password = 'iO2164nlYn3TVuE'
+        name = self.quest([], 'Request login on viz.com')
+        password = self.quest_password('Request password on viz.com\n')
 
         req = self.http().requests('https://www.viz.com/account/try_login', method='post', cookies=self.__cookies, data={
             'login': name,

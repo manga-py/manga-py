@@ -13,6 +13,7 @@ from PIL import Image as PilImage, ImageChops
 from manga_py.crypt import sunday_webry_com
 from manga_py.crypt.puzzle import Puzzle
 from manga_py.crypt import mangago_me
+from manga_py.crypt import viz_com
 
 root_path = path.dirname(path.realpath(__file__))
 
@@ -196,3 +197,14 @@ class TestMatrix(unittest.TestCase):
             src.close()
             ref.close()
             self.assertTrue(deviation < 10)
+
+    def test_solve_viz_com(self):
+        for i in range(7):
+            print(i)
+
+            image = viz_com.solve(root_path + '/mosaic/viz/index{}.jfif'.format(i))
+            dst = root_path + '/temp/canvas{}.png'.format(i)
+
+            image.save(dst)
+            image.close()
+        self.assertTrue(True)
