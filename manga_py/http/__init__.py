@@ -11,6 +11,7 @@ from .url_normalizer import normalize_uri
 class Http(Request):
     count_retries = 20
     has_error = False
+    mute = False
 
     def __init__(
             self,
@@ -94,7 +95,7 @@ class Http(Request):
             name = basename(remove_file_query_params(url))
             dst = path_join(get_temp_path(), name)
         result = self._download_one_file_helper(url, dst, callback, success_callback, callback_args)
-        if result is None:
+        if result is None and not self.mute:
             self.has_error = True  # issue 161
             print('\nWarning: 0 bit image downloaded, please check for redirection or broken content', file=stderr)
             if ~idx:

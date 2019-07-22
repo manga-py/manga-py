@@ -1,14 +1,18 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
-from manga_py.fs import get_util_home_path, path_join, is_file, unlink
+from manga_py.fs import get_util_home_path, path_join, is_file, unlink, file_size, basename
 from sys import stderr
 from manga_py import meta
+from manga_py.crypt.viz_com import solve
+from sys import stderr
+from pathlib import Path
 
 
 class VizCom(Provider, Std):
     cookie_file = None
     __cookies = {}
     __has_auth = False
+    _continue = True
 
     def get_chapter_index(self) -> str:
         # return str(self.chapter_id)
@@ -34,6 +38,7 @@ class VizCom(Provider, Std):
         return self._elements('a.flex[href*="/chapter/"],a.pad-r-rg.o_chapter-container[href*="/chapter/"]')
 
     def get_files(self):
+        self._continue = True
         ch = self.chapter
         params = [
             'device_id=3',
@@ -44,15 +49,13 @@ class VizCom(Provider, Std):
         if self.__has_auth:
             params.append('client_login=true')
 
-        print(self.get_chapter_index())
-
-        _max = len(self._storage['files'])
-        self.progress(_max, _max)
+        return [url.format(page=i) for i in range(250)]  # fixme: max 250 images per chapter
 
     def get_cover(self):
         self._cover_from_content('.o_hero-media')
 
     def prepare_cookies(self):
+        self.http().mute = True
         self.cookie_file = path_join(get_util_home_path(), 'cookies_viz_com.dat')
         cookies = self.load_cookies()
         content = self.http().requests(self.get_url(), cookies=cookies)
@@ -76,14 +79,15 @@ class VizCom(Provider, Std):
         name = self.quest([], 'Request login on viz.com')
         password = self.quest_password('Request password on viz.com\n')
 
+        if len(name) == 0 or len(password) == 0:
+            return
+
         req = self.http().requests('https://www.viz.com/account/try_login', method='post', cookies=self.__cookies, data={
             'login': name,
             'pass': password,
             'rem_user': 1,
             'authenticity_token': token,
         })
-        with open('req.txt', 'wb') as w:
-            w.write(req.content)
 
         if req.status_code >= 400:
             print('Login/password error')
@@ -126,17 +130,39 @@ class VizCom(Provider, Std):
         success = len(profile) > 0
         self.__has_auth = success
         if success:
-            print('Login as {}'.format(profile[0].text))
+            # print('Login as {}'.format(profile[0].text))
+            print('Login success')
         return success
 
     @staticmethod
     def has_chapters(parser):
         return len(parser.cssselect('.o_chapter-container')) > 0
 
-    def download_file(self, file, idx):
-        self._storage['current_file'] = idx
-        self._call_files_progress_callback()
-        self.save_file()
+    def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
+        if not self._continue:
+            return
+
+        _path, idx, _url = self._save_file_params_helper(url, idx)
+
+        __url = self.http_get(url).strip()
+        if __url.find('http') != 0:
+            print('\nURL is wrong: \n {}\n'.format(__url), file=stderr)
+            return
+
+        self.http().download_file(__url, _path, idx)
+
+        if file_size(_path) < 32:
+            self._continue = False
+            return
+
+        self.after_file_save(_path, idx)
+
+        ref = solve(_path)
+        if ref is not None:
+            solved_path = _path + '-solved.jpeg'
+            ref.save(solved_path)
+            self._archive.add_file(solved_path, 'solved{}.jpeg'.format(idx))
+            callable(callback) and callback()
 
 
 main = VizCom
