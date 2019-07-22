@@ -107,6 +107,6 @@ Suported by JetBrains
 .. |PyPi version| image:: https://badge.fury.io/py/manga-py.svg
    :alt: PyPI
    :target: https://pypi.org/project/manga-py/
-.. |JetBrains logo| image:: https://raw.githubusercontent.com/yuru-yuri/manga-dl/stable_1.x/.github/jetbrains.png
+.. |JetBrains logo| image:: https://github.com/yuru-yuri/manga-dl/raw/stable_1.x/.github/jetbrains.png
    :alt: JetBrains
    :target: https://www.jetbrains.com/?from=manga-py
