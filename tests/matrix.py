@@ -200,11 +200,12 @@ class TestMatrix(unittest.TestCase):
 
     def test_solve_viz_com(self):
         for i in range(7):
-            print(i)
-
-            image = viz_com.solve(root_path + '/mosaic/viz/index{}.jfif'.format(i))
-            dst = root_path + '/temp/canvas{}.png'.format(i)
-
-            image.save(dst)
-            image.close()
-        self.assertTrue(True)
+            src_path = root_path + '/mosaic/viz/index{}.jfif'.format(i)
+            ref_path = root_path + '/temp/canvas{}.png'.format(i)
+            solved_path = root_path + '/mosaic/viz/canvas{}.png'.format(i)
+            ref = viz_com.solve(src_path)
+            ref.save(ref_path)
+            solved = PilImage.open(solved_path)
+            deviation = self._rmsdiff(solved, ref)
+            solved.close()
+            self.assertTrue(deviation < 10)
