@@ -45,7 +45,6 @@ start_items = [
     ['http://sunday-webry.com', 0, ' - Not worked decryption images now. In develop.'],
     ['http://tapas.io', 1, '<i class="v0"></i>, only public downloading now'],
     ['http://tsumino.com', 1, '<i class="d"></i>'],
-    ['http://viz.com', 1, '<i class="v0"></i> - In develop v1.x'],
     ['http://zip.raw.im', 0, ' - Will not be implemented'],
     ['http://rawlh.com', 1, '- See lhscan.net'],
     ['http://8muses.com', 0, '- Need decode page.'],
