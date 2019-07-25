@@ -5,8 +5,13 @@ from .helpers.std import Std
 class MangaZukiMe(Provider, Std):
 
     def get_chapter_index(self) -> str:
-        re = self.re.compile(r'/manga/[^/]+/.+?(\d+(?:-\d+)?)[\?/]')
-        return re.search(self.chapter).group(1)
+        try:
+            re = self.re.compile(r'/manga/[^/]+/.+?(\d+(?:-\d+)?)[\?/]')
+            return re.search(self.chapter).group(1)
+        except AttributeError:
+            # mangazuki.online
+            re = self.re.compile(r'/manga/[^/]+/.+?(\d+(?:-\d+)?)$')
+            return re.search(self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/manga/{}')
@@ -28,7 +33,11 @@ class MangaZukiMe(Provider, Std):
         return self._images_helper(parser, 'img.wp-manga-chapter-img')
 
     def get_cover(self) -> str:
-        return self._cover_from_content('.summary_image > a > img', 'data-src')
+        image = self._cover_from_content('.summary_image > a > img', 'data-src')
+        if len(image) < 1:
+            # mangazuki.online
+            image = self._cover_from_content('.summary_image > a > img')
+        return image
 
 
 main = MangaZukiMe

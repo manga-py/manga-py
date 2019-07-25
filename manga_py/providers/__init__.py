@@ -493,6 +493,7 @@ providers_list = {
     'mangazuki_me': [
         r'mangazuki\.me/manga/.',
         r'mangazuki\.info/manga/.',
+        r'mangazuki\.online/manga/.',
     ],
     'manhuagui_com': [
         r'manhuagui\.com/comic/\d',
