@@ -76,8 +76,8 @@ class ArgsListHelper:
         return self.__store.simulate
 
     @property
-    def no_progress(self) -> bool:
-        return self.__store.no_progress
+    def progress(self) -> bool:
+        return not self.__store.no_progress
 
     @property
     def force_make_db(self) -> bool:
@@ -207,9 +207,6 @@ class ArgsListHelper:
     # endregion
 
     # region Calculated properties
-    @property
-    def allow_progress(self) -> bool:
-        return False if self.no_progress or self.verbose_log else True
     # endregion
 
 

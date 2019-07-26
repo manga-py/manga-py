@@ -4,11 +4,11 @@ from pathlib import Path
 from re import match
 from typing import Optional, List, Tuple
 
-from ...exceptions import JsonException
-from ...cli.args.args_helper import ArgsListHelper
-from ...libs.http import Http
-from ...libs.provider.file_tuple import FileTuple, ChapterFilesTuple
-from ...libs.log import logger
+from manga_py.exceptions import JsonException
+from manga_py.cli.args.args_helper import ArgsListHelper
+from manga_py.libs.http import Http
+from manga_py.libs.provider.file_tuple import FileTuple, ChapterFilesTuple
+from manga_py.libs.log import logger
 
 
 class Provider:

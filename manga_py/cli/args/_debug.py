@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from ...meta import __version__
+from manga_py.meta import __version__
 
 
 def main(args_parser: ArgumentParser):

@@ -3,7 +3,7 @@ import logging.config
 from logging import Logger
 from pathlib import Path
 from sys import stderr
-from typing import Optional
+from typing import Optional, Union
 
 __cache = {}
 
@@ -26,7 +26,7 @@ def _fake(name: str):
     return log
 
 
-def __get_logger(path, name):
+def _file_logger(path, name):
     if path is None:
         return _fake(name)
     try:
@@ -37,9 +37,13 @@ def __get_logger(path, name):
     return log
 
 
-def logger(path: Optional[str] = None, name: str = 'manga-py-logger') -> Logger:
+def set_logger(_logger):
+    __cache['logger'] = _logger
+
+
+def logger(path: Optional[str] = None, name: str = 'manga-py-logger') -> Union[Logger, object]:
     if __cache.get('logger') is None:
-        __cache['logger'] = __get_logger(path, name)
+        __cache['logger'] = _file_logger(path, name)
     return __cache['logger']
 
 

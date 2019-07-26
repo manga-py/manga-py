@@ -4,7 +4,7 @@ from pathlib import Path
 
 import peewee
 
-from ..fs import user_path
+from manga_py.libs.fs import user_path
 
 __cache = {}
 

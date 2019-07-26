@@ -1,19 +1,18 @@
 import atexit
 from shutil import rmtree
 from sys import stderr
-from pathlib import Path
 
+from manga_py.exceptions import ProviderNotFoundException
+from manga_py.libs import print_lib
+from manga_py.libs.info.glob import InfoGlobal
+from manga_py.libs.log import logger
+from manga_py.libs.provider import Provider
+from manga_py.manga import Manga
+from manga_py.providers import get_provider
 from . import args
 from ._helper import CliHelper
 from .args.args_helper import ArgsListHelper
 from .db import DataBase
-from ..exceptions import ProviderNotFoundException
-from ..libs.info.glob import InfoGlobal
-from ..libs.log import logger
-from ..libs.provider import Provider
-from ..manga import Manga
-from ..providers import get_provider
-from ..libs import print_lib
 
 
 class Cli(CliHelper):
@@ -42,10 +41,10 @@ class Cli(CliHelper):
         # if self.args.get('title'):  # todo: Maybe search for user-urls only
         #     urls = self.search_for_title(self.args.title)
 
-        if self.show_log():
-            self.print(
-                'temp_path: ' + self.temp_path,
-            )
+        self.print(
+            'temp_path: ' + self.temp_path,
+        )
+        self.log.info('temp_path: ' + self.temp_path)
 
         self.args.force_make_db and self.db.clean()
 
@@ -55,6 +54,9 @@ class Cli(CliHelper):
             self._update_all()
         elif len(urls) < 1:
             self.log.warning('Urls list has empty')
+            self.raw_args.print_help()
+            exit(1)
+        else:
             self._run_normal(urls)
 
     def _update_all(self):

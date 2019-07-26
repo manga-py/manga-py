@@ -6,10 +6,10 @@ from zlib import crc32
 from requests import Response
 from requests.api import get, post, request
 
-from ...exceptions import *
-from ...libs import print_lib
-from ...libs.log import logger
-from ...libs.store import http_store, Store
+from manga_py.exceptions import *
+from manga_py.libs import print_lib
+from manga_py.libs.log import logger
+from manga_py.libs.store import http_store, Store
 
 
 class Http:
