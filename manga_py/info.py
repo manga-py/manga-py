@@ -11,7 +11,7 @@ class Info:
     
     {
         'site': 'https://example.org/kumo-desu-ga-nani-ka',
-        'downloader': 'https://github.com/yuru-yuri/manga-dl',
+        'downloader': 'https://github.com/yuru-yuri/manga-py',
         'version': '1.1.4',
         'delta': '0:00:00.003625',
         'start': '2018-06-08 17:22:24.419565',

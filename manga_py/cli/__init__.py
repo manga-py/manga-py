@@ -35,7 +35,7 @@ class Cli:  # pragma: no cover
             )
         except AttributeError as e:
             print(e)
-            print('Please check the domain in the table: https://yuru-yuri.github.io/manga-dl/')
+            print('Please check the domain in the table: https://yuru-yuri.github.io/manga-py/')
             print('Make sure that the URL is correct\n\nTrace:')
             raise e
         self.parser.start()

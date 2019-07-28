@@ -1,8 +1,8 @@
-# Manga Downloader [![Travis CI result](https://travis-ci.org/yuru-yuri/manga-dl.svg?branch=master)](https://travis-ci.org/yuru-yuri/manga-dl/branches)
+# Manga Downloader [![Travis CI result](https://travis-ci.org/yuru-yuri/manga-py.svg?branch=master)](https://travis-ci.org/yuru-yuri/manga-py/branches)
 
 ## Поддерживаемые ресурсы
 
-Смотрите https://yuru-yuri.github.io/manga-dl/#resources-list
+Смотрите https://yuru-yuri.github.io/manga-py/#resources-list
 
 
 ## Как использовать
