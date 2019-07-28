@@ -4,8 +4,11 @@ from typing import List
 
 from tabulate import tabulate
 
-from manga_py.libs import print_lib
+from manga_py import cli
 from manga_py.libs.db import Manga, make_db
+
+
+syslog = cli.syslog
 
 
 def args():
@@ -47,31 +50,31 @@ class DataBase:
         if col:
             col.update(active=True)
             if col.save():
-                print_lib('Enabled manga <%d>' % idx, file=stderr)
+                syslog('Enabled manga <%d>' % idx, file=stderr)
         else:
-            print_lib('Id <%d> not found' % idx, file=stderr)
+            syslog('Id <%d> not found' % idx, file=stderr)
 
     def disable(self, idx: int):
         col = self.get_one(idx)
         if col:
             col.update(active=False)
             if col.save():
-                print_lib('Updated manga <%d>' % idx, file=stderr)
+                syslog('Updated manga <%d>' % idx, file=stderr)
         else:
-            print_lib('Id <%d> not found' % idx, file=stderr)
+            syslog('Id <%d> not found' % idx, file=stderr)
 
     def delete(self, idx: int):
         col = self.get_one(idx)
         if col:
             col.update(active=False)
             if col.save():
-                print_lib('Deleted manga <%d>' % idx, file=stderr)
+                syslog('Deleted manga <%d>' % idx, file=stderr)
         else:
-            print_lib('Id <%d> not found' % idx, file=stderr)
+            syslog('Id <%d> not found' % idx, file=stderr)
 
     def clean(self):
         make_db(force=True)
-        print_lib('Database clean now!', file=stderr)
+        syslog('Database clean now!', file=stderr)
 
     def get_one(self, idx: int) -> Manga:
         return self._db.get_or_none(self._db.id == idx)
@@ -91,9 +94,9 @@ class DataBase:
                     col.updated,
                 ])
         if len(data) > 0:
-            print_lib(tabulate(data, headers))
+            syslog(tabulate(data, headers))
         else:
-            print_lib('Database is empty')
+            syslog('Database is empty')
 
     def get_all(self, *fields, _filter: str = None) -> List[Manga]:
         if _filter:
@@ -113,9 +116,9 @@ class DataBase:
                 col.updated,
             ])
         if len(data) > 0:
-            print_lib(tabulate(data, headers))
+            syslog(tabulate(data, headers))
         else:
-            print_lib('Database is empty')
+            syslog('Database is empty')
 
     def get_db(self) -> Manga:
         if not isinstance(self._db, Manga):

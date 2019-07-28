@@ -1,26 +1,31 @@
-import json
+from requests import Response
 from abc import abstractmethod
 from pathlib import Path
-from re import match
-from typing import Optional, List, Tuple
+import re
+from typing import Optional, List, Callable
+from typing import Tuple
+from manga_py.libs.img import Img
 
-from manga_py.exceptions import JsonException
 from manga_py.cli.args.args_helper import ArgsListHelper
+from manga_py.exceptions import JsonException
 from manga_py.libs.http import Http
-from manga_py.libs.provider.file_tuple import FileTuple, ChapterFilesTuple
 from manga_py.libs.log import logger
+from manga_py.libs.provider.file_tuple import *
+from manga_py.libs.fs import temp_path
+from manga_py.libs.store import store
 
 
 class Provider:
-    __slots__ = ('arguments', 'http', '_url', 'SUPPORTED_URLS', 'logger', )
+    __slots__ = ('arguments', 'http', '_url', 'logger', 'print', 'store')
 
-    def __init__(self, store: ArgsListHelper, url: str):
-        self.arguments = store
-        self.http = Http(url)
+    def __init__(self, arguments: ArgsListHelper, url: str):
+        self.arguments = arguments
+        self.http = Http(self, url)
         self._url = url
-        self.SUPPORTED_URLS = None  # type: Optional[List[str]]
         self.logger = logger()
-        self.SUPPORTED_URLS.__doc__ = """
+        self.store = store
+        self.print = print
+        """
         SUPPORTED_URLS: contains a list of possible urls with which the provider works
         Must be set in child classes
         
@@ -31,13 +36,16 @@ class Provider:
         ]
         """
 
+    def set_print(self, _print: Callable[..., None] = print):
+        self.print = _print
+
     @classmethod
     def new(cls, store: ArgsListHelper, url: str):
         return cls(store, url)
 
     def match(self) -> bool:
-        for i in self.SUPPORTED_URLS:
-            if match(i, self._url):
+        for i in self.supported_urls():
+            if re.match(r'(?:https?://)?' + i, self._url):
                 return True
         return False
 
@@ -53,17 +61,17 @@ class Provider:
         mixed content
         if site have api, use it
         """
-        content = self.http.get(self.main_url()).content
+        content = self.http.get(self.main_url()).content  # type: Response
         if self.is_api_site():
             try:
-                return json.loads(content)
-            finally:
+                return content.json()
+            except Exception:
                 self.logger.warning('JSON content broken %s ' % content)
-                JsonException(content)
+                raise JsonException(content)
         return content
 
     def main_url(self) -> str:
-        return self.main_url()
+        return self._url
 
     def files_referer(self) -> Optional[str]:
         """
@@ -85,24 +93,28 @@ class Provider:
 
     # region: Abstract methods
 
+    @staticmethod
+    @abstractmethod
+    def supported_urls() -> List[str]:
+        raise AttributeError('SUPPORTED_URLS is None')
+
     @abstractmethod
     def manga_name(self) -> str:
         pass
 
     @abstractmethod
-    def chapters(self) -> List[str]:
+    def chapters(self) -> List[ChapterTuple]:
         pass
 
     @abstractmethod
-    def chapter_files(self, idx, url) -> List[ChapterFilesTuple]:
+    def chapter_files(self, chapter: ChapterTuple) -> ChapterFilesTuple:
         """
-        :param int idx: Chapter index
-        :param str url: Chapter url
+        :param chapter: ChapterTuple
 
         Example:
 
         [
-         ChapterFilesTuple(image='https://site.example/image.png', archive='https://site.example/archive.zip'),
+         ChapterFilesTuple(images=['https://site.example/image.png', ...], archive='https://site.example/archive.zip'),
         ]
 
         """
@@ -110,25 +122,26 @@ class Provider:
 
     # endregion
 
-    def download(self, idx: int, url: str, destination: Path):
+    def download(self, idx: str, url: str, destination: Path, file_type: int) -> FileTuple:
         """ The download is very stupid and just does what it does =) """
-        idx, url, destination = self.before_download(idx, url, destination)
+        idx, url, destination = self.before_download(idx, url, destination, file_type)
         if self.arguments.simulate:
-            return self.after_download(idx, destination)
+            return self.after_download(idx, destination, file_type)
         self.http.download(self.http.get(url), destination)
-        return self.after_download(idx, destination)
+        return self.after_download(idx, destination, file_type)
 
-    def before_download(self, idx: int, url: str, path: Path) -> Tuple[int, str, Path]:
+    def before_download(self, idx: str, url: str, path: Path, file_type: int) -> Tuple[str, str, Path]:
         """
         Must return arguments
         May change file location or url
-        :param idx:
-        :param url:
-        :param path:
+        :param str idx: file index
+        :param str url:
+        :param Path path:
+        :param int file_type:
         """
         return idx, url, path
 
-    def after_download(self, idx: int, path: Path) -> FileTuple:
+    def after_download(self, idx: str, path: Path, file_type: int) -> FileTuple:
         """
         Can check file for correctness (for example, its size)
         Should also be used to decrypt files
@@ -136,10 +149,23 @@ class Provider:
         may return multiple images
         (for example, an image can be split into two or the archive can be unpacked)
 
-        :param int idx:
+        :param str idx: file index
         :param str path:
+        :param int file_type:
         """
-        return FileTuple(idx, [path])
+        if TYPE_IMAGE:
+            _path = Img(path).path_with_real_format()
+            if _path is not path:
+                path.rename(_path)
+                path = _path
+
+        return FileTuple(idx, [path], file_type)
+
+    @staticmethod
+    def temp_path(url: str = None) -> Path:
+        if url is not None:
+            return temp_path().joinpath('{}-%s' % Path(url).name)
+        return temp_path()
 
 
 __all__ = ['Provider']

@@ -1,19 +1,20 @@
 import tempfile
-from os import name as os_name, getpid
+from os import name as os_name, getpid, access, W_OK
 from pathlib import Path
 from typing import Union
 
 __dir_name = '.manga-py'
 
 
-__temp = 'temp_%s' % getpid()
+# __temp = 'temp_%s' % getpid()
+__temp = 'temp'
 
 
 def temp_path() -> Path:
     """
     Returns the path of the temporary files manga-py
     """
-    path = Path(tempfile.gettempdir()).joinpath(__dir_name, __temp)
+    path = Path(tempfile.gettempdir()).joinpath(__dir_name, __temp).resolve()
     path.mkdir(parents=True, exist_ok=True)
     return path
 
@@ -40,8 +41,12 @@ def user_path() -> Path:
 def get_disk_stat(_path: Path) -> dict:
     import os
 
+    _path = _path.resolve()
+    _path.mkdir(exist_ok=True)
+    _path = str(_path)
+
     if hasattr(os, 'statvfs'):  # POSIX
-        st = os.statvfs(str(_path.resolve()))
+        st = os.statvfs(_path)
         free = st.f_bavail * st.f_frsize
         total = st.f_blocks * st.f_frsize
         used = (st.f_blocks - st.f_bfree) * st.f_frsize
@@ -78,6 +83,10 @@ def check_free_space(_path: Path, min_size: Union[int, str] = 100) -> bool:
         return True
 
 
+def is_writable(path: Union[str, Path]):
+    return access(str(path), W_OK)
+
+
 # def get_storage_path() -> Path:
 #     """
 #     Returns the root of the installation path manga-py
@@ -87,4 +96,4 @@ def check_free_space(_path: Path, min_size: Union[int, str] = 100) -> bool:
 #     return _path
 
 
-__all__ = ['temp_path', 'root_path', 'user_path', 'get_disk_stat', 'check_free_space', ]
+__all__ = ['temp_path', 'root_path', 'user_path', 'get_disk_stat', 'check_free_space', 'is_writable']

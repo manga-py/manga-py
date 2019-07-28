@@ -51,4 +51,15 @@ class HttpStore(object):  # todo
             domain = self._domain(i.url)
             self._store['cookies'][domain].update(i)
         domain = self._domain(response.url)
+        if self._store['cookies'].get(domain) is None:
+            self._store['cookies'][domain] = {}
         self._store['cookies'][domain].update(response)
+
+    def save_cookies(self, url):
+        pass
+
+    def load_cookies(self, url):
+        pass
+
+
+__all__ = ['HttpStore']

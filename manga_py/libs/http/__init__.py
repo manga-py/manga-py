@@ -1,26 +1,33 @@
 from pathlib import Path
 from random import randint
-from urllib.parse import ParseResult, urlparse
+from typing import Tuple
+from urllib.parse import ParseResult, urlparse, urljoin
 from zlib import crc32
 
 from requests import Response
-from requests.api import get, post, request
+from requests.api import request
 
+from manga_py import cli
 from manga_py.exceptions import *
-from manga_py.libs import print_lib
 from manga_py.libs.log import logger
-from manga_py.libs.store import http_store, Store
+from manga_py.libs.store import http_store, store
 
 
 class Http:
-    __slots__ = ('store', 'base_url', 'logger')
+    __slots__ = ('http_store', 'store', 'base_url', 'logger', 'provider')
 
-    def __init__(self, base_url: str = None):
-        self.store = http_store  # type: Store
+    def __init__(self, provider=None, base_url: str = None):
+        from manga_py.libs.provider import Provider
+        if not isinstance(provider, Provider):
+            raise AttributeError('provider is not Provider type')
+        self.provider = provider  # type: Provider
+        self.http_store = http_store  # type: http_store
+        self.store = store  # type: store
         self.base_url = base_url
         self.logger = logger()
+        self.http_store.init(base_url)
 
-    def download(self, response: Response, destination: Path):
+    def download(self, response: Response, destination: Path) -> bool:
         self.logger.debug({
             'Method': response.request.method,
             'Url': response.request.url,
@@ -34,7 +41,7 @@ class Http:
                 errors.append('Content not binary type.')
             if len(content) <= 0:
                 errors.append('Response has zero length.')
-                print_lib(
+                cli.syslog(
                     '%s Url: %s\nHistory: %s' %
                     (
                         errors[-1],
@@ -46,6 +53,7 @@ class Http:
                 error_file = str(crc32(str(destination).encode()))
                 with Path(error_file).open('wb') as _w:
                     _w.write(content)
+                logger().warning('Non-byte response. See {}'.format(error_file))
                 logger().warning('\n'.join(errors))
                 w.close()
                 destination.unlink()  # remove, if error
@@ -53,37 +61,51 @@ class Http:
                 w.write(content)
                 w.close()
                 return True
+        return False
 
-    def request(self, method, url, **kwargs):
+    def request(self, method, url, **kwargs) -> Response:
         if self.base_url is None:
             self.base_url = url
-        __doc__ = request.__doc__
+
+        headers = kwargs.get('headers', {})
+        headers.setdefault('User-Agent', self.store.ua)
+        headers.setdefault('referer', self.provider.content_referer())
+        kwargs.setdefault('headers', headers)
+        kwargs.setdefault('cookies', self.http_store.get_cookies(url))
+        # content_referer
 
         self.logger.debug({
+            'User-Agent': self.store.ua,
             'Method': method,
             'Url': url,
         })
 
         try:
-            return request(method, url, **kwargs)
+            req = request(method, url, **kwargs)
+            self.http_store.cookies_auto_update(req)
+            return req
         except Exception:
             raise NetworkException()
 
-    def url_normalize(self, url):
+    @staticmethod
+    def url_normalize(self, url) -> str:
         _url = urlparse(url)  # type: ParseResult
         if _url.scheme == '':
             _url.scheme = self.store.scheme
-        return _url
+        return str(urljoin(self.base_url, _url))
 
-    @staticmethod
-    def get(url, params=None, **kwargs):
-        __doc__ = get.__doc__
-        return get(url, params, **kwargs)
+    def get(self, url, params=None, **kwargs) -> Response:
+        kwargs['method'] = 'get'
+        kwargs['params'] = params
+        kwargs['url'] = url
+        return self.request(**kwargs)
 
-    @staticmethod
-    def post(url, data=None, json=None, **kwargs):
-        __doc__ = post.__doc__
-        return post(url, data, json, **kwargs)
+    def post(self, url, data=None, json=None, **kwargs) -> Response:
+        kwargs['method'] = 'post'
+        kwargs['data'] = data
+        kwargs['json'] = json
+        kwargs['url'] = url
+        return self.request(**kwargs)
 
     @staticmethod
     def _domain_from_url(url):
@@ -95,18 +117,21 @@ class Http:
     def _scheme_from_url(self, url):
         fragments = urlparse(url)  # type: ParseResult
         if len(fragments.scheme) < 1:
-            return self.store.scheme
+            return self.http_store.scheme
         return fragments.netloc
 
     def set_base_url(self, url):
         self.base_url = url
 
-    def check_redirect(self, url: str) -> str:
+    def check_redirect(self, url: str) -> Tuple[bool, str]:
         """
         Return new url (maybe site has redirect)
+        :return (is_redirect: bool, actual_url: str)
         """
-        headers = self.request('head', url)
-        return he
+        response = self.request('head', url)
+        history = response.history
+        return len(history) > 0, response.url
+
 
 def default_ua():
     agents = [
@@ -136,4 +161,4 @@ def check_url(url: str) -> str:
     return check.geturl()
 
 
-__all__ = ['Http', 'default_ua']
+__all__ = ['Http', 'default_ua', 'check_url']

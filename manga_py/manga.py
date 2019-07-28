@@ -5,26 +5,31 @@ from progressbar import ProgressBar
 
 from .cli.args.args_helper import ArgsListHelper
 from .libs import db
-from .libs import print_lib
 from .libs.fs import check_free_space, temp_path, user_path
 from .libs.http import default_ua
 from .libs.provider import Provider
-from .libs.store import Store
-from .exceptions import SpaceLeftException
+from .libs.store import store
+from .exceptions import SpaceLeftException, JsonException
 from .libs.log import logger
+from .libs.provider.file_tuple import *
 
 
 class Manga:
-    __slots__ = ('provider', 'arguments', 'db', 'store', 'progressbar', '_', 'file_callbacks', 'logger')
+    __slots__ = ('provider', 'arguments', 'db', 'store', 'progressbar', '_tmp', 'file_callbacks', 'logger', 'print')
 
-    def __init__(self):
-        self.store = Store()
+    def __init__(self, _print: Callable[..., None] = None):
+        if _print is None:
+            from .cli import syslog
+            self.print = syslog
+
+        self.store = store
         self.provider = None  # type: Optional[Provider]
         self.arguments = self.store.arguments  # type: ArgsListHelper
         self.db = None  # type: Optional[db.Manga]
         self.progressbar = None  # type: Optional[ProgressBar]
-        self._ = None  # type: Optional[dict]
+        self._tmp = None  # type: Optional[dict]
         self.file_callbacks = []  # type: List[Callable]
+        self.print = _print
         if not self.arguments.do_not_use_database:
             db.make_db(self.arguments.force_make_db)
             self.db = db.Manga()
@@ -48,20 +53,43 @@ class Manga:
             raise SpaceLeftException(_user_path)
 
     def run(self, provider: Provider):
-        self._ = {}  # temporary provider store
-        self.logger.info('Provider: %s' % provider.__class__.__name__)
+        self._tmp = {}  # temporary provider store
+
+        provider_class = 'Provider: %s' % provider.__class__.__name__
+        if self.arguments.debug:
+            self.print(provider_class)
 
         # if self.arguments.allow_progress:
         #     self.progressbar = ProgressBar()
 
         self.provider = provider
+
+        self.provider.set_print(self.print)  # init print function
         self.provider.prepare()
-        self.store.content = self.provider.get_main_content()
+        try:
+            self.store.content = self.provider.get_main_content()
+        except JsonException as e:
+            self.logger.warning(('Error!', e.args, e.content()))
+            return
 
         self.run_pages()
 
     def run_pages(self):
-        pass
+        for chapter in self.provider.chapters():  # type: ChapterTuple
+            files = self.provider.chapter_files(chapter)
+            self.run_download_files(chapter.idx, files)
+
+    def run_download_files(self, idx: str, files: ChapterFilesTuple):
+        self._tmp['chapter_files'] = []
+        if files.archive is not None:
+            path = Path(self.arguments.destination or 'Manga')
+            path.mkdir(exist_ok=True)
+            file = self.provider.download(idx, files.archive, path.joinpath('chapter-{:0>3}'.format(idx)), TYPE_ARCHIVE)
+            self._tmp['chapter_files'].append(file)
+        for file_idx, url in enumerate(files.images or []):
+            path = self.provider.temp_path().joinpath('image-{:0>3}-{:0>3}{}'.format(idx, file_idx, Path(url).suffix))
+            file = self.provider.download(str(file_idx), url, path, TYPE_IMAGE)
+            self._tmp['chapter_files'].append(file)
 
     def add_file_callback(self, callback: Callable):
         self.file_callbacks.append(callback)

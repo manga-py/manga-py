@@ -1,7 +1,7 @@
-from ._example import Example
+from .readmanga_me import ReadMangaMe
 
 providers = [
-    Example,
+    ReadMangaMe,
 ]
 
 __all__ = ['providers']

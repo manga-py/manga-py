@@ -1,8 +1,7 @@
 from argparse import ArgumentParser
-from sys import stderr
 from typing import Optional, List
 
-from ...libs import print_lib
+from manga_py import cli
 
 
 class ArgsListHelper:
@@ -20,8 +19,7 @@ class ArgsListHelper:
     def get(self, name, default=None):
         if isinstance(name, str):
             name = name.replace('-', '_')
-
-        return getattr(self.__store, name=name, default=default)
+        return getattr(self.__store, name, default)
 
     # region auth
     @property
@@ -42,7 +40,7 @@ class ArgsListHelper:
                 _ = c.split('=')
                 cookies[_[0]] = _[1]
         except IndexError:
-            print_lib('Cookies index error (argument)', file=stderr)
+            cli.syserr('Cookies index error (argument)')
         return cookies
     # endregion
 
@@ -57,9 +55,7 @@ class ArgsListHelper:
 
     @property
     def name(self) -> Optional[str]:
-        if len(self.url) > 1:
-            return None
-        return self.__store.name
+        return self.__store.name if len(self.url) > 1 else None
 
     @property
     def destination(self) -> Optional[str]:
@@ -88,8 +84,8 @@ class ArgsListHelper:
         return self.__store.do_not_use_database
 
     @property
-    def do_not_clear_temporary_directory(self) -> bool:
-        return self.__store.do_not_clear_temporary_directory
+    def clear_temporary_directory(self) -> bool:
+        return not self.__store.do_not_clear_temporary_directory
 
     @property
     def force_clean(self) -> bool:
@@ -98,6 +94,10 @@ class ArgsListHelper:
     @property
     def log_to_file(self) -> Optional[str]:
         return self.__store.log_to_file
+
+    @property
+    def debug(self) -> bool:
+        return self.__store.debug
     # endregion
 
     # region downloading
@@ -111,15 +111,11 @@ class ArgsListHelper:
 
     @property
     def skip_volumes(self) -> Optional[int]:
-        if len(self.url) > 1:
-            return None
-        return self.__store.skip_volumes
+        return self.__store.skip_volumes if len(self.url) > 1 else None
 
     @property
     def max_volumes(self) -> Optional[int]:
-        if len(self.url) > 1:
-            return None
-        return self.__store.max_volumes
+        return self.__store.max_volumes if len(self.url) > 1 else None
 
     @property
     def user_agent(self) -> Optional[str]:

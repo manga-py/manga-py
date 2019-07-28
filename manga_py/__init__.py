@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
 
-from sys import stderr
 from time import sleep
 
 
@@ -10,20 +9,21 @@ def main():
     import argcomplete
     import better_exceptions
     from requests.exceptions import ConnectionError
+    from manga_py.libs.provider import Provider
 
-    from .cli import Cli, args
-    from .libs import print_lib
-    argcomplete.autocomplete(args.get_cli_arguments())
-    better_exceptions.hook()
-    _cli = Cli()
+    from . import cli
+    argcomplete.autocomplete(cli.args.get_cli_arguments())
+    # better_exceptions.hook()
+    _cli = cli.Cli()
     try:
         check = _cli.check_version()
         if check['need_update']:
-            print_lib('Please, update manga-py')
-            print_lib('See url: %s\n' % check['url'], file=stderr)
+            cli.syslog('Please, update manga-py')
+            cli.syslog('See url: %s\n' % check['url'])
             sleep(1)
     except ConnectionError:
-        print_lib('Can\'t get manga-py version\n', file=stderr)
+        cli.syserr('Can\'t get manga-py version\n')
+        sleep(1)
     _cli.run()
 
 

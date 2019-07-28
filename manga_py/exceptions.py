@@ -42,4 +42,7 @@ class SpaceLeftException(RuntimeError):
         cls('No space left on device (%s)' % str(path))
 
 
-__all__ = ['InvalidUrlException', 'NetworkException', 'InvalidFile', 'ProviderNotFoundException', 'JsonException', 'FsError', 'SpaceLeftException', ]
+__all__ = [
+    'InvalidUrlException', 'NetworkException', 'InvalidFile', 'ProviderNotFoundException',
+    'JsonException', 'FsError', 'SpaceLeftException',
+]
