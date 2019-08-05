@@ -42,6 +42,8 @@ def _debug_args(args_parser):  # pragma: no cover
 
     # args.add_argument('-vv', '--log', metavar='info', type='str', help='Verbose log')
 
+    args.add_argument('--debug', action='store_true', help='Debug')
+
 
 def _downloading_args(args_parser):  # pragma: no cover
     args = args_parser.add_argument_group('Downloading options')

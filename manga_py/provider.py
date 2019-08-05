@@ -36,6 +36,7 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
     _simulate = False
     _volume = None
     _show_chapter_info = False
+    __debug = False
 
     def __init__(self, info: Info = None):
         super().__init__()
@@ -61,6 +62,7 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
         self._with_manga_name = params.get('with_manga_name')
         self._simulate = params.get('simulate')
         self._show_chapter_info = params.get('show_current_chapter_info', False)
+        self.__debug = params.get('debug', False)
 
     def process(self, url, params=None):  # Main method
         self._params['url'] = url
@@ -104,7 +106,8 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
                 self.loop_files()
             except Exception as e:
                 # Main debug here
-                # raise e
+                if self.__debug:
+                    raise e
                 print([e], file=stderr)
                 self._info.set_last_volume_error(e)
 
