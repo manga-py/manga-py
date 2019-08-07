@@ -137,7 +137,7 @@ providers_list = {
         r'gomanga\.co/reader/.',
         r'jaiminisbox\.com/reader/.',
         r'kobato\.hologfx\.com/reader/.',
-        r'atelierdunoir\.org/reader/.',
+        # r'atelierdunoir\.org/reader/.',
         r'seinagi\.org/reader/.',
     ],
     'goodmanga_net': [
@@ -745,6 +745,9 @@ providers_list = {
     ],
     'tenmanga_com': [
         r'tenmanga\.com/(book|chapter)/.',
+    ],
+    'tmofans_com': [
+        r'tmofans\.com/library/manga/\d',
     ],
     'translate_webtoons_com': [
         r'translate\.webtoons\.com/webtoonVersion\?webtoonNo.',
