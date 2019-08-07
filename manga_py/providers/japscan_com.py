@@ -28,8 +28,5 @@ class JapScanCom(GoMangaCo):
         base_url = parser.cssselect('#image')[0].get('data-src')
         return self.re.search(r'(.+/)\w+\.\w+', base_url).group(1)
 
-    def get_cover(self) -> str:
-        pass
-
 
 main = JapScanCom

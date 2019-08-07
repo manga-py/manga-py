@@ -1,4 +1,5 @@
 import re
+import importlib
 
 providers_list = {
     '3asq_info': [
@@ -167,6 +168,9 @@ providers_list = {
     ],
     'hentai_image_com': [
         r'hentai-image\.com/image/.',
+    ],
+    'hentaihand_com': [
+        r'hentaihand\.com/comic/\d',
     ],
     'hentaifox_com': [
         r'hentaifox\.com/.',
@@ -840,6 +844,6 @@ def get_provider(url):
     fromlist = 'manga_py.providers'
     for i in providers_list:
         if __check_provider(providers_list[i], url):
-            provider = __import__('{}.{}'.format(fromlist, i), fromlist=[fromlist])
+            provider = importlib.import_module('%s.%s' % (fromlist, i))
             return provider.main
     return False

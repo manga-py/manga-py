@@ -28,6 +28,7 @@
             .then(r => r.json())
             .then((r) => {
                 let html = '', m = 0, done = 0;
+                const sites = [];
                 for(let i in r) {
                     if (!r.hasOwnProperty(i)) continue;
                     m+=1;
@@ -38,9 +39,19 @@
                         r[i][0] + '">' +
                         r[i][0] + '</a> ' +
                         r[i][2] + '</span></li>';
-                    done += r[i][1] === 1 ? 1 : 0;
+                    done += r[i][1] ? 1 : 0;
+                    r[i][1] && sites.push(r[i][0]);
                 }
-                ul.innerHTML = html + ('<!-- ' + r.length + ' ( ' + done + ' ) -->');
+                ul.innerHTML = ('<!-- ' + r.length + ' ( ' + done + ' ) -->') + html;
+
+                let sitesLen = sites.length;
+                const buttonElement = document.querySelector('#random-site');
+                buttonElement.setAttribute('target', '_blank');
+                buttonElement.addEventListener('click', () => {
+                    const idx = parseInt(Math.random() * sitesLen);
+                    buttonElement.setAttribute('href', sites[idx]);
+                    return true;
+                });
             });
     });
 })(document);

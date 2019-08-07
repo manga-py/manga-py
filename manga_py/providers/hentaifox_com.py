@@ -6,12 +6,13 @@ class HentaiFoxCom(Provider, Std):
     _idx_re = r'/g(?:allery)?/(\d+)'
     _url_str = '{}/gallery/{}/'
     _name_selector = '.info h1'
+    _archive_prefix = 'HentaiFox_'
 
     def get_archive_name(self) -> str:
         return self.get_chapter_index()
 
     def get_chapter_index(self) -> str:
-        return 'archive'
+        return self._archive_prefix + 'archive'
 
     def get_main_content(self):
         idx = self._get_name(self._idx_re)
@@ -34,7 +35,7 @@ class HentaiFoxCom(Provider, Std):
         return items
 
     def get_cover(self) -> str:
-        return self._cover_from_content('.cover img')
+        return self._cover_from_content('.cover img,#cover img')
 
     def book_meta(self) -> dict:
         # todo meta

@@ -7,7 +7,7 @@ class AnimeXtremistCom:
 
     def __init__(self, provider: Provider):
         self.provider = provider
-        self.path = provider.get_manga_url()
+        self.path = provider.get_url()
 
     @staticmethod
     def build_path(item):
