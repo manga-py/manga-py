@@ -76,64 +76,6 @@ class VizComMatrix:
             int(ref_box[0] + ref_box[2]), int(ref_box[1] + ref_box[3]),
         ))
 
-    # see '.readerImgPage'
-    #
-    # preloadImages()
-    # pageKeys[]
-    #
-    # line 3800:
-    # /** @type {number} */
-    # const width = parseInt(pageKeys["page" + context].width);
-    # /** @type {number} */
-    # const height = parseInt(pageKeys["page" + context].height);
-    # /** @type {number} */
-    # var new_w = Math.floor(width / 10);
-    # /** @type {number} */
-    # var new_h = Math.floor(height / 15);
-    # var IEVersion = name.split(":");
-    # ctx.drawImage(g_avatarImage,
-    #     0, 0,
-    #     width, new_h,
-    #
-    #     0, 0,
-    #     width, new_h
-    # );
-    # ctx.drawImage(g_avatarImage,
-    #     0, new_h + 10,
-    #     new_w, height - 2 * new_h,
-    #
-    #     0, new_h, new_w,
-    #     height - 2 * new_h
-    # );
-    # ctx.drawImage(g_avatarImage,
-    #     0, 14 * (new_h + 10),
-    #     width, g_avatarImage.height - 14 * (new_h + 10),
-    #
-    #     0, 14 * new_h,
-    #     width, g_avatarImage.height - 14 * (new_h + 10)
-    # );
-    # ctx.drawImage(g_avatarImage,
-    #     9 * (new_w + 10), new_h + 10,
-    #     new_w + (width - 10 * new_w), height - 2 * new_h,
-    #
-    #     9 * new_w, new_h,
-    #     new_w + (width - 10 * new_w), height - 2 * new_h
-    # );
-    # /** @type {number} */
-    # i = 0;
-    # for (; i < IEVersion.length; i++) {
-    #   /** @type {number} */
-    #   IEVersion[i] = parseInt(IEVersion[i], 16);
-    #   ctx.drawImage(
-    #       g_avatarImage,
-    #       Math.floor((i % 8 + 1) * (new_w + 10)), Math.floor((Math.floor(i / 8) + 1) * (new_h + 10)),
-    #       Math.floor(new_w), Math.floor(new_h),
-    #
-    #       Math.floor((IEVersion[i] % 8 + 1) * new_w), Math.floor((Math.floor(IEVersion[i] / 8) + 1) * new_h),
-    #       Math.floor(new_w), Math.floor(new_h)
-    #   );
-    # }
-
 
 solve = VizComMatrix().solve_image
 

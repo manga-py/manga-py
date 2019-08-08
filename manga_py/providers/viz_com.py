@@ -1,11 +1,11 @@
-from manga_py.provider import Provider
-from .helpers.std import Std
-from manga_py.fs import get_util_home_path, path_join, is_file, unlink, file_size, basename
-from sys import stderr
-from manga_py import meta
-from manga_py.crypt.viz_com import solve
 from sys import stderr
 from pathlib import Path
+
+from manga_py import meta
+from manga_py.crypt.viz_com import solve
+from manga_py.fs import get_util_home_path, path_join, is_file, unlink, file_size
+from manga_py.provider import Provider
+from .helpers.std import Std
 
 
 class VizCom(Provider, Std):
@@ -13,6 +13,7 @@ class VizCom(Provider, Std):
     __cookies = {}
     __has_auth = False
     _continue = True
+    __is_debug = True
 
     def get_chapter_index(self) -> str:
         # return str(self.chapter_id)
@@ -26,6 +27,7 @@ class VizCom(Provider, Std):
             print(' Please, report this error\n {}{}\n\n'.format(
                 meta.__downloader_uri__, '/issues/new?template=bug_report.md'
             ), file=stderr)
+        self.__is_debug and print('Chapter idx: {}'.format(idx))
         return idx
 
     def get_main_content(self):
@@ -35,9 +37,12 @@ class VizCom(Provider, Std):
         return self._get_name('/chapters/([^/]+)')
 
     def get_chapters(self):
-        return self._elements('a.flex[href*="/chapter/"],a.pad-r-rg.o_chapter-container[href*="/chapter/"]')
+        chapters = self._elements('a.flex[href*="/chapter/"],a.pad-r-rg.o_chapter-container[href*="/chapter/"]')
+        self.__is_debug and print('Chapters count: %d' % len(chapters))
+        return chapters
 
     def get_files(self):
+        self.__is_debug and print('Files')
         self._continue = True
         ch = self.chapter
         params = [
@@ -46,8 +51,12 @@ class VizCom(Provider, Std):
             'page={page}',
         ]
         url = 'https://www.viz.com/manga/get_manga_url?' + '&'.join(params)
+        self.__is_debug and print('Chapter url: %s' % url)
         if self.__has_auth:
             params.append('client_login=true')
+            self.__is_debug and print('Logged client!')
+        else:
+            self.__is_debug and print('Anon client!')
 
         return [url.format(page=i) for i in range(250)]  # fixme: max 250 images per chapter
 
@@ -99,8 +108,8 @@ class VizCom(Provider, Std):
             remember = self.json.loads(req.text)
             self.__cookies['remember_token'] = remember['trust_user_id_token_web']
         except ValueError:
-            print('Remember error!', file=stderr)
-            print('Please, report this error {}{}'.format(
+            self.__is_debug and print('Remember error!', file=stderr)
+            self.__is_debug and print('Please, report this error {}{}'.format(
                 meta.__downloader_uri__, '/issues/new?template=bug_report.md'
             ), file=stderr)
 
@@ -142,16 +151,31 @@ class VizCom(Provider, Std):
         if not self._continue:
             return
 
+        if int(idx) < 2:
+            ch = 'chapter_{}_page_{}.html'.format(self.re.search(r'/chapter/(\d+)', self.chapter).group(1), idx)
+            page = Path('viz_debug')
+            page.mkdir(parents=True)
+            _path = str(page.joinpath(ch))
+            print('Save path to %s' % _path)
+            with open(_path, 'wb') as w:
+                w.write(b'a')
+
+        self.__is_debug and print('Save file: {}'.format(idx))
+        self.__is_debug and print('File url: {}'.format(url))
+
         _path, idx, _url = self._save_file_params_helper(url, idx)
+
+        self.__is_debug and print('file params:\n PATH: {}\n IDX: {}\n URL: {}'.format(_path, idx, _url))
 
         __url = self.http_get(url).strip()
         if __url.find('http') != 0:
-            print('\nURL is wrong: \n {}\n'.format(__url), file=stderr)
+            self.__is_debug and print('\nURL is wrong: \n {}\n'.format(__url), file=stderr)
             return
 
         self.http().download_file(__url, _path, idx)
 
         if file_size(_path) < 32:
+            self.__is_debug and print('File not found. Stop for this chapter')
             self._continue = False
             return
 
