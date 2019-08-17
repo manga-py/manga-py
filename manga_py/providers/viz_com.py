@@ -13,7 +13,7 @@ class VizCom(Provider, Std):
     __cookies = {}
     __has_auth = False
     _continue = True
-    __is_debug = True
+    __is_debug = False
 
     def get_chapter_index(self) -> str:
         # return str(self.chapter_id)
