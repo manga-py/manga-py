@@ -622,7 +622,7 @@ providers_list = {
     'read_powermanga_org': [
         r'lector\.dangolinenofansub\.com/(series|read)/.',
         r'read\.powermanga\.org/(series|read)/.',
-        r'read\.yagami\.me/(series|read)/.',
+        # r'read\.yagami\.me/(series|read)/.',
         r'reader\.kireicake\.com/(series|read)/.',
         r'reader\.shoujosense\.com/(series|read)/.',
         r'reader\.sensescans\.com/(series|read)/.',
@@ -647,6 +647,9 @@ providers_list = {
         r'hoshiscans\.shounen-ai\.net/(series|read)/.',
         r'digitalteamreader\.netsons\.org/(series|read)/.',
         r'reader\.manga-download\.org/(series|read)/.',
+    ],
+    'read_yagami_me': [
+        r'read\.yagami\.me/series/\w',
     ],
     # 'readcomicbooksonline_org_manga': [  # todo #168
     #     r'readcomicbooksonline\.net/manga/.',
