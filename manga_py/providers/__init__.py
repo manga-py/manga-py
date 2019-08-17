@@ -258,6 +258,9 @@ providers_list = {
     'leomanga_com': [
         r'leomanga\.com/manga/.',
     ],
+    'leviatanscans_com': [
+        r'leviatanscans\.com/comics/\d'
+    ],
     'lhtranslation_com': [
         r'read\.lhtranslation\.com/(truyen|manga)-.',
         r'lhtranslation\.net/(truyen|manga)-.',
