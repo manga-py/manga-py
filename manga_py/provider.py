@@ -273,6 +273,9 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
 
     @property
     def content(self):
+        """
+        :rtype: str
+        """
         content = self._storage.get('main_content', None)
         if content is None:
             content = self.get_main_content()
