@@ -125,6 +125,8 @@ class Base:
             for i in chapters:
                 url = self.__normalize_chapters(n, i)
                 items.append(url)
+        else:
+            print('Warning!\nChapters list empty. Check %s' % self.get_url(), file=stderr)
         return items
 
     @property
