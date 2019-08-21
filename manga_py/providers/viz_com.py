@@ -31,7 +31,9 @@ class VizCom(Provider, Std):
         return idx
 
     def get_main_content(self):
-        return self._get_content('{}/shonenjump/chapters/{}')
+        # return self._get_content('{}/shonenjump/chapters/{}')
+        with open('/tmp/viz/viz.html', 'r') as r:
+            return r.read()
 
     def get_manga_name(self) -> str:
         return self._get_name('/chapters/([^/]+)')
@@ -39,6 +41,15 @@ class VizCom(Provider, Std):
     def get_chapters(self):
         chapters = self._elements('a.flex[href*="/chapter/"],a.pad-r-rg.o_chapter-container[href*="/chapter/"]')
         self.__is_debug and print('Chapters count: %d' % len(chapters))
+
+        if self.__is_debug:
+            page = Path('viz_debug')
+            page.mkdir(parents=True, exist_ok=True)
+            _path = str(page.joinpath('chapters.html'))
+            print('Save path to %s' % _path)
+            with open(_path, 'w') as w:
+                w.write('\n'.join([i.get('href') for i in chapters]))
+
         return chapters
 
     def get_files(self):
@@ -64,6 +75,8 @@ class VizCom(Provider, Std):
         self._cover_from_content('.o_hero-media')
 
     def prepare_cookies(self):
+        self.__is_debug = self._params.get('debug', False)
+        self.__is_debug = self._params
         self.http().mute = True
         self.cookie_file = path_join(get_util_home_path(), 'cookies_viz_com.dat')
         cookies = self.load_cookies()
@@ -151,23 +164,26 @@ class VizCom(Provider, Std):
         if not self._continue:
             return
 
-        if int(idx) < 2:
-            ch = 'chapter_{}_page_{}.html'.format(self.re.search(r'/chapter/(\d+)', self.chapter).group(1), idx)
-            page = Path('viz_debug')
-            page.mkdir(parents=True)
-            _path = str(page.joinpath(ch))
-            print('Save path to %s' % _path)
-            with open(_path, 'wb') as w:
-                w.write(b'a')
-
-        self.__is_debug and print('Save file: {}'.format(idx))
+        self.__is_debug and print('\nSave file: {}'.format(idx))
         self.__is_debug and print('File url: {}'.format(url))
 
         _path, idx, _url = self._save_file_params_helper(url, idx)
 
-        self.__is_debug and print('file params:\n PATH: {}\n IDX: {}\n URL: {}'.format(_path, idx, _url))
+        self.__is_debug and print('File params:\n PATH: {}\n IDX: {}\n URL: {}'.format(_path, idx, _url))
 
-        __url = self.http_get(url).strip()
+        __url = self.http_get(self.http().normalize_uri(url)).strip()
+
+        if self.__is_debug and int(idx) < 2:
+            ch = 'chapter_{}_page_{}.txt'.format(self.get_chapter_index(), idx)
+            page = Path('viz_debug')
+            page.mkdir(parents=True, exist_ok=True)
+            __debug_path = str(page.joinpath(ch))
+            print('Save path to %s' % __debug_path)
+            with open(__debug_path, 'w') as w:
+                print(__url)
+                w.write(str(__url))
+                w.close()
+
         if __url.find('http') != 0:
             self.__is_debug and print('\nURL is wrong: \n {}\n'.format(__url), file=stderr)
             return
@@ -177,6 +193,7 @@ class VizCom(Provider, Std):
         if file_size(_path) < 32:
             self.__is_debug and print('File not found. Stop for this chapter')
             self._continue = False
+            is_file(_path) and unlink(_path)
             return
 
         self.after_file_save(_path, idx)
