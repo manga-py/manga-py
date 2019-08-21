@@ -31,9 +31,14 @@ class VizCom(Provider, Std):
         return idx
 
     def get_main_content(self):
-        # return self._get_content('{}/shonenjump/chapters/{}')
-        with open('/tmp/viz/viz.html', 'r') as r:
-            return r.read()
+        content = self._get_content('{}/shonenjump/chapters/{}')
+        if self.__is_debug:
+            page = Path('viz_debug')
+            page.mkdir(parents=True, exist_ok=True)
+            _path = str(page.joinpath('main-{}.html'.format(self.manga_name)))
+            with open(_path, 'w') as w:
+                w.write(content)
+        return content
 
     def get_manga_name(self) -> str:
         return self._get_name('/chapters/([^/]+)')
