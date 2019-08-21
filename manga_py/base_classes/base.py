@@ -2,6 +2,7 @@ import re
 from os import path
 from sys import stderr
 
+from loguru import logger
 from lxml.html import HtmlElement
 
 from manga_py.http import Http
@@ -126,7 +127,7 @@ class Base:
                 url = self.__normalize_chapters(n, i)
                 items.append(url)
         else:
-            print('Warning!\nChapters list empty. Check %s' % self.get_url(), file=stderr)
+            logger.warning('Chapters list empty. Check %s' % self.get_url())
         return items
 
     @property
