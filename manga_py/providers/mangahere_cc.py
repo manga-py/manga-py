@@ -1,5 +1,6 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
+from manga_py.crypt.base_lib import BaseLib
 
 
 class MangaHereCc(Provider, Std):
@@ -20,28 +21,34 @@ class MangaHereCc(Provider, Std):
         return self._get_name('/manga/([^/]+)')
 
     def get_chapters(self):
-        return self._elements('.detail_list .left a')
+        return self._elements('.detail-main-list a')
 
     def get_files(self):
-        selector = 'img#image'
-        parser = self.html_fromstring(self.chapter)
-        pages = self._first_select_options(parser, '.go_page select.wid60')
-        images = self._images_helper(parser, selector)
         n = self.http().normalize_uri
-        for page in pages:
-            parser = self.html_fromstring(n(page.get('value')))
-            images += self._images_helper(parser, selector)
-        return images
+        content = self.http_get(self.chapter)
+        parser = self.document_fromstring(content)
+        pages = parser.cssselect('.pager-list-left span span + a')[0].get('data-page')
+        chapter_id = self.re.search(r'chapterid\s*=\s*(\d+)', content).group(1)
+        skip = 0
+        images = []
+        url = self.re.search(r'(.+/)', self.chapter).group(1)
+        for page in range(1, int(pages) + 1):
+            if skip > 0:
+                skip -= 1
+                continue
+            js = self.http_get('{}chapterfun.ashx?cid={}&page={}&key={}'.format(url, chapter_id, page, ''))
+            result = BaseLib.exec_js('m = ' + self.re.search(r'eval\((.+)\)', js).group(1), 'm')
+            img = BaseLib.exec_js(result, 'd')
+            skip = len(img) - 1
+            images += img
+        return [n(i) for i in images]
 
     def get_cover(self):
-        return self._cover_from_content('.manga_detail_top > img')
+        return self._cover_from_content('.detail-info-cover-img')
 
     def prepare_cookies(self):
         self._base_cookies()
-
-    def book_meta(self) -> dict:
-        # todo meta
-        pass
+        self.http().cookies['isAdult'] = '1'
 
 
 main = MangaHereCc
