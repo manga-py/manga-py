@@ -24,7 +24,7 @@ class ExHentaiOrg(EHentaiOrg):
             action, method, form_data = self.prepare_form()
             content = self.http().requests(action, data=form_data, method=method.lower())
             if not ~content.text.find('You are now logged in as:'):
-                print('Wrong password?')
+                self.log('Wrong password?')
                 sleep(.1)
                 exit()
             else:
@@ -34,7 +34,7 @@ class ExHentaiOrg(EHentaiOrg):
             sleep(5)
 
         if not self.check_panda():
-            print('Panda detected. Please, try again')
+            self.log('Panda detected. Please, try again')
             exit(1)
 
     def prepare_form(self):
@@ -68,9 +68,9 @@ class ExHentaiOrg(EHentaiOrg):
             """
             if authorization was not successful
             """
-            print('Sad panda detected')
-            print('Cookies:\n')
-            print(self.http().cookies, '\n')
+            self.log('Sad panda detected')
+            self.log('Cookies:\n')
+            self.log(self.http().cookies, '\n')
             self.http().cookies = {}
             unlink(self.cookie_file)
             success = False

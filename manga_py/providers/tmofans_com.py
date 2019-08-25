@@ -10,7 +10,7 @@ class TmoFansCom(Provider, Std):
             re = self.re.compile(r'Capítulo (\d+(?:\.\d+)?)')
             return re.search(self.chapter[0]).group(1).replace('.', '-')
         except IndexError as e:
-            print('\nNot found chapter index.\nURL: {}\nChapter: {}\nPlease, report this bug: {}{}\n'.format(
+            self.log('\nNot found chapter index.\nURL: {}\nChapter: {}\nPlease, report this bug: {}{}\n'.format(
                 self.get_url(),
                 self.chapter[0],
                 __downloader_uri__, '/issues/new?template=bug_report.md'
@@ -34,7 +34,7 @@ class TmoFansCom(Provider, Std):
                 text = i.cssselect('.btn-collapse')[0].text_content()
                 link = i.cssselect('.list-group .list-group-item .row a')[-1]
             except IndexError:
-                print('Error extract chapter', file=stderr)
+                self.log('Error extract chapter', file=stderr)
                 continue
             request_url = n(link.get('href'))
             response = self.http().requests(request_url, method='head')

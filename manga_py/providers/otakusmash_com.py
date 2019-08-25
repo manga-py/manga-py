@@ -32,7 +32,7 @@ class OtakuSmashCom(Provider, Std):
         images = []
         _img = self._get_image(parser)
         _img and images.append(_img)
-        print('Get pages... Please, wait')
+        self.log('Get pages... Please, wait')
         for page in pages:
             parser = self.html_fromstring('{}{}/'.format(chapter, page.get('value')))
             _img = self._get_image(parser)

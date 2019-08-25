@@ -97,9 +97,9 @@ class Http(Request):
         result = self._download_one_file_helper(url, dst, callback, success_callback, callback_args)
         if result is None and not self.mute:
             self.has_error = True  # issue 161
-            print('\nWarning: 0 bit image downloaded, please check for redirection or broken content', file=stderr)
+            self.debug and print('\nWarning: 0 bit image downloaded, please check for redirection or broken content', file=stderr)
             if ~idx:
-                print('Broken url: %s\nPage idx: %d' % (url, (1 + idx)), file=stderr)
+                self.debug and print('Broken url: %s\nPage idx: %d' % (url, (1 + idx)), file=stderr)
         return result
 
     def normalize_uri(self, uri, referer=None):

@@ -30,7 +30,7 @@ class KissMangaCom(Provider, Std):
     def get_chapters(self):
         chapters = self._elements('.listing td a')
         if not len(chapters):
-            print('Chapters not found', file=stderr)
+            self.log('Chapters not found', file=stderr)
         return chapters
 
     def prepare_cookies(self):
@@ -38,7 +38,7 @@ class KissMangaCom(Provider, Std):
         self.cf_protect(self.get_url())
         self._storage['cookies']['rco_quality'] = 'hq'
         if not self._params['cf-protect']:
-            print('CloudFlare protect fail!', file=stderr)
+            self.log('CloudFlare protect fail!', file=stderr)
 
     def __decrypt_images(self, crypt, key, hexes):
         images = []
@@ -72,7 +72,7 @@ class KissMangaCom(Provider, Std):
         key = self.__check_key(crypt, content)
         hexes = self.re.findall(r'lstImages.push\(wrapKA\(["\']([^"\']+?)["\']\)', content)
         if not hexes:
-            print('Images not found!', file=stderr)
+            self.log('Images not found!', file=stderr)
             return []
         return self.__decrypt_images(crypt, key, hexes)
 

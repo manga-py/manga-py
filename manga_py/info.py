@@ -1,6 +1,7 @@
 from argparse import Namespace
 from datetime import datetime
 from sys import argv
+from typing import Union
 
 from manga_py import meta
 
@@ -54,8 +55,8 @@ class Info:
     def _dt(dt, fmt: str = '%A, %d. %B %Y %H:%M:%S'):
         return dt.strftime(fmt)
 
-    def __init__(self, args: Namespace):  # see manga_py.cli arguments
-        _args = args.__dict__
+    def __init__(self, args: Union[Namespace, dict]):  # see manga_py.cli arguments
+        _args = args.__dict__ if args is Namespace else args
         _args['_raw_params'] = ' '.join(argv)
         self._data = {
             'site': args.url,

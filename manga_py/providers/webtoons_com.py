@@ -49,7 +49,7 @@ class WebToonsCom(Provider, Std):
             self.get_next_page_urls(_content)
 
     def get_chapters(self):
-        print('Parse chapters. Please, wait')
+        self.log('Parse chapters. Please, wait')
         self.__next_page_urls = []
         chapters = self._chapters(self.content)
         n = self.http().normalize_uri

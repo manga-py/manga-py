@@ -19,7 +19,7 @@ class ComicNnNet(Provider, Std):
         iframe = content.cssselect('iframe')
         if iframe:
             url = iframe[0].get('src')
-            print('Iframe!\n' + url)
+            self.log('Iframe!\n' + url)
         return self.html_fromstring(url)
 
     def get_manga_name(self) -> str:

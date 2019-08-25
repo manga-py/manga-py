@@ -14,7 +14,7 @@ class HentaiPornsNet(Provider, Std):
     def get_main_content(self):
         url = self.get_url()
         if ~url.find('/tag/'):
-            print('Please, use target url', file=stderr)
+            self.log('Please, use target url', file=stderr)
             exit(1)
         return self.http_get(self.get_url())
 

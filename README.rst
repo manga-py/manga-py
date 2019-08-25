@@ -76,6 +76,11 @@ is enabled**
     # Disable progressbar
     manga-py --no-progress http://manga-url-here/manga-name
 
+
+Embedded example:
+-----------------
+https://github.com/yuru-yuri/manga-py/embedded.md
+
 Help
 ----
 
