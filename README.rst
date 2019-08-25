@@ -79,7 +79,7 @@ is enabled**
 
 Embedded example:
 -----------------
-https://github.com/yuru-yuri/manga-py/embedded.md
+https://github.com/yuru-yuri/manga-py/blob/stable_1.x/embedded.md
 
 Help
 ----
