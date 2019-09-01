@@ -722,10 +722,10 @@ providers_list = {
     'sleepypandascans_co': [
         r'sleepypandascans\.co/(Series|Reader)/.',
     ],
-    'somanga_net': [
-        r'somanga\.net/(leitor|manga)/.',
-        r'somangas\.net/(leitor|manga)/.',
-    ],
+    #'somanga_net': [
+    #    r'somanga\.net/(leitor|manga)/.',
+    #    r'somangas\.net/(leitor|manga)/.',
+    #],
     'subapics_com': [
         r'subapics\.com/manga/.',
         r'subapics\.com/.+-chapter-.',
