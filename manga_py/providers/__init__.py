@@ -628,7 +628,6 @@ providers_list = {
         # r'read\.yagami\.me/(series|read)/.',
         r'reader\.kireicake\.com/(series|read)/.',
         r'reader\.shoujosense\.com/(series|read)/.',
-        r'reader\.sensescans\.com/(series|read)/.',
         r'reader\.whiteoutscans\.com/(series|read)/.',
         r'slide\.world-three\.org/(series|read)/.',
         r'manga\.animefrontline\.com/(series|read)/.',
@@ -771,6 +770,7 @@ providers_list = {
         r'toonkor\.co/.',
     ],
     'triplesevenscans_com': [
+        r'sensescans\.com/reader/(series|read)/.',
         r'triplesevenscans\.com/reader/(series|read)/.',
         r'cm-scans\.shounen-ai\.net/reader/(series|read)/.',
         r'yaoislife\.shounen-ai\.net/reader/(series|read)/.',
