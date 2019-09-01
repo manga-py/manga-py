@@ -14,12 +14,12 @@ Approximately 300 providers are available now.
 Supported resources
 -------------------
 
-see https://yuru-yuri.github.io/manga-py/#resources-list
+see https://manga-py.github.io/manga-py/#resources-list
 
 Plans for improvement:
 ----------------------
 
-see https://yuru-yuri.github.io/manga-py/improvement.html
+see https://manga-py.github.io/manga-py/improvement.html
 
 How to use
 ----------
@@ -42,7 +42,7 @@ Installation
 
 Installation on the Android
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-See https://github.com/yuru-yuri/manga-py/issues/48
+See https://github.com/manga-py/manga-py/issues/48
 
 Docker image:
 ~~~~~~~~~~~~~
@@ -79,7 +79,7 @@ is enabled**
 
 Embedded example:
 -----------------
-https://github.com/yuru-yuri/manga-py/blob/stable_1.x/embedded.md
+https://github.com/manga-py/manga-py/blob/stable_1.x/embedded.md
 
 Help
 ----
@@ -95,20 +95,20 @@ Suported by JetBrains
 |JetBrains logo|
 
 
-.. |Travis CI result| image:: https://travis-ci.org/yuru-yuri/manga-py.svg?branch=stable_1.x
-   :target: https://travis-ci.org/yuru-yuri/manga-py/branches
-.. |Code Climate| image:: https://codeclimate.com/github/yuru-yuri/manga-py/badges/gpa.svg
-   :target: https://codeclimate.com/github/yuru-yuri/manga-py
-.. |Issue Count| image:: https://codeclimate.com/github/yuru-yuri/manga-py/badges/issue_count.svg
-   :target: https://codeclimate.com/github/yuru-yuri/manga-py
+.. |Travis CI result| image:: https://travis-ci.org/manga-py/manga-py.svg?branch=stable_1.x
+   :target: https://travis-ci.org/manga-py/manga-py/branches
+.. |Code Climate| image:: https://codeclimate.com/github/manga-py/manga-py/badges/gpa.svg
+   :target: https://codeclimate.com/github/manga-py/manga-py
+.. |Issue Count| image:: https://codeclimate.com/github/manga-py/manga-py/badges/issue_count.svg
+   :target: https://codeclimate.com/github/manga-py/manga-py
 .. |PyPI - Python Version| image:: https://img.shields.io/pypi/pyversions/manga-py.svg
    :target: https://pypi.org/project/manga-py/
-.. |Scrutinizer CI result| image:: https://scrutinizer-ci.com/g/yuru-yuri/manga-py/badges/quality-score.png?b=stable_1.x
-   :target: https://scrutinizer-ci.com/g/yuru-yuri/manga-py
-.. |Scrutinizer CI coverage| image:: https://scrutinizer-ci.com/g/yuru-yuri/manga-py/badges/coverage.png?b=stable_1.x
-   :target: https://scrutinizer-ci.com/g/yuru-yuri/manga-py
-.. |GitHub issues| image:: https://img.shields.io/github/issues/yuru-yuri/manga-py.svg
-   :target: https://github.com/yuru-yuri/manga-py/issues
+.. |Scrutinizer CI result| image:: https://scrutinizer-ci.com/g/manga-py/manga-py/badges/quality-score.png?b=stable_1.x
+   :target: https://scrutinizer-ci.com/g/manga-py/manga-py
+.. |Scrutinizer CI coverage| image:: https://scrutinizer-ci.com/g/manga-py/manga-py/badges/coverage.png?b=stable_1.x
+   :target: https://scrutinizer-ci.com/g/manga-py/manga-py
+.. |GitHub issues| image:: https://img.shields.io/github/issues/manga-py/manga-py.svg
+   :target: https://github.com/manga-py/manga-py/issues
 .. |PyPi version| image:: https://badge.fury.io/py/manga-py.svg
    :alt: PyPI
    :target: https://pypi.org/project/manga-py/
