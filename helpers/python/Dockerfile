@@ -34,7 +34,7 @@ RUN mkdir $HOME -p; \
 
 RUN touch $HOME/.bashrc; \
     mkdir $HOME/Manga; \
-    chown $HOST_USER:$HOST_GROUP $HOME/.bashrc \
+    chown $HOST_USER:$HOST_GROUP $HOME/.bashrc; \
     chown $HOST_USER:$HOST_GROUP $HOME/Manga
 
 RUN set -ex \
