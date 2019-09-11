@@ -13,7 +13,7 @@ class VizCom(Provider, Std):
     __cookies = {}
     __has_auth = False
     _continue = True
-    __is_debug = False
+    __is_debug = True
 
     def get_chapter_index(self) -> str:
         # return str(self.chapter_id)
@@ -124,7 +124,7 @@ class VizCom(Provider, Std):
 
         try:
             remember = self.json.loads(req.text)
-            self.__cookies['remember_token'] = remember['trust_user_id_token_web']
+            self.__cookies['remember_token'] = remember.get('trust_user_id_token_web', remember.get('remember_token', ''))
         except ValueError:
             self.__is_debug and self.log('Remember error!', file=stderr)
             self.__is_debug and self.log('Please, report this error {}{}'.format(
