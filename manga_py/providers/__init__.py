@@ -393,7 +393,7 @@ providers_list = {
     ],
     'mangahub_io': [
         r'mangahub\.io/(manga|chapter)/.',
-        r'mangareader\.site/(manga|chapter)/.',
+        # r'mangareader\.site/(manga|chapter)/.',
         r'mangakakalot\.fun/(manga|chapter)/.',
         r'mangahere\.onl/(manga|chapter)/.',
     ],
@@ -454,6 +454,9 @@ providers_list = {
     ],
     'mangareader_net': [
         r'mangareader\.net/.',
+    ],
+    'mangareader_site': [
+        r'mangareader\.site',
     ],
     'mangareader_xyz': [
         r'mangareader\.xyz/manga/.',

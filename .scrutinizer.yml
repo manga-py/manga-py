@@ -13,7 +13,7 @@ build:
         before:
           - sudo apt-get remove chromium-browser -y
           - sudo apt-get update
-          - sudo apt-get ugrade -y
+          - sudo apt-get upgrade -y
           - sudo apt-get install -y dpkg
           - pip3 install coverage
           - pip3 install pyvirtualdisplay
