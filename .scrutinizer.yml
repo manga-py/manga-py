@@ -11,12 +11,15 @@ build:
         override: true
       tests:
         before:
-          - 'sudo apt-get remove chromium-browser'
-          - 'pip3 install coverage'
-          - 'pip3 install pyvirtualdisplay'
-          - 'wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb'
-          - 'sudo dpkg -i /tmp/chrome.deb'
-          - 'sudo apt-get install -y -f --fix-missing'
+          - sudo apt-get remove chromium-browser -y
+          - sudo apt-get update
+          - sudo apt-get ugrade -y
+          - sudo apt-get install -y dpkg
+          - pip3 install coverage
+          - pip3 install pyvirtualdisplay
+          - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb
+          - sudo dpkg -i /tmp/chrome.deb
+          - sudo apt-get install -y -f --fix-missing
         override:
           -
             command: 'coverage run --omit=manga_py/providers/*.py --source=manga_py pytest.py'
