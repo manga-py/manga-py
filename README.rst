@@ -95,6 +95,45 @@ Suported by JetBrains
 |JetBrains logo|
 
 
+Manga-py Docker
+---------------
+
+1. Install docker
+  - Summary https://docs.docker.com/install/
+  - Mac https://docs.docker.com/docker-for-mac/install/
+  - Windows https://docs.docker.com/docker-for-windows/install/
+
+2. Install manga-py 
+
+.. code:: bash
+    docker pull mangadl/manga-py
+
+
+3. Run it
+
+.. code:: bash
+
+    docker run -it -v ./:/home/manga mangadl/manga-py
+
+
+Or docker-compose:
+
+1. Install docker compose https://docs.docker.com/compose/install/
+
+2. Download manga-py-docker https://github.com/yuru-yuri/manga-py-docker/archive/master.zip
+
+3. Unzip it
+
+4. Run compose
+
+.. code:: bash
+
+    # build docker
+    docker-compose build
+    # run it
+    docker-compose run manga_py
+
+
 .. |Travis CI result| image:: https://travis-ci.org/manga-py/manga-py.svg?branch=stable_1.x
    :target: https://travis-ci.org/manga-py/manga-py/branches
 .. |Code Climate| image:: https://codeclimate.com/github/manga-py/manga-py/badges/gpa.svg
