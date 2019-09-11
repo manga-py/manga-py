@@ -1,0 +1,12 @@
+version: '3.0'
+
+services:
+  manga_py:
+    container_name: mangadl/manga-py
+    image: python
+    build: ./helpers/python
+    volumes:
+      - ./:/home/manga
+
+volumes:
+  manga_volume:
