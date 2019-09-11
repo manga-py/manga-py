@@ -32,10 +32,10 @@ REQUIREMENTS = [
 #         REQUIREMENTS = f.read()
 
 
-long_description = ''
-if path.isfile('README.rst'):
-    with open('README.rst') as f:
-        long_description = f.read()
+long_description = 'Please see https://github.com/manga-py/manga-py'
+# if path.isfile('README.rst'):
+#     with open('README.rst') as f:
+#         long_description = f.read()
 
 
 release_status = 'Development Status :: 5 - Production/Stable'
