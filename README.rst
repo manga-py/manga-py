@@ -7,9 +7,11 @@ Universal assistant download manga.
 Approximately 300 providers are available now.
 ''''''''''''''''''''''''''''''''''''''''''''''
 
-|Code Climate| |Issue Count| |PyPI - Python Version|
+|Scrutinizer CI result| |Scrutinizer CI coverage| |GitHub issues|
 
-|Scrutinizer CI result| |Scrutinizer CI coverage| |GitHub issues| |PyPi version|
+|Code Climate| |Issue Count| |GitHub repo size| |PyPI - size|
+
+|PyPI - Python Version| |PyPi version| |PyPI - Downloads|
 
 Supported resources
 -------------------
@@ -154,3 +156,14 @@ Or docker-compose:
 .. |JetBrains logo| image:: https://github.com/yuru-yuri/manga-py/raw/stable_1.x/.github/jetbrains.png
    :alt: JetBrains
    :target: https://www.jetbrains.com/?from=manga-py
+.. |MicroBadger Layers| image:: https://img.shields.io/microbadger/layers/mangadl/manga-py
+   :alt: MicroBadger Layers
+.. |MicroBadger Size| image:: https://img.shields.io/microbadger/image-size/mangadl/manga-py
+   :alt: MicroBadger Size
+.. |GitHub repo size| image:: https://img.shields.io/github/repo-size/manga-py/manga-py
+   :alt: GitHub repo size
+.. |PyPI - Downloads| image:: https://img.shields.io/pypi/dm/manga-py
+   :alt: PyPI - Downloads
+.. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?color=success&label=PyPI+size&query=%24.size&url=https://sttv.me/manga-py.json&?cacheSeconds=3600&suffix=+Kb
+   :alt: PyPI - size
+   
