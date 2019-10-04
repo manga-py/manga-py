@@ -35,8 +35,11 @@ class Cli:  # pragma: no cover
             )
         except AttributeError as e:
             print(e)
-            print('Please check the domain in the table: https://yuru-yuri.github.io/manga-py/')
-            print('Make sure that the URL is correct\n\nTrace:')
+            print('Please check if your inputed domain is supported by manga-py: ')
+            print('- https://manga-py.com/manga-py/#resources-list')
+            print('- https://manga-py.github.io/manga-py/#resources-list (alternative)')
+            print('- https://yuru-yuri.github.io/manga-py/ (deprecated)')
+            print('Make sure that your inputed URL is correct\n\nTrace:')
             raise e
         self.parser.start()
         self.__progress_bar and self.__progress_bar.value > 0 and self.__progress_bar.finish()
