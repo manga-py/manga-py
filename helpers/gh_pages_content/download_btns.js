@@ -4,6 +4,7 @@
         /** global: repoUrl */
         if(typeof repoUrl == 'undefined')
         {
+            // example: https://api.github.com/repos/manga-py/manga-py/releases/latest
             // example: https://api.github.com/repos/yuru-yuri/manga-py/releases/latest
             return;
         }

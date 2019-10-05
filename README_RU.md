@@ -2,7 +2,11 @@
 
 ## Поддерживаемые ресурсы
 
-Смотрите https://yuru-yuri.github.io/manga-py/#resources-list
+Смотрите:
+
+- https://manga-py.com/manga-py/#resources-list
+- https://manga-py.github.io/manga-py/#resources-list
+- https://yuru-yuri.github.io/manga-py/#resources-list
 
 
 ## Как использовать

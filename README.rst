@@ -16,12 +16,20 @@ Approximately 300 providers are available now.
 Supported resources
 -------------------
 
-see https://manga-py.github.io/manga-py/#resources-list
+see:
+
+- https://manga-py.com/manga-py/#resources-list
+- https://manga-py.github.io/manga-py/#resources-list (alternative)
+- https://yuru-yuri.github.io/manga-py/#resources-list (deprecated)
 
 Plans for improvement:
 ----------------------
 
-see https://manga-py.github.io/manga-py/improvement.html
+see:
+
+- https://manga-py.com/manga-py/improvement.html
+- https://manga-py.github.io/manga-py/improvement.html (alternative)
+
 
 How to use
 ----------
@@ -48,7 +56,10 @@ See https://github.com/manga-py/manga-py/issues/48
 
 Docker image:
 ~~~~~~~~~~~~~
-https://hub.docker.com/r/mangadl/manga-py
+See:
+
+- https://hub.docker.com/r/mangadl/manga-py
+- https://github.com/manga-py/manga-py-docker
 
 
 Downloading manga
@@ -122,7 +133,7 @@ Or docker-compose:
 
 1. Install docker compose https://docs.docker.com/compose/install/
 
-2. Download manga-py-docker https://github.com/yuru-yuri/manga-py-docker/archive/master.zip
+2. Download manga-py-docker https://github.com/manga-py/manga-py-docker/archive/master.zip
 
 3. Unzip it
 
