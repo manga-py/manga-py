@@ -137,11 +137,7 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
             self._archive.no_webp = self._image_params.get('no_webp', False)
             self._call_files_progress_callback()
 
-            if self._params.get('one_thread', False):
-                self._one_thread_save(self._storage['files'])
-
-            else:
-                self._multi_thread_save(self._storage['files'])
+            self._multi_thread_save(self._storage['files'])
 
             self.make_archive()
 
@@ -232,21 +228,12 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
         threading = MultiThreads()
         # hack
         self._storage['current_file'] = 0
-        if self._params.get('no_multi_threads', False):
-            threading.max_threads = 2
+        if self._params.get('max_threads', None) is not None:
+            threading.max_threads = int(self._params.get('max_threads'))
         for idx, url in enumerate(files):
             threading.add(self.save_file, (idx, self._multi_thread_callback, url))
 
         threading.start()
-
-    def _one_thread_save(self, files):
-
-        for idx, __url in enumerate(files):
-            self._storage['current_file'] = idx
-            self._call_files_progress_callback()
-            self.save_file()
-        _max = len(self._storage['files'])
-        self.progress(_max, _max)
 
     def cf_protect(self, url):
         """
