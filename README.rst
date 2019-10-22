@@ -1,4 +1,4 @@
-Manga-Downloader |Travis CI result|
+Manga-py |Travis CI result|
 ===================================
 
 Universal assistant download manga.
