@@ -108,7 +108,7 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
                 # Main debug here
                 if self.__debug:
                     raise e
-                print([e], file=stderr)
+                self.log([e], file=stderr)
                 self._info.set_last_volume_error(e)
 
     def loop_chapters(self):
@@ -127,10 +127,10 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
     def loop_files(self):
         if isinstance(self._storage['files'], list):
             if self._show_chapter_info:
-                print('\n\nCurrent chapter url: %s\n' % (self.chapter,))
+                self.log('\n\nCurrent chapter url: %s\n' % (self.chapter,))
             if len(self._storage['files']) == 0:
                 # see Std
-                print('Error processing file: %s' % self.get_archive_name(), file=stderr)
+                self.log('Error processing file: %s' % self.get_archive_name(), file=stderr)
                 return
             self._archive = Archive()
             self._archive.not_change_files_extension = self._params.get('not_change_files_extension', False)
@@ -207,8 +207,8 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
         try:
             self._archive.make(_path)
         except OSError as e:
-            print('')
-            print(e)
+            self.log('')
+            self.log(e)
             self.log(e, file=stderr)
             self._info.set_last_volume_error(str(e))
             unlink(_path)

@@ -1,6 +1,7 @@
 import re
 from typing import List, Optional, Tuple
 from PIL import Image
+from sys import stderr
 
 
 class VizComMatrix:
@@ -13,7 +14,7 @@ class VizComMatrix:
                 pattern = re.search(r'([\da-f]{2}(?::[\da-f]{2})+)', str(r.readline(1024))).group(1)
                 pattern = [int('0x%s' % i, 16) for i in pattern.split(':')]
         except Exception as e:
-            print('Error extract pattern. Path: %s' % path)
+            print('Error extract pattern. Path: %s' % path, file=stderr)
         return pattern
 
     @classmethod

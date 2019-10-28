@@ -69,7 +69,7 @@ def _run_util(args) -> tuple:
 
 def _update_all(args):
     parse_args = args.parse_args()
-    print('Update all', file=stderr)
+    parse_args.quiet or print('Update all', file=stderr)
     multi_info = {}
 
     dst = parse_args.destination
@@ -80,7 +80,7 @@ def _update_all(args):
         parse_args.url = i['url']
         code, _info = _run_util(args)
         multi_info[i['directory']] = _info
-    parse_args.print_json and print(multi_info)
+    parse_args.quiet or (parse_args.print_json and print(multi_info))
 
 
 @catch
@@ -94,7 +94,7 @@ def main():
     parse_args = args.parse_args()
 
     code, _info = _run_util(args)
-    parse_args.print_json and print(_info)
+    parse_args.quiet or (parse_args.print_json and print(_info))
 
     exit(code)
 

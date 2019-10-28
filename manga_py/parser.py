@@ -35,7 +35,7 @@ class Parser:
             raise AttributeError('Provider not found')
         self.provider = provider(info)  # provider __init__
 
-        self.provider.set_progress_callback(progress)
+        self.provider.set_progress_callback(None if self.params['quiet'] else progress)
         self.provider.set_log_callback(log)
         self.provider.set_quest_callback(quest)
         self.provider.set_quest_password_callback(quest_password)

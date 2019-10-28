@@ -34,16 +34,16 @@ class Cli:  # pragma: no cover
                 info=self._info,
             )
         except AttributeError as e:
-            print(e)
-            print('Please check if your inputed domain is supported by manga-py: ')
-            print('- https://manga-py.com/manga-py/#resources-list')
-            print('- https://manga-py.github.io/manga-py/#resources-list (alternative)')
-            print('- https://yuru-yuri.github.io/manga-py/ (deprecated)')
-            print('Make sure that your inputed URL is correct\n\nTrace:')
+            print(e, file=sys.stderr)
+            print('Please check if your inputed domain is supported by manga-py: ', file=sys.stderr)
+            print('- https://manga-py.com/manga-py/#resources-list', file=sys.stderr)
+            print('- https://manga-py.github.io/manga-py/#resources-list (alternative)', file=sys.stderr)
+            print('- https://yuru-yuri.github.io/manga-py/ (deprecated)', file=sys.stderr)
+            print('Make sure that your inputed URL is correct\n\nTrace:', file=sys.stderr)
             raise e
         self.parser.start()
         self.__progress_bar and self.__progress_bar.value > 0 and self.__progress_bar.finish()
-        self.print(' ')
+        self.args.quiet or self.print(' ')
 
     def __init_progress(self, items_count: int, re_init: bool):
         if re_init or not self.__progress_bar:
@@ -66,7 +66,7 @@ class Cli:  # pragma: no cover
     def print(self, text, **kwargs):
         if os_name == 'nt':
             text = str(text).encode().decode(sys.stdout.encoding, 'ignore')
-        print(text, **kwargs)
+        self.args.quiet or print(text, **kwargs)
 
     def _single_quest(self, variants, title):
         self.print(title)
