@@ -38,9 +38,9 @@ providers_list = {
     'atfbooru_ninja': [
         r'atfbooru\.ninja/posts.',
     ],
-    'authrone_com': [
-        r'authrone\.com/manga/.',
-    ],
+    # 'authrone_com': [
+    #     r'authrone\.com/manga/.',
+    # ],
     'bato_to': [
         r'bato\.to/(series|chapter)/\d',
     ],
@@ -246,7 +246,7 @@ providers_list = {
         r'manga-v2\.mangavadisi\.org/manga/.',
         r'universoyuri\.com/manga/.',
         r'digitalteam1\.altervista\.org/manga/.',
-        r'sosscanlation\.com/manga/.',
+        # r'sosscanlation\.com/manga/.',
         r'komikgue\.com/manga/.',
     ],
     'kumanga_com': [
@@ -355,9 +355,9 @@ providers_list = {
         r'mangafans\.us/manga/.',
         r'mangahot\.org/read-manga/.',
     ],
-    'mangaforall_com': [
-        r'mangaforall\.com/m/.',
-    ],
+    # 'mangaforall_com': [
+    #     r'mangaforall\.com/m/.',
+    # ],
     'mangafreak_net_download': [
         r'mangafreak\.net/Manga/.',
     ],
@@ -565,9 +565,9 @@ providers_list = {
         r'nozominofansub\.com/public(/index\.php)?/manga/.',
         r'godsrealmscan\.com/public(/index\.php)?/manga/.',
     ],
-    'nude_moon_me': [
-        r'nude-moon\.me/\d',
-    ],
+    # 'nude_moon_me': [
+    #     r'nude-moon\.me/\d',
+    # ],
     'otakusmash_com': [
         r'otakusmash\.com/.',
         r'mrsmanga\.com/.',
@@ -676,9 +676,9 @@ providers_list = {
     'reader_imangascans_org': [
         r'reader\.imangascans\.org/.',
     ],
-    'readhentaimanga_com': [
-        r'readhentaimanga\.com/.',
-    ],
+    # 'readhentaimanga_com': [
+    #     r'readhentaimanga\.com/.',
+    # ],
     'readcomiconline_to': [
         r'readcomiconline\.to/Comic/.',
     ],
@@ -730,8 +730,8 @@ providers_list = {
     #    r'somangas\.net/(leitor|manga)/.',
     #],
     'subapics_com': [
-        r'subapics\.com/manga/.',
-        r'subapics\.com/.+-chapter-.',
+        # r'subapics\.com/manga/.',
+        # r'subapics\.com/.+-chapter-.',
         r'mangakita\.net/manga/.',
         r'mangakita\.net/.+-chapter-.',
         r'komikstation\.com/manga/.',

@@ -53,7 +53,7 @@ class ExHentaiOrg(EHentaiOrg):
             'PassWord': password,
         }
         prepare = self.http_get(self.__uri.format('00'))
-        parser = self.document_fromstring(prepare, 'form[name="LOGIN"]')  # type: HtmlElement
+        parser = self.document_fromstring(prepare, 'form[name="LOGIN"]')[0]  # type: HtmlElement
         action = parser.get('action', self.__uri.format('01'))
         method = parser.get('method', 'get')
         for i in parser.cssselect(','.join(selectors)):  # type: HtmlElement
@@ -63,14 +63,14 @@ class ExHentaiOrg(EHentaiOrg):
 
     def check_panda(self):
         success = True
-        req = self.http().requests('http://exhentai.org/', method='head')
+        req = self.http().requests('https://exhentai.org/', method='head')
         if ~req.headers['Content-Type'].find('image/'):
             """
             if authorization was not successful
             """
             self.log('Sad panda detected')
-            self.log('Cookies:\n')
-            self.log(self.http().cookies, '\n')
+            # self.log('Cookies:\n')
+            # self.log(self.http().cookies, '\n')
             self.http().cookies = {}
             unlink(self.cookie_file)
             success = False
