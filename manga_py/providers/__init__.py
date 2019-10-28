@@ -2,6 +2,9 @@ import re
 import importlib
 
 providers_list = {
+    '1stkissmanga_com': [
+        r'1stkissmanga\.com/manga/.',
+    ],
     '3asq_info': [
         r'3asq\.info/.',
     ],
