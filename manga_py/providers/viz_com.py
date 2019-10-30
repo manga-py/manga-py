@@ -44,7 +44,19 @@ class VizCom(Provider, Std):
         return self._get_name('/chapters/([^/]+)')
 
     def get_chapters(self):
-        chapters = self._elements('a.flex[href*="/chapter/"],a.pad-r-rg.o_chapter-container[href*="/chapter/"]')
+        chapters = []
+        for chapter in self._elements('a.o_chapter-container[href*="/chapter/"]'):
+            url = chapter.get('href')
+            if url not in chapters:
+                chapters.append(url)
+        
+        # Paid chapters are dynamically loaded so we need to take a different approach.
+        re = self.re.compile(r'targetUrl:\'(.*)\',targetTitle')
+        for chapter in self._elements('a.o_chapter-container[onclick*="/chapter/"]'):
+            url = re.search(chapter.get('onclick')).group(1)
+            if url not in chapters:
+                chapters.append(url)
+
         self.__is_debug and self.log('Chapters count: %d' % len(chapters))
 
         if self.__is_debug:
@@ -53,7 +65,7 @@ class VizCom(Provider, Std):
             _path = str(page.joinpath('chapters.html'))
             self.log('Save path to %s' % _path)
             with open(_path, 'w') as w:
-                w.write('\n'.join([i.get('href') for i in chapters]))
+                w.write('\n'.join(chapters))
 
         return chapters
 
