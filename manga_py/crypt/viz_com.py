@@ -18,7 +18,7 @@ class VizComMatrix:
         return pattern
 
     @classmethod
-    def solve_image(cls, path: str) -> Optional[Image.Image]:
+    def solve_image(cls, path: str, metadata: dict) -> Optional[Image.Image]:
         meta = cls.get_image_meta(path)
         if meta is None:
             return
@@ -28,7 +28,7 @@ class VizComMatrix:
         ref = Image.new(orig.mode, new_size)  # type: Image.Image
         ref.paste(orig)
 
-        width, height = ref.size
+        width, height = metadata["width"], metadata["height"]
         small_width = int(width / 10)
         small_height = int(height / 15)
 
