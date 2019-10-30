@@ -4,31 +4,25 @@ from PIL import Image
 from sys import stderr
 
 
+WIDTH = 256
+HEIGHT = 257
+KEY = 42016
+
 class VizComMatrix:
     @classmethod
-    def get_image_meta(cls, path: str) -> Optional[List[int]]:
-        pattern = None
-        try:
-            with open(path, 'rb') as r:
-                # read one line. get pattern
-                pattern = re.search(r'([\da-f]{2}(?::[\da-f]{2})+)', str(r.readline(1024))).group(1)
-                pattern = [int('0x%s' % i, 16) for i in pattern.split(':')]
-        except Exception as e:
-            print('Error extract pattern. Path: %s' % path, file=stderr)
-        return pattern
-
-    @classmethod
     def solve_image(cls, path: str, metadata: dict) -> Optional[Image.Image]:
-        meta = cls.get_image_meta(path)
-        if meta is None:
-            return
-
         orig = Image.open(path)  # type: Image.Image
         new_size = (orig.size[0] - 90, orig.size[1] - 140)
         ref = Image.new(orig.mode, new_size)  # type: Image.Image
         ref.paste(orig)
 
-        width, height = metadata["width"], metadata["height"]
+        exif = orig._getexif()
+        if KEY in exif:
+            key = [int(i, 16) for i in exif[KEY].split(':')]
+            width, height = exif[WIDTH], exif[HEIGHT]
+        else:
+            key = []
+            width, height = metadata['width'], metadata['height']
         small_width = int(width / 10)
         small_height = int(height / 15)
 
@@ -56,7 +50,7 @@ class VizComMatrix:
             small_width + (width - 10 * small_width), height - 2 * small_height,
         ))
 
-        for i, j in enumerate(cls.get_image_meta(path)):
+        for i, j in enumerate(key):
             cls.paste(ref, orig, (
                 (i % 8 + 1) * (small_width + 10), (int(i / 8) + 1) * (small_height + 10),
                 small_width, small_height,
