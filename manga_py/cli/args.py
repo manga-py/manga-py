@@ -32,7 +32,7 @@ def _debug_args(args_parser):  # pragma: no cover
                       help='Print information about the results in the JSON format (after completion).')
 
     args.add_argument('--simulate', action='store_true',
-                      help='Simulate running Manga-py, where: 1) do not download files and, 2) do not write anything on disk.')
+                      help='Simulate running %(prog)s, where: 1) do not download files and, 2) do not write anything on disk.')
 
     args.add_argument('--show-current-chapter-info', '-cc', action='store_true',
                       help='Show current processing chapter info.')
@@ -42,7 +42,7 @@ def _debug_args(args_parser):  # pragma: no cover
 
     # args.add_argument('-vv', '--log', metavar='info', type='str', help='Verbose log')
 
-    args.add_argument('--debug', action='store_true', help='Debug Manga-py.')
+    args.add_argument('--debug', action='store_true', help='Debug %(prog)s.')
     args.add_argument('-q', '--quiet', action='store_true', help='Dont show any messages.')
 
 
@@ -83,11 +83,11 @@ def _reader_args(args_parser):  # pragma: no cover
 
 
 def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
-    args_parser = ArgumentParser(add_help=False, formatter_class=ArgumentDefaultsHelpFormatter)
+    args_parser = ArgumentParser(add_help=False, formatter_class=ArgumentDefaultsHelpFormatter, prog="manga-py")
     args = args_parser.add_argument_group('General options')
 
     args.add_argument('url', metavar='URL', type=str, help='%(metavar)s, i.e. link from manga, to be downloaded.')
-    args.add_argument('--version', action='version', version=__version__, help='Show Manga-py\'s version number and exit.')
+    args.add_argument('--version', action='version', version=__version__, help='Show %(prog)s\'s version number and exit.')
 
     args.add_argument('-n', '--name', metavar='NAME', type=str, default='',
                       help='Rename manga, i.e. by %(metavar)s, and its folder to where it will be saved locally.')
