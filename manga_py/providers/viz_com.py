@@ -1,5 +1,6 @@
 from sys import stderr
 from pathlib import Path
+from json import loads
 
 from manga_py import meta
 from manga_py.crypt.viz_com import solve
@@ -44,7 +45,19 @@ class VizCom(Provider, Std):
         return self._get_name('/chapters/([^/]+)')
 
     def get_chapters(self):
-        chapters = self._elements('a.flex[href*="/chapter/"],a.pad-r-rg.o_chapter-container[href*="/chapter/"]')
+        chapters = []
+        for chapter in self._elements('a.o_chapter-container[href*="/chapter/"]'):
+            url = chapter.get('href')
+            if url not in chapters:
+                chapters.append(url)
+        
+        # Paid chapters are dynamically loaded so we need to take a different approach.
+        re = self.re.compile(r'targetUrl:\'(.*)\',targetTitle')
+        for chapter in self._elements('a.o_chapter-container[onclick*="/chapter/"]'):
+            url = re.search(chapter.get('onclick')).group(1)
+            if url not in chapters:
+                chapters.append(url)
+
         self.__is_debug and self.log('Chapters count: %d' % len(chapters))
 
         if self.__is_debug:
@@ -53,7 +66,7 @@ class VizCom(Provider, Std):
             _path = str(page.joinpath('chapters.html'))
             self.log('Save path to %s' % _path)
             with open(_path, 'w') as w:
-                w.write('\n'.join([i.get('href') for i in chapters]))
+                w.write('\n'.join(chapters))
 
         return chapters
 
@@ -61,6 +74,17 @@ class VizCom(Provider, Std):
         self.__is_debug and self.log('Files')
         self._continue = True
         ch = self.chapter
+
+        params = [
+            'device_id=3',
+            'manga_id={}'.format(self.re.search(r'/chapter/(\d+)', ch).group(1)),
+            'metadata=1',
+        ]
+        url = 'https://www.viz.com/manga/get_manga_url?' + '&'.join(params)
+        self.log(self.http_get(self.http().normalize_uri(url)))
+        __url = self.http_get(self.http().normalize_uri(url)).strip()
+        self._metadata = loads(self.http_get(__url))
+        
         params = [
             'device_id=3',
             'manga_id={}'.format(self.re.search(r'/chapter/(\d+)', ch).group(1)),
@@ -203,7 +227,7 @@ class VizCom(Provider, Std):
 
         self.after_file_save(_path, idx)
 
-        ref = solve(_path)
+        ref = solve(_path, self._metadata)
         if ref is not None:
             solved_path = _path + '-solved.jpeg'
             ref.save(solved_path)

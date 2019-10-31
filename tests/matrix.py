@@ -203,7 +203,7 @@ class TestMatrix(unittest.TestCase):
             src_path = root_path + '/mosaic/viz/index{}.jfif'.format(i)
             ref_path = root_path + '/temp/canvas{}.png'.format(i)
             solved_path = root_path + '/mosaic/viz/canvas{}.png'.format(i)
-            ref = viz_com.solve(src_path)
+            ref = viz_com.solve(src_path, {'width': 800, 'height': 1200})
             ref.save(ref_path)
             solved = PilImage.open(solved_path)
             deviation = self._rmsdiff(solved, ref)
