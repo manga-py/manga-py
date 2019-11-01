@@ -343,6 +343,9 @@ providers_list = {
         r'mangadeep\.com/.',
         r'manga99\.com/.',
     ],
+    'mangadex_org': [
+        r'mangadex\.org/manga/.',
+    ],
     'mangadex_com': [
         r'mangadex\.com/(title|chapter)/.',
         r'mangadex\.org/(title|chapter)/.',
