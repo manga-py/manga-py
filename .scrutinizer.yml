@@ -21,7 +21,7 @@ build:
           - sudo apt install -y -f --fix-missing
         override:
           -
-            command: 'coverage run --omit=manga_py/providers/*.py --source=manga_py pytest.py'
+            command: 'coverage run --omit=manga_py/providers/*.py --source=manga_py run_tests.py'
             coverage:
               file: '.coverage'
               format: 'py-cc'
@@ -35,5 +35,5 @@ filter:
     - manga_py/crypt/aes.js
     - manga_py/crypt/aes_zp.js
     - tests/*.py
-    - pytest.py
+    - run_tests.py
     - manga.py
