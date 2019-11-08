@@ -1,6 +1,9 @@
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, RawDescriptionHelpFormatter
 
 from manga_py.meta import __version__
+
+class DescriptionDefaultsHelpFormatter(ArgumentDefaultsHelpFormatter, RawDescriptionHelpFormatter):
+    pass
 
 
 def _image_args(args_parser):  # pragma: no cover
@@ -83,7 +86,7 @@ def _reader_args(args_parser):  # pragma: no cover
 
 
 def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
-    args_parser = ArgumentParser(add_help=False, formatter_class=ArgumentDefaultsHelpFormatter, prog="manga-py", description="%(prog)s is the universal manga downloader (for your offline reading).", epilog="So, that is how %(prog)s can be executed to download yours favourite mangas. Enjoy! 😉")
+    args_parser = ArgumentParser(add_help=False, formatter_class=DescriptionDefaultsHelpFormatter, prog="manga-py", description="%(prog)s is the universal manga downloader (for your offline reading).\n  Site: https://manga-py.com/manga-py/\n  Source-code: https://github.com/manga-py/manga-py\n  Version: " + __version__, epilog="So, that is how %(prog)s can be executed to download yours favourite mangas.\nEnjoy! 😉")
     args = args_parser.add_argument_group('General options')
 
     args.add_argument('url', metavar='URL', type=str, help='%(metavar)s, i.e. link from manga, to be downloaded.')
