@@ -3,6 +3,7 @@ from lxml.html import HtmlElement
 from manga_py.provider import Provider
 from .helpers import e_hentai_org
 from .helpers.std import Std
+from time import sleep
 
 
 class EHentaiOrg(Provider, Std):
@@ -12,6 +13,8 @@ class EHentaiOrg(Provider, Std):
         _url = None
         if isinstance(url, HtmlElement):
             _url = self.helper.get_image(url)
+        else:
+            _url = url
         return super().save_file(idx=idx, callback=callback, url=_url, in_arc_name=in_arc_name)
 
     def get_chapter_index(self) -> str:
@@ -31,25 +34,31 @@ class EHentaiOrg(Provider, Std):
     def get_chapters(self):
         parser = self.document_fromstring(self.content)
         max_idx = self.helper.get_pages_count(parser)
+        self.log('Please, wait...\n')
         return list(range(max_idx, -1, -1))
 
     def get_files(self):
         url = self.helper.get_url() + '?p='
-        select = '#gdt .gdtm > div > a'
-
+        selector = '#gdt div[class^=gdt] a'
         idx = self.chapter
         if idx == 0:
             content = self.content
         else:
             content = self.http_get('{}{}'.format(url, idx))
-        return self.document_fromstring(content, select)
+        pages = self.document_fromstring(content, selector)
+
+        n = self.http().normalize_uri
+        f = self.document_fromstring
+
+        images = []
+        for page in pages:
+            _url = n(page.get('href'))
+            images.append(n(f(self.http_get(_url), '#img', 0).get('src')))
+            sleep(.1)
+        return images
 
     def get_cover(self) -> str:
         return self._cover_from_content('#gd1 > div')
-
-    def book_meta(self) -> dict:
-        # todo meta
-        pass
 
     def chapter_for_json(self):
         return self.get_url()

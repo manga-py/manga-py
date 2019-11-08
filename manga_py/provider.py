@@ -231,7 +231,7 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
         if self._params.get('max_threads', None) is not None:
             threading.max_threads = int(self._params.get('max_threads'))
         for idx, url in enumerate(files):
-            threading.add(self.save_file, (idx, self._multi_thread_callback, url))
+            threading.add(self.save_file, (idx, self._multi_thread_callback, url, None))
 
         threading.start()
 
