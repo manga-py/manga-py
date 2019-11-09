@@ -8,7 +8,6 @@ progressbar2
 urllib3
 packaging
 html-purifier
-selenium
 pyexecjs
 numpy
 loguru
