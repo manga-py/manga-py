@@ -1,0 +1,12 @@
+lxml
+cssselect
+Pillow
+pycryptodome
+cloudscraper
+urllib3
+packaging
+pyexecjs
+loguru
+argcomplete
+tinycss
+peewee
