@@ -13,6 +13,8 @@ Approximately 300 providers are available now.
 
 |PyPI - Python Version| |PyPi version| |PyPI - Downloads|
 
+|Contributor Covenant|
+
 Supported resources
 -------------------
 
@@ -146,6 +148,10 @@ Or docker-compose:
     # run it
     docker-compose run manga_py
 
+Code of Conduct
+---------------
+
+See https://github.com/manga-py/manga-py/blob/stable_1.x/docs/CODE_OF_CONDUCT.rst.
 
 .. |Travis CI result| image:: https://travis-ci.com/manga-py/manga-py.svg?branch=stable_1.x
    :target: https://travis-ci.com/manga-py/manga-py/branches
@@ -177,4 +183,5 @@ Or docker-compose:
    :alt: PyPI - Downloads
 .. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?color=success&label=PyPI+size&query=%24.size&url=https://sttv.me/manga-py.json&?cacheSeconds=3600&suffix=+Kb
    :alt: PyPI - size
+.. |Contributor Covenant| image:: https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg
 
