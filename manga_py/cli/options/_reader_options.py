@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 
 
-def _reader_options(args_parser: ArgumentParser):  # pragma: no cover
+def reader_options(args_parser: ArgumentParser):  # pragma: no cover
     args = args_parser.add_argument_group('Reader options')
 
     args.add_argument('--cbz', action='store_true',
@@ -12,3 +12,6 @@ def _reader_options(args_parser: ArgumentParser):  # pragma: no cover
 
     args.add_argument('--rename-pages', action='store_true',
                       help='Normalize image filenames. E.g. from `0_page_1.jpg` to `001.jpg`.')
+
+
+__all__ = ['reader_options']

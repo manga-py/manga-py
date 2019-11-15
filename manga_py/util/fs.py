@@ -7,12 +7,11 @@ __dir_name = '.manga-py'
 
 
 def is_readable(location: Path):
-    if location.is_file():
-        assert os.access(str(location), os.R_OK)
+    return os.access(str(location), os.R_OK)
 
 
 def is_writable(location: Path):
-    assert os.access(str(location), os.W_OK)
+    return os.access(str(location), os.W_OK)
 
 
 def touch(location: Path):
@@ -80,3 +79,9 @@ def check_free_space(_path: Path, min_size: Union[int, str] = 100) -> bool:
     else:
         _free = _stat['free'] / (2 << 19)  # 1Mb
         return _free > min_size
+
+
+def default_headers_location(locate: Union[str, Path] = None):
+    if locate is None:
+        locate = 'cookies.dat'
+    return user_path().joinpath(locate)

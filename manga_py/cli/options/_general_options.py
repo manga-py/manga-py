@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 from manga_py.meta import version
 
 
-def _general_options(args_parser: ArgumentParser):
+def general_options(args_parser: ArgumentParser):
     args = args_parser.add_argument_group('General options')
 
     args.add_argument('url', metavar='URL', type=str, nargs="*",
@@ -19,3 +19,6 @@ def _general_options(args_parser: ArgumentParser):
                            ' i.e. `./%(metavar)s/manga_name/`.')
 
     args.add_argument('-P', '--no-progress', action='store_true', help='Don\'t show progress bar.')
+
+
+__all__ = ['general_options']

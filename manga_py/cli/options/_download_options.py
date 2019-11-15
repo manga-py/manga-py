@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 
 
-def _downloading_options(args_parser: ArgumentParser):  # pragma: no cover
+def downloading_options(args_parser: ArgumentParser):  # pragma: no cover
     args = args_parser.add_argument_group('Downloading options')
 
     args.add_argument('-s', '--skip-volumes', metavar='COUNT', type=int,
@@ -47,3 +47,5 @@ def _downloading_options(args_parser: ArgumentParser):  # pragma: no cover
                       help='Alert when the minimum free disc space, i.e. MB, is reached.'
                            ' Insert it in order of megabytes (Mb).')
 
+
+__all__ = ['downloading_options']

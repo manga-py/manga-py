@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 
 
-def _debug_options(args_parser: ArgumentParser):  # pragma: no cover
+def debug_options(args_parser: ArgumentParser):  # pragma: no cover
     args = args_parser.add_argument_group('Debug / Simulation options')
 
     args.add_argument('-h', '--help', action='help', help='Show this help and exit.')
@@ -16,3 +16,6 @@ def _debug_options(args_parser: ArgumentParser):  # pragma: no cover
 
     args.add_argument('--debug', action='store_true', help='Debug %(prog)s.')
     args.add_argument('-q', '--quiet', action='store_true', help='Dont show any messages.')
+
+
+__all__ = ['debug_options']

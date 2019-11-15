@@ -1,20 +1,21 @@
-from pathlib import Path
 import json
+from pathlib import Path
+from typing import ClassVar
+
 from ..util import fs
 
 
 class Headers:
-    __headers = None  # type: dict
-    __cookies = None  # type: dict
+    __headers: ClassVar[dict] = None
+    __cookies: ClassVar[dict] = None
 
-    def __init__(self, headers_file_location: Path = None):
+    def __init__(self, headers_file_location: Path):
         self.__headers = {}
         self.__cookies = {}
-        if headers_file_location is not None:
-            self.load_headers(headers_file_location)
+        self.load_headers(headers_file_location)
 
     @property
-    def headers(self):
+    def headers(self) -> dict:
         return self.__headers.copy()
 
     @headers.setter
@@ -25,7 +26,7 @@ class Headers:
         self.__headers.update(headers)
 
     @property
-    def cookies(self):
+    def cookies(self) -> dict:
         return self.__cookies.copy()
 
     @cookies.setter
