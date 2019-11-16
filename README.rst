@@ -158,6 +158,12 @@ Contributing to manga-py
 
 See https://github.com/manga-py/manga-py/blob/stable_1.x/docs/CONTRIBUTING.rst.
 
+Sponsoring manga-py
+------------------------
+
+Click at Github Sponsor buttom at top.
+
+
 .. |Travis CI result| image:: https://travis-ci.org/manga-py/manga-py.svg?branch=stable_1.x
    :target: https://travis-ci.org/manga-py/manga-py/branches
 .. |Code Climate| image:: https://codeclimate.com/github/manga-py/manga-py/badges/gpa.svg

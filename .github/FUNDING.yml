@@ -1,0 +1,25 @@
+# FUNDING.yml
+# These are supported funding model platforms
+# https://help.github.com/en/github/building-a-strong-community/displaying-a-sponsor-button-in-your-repository
+
+# community_bridge: # Replace with a single CommunityBridge project-name: PROJECT-NAME
+# github: # Replace with up to 4 Github Sponsors-enabled usernames: USERNAME or [USERNAME, USERNAME, USERNAME, USERNAME]
+# issuehunt: # Replace with a single IssueHunt username: USERNAME
+# ko_fi: # Replace with a single Ko-fi username: USERNAME
+# liberapay: # Replace with a single Liberapay username: USERNAME
+# open_collective: # Replace with a single Open Collective username: USERNAME
+# otechie: # Replace with a single Otechie username: USERNAME
+# patreon: # Replace with a single Patreon username: USERNAME
+# tidelift: # Replace with a single Tidelift platform-name/package-name e.g., npm/babel: PLATFORM-NAME/PACKAGE-NAME
+# custom: # Replace with a single custom sponsorship URL: "LINK1" or ["LINK1", "LINK2", "LINK3", "LINK4"]
+
+# community_bridge: PROJECT-NAME
+# github: [USERNAME, USERNAME, USERNAME, USERNAME]
+# issuehunt: USERNAME
+# ko_fi: USERNAME
+# liberapay: USERNAME
+# open_collective: USERNAME
+# otechie: USERNAME
+# patreon: USERNAME
+# tidelift: PLATFORM-NAME/PACKAGE-NAME
+# custom: ["LINK1", "LINK2", "LINK3", "LINK4"]
