@@ -153,8 +153,13 @@ Code of Conduct
 
 See https://github.com/manga-py/manga-py/blob/stable_1.x/docs/CODE_OF_CONDUCT.rst.
 
-.. |Travis CI result| image:: https://travis-ci.com/manga-py/manga-py.svg?branch=stable_1.x
-   :target: https://travis-ci.com/manga-py/manga-py/branches
+Contributing to manga-py
+------------------------
+
+See https://github.com/manga-py/manga-py/blob/stable_1.x/docs/CONTRIBUTING.rst.
+
+.. |Travis CI result| image:: https://travis-ci.org/manga-py/manga-py.svg?branch=stable_1.x
+   :target: https://travis-ci.org/manga-py/manga-py/branches
 .. |Code Climate| image:: https://codeclimate.com/github/manga-py/manga-py/badges/gpa.svg
    :target: https://codeclimate.com/github/manga-py/manga-py
 .. |Issue Count| image:: https://codeclimate.com/github/manga-py/manga-py/badges/issue_count.svg
