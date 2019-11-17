@@ -21,8 +21,8 @@ before_install:
   - source ./helpers/before_script.sh
 install:
   - npm install -g sass node-sass html-minifier
-  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller pyvirtualdisplay
-  - pip install -r requirements.txt
+  - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller
+  - pip install -r requirements_dev.txt
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
