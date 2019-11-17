@@ -165,8 +165,12 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
         return _path
 
     def get_archive_path(self):
-        # see Std
-        _path = remove_file_query_params(self.get_archive_name())
+        override_name = self._params.get('override_archive_name', '')
+        if override_name:
+            _path = "{}_{}".format(override_name, str(self.normal_arc_name(self.get_chapter_index().split('-'))))
+        else:
+            # see Std
+            _path = remove_file_query_params(self.get_archive_name())
         _path = self.remove_not_ascii(_path)
 
         if not _path:
