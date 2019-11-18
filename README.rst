@@ -147,8 +147,8 @@ Or docker-compose:
     docker-compose run manga_py
 
 
-.. |Travis CI result| image:: https://travis-ci.org/manga-py/manga-py.svg?branch=stable_1.x
-   :target: https://travis-ci.org/manga-py/manga-py/branches
+.. |Travis CI result| image:: https://travis-ci.com/manga-py/manga-py.svg?branch=stable_1.x
+   :target: https://travis-ci.com/manga-py/manga-py/branches
 .. |Code Climate| image:: https://codeclimate.com/github/manga-py/manga-py/badges/gpa.svg
    :target: https://codeclimate.com/github/manga-py/manga-py
 .. |Issue Count| image:: https://codeclimate.com/github/manga-py/manga-py/badges/issue_count.svg
