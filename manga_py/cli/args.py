@@ -71,6 +71,8 @@ def _downloading_args(args_parser):  # pragma: no cover
                       help='Pad a `-0` (dash-and-zero) at right for all downloaded manga volume filenames. E.g. from `vol_001.zip` to `vol_001-0.zip`. It is useful to standardize the filenames between normal manga volumes (e.g. vol_006.zip) and the extra/bonuses/updated/corrected manga volumes (e.g. vol_006-5.zip) released by scanlators groups.')
     args.add_argument('-N', '--with-manga-name', action='store_true',
                       help='Pad the manga name at left for all downloaded manga volumes filenames. E.g. from `vol_001.zip` to `manga_name-vol_001.zip`.')
+    args.add_argument('--override-archive-name', metavar='ARCHIVE_NAME', type=str, default='', dest='override_archive_name',
+                      help='Pad %(metavar)s at left for all downloaded manga volumes filename. E.g from `vol_001.zip` to `%(metavar)s-vol_001.zip`.')
     args.add_argument('--min-free-space', metavar='MB', type=int, default=100,
                       help='Alert when the minimum free disc space, i.e. MB, is reached. Insert it in order of megabytes (Mb).')
 
