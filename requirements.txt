@@ -8,5 +8,5 @@ packaging
 pyexecjs
 loguru
 argcomplete
-tinycss
+tinycss2
 peewee
