@@ -58,7 +58,7 @@ Docker image:
 ~~~~~~~~~~~~~
 See:
 
-- https://hub.docker.com/r/mangadl/manga-py
+- https://hub.docker.com/r/mangadl/manga-py/tags?page=1&ordering=last_updated
 - https://github.com/manga-py/manga-py-docker
 
 
