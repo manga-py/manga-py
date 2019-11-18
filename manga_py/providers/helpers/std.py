@@ -111,8 +111,14 @@ class Std:
             result = self.__normal_name_list(vol)
         if ch:
             result += '-ch_' + self.__fill(ch)
+
         if self._with_manga_name:
-            result = '%s-%s' % (self.manga_name, result)
+            name = self._params.get('name', '')
+            if not len(name):
+                name = self.manga_name
+
+            result = '%s-%s' % (name, result)
+
         return result
 
     def text_content(self, content, selector, idx: int = 0, strip: bool = True):

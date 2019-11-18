@@ -37,6 +37,7 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
     _volume = None
     _show_chapter_info = False
     __debug = False
+    _override_name = ''
 
     def __init__(self, info: Info = None):
         super().__init__()
@@ -63,6 +64,9 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
         self._simulate = params.get('simulate')
         self._show_chapter_info = params.get('show_current_chapter_info', False)
         self.__debug = params.get('debug', False)
+        self._override_name = self._params.get('override_archive_name')
+        if self._with_manga_name and self._override_name:
+            raise RuntimeError('Conflict of parameters. Please use only --with-manga-name, or --override-archive-name')
 
     def process(self, url, params=None):  # Main method
         self._params['url'] = url
@@ -165,9 +169,8 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
         return _path
 
     def get_archive_path(self):
-        override_name = self._params.get('override_archive_name', '')
-        if override_name:
-            _path = "{}_{}".format(override_name, str(self.normal_arc_name(self.get_chapter_index().split('-'))))
+        if self._override_name:
+            _path = "{}_{}".format(self._override_name, str(self.normal_arc_name(self.get_chapter_index().split('-'))))
         else:
             # see Std
             _path = remove_file_query_params(self.get_archive_name())
