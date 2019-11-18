@@ -116,7 +116,7 @@ Manga-py Docker
   - Mac https://docs.docker.com/docker-for-mac/install/
   - Windows https://docs.docker.com/docker-for-windows/install/
 
-2. Install manga-py 
+2. Install manga-py
 
 .. code:: bash
     docker pull mangadl/manga-py
@@ -126,7 +126,7 @@ Manga-py Docker
 
 .. code:: bash
 
-    docker run -it -v ./:/home/manga mangadl/manga-py
+    docker run -it -v ${PWD}:/home/manga mangadl/manga-py
 
 
 Or docker-compose:
@@ -177,4 +177,4 @@ Or docker-compose:
    :alt: PyPI - Downloads
 .. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?color=success&label=PyPI+size&query=%24.size&url=https://sttv.me/manga-py.json&?cacheSeconds=3600&suffix=+Kb
    :alt: PyPI - size
-   
+
