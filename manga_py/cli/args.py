@@ -28,22 +28,6 @@ def _image_args(args_parser):  # pragma: no cover
         )
     )
 
-    # args.add_argument(
-    #    '--force-png',
-    #    action='store_const',
-    #    help='Force conversation images to png format',
-    #    const=True,
-    #    default=False
-    # )
-
-    # args.add_argument(
-    #    '--force-jpg',
-    #    action='store_const',
-    #    help='Force conversation images to jpg format',
-    #    const=True,
-    #    default=False
-    # )
-
     args.add_argument(
         '-W',
         '--no-webp',
@@ -52,49 +36,6 @@ def _image_args(args_parser):  # pragma: no cover
             'Convert `*.webp` images to `*.jpg` format.'
         )
     )
-
-    # args.add_argument(
-    #    '-xt',
-    #    type=int,
-    #    help=('Manual image crop with top side'),
-    #    default=0
-    # )
-
-    # args.add_argument(
-    #    '-xr',
-    #    type=int,
-    #    help=(
-    #        'Manual image crop with right side'),
-    #    default=0
-    # )
-
-    # args.add_argument(
-    #    '-xb',
-    #    type=int,
-    #    help=(
-    #        'Manual image crop with bottom side'
-    #    ),
-    #    default=0
-    # )
-
-    # args.add_argument(
-    #    '-xl',
-    #    type=int,
-    #    help=(
-    #        'Manual image crop with left side'
-    #    ),
-    #    default=0
-    # )
-
-    # args.add_argument(
-    #    '--crop-blank',
-    #    action='store_const',
-    #    help=(
-    #        'Crop white lines on image'
-    #    ),
-    #    const=True,
-    #    default=False
-    # )
 
 
 def _debug_args(args_parser):  # pragma: no cover
@@ -138,22 +79,6 @@ def _debug_args(args_parser):  # pragma: no cover
         )
     )
 
-    # args.add_argument(
-    #    '--full-error',
-    #    action='store_true',
-    #    help='Show full stack trace'
-    # )
-
-    # args.add_argument(
-    #    '-vv',
-    #    '--log',
-    #    metavar='info',
-    #    type='str',
-    #    help=(
-    #        'Verbose log'
-    #    )
-    # )
-
     args.add_argument(
         '-b',
         '--debug',
@@ -175,17 +100,6 @@ def _debug_args(args_parser):  # pragma: no cover
 
 def _downloading_args(args_parser):  # pragma: no cover
     args = args_parser.add_argument_group('Downloading options')
-
-    # args.add_argument(
-    #    '-U',
-    #    '--update-all',
-    #    action='store_const',
-    #    help=(
-    #        'Update all. Not worked now!',
-    #    ),
-    #    const=True,
-    #    default=False
-    # )
 
     args.add_argument(
         '-s',
@@ -415,17 +329,6 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
             'Don\'t show progress bar.'
         )
     )
-
-    # future
-    # args_parser.add_argument(
-    #    '--server',
-    #    action='store_const',
-    #    const=True,
-    #    help=(
-    #        'Run web interface'
-    #    ),
-    #    default=False
-    # )
 
     _image_args(args_parser)
     _reader_args(args_parser)
