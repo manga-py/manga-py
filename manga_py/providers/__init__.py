@@ -288,7 +288,7 @@ providers_list = {
         r'mang\.as/manga/.',
     ],
     'manga_ae': [
-        r'manga\.ae/.',
+        r'mangaae\.com/.',
     ],
     'manga_fox_com': [
         r'manga-fox\.com/.',
