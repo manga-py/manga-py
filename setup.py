@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
-from pathlib import Path
+from os.path import isfile
 
 from manga_py.meta import *
 
@@ -19,10 +19,11 @@ REQUIREMENTS = [
     'argcomplete',
     'tinycss',
     'peewee',
+    'manga-py.providers',
 ]
 
 
-if Path('requirements.txt').is_file():
+if isfile('requirements.txt'):
     with open('requirements.txt', 'r') as f:
         REQUIREMENTS = f.read().split('\n')
 

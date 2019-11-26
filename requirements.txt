@@ -3,10 +3,10 @@ cssselect
 Pillow
 pycryptodome
 cloudscraper
-urllib3
+requests
 packaging
-pyexecjs
+js2py
 loguru
 argcomplete
-tinycss2
 peewee
+manga-py.providers

@@ -1,5 +1,1 @@
-# from manga_py.cli import main
-#
-#
-# if __name__ == '__main__':
-#     main()
+__import__('pkg_resources').declare_namespace(__name__)  # type: ignore

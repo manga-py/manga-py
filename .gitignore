@@ -6,6 +6,7 @@ Manga/
 __pycache__/
 *.py[cod]
 *$py.class
+manga_py/providers/
 
 # C extensions
 *.so
