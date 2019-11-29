@@ -158,6 +158,11 @@ Contributing to manga-py
 
 See https://github.com/manga-py/manga-py/blob/stable_1.x/docs/CONTRIBUTING.rst.
 
+Support from manga-py
+---------------------
+
+See https://github.com/manga-py/manga-py/blob/stable_1.x/docs/SUPPORT.rst.
+
 
 Security policy to manga-py
 ---------------------------
