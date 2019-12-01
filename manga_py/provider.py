@@ -219,6 +219,7 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
             self.log(e, file=stderr)
             self._info.set_last_volume_error(str(e))
             unlink(_path)
+            raise e
 
     def html_fromstring(self, url, selector: str = None, idx: int = None):
         params = {}

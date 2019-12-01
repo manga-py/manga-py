@@ -21,11 +21,11 @@ class TapasIo(Provider, Std):  # TODO: Login\Password
         return content if content else self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
-        return self.re.search('seriesTitle\s*:\s*\'(.+)\',', self.content).group(1)
+        return self.re.search(r'seriesTitle\s*:\s*\'(.+)\',', self.content).group(1)
 
     def get_chapters(self):
         items = self.re.search(r'episodeList\s*:\s*(\[.+\]),', self.content).group(1)
-        return [i for i in self.json.loads(items)[::-1] if i['locked'] == False]
+        return [i for i in self.json.loads(items)[::-1] if not i['locked']]
 
     def get_files(self):
         return self.helper.parse_chapter_content()
