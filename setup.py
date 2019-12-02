@@ -55,7 +55,6 @@ setup(
         'manga_py.http',
         'manga_py.providers',
         'manga_py.providers.helpers',
-        'manga_py.server',
     ],
     include_package_data=True,
     version=__version__,
