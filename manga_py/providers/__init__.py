@@ -238,6 +238,7 @@ providers_list = {
         r'digitalteam1\.altervista\.org/manga/.',
         r'sosscanlation\.com/manga/.',
         r'komikgue\.com/manga/.',
+        r'onma\.me/manga/.',
     ],
     'kumanga_com': [
         r'kumanga\.com/manga/\d',
