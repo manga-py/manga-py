@@ -4,6 +4,9 @@ providers_list = {
     '3asq_info': [
         r'3asq\.info/.',
     ],
+    '_3asq_org': [
+        r'3asq\.org/.',
+    ],
     '7sama_com': [
         r'7sama\.com/manga/.',
     ],
@@ -296,6 +299,9 @@ providers_list = {
     ],
     'manga_tube_me': [
         r'manga-tube\.me/series/.',
+    ],
+    'mangaarabteam_com': [
+        r'mangaarabteam\.com/.',
     ],
     'manga_tr_com': [
         r'manga-tr\.com/(manga|id)-.',
