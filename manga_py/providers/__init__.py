@@ -8,6 +8,9 @@ providers_list = {
     '3asq_info': [
         r'3asq\.info/.',
     ],
+    '_3asq_org': [
+        r'3asq\.org/.',
+    ],
     '7sama_com': [
         r'7sama\.com/manga/.',
     ],
@@ -251,6 +254,7 @@ providers_list = {
         r'digitalteam1\.altervista\.org/manga/.',
         # r'sosscanlation\.com/manga/.',
         r'komikgue\.com/manga/.',
+        r'onma\.me/manga/.',
     ],
     'kumanga_com': [
         r'kumanga\.com/manga/\d',
@@ -311,6 +315,9 @@ providers_list = {
     ],
     'manga_tube_me': [
         r'manga-tube\.me/series/.',
+    ],
+    'mangaarabteam_com': [
+        r'mangaarabteam\.com/.',
     ],
     'manga_tr_com': [
         r'manga-tr\.com/(manga|id)-.',
