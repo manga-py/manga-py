@@ -37,8 +37,7 @@ before_deploy:
   - source ./helpers/before_deploy.sh
 deploy:
   - provider: pages
-    edge:
-      branch: v1.8.47
+    edge: true
     local-dir: helpers/gh_pages_content
     target-branch: gh-pages
     github-token: $GH_TOKEN
@@ -46,7 +45,7 @@ deploy:
     skip_cleanup: true
     on:
       branch: stable_1.x
-      condition: $allow_deploy == true
+      condition: $TRAVIS_PYTHON_VERSION == "3.6"
       tags: false
   - provider: pypi
     server: https://upload.pypi.org/legacy/
@@ -56,7 +55,7 @@ deploy:
     on:
       branch: stable_1.x
       tags: true
-      condition: $allow_deploy == true
+      condition: $TRAVIS_PYTHON_VERSION == "3.6"
 #    fqdn: yuru-yuri.sttv.me
 #see https://docs.travis-ci.com/user/deployment/pages/
 allow_failures:
