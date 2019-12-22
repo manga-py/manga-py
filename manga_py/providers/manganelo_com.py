@@ -17,13 +17,13 @@ class MangaNeloCom(Provider, Std):
         return self._get_name('/(?:manga|chapter)/([^/]+)')
 
     def get_chapters(self):
-        return self._elements('.chapter-list a')
+        return self._elements('.panel-story-chapter-list a')
 
     def get_files(self):
         parser = self.html_fromstring(self.get_chapter())
-        images = self._images_helper(parser, '#vungdoc img')
+        images = self._images_helper(parser, '.container-chapter-reader img')
         if not len(images):
-            images = self._images_helper(parser, '.vung_doc img,.vung-doc img')
+            raise NotImplementedError  # TODO: Just don't know what to do here
         return images
 
     def get_cover(self) -> str:
