@@ -5,13 +5,13 @@ from .helpers.std import Std
 class MangaAe(Provider, Std):
 
     def get_chapter_index(self) -> str:
-        return self.re.search(r'\.ae/[^/]+/(\d+)', self.chapter).group(1)
+        return self.re.search(r'\.com/[^/]+/(\d+)', self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/{}/')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.ae/([^/]+)')
+        return self._get_name(r'\.com/([^/]+)')
 
     def get_chapters(self):
         return self._elements('li > a.chapter')
