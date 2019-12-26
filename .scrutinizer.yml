@@ -13,7 +13,7 @@ build:
         before:
           - sudo apt remove chromium-browser -y
           - sudo apt update
-          - sudo apt install -y dpkg
+          - sudo apt install -y dpkg openssl
           - pip3 install coverage
           - pip3 install -r requirements_dev.txt
           - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb

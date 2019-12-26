@@ -12,7 +12,8 @@ python:
 #  - "nightly"
 cache: pip
 before_install:
-  - sudo apt-get -y install nodejs python-setuptools libwebp-dev
+  - sudo apt-get update
+  - sudo apt-get -y install openssl nodejs python-setuptools libwebp-dev
   - python -V
   - pwd
   - chmod +x helpers/after_script.sh
