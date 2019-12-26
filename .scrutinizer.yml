@@ -14,7 +14,7 @@ build:
           - sudo apt remove chromium-browser -y
           - sudo apt update
           - apt-cache search libssl
-          - wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1-1ubuntu2.1~18.04.5_amd64.deb -O libssl.deb && sudo dpk -i libssl.deb
+          - wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1-1ubuntu2.1~18.04.5_amd64.deb -O libssl.deb && sudo dpkg -i libssl.deb || true
           - rm libssl.deb || true
           - sudo apt-get install -fy
           - sudo apt install -y dpkg openssl
