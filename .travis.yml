@@ -14,7 +14,10 @@ cache: pip
 before_install:
   - sudo apt-get update
   - apt-cache search libssl
-  - sudo apt-get -y install openssl nodejs python-setuptools libwebp-dev libssl1.1
+  - sudo apt-get -y install openssl nodejs python-setuptools libwebp-dev
+  - wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1-1ubuntu2.1~18.04.5_amd64.deb -O libssl.deb && sudo dpk -i libssl.deb
+  - rm libssl.deb || true
+  - sudo apt-get install -fy
   - python -V
   - pwd
   - chmod +x helpers/after_script.sh
