@@ -11,18 +11,13 @@ build:
         override: true
       tests:
         before:
-          - sudo apt remove chromium-browser -y
-          - sudo apt update
-          - apt-cache search libssl
-          - wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1-1ubuntu2.1~18.04.5_amd64.deb -O libssl.deb && sudo dpkg -i libssl.deb || true
-          - rm libssl.deb || true
-          - sudo apt-get install -fy
-          - sudo apt install -y dpkg openssl
           - pip3 install coverage
           - pip3 install -r requirements_dev.txt
-          - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb
-          - sudo dpkg -i /tmp/chrome.deb
-          - sudo apt install -y -f --fix-missing
+#          - sudo apt remove chromium-browser -y
+#          - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb
+#          - sudo dpkg -i /tmp/chrome.deb
+#          - rm /tmp/chrome.deb
+#          - sudo apt install -y -f --fix-missing
         override:
           -
             command: 'coverage run --omit=manga_py/providers/*.py --source=manga_py run_tests.py'
@@ -31,8 +26,10 @@ build:
               format: 'py-cc'
           - py-scrutinizer-run
       environment:
-        python: 3.5.3
+        python: 3.7.3
         node: 6.0.0
+        apt_packages:
+          - dpkg
 filter:
   excluded_paths:
     - manga_py/crypt/sunday_webry_com.py
