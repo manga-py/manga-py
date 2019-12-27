@@ -1,5 +1,6 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
+from atexit import register
 
 
 class WebToonsCom(Provider, Std):
@@ -69,7 +70,7 @@ class WebToonsCom(Provider, Std):
         parser = self.document_fromstring(content)
         images = self._images_helper(parser, '#_imageList img', 'data-url')
         if len(images) < 1:
-            self.__debug_archive.writestr(content, 'page-{}'.format(self.chapter_id))
+            self.__debug_archive.writestr('page-{}.html'.format(self.chapter_id), content)
         return images
 
     def get_cover(self) -> str:
@@ -83,6 +84,9 @@ class WebToonsCom(Provider, Std):
         path = Path(root_path()).joinpath('debug-{}.zip'.format(self.__class__.__name__))
         self.__debug_archive = ZipFile(str(path), 'w', ZIP_DEFLATED)
 
+    @register
+    def _exit(self):
+        self.__debug_archive.close()
 
 
 main = WebToonsCom
