@@ -80,7 +80,8 @@ class WebToonsCom(Provider, Std):
         from pathlib import Path
         from manga_py.fs import root_path
         from zipfile import ZipFile, ZIP_DEFLATED
-        self.__debug_archive = ZipFile(Path(root_path()).joinpath('debug-{}.zip'.format(self.__class__.__name__)), 'w', ZIP_DEFLATED)
+        path = Path(root_path()).joinpath('debug-{}.zip'.format(self.__class__.__name__))
+        self.__debug_archive = ZipFile(str(path), 'w', ZIP_DEFLATED)
 
 
 
