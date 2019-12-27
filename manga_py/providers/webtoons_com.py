@@ -75,4 +75,5 @@ class WebToonsCom(Provider, Std):
     def prepare_cookies(self):
         self.http().cookies['ageGatePass'] = 'true'
 
+
 main = WebToonsCom

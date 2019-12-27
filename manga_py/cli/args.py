@@ -51,7 +51,6 @@ def _debug_args(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
-        '-j',
         '--print-json',
         action='store_true',
         help=(
@@ -60,7 +59,6 @@ def _debug_args(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
-        '-l',
         '--simulate',
         action='store_true',
         help=(
@@ -71,7 +69,6 @@ def _debug_args(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
-        '-i',
         '--show-current-chapter-info',
         action='store_true',
         help=(
@@ -80,7 +77,6 @@ def _debug_args(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
-        '-b',
         '--debug',
         action='store_true',
         help=(
@@ -113,7 +109,7 @@ def _downloading_args(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
-        '-m',
+        '-c',
         '--max-volumes',
         metavar='COUNT',
         type=int,
@@ -126,7 +122,7 @@ def _downloading_args(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
-        '-a',
+        '-u',
         '--user-agent',
         type=str,
         help=(
@@ -145,7 +141,7 @@ def _downloading_args(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
-        '-e',
+        '-r',
         '--reverse-downloading',
         action='store_true',
         help=(
@@ -199,7 +195,7 @@ def _downloading_args(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
-        '-g',
+        '-N',
         '--with-manga-name',
         action='store_true',
         help=(
@@ -222,7 +218,7 @@ def _downloading_args(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
-        '-c',
+        '-S',
         '--min-free-space',
         metavar='MB',
         type=int,
@@ -247,7 +243,7 @@ def _reader_args(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
-        '-r',
+        '-R',
         '--rename-pages',
         action='store_true',
         help=(
