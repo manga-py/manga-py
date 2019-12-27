@@ -6,6 +6,7 @@ class WebToonsCom(Provider, Std):
     __titleNo = 0
     __mainUrl = ''
     __next_page_urls = None
+    __debug_archive = None
 
     def get_archive_name(self) -> str:
         i = self.re.search(r'\.com%s%s' % (
@@ -64,16 +65,23 @@ class WebToonsCom(Provider, Std):
         return chapters
 
     def get_files(self):
-        parser = self.html_fromstring(self.chapter)
-        return self._images_helper(parser, '#_imageList img', 'data-url')
+        content = self.http_get(self.chapter)
+        parser = self.document_fromstring(content)
+        images = self._images_helper(parser, '#_imageList img', 'data-url')
+        if len(images) < 1:
+            self.__debug_archive.writestr(content, 'page-{}'.format(self.chapter_id))
+        return images
 
     def get_cover(self) -> str:
         img = self.html_fromstring(self.content, '#content > .detail_bg', 0)
         return self.parse_background(img)
 
-    def book_meta(self) -> dict:
-        # todo meta
-        pass
+    def prepare_cookies(self):
+        from pathlib import Path
+        from manga_py.fs import root_path
+        from zipfile import ZipFile, ZIP_DEFLATED
+        self.__debug_archive = ZipFile(Path(root_path()).joinpath('debug-{}.zip'.format(self.__class__.__name__)), 'w', ZIP_DEFLATED)
+
 
 
 main = WebToonsCom

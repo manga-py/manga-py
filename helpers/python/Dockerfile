@@ -110,7 +110,7 @@ RUN set -ex \
 	\
 	&& python3 --version \
 # Because it requires gcc
-        && python3 -mpip install manga-py -U \
+        && python3 -mpip install manga-py -U --no-cache-dir \
         && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
 	&& apt-get install -y nodejs \
 	&& apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
