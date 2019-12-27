@@ -1,6 +1,5 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
-from atexit import register
 
 
 class WebToonsCom(Provider, Std):
@@ -66,27 +65,14 @@ class WebToonsCom(Provider, Std):
         return chapters
 
     def get_files(self):
-        content = self.http_get(self.chapter)
-        parser = self.document_fromstring(content)
-        images = self._images_helper(parser, '#_imageList img', 'data-url')
-        if len(images) < 1:
-            self.__debug_archive.writestr('page-{}.html'.format(self.chapter_id), content)
-        return images
+        parser = self.html_fromstring(self.chapter)
+        return self._images_helper(parser, '#_imageList img', 'data-url')
 
     def get_cover(self) -> str:
         img = self.html_fromstring(self.content, '#content > .detail_bg', 0)
         return self.parse_background(img)
 
     def prepare_cookies(self):
-        from pathlib import Path
-        from manga_py.fs import root_path
-        from zipfile import ZipFile, ZIP_DEFLATED
-        path = Path(root_path()).joinpath('debug-{}.zip'.format(self.__class__.__name__))
-        self.__debug_archive = ZipFile(str(path), 'w', ZIP_DEFLATED)
-
-    @register
-    def _exit(self):
-        self.__debug_archive.close()
-
+        self.http().cookies['ageGatePass'] = 'true'
 
 main = WebToonsCom
