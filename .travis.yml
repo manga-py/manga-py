@@ -21,23 +21,22 @@ before_install:
   - chmod +x helpers/after_script.sh
   - chmod +x helpers/before_deploy.sh
   - chmod +x helpers/before_script.sh
-  - source ./helpers/before_script.sh
 install:
   - npm install -g sass node-sass html-minifier
   - pip install --upgrade coverage codeclimate-test-reporter setuptools pyinstaller
   - pip install -r requirements_dev.txt
 before_script:
+  - source ./helpers/before_script.sh
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-  - if [[ "$TRAVIS_TAG" = "" ]]; then coverage run --omit=manga_py/providers/*.py --source=manga_py run_tests.py; fi
+  - if [[ "$TRAVIS_TAG" = "" ]]; then coverage run --omit=manga_py/providers/*.py --source=manga_py run_tests.py; else echo "skip script"; fi
 after_script:
-  - source ./helpers/after_script.sh
+  - ./helpers/after_script.sh
 before_deploy:
-  - echo "$allow_deploy"
   - echo "Start make gh-pages content"
-  - source ./helpers/before_deploy.sh
+  - ./helpers/before_deploy.sh
 deploy:
   - provider: pages
     edge: true
