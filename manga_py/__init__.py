@@ -15,6 +15,10 @@ except ImportError:
     def catch(x):
         print('Setup in progress?')
 
+
+def e(*m):
+    print(*m, file=stderr)
+
 try:
     from .cli import Cli
     from .cli.args import get_cli_arguments
@@ -22,7 +26,7 @@ try:
     from .info import Info
     from .meta import __version__
 except ImportError:
-    print('Setup in progress?', file=stderr)
+    e('Setup in progress?')
 
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
@@ -69,7 +73,7 @@ def _run_util(args) -> tuple:
 
 def _update_all(args):
     parse_args = args.parse_args()
-    parse_args.quiet or print('Update all', file=stderr)
+    parse_args.quiet or e('Update all')
     multi_info = {}
 
     dst = parse_args.destination
@@ -85,16 +89,22 @@ def _update_all(args):
 
 @catch
 def main():
-    # if ~__version__.find('alpha'):
-    #     print('Alpha release! There may be errors!', file=stderr)
+    if ~__version__.find('alpha'):
+        e('Alpha release! There may be errors!')
+    e('Please remember that all sites earn on advertising.\nRemember to visit them from your browser.\nThanks!\n')
+
     temp_path = get_temp_path()
     path.isdir(temp_path) or makedirs(temp_path)
 
     args = get_cli_arguments()
     parse_args = args.parse_args()
 
-    code, _info = _run_util(args)
-    parse_args.quiet or (parse_args.print_json and print(_info))
+    try:
+        code, _info = _run_util(args)
+        parse_args.quiet or (parse_args.print_json and print(_info))
+    except KeyboardInterrupt:
+        e('\nUser interrupt')
+        code = 1
 
     exit(code)
 

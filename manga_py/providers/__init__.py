@@ -291,6 +291,9 @@ providers_list = {
     'mang_as': [
         r'mang\.as/manga/.',
     ],
+    'manga41_com': [
+        r'manga41\.com/manga/.',
+    ],
     'manga_ae': [
         r'mangaae\.com/.',
     ],
