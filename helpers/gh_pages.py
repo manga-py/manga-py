@@ -57,6 +57,8 @@ start_items = [
     ['http://leomanga.com', 0, ' - Site down now'],
     ['http://mang.as', 0, ' - Site down now'],
     ['http://santosfansub.com', 0, ' - Site down now'],
+    ['http://mangadex.com', 0, ' - Site down now'],
+    ['http://mangadex.info', 0, ' - Site down now'],
 ]
 
 

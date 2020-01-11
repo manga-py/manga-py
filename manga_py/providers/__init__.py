@@ -351,15 +351,14 @@ providers_list = {
         r'manga99\.com/.',
     ],
     'mangadex_org': [
-        r'mangadex\.org/manga/.',
+        r'mangadex\.cc/(manga|title)/.',
     ],
-    'mangadex_com': [
-        r'mangadex\.com/(title|chapter)/.',
-        r'mangadex\.org/(title|chapter)/.',
-    ],
-    'mangadex_info': [
-        r'mangadex\.info/manga/.',
-    ],
+    # 'mangadex_com': [
+    #     r'mangadex\.com/(title|chapter)/.',
+    # ],
+    # 'mangadex_info': [
+    #     r'mangadex\.info/manga/.',
+    # ],
     'mangaeden_com': [
         r'mangaeden\.com/[^/]+/[^/]+-manga/.',
         r'perveden\.com/[^/]+/[^/]+-manga/.',

@@ -16,11 +16,11 @@ class MangaDexOrg(Provider, Std):
         return self.chapter_for_json()
 
     def manga_idx(self):
-        return self.re.search(r'/manga/(\d+)', self.get_url()).group(1)
+        return self.re.search(r'/(?:manga|title)/(\d+)', self.get_url()).group(1)
 
     def get_main_content(self):
         if self.__content is None:
-            content = self.http_get('https://mangadex.org/api/?id={}&type=manga'.format(self.manga_idx()))
+            content = self.http_get('{}/api/?id={}&type=manga'.format(self.domain, self.manga_idx()))
             self.__content = self.json.loads(content)
         return self.__content
 
