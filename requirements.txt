@@ -1,3 +1,4 @@
+wheel
 lxml
 cssselect
 Pillow

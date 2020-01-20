@@ -11,6 +11,7 @@ from manga_py import __author__, __email__, __license__
 from manga_py.meta import __version__, __downloader_uri__
 
 REQUIREMENTS = [
+    'wheel',
     'lxml',
     'cssselect',
     'Pillow',

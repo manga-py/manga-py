@@ -225,6 +225,9 @@ providers_list = {
         r'isekaiscan\.com/manga/.',
     ],
     'japscan_com': [
+        r'japscan\.cc/.',
+        r'japscan\.com/.',
+        r'japscan\.co/.',
         r'japscan\.to/.',
     ],
     'jurnalu_ru': [

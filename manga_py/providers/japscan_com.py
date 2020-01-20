@@ -2,7 +2,7 @@ from .gomanga_co import GoMangaCo
 
 
 class JapScanCom(GoMangaCo):
-    _name_re = r'\.(?:com|cc|to)/[^/]+/([^/]+)/'
+    _name_re = r'\.(?:com|cc|co|to)/[^/]+/([^/]+)/'
     _content_str = '{}/manga/{}/'
     _chapters_selector = '#chapters_list .chapters_list a'
 
@@ -11,9 +11,8 @@ class JapScanCom(GoMangaCo):
         return self.normal_arc_name({'vol': idx})
 
     def get_chapter_index(self) -> str:
-        selector = r'\.(?:com|cc|to)/[^/]+/[^/]+/(\d+)/'
-        url = self.chapter
-        return self.re.search(selector, url).group(1)
+        selector = r'\.(?:com|cc|co|to)/[^/]+/[^/]+/(\d+)/'
+        return self.re.search(selector, self.chapter).group(1)
 
     def get_files(self):
         n = self.http().normalize_uri
