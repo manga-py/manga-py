@@ -355,6 +355,7 @@ providers_list = {
     ],
     'mangadex_org': [
         r'mangadex\.cc/(manga|title)/.',
+        r'mangadex\.org/(manga|title)/.',
     ],
     # 'mangadex_com': [
     #     r'mangadex\.com/(title|chapter)/.',
