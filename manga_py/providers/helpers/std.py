@@ -31,9 +31,13 @@ class Std:
         return []
 
     @classmethod
-    def _images_helper(cls, parser, selector, attr='src') -> list:
+    def _images_helper(cls, parser, selector, attr='src', alternative_attr='data-src') -> list:
         image = parser.cssselect(selector)
-        return [i.get(attr).strip(' \r\n\t\0') for i in image]
+        images = []
+        for i in image:
+            src = i.get(attr) or i.get(alternative_attr)
+            images.append(src.strip(' \r\n\t\0'))
+        return images
 
     @classmethod
     def _idx_to_x2(cls, idx, default=0) -> list:

@@ -6,7 +6,8 @@ class FirstKissMangaCom(RawDevArtCom):
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter)
-        return self._images_helper(parser, '.page-break img[data-src]', attr='data-src')
+        cls = '.page-break img[data-src],.page-break img[src]'
+        return self._images_helper(parser, cls, attr='data-src', alternative_attr='src')
 
 
 main = FirstKissMangaCom
