@@ -1,0 +1,6 @@
+[run]
+branch = True
+source = manga_py
+
+[report]
+precision=1

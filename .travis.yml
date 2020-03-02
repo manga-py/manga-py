@@ -1,0 +1,35 @@
+language: python
+dist: xenial
+addons:
+  apt:
+    packages:
+      - python-setuptools
+      - libwebp-dev
+jobs:
+  include:
+    - stage: test
+      python: "3.6"
+    - stage: test
+      python: "3.7"
+    - stage: test
+      python: "3.8"
+    - stage: release
+      python: "3.7"
+      script: skip
+      deploy:
+        provider: pypi
+        user: __token__
+        password:
+          secure: "jOFyMHHliy94vsIfNQCBSFUXs5qDtuDt1plgbGaxkbSH2TeaxCKBhU0IPiUs+QjqZ0HvwIo1zhngKDJRaXbELM7NS2bPgu7vJLqXqmbUCtb28p5h8b9n/GdXSYNtOQck1NVeeCySCZCWwKPaYER9w83Pix57wjnUNjTyxralysRqmZWiKHD5NFpb7282BYyvFjnEBBOLLvL8noxU0C63KYeP9B2+x7Wuw2sSiIAAgfezuAHKEdb16YoPa7cMRvr2EOUhTITVcl5aLsexypYiPPNSYGEZp/0xIvhdRqn853iLIbWIP7Dg1Xz1KxKTNBps+cPrMahDMC+vsJuctKU9xOkyqUCl1kTO25+RYvTo+MBbqqiSNjxAzSlNUpDyE00ANlGe9MpPQUf/d5TqoO3/HCKf7WgTMIG6m8Nh7+4FdHgTOZq2KEgPO3NbUk5glGziaxGWy2Aan8VUd9EsDhYogSfKer6RV2fhhUJgPSlB8oPbM28hVuJRv9umXrFZCsLWoCm1koM5Hpvz7Wer4WBL0Fqv/vbqG3X+tgyGvDJjdjGzogyBjRs5ck58I+379bYmxgkgCmAZnBtXU36CmbQn5vtmVMdP0C+FjTP8TZdGNsozgI03vEs2T5n/spqJYzvjALgTnU9BX7HHHcH1A4FEwh0SnQ2sKQrJ6LshdbAtUEA="
+        skip_existing: true
+cache: pip
+install:
+  - pip install -U coverage setuptools pyinstaller mypy
+  - pip install -r requirements.txt
+script:
+  - mypy manga_py  # check syntax
+  - coverage run run_tests.py
+stages:
+  - name: test
+  - name: release
+    if: tag IS present

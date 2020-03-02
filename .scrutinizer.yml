@@ -1,0 +1,32 @@
+checks:
+  python:
+    code_rating: true
+    duplicate_code: true
+  javascript: true
+
+build:
+  nodes:
+    analysis:
+      project_setup:
+        override: true
+      tests:
+        before:
+          - sudo apt update
+          - sudo apt install -y python-setuptools libwebp-dev
+          - pip3 install setuptools mypy coverage
+          - pip3 install -r requirements.txt
+        override:
+          - command: mypy manga_py
+          -
+            command: coverage run --source=manga_py run_tests.py
+            coverage:
+              file: '.coverage'
+              format: 'py-cc'
+          - py-scrutinizer-run
+      environment:
+        python: 3.7.2
+filter:
+  excluded_paths:
+    - tests/*.py
+    - run_tests.py
+    - setup.py
