@@ -9,4 +9,4 @@ js2py
 loguru
 argcomplete
 peewee
-manga-py.providers
+manga_py.providers
