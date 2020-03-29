@@ -393,6 +393,9 @@ providers_list = {
     'mangakatana_com': [
         r'mangakatana\.com/manga/.',
     ],
+    'mangakomi_com': [
+        r'mangakomi\.com/manga/.',
+    ],
     'mangaku_web_id': [
         r'mangaku\.in/.',
     ],

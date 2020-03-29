@@ -91,7 +91,11 @@ def _update_all(args):
 def main():
     if ~__version__.find('alpha'):
         e('Alpha release! There may be errors!')
-    e('Please remember that all sites earn on advertising.\nRemember to visit them from your browser.\nThanks!\n')
+    e('\n'.join((
+        'Please remember that all sites earn on advertising.',
+        'Remember to visit them from your browser.',
+        'Thanks!\n'
+    )))
 
     temp_path = get_temp_path()
     path.isdir(temp_path) or makedirs(temp_path)
