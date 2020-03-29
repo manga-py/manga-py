@@ -145,6 +145,6 @@ class Request:
         :param url:
         :return:
         """
-        response = self.requests(url=url, method='head')
+        response = self.requests(url=url, method='get', stream=True)
         response.close()
         return response.cookies

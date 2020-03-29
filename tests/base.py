@@ -1,6 +1,7 @@
 import json
 import unittest
 from os import path
+from requests.cookies import RequestsCookieJar
 
 from manga_py import fs
 from manga_py.base_classes import Base, Static
@@ -17,18 +18,21 @@ files_paths = [
     ['/files/img7.webp', '/temp/img7.webp'],
 ]
 
+_httpbin = None
+
 
 def httpbin(bp: Base, _path: str):
+    global _httpbin
     variants = [
         'https://httpbin-sttv.herokuapp.com',
         'https://httpbin-org.herokuapp.com',
         'https://httpbin.org',
     ]
-    _httpbin = None
-    for url in variants:
-        response = bp.http().requests(url=url, method='head')
-        if response.ok:
-            _httpbin = url
+    if _httpbin is None:
+        for url in variants:
+            response = bp.http().requests(url=url, method='head')
+            if response.ok:
+                _httpbin = url
     if _httpbin is None:
         raise AttributeError('503. Service temporary unavailable / Path: %s ' % _path)
     return '{}/{}'.format(_httpbin, _path.lstrip('/'))
@@ -82,22 +86,6 @@ class TestBaseClass(unittest.TestCase):
         url = httpbin(bp, 'post')
         self.assertEqual(url, json.loads(bp.http_post(url))['url'])
 
-    def test_cookies0(self):
-        bp = Base()
-        bp._params['url'] = 'http://example.org/manga/here.html'
-        url = httpbin(bp, 'cookies')
-        cookies = {'test': 'test-cookie'}
-        bp.http_get(httpbin(bp, 'cookies/set?test=') + cookies['test'])
-        content = bp.http_get(url, cookies=cookies)
-        # print(content)
-        self.assertEqual(cookies['test'], json.loads(content)['cookies']['test'])
-
-    def test_cookies1(self):
-        bp = Base()
-        bp._params['url'] = 'http://example.org/manga/here.html'
-        url = httpbin(bp, 'cookies/set?test=test-cookie')
-        self.assertEqual('test-cookie', bp.http().get_base_cookies(url).get('test'))
-
     def test_redirect0(self):
         from urllib.parse import quote
         bp = Base()
@@ -107,12 +95,6 @@ class TestBaseClass(unittest.TestCase):
         content = bp.http_get(url)
         # print(content)
         self.assertEqual(test_data, json.loads(content)['args'])
-
-    def test_redirect1(self):
-        bp = Base()
-        bp._params['url'] = 'http://example.org/manga/here.html'
-        url = httpbin(bp, 'redirect/11')
-        self.assertRaises(AttributeError, bp.http_get, url)
 
     def test_ascii(self):
         string = u'/\\\0@#$⼢⼣⼤abCde123йцуڪڦ'
