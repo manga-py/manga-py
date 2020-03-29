@@ -24,23 +24,11 @@ class MangaHereCc(Provider, Std):
         return self._elements('.detail-main-list a')
 
     def get_files(self):
-        n = self.http().normalize_uri
         content = self.http_get(self.chapter)
-        parser = self.document_fromstring(content)
-        pages = parser.cssselect('.pager-list-left span span + a')[0].get('data-page')
-        chapter_id = self.re.search(r'chapterid\s*=\s*(\d+)', content).group(1)
-        skip = 0
-        images = []
-        url = self.re.search(r'(.+/)', self.chapter).group(1)
-        for page in range(1, int(pages) + 1):
-            if skip > 0:
-                skip -= 1
-                continue
-            js = self.http_get('{}chapterfun.ashx?cid={}&page={}&key={}'.format(url, chapter_id, page, ''))
-            result = BaseLib.exec_js('m = ' + self.re.search(r'eval\((.+)\)', js).group(1), 'm')
-            img = BaseLib.exec_js(result, 'd')
-            skip = len(img) - 1
-            images += img
+        js = self.re.search(r'>eval(\(function.+\))\s*<', content).group(1)
+        images = BaseLib.exec_js('var images = ' + js, 'images')
+        images = self.re.findall(r'[\'"]((?:.{7,8})?//.+?)[\'"]', images)
+        n = self.http().normalize_uri
         return [n(i) for i in images]
 
     def get_cover(self):
