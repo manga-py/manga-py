@@ -3,6 +3,8 @@ from .helpers.std import Std
 
 
 class MangaHubIo(Provider, Std):
+    _api = 'https://api.mghubcdn.com/graphql'
+    _cdn = 'https://img.mghubcdn.com/file/imghub/'
 
     def get_chapter_index(self) -> str:
         chapter = self.chapter
@@ -18,10 +20,21 @@ class MangaHubIo(Provider, Std):
         return self._elements('.list-group .list-group-item > a')
 
     def get_files(self):
-        content = self.http_get(self.chapter)
-        items = self._elements('#mangareader img[src*="/file/"]', content)
-        n = self.http().normalize_uri
-        return [n(i.get('src')) for i in items]
+        query = "{chapter(x:mh01,slug:\"chitra\",number:2)" \
+                "{id,title,mangaID,number,slug,date,pages,noAd,manga" \
+                "{id,title,slug,mainSlug,author,isWebtoon,isYaoi,isPorn,isSoftPorn,unauthFile,isLicensed" \
+                "}}}"
+        content = self.json.loads(self.http_post(self._api, data={
+            "query": query
+        }))
+
+        pages = content.get('data', {}).get('chapter', {}).get('pages', '{}')
+        pages = self.json.loads(pages)
+
+        images = []
+        for p in pages:
+            images.append('{}{}'.format(self._cdn, pages[p]))
+        return images
 
     def get_cover(self) -> str:
         return self._cover_from_content('.row > div > img.img-responsive')
