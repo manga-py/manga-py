@@ -820,10 +820,6 @@ providers_list = {
     'zingbox_me': [
         r'zingbox\.me/.',
     ],
-    # 266
-    # 'zip_read_com': [
-    #     r'zip-read\.com/.',
-    # ],
     'zmanga_net': [
         r'zmanga\.net/.',
     ],
