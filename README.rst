@@ -4,7 +4,7 @@ Manga-py |Travis CI result|
 Universal assistant download manga.
 '''''''''''''''''''''''''''''''''''
 
-Approximately 300 providers are available now.
+Approximately 250+ providers are available now.
 ''''''''''''''''''''''''''''''''''''''''''''''
 
 |Scrutinizer CI result| |Scrutinizer CI coverage| |GitHub issues|
