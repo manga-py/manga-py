@@ -14,9 +14,6 @@ providers_list = {
     '7sama_com': [
         r'7sama\.com/manga/.',
     ],
-    # '8muses_com': [
-    #     r'8muses\.com/comics/album/.',
-    # ],
     'ac_qq_com': [
         r'ac\.qq\.com/Comic.+?/id/\d',
     ],
@@ -44,9 +41,6 @@ providers_list = {
     'atfbooru_ninja': [
         r'atfbooru\.ninja/posts.',
     ],
-    # 'authrone_com': [
-    #     r'authrone\.com/manga/.',
-    # ],
     'bato_to': [
         r'bato\.to/(series|chapter)/\d',
     ],
@@ -68,9 +62,6 @@ providers_list = {
     'comicextra_com': [
         r'comicextra\.com/.',
     ],
-    # 'comico_co_id_content': [
-    #     r'comico\.co\.id/content\?contentId=\d',
-    # ],
     'comico_co_id_titles': [
         r'comico\.co\.id/titles/\d',
     ],
@@ -106,9 +97,6 @@ providers_list = {
     'digitalteam1_altervista_org': [
         r'digitalteam1\.altervista\.org/reader/read/.',
     ],
-    # 'dm5_com': [
-    #     r'dm5\.com/manhua-.',
-    # ],
     'doujins_com': [
         r'doujins\.com/gallery/.',
         r'doujin-moe\.us/gallery/.',
@@ -132,7 +120,6 @@ providers_list = {
         r'gomanga\.co/reader/.',
         r'jaiminisbox\.com/reader/.',
         r'kobato\.hologfx\.com/reader/.',
-        # r'atelierdunoir\.org/reader/.',
         r'seinagi\.org/reader/.',
     ],
     'goodmanga_net': [
@@ -244,7 +231,6 @@ providers_list = {
         r'manga-v2\.mangavadisi\.org/manga/.',
         r'universoyuri\.com/manga/.',
         r'digitalteam1\.altervista\.org/manga/.',
-        # r'sosscanlation\.com/manga/.',
         r'komikgue\.com/manga/.',
         r'onma\.me/manga/.',
     ],
@@ -346,12 +332,6 @@ providers_list = {
         r'mangadex\.cc/(manga|title)/.',
         r'mangadex\.org/(manga|title)/.',
     ],
-    # 'mangadex_com': [
-    #     r'mangadex\.com/(title|chapter)/.',
-    # ],
-    # 'mangadex_info': [
-    #     r'mangadex\.info/manga/.',
-    # ],
     'mangaeden_com': [
         r'mangaeden\.com/[^/]+/[^/]+-manga/.',
         r'perveden\.com/[^/]+/[^/]+-manga/.',
@@ -392,7 +372,6 @@ providers_list = {
     ],
     'mangahub_io': [
         r'mangahub\.io/(manga|chapter)/.',
-        # r'mangareader\.site/(manga|chapter)/.',
         r'mangakakalot\.fun/(manga|chapter)/.',
         r'mangahere\.onl/(manga|chapter)/.',
     ],
@@ -415,7 +394,6 @@ providers_list = {
         r'mangakatana\.com/manga/.',
     ],
     'mangaku_web_id': [
-        # r'mangaku\.web\.id/.',
         r'mangaku\.in/.',
     ],
     'mangalib_me': [
@@ -461,11 +439,6 @@ providers_list = {
     'mangareader_xyz': [
         r'mangareader\.xyz/manga/.',
         r'mangareader\.xyz/.+?/chapter-\d',
-        # r'mangafox\.cc/manga/.',
-        # r'mangafox\.cc/.+?/chapter-\d',
-    ],
-    'mangarock_com': [
-        r'mangarock\.com/manga/.',
     ],
     'mangarussia_com': [
         r'mangarussia\.com/(manga|chapter)/.',
@@ -555,9 +528,6 @@ providers_list = {
     'nozominofansub_com': [  # mangazuki_co
         r'godsrealmscan\.com/public(/index\.php)?/manga/.',
     ],
-    # 'nude_moon_me': [
-    #     r'nude-moon\.me/\d',
-    # ],
     'otakusmash_com': [
         r'otakusmash\.com/.',
         r'mrsmanga\.com/.',
@@ -656,9 +626,6 @@ providers_list = {
     'reader_imangascans_org': [
         r'reader\.imangascans\.org/.',
     ],
-    # 'readhentaimanga_com': [
-    #     r'readhentaimanga\.com/.',
-    # ],
     'readcomiconline_to': [
         r'readcomiconline\.to/Comic/.',
     ],
@@ -705,13 +672,7 @@ providers_list = {
     'sleepypandascans_co': [
         r'sleepypandascans\.co/(Series|Reader)/.',
     ],
-    #'somanga_net': [
-    #    r'somanga\.net/(leitor|manga)/.',
-    #    r'somangas\.net/(leitor|manga)/.',
-    #],
     'subapics_com': [
-        # r'subapics\.com/manga/.',
-        # r'subapics\.com/.+-chapter-.',
         r'mangakita\.net/manga/.',
         r'mangakita\.net/.+-chapter-.',
         r'komikstation\.com/manga/.',
@@ -773,10 +734,6 @@ providers_list = {
         r'tsumino\.com/Book/Info/\d',
         r'tsumino\.com/Read/View/\d',
     ],
-    # 'tumangaonline_com': [
-    #     r'tumangaonline\.com/.',
-    #     r'tumangaonline\.me/.',
-    # ],
     'unionmangas_net': [
         r'unionmangas\.cc/(leitor|manga)/.',
         r'unionmangas\.net/(leitor|manga)/.',
