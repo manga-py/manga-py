@@ -1,5 +1,6 @@
 from requests import get
 from time import sleep
+import re
 
 
 class Std:
@@ -57,7 +58,7 @@ class Std:
     def _get_name(self, selector, url=None) -> str:
         if url is None:
             url = self.get_url()
-        return self.re.search(selector, url).group(1)
+        return re.search(selector, url).group(1)
 
     def _get_content(self, tpl) -> str:
         return self.http_get(tpl.format(self.domain, self.manga_name))
@@ -69,8 +70,10 @@ class Std:
         self._storage['cookies'] = cookies.get_dict()
 
     def parse_background(self, image) -> str:
-        selector = r'background.+?url\([\'"]?([^\s]+?)[\'"]?\)'
-        url = self.re.search(selector, image.get('style'))
+        url = re.search(
+            r'background.+?url\([\'"]?([^\s]+?)[\'"]?\)',
+            image.get('style')
+        )
         return self.http().normalize_uri(url.group(1))
 
     @property
@@ -152,3 +155,11 @@ class Std:
                 response.close()
                 out_file.close()
                 break
+
+    @staticmethod
+    def _test_url(url: str, path: str = None) -> bool:
+        _path = r'https?://.+?\.\w{2,7}'
+        if path is not None:
+            _path += path
+        _re = re.compile(_path)
+        return _re.search(url) is not None

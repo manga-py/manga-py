@@ -13,14 +13,13 @@ class MangaHasuSe(Provider, Std):
 
     def get_main_content(self):
         url = self.get_url()
-        test = self.re.search(r'\.\w{2,5}/[^/]+-p\d+.html', url)
-        if not test:
+        if not self._test_url(url, r'/[^/]+-p\d+.html'):
             self.cf_protect(self.get_url())
             url = self.html_fromstring(url, 'a.itemcrumb.active', 0).get('href')
         return self.http_get(url)
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.\w{2,5}/([^/]+)(?:-p\d+.html|/)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)(?:-p\d+.html|/)')
 
     def get_chapters(self):
         return self._elements('.list-chapter .name a')

@@ -1,6 +1,6 @@
-import re
 from os import path
 from sys import stderr
+from urllib.parse import urlparse
 
 from loguru import logger
 from lxml.html import HtmlElement
@@ -52,7 +52,11 @@ class Base:
     def domain(self) -> str:
         try:
             if not self._storage.get('domain_uri', None):
-                self._storage['domain_uri'] = re.search('(https?://[^/]+)', self._params['url']).group(1)
+                parsed = urlparse(self._params['url'], 'https')
+                self._storage['domain_uri'] = '{}://{}'.format(
+                    parsed.scheme,
+                    parsed.netloc
+                )
             return self._storage.get('domain_uri', '')
         except Exception:
             print('url is broken!', file=stderr)

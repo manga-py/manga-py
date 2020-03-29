@@ -13,7 +13,7 @@ class MangabbCo(Provider, Std):
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.co/(?:manga/)?([^/]+)')
+        return self._get_name(r'\.\w{2,7}/(?:manga/)?([^/]+)')
 
     def get_chapters(self):
         content = self.document_fromstring(self.content, '#chapters a')
@@ -46,7 +46,7 @@ class MangabbCo(Provider, Std):
         _first_image = self.__get_img(parser)
         images = [_first_image]
 
-        img = self.re.search(r'(.+/)\d(\.\w+)', _first_image)
+        img = self.re.search(r'(.+/)\d(\.\w{2,7})', _first_image)
         if img:  # livehack
             self._img_lifehack1(img.groups(), pages_list, images)
         else:

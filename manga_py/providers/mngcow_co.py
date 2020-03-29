@@ -6,7 +6,7 @@ class MngCowCo(AuthroneCom, Std):
 
     def get_chapter_index(self) -> str:
         return self.re.search(
-            r'\.co/[^/]+/([^/]+)',
+            r'\.\w{2,7}/[^/]+/([^/]+)',
             self.chapter
         ).group(1).replace('.', '-')
 
@@ -14,7 +14,7 @@ class MngCowCo(AuthroneCom, Std):
         return self._get_content('{}/{}/')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.co/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
 
 main = MngCowCo

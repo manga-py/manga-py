@@ -1,5 +1,6 @@
 from manga_py.provider import Provider
-from .helpers.std import Std, Http2
+from .helpers.std import Std
+from .helpers._http2 import Http2
 
 
 class MyMangaListOrg(Provider, Std):

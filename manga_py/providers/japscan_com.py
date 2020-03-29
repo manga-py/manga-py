@@ -25,7 +25,7 @@ class JapScanCom(GoMangaCo):
 
     def base_url(self, parser):
         base_url = parser.cssselect('#image')[0].get('data-src')
-        return self.re.search(r'(.+/)\w+\.\w+', base_url).group(1)
+        return self.re.search(r'(.+/)\w+\.\w{2,7}', base_url).group(1)
 
 
 main = JapScanCom

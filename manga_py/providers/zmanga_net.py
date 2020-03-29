@@ -13,7 +13,7 @@ class ZMangaNet(Provider, Std):
         return self._get_content('{}/manga-online/{}/')
 
     def get_manga_name(self) -> str:
-        re = r'\.\w+(?:/manga-online|/read)?/([^/]+?)(?:-%s[^/]+)?/' % self._type
+        re = r'\.\w{2,7}(?:/manga-online|/read)?/([^/]+?)(?:-%s[^/]+)?/' % self._type
         return self._get_name(re)
 
     def get_chapters(self):

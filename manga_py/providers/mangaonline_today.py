@@ -6,14 +6,14 @@ class MangaOnlineToday(Provider, Std):
     _img_selector = '#sct_content img'
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'\.today/[^/]+/([^/]+)', self.chapter)
+        idx = self.re.search(r'\.\w{2,7}/[^/]+/([^/]+)', self.chapter)
         return idx.group(1).replace('.', '-')
 
     def get_main_content(self):
         return self._get_content('{}/{}/')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.today/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
         return self._elements('ul.chp_lst a')

@@ -3,10 +3,8 @@ from .helpers.std import Std
 
 
 class KomikCastCom(Provider, Std):
-    _chapter_re = r'\.com/[^/]+-(\d+(?:-\d+)?)'
-
     def get_chapter_index(self) -> str:
-        re = self.re.compile('-chapter-(\d+(?:-\d+)?)')
+        re = self.re.compile(r'-chapter-(\d+(?:-\d+)?)')
         return re.search(self.chapter).group(1)
 
     def get_main_content(self):

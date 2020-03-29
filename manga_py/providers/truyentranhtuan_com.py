@@ -5,7 +5,7 @@ from .helpers.std import Std
 class TruyenTranhTuanCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'\.com/[^/]+?-(\d+(?:-\d+)?)', self.chapter)
+        idx = self.re.search(r'\.\w{2,7}/[^/]+?-(\d+(?:-\d+)?)', self.chapter)
         return idx.group(1)
 
     def get_main_content(self):
@@ -17,10 +17,10 @@ class TruyenTranhTuanCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        if self.re.search(r'\.com/[^/]+-\d+/', url):
+        if self.re.search(r'\.\w{2,7}/[^/]+-\d+/', url):
             parser = self.html_fromstring(url, '#read-title .mangaName', 0)
             url = parser.get('href')
-        return self.re.search(r'\.com/([^/]+)/', url).group(1)
+        return self.re.search(r'\.\w{2,7}/([^/]+)/', url).group(1)
 
     def get_chapters(self):
         return self._elements('#manga-chapter .chapter-name a')

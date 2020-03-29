@@ -6,7 +6,7 @@ class SenMangaCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
         ch = self.chapter
-        re = r'\.com/[^/]+/(\d+)([^/\d][^/]*)?/'
+        re = r'\.\w{2,7}/[^/]+/(\d+)([^/\d][^/]*)?/'
         idx = self.re.search(re, ch).groups()
         fmt = '{}'
         if idx[1]:
@@ -17,7 +17,7 @@ class SenMangaCom(Provider, Std):
         return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.com/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
         return self._elements('.list .element > .title > a')[::-1]

@@ -22,10 +22,10 @@ class MangaLifeUs(Provider, Std):
 
     def get_manga_name(self) -> str:
         uri = self.get_url()
-        test = uri.find('.us/read-online/') > 0
+        test = self.re.search(r'\.\w{2,7}/read-online/')
         if test:
             uri = self.html_fromstring(uri, 'a.list-link', 0).get('href')
-        return self.re.search(r'(?:\.us)?/manga/([^/]+)', uri).group(1)
+        return self.re.search(r'(?:\.\w{2,7})?/manga/([^/]+)', uri).group(1)
 
     def get_chapters(self):
         return self._elements('.chapter-list a.list-group-item')

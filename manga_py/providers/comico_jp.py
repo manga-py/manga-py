@@ -13,7 +13,7 @@ class ComicoJp(Provider, Std):
         return str(self.chapter_id)
 
     def get_main_content(self):
-        title_no = self.re.search(r'\.jp/.+titleNo=(\d+)', self.get_url())
+        title_no = self.re.search(r'\.\w{2,7}/.+titleNo=(\d+)', self.get_url())
         if title_no:
             content = self.http_post('{}/api/getArticleList.nhn'.format(self.domain), data={
                 'titleNo': title_no.group(1)

@@ -5,7 +5,7 @@ from .helpers.std import Std
 class FunMangaCom(Provider, Std):
 
     def _get_chapter_idx(self):
-        re = self.re.compile(r'\.com/[^/]+/([^/]+)')
+        re = self.re.compile(r'\.\w{2,7}/[^/]+/([^/]+)')
         return re.search(self.chapter).group(1)
 
     def get_chapter_index(self) -> str:
@@ -15,7 +15,7 @@ class FunMangaCom(Provider, Std):
         return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.com/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
         items = self._elements('.chapter-list li > a')

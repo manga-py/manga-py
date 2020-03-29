@@ -14,7 +14,7 @@ class PornComixInfo(Provider, Std):
         return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.info/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
         return [b'']
@@ -22,7 +22,7 @@ class PornComixInfo(Provider, Std):
     def get_files(self):
         items = self._elements('.gallery-item a > img')
         images = []
-        re = self.re.compile(r'(.+/images/.+\d)-\d+x\d+(\.\w+)')
+        re = self.re.compile(r'(.+/images/.+\d)-\d+x\d+(\.\w{2,7})')
         for i in items:
             g = re.search(i.get('data-lazy-src')).groups()
             images.append('{}{}'.format(*g))

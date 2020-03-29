@@ -5,7 +5,7 @@ from .helpers.std import Std
 class MangaLibMe(Provider, Std):
 
     def get_chapter_index(self) -> str:
-        selector = r'\.me/[^/]+/[^\d]+(\d+)/[^\d]+([^/]+)'
+        selector = r'\.\w{2,7}/[^/]+/[^\d]+(\d+)/[^\d]+([^/]+)'
         idx = self.re.search(selector, self.chapter).groups()
         return '-'.join(idx)
 
@@ -13,7 +13,7 @@ class MangaLibMe(Provider, Std):
         return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.me/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
         return self._elements('.chapters-list .chapter-item__name a')

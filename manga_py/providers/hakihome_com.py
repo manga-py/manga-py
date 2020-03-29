@@ -16,7 +16,7 @@ class HakiHomeCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         url = self.get_url()
-        selector = r'\.com/[^/]+/(.+?)-\d+/'
+        selector = r'\.\w{2,7}/[^/]+/(.+?)-\d+/'
         return self.re.search(selector, url).group(1)
 
     def get_chapters(self):

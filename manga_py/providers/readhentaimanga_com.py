@@ -10,13 +10,13 @@ class ReadHentaiMangaCom(Provider, Std):
         return self.normal_arc_name(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        return self.re.search(r'\.com/[^/]+/([^/]+)', self.chapter).group(1)
+        return self.re.search(r'\.\w{2,7}/[^/]+/([^/]+)', self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/{}/')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.com/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
         return self._elements('ul.lst a.lst')

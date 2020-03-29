@@ -19,7 +19,7 @@ class ReadmangaMe(Provider, Std):
         return self._get_content('{}/{}?mature=1&mtr=1')
 
     def get_manga_name(self):
-        return self._get_name(r'\.me/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
         return self._elements('div.chapters-link tr > td > a')

@@ -13,7 +13,7 @@ class PecintaKomikCom(Provider, Std):
         return self._get_content('{}/{}/')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.\w{2,5}/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
         return self._elements('.post-cnt ul > li > a')

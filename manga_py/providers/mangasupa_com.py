@@ -12,7 +12,7 @@ class MangaSupaCom(Provider, Std):
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:
-        selector = r'\.com/(?:manga|chapter)/([^/]+)'
+        selector = r'\.\w{2,7}/(?:manga|chapter)/([^/]+)'
         return self._get_name(selector)
 
     def get_chapters(self):

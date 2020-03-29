@@ -30,7 +30,9 @@ class Parser:
             info: Info = None,
             quest_password: callable = None,
     ):
-        provider = get_provider(self.params.get('url', ''))
+        real_url = self.params.get('url', '')
+        provider_url = self.params.get('force_provider', real_url)
+        provider = get_provider(provider_url)
         if isinstance(provider, bool):
             raise AttributeError('Provider not found')
         self.provider = provider(info)  # provider __init__

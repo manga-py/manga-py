@@ -80,7 +80,7 @@ class VizCom(Provider, Std):
             'manga_id={}'.format(self.re.search(r'/chapter/(\d+)', ch).group(1)),
             'metadata=1',
         ]
-        url = 'https://www.viz.com/manga/get_manga_url?' + '&'.join(params)
+        url = '{}/manga/get_manga_url?'.format(self.domain) + '&'.join(params)
         self.log(self.http_get(self.http().normalize_uri(url)))
         __url = self.http_get(self.http().normalize_uri(url)).strip()
         self._metadata = loads(self.http_get(__url))
@@ -90,7 +90,7 @@ class VizCom(Provider, Std):
             'manga_id={}'.format(self.re.search(r'/chapter/(\d+)', ch).group(1)),
             'page={page}',
         ]
-        url = 'https://www.viz.com/manga/get_manga_url?' + '&'.join(params)
+        url = '{}/manga/get_manga_url?'.format(self.domain) + '&'.join(params)
         self.__is_debug and self.log('Chapter url: %s' % url)
         if self.__has_auth:
             params.append('client_login=true')
@@ -133,12 +133,14 @@ class VizCom(Provider, Std):
         if len(name) == 0 or len(password) == 0:
             return
 
-        req = self.http().requests('https://www.viz.com/account/try_login', method='post', cookies=self.__cookies, data={
-            'login': name,
-            'pass': password,
-            'rem_user': 1,
-            'authenticity_token': token,
-        })
+        req = self.http().requests(
+            '{}/account/try_login'.format(self.domain),
+            method='post', cookies=self.__cookies, data={
+                'login': name,
+                'pass': password,
+                'rem_user': 1,
+                'authenticity_token': token,
+            })
 
         if req.status_code >= 400:
             self.log('Login/password error')
@@ -169,13 +171,13 @@ class VizCom(Provider, Std):
         return {}
 
     def get_token(self):
-        auth_token_url = 'https://www.viz.com/account/refresh_login_links'
+        auth_token_url = '/account/refresh_login_links'.format(self.domain)
         auth_token = self.http().get(auth_token_url, cookies=self.__cookies)
         token = self.re.search(r'AUTH_TOKEN\s*=\s*"(.+?)"', auth_token)
         return token.group(1)
 
     def has_auth(self):
-        content = self.http_get('https://www.viz.com/account/refresh_login_links', cookies=self.__cookies)
+        content = self.http_get('{}/account/refresh_login_links'.format(self.domain), cookies=self.__cookies)
         parser = self.document_fromstring(content)
         profile = parser.cssselect('.o_profile-link')
         success = len(profile) > 0

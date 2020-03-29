@@ -3,8 +3,8 @@ from .helpers.std import Std
 
 
 class MangaShiroNet(Provider, Std):
-    alter_re_name = r'\.net/([^/]+)-\d+'
-    chapter_re = r'\.net/[^/]+-(\d+(?:-\d+)?)'
+    alter_re_name = r'\.\w{2,7}/([^/]+)-\d+'
+    chapter_re = r'\.\w{2,7}/[^/]+-(\d+(?:-\d+)?)'
     chapters_selector = 'span.leftoff > a'
 
     def get_chapter_index(self) -> str:

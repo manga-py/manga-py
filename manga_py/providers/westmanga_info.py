@@ -3,7 +3,7 @@ from .helpers.std import Std
 
 
 class WestMangaInfo(Provider, Std):
-    _chapter_re = r'\.info/[^/]+-(\d+(?:-\d+)?)'
+    _chapter_re = r'\.\w{2,7}/[^/]+-(\d+(?:-\d+)?)'
 
     def get_chapter_index(self) -> str:
         re = self.re.compile(self._chapter_re)

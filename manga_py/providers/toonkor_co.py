@@ -9,14 +9,14 @@ class ToonKorCo(Provider, Std):
         return self.normal_arc_name(self.get_chapter_index())
 
     def get_chapter_index(self) -> str:
-        re = self.re.compile(r'\.co/[^_]+_(.+)\.html?')
+        re = self.re.compile(r'\.\w{2,7}/[^_]+_(.+)\.html?')
         return re.search(self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.co/([^_]+)')
+        return self._get_name(r'\.\w{2,7}/([^_]+)')
 
     def get_chapters(self):
         items = self._elements('#fboardlist td.episode__index')

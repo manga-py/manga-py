@@ -5,7 +5,7 @@ from .helpers.std import Std
 class BlogTruyenCom(Provider, Std):
 
     def get_chapter_index(self) -> str:
-        idx = self.re.search(r'\.com/c(\d+)/', self.chapter)
+        idx = self.re.search(r'\.\w{2,7}/c(\d+)/', self.chapter)
         return '{}-{}'.format(self.chapter_id, idx.group(1))
 
     def get_main_content(self):
@@ -13,7 +13,7 @@ class BlogTruyenCom(Provider, Std):
         return self.http_get(self.http().normalize_uri(url))
 
     def _test_main_url(self, url):
-        if ~url.find('.com/c'):
+        if self._test_url(url, r'/c'):
             selector = '.breadcrumbs a + a'
             url = self.html_fromstring(url, selector, 0).get('href')
         return url

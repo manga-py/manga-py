@@ -3,6 +3,7 @@ from .helpers.std import Std
 
 
 class ShakaiRu(Provider, Std):
+    _api_url = 'http://shakai.ru/take/api-manga/request/shakai'
 
     def get_chapter_index(self) -> str:
         idx = self.chapter.get('data-first')
@@ -14,7 +15,7 @@ class ShakaiRu(Provider, Std):
             'dataRun': 'api-manga',
             'dataRequest': idx
         }
-        page_content = str(self.http_post('http://shakai.ru/take/api-manga/request/shakai', data=_))
+        page_content = str(self.http_post(self._api_url, data=_))
         return self.json.loads(page_content)
 
     def get_manga_name(self) -> str:

@@ -7,7 +7,7 @@ class ThreeAsqInfo(AuthroneCom, Std):
 
     def get_chapter_index(self) -> str:
         return self.re.search(
-            r'\.info/[^/]+/([^/]+)',
+            r'\.\w{2,7}/[^/]+/([^/]+)',
             self.chapter
         ).group(1).replace('.', '-')
 
@@ -15,7 +15,7 @@ class ThreeAsqInfo(AuthroneCom, Std):
         return self._get_content('{}/{}/')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.info/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_files(self):
         return list(set(super().get_files()))  # remove doubles

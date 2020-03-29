@@ -14,7 +14,7 @@ class AComicsRu(Provider, Std):
         return self._get_content('{}/~{}')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.ru/~([^/]+)')
+        return self._get_name(r'\.\w{2,7}/~([^/]+)')
 
     def get_chapters(self):
         return ['~' + self.manga_name]

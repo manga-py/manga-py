@@ -18,7 +18,7 @@ class MangakuWebId(Provider, Std):
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.in/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
         return self._elements('div[style] a[target]')

@@ -8,7 +8,7 @@ class KomikIdCom(GoMangaCo, Std):
     _chapters_selector = '.animeinfo ul > li span a:not([rel])'
 
     def get_chapter_index(self) -> str:
-        re = r'/[^/]+\.\w+/[\w-]+?-(\d+)(?:[^\d](\d+))?'
+        re = r'/[^/]+\.\w{2,7}/[\w-]+?-(\d+)(?:[^\d](\d+))?'
         idx = self.re.search(re, self.chapter)
         return self._join_groups(idx.groups())
 

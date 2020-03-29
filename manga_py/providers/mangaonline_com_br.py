@@ -5,14 +5,14 @@ from .helpers.std import Std
 class MangaOnlineComBr(Provider, Std):
 
     def get_chapter_index(self) -> str:
-        selector = r'\.br/[^/]+/[^/]+/([^/]+)'
+        selector = r'\.\w{2,7}/[^/]+/[^/]+/([^/]+)'
         return self.re.search(selector, self.chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/{}/')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.br/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
         return self._elements('#volumes-capitulos span > a')

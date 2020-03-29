@@ -6,13 +6,13 @@ class ManhwaCo(Provider, Std):
 
     def get_chapter_index(self) -> str:
         chapter = self.chapter
-        return self.re.search(r'\.co/[^/]+/([^/]+)', chapter).group(1)
+        return self.re.search(r'\.\w{2,7}/[^/]+/([^/]+)', chapter).group(1)
 
     def get_main_content(self):
         return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.co/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
         return self._elements('.list-group .list-group-item')

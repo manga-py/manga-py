@@ -8,7 +8,7 @@ class RawSenmangaCom(SenMangaCom):
 
     def get_chapter_index(self):
         ch = self.chapter
-        re = r'\.com/[^/]+/([^/]+)'
+        re = r'\.\w{2,7}/[^/]+/([^/]+)'
         return self.re.search(re, ch)
 
 

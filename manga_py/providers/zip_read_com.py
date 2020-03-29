@@ -13,7 +13,7 @@ class ZipReadCom(Provider, Std):
         pass
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.com/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
         return self._elements('#content .entry > p > a')

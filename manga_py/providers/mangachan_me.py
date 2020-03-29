@@ -40,9 +40,8 @@ class MangaChanMe(Provider, Std):
         return images
 
     def get_cover(self):
-        selector = r'\.me/[^/]+/(\d+-.+\.html)'
-        url = self._get_name(selector)
-        url = '{}/manga/{}'.format(self.domain, url)
+        selector = r'\.\w{2,7}/[^/]+/(\d+-.+\.html)'
+        url = '{}/manga/{}'.format(self.domain, self._get_name(selector))
         img = self._elements('#cover', self.http_get(url))
         if img and len(img):
             return img[0].get('src')

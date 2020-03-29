@@ -9,7 +9,7 @@ class WebToonsCom(Provider, Std):
     __debug_archive = None
 
     def get_archive_name(self) -> str:
-        i = self.re.search(r'\.com%s%s' % (
+        i = self.re.search(r'\.\w{2,7}%s%s' % (
             r'(?:/|%2F)[^/%]+' * 3,
             r'(?:/|%2F)([^/%]+)',
         ), self.chapter)
@@ -23,9 +23,9 @@ class WebToonsCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         self.__titleNo = self._get_name(r'title_no=(\d+)')
-        name = self._get_name(r'\.com/([^/]+/[^/]+/[^/]+)')
+        name = self._get_name(r'\.\w{2,7}/([^/]+/[^/]+/[^/]+)')
         self.__mainUrl = '{}/{}/list?title_no={}'.format(self.domain, name, self.__titleNo)
-        return self._get_name(r'\.com/[^/]+/[^/]+/([^/]+)')
+        return self._get_name(r'\.\w{2,7}/[^/]+/[^/]+/([^/]+)')
 
     def _chapters(self, content):
         return self._elements('#_listUl li > a', content)

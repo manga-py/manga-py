@@ -63,7 +63,7 @@ class ExHentaiOrg(EHentaiOrg):
 
     def check_panda(self):
         success = True
-        req = self.http().requests('https://exhentai.org/', method='head')
+        req = self.http().requests(self.domain, method='get')
         if ~req.headers['Content-Type'].find('image/'):
             """
             if authorization was not successful

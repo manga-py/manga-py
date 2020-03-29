@@ -2,7 +2,7 @@ from .gomanga_co import GoMangaCo
 
 
 class NoraNoFansubCom(GoMangaCo):
-    _name_re = r'\.com/(?:lector/)?(?:series/|read/)?([^/]+)/'
+    _name_re = r'\.\w{2,7}/(?:lector/)?(?:series/|read/)?([^/]+)/'
     _content_str = '{}/{}/'
     _chapters_selector = '.entry-content td a[href]'
 

@@ -195,6 +195,14 @@ def _downloading_args(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
+        '-p',
+        '--force-provider',
+        metavar='URL',
+        type=str,
+        help='Force use specific provider',
+    )
+
+    args.add_argument(
         '-N',
         '--with-manga-name',
         action='store_true',

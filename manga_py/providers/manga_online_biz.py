@@ -1,5 +1,6 @@
 from manga_py.provider import Provider
-from .helpers.std import Std, Http2
+from .helpers.std import Std
+from .helpers._http2 import Http2
 
 
 # Archive downloading example. Without images
@@ -16,7 +17,7 @@ class MangaOnlineBiz(Provider, Std):
         return self._get_content('{}/{}.html')
 
     def get_manga_name(self) -> str:
-        return self._get_name(r'\.biz/([^/]+)(?:/|\.html)')
+        return self._get_name(r'\.\w{2,7}/([^/]+)(?:/|\.html)')
 
     def _after_download(self, idx, _path):
         self._idx = idx + 1

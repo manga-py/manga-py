@@ -9,7 +9,7 @@ class KuMangaCom(Provider, Std):
         return str(self.chapter_id)
 
     def get_main_content(self):
-        url = self.re.search(r'(.+\.com/manga/\d+)', self.get_url())
+        url = self.re.search(r'(.+\.\w{2,7}/manga/\d+)', self.get_url())
         return self.http_get('%s/' % url.group(1))
 
     def get_manga_name(self) -> str:
@@ -26,7 +26,7 @@ class KuMangaCom(Provider, Std):
         return chapters
 
     def _url_helper(self):
-        idx = self.re.search(r'\.com/manga/(\d+)', self.get_url())
+        idx = self.re.search(r'\.\w{2,7}/manga/(\d+)', self.get_url())
         return '{}/manga/{}/p/%d/{}'.format(
             self.domain,
             idx.group(1),

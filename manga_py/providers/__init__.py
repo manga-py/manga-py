@@ -161,7 +161,7 @@ providers_list = {
         r'hatigarmscans\.net/manga/.',
     ],
     'heavenmanga_biz': [
-        r'heavenmanga\.\w+/.',
+        r'heavenmanga\.\w{2,7}/.',
     ],
     'hentai2read_com': [
         r'hentai2read\.com/.',
@@ -443,6 +443,7 @@ providers_list = {
     ],
     'mangalife_us': [
         r'mangalife\.us/(read-online|manga)/.',
+        r'manga4life\.com/(read-online|manga)/.',
     ],
     'mangamew_com': [
         r'mangamew\.com/(\w+-)?manga/.',
@@ -541,9 +542,6 @@ providers_list = {
     # ],
     'merakiscans_com': [
         r'merakiscans\.com/manga/.',
-    ],
-    'mintmanga_com': [
-        r'mintmanga\.com/.',
     ],
     'mngcow_co': [
         r'mngcow\.co/.',
@@ -706,6 +704,8 @@ providers_list = {
     ],
     'readmanga_me': [
         r'readmanga\.me/.',
+        r'mintmanga\.com/.',
+        r'selfmanga\.ru/.',
     ],
     'readmanga_eu': [
         r'readmanga\.eu/manga/\d+/.',
@@ -721,9 +721,6 @@ providers_list = {
     ],
     'santosfansub_com': [
         r'santosfansub\.com/Slide/.',
-    ],
-    'selfmanga_ru': [
-        r'selfmanga\.ru/.',
     ],
     'senmanga_com': [
         r'senmanga\.com/.',
