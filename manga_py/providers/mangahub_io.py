@@ -20,10 +20,10 @@ class MangaHubIo(Provider, Std):
         return self._elements('.list-group .list-group-item > a')
 
     def get_files(self):
-        query = "{chapter(x:mh01,slug:\"chitra\",number:2)" \
+        query = "{chapter(x:mh01,slug:\"%(name)s\",number:%(num)d)" \
                 "{id,title,mangaID,number,slug,date,pages,noAd,manga" \
                 "{id,title,slug,mainSlug,author,isWebtoon,isYaoi,isPorn,isSoftPorn,unauthFile,isLicensed" \
-                "}}}"
+                "}}}" % {'name': self.manga_name, 'num': self.chapter_id + 1}
         content = self.json.loads(self.http_post(self._api, data={
             "query": query
         }))
