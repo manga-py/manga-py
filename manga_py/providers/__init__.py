@@ -336,10 +336,6 @@ providers_list = {
         r'mangaeden\.com/[^/]+/[^/]+-manga/.',
         r'perveden\.com/[^/]+/[^/]+-manga/.',
     ],
-    'mangafans_us': [  # MangaNeloCom
-        r'mangafans\.us/manga/.',
-        r'mangahot\.org/read-manga/.',
-    ],
     'mangafreak_net_download': [
         r'mangafreak\.net/Manga/.',
     ],
@@ -388,7 +384,7 @@ providers_list = {
         r'mangajinnofansub\.com/lector/(series|read)/.',
     ],
     'mangakakalot_com': [
-        r'mangakakalot\.com/(manga|chapter)/.',
+        r'mangakakalot\.com/read-.',
     ],
     'mangakatana_com': [
         r'mangakatana\.com/manga/.',
