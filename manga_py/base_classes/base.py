@@ -1,12 +1,11 @@
 from os import path
-from sys import stderr
 from urllib.parse import urlparse
 
 from loguru import logger
 from lxml.html import HtmlElement
 
 from manga_py.http import Http
-from manga_py.image import Image
+from manga_py.manga_image import MangaImage
 
 
 class Base:
@@ -59,18 +58,18 @@ class Base:
                 )
             return self._storage.get('domain_uri', '')
         except Exception:
-            print('url is broken!', file=stderr)
+            logger.error('url is broken!')
             exit()
 
     @staticmethod
     def image_auto_crop(src_path, dest_path=None):
-        image = Image(src_path=src_path)
+        image = MangaImage(src_path=src_path)
         image.crop_auto(dest_path=dest_path)
         image.close()
 
     def image_manual_crop(self, src_path, dest_path=None):  # sizes: (left, top, right, bottom)
         if isinstance(self._image_params['crop'], tuple) != (0, 0, 0, 0):
-            image = Image(src_path=src_path)
+            image = MangaImage(src_path=src_path)
             image.crop_manual_with_offsets(offsets=self._image_params['crop'], dest_path=dest_path)
             image.close()
 

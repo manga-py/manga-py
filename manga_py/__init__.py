@@ -7,6 +7,7 @@ from json import dumps
 from os import makedirs, path
 from shutil import rmtree
 from sys import exit, stderr
+from logging import error, info, warning
 
 try:
     from loguru import logger
@@ -15,10 +16,6 @@ except ImportError:
     def catch(x):
         print('Setup in progress?')
 
-
-def e(*m):
-    print(*m, file=stderr)
-
 try:
     from .cli import Cli
     from .cli.args import get_cli_arguments
@@ -26,7 +23,7 @@ try:
     from .info import Info
     from .meta import __version__
 except ImportError:
-    e('Setup in progress?')
+    error('Setup in progress?')
 
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
@@ -73,7 +70,7 @@ def _run_util(args) -> tuple:
 
 def _update_all(args):
     parse_args = args.parse_args()
-    parse_args.quiet or e('Update all')
+    info('Update all')
     multi_info = {}
 
     dst = parse_args.destination
@@ -90,12 +87,12 @@ def _update_all(args):
 @catch
 def main():
     if ~__version__.find('alpha'):
-        e('Alpha release! There may be errors!')
-    e('\n'.join((
+        warning('Alpha release! There may be errors!')
+    print('\n'.join((
         'Please remember that all sites earn on advertising.',
         'Remember to visit them from your browser.',
         'Thanks!\n'
-    )))
+    )), file=stderr)
 
     temp_path = get_temp_path()
     path.isdir(temp_path) or makedirs(temp_path)
@@ -107,7 +104,7 @@ def main():
         code, _info = _run_util(args)
         parse_args.quiet or (parse_args.print_json and print(_info))
     except KeyboardInterrupt:
-        e('\nUser interrupt')
+        error('\nUser interrupt')
         code = 1
 
     exit(code)

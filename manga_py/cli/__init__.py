@@ -3,6 +3,7 @@ from argparse import ArgumentParser
 from getpass import getpass
 from os import name as os_name
 
+from loguru import logger
 from progressbar import ProgressBar
 
 from manga_py.fs import check_free_space, get_temp_path
@@ -34,13 +35,15 @@ class Cli:  # pragma: no cover
                 info=self._info,
             )
         except AttributeError as e:
-            print(e, file=sys.stderr)
-            print('Please check if your inputed domain is supported by manga-py: ', file=sys.stderr)
-            print('- https://manga-py.com/manga-py/#resources-list', file=sys.stderr)
-            print('- https://manga-py.github.io/manga-py/#resources-list (alternative)', file=sys.stderr)
-            print('- https://yuru-yuri.github.io/manga-py/ (deprecated)', file=sys.stderr)
-            print('Make sure that your inputed URL is correct\n\nTrace:', file=sys.stderr)
-            raise e
+            logger.error('\n'.join([
+                e,
+                'Please check if your inputed domain is supported by manga-py: ',
+                '- https://manga-py.com/manga-py/#resources-list',
+                '- https://manga-py.github.io/manga-py/#resources-list (alternative)',
+                '- https://yuru-yuri.github.io/manga-py/ (deprecated)',
+                'Make sure that your inputed URL is correct\n\nTrace:',
+            ]), e)
+            return
         self.parser.start()
         self.__progress_bar and self.__progress_bar.value > 0 and self.__progress_bar.finish()
         self.args.quiet or self.print(' ')

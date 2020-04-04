@@ -3,7 +3,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 
 from manga_py.fs import is_file, make_dirs, basename, dirname, unlink, get_temp_path
 # from PIL import Image as PilImage
-from manga_py.image import Image
+from manga_py.manga_image import MangaImage
 
 
 class Archive:
@@ -39,7 +39,7 @@ class Archive:
                 if self.no_webp and ext[ext.rfind('.'):] == '.webp':
                     jpeg = ext[:ext.rfind('.')] + '.jpeg'
                     jpeg_path = path.join(dirname(file[0]), jpeg)
-                    Image(file[0]).convert(jpeg_path)
+                    MangaImage(file[0]).convert(jpeg_path)
                     file = jpeg_path, jpeg
                 elif ext:
                     file = file[0], ext
@@ -76,7 +76,7 @@ class Archive:
     def __update_image_extension(self, filename) -> str:
         fn, extension = path.splitext(filename)
         if not self.not_change_files_extension:
-            ext = Image.real_extension(get_temp_path(filename))
+            ext = MangaImage.real_extension(get_temp_path(filename))
             if ext:
                 extension = ext
         return basename(fn + extension)

@@ -16,7 +16,7 @@ class VizComMatrix:
         ref = Image.new(orig.mode, new_size)  # type: Image.Image
         ref.paste(orig)
 
-        exif = orig._getexif()
+        exif = orig.getexif()
         if KEY in exif:
             key = [int(i, 16) for i in exif[KEY].split(':')]
             width, height = exif[WIDTH], exif[HEIGHT]

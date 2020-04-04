@@ -1,6 +1,7 @@
 from sys import stderr
 from time import sleep
 import requests
+from loguru import logger
 
 from manga_py.fs import get_temp_path, make_dirs, remove_file_query_params, basename, path_join, dirname, file_size
 from .multi_threads import MultiThreads
@@ -44,7 +45,7 @@ class Http(Request):
             now_try_count += 1
             response = self.requests(url, method=method, timeout=60, allow_redirects=True)
             if response.status_code >= 400:
-                self.debug and print('\nERROR! Code {}\nUrl: {}\n'.format(
+                logger.error('\nERROR! Code {}\nUrl: {}\n'.format(
                     response.status_code,
                     url,
                 ))
@@ -64,7 +65,7 @@ class Http(Request):
             url = self.normalize_uri(url)
             self._download(file_name, url, method)
         except OSError as ex:
-            self.debug and print(ex)
+            logger.error(ex)
             return False
         return True
 
@@ -97,9 +98,9 @@ class Http(Request):
         result = self._download_one_file_helper(url, dst, callback, success_callback, callback_args)
         if result is None and not self.mute:
             self.has_error = True  # issue 161
-            self.debug and print('\nWarning: 0 bit image downloaded, please check for redirection or broken content', file=stderr)
+            logger.warning('\nWarning: 0 bit image downloaded, please check for redirection or broken content')
             if ~idx:
-                self.debug and print('Broken url: %s\nPage idx: %d' % (url, (1 + idx)), file=stderr)
+                logger.warning('Broken url: %s\nPage idx: %d' % (url, (1 + idx)), file=stderr)
         return result
 
     def normalize_uri(self, uri, referer=None):

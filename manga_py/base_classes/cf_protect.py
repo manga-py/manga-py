@@ -1,6 +1,7 @@
 from sys import stderr
 
 import cloudscraper
+from loguru import logger
 
 
 class CloudFlareProtect:
@@ -13,6 +14,6 @@ class CloudFlareProtect:
             try:
                 self.protector = scraper.get_tokens(url)
             except Exception as e:
-                print('CF error! %s' % e, file=stderr)
+                logger.error('CF error! %s' % e, file=stderr)
 
         return self.protector

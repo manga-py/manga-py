@@ -7,7 +7,7 @@ from manga_py.crypt import KissMangaComCrypt
 from manga_py.crypt import MangaRockComCrypt
 from manga_py.crypt import ManhuaGuiComCrypt
 from manga_py.crypt import MangaGoMe
-from manga_py.image import Image
+from manga_py.manga_image import MangaImage
 import json
 import re
 
@@ -50,13 +50,13 @@ class TestCrypt(unittest.TestCase):
         path_cr = str(Path(root_path).joinpath('files', 'manga_rock_com.mri'))
         path_test = str(Path(root_path).joinpath('temp', 'manga_rock_com'))
 
-        self.assertIsNone(Image.real_extension(path_cr))
+        self.assertIsNone(MangaImage.real_extension(path_cr))
 
         with open(path_cr, 'rb') as r:
             with open(path_test, 'wb') as w:
                 w.write(crypt.decrypt(r.read()))
 
-        self.assertIsNotNone(Image.real_extension(path_test))
+        self.assertIsNotNone(MangaImage.real_extension(path_test))
 
     def test_manhuagui_com(self):
         lib = ManhuaGuiComCrypt()
