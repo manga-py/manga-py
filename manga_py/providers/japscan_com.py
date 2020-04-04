@@ -10,6 +10,11 @@ class JapScanCom(GoMangaCo):
         idx = self.chapter_id, self.get_chapter_index()
         return self.normal_arc_name({'vol': idx})
 
+    def manga_name(self) -> str:
+        raise RuntimeError(
+            'Provider not worked. See https://github.com/manga-py/manga-py/issues/262#issuecomment-609092313'
+        )
+
     def get_chapter_index(self) -> str:
         selector = r'\.(?:com|cc|co|to)/[^/]+/[^/]+/(\d+)/'
         return self.re.search(selector, self.chapter).group(1)
