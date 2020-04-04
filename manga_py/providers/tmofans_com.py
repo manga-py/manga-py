@@ -55,7 +55,7 @@ class TmoFansCom(Provider, Std):
         return self._cover_from_content('.book-thumbnail')
 
     def prepare_cookies(self):
-        self.cf_protect(self.get_url())
+        self.cf_scrape(self.get_url())
 
     def chapter_for_json(self) -> str:
         return self.chapter[1]

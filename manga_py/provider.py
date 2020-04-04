@@ -8,8 +8,7 @@ from .base_classes import (
     Archive,
     Base,
     Callbacks,
-    # TODO
-    CloudFlareProtect,
+    cf_scrape,
     Static
 )
 from .fs import (
@@ -243,14 +242,13 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
 
         threading.start()
 
-    def cf_protect(self, url):
+    def cf_scrape(self, url):
         """
         WARNING! Thins function replace cookies!
         :param url: str
         :return:
         """
-        cf = CloudFlareProtect()
-        params = cf.run(url)
+        params = cf_scrape(url)
         if len(params):
             self.update_cookies(params[0])
             self.update_ua(params[1])

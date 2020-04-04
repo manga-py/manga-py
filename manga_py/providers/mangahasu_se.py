@@ -14,7 +14,7 @@ class MangaHasuSe(Provider, Std):
     def get_main_content(self):
         url = self.get_url()
         if not self._test_url(url, r'/[^/]+-p\d+.html'):
-            self.cf_protect(self.get_url())
+            self.cf_scrape(self.get_url())
             url = self.html_fromstring(url, 'a.itemcrumb.active', 0).get('href')
         return self.http_get(url)
 
@@ -26,7 +26,7 @@ class MangaHasuSe(Provider, Std):
 
     def get_files(self):
         if not self._params.get('cf-protect'):
-            self.cf_protect(self.chapter)
+            self.cf_scrape(self.chapter)
         parser = self.html_fromstring(self.chapter)
         return self._images_helper(parser, '.img > img')
 

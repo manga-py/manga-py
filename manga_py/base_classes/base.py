@@ -102,7 +102,7 @@ class Base:
     def _get_user_agent(self):
         ua_storage = self._storage.get('user_agent', None)
         ua_params = self._params.get('user_agent', None)
-        if self._params.get('cf_protect', False):
+        if self._params.get('cf_scrape', False):
             return ua_storage
         return ua_params
 

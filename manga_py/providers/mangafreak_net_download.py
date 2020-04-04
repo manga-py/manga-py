@@ -29,7 +29,7 @@ class MangaFreakNet(Provider, Std):
         pass
 
     def prepare_cookies(self):
-        self.cf_protect(self.get_url())
+        self.cf_scrape(self.get_url())
 
     def get_cover(self) -> str:
         return self._cover_from_content('.manga_series_image img')

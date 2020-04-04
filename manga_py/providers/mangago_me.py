@@ -40,7 +40,7 @@ class MangaGoMe(Provider, Std):
 
     def prepare_cookies(self):
         self._crypt = mangago_me.MangaGoMe()
-        self.cf_protect(self.domain)
+        self.cf_scrape(self.domain)
 
     def get_files(self):
         self._enc_images = {}

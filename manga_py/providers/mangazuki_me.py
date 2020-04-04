@@ -39,5 +39,9 @@ class MangaZukiMe(Provider, Std):
             image = self._cover_from_content('.summary_image > a > img')
         return image
 
+    def prepare_cookies(self):
+        self.cf_scrape(self.get_url())
+
+
 
 main = MangaZukiMe

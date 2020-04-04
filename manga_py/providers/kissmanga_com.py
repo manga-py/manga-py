@@ -35,7 +35,7 @@ class KissMangaCom(Provider, Std):
 
     def prepare_cookies(self):
         self._params['rename_pages'] = True
-        self.cf_protect(self.get_url())
+        self.cf_scrape(self.get_url())
         self._storage['cookies']['rco_quality'] = 'hq'
         if not self._params['cf-protect']:
             self.log('CloudFlare protect fail!', file=stderr)

@@ -48,7 +48,7 @@ class HoduComicsCom(Provider, Std):
         pass
 
     def prepare_cookies(self):
-        self.cf_protect(self.get_url())
+        self.cf_scrape(self.get_url())
 
 
 main = HoduComicsCom

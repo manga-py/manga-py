@@ -1,19 +1,12 @@
-from sys import stderr
-
 import cloudscraper
 from loguru import logger
 
 
-class CloudFlareProtect:
-    protector = []
+def cf_scrape(url):  # pragma: no cover
 
-    def run(self, url):  # pragma: no cover
-
-        if not self.protector:
-            scraper = cloudscraper.create_scraper()
-            try:
-                self.protector = scraper.get_tokens(url)
-            except Exception as e:
-                logger.error('CF error! %s' % e, file=stderr)
-
-        return self.protector
+    scraper = cloudscraper.create_scraper()
+    try:
+        return scraper.get_tokens(url)
+    except Exception as e:
+        logger.error(e)
+        raise e

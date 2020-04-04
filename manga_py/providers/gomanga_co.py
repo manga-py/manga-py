@@ -38,7 +38,7 @@ class GoMangaCo(Provider, Std):
 
     def prepare_cookies(self):
         url = self.get_url()
-        self.cf_protect(url)
+        self.cf_scrape(url)
         data = {'adult': 'true'}
         try:
             response = self.http().requests(method='post', data=data, url=url)
