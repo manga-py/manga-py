@@ -7,8 +7,8 @@ from PIL import Image as PilImage, ImageChops
 
 
 class MangaImage:
-    _image: Optional[Image] = None
-    src_path: Optional[str] = None
+    _image = None  # type: Image
+    src_path = None  # type: str
 
     def __init__(self, src_path):
         """
