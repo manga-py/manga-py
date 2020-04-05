@@ -8,21 +8,23 @@ driver = None
 
 def get_driver(browser: str = None):
     global driver
+    global display
+
     if driver is not None:
         return driver
 
     try:
         from selenium.webdriver import __version__
-    except ImportError:
+    except ImportError as e:
         error('Selenium not installed. Please, run "pip install selenium"')
-        exit()
+        raise e
 
     try:
         from pyvirtualdisplay import Display
-        global display
         display = Display(visible=False, size=(1920, 1080))
         display.start()
     except ImportError:
+        display = None
         info('Use real display. See here: https://github.com/ponty/PyVirtualDisplay/blob/master/README.rst')
 
     if browser is None:
@@ -30,40 +32,35 @@ def get_driver(browser: str = None):
             driver = chrome()
             debug('Use chrome')
             return driver
-        except Exception:
+        except Exception as ce:
             try:
                 driver = firefox()
                 debug('Use firefox')
                 return driver
-            except Exception:
-                error('Browser driver init error')
-                exit(1)
+            except Exception as e:
+                error('Browser driver init error', ce, e)
+                raise e
     elif browser == 'chrome':
         try:
             return chrome()
-        except Exception:
+        except Exception as e:
             error('Browser driver init error')
-            exit(1)
+            raise e
     elif browser == 'firefox':
         try:
             return firefox()
-        except Exception:
+        except Exception as e:
             error('Browser driver init error')
-            exit(1)
+            raise e
     else:
-        error('Bad driver type')
-        exit(1)
+        raise RuntimeError('Bad driver type')
 
 
 def chrome():
     from .chrome import ChromeDriver
-    driver = ChromeDriver()
-    driver.init_driver()
-    return driver
+    return ChromeDriver().init_driver()
 
 
 def firefox():
     from .firefox import FirefoxDriver
-    driver = FirefoxDriver()
-    driver.init_driver()
-    return driver
+    return FirefoxDriver().init_driver()

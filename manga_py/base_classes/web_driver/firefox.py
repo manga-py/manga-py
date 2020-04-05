@@ -6,10 +6,10 @@ from tarfile import open as tar_open
 from zipfile import ZipFile
 
 from requests import get
-from selenium import webdriver
+from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
 
-from .web_driver import WebDriver, _is_win, _is_mac, _is_linux, UnsupportedOsException, home_path
+from .web_driver import WebDriver, _is_win, _is_mac, _is_linux, UnsupportedOsException
 
 
 class FirefoxDriver(WebDriver):
@@ -29,12 +29,11 @@ class FirefoxDriver(WebDriver):
             return self._arc.format(ver=self.driver_version, os='win64', ext='zip')
         raise UnsupportedOsException()
 
-    @staticmethod
-    def driver_path() -> Path:
+    def driver_path(self) -> Path:
         _driver = 'geckodriver'
         if _is_win():
             _driver += '.exe'
-        return home_path.joinpath(_driver)
+        return self.home_path.joinpath(_driver)
 
     def download_driver(self) -> None:
         driver = 'driver'
@@ -42,7 +41,7 @@ class FirefoxDriver(WebDriver):
             driver += '.zip'
         else:
             driver += '.tgz'
-        path = str(home_path.joinpath(driver))
+        path = str(self.home_path.joinpath(driver))
 
         with open(path, 'wb') as _driver:
             _driver.write(get(self.url_driver.format(
@@ -67,7 +66,7 @@ class FirefoxDriver(WebDriver):
         options = Options()
         options.set_preference("media.volume_scale", "0.0")
         options.headless = not self.visible
-        self._driver = self._driver = webdriver.Firefox(
+        self._driver = Firefox(
             executable_path=driver_path,
             options=options,
         )

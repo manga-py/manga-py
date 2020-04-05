@@ -5,10 +5,10 @@ from zipfile import ZipFile
 
 from lxml import etree
 from requests import get
-from selenium import webdriver
+from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 
-from .web_driver import WebDriver, _is_win, _is_mac, _is_linux, UnsupportedOsException, home_path
+from .web_driver import WebDriver, _is_win, _is_mac, _is_linux, UnsupportedOsException
 
 
 class ChromeDriver(WebDriver):
@@ -27,15 +27,14 @@ class ChromeDriver(WebDriver):
             return 'chromedriver_win32.zip'
         raise UnsupportedOsException()
 
-    @staticmethod
-    def driver_path() -> Path:
+    def driver_path(self) -> Path:
         _driver = 'chromedriver'
         if _is_win():
             _driver += '.exe'
-        return home_path.joinpath(_driver)
+        return self.home_path.joinpath(_driver)
 
     def download_driver(self) -> None:
-        path = str(home_path.joinpath('driver.zip'))
+        path = str(self.home_path.joinpath('driver.zip'))
 
         with open(path, 'wb') as _driver:
             _driver.write(get('{prefix}/{version}/{driver}'.format(
@@ -57,8 +56,11 @@ class ChromeDriver(WebDriver):
         options = Options()
         options.add_argument("--mute-audio")
         options.add_argument('--disable-dev-shm-usage')
+        options.add_argument("--disable-blink-features")
+        options.add_argument("--disable-blink-features=AutomationControlled")
         options.headless = not self.visible
-        self._driver = self._driver = webdriver.Chrome(
+
+        self._driver = Chrome(
             executable_path=driver_path,
             options=options,
         )

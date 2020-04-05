@@ -5,13 +5,15 @@ from sys import platform
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver as BrowserDriver
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support.expected_conditions import presence_of_element_located as locate
+from selenium.webdriver.support.expected_conditions import (
+    presence_of_all_elements_located as locate,
+    presence_of_element_located as locate_one
+)
 from selenium.webdriver.support.ui import WebDriverWait
+from typing import List
+from time import sleep
 
 from manga_py.fs import get_util_home_path
-
-home_path = None
-
 
 class UnsupportedOsException(Exception):
     def __init__(self, os=platform, *args, **kwargs):
@@ -36,17 +38,17 @@ def _supported() -> bool:
 
 class WebDriver(metaclass=ABCMeta):
     driver_version = None
+    home_path = None
     _re = None
     _driver = None
-    _default_timeout = 30
-    __visible = False
+    _default_timeout = 10
+    __visible = True
     __freq = 1.0
 
     def __init__(self, version: str, _re):
         self.driver_version = version
         self._re = _re
-        global home_path
-        home_path = Path(get_util_home_path())
+        self.home_path = Path(get_util_home_path())
 
     @property
     def visible(self) -> bool:
@@ -61,9 +63,8 @@ class WebDriver(metaclass=ABCMeta):
     def driver_archive() -> str:
         raise NotImplementedError
 
-    @staticmethod
     @abstractmethod
-    def driver_path() -> Path:
+    def driver_path(self) -> Path:
         raise NotImplementedError
 
     @abstractmethod
@@ -88,8 +89,8 @@ class WebDriver(metaclass=ABCMeta):
     def init_driver(self, width: int = 1600, height: int = 900):
         if not self.initialized:
             self._make_driver()
-            self._driver.set_window_size(width, height)
-            self._driver.set_window_position(0, 0)
+            # self._driver.set_window_size(width, height)
+            # self._driver.set_window_position(0, 0)
         return self
 
     @property
@@ -117,8 +118,19 @@ class WebDriver(metaclass=ABCMeta):
                 return True
         return False
 
-    def find_element(self, selector: str, wait_time: int = None, by=By.CSS_SELECTOR) -> WebElement:
-        return WebDriverWait(self._driver, wait_time or self._default_timeout).until(locate((by, selector)))
+    @property
+    def _wait(self):
+        return WebDriverWait(self._driver, self._default_timeout, poll_frequency=self.freq)
+
+    def find_element(self, selector: str, by=By.CSS_SELECTOR) -> List[WebElement]:
+        sleep(1)
+        return self._wait.until(locate_one((by, selector)))
+
+    def find_all_elements(self, selector: str, by=By.CSS_SELECTOR) -> List[WebElement]:
+        sleep(1)
+        self._wait.until(locate_one((by, selector)))  # wait for first element
+        sleep(1)
+        return self._wait.until(locate((by, selector)))
 
     def add_cookie(self, key, value, **kwargs):
         _cookie = {
