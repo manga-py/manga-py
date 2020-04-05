@@ -1,22 +1,18 @@
 import unittest
 
-from pyvirtualdisplay import Display
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 
-from manga_py.base_classes import WebDriver
+from manga_py.base_classes.web_driver import get_driver
 
 
 class TestWebDriver(unittest.TestCase):
     def test_driver(self):
-        display = Display(visible=0, size=(800, 600))
-        display.start()
-        driver = WebDriver().get_driver()
+        driver = get_driver()
         driver.get('https://ya.ru')
         result = True
         try:
-            driver.find_element_by_id('text')
-        except NoSuchElementException:
+            driver.find_element('#text')
+        except TimeoutException:
             result = False
         driver.close()
-        display.stop()
         self.assertTrue(result)

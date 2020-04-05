@@ -7,7 +7,7 @@ from json import dumps
 from os import makedirs, path
 from shutil import rmtree
 from sys import exit, stderr
-from logging import error, info, warning
+from logging import error, info, warning, basicConfig, DEBUG, WARN
 
 try:
     from loguru import logger
@@ -16,12 +16,14 @@ except ImportError:
     def catch(x):
         print('Setup in progress?')
 
+display, driver = None, None
 try:
     from .cli import Cli
     from .cli.args import get_cli_arguments
     from .fs import get_temp_path, get_info
     from .info import Info
     from .meta import __version__
+    from .base_classes.web_driver import display, driver
 except ImportError:
     error('Setup in progress?')
 
@@ -32,6 +34,8 @@ __email__ = 'sttv-pc@mail.ru'
 
 @atexit_register
 def before_shutdown():
+    display and display.stop()
+    driver and driver.close()
     temp_dir = get_temp_path()
     path.isdir(temp_dir) and rmtree(temp_dir)
 
@@ -99,6 +103,9 @@ def main():
 
     args = get_cli_arguments()
     parse_args = args.parse_args()
+
+    log_format = '"%(levelname)s:%(pathname)s:%(lineno)s:%(asctime)s:%(message)s"'
+    basicConfig(level=(DEBUG if parse_args.debug else WARN), format=log_format)
 
     try:
         code, _info = _run_util(args)
