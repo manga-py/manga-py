@@ -30,7 +30,10 @@ class ReadmangaMe(Provider, Std):
         result = self.re.search(r'rm_h\.init.+?(\[\[.+\]\])', content, self.re.M)
         if not result:
             return []
-        return [i[1] + i[0] + i[2] for i in self.json.loads(result.groups()[0].replace("'", '"'))]
+        images = self.json.loads(
+            result.groups()[0].replace("'", '"')
+        )
+        return [i[0] + i[2] for i in images]
 
     def get_cover(self):
         return self._cover_from_content('.picture-fotorama > img')
