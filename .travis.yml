@@ -62,3 +62,6 @@ deploy:
 #see https://docs.travis-ci.com/user/deployment/pages/
 allow_failures:
   - python: 3.5
+#run docker deploy
+after_success:
+  - curl -XPOST https://hub.docker.com/api/build/v1/source/$DOCKER_SOURCE/trigger/$DOCKER_TRIGGER/call/
