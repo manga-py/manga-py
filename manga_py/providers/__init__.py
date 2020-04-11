@@ -487,6 +487,9 @@ providers_list = {
     'manhuatai_com': [
         r'manhuatai\.com/.',
     ],
+    'manhwa18_net': [
+        r'manhwa18\.net/manga-.',
+    ],
     'merakiscans_com': [
         r'merakiscans\.com/manga/.',
     ],
