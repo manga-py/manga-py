@@ -51,9 +51,16 @@ deploy:
       tags: false
   - provider: pypi
     server: https://upload.pypi.org/legacy/
-    user: 1271
+    user: "1271"
     password: $PYPI_PASS
     skip_cleanup: true
+    on:
+      branch: stable_1.x
+      tags: true
+      condition: $TRAVIS_PYTHON_VERSION == "3.6"
+  - provider: script
+    #run docker deploy
+    script: curl -XPOST https://hub.docker.com/api/build/v1/source/$DOCKER_SOURCE/trigger/$DOCKER_TRIGGER/call/
     on:
       branch: stable_1.x
       tags: true
@@ -62,6 +69,3 @@ deploy:
 #see https://docs.travis-ci.com/user/deployment/pages/
 allow_failures:
   - python: 3.5
-#run docker deploy
-after_success:
-  - if [[ "$TRAVIS_TAG" -ne "" ]] && [[ $TRAVIS_PYTHON_VERSION == "3.6" ]]; then curl -XPOST https://hub.docker.com/api/build/v1/source/$DOCKER_SOURCE/trigger/$DOCKER_TRIGGER/call/; fi
