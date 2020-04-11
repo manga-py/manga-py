@@ -11,8 +11,21 @@ class MangaKakalotCom(Provider, Std):
     def get_main_content(self):
         return self.http_get(self.get_url())
 
+    def __new_url(self):
+        from requests import get
+        from sys import stderr
+        with get(self.get_url()) as req:
+            if req.url != self.get_url():
+                print('New url: %s' % req.url, file=stderr)
+
+            self._params['url'] = req.url
+            self._storage['main_content'] = req.text
+
     def get_manga_name(self) -> str:
-        return self._get_name(r'/read-(\w+)')
+        if ~self.get_url().find('/manga/'):
+            self.__new_url()
+
+        return self._get_name(r'/(?:read-|manga/)(\w+)')
 
     def get_chapters(self):
         return self._elements('.chapter-list span a')

@@ -384,6 +384,7 @@ providers_list = {
         r'mangajinnofansub\.com/lector/(series|read)/.',
     ],
     'mangakakalot_com': [
+        r'mangakakalot\.com/manga/.',
         r'mangakakalot\.com/read-.',
     ],
     'mangakatana_com': [
