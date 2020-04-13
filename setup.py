@@ -3,9 +3,7 @@
 
 from __future__ import print_function
 
-from os import path
-
-from setuptools import setup
+from setuptools import setup, find_packages
 
 from manga_py import __author__, __email__, __license__
 from manga_py.meta import __version__, __downloader_uri__
@@ -27,17 +25,7 @@ REQUIREMENTS = [
     'loguru',
 ]
 
-
-# if path.isfile('requirements.txt'):
-#     with open('requirements.txt') as f:
-#         REQUIREMENTS = f.read()
-
-
 long_description = 'Please see https://github.com/manga-py/manga-py'
-# if path.isfile('README.rst'):
-#     with open('README.rst') as f:
-#         long_description = f.read()
-
 
 release_status = 'Development Status :: 5 - Production/Stable'
 if ~__version__.find('beta'):
@@ -48,15 +36,13 @@ if ~__version__.find('alpha'):
 
 setup(
     name='manga_py',
-    packages=[
-        'manga_py',
-        'manga_py.base_classes',
-        'manga_py.crypt',
-        'manga_py.cli',
-        'manga_py.http',
-        'manga_py.providers',
-        'manga_py.providers.helpers',
-    ],
+    packages=find_packages(exclude=(
+        'tests',
+        '.github',
+        'Manga',
+        'helpers',
+        'mypy_cache',
+    )),
     include_package_data=True,
     version=__version__,
     description='Universal assistant download manga.',
