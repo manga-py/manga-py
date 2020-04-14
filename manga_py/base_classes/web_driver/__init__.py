@@ -29,26 +29,26 @@ def get_driver(browser: str = None):
 
     if browser is None:
         try:
-            driver = chrome()
+            driver = _chrome()
             debug('Use chrome')
             return driver
         except Exception as ce:
             try:
-                driver = firefox()
-                debug('Use firefox')
+                driver = _firefox()
+                debug('Use _firefox')
                 return driver
             except Exception as e:
                 error('Browser driver init error', ce, e)
                 raise e
     elif browser == 'chrome':
         try:
-            return chrome()
+            return _chrome()
         except Exception as e:
             error('Browser driver init error')
             raise e
-    elif browser == 'firefox':
+    elif browser == '_firefox':
         try:
-            return firefox()
+            return _firefox()
         except Exception as e:
             error('Browser driver init error')
             raise e
@@ -56,11 +56,11 @@ def get_driver(browser: str = None):
         raise RuntimeError('Bad driver type')
 
 
-def chrome():
+def _chrome():
     from .chrome import ChromeDriver
     return ChromeDriver().init_driver()
 
 
-def firefox():
+def _firefox():
     from .firefox import FirefoxDriver
     return FirefoxDriver().init_driver()

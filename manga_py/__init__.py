@@ -13,19 +13,16 @@ try:
     from loguru import logger
     catch = logger.catch
 except ImportError:
-    def catch(x):
-        print('Setup in progress?')
+    def catch(fn, *args):
+        def _catch():
+            try:
+                fn(*args)
+            except BaseException as e:
+                error(e)
+
+        return _catch
 
 display, driver = None, None
-try:
-    from .cli import Cli
-    from .cli.args import get_cli_arguments
-    from .fs import get_temp_path, get_info
-    from .info import Info
-    from .meta import __version__
-    from .base_classes.web_driver import display, driver
-except ImportError:
-    error('Setup in progress?')
 
 __author__ = 'Sergey Zharkov'
 __license__ = 'MIT'
@@ -34,6 +31,9 @@ __email__ = 'sttv-pc@mail.ru'
 
 @atexit_register
 def before_shutdown():
+    from .fs import get_temp_path
+    from .base_classes.web_driver import display, driver
+
     display and display.stop()
     driver and driver.close()
     temp_dir = get_temp_path()
@@ -41,6 +41,7 @@ def before_shutdown():
 
 
 def _init_cli(args, _info):
+    from .cli import Cli
     error_lvl = -5
     try:
         _info.start()
@@ -55,6 +56,7 @@ def _init_cli(args, _info):
 
 
 def _run_util(args) -> tuple:
+    from .info import Info
     parse_args = args.parse_args()
     _info = Info(parse_args)
     code = _init_cli(args, _info)
@@ -73,6 +75,7 @@ def _run_util(args) -> tuple:
 
 
 def _update_all(args):
+    from .fs import get_info
     parse_args = args.parse_args()
     info('Update all')
     multi_info = {}
@@ -90,6 +93,10 @@ def _update_all(args):
 
 @catch
 def main():
+    from .cli.args import get_cli_arguments
+    from .fs import get_temp_path
+    from .meta import __version__
+
     if ~__version__.find('alpha'):
         warning('Alpha release! There may be errors!')
     print('\n'.join((
