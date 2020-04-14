@@ -49,7 +49,9 @@ def _init_cli(args, _info):
         cli_mode.start()
         code = 0
     except Exception as e:
-        traceback.print_tb(e.__traceback__, error_lvl, file=stderr)
+        _args = args.parse_args()
+        if _args.debug:
+            traceback.print_tb(e.__traceback__, error_lvl, file=stderr)
         code = 1
         _info.set_error(e)
     return code
