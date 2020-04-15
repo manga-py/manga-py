@@ -175,6 +175,6 @@ Or docker-compose:
    :alt: GitHub repo size
 .. |PyPI - Downloads| image:: https://img.shields.io/pypi/dm/manga-py
    :alt: PyPI - Downloads
-.. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?color=success&label=PyPI+size&query=%24.size&url=https://sttv.me/manga-py.json&?cacheSeconds=3600&suffix=+Kb
+.. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?color=success&label=PyPI+size&query=%24.size&url=https://sttv.me/repo-size/manga-py.json&suffix=+Kb
    :alt: PyPI - size
 
