@@ -707,9 +707,6 @@ providers_list = {
     'translate_webtoons_com': [
         r'translate\.webtoons\.com/webtoonVersion\?webtoonNo.',
     ],
-    'trashscanlations_com': [
-        r'trashscanlations\.com/series/.',
-    ],
     'tonarinoyj_jp': [
         r'tonarinoyj\.jp/episode/.',
     ],
