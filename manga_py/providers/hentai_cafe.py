@@ -4,9 +4,9 @@ from .helpers.std import Std
 
 
 class HentaiCafe(GoMangaCo, Std):
-    _name_re = r'\.cafe(?:/manga/read)?/([^/]+)/'
-    _content_str = '{}/{}/'
-    _chapters_selector = '.content .last .x-btn'  # TODO
+    _name_re = r'\.cafe/manga(?:/(?:series|read))?/([^/]+)/'
+    _content_str = '{}/manga/series/{}/'
+    _chapters_selector = '.content .last .x-btn,.element .title a'
 
     def get_archive_name(self) -> str:
         return 'archive_{:0>2}'.format(self.chapter_id)
@@ -16,6 +16,9 @@ class HentaiCafe(GoMangaCo, Std):
 
     def get_cover(self) -> str:
         return self._cover_from_content('.entry-content img')
+
+    def prepare_cookies(self):
+        pass
 
 
 main = HentaiCafe
