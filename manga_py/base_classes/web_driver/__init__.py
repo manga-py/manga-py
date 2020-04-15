@@ -19,48 +19,57 @@ def get_driver(browser: str = None):
         error('Selenium not installed. Please, run "pip install selenium"')
         raise e
 
-    try:
-        from pyvirtualdisplay import Display
-        display = Display(visible=False, size=(1920, 1080))
-        display.start()
-    except ImportError:
-        display = None
-        info('Use real display. See here: https://github.com/ponty/PyVirtualDisplay/blob/master/README.rst')
+    display = _init_display()
 
     if browser is None:
-        try:
-            driver = _chrome()
-            debug('Use chrome')
-            return driver
-        except Exception as ce:
-            try:
-                driver = _firefox()
-                debug('Use _firefox')
-                return driver
-            except Exception as e:
-                error('Browser driver init error', ce, e)
-                raise e
+        driver = _auto_browser()
     elif browser == 'chrome':
-        try:
-            return _chrome()
-        except Exception as e:
-            error('Browser driver init error')
-            raise e
+        driver = _chrome()
     elif browser == '_firefox':
-        try:
-            return _firefox()
-        except Exception as e:
-            error('Browser driver init error')
-            raise e
+        driver = _firefox()
     else:
         raise RuntimeError('Bad driver type')
 
 
+def _init_display():
+    try:
+        from pyvirtualdisplay import Display
+        _display = Display(visible=False, size=(1920, 1080))
+        _display.start()
+    except ImportError:
+        _display = None
+        info('Use real display. See here: https://github.com/ponty/PyVirtualDisplay/blob/master/README.rst')
+    return _display
+
+
+def _auto_browser():
+    try:
+        _driver = _chrome()
+        debug('Use chrome')
+        return _driver
+    except Exception as ce:
+        try:
+            _driver = _firefox()
+            debug('Use _firefox')
+            return _driver
+        except Exception as e:
+            error('Browser driver init error', ce, e)
+            raise e
+
+
 def _chrome():
-    from .chrome import ChromeDriver
-    return ChromeDriver().init_driver()
+    try:
+        from .chrome import ChromeDriver
+        return ChromeDriver().init_driver()
+    except Exception as e:
+        error('Chrome browser driver init error')
+        raise e
 
 
 def _firefox():
-    from .firefox import FirefoxDriver
-    return FirefoxDriver().init_driver()
+    try:
+        from .firefox import FirefoxDriver
+        return FirefoxDriver().init_driver()
+    except Exception as e:
+        error('Firefox browser driver init error')
+        raise e

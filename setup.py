@@ -72,7 +72,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Topic :: Internet :: WWW/HTTP',
     ],
-    python_requires='>=3.5',
+    python_requires='>=3.5.3',
     install_requires=REQUIREMENTS,
     entry_points={
         'console_scripts': [
