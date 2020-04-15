@@ -8,8 +8,6 @@ dist: bionic
 python:
   - "3.5"
   - "3.6"
-  - "3.7"
-#  - "nightly"
 cache: pip
 before_install:
   - sudo apt-get update
@@ -66,6 +64,3 @@ deploy:
       tags: true
       condition: $TRAVIS_PYTHON_VERSION == "3.6"
 #    fqdn: yuru-yuri.sttv.me
-#see https://docs.travis-ci.com/user/deployment/pages/
-allow_failures:
-  - python: 3.5
