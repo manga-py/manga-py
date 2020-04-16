@@ -34,6 +34,7 @@ after_script:
   - ./helpers/after_script.sh
 before_deploy:
   - echo "Start make gh-pages content"
+  - python gh_build.py
   - ./helpers/before_deploy.sh
 deploy:
   - provider: pages

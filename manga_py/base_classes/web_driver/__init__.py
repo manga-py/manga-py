@@ -13,22 +13,31 @@ def get_driver(browser: str = None):
     if driver is not None:
         return driver
 
-    try:
-        from selenium.webdriver import __version__
-    except ImportError as e:
-        error('Selenium not installed. Please, run "pip install selenium"')
-        raise e
+    _assert_selenium()
 
     display = _init_display()
 
     if browser is None:
         driver = _auto_browser()
-    elif browser == 'chrome':
+        return driver
+
+    if browser == 'chrome':
         driver = _chrome()
-    elif browser == '_firefox':
+        return driver
+
+    if browser == 'firefox':
         driver = _firefox()
-    else:
-        raise RuntimeError('Bad driver type')
+        return driver
+
+    raise RuntimeError('Bad driver type')
+
+
+def _assert_selenium():
+    try:
+        from selenium.webdriver import __version__
+    except ImportError as e:
+        error('Selenium not installed. Please, run "pip install selenium"')
+        raise e
 
 
 def _init_display():

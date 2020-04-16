@@ -1,6 +1,6 @@
-'''
+"""
 manga-py module for CLI and its options.
-'''
+"""
 
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, RawDescriptionHelpFormatter
 
@@ -9,11 +9,11 @@ from manga_py.meta import __version__
 
 class DescriptionDefaultsHelpFormatter(ArgumentDefaultsHelpFormatter,
                                        RawDescriptionHelpFormatter):
-    '''
+    """
     Class to format --help cli option with 2 features to output:
         programm's description in a raw mode,
         options default values.
-    '''
+    """
 
 
 def _image_args(args_parser):  # pragma: no cover
@@ -262,9 +262,9 @@ def _reader_args(args_parser):  # pragma: no cover
 
 
 def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
-    '''
+    """
     Method to generate manga-py CLI with its options.
-    '''
+    """
     args_parser = ArgumentParser(
         add_help=False,
         formatter_class=DescriptionDefaultsHelpFormatter,

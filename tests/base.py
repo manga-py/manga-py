@@ -33,6 +33,7 @@ def httpbin(bp: Base, _path: str):
             response = bp.http().requests(url=url, method='head')
             if response.ok:
                 _httpbin = url
+                break
     if _httpbin is None:
         raise AttributeError('503. Service temporary unavailable / Path: %s ' % _path)
     return '{}/{}'.format(_httpbin, _path.lstrip('/'))
