@@ -4,7 +4,7 @@ manga-py module for CLI and its options.
 
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter, RawDescriptionHelpFormatter
 
-from manga_py.meta import __version__
+from manga_py.meta import _version
 
 
 class DescriptionDefaultsHelpFormatter(ArgumentDefaultsHelpFormatter,
@@ -273,7 +273,7 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
             '%(prog)s is the universal manga downloader (for your offline reading).\n  '
             'Site: https://manga-py.com/manga-py/\n  '
             'Source-code: https://github.com/manga-py/manga-py\n  '
-            'Version: ' + __version__
+            'Version: ' + _version
         ),
         epilog=(
             'So, that is how %(prog)s can be executed to download yours favourite mangas.\n'
@@ -296,7 +296,7 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
         '-v',
         '--version',
         action='version',
-        version=__version__,
+        version=_version,
         help=(
             'Show %(prog)s\'s version number and exit.'
         )

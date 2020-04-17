@@ -1,6 +1,6 @@
 from manga_py.providers import providers_list
 from manga_py.fs import root_path
-from manga_py.meta import __repo_name__
+from manga_py.meta import _repo_name
 from json import dumps
 from datetime import datetime
 
@@ -94,7 +94,7 @@ def prepare_html(html):
     with open(html, 'r') as r:
         content = r.read()
     with open(html, 'w') as w:
-        content = content.replace('__repo_name__', __repo_name__)
+        content = content.replace('__repo_name__', _repo_name)
         today = datetime.today()
         content = content.replace('__last_update__', '{}/{:0>2}/{:0>2} {:0>2}-{:0>2}-{:0>2}'.format(
             today.year, today.month, today.day, today.hour, today.minute, today.second

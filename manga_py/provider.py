@@ -24,8 +24,8 @@ from .fs import (
 )
 from .http import MultiThreads
 from .info import Info
-from .meta import __downloader_uri__
-from .meta import __version__
+from .meta import _downloader_uri
+from .meta import _version
 
 
 class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
@@ -213,7 +213,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     def make_archive(self):
         _path = self.get_archive_path()
 
-        info = 'Site: {}\nDownloader: {}\nVersion: {}'.format(self.get_url(), __downloader_uri__, __version__)
+        info = 'Site: {}\nDownloader: {}\nVersion: {}'.format(self.get_url(), _downloader_uri, _version)
 
         # """
         # make book info

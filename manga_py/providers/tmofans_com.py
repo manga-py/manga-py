@@ -1,7 +1,7 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
 from sys import stderr
-from manga_py.meta import __downloader_uri__
+from manga_py.meta import _downloader_uri
 
 
 class TmoFansCom(Provider, Std):
@@ -13,7 +13,7 @@ class TmoFansCom(Provider, Std):
             self.log('\nNot found chapter index.\nURL: {}\nChapter: {}\nPlease, report this bug: {}{}\n'.format(
                 self.get_url(),
                 self.chapter[0],
-                __downloader_uri__, '/issues/new?template=bug_report.md'
+                _downloader_uri, '/issues/new?template=bug_report.md'
             ), file=stderr)
 
             raise e

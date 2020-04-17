@@ -1,3 +1,6 @@
-__version__ = '1.17'
-__repo_name__ = 'manga-py/manga-py'
-__downloader_uri__ = 'https://github.com/%s' % __repo_name__
+_author = 'Sergey Zharkov'
+_license = 'MIT'
+_email = 'sttv-pc@mail.ru'
+_version = '1.17'
+_repo_name = 'manga-py/manga-py'
+_downloader_uri = 'https://github.com/%s' % _repo_name

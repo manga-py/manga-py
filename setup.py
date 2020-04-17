@@ -5,8 +5,7 @@ from __future__ import print_function
 
 from setuptools import setup, find_packages
 
-from manga_py import __author__, __email__, __license__
-from manga_py.meta import __version__, __downloader_uri__
+from manga_py.meta import _version, _downloader_uri, _author, _email, _license
 
 REQUIREMENTS = [
     'wheel',
@@ -22,15 +21,22 @@ REQUIREMENTS = [
     'pyexecjs',
     'html-purifier',
     'selenium',
-    'loguru',
 ]
 
-long_description = 'Please see https://github.com/manga-py/manga-py'
+with open('requirements.txt', 'r') as r:
+    REQUIREMENTS = r.readlines()
+
+
+long_description = """
+Universal manga downloader.
+
+Please see https://github.com/manga-py/manga-py
+"""
 
 release_status = 'Development Status :: 5 - Production/Stable'
-if ~__version__.find('beta'):
+if ~_version.find('beta'):
     release_status = 'Development Status :: 4 - Beta'
-if ~__version__.find('alpha'):
+if ~_version.find('alpha'):
     release_status = 'Development Status :: 3 - Alpha'
 
 
@@ -44,12 +50,12 @@ setup(
         'mypy_cache',
     )),
     include_package_data=True,
-    version=__version__,
+    version=_version,
     description='Universal assistant download manga.',
     long_description=long_description,
-    author=__author__,
-    author_email=__email__,
-    url=__downloader_uri__,
+    author=_author,
+    author_email=_email,
+    url=_downloader_uri,
     zip_safe=False,
     data_files=[
         ('manga_py/storage', [
@@ -59,9 +65,9 @@ setup(
             'manga_py/crypt/aes_zp.js',
         ]),
     ],
-    download_url='{}/archive/{}.tar.gz'.format(__downloader_uri__, __version__),
+    download_url='{}/archive/{}.tar.gz'.format(_downloader_uri, _version),
     keywords=['manga-downloader', 'manga', 'manga-py'],
-    license=__license__,
+    license=_license,
     classifiers=[  # look here https://pypi.python.org/pypi?%3Aaction=list_classifiers
         release_status,
         'License :: OSI Approved :: MIT License',
@@ -70,6 +76,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Topic :: Internet :: WWW/HTTP',
     ],
     python_requires='>=3.5.3',

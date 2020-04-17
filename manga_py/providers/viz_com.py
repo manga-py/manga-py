@@ -26,7 +26,7 @@ class VizCom(Provider, Std):
         except AttributeError:
             self.log('manga-py can not get the number of the chapter!\nurl: {}'.format(self.chapter), file=stderr)
             self.log(' Please, report this error\n {}{}\n\n'.format(
-                meta.__downloader_uri__, '/issues/new?template=bug_report.md'
+                meta._downloader_uri, '/issues/new?template=bug_report.md'
             ), file=stderr)
         self.__is_debug and self.log('Chapter idx: {}'.format(idx))
         return idx
@@ -154,7 +154,7 @@ class VizCom(Provider, Std):
         except ValueError:
             self.__is_debug and self.log('Remember error!', file=stderr)
             self.__is_debug and self.log('Please, report this error {}{}'.format(
-                meta.__downloader_uri__, '/issues/new?template=bug_report.md'
+                meta._downloader_uri, '/issues/new?template=bug_report.md'
             ), file=stderr)
 
     def save_cookies(self, cookies: dict):

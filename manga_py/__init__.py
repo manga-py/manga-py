@@ -21,10 +21,6 @@ def catch(fn, *args):
 
 display, driver = None, None
 
-__author__ = 'Sergey Zharkov'
-__license__ = 'MIT'
-__email__ = 'sttv-pc@mail.ru'
-
 
 @atexit_register
 def before_shutdown():
@@ -94,9 +90,9 @@ def _update_all(args):
 def main():
     from .cli.args import get_cli_arguments
     from .fs import get_temp_path
-    from .meta import __version__
+    from .meta import _version
 
-    if ~__version__.find('alpha'):
+    if ~_version.find('alpha'):
         warning('Alpha release! There may be errors!')
     print('\n'.join((
         'Please remember that all sites earn on advertising.',
