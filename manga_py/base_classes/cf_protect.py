@@ -1,5 +1,5 @@
 import cloudscraper
-from loguru import logger
+from logging import error
 
 
 def cf_scrape(url):  # pragma: no cover
@@ -8,5 +8,5 @@ def cf_scrape(url):  # pragma: no cover
     try:
         return scraper.get_tokens(url)
     except Exception as e:
-        logger.error(e)
+        error(e)
         raise e

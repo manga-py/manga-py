@@ -9,18 +9,15 @@ from shutil import rmtree
 from sys import exit, stderr
 from logging import error, info, warning, basicConfig, DEBUG, WARN
 
-try:
-    from loguru import logger
-    catch = logger.catch
-except ImportError:
-    def catch(fn, *args):
-        def _catch():
-            try:
-                fn(*args)
-            except BaseException as e:
-                error(e)
 
-        return _catch
+def catch(fn, *args):
+    def _catch():
+        try:
+            fn(*args)
+        except Exception as e:
+            error(e)
+
+    return _catch
 
 display, driver = None, None
 
@@ -120,7 +117,7 @@ def main():
         code, _info = _run_util(args)
         parse_args.quiet or (parse_args.print_json and print(_info))
     except KeyboardInterrupt:
-        error('\nUser interrupt')
+        warning('\nUser interrupt')
         code = 1
 
     exit(code)

@@ -2,6 +2,7 @@ import json
 import re
 from abc import ABC
 from sys import stderr
+from logging import debug, warning, error
 
 from .base_classes import (
     Abstract,
@@ -9,7 +10,8 @@ from .base_classes import (
     Base,
     Callbacks,
     cf_scrape,
-    Static
+    Static,
+    ArchiveName,
 )
 from .fs import (
     get_temp_path,
@@ -26,7 +28,7 @@ from .meta import __downloader_uri__
 from .meta import __version__
 
 
-class Provider(Base, Abstract, Static, Callbacks, ABC):
+class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     _volumes_count = 0
     _archive = None
     _zero_fill = False
@@ -82,15 +84,19 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
             }
 
         self.prepare_cookies()
-        self._storage['manga_name'] = self.get_manga_name()
-        self._storage['main_content'] = self.content
+
+        debug('Manga name: %s' % self.manga_name)
+        debug('Content length %d' % len(self.content))
         self._storage['chapters'] = self._prepare_chapters(self.get_chapters())
+        debug('Chapters received')
 
         if not self._params.get('reverse_downloading', False):
             self._storage['chapters'] = self._storage['chapters'][::-1]
 
         self._storage['init_cookies'] = self._storage['cookies']
-        self._info and self._info.set_ua(self.http().user_agent)
+        __ua = self._info.set_ua(self.http().user_agent)
+
+        debug('User-agent: %s' % __ua)
 
         self.loop_chapters()
 
@@ -122,18 +128,25 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
         for idx, __url in enumerate(volumes):
             self.chapter_id = idx
             if idx < _min or (count >= _max > 0) or self._check_archive():
+                debug('Skip chapter %d / %s' % (idx, __url))
                 continue
+
+            debug('Processed chapter %d / %s' % (idx, __url))
+
             count += 1
             self._info.add_volume(self.chapter_for_json(), self.get_archive_path())
             self._download_chapter()
 
+        if count == 0 and not self.quiet:
+            print('Not detect new chapters', file=stderr)
+
     def loop_files(self):
         if isinstance(self._storage['files'], list):
             if self._show_chapter_info:
-                self.log('\n\nCurrent chapter url: %s\n' % (self.chapter,))
+                debug('\n\nCurrent chapter url: %s\n' % (self.chapter,))
             if len(self._storage['files']) == 0:
                 # see Std
-                self.log('Error processing file: %s' % self.get_archive_name(), file=stderr)
+                error('Error processing file: %s' % self.get_archive_name())
                 return
             self._archive = Archive()
             self._archive.not_change_files_extension = self._params.get('not_change_files_extension', False)
@@ -178,14 +191,13 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
         if not _path:
             _path = str(self.chapter_id)
 
-        name = self._params.get('name', '')
-        if not len(name):
-            name = self._storage['manga_name']
+        name = self.name
 
         additional_data_name = ''
         if self.http().has_error:
             additional_data_name = 'ERROR.'
             self.http().has_error = False
+            warning('Error processing chapter.')
 
         return path_join(
             self._params.get('destination', 'Manga'),
@@ -270,3 +282,17 @@ class Provider(Base, Abstract, Static, Callbacks, ABC):
         if content is None:
             content = self.get_main_content()
         return content
+
+    @property
+    def manga_name(self) -> str:
+        name = self._storage.get('manga_name', None)
+        if name is None:
+            name = self.get_manga_name()
+        return name
+
+    @property
+    def name(self) -> str:
+        name = self._params.get('name', '')
+        if not len(name):
+            name = self.manga_name
+        return name

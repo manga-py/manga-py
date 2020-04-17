@@ -1,9 +1,9 @@
 import sys
 from argparse import ArgumentParser
 from getpass import getpass
+from logging import error
 from os import name as os_name
 
-from loguru import logger
 from progressbar import ProgressBar
 
 from manga_py.fs import check_free_space, get_temp_path
@@ -35,7 +35,7 @@ class Cli:  # pragma: no cover
                 info=self._info,
             )
         except AttributeError as e:
-            logger.error('\n'.join([
+            error('\n'.join([
                 'Please check if your inputed domain is supported by manga-py: ',
                 '- https://manga-py.com/manga-py/#resources-list',
                 '- https://manga-py.github.io/manga-py/#resources-list (alternative)',

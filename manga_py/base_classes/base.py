@@ -1,7 +1,7 @@
 from os import path
 from urllib.parse import urlparse
 
-from loguru import logger
+from logging import warning, error
 from lxml.html import HtmlElement
 
 from manga_py.http import Http
@@ -14,6 +14,7 @@ class Base:
     _image_params = None
     _http_kwargs = None
     __http = None
+    __quiet = False
 
     def __init__(self):
 
@@ -49,16 +50,17 @@ class Base:
 
     @property
     def domain(self) -> str:
+        _url = self._params['url']
         try:
             if not self._storage.get('domain_uri', None):
-                parsed = urlparse(self._params['url'], 'https')
+                parsed = urlparse(_url, 'https')
                 self._storage['domain_uri'] = '{}://{}'.format(
                     parsed.scheme,
                     parsed.netloc
                 )
             return self._storage.get('domain_uri', '')
         except Exception:
-            logger.error('url is broken!')
+            error('url "%s" is broken!' % _url)
             exit()
 
     @staticmethod
@@ -130,7 +132,7 @@ class Base:
                 url = self.__normalize_chapters(n, i)
                 items.append(url)
         else:
-            logger.warning('Chapters list empty. Check %s' % self.get_url())
+            warning('Chapters list empty. Check %s' % self.get_url())
         return items
 
     @property
@@ -158,3 +160,12 @@ class Base:
     def put_info_json(self, meta):
         # manga_name, url, directory
         pass
+
+    @property
+    def quiet(self):
+        return self.__quiet
+
+    @quiet.setter
+    def quiet(self, val: bool):
+        self.__quiet = val
+
