@@ -3,21 +3,22 @@ from .helpers.std import Std
 
 
 class MangaZukiMe(Provider, Std):
+    _prefix = '/manga/'
 
     def get_chapter_index(self) -> str:
         try:
-            re = self.re.compile(r'/manga/[^/]+/.+?(\d+(?:-\d+)?)[\?/]')
+            re = self.re.compile(r'%s[^/]+/.+?(\d+(?:-\d+)?)[\?/]' % self._prefix)
             return re.search(self.chapter).group(1)
         except AttributeError:
             # mangazuki.online
-            re = self.re.compile(r'/manga/[^/]+/.+?(\d+(?:-\d+)?)$')
+            re = self.re.compile(r'%s[^/]+/.+?(\d+(?:-\d+)?)$' % self._prefix)
             return re.search(self.chapter).group(1)
 
     def get_main_content(self):
-        return self._get_content('{}/manga/{}')
+        return self._get_content('{}%s{}' % self._prefix)
 
     def get_manga_name(self) -> str:
-        return self._get_name('/manga/([^/]+)')
+        return self._get_name('%s([^/]+)' % self._prefix)
 
     def get_chapters(self):
         chapters = []
@@ -40,8 +41,9 @@ class MangaZukiMe(Provider, Std):
         return image
 
     def prepare_cookies(self):
-        self.cf_scrape(self.get_url())
+        self._prefix = self.re.search('(/mangas?/)', self.get_url()).group(1)
 
+        self.cf_scrape(self.get_url())
 
 
 main = MangaZukiMe
