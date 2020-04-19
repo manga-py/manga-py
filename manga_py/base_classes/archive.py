@@ -49,9 +49,9 @@ class Archive:
             file = file[0], ext
         return file
 
-    @staticmethod
-    def __test_is_image(_path):
+    def __test_is_image(self, _path):
         if not MangaImage.is_image(_path):
+            self.has_error = True
             warning('File "%s" isn\'t image' % _path)
 
     def __add_writes(self):
