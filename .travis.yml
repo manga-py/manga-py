@@ -59,7 +59,7 @@ deploy:
       condition: $TRAVIS_PYTHON_VERSION == "3.6"
   - provider: script
     #run docker deploy
-    script: curl -XPOST https://hub.docker.com/api/build/v1/source/$DOCKER_SOURCE/trigger/$DOCKER_TRIGGER/call/
+    script:  if  echo $TRAVIS_TAG | grep '^[0-9]\.[0-9]*\.*[0-9]*\.*[0-9]*$'; curl -XPOST https://hub.docker.com/api/build/v1/source/$DOCKER_SOURCE/trigger/$DOCKER_TRIGGER/call/; fi
     on:
       branch: stable_1.x
       tags: true

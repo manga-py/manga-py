@@ -30,17 +30,59 @@ class MangaParkOrg(Provider, Std):
             else:
                 return answer
 
+    def _auto_language(self, variants):
+        language = self.arg('language')
+
+        if language is not None:
+
+            for n, variant in enumerate(variants):
+                text = variant.cssselect('.flag + a.ml-1')[0].text_content()  # type: str
+
+                if ~text.find('[' + language + ']'):
+                    return n + 1
+
+        return None
+
+    def _auto_translator(self, variants):
+        translator = self.arg('translator')
+
+        if translator is not None:
+
+            for n, variant in enumerate(variants):
+                text = variant.cssselect('.flag + a.ml-1')[0].text_content()  # type: str
+
+                lng = text.find(']')
+                if ~text.find(translator, lng):
+                    return n + 1
+
+        return None
+
+    def _auto_rules(self, variants, default):
+        auto_lang = self._auto_language(variants)
+        auto_translator = self._auto_translator(variants)
+
+        if auto_lang is not None:
+            return auto_lang
+
+        if auto_translator is not None:
+            return auto_translator
+
+        if len(variants) > 1:
+            self._print_variants(variants)
+            return self._answer(len(variants))
+
+        return default
+
     def get_chapters(self):
         # multi-lang!
         variants = self._elements('div.card')
-        answer = '1'
-        if len(variants) > 1:
-            self._print_variants(variants)
-            answer = self._answer(len(variants))
+        answer = self._auto_rules(variants, '1')
+
         if len(variants) > 1 and not len(answer):
             parser = self.document_fromstring(self.content)
         else:
             parser = variants[int(answer) - 1]
+
         items = parser.cssselect('.card-body i + a')
         result = []
         re = self.re.compile(r'[Cc]h\.(\d+(?:\.\d+)?)')
@@ -67,6 +109,9 @@ class MangaParkOrg(Provider, Std):
 
     def chapter_for_json(self) -> str:
         return self.chapter[1]
+
+    def prepare_cookies(self):
+        self.http().cookies['set'] = 'theme=1&h=1&img_load=4&img_zoom=5&img_tool=4&twin_m=0&twin_c=0&manga_a_warn=1&history=1&timezone=14'
 
 
 main = MangaParkOrg

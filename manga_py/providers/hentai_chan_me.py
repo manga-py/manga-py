@@ -13,8 +13,8 @@ class HentaiChanMe(MangaChanMe):
         url = self.domain + '/index.php'
         # login = kwargs.get('login', '')
         # password = kwargs.get('password', '')
-        login = self.quest([], 'Please, input login')
-        password = self.quest_password('Please, input password')
+        login = self.arg('login') or self.quest([], 'Please, input login')
+        password = self.arg('password') or self.quest_password('Please, input password')
         method = kwargs.get('method', 'post')
         data = {'login_name': login, 'login_password': password, 'image': 'Вход', 'login': 'submit'}
         response = self.http().requests(method=method, data=data, url=url)

@@ -1,5 +1,6 @@
 from os import path
 from urllib.parse import urlparse
+from typing import Optional, List
 
 from logging import warning, error
 from lxml.html import HtmlElement
@@ -15,6 +16,7 @@ class Base:
     _http_kwargs = None
     __http = None
     __quiet = False
+    __arguments = None
 
     def __init__(self):
 
@@ -168,4 +170,25 @@ class Base:
     @quiet.setter
     def quiet(self, val: bool):
         self.__quiet = val
+
+    def _fill_arguments(self, arguments: List[str]):
+        know_args = [
+            'login',
+            'password',
+            'language',
+            'translator',
+        ]
+
+        if self.__arguments is None:
+            self.__arguments = {}
+
+        for arg in arguments:
+            key, value = arg.split('=', 1)  # type: str, str
+            if key in know_args:
+                self.__arguments[key] = value
+
+    def arg(self, key: str) -> Optional[str]:
+        if self.__arguments is None:
+            return None
+        return self.__arguments.get(key)
 

@@ -1,5 +1,6 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
+from html import escape
 
 
 class MangaDexOrg(Provider, Std):
@@ -54,7 +55,7 @@ class MangaDexOrg(Provider, Std):
     def get_archive_name(self) -> str:
         prev = super().get_archive_name()
         code = self.chapter['lang_code']
-        return '{}-{}'.format(prev, self.__countries[code])
+        return '{}-{}'.format(prev, self.__countries.get(code, 'Other'))
 
     def get_chapter_index(self) -> str:
         return self.chapter['chapter'].replace('.', '-')
@@ -82,14 +83,31 @@ class MangaDexOrg(Provider, Std):
             chapters.append(ch)
         return chapters
 
-    def get_chapters(self):
-        if self.__chapters is None:
+    def _quest_languages(self):
+        _languages = self._languages
+        arg_language = self.arg('language')
+        if arg_language is None:
             languages = self.quest(
                 [],
-                'Available languages:\n{}\n\nPlease, select your lang (empty for all, space for delimiter lang):'.format(
-                    '\n'.join(self._languages)
-                )).split(' ')
-            self.__chapters = self.filter_chapters(languages)
+                'Available languages:\n{}\n\nPlease, select your lang (empty for all, comma for delimiter lang):'.format(
+                    '\n'.join(_languages)
+                )).split(',')
+        else:
+            languages = arg_language.split(',')
+
+        return languages
+
+    def get_chapters(self):
+        if self.__chapters is None:
+            languages = self._quest_languages()
+            _ch = self.filter_chapters(self._chapters, languages)
+
+            translator = self.arg('translator')
+            if translator is not None:
+                _ch = self.filter_chapters_translator(_ch, translator)
+
+            self.__chapters = _ch
+
         return self.__chapters
 
     @property
@@ -104,10 +122,16 @@ class MangaDexOrg(Provider, Std):
             if lang['lang_code'] not in self.__languages:
                 self.__languages.append(lang['lang_code'])
 
-    def filter_chapters(self, languages: list) -> list:
+    def filter_chapters(self, chapters, languages: list) -> list:
         if len(languages) == 0 or languages[0].strip(' ') == '':
-            return self._chapters
-        return [chapter for chapter in self._chapters if chapter['lang_code'] in languages]
+            return chapters
+        return [chapter for chapter in chapters if chapter['lang_code'] in languages]
+
+    def filter_chapters_translator(self, chapters, translator: str) -> list:
+        enc_translator = escape(translator)
+        return [chapter for chapter in chapters if (
+                chapter['group_name'] == translator or chapter['group_name'] == enc_translator
+        )]
 
     def get_files(self):
         content = self.json.loads(self.http_get('{}/api/?id={}&server=null&type=chapter'.format(
