@@ -52,29 +52,6 @@ class TestBaseClass(unittest.TestCase):
         bp = Base()
         self.assertRaises(KeyError, bp.get_url)
 
-    def test_autocrop(self):
-        bp = Base()
-        img = files_paths[0]
-        fs.unlink(root_path + img[1])
-        bp.image_auto_crop(root_path + img[0], root_path + img[1])
-        self.assertTrue(fs.is_file(root_path + img[1]))
-
-    def test_manualcrop0(self):
-        bp = Base()
-        img = files_paths[0]
-        fs.unlink(root_path + img[1])
-        bp._image_params['crop'] = (10, 2, 100, 100)
-        bp.image_manual_crop(root_path + img[0], root_path + img[1])
-        self.assertTrue(fs.is_file(root_path + img[1]))
-
-    def test_manualcrop1(self):
-        bp = Base()
-        img = files_paths[0]
-        fs.unlink(root_path + img[1])
-        bp._image_params['offsets_crop'] = (10, 32, 12, 5)
-        bp.image_manual_crop(root_path + img[0], root_path + img[1])
-        self.assertTrue(fs.is_file(root_path + img[1]))
-
     def test_get(self):
         bp = Base()
         bp._params['url'] = 'http://example.org/manga/here.html'

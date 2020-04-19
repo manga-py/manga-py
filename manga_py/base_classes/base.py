@@ -17,6 +17,8 @@ class Base:
     __http = None
     __quiet = False
     __arguments = None
+    chapter_id = 0
+    quiet = False
 
     def __init__(self):
 
@@ -65,18 +67,6 @@ class Base:
             error('url "%s" is broken!' % _url)
             exit()
 
-    @staticmethod
-    def image_auto_crop(src_path, dest_path=None):
-        image = MangaImage(src_path=src_path)
-        image.crop_auto(dest_path=dest_path)
-        image.close()
-
-    def image_manual_crop(self, src_path, dest_path=None):  # sizes: (left, top, right, bottom)
-        if isinstance(self._image_params['crop'], tuple) != (0, 0, 0, 0):
-            image = MangaImage(src_path=src_path)
-            image.crop_manual_with_offsets(offsets=self._image_params['crop'], dest_path=dest_path)
-            image.close()
-
     def _build_http_params(self, params):
         if params is None:
             params = {}
@@ -109,14 +99,6 @@ class Base:
         if self._params.get('cf_scrape', False):
             return ua_storage
         return ua_params
-
-    @property
-    def chapter_id(self):
-        return self._storage.get('current_chapter', 0)
-
-    @chapter_id.setter
-    def chapter_id(self, idx):
-        self._storage['current_chapter'] = idx
 
     @classmethod
     def __normalize_chapters(cls, n, element):
@@ -162,14 +144,6 @@ class Base:
     def put_info_json(self, meta):
         # manga_name, url, directory
         pass
-
-    @property
-    def quiet(self):
-        return self.__quiet
-
-    @quiet.setter
-    def quiet(self, val: bool):
-        self.__quiet = val
 
     def _fill_arguments(self, arguments: List[str]):
         know_args = [

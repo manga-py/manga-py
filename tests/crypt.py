@@ -12,6 +12,23 @@ import json
 import re
 
 
+class Provider_(Provider):
+    def get_main_content(self):
+        pass
+
+    def get_manga_name(self) -> str:
+        pass
+
+    def get_chapters(self) -> list:
+        pass
+
+    def get_files(self) -> list:
+        pass
+
+    def get_chapter_index(self) -> str:
+        pass
+
+
 class TestCrypt(unittest.TestCase):
     _ac_qq_data = '8eyJjb21pYyI6eyJpZCI6NTM2NDM1LCJ0aXRsZSI6Ilx1NTczMFx1ODVjZlx1OWY1MFx1NTkyOSIsImNvbGxlY3QiOiIxNDg3OTU1IiwiaXNKYXBhbkNvbWljIjpmYWxzZSwiaXNMaWdodE5vdmVsIjpmYWxzZSwiaXNMaWdodENvbWljIjpmYWxzZSwiaXNGaW5pc2giOmZhbHNlLCJpc1JvYXN0YWJsZSI6dHJ1ZSwiZUlkIjoiS2xCUFMwTlBYVlZhQWdZZkFRWUFBd3NNSEVKWVhTZz0ifSwiY2hhcHRlciI6eyJjaWQiOjI3NCwiY1RpdGxlIjoiMTI1XHVmZjFhXHU3OGE3XHU5MWNlXHUwMGI3XHU4NTg3XHU1YzlhIFx1NGUwYSIsImNTZXEiOiIyNTUiLCJ2aXBTdGF0dXMiOjIsInByZXZDaWQiOjI3MywibmV4dENpZCI6Mjc1LCJibGFua0ZpcnN0IjoxLCJjYW5SZWFkIjpmYWxzZX0sInBpY3R1cmUiOlt7InBpZCI6IjI4MDM3Iiwid2lkdGgiOjkwMCwiaGVpZ2h0IjoxMjczLCJ1cmwiOiJodHRwczpcL1wvbWFuaHVhLnFwaWMuY25cL21hbmh1YV9kZXRhaWxcLzBcLzI1XzE2XzI0X2U5NTNiZjhhMTBjODA1MWQxNTQyYzA0OWQ0OTdlOTJhXzI4MDM3LmpwZ1wvMCJ9XSwiYWRzIjp7InRvcCI6IiIsImxlZnQiOltdLCJib3R0b20iOnsidGl0bGUiOiJcdTRlMDdcdTRlOGJcdTRlMDdcdTcwNzUiLCJwaWMiOiJodHRwczpcL1wvbWFuaHVhLnFwaWMuY25cL29wZXJhdGlvblwvMFwvMDVfMTFfNDRfYzlhZGZlZGQxMjExNjczNTAyMWEyMmJjYTY2YWVkNDFfMTUzMDc2MjI2NjYxNy5qcGdcLzAiLCJ1cmwiOiJodHRwOlwvXC9hYy5xcS5jb21cL0NvbWljXC9jb21pY0luZm9cL2lkXC82MzEzOTkiLCJ3aWR0aCI6IjY1MCIsImhlaWdodCI6IjExMCJ9fSwiYXJ0aXN0Ijp7ImF2YXRhciI6Imh0dHA6XC9cL3RoaXJkcXEucWxvZ28uY25cL2c/Yj1zZGsmaz03dmg2WVBhSUQzNWRaQzZXMkppYlBFZyZzPTY0MCZ0PTE1MTczNzA2MjkiLCJuaWNrIjoiXHVmZjA4XHU1MTZiXHU1ZWE2XHVmZjA5XHU0ZTAwXHU0ZThjXHU1ZGU1XHU0ZjVjXHU1YmE0IiwidWluQ3J5cHQiOiJkMnRQZG5WV05GZE9XVms5In19'
     _kissmanga_data = [
@@ -23,7 +40,7 @@ class TestCrypt(unittest.TestCase):
 
     @property
     def _provider(self):
-        provider = Provider()
+        provider = Provider_()
         provider._params['url'] = 'http://example.org'
         return provider
 
