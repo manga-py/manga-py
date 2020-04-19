@@ -110,3 +110,7 @@ class MangaImage:
         if img:
             return '.' + img
         return None
+
+    @staticmethod
+    def is_image(_path) -> bool:
+        return imghdr.what(_path) is not None
