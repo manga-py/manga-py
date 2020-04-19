@@ -8,23 +8,17 @@ from setuptools import setup, find_packages
 from manga_py.meta import _version, _downloader_uri, _author, _email, _license
 
 REQUIREMENTS = [
-    'wheel',
-    'lxml',
-    'cssselect',
-    'Pillow',
-    'requests',
-    'pycrypto',
-    'cloudscraper',
-    'progressbar2',
-    'urllib3',
-    'packaging',
-    'pyexecjs',
-    'html-purifier',
-    'selenium',
+    'cloudscraper~=1.2.33',
+    'cssselect~=1.1.0',
+    'lxml~=4.5.0',
+    'packaging~=20.3',
+    'Pillow~=7.1.1',
+    'progressbar2~=3.50.1',
+    'pycryptodome~=3.9.7',
+    'PyExecJS~=1.5.1',
+    'requests~=2.23.0',
+    'urllib3~=1.25.8',
 ]
-
-with open('requirements.txt', 'r') as r:
-    REQUIREMENTS = r.readlines()
 
 
 long_description = """
