@@ -52,21 +52,6 @@ class Base:
     def get_url(self):
         return self._params['url']
 
-    @property
-    def domain(self) -> str:
-        _url = self._params['url']
-        try:
-            if not self._storage.get('domain_uri', None):
-                parsed = urlparse(_url, 'https')
-                self._storage['domain_uri'] = '{}://{}'.format(
-                    parsed.scheme,
-                    parsed.netloc
-                )
-            return self._storage.get('domain_uri', '')
-        except Exception:
-            error('url "%s" is broken!' % _url)
-            exit()
-
     def _build_http_params(self, params):
         if params is None:
             params = {}
@@ -118,10 +103,6 @@ class Base:
         else:
             warning('Chapters list empty. Check %s' % self.get_url())
         return items
-
-    @property
-    def chapter(self):
-        return self._storage['chapters'][self.chapter_id]
 
     def get_current_file(self):
         return self._storage['files'][self._storage['current_file']]

@@ -12,6 +12,7 @@ from .base_classes import (
     cf_scrape,
     Static,
     ArchiveName,
+    ProviderParams,
 )
 from .fs import (
     get_temp_path,
@@ -28,7 +29,7 @@ from .meta import _downloader_uri
 from .meta import _version
 
 
-class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
+class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ProviderParams, ABC):
     _volumes_count = 0
     _archive = None
     _zero_fill = False
@@ -276,24 +277,3 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         for k in cookies:
             self._storage['cookies'][k] = cookies[k]
             self.http().cookies[k] = cookies[k]
-
-    @property
-    def content(self):
-        content = self._storage.get('main_content', None)
-        if content is None:
-            content = self.get_main_content()
-        return content
-
-    @property
-    def manga_name(self) -> str:
-        name = self._storage.get('manga_name', None)
-        if name is None:
-            name = self.get_manga_name()
-        return name
-
-    @property
-    def name(self) -> str:
-        name = self._params.get('name', '')
-        if not len(name):
-            name = self.manga_name
-        return name
