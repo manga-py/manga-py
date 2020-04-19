@@ -23,7 +23,7 @@ class MangaNeloCom(Provider, Std):
         parser = self.html_fromstring(self.get_chapter())
         images = self._images_helper(parser, '.container-chapter-reader img')
         if not len(images):
-            raise NotImplementedError  # TODO: Just don't know what to do here
+            raise RuntimeError('Images not found')  # TODO: Just don't know what to do here
         return images
 
     def get_cover(self) -> str:

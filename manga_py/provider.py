@@ -3,6 +3,7 @@ import re
 from abc import ABC
 from sys import stderr
 from logging import debug, warning, error
+from typing import Tuple
 
 from .base_classes import (
     Abstract,
@@ -88,11 +89,11 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         debug('Manga name: %s' % self.manga_name)
         debug('Content length %d' % len(self.content))
-        self._storage['chapters'] = self._prepare_chapters(self.get_chapters())
+        self.chapters = self._prepare_chapters(self.get_chapters())
         debug('Chapters received')
 
         if not self._params.get('reverse_downloading', False):
-            self._storage['chapters'] = self._storage['chapters'][::-1]
+            self.chapters = self._storage['chapters'][::-1]
 
         self._storage['init_cookies'] = self._storage['cookies']
         __ua = self._info.set_ua(self.http().user_agent)
@@ -103,7 +104,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
     def _check_archive(self):
         # check
-        _path = self.get_archive_path()
+        _path = '%.s%s' % self.get_archive_path()
         not_allow_archive = not self._params.get('rewrite_exists_archives', False)
 
         return not_allow_archive and is_file(_path)
@@ -122,7 +123,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
                 self._info.set_last_volume_error(e)
 
     def loop_chapters(self):
-        volumes = self._storage['chapters']
+        volumes = self.chapters
         _min = self._params.get('skip_volumes', 0)
         _max = self._params.get('max_volumes', 0)
         count = 0  # count downloaded chapters
@@ -135,7 +136,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             debug('Processed chapter %d / %s' % (idx, __url))
 
             count += 1
-            self._info.add_volume(self.chapter_for_json(), self.get_archive_path())
+            self._info.add_volume(self.chapter_for_json(), '%s.%s' % self.get_archive_path())
             self._download_chapter()
 
         if count == 0 and not self.quiet:
@@ -181,7 +182,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         return _path
 
-    def get_archive_path(self):
+    def get_archive_path(self) -> Tuple[str, str]:
         if self._override_name:
             _path = "{}_{}".format(self._override_name, str(self.normal_arc_name(self.get_chapter_index().split('-'))))
         else:
@@ -196,20 +197,18 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         additional_data_name = ''
         if self.http().has_error:
-            additional_data_name = 'ERROR.'
+            additional_data_name = '.ERROR'
             self.http().has_error = False
             warning('Error processing chapter.')
 
-        return path_join(
-            self._params.get('destination', 'Manga'),
-            name,
-            _path + '.%s%s' % (additional_data_name, self._archive_type())
-        ) \
-            .replace('?', '_') \
-            .replace('"', '_') \
-            .replace('>', '_') \
-            .replace('<', '_') \
-            .replace('|', '_')  # Windows...
+        return (
+            path_join(
+                self._params.get('destination', 'Manga'),
+                name,
+                '%s%s' % (_path, additional_data_name)
+            ).replace('?', '_').replace('"', '_').replace('>', '_').replace('<', '_').replace('|', '_')  # Windows...
+            , self._archive_type()
+        )
 
     def make_archive(self):
         _path = self.get_archive_path()
@@ -223,14 +222,17 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         #     self._archive.add_book_info(self._arc_meta_info())
 
         self._archive.add_info(info)
+
+        if self._archive.has_error:
+            full_path = '%s.IMAGES_SKIP_ERROR.%s' % _path
+        else:
+            full_path = '%s.%s' % _path
+
         try:
-            self._archive.make(_path)
+            self._archive.make(full_path)
         except OSError as e:
-            self.log('')
-            self.log(e)
-            self.log(e, file=stderr)
+            error(e)
             self._info.set_last_volume_error(str(e))
-            unlink(_path)
             raise e
 
     def html_fromstring(self, url, selector: str = None, idx: int = None):

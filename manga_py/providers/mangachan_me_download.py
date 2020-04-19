@@ -16,7 +16,7 @@ class MangaChanMe(Provider, Std):
         return self._get_name(name)
 
     def loop_chapters(self):
-        items = self._storage['chapters'][::-1]
+        items = self.chapters[::-1]
         n = self.http().normalize_uri
         Http2(self).download_archives([n(i) for i in items])
 

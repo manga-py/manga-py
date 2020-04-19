@@ -42,7 +42,7 @@ class Base(ProviderParams):
         }
         self._http_kwargs = {}
 
-    def _archive_type(self):
+    def _archive_type(self) -> str:
         arc_type = 'zip'
         if self._params['cbz']:
             arc_type = 'cbz'

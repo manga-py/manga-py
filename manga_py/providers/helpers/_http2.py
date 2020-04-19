@@ -14,7 +14,7 @@ class Http2:
     def _get_name(self, idx):
         return self.path_join(
             self.provider._params.get('destination'),
-            self.provider._storage['manga_name'],
+            self.provider.manga_name,
             '{:0>3}-{}.{}'.format(
                 idx, self.provider.get_archive_name(),
                 self.provider._archive_type()
@@ -25,7 +25,7 @@ class Http2:
         _min, _max = self._min_max_calculate()
         self.provider._info.add_volume(
             self.provider.chapter,
-            self.provider.get_archive_path()
+            '%s.%s' % self.provider.get_archive_path()
         )
 
         self.provider.progress(self.chapters_count, idx)
@@ -55,7 +55,7 @@ class Http2:
 
     def download_archives(self, chapters=None):
         if chapters is None:
-            chapters = self.provider._storage['chapters']
+            chapters = self.provider.chapters
         self.chapters = chapters
         for idx, url in enumerate(chapters):
             self.provider.before_download_chapter()

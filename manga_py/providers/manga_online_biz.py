@@ -9,7 +9,7 @@ class MangaOnlineBiz(Provider, Std):
     _idx = 0
 
     def get_chapter_index(self) -> str:
-        url = self._storage['chapters'][self._idx]
+        url = self.chapters[self._idx]
         idx = self.re.search(r'/download/[^/]+/.+?_(\d+)_(\d+)', url).groups()
         return '{}-{}'.format(*idx)
 
@@ -24,7 +24,7 @@ class MangaOnlineBiz(Provider, Std):
 
     def loop_chapters(self):
         http2 = Http2(self)
-        http2.download_archives(self._storage['chapters'])
+        http2.download_archives(self.chapters)
         http2.after_download = self._after_download
 
     def get_chapters(self):

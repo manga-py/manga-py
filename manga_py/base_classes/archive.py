@@ -1,4 +1,4 @@
-from logging import warning
+from logging import warning, error
 from os import path
 from zipfile import ZipFile, ZIP_DEFLATED
 
@@ -24,7 +24,8 @@ class Archive:
     def add_file(self, file, in_arc_name=None):
         if in_arc_name is None:
             in_arc_name = basename(file)
-        self.files.append((file, in_arc_name))
+        if self.__test_is_image(file):
+            self.files.append((file, in_arc_name))
 
     # def add_book_info(self, data):
     #     self.write_file('comicbook.xml', data)
@@ -32,7 +33,6 @@ class Archive:
     def __add_files(self):
         for file in self.files:
             if is_file(file[0]):
-                self.__test_is_image(file[0])
                 file = self._file(file)
                 self._archive.write(*file)
             else:
@@ -53,6 +53,8 @@ class Archive:
         if not MangaImage.is_image(_path):
             self.has_error = True
             warning('File "%s" isn\'t image' % _path)
+            return False
+        return True
 
     def __add_writes(self):
         for file in self._writes:
@@ -61,10 +63,14 @@ class Archive:
     def add_info(self, data):
         self.write_file('info.txt', data)
 
-    def make(self, dst):
+    def make(self, dst: str):
         if not len(self.files):
-            warning('Files list empty. Skip making archive')
+            error('Files list empty. Skip making archive')
             return
+
+        if self.has_error:
+            error('Archive have missed files')
+            self.has_error = False
 
         make_dirs(dirname(dst))
 
@@ -83,7 +89,7 @@ class Archive:
             try:
                 unlink(file[0])
             except Exception:
-                warning('File %s can\'t deleted' % file[0])
+                error('File %s can\'t deleted' % file[0])
 
     def __update_image_extension(self, filename) -> str:
         fn, extension = path.splitext(filename)

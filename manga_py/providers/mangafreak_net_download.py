@@ -22,7 +22,7 @@ class MangaFreakNet(Provider, Std):
         return [(i.get('download'), i.get('href')) for i in items]
 
     def loop_chapters(self):
-        items = self._storage['chapters'][::-1]
+        items = self.chapters[::-1]
         Http2(self).download_archives([i[1] for i in items])
 
     def get_files(self):

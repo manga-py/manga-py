@@ -41,4 +41,12 @@ class ProviderParams:
 
     @property
     def chapter(self):
-        return self._storage['chapters'][self.chapter_id]
+        return self.chapters[self.chapter_id]
+
+    @property
+    def chapters(self):
+        return self._storage['chapters']
+
+    @chapters.setter
+    def chapters(self, chapters: list):
+        self._storage['chapters'] = chapters

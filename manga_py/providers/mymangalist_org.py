@@ -25,7 +25,7 @@ class MyMangaListOrg(Provider, Std):
 
     def loop_chapters(self):
         http2 = Http2(self)
-        http2.download_archives(self._storage['chapters'])
+        http2.download_archives(self.chapters)
 
     def get_files(self):
         return []
