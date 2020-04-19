@@ -68,7 +68,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         self._override_name = self._params.get('override_archive_name')
         if self._with_manga_name and self._override_name:
             raise RuntimeError('Conflict of parameters. Please use only --with-manga-name, or --override-archive-name')
-        self._fill_arguments(params.get('arguments', []))
+        self._fill_arguments(params.get('arguments') or [])
 
     def process(self, url, params=None):  # Main method
         self._params['url'] = url
