@@ -1,15 +1,14 @@
+from logging import warning
 from os import path
-from urllib.parse import urlparse
 from typing import Optional, List
 
-from logging import warning, error
 from lxml.html import HtmlElement
 
 from manga_py.http import Http
-from manga_py.manga_image import MangaImage
+from .params import ProviderParams
 
 
-class Base:
+class Base(ProviderParams):
     _storage = None
     _params = None
     _image_params = None
