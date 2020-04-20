@@ -1,9 +1,9 @@
 import imghdr
 from os import path
-from typing import Tuple, Optional
+from typing import Tuple
 
 from PIL.Image import Image
-from PIL import Image as PilImage, ImageChops
+from PIL import Image as PilImage, ImageChops, UnidentifiedImageError
 
 
 class MangaImage:
@@ -106,11 +106,16 @@ class MangaImage:
 
     @staticmethod
     def real_extension(_path):
-        img = imghdr.what(_path)
-        if img:
-            return '.' + img
-        return None
+        try:
+            with PilImage.open(_path) as img:
+                return ('.%s' % img.format).lower()
+        except UnidentifiedImageError:
+            return None
 
     @staticmethod
     def is_image(_path) -> bool:
-        return imghdr.what(_path) is not None
+        try:
+            with PilImage.open(_path) as img:
+                return img.format is not None
+        except UnidentifiedImageError:
+            return False
