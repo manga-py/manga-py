@@ -34,10 +34,6 @@ class TestArchive(unittest.TestCase):
             orig_size += int(fs.file_size(root_path + item[1]))
             arc.add_file(root_path + item[1])
 
-        copyfile(root_path + '/files/archive_test_file', root_path + '/temp/archive_test_file')
-        orig_size += int(fs.file_size(root_path + '/temp/archive_test_file'))
-        arc.add_file(root_path + '/temp/archive_test_file')
-
         copyfile(root_path + '/files/archive_test_image', root_path + '/temp/archive_test_image')
         orig_size += int(fs.file_size(root_path + '/temp/archive_test_image'))
         arc.add_file(root_path + '/temp/archive_test_image')

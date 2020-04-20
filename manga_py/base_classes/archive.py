@@ -69,7 +69,7 @@ class Archive:
             return
 
         if self.has_error:
-            error('Archive have missed files')
+            warning('Archive %s have missed files' % dst)
             self.has_error = False
 
         make_dirs(dirname(dst))
