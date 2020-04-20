@@ -104,7 +104,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
     def _check_archive(self):
         # check
-        _path = '%.s%s' % self.get_archive_path()
+        _path = '%s.%s' % self.get_archive_path()
         not_allow_archive = not self._params.get('rewrite_exists_archives', False)
 
         return not_allow_archive and is_file(_path)
@@ -123,11 +123,10 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
                 self._info.set_last_volume_error(e)
 
     def loop_chapters(self):
-        volumes = self.chapters
         _min = self._params.get('skip_volumes', 0)
         _max = self._params.get('max_volumes', 0)
         count = 0  # count downloaded chapters
-        for idx, __url in enumerate(volumes):
+        for idx, __url in enumerate(self.chapters):
             self.chapter_id = idx
             if idx < _min or (count >= _max > 0) or self._check_archive():
                 debug('Skip chapter %d / %s' % (idx, __url))
