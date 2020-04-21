@@ -5,7 +5,7 @@ Universal assistant download manga.
 '''''''''''''''''''''''''''''''''''
 
 Approximately 250+ providers are available now.
-''''''''''''''''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''''''''''''''''
 
 |Scrutinizer CI result| |Scrutinizer CI coverage| |GitHub issues|
 
@@ -67,8 +67,7 @@ Downloading manga
 
 **:warning:For sites with cloudflare protect need installed Node.js**
 
-**:warning:Notice! By default, the mode of multithreaded image loading
-is enabled**
+**:warning:Notice! By default, the mode of multithreaded image loading is enabled**
 
 **To change this behavior, add the key --no-multi-threads**
 
@@ -112,9 +111,11 @@ Manga-py Docker
 ---------------
 
 1. Install docker
+
   - Summary https://docs.docker.com/install/
   - Mac https://docs.docker.com/docker-for-mac/install/
   - Windows https://docs.docker.com/docker-for-windows/install/
+
 
 2. Install manga-py
 
@@ -145,6 +146,13 @@ Or docker-compose:
     docker-compose build
     # run it
     docker-compose run manga_py
+
+
+For `manga-py >= 1.18`, the transfer of login / password / language / translation group has been added:
+
+.. code:: bash
+
+    manga-py http://... --arguments language=en login=my-login "password=secured-#\!Password" "translator=Awesome group"
 
 
 .. |Travis CI result| image:: https://travis-ci.com/manga-py/manga-py.svg?branch=stable_1.x
