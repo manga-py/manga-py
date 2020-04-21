@@ -1,10 +1,12 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
+from .helpers.manganelo_com_helper import check_alternative_server
 
 
 class MangaNeloCom(Provider, Std):
     chapter_re = r'[/-]chap(?:ter)?[_-](\d+(?:\.\d+)?)'
     _prefix = '/manga/'
+    __alternative_cdn = 'https://bu2.mkklcdnbuv1.com'
 
     def get_chapter_index(self) -> str:
         return self.re.search(self.chapter_re, self.get_chapter())\
@@ -22,9 +24,7 @@ class MangaNeloCom(Provider, Std):
     def get_files(self):
         parser = self.html_fromstring(self.get_chapter())
         images = self._images_helper(parser, '.container-chapter-reader img')
-        if not len(images):
-            raise RuntimeError('Images not found')  # TODO: Just don't know what to do here
-        return images
+        return check_alternative_server(images, self.__alternative_cdn)
 
     def get_cover(self) -> str:
         return self._cover_from_content('.manga-info-pic img')
