@@ -17,7 +17,7 @@ REQUIREMENTS = [
     'pycryptodome~=3.9.7',
     'PyExecJS~=1.5.1',
     'requests~=2.23.0',
-    'urllib3~=1.25.8',
+    'better_exceptions~=0.2.2',
 ]
 
 

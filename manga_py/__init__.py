@@ -7,17 +7,12 @@ from json import dumps
 from os import makedirs, path
 from shutil import rmtree
 from sys import exit, stderr
-from logging import error, info, warning, basicConfig, DEBUG, WARN
+from logging import info, warning, basicConfig, DEBUG, WARN
 
+import better_exceptions
 
-def catch(fn, *args):
-    def _catch():
-        try:
-            fn(*args)
-        except Exception as e:
-            error(e)
+better_exceptions.hook()
 
-    return _catch
 
 display, driver = None, None
 
@@ -33,40 +28,29 @@ def before_shutdown():
     path.isdir(temp_dir) and rmtree(temp_dir)
 
 
-def _init_cli(args, _info):
-    from .cli import Cli
-    error_lvl = -5
-    try:
-        _info.start()
-        cli_mode = Cli(args, _info)
-        cli_mode.start()
-        code = 0
-    except Exception as e:
-        _args = args.parse_args()
-        if _args.debug:
-            traceback.print_tb(e.__traceback__, error_lvl, file=stderr)
-        code = 1
-        _info.set_error(e)
-    return code
-
-
-def _run_util(args) -> tuple:
+def _run_util(args):
+    """
+    :param args:
+    :return:
+    :rtype Info|str
+    """
     from .info import Info
     parse_args = args.parse_args()
     _info = Info(parse_args)
-    code = _init_cli(args, _info)
+
+    from .cli import Cli
+    _info.start()
+    Cli(args, _info).start()
 
     if parse_args.print_json:
         _info = dumps(
             _info.get(),
             indent=2,
-            separators=(',', ': '),
-            sort_keys=True,
         )
     else:
         _info = []
 
-    return code, _info
+    return _info
 
 
 def _update_all(args):
@@ -81,37 +65,39 @@ def _update_all(args):
     for i in json_info:
         parse_args.manga_name = i['manga_name']
         parse_args.url = i['url']
-        code, _info = _run_util(args)
+        _info = _run_util(args)
         multi_info[i['directory']] = _info
     parse_args.quiet or (parse_args.print_json and print(multi_info))
 
 
-@catch
+def run_util(args):
+    from .fs import get_temp_path
+
+    temp_path = get_temp_path()
+    path.isdir(temp_path) or makedirs(temp_path)
+
+    parse_args = args.parse_args()
+
+    try:
+        _info = _run_util(args)
+        parse_args.quiet or (parse_args.print_json and print(_info))
+    except KeyboardInterrupt:
+        warning('\nUser interrupt')
+
+
 def main():
     from .cli.args import get_cli_arguments
-    from .fs import get_temp_path
+    args = get_cli_arguments()
+
+    log_format = '"%(levelname)s:%(pathname)s:%(lineno)s:%(asctime)s:%(message)s"'
+    basicConfig(level=(DEBUG if args.parse_args().debug else WARN), format=log_format)
+
     from .meta import _version
 
     if ~_version.find('alpha'):
         warning('Alpha release! There may be errors!')
 
-    temp_path = get_temp_path()
-    path.isdir(temp_path) or makedirs(temp_path)
-
-    args = get_cli_arguments()
-    parse_args = args.parse_args()
-
-    log_format = '"%(levelname)s:%(pathname)s:%(lineno)s:%(asctime)s:%(message)s"'
-    basicConfig(level=(DEBUG if parse_args.debug else WARN), format=log_format)
-
-    try:
-        code, _info = _run_util(args)
-        parse_args.quiet or (parse_args.print_json and print(_info))
-    except KeyboardInterrupt:
-        warning('\nUser interrupt')
-        code = 1
-
-    exit(code)
+    exit(run_util(args))
 
 
 if __name__ == '__main__':
