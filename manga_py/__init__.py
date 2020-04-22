@@ -94,11 +94,6 @@ def main():
 
     if ~_version.find('alpha'):
         warning('Alpha release! There may be errors!')
-    print('\n'.join((
-        'Please remember that all sites earn on advertising.',
-        'Remember to visit them from your browser.',
-        'Thanks!\n'
-    )), file=stderr)
 
     temp_path = get_temp_path()
     path.isdir(temp_path) or makedirs(temp_path)

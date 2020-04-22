@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
+from sys import stderr
 
 from setuptools import setup, find_packages
 
@@ -81,3 +81,9 @@ setup(
         ]
     }
 )
+
+print('\n'.join((
+    '\n\nPlease remember that all sites earn on advertising.',
+    'Remember to visit them from your browser.',
+    'Thanks!\n'
+)), file=stderr)
