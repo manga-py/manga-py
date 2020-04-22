@@ -37,7 +37,7 @@ How to use
 Installation
 ~~~~~~~~~~~~
 
-1) Download python 3.5+ https://www.anaconda.com/downloads
+1) Download python 3.5+ https://docs.conda.io/en/latest/miniconda.html#windows-installers
 2) Install pip package:
 
    .. code:: bash
