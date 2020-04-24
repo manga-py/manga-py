@@ -1,33 +1,40 @@
 from logging import info, error, debug
 
-__all__ = ['display', 'get_driver']
+__all__ = ['get_display', 'make_driver']
 
-display = None
-driver = None
+__cache = {
+    'display': None,
+    'driver': None,
+}
 
 
-def get_driver(browser: str = None):
-    global driver
-    global display
+def get_display():
+    return __cache['display']
 
-    if driver is not None:
-        return driver
+
+def get_driver():
+    return __cache['driver']
+
+
+def make_driver(browser: str = None):
+    if __cache['driver'] is not None:
+        return __cache['driver']
 
     _assert_selenium()
 
-    display = _init_display()
+    __cache['display'] = _init_display()
 
     if browser is None:
-        driver = _auto_browser()
-        return driver
+        __cache['driver'] = _auto_browser()
+        return __cache['driver']
 
     if browser == 'chrome':
-        driver = _chrome()
-        return driver
+        __cache['driver'] = _chrome(True)
+        return __cache['driver']
 
     if browser == 'firefox':
-        driver = _firefox()
-        return driver
+        __cache['driver'] = _firefox(True)
+        return __cache['driver']
 
     raise RuntimeError('Bad driver type')
 
@@ -66,19 +73,19 @@ def _auto_browser():
             raise e
 
 
-def _chrome():
+def _chrome(show_error: bool = False):
     try:
         from .chrome import ChromeDriver
         return ChromeDriver().init_driver()
     except Exception as e:
-        error('Chrome browser driver init error')
+        show_error and error('Chrome browser driver init error', e)
         raise e
 
 
-def _firefox():
+def _firefox(show_error: bool = False):
     try:
         from .firefox import FirefoxDriver
         return FirefoxDriver().init_driver()
     except Exception as e:
-        error('Firefox browser driver init error')
+        show_error and error('Firefox browser driver init error', e)
         raise e

@@ -2,12 +2,12 @@ import unittest
 
 from selenium.common.exceptions import TimeoutException
 
-from manga_py.base_classes.web_driver import get_driver, display
+from manga_py.base_classes.web_driver import make_driver, get_display
 
 
 class TestWebDriver(unittest.TestCase):
     def test_driver(self):
-        driver = get_driver()
+        driver = make_driver()
         self.assertIsNotNone(driver)
         driver.get('https://ya.ru')
         result = True
@@ -16,5 +16,5 @@ class TestWebDriver(unittest.TestCase):
         except TimeoutException:
             result = False
         driver.close()
-        display is None or display.stop()
+        get_display is None or get_display.stop()
         self.assertTrue(result)

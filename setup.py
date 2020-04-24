@@ -77,7 +77,7 @@ setup(
     install_requires=REQUIREMENTS,
     entry_points={
         'console_scripts': [
-            'manga-py = manga_py:main',
+            'manga-py = manga_py.util:main',
         ]
     }
 )

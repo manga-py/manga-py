@@ -1,6 +1,6 @@
 from ..provider import Provider
 from .helpers.std import Std
-from manga_py.base_classes.web_driver import get_driver
+from manga_py.base_classes.web_driver import make_driver
 from manga_py.base_classes.web_driver.web_driver import WebDriver
 from time import sleep
 
@@ -45,7 +45,7 @@ class JapScanCom(Provider, Std):
         raise RuntimeError('Provider not worked')
 
         self._params['max_threads'] = 1
-        self.driver = get_driver('chrome')
+        self.driver = make_driver('chrome')
 
     def _image(self):
         image = self.driver.find_element('#image')

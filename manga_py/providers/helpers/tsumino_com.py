@@ -1,6 +1,6 @@
 from requests import Session
 
-from manga_py.base_classes.web_driver import get_driver
+from manga_py.base_classes.web_driver import make_driver
 from manga_py.provider import Provider
 
 
@@ -11,7 +11,7 @@ class TsuminoCom:
         self.provider = provider
 
     def get_cookies(self, url):
-        driver = get_driver()
+        driver = make_driver()
         driver.get(url)
         iframe = driver.find_element(".g-recaptcha iframe")
         src = self.provider.http_get(iframe.get_attribute('src'))

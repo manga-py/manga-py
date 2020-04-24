@@ -86,11 +86,9 @@ class WebDriver(metaclass=ABCMeta):
     def initialized(self) -> bool:
         return self._driver is not None
 
-    def init_driver(self, width: int = 1600, height: int = 900):
+    def init_driver(self):
         if not self.initialized:
             self._make_driver()
-            # self._driver.set_window_size(width, height)
-            # self._driver.set_window_position(0, 0)
         return self
 
     @property
