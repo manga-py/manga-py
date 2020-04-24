@@ -15,6 +15,6 @@ class TestWebDriver(unittest.TestCase):
             driver.find_element('#text,.logo-wrapper')
         except TimeoutException:
             result = False
-        driver.close()
-        get_display is None or get_display.stop()
+        driver().close()
+        get_display() is None or get_display().stop()
         self.assertTrue(result)
