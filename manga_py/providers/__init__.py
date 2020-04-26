@@ -138,6 +138,7 @@ providers_list = {
     ],
     'heavenmanga_biz': [
         r'heavenmanga\.\w{2,7}/.',
+        r'heaventoon\.com/.',
     ],
     'hentai2read_com': [
         r'hentai2read\.com/.',
