@@ -1,24 +1,19 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from sys import stderr
 
 from setuptools import setup, find_packages
 
-from manga_py.meta import _version, _downloader_uri, _author, _email, _license
 
-REQUIREMENTS = [
-    'cloudscraper~=1.2.33',
-    'cssselect~=1.1.0',
-    'lxml~=4.5.0',
-    'packaging~=20.3',
-    'Pillow~=7.1.1',
-    'progressbar2~=3.50.1',
-    'pycryptodome~=3.9.7',
-    'PyExecJS~=1.5.1',
-    'requests~=2.23.0',
-    'better_exceptions~=0.2.2',
-]
+author = '__author__'
+license_type = '__license_type__'
+email = '__email__'
+version = '__version__'
+repo_url = '__repo_url__'
+
+
+REQUIREMENTS = []
 
 
 long_description = """
@@ -28,9 +23,9 @@ Please see https://github.com/manga-py/manga-py
 """
 
 release_status = 'Development Status :: 5 - Production/Stable'
-if ~_version.find('beta'):
+if ~version.find('beta'):
     release_status = 'Development Status :: 4 - Beta'
-if ~_version.find('alpha'):
+if ~version.find('alpha'):
     release_status = 'Development Status :: 3 - Alpha'
 
 
@@ -44,12 +39,12 @@ setup(
         'mypy_cache',
     )),
     include_package_data=True,
-    version=_version,
+    version=version,
     description='Universal assistant download manga.',
     long_description=long_description,
-    author=_author,
-    author_email=_email,
-    url=_downloader_uri,
+    author=author,
+    author_email=email,
+    url=repo_url,
     zip_safe=False,
     data_files=[
         ('manga_py/storage', [
@@ -59,9 +54,8 @@ setup(
             'manga_py/crypt/aes_zp.js',
         ]),
     ],
-    download_url='{}/archive/{}.tar.gz'.format(_downloader_uri, _version),
     keywords=['manga-downloader', 'manga', 'manga-py'],
-    license=_license,
+    license=license_type,
     classifiers=[  # look here https://pypi.python.org/pypi?%3Aaction=list_classifiers
         release_status,
         'License :: OSI Approved :: MIT License',

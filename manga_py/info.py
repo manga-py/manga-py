@@ -65,8 +65,8 @@ class Info:
         _args['_raw_params'] = ' '.join(argv)
         self._data = {
             'site': args.url,
-            'downloader': meta._downloader_uri,
-            'version': meta._version,
+            'downloader': meta.repo_url,
+            'version': meta.version,
             'delta': None,
             'init': self._dt(datetime.now()),
             'start': None,

@@ -1,4 +1,4 @@
-from manga_py.meta import _downloader_uri
+from manga_py.meta import repo_url
 from manga_py.provider import Provider
 
 
@@ -17,7 +17,7 @@ class TapasIo:
         self.provider.log('\r\nERROR!\r\nCode: {}\r\nType: {}\r\nPlease, send url to developer ({})'.format(
             content['code'],
             content['type'],
-            _downloader_uri
+            repo_url
         ))
 
     def _type_default(self, content):

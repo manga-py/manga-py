@@ -1,6 +1,7 @@
 .idea/
 Manga/
 tests/temp/
+/setup.py
 
 manga_py/rebreakcaptcha
 

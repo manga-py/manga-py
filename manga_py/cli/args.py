@@ -5,7 +5,7 @@ manga-py module for CLI and its options.
 import os
 from argparse import ArgumentParser, MetavarTypeHelpFormatter
 
-from manga_py.meta import _version
+from manga_py.meta import version
 from ._args_debug import _args_debug
 from ._args_downloading import _args_downloading
 from ._args_general import _args_general
@@ -55,7 +55,7 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
             '%(prog)s is the universal manga downloader (for your offline reading).\n  '
             'Site: https://manga-py.com/manga-py/\n  '
             'Source-code: https://github.com/manga-py/manga-py\n  '
-            'Version: ' + _version
+            'Version: ' + version
         ),
         epilog=(
             'So, that is how %(prog)s can be executed to download yours favourite mangas.\n'
@@ -63,7 +63,7 @@ def get_cli_arguments() -> ArgumentParser:  # pragma: no cover
         )
     )
 
-    _args_general(args_parser, _version)
+    _args_general(args_parser, version)
     _args_downloading(args_parser)
     _args_reader(args_parser)
     _args_image(args_parser)

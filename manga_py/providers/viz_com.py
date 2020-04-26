@@ -26,7 +26,7 @@ class VizCom(Provider, Std):
         except AttributeError:
             self.log('manga-py can not get the number of the chapter!\nurl: {}'.format(self.chapter), file=stderr)
             self.log(' Please, report this error\n {}{}\n\n'.format(
-                meta._downloader_uri, '/issues/new?template=bug_report.md'
+                meta.repo_url, '/issues/new?template=bug_report.md'
             ), file=stderr)
         self.__is_debug and self.log('Chapter idx: {}'.format(idx))
         return idx
@@ -50,7 +50,7 @@ class VizCom(Provider, Std):
             url = chapter.get('href')
             if url not in chapters:
                 chapters.append(url)
-        
+
         # Paid chapters are dynamically loaded so we need to take a different approach.
         re = self.re.compile(r'targetUrl:\'(.*)\',targetTitle')
         for chapter in self._elements('a.o_chapter-container[onclick*="/chapter/"]'):
@@ -84,7 +84,7 @@ class VizCom(Provider, Std):
         self.log(self.http_get(self.http().normalize_uri(url)))
         __url = self.http_get(self.http().normalize_uri(url)).strip()
         self._metadata = loads(self.http_get(__url))
-        
+
         params = [
             'device_id=3',
             'manga_id={}'.format(self.re.search(r'/chapter/(\d+)', ch).group(1)),
@@ -154,7 +154,7 @@ class VizCom(Provider, Std):
         except ValueError:
             self.__is_debug and self.log('Remember error!', file=stderr)
             self.__is_debug and self.log('Please, report this error {}{}'.format(
-                meta._downloader_uri, '/issues/new?template=bug_report.md'
+                meta.repo_url, '/issues/new?template=bug_report.md'
             ), file=stderr)
 
     def save_cookies(self, cookies: dict):

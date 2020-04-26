@@ -9,7 +9,7 @@ from shutil import rmtree
 from sys import exit
 from .cli.args import get_cli_arguments
 
-from .meta import _version
+from .meta import version
 from .fs import get_temp_path
 from .base_classes.web_driver import get_display, get_driver
 
@@ -87,7 +87,7 @@ def main():
     log_format = '"%(levelname)s:%(pathname)s:%(lineno)s:%(asctime)s:%(message)s"'
     basicConfig(level=(DEBUG if args.parse_args().debug else WARN), format=log_format)
 
-    if ~_version.find('alpha'):
+    if ~version.find('alpha'):
         warning('Alpha release! There may be errors!')
 
     exit(run_util(args))
