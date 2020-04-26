@@ -4,6 +4,7 @@ from typing import Tuple, Optional
 
 from PIL.Image import Image
 from PIL import Image as PilImage, ImageChops, UnidentifiedImageError
+from PIL import ImageFile
 
 
 __all__ = ['MangaImage']
@@ -29,7 +30,12 @@ class MangaImage:
             raise AttributeError('Image not found')
 
         self.src_path = src_path
-        self._image = PilImage.open(src_path)
+        try:
+            self._image = PilImage.open(src_path)
+        except UnidentifiedImageError:
+            if not ImageFile.LOAD_TRUNCATED_IMAGES:
+                ImageFile.LOAD_TRUNCATED_IMAGES = True
+                self._image = PilImage.open(src_path)
 
     @staticmethod
     def new(mode: str, size: Tuple[int, int]):
