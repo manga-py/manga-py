@@ -24,16 +24,11 @@ class MangaKatanaCom(Provider, Std):
     def get_files(self):
         content = self.http_get(self.chapter)
         items = self.re.search(
-            r'\w\s?=\s?(\[[\'"]\d.+\d[\'"]).?\]\s?;',
+            r'var\s+\w+\s?=\s?(\[[\'"].+?[\'"]).?\]\s?;',
             content
         ).group(1).replace("'", '"') + ']'
-        images = []
-        for img in self.json.loads(items):
-            uri = ''
-            for c in img.split(' '):
-                uri += chr(int(c))
-            images.append(uri)
-        return images
+        images = self.json.loads(items)
+        return [img[::-1] for img in images]
 
     def get_cover(self) -> str:
         return self._cover_from_content('.cover img')
