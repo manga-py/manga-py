@@ -89,7 +89,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         info('Manga name: %s' % self.manga_name)
         info('Content length %d' % len(self.content))
         self.chapters = self._prepare_chapters(self.get_chapters())
-        info('Chapters received')
+        info('Chapters received (%d)' % len(self.chapters))
 
         if not self._params.get('reverse_downloading', False):
             self.chapters = self._storage['chapters'][::-1]

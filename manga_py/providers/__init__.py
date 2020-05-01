@@ -173,6 +173,9 @@ providers_list = {
     'hgamecg_com': [
         r'hgamecg\.com/index/category/\d',
     ],
+    'hiperdex_com': [
+        r'hiperdex\.com/manga/.',
+    ],
     'hitmanga_eu': [
         r'hitmanga\.eu/.',
         r'mymanga\.io/.',
