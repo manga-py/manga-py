@@ -57,14 +57,17 @@ class Cli:  # pragma: no cover
             self.__progress_bar.init()
 
     def progress(self, items_count: int, current_item: int, re_init: bool = False):
-        if not items_count:
+        if not items_count \
+                or self.args.no_progress \
+                or self.args.print_json \
+                or self.args.debug:
             return
-        if not self.args.no_progress and not self.args.print_json:
-            current_val = 0
-            if self.__progress_bar:
-                current_val = self.__progress_bar.value
-            self.__init_progress(items_count, re_init and current_val > 0)
-            self.__progress_bar.update(current_item)
+
+        current_val = 0
+        if self.__progress_bar:
+            current_val = self.__progress_bar.value
+        self.__init_progress(items_count, re_init and current_val > 0)
+        self.__progress_bar.update(current_item)
 
     def print(self, text, **kwargs):
         if os_name == 'nt':

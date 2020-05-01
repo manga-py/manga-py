@@ -1,4 +1,4 @@
-from logging import info, error, debug
+from logging import info, error
 
 __all__ = ['get_display', 'make_driver']
 
@@ -61,12 +61,12 @@ def _init_display():
 def _auto_browser():
     try:
         _driver = _chrome()
-        debug('Use chrome')
+        info('Use chrome')
         return _driver
     except Exception as ce:
         try:
             _driver = _firefox()
-            debug('Use _firefox')
+            info('Use _firefox')
             return _driver
         except Exception as e:
             error('Browser driver init error', ce, e)

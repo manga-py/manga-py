@@ -6,7 +6,6 @@ class WebToonsCom(Provider, Std):
     __titleNo = 0
     __mainUrl = ''
     __next_page_urls = None
-    __debug_archive = None
 
     def get_archive_name(self) -> str:
         i = self.re.search(r'\.\w{2,7}%s%s' % (

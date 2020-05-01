@@ -1,7 +1,7 @@
 from sys import stderr
 from time import sleep
 import requests
-from logging import warning, error, debug
+from logging import warning, error
 
 from manga_py.fs import get_temp_path, make_dirs, remove_file_query_params, basename, path_join, dirname, file_size
 from .multi_threads import MultiThreads

@@ -2,7 +2,7 @@ import json
 import re
 from abc import ABC
 from sys import stderr
-from logging import debug, warning, error
+from logging import info, warning, error
 from typing import Tuple
 
 from .base_classes import (
@@ -20,7 +20,6 @@ from .fs import (
     basename,
     remove_file_query_params,
     path_join,
-    unlink,
     file_size,
 )
 from .http import MultiThreads
@@ -38,7 +37,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     _simulate = False
     _volume = None
     _show_chapter_info = False
-    __debug = False
+    _debug = False
     _override_name = ''
 
     def __init__(self, info: Info = None):
@@ -65,7 +64,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         self._with_manga_name = params.get('with_manga_name')
         self._simulate = params.get('simulate')
         self._show_chapter_info = params.get('show_current_chapter_info', False)
-        self.__debug = params.get('debug', False)
+        self._debug = params.get('debug', False)
         self._override_name = self._params.get('override_archive_name')
         if self._with_manga_name and self._override_name:
             raise RuntimeError('Conflict of parameters. Please use only --with-manga-name, or --override-archive-name')
@@ -87,10 +86,10 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         self.prepare_cookies()
 
-        debug('Manga name: %s' % self.manga_name)
-        debug('Content length %d' % len(self.content))
+        info('Manga name: %s' % self.manga_name)
+        info('Content length %d' % len(self.content))
         self.chapters = self._prepare_chapters(self.get_chapters())
-        debug('Chapters received')
+        info('Chapters received')
 
         if not self._params.get('reverse_downloading', False):
             self.chapters = self._storage['chapters'][::-1]
@@ -98,7 +97,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         self._storage['init_cookies'] = self._storage['cookies']
         __ua = self._info.set_ua(self.http().user_agent)
 
-        debug('User-agent: %s' % __ua)
+        info('User-agent: %s' % __ua)
 
         self.loop_chapters()
 
@@ -117,7 +116,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
                 self.loop_files()
             except Exception as e:
                 # Main debug here
-                if self.__debug:
+                if self._debug:
                     raise e
                 self.log([e], file=stderr)
                 self._info.set_last_volume_error(e)
@@ -129,10 +128,10 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         for idx, __url in enumerate(self.chapters):
             self.chapter_id = idx
             if idx < _min or (count >= _max > 0) or self._check_archive():
-                debug('Skip chapter %d / %s' % (idx, __url))
+                info('Skip chapter %d / %s' % (idx, __url))
                 continue
 
-            debug('Processed chapter %d / %s' % (idx, __url))
+            info('Processed chapter %d / %s' % (idx, __url))
 
             count += 1
             self._info.add_volume(self.chapter_for_json(), '%s.%s' % self.get_archive_path())
@@ -144,7 +143,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     def loop_files(self):
         if isinstance(self._storage['files'], list):
             if self._show_chapter_info:
-                debug('\n\nCurrent chapter url: %s\n' % (self.chapter,))
+                print('\n\nCurrent chapter url: %s\n' % (self.chapter,), file=stderr)
             if len(self._storage['files']) == 0:
                 # see Std
                 error('Error processing file: %s' % self.get_archive_name())

@@ -18,7 +18,6 @@ class Request:
     default_lang = 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
     cookies = None
     kwargs = None
-    debug = False
     response = None
     _history = None
     allow_send_referer = True

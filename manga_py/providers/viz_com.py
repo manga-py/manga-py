@@ -1,6 +1,7 @@
 from sys import stderr
 from pathlib import Path
 from json import loads
+from logging import error, info
 
 from manga_py import meta
 from manga_py.crypt.viz_com import solve
@@ -14,7 +15,6 @@ class VizCom(Provider, Std):
     __cookies = {}
     __has_auth = False
     _continue = True
-    __is_debug = True
 
     def get_chapter_index(self) -> str:
         # return str(self.chapter_id)
@@ -28,18 +28,11 @@ class VizCom(Provider, Std):
             self.log(' Please, report this error\n {}{}\n\n'.format(
                 meta.repo_url, '/issues/new?template=bug_report.md'
             ), file=stderr)
-        self.__is_debug and self.log('Chapter idx: {}'.format(idx))
+        info('Chapter idx: {}'.format(idx))
         return idx
 
     def get_main_content(self):
-        content = self._get_content('{}/shonenjump/chapters/{}')
-        if self.__is_debug:
-            page = Path('viz_debug')
-            page.mkdir(parents=True, exist_ok=True)
-            _path = str(page.joinpath('main-{}.html'.format(self.manga_name)))
-            with open(_path, 'w') as w:
-                w.write(content)
-        return content
+        return self._get_content('{}/shonenjump/chapters/{}')
 
     def get_manga_name(self) -> str:
         return self._get_name('/chapters/([^/]+)')
@@ -58,20 +51,11 @@ class VizCom(Provider, Std):
             if url not in chapters:
                 chapters.append(url)
 
-        self.__is_debug and self.log('Chapters count: %d' % len(chapters))
-
-        if self.__is_debug:
-            page = Path('viz_debug')
-            page.mkdir(parents=True, exist_ok=True)
-            _path = str(page.joinpath('chapters.html'))
-            self.log('Save path to %s' % _path)
-            with open(_path, 'w') as w:
-                w.write('\n'.join(chapters))
+        info('Chapters count: %d' % len(chapters))
 
         return chapters
 
     def get_files(self):
-        self.__is_debug and self.log('Files')
         self._continue = True
         ch = self.chapter
 
@@ -91,12 +75,12 @@ class VizCom(Provider, Std):
             'page={page}',
         ]
         url = '{}/manga/get_manga_url?'.format(self.domain) + '&'.join(params)
-        self.__is_debug and self.log('Chapter url: %s' % url)
+        info('Chapter url: %s' % url)
         if self.__has_auth:
             params.append('client_login=true')
-            self.__is_debug and self.log('Logged client!')
+            info('Logged client!')
         else:
-            self.__is_debug and self.log('Anon client!')
+            info('Anon client!')
 
         return [url.format(page=i) for i in range(250)]  # fixme: max 250 images per chapter
 
@@ -104,8 +88,6 @@ class VizCom(Provider, Std):
         self._cover_from_content('.o_hero-media')
 
     def prepare_cookies(self):
-        self.__is_debug = self._params.get('debug', False)
-        self.__is_debug = self._params
         self.http().mute = True
         self.cookie_file = path_join(get_util_home_path(), 'cookies_viz_com.dat')
         cookies = self.load_cookies()
@@ -152,10 +134,10 @@ class VizCom(Provider, Std):
             remember = self.json.loads(req.text)
             self.__cookies['remember_token'] = remember.get('trust_user_id_token_web', remember.get('remember_token', ''))
         except ValueError:
-            self.__is_debug and self.log('Remember error!', file=stderr)
-            self.__is_debug and self.log('Please, report this error {}{}'.format(
+            error('Remember error!')
+            error('Please, report this error {}{}'.format(
                 meta.repo_url, '/issues/new?template=bug_report.md'
-            ), file=stderr)
+            ))
 
     def save_cookies(self, cookies: dict):
         with open(self.cookie_file, 'w') as w:
@@ -195,34 +177,23 @@ class VizCom(Provider, Std):
         if not self._continue:
             return
 
-        self.__is_debug and self.log('\nSave file: {}'.format(idx))
-        self.__is_debug and self.log('File url: {}'.format(url))
+        info('\nSave file: {}'.format(idx))
+        info('File url: {}'.format(url))
 
         _path, idx, _url = self._save_file_params_helper(url, idx)
 
-        self.__is_debug and self.log('File params:\n PATH: {}\n IDX: {}\n URL: {}'.format(_path, idx, _url))
+        info('File params:\n PATH: {}\n IDX: {}\n URL: {}'.format(_path, idx, _url))
 
         __url = self.http_get(self.http().normalize_uri(url)).strip()
 
-        if self.__is_debug and int(idx) < 2:
-            ch = 'chapter_{}_page_{}.txt'.format(self.get_chapter_index(), idx)
-            page = Path('viz_debug')
-            page.mkdir(parents=True, exist_ok=True)
-            __debug_path = str(page.joinpath(ch))
-            self.log('Save path to %s' % __debug_path)
-            with open(__debug_path, 'w') as w:
-                self.log(__url)
-                w.write(str(__url))
-                w.close()
-
         if __url.find('http') != 0:
-            self.__is_debug and self.log('\nURL is wrong: \n {}\n'.format(__url), file=stderr)
+            error('\nURL is wrong: \n {}\n'.format(__url))
             return
 
         self.http().download_file(__url, _path, idx)
 
         if file_size(_path) < 32:
-            self.__is_debug and self.log('File not found. Stop for this chapter')
+            info('File not found. Stop for this chapter')
             self._continue = False
             is_file(_path) and unlink(_path)
             return

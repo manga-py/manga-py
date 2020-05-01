@@ -1,6 +1,8 @@
-from requests import get
-from time import sleep
 import re
+from logging import error
+from time import sleep
+
+from requests import get
 
 
 class Std:
@@ -92,7 +94,7 @@ class Std:
                 now_try_count += 1
                 response = get(url, timeout=60, allow_redirects=True)
                 if response.status_code >= 400:
-                    self.http().debug and self.log('ERROR! Code {}\nUrl: {}'.format(
+                    error('ERROR! Code {}\nUrl: {}'.format(
                         response.status_code,
                         url,
                     ))

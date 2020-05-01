@@ -3,14 +3,14 @@
 
 from atexit import register as atexit_register
 from json import dumps
-from logging import info, warning, basicConfig, DEBUG, WARN
+from logging import info, warning, basicConfig, INFO, WARN, getLogRecordFactory, setLogRecordFactory
 from os import makedirs, path
 from shutil import rmtree
 from sys import exit
 from .cli.args import get_cli_arguments
 
 from .meta import version
-from .fs import get_temp_path
+from .fs import get_temp_path, root_path
 from .base_classes.web_driver import get_display, get_driver
 
 from .fs import get_info
@@ -68,6 +68,11 @@ def _update_all(args):
 
 
 def run_util(args):
+    """
+    Main util function
+    :param args:
+    :return:
+    """
 
     temp_path = get_temp_path()
     path.isdir(temp_path) or makedirs(temp_path)
@@ -81,11 +86,24 @@ def run_util(args):
         warning('\nUser interrupt')
 
 
+__root = len(root_path())
+__old_factory = getLogRecordFactory()
+
+
+def __log_factory(*args, **kwargs):
+    record = __old_factory(*args, **kwargs)
+    record.level_name = record.levelname[0]
+    record.my_pathname = record.pathname[__root:]
+    record.custom_attribute = "my-attr"
+    return record
+
+
 def main():
     args = get_cli_arguments()
+    setLogRecordFactory(__log_factory)
 
-    log_format = '"%(levelname)s:%(pathname)s:%(lineno)s:%(asctime)s:%(message)s"'
-    basicConfig(level=(DEBUG if args.parse_args().debug else WARN), format=log_format)
+    log_format = '"%(level_name)s:%(my_pathname)s:%(lineno)s:%(asctime)s:%(message)s"'
+    basicConfig(level=(INFO if args.parse_args().debug else WARN), format=log_format)
 
     if ~version.find('alpha'):
         warning('Alpha release! There may be errors!')
