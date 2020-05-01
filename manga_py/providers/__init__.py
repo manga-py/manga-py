@@ -494,6 +494,9 @@ providers_list = {
     'manhwa18_net': [
         r'manhwa18\.net/manga-.',
     ],
+    'manhwareader_com': [
+        r'manhwareader\.com/manga/.',
+    ],
     'merakiscans_com': [
         r'merakiscans\.com/manga/.',
     ],
@@ -775,8 +778,7 @@ providers_list = {
         r'yande\.re/post.',
     ],
     'zeroscans_com': [
-        r'zeroscans\.com/manga/.',
-        r'manhwareader\.com/manga/.',
+        r'zeroscans\.com/comics/.',
     ],
     'zingbox_me': [
         r'zingbox\.me/.',

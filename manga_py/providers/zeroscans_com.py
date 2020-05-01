@@ -1,26 +1,47 @@
-from .rawdevart_com import RawDevArtCom
+from manga_py.provider import Provider
+from .helpers.std import Std
 
 
-class ZeroScansCom(RawDevArtCom):
-    _chapter_selector = r'/chapter-(\d+(?:[^\d]\d+)?)'
+class ZeroScansCom(Provider, Std):
+    _key = '/comics/'
 
     def get_chapter_index(self) -> str:
-        ch = self.chapter
-        idx = self.re.search(self._chapter_selector, ch)
-        idx = idx.group(1)
-        test = self.re.search(r'(\d+)[^\d](\d+)', idx)
-        if test:
-            return '-'.join(test.groups())
-        return idx
+        return self.re.search(
+            r'%s[^/]+/(\d+/\d+)' % self._key,
+            self.chapter
+        ).group(1).replace('/', '-')
+
+    def get_main_content(self):
+        name = self._get_name(r'%s([^/]+)' % self._key)
+        return self.http_get('%s%s%s/' % (
+            self.domain,
+            self._key,
+            name
+        ))
+
+    def get_manga_name(self) -> str:
+        return self._get_name(r'%s\d+-([^/]+)' % self._key)
 
     def get_chapters(self):
-        items = self._elements('.wp-manga-chapter > a')
-        n = self.http().normalize_uri
-        return [n(i.get('href')).rstrip('/') + '/?style=list' for i in items]
+        return self._elements('.list .list-item a.text-color')
 
     def get_files(self):
-        parser = self.html_fromstring(self.chapter)
-        return self._images_helper(parser, '.page-break img')
+        content = self.http_get(self.chapter)
+        raw_images = self.re.search(
+            r'chapterPages\s?=\s?(\[.+?\])',
+            content
+        ).group(1)
+        images = self.json.loads(raw_images)
+
+        n = self.http().normalize_uri
+
+        return [n(i) for i in images]
+
+    def get_cover(self) -> str:
+        image = self._elements('.media img.media-content')
+        if len(image):
+            return self.parse_background(image)
+        return ''
 
 
 main = ZeroScansCom
