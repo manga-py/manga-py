@@ -1,4 +1,5 @@
 from .rawdevart_com import RawDevArtCom
+from requests import get
 
 
 class HiperDexCom(RawDevArtCom):
@@ -12,6 +13,15 @@ class HiperDexCom(RawDevArtCom):
         })
 
         return self._elements('.wp-manga-chapter > a', content)
+
+    def _downloader(self, url, file_name):
+        with open(str(file_name), 'wb') as w:
+            w.write(get(url).content)
+        return True
+
+    def prepare_cookies(self):
+        self.http()._safe_downloader = self._downloader
+        self.http().referer = self.get_url()
 
 
 main = HiperDexCom
