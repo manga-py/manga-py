@@ -138,7 +138,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self._download_chapter()
 
         if count == 0 and not self.quiet:
-            print('Not detect new chapters', file=stderr)
+            print('No new chapters found', file=stderr)
 
     def loop_files(self):
         if isinstance(self._storage['files'], list):
