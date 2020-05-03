@@ -14,7 +14,6 @@ class Base(ProviderParams):
     _image_params = None
     _http_kwargs = None
     __http = None
-    __quiet = False
     __arguments = None
     chapter_id = 0
     quiet = False

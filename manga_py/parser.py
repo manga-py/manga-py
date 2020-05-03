@@ -28,14 +28,19 @@ class Parser:
             info: Info = None,
             quest_password: callable = None,
     ):
+
         real_url = self.params.get('url', '')
         provider_url = self.params.get('force_provider', None)
         provider = get_provider(provider_url or real_url)
+
         if isinstance(provider, bool):
             raise AttributeError('Provider not found')
+
         self.provider = provider(info)  # provider __init__
 
-        self.provider.set_progress_callback(None if self.params['quiet'] else progress)
+        self.provider.quiet = self.params.get('quiet', False)
+
+        self.provider.set_progress_callback(progress)
         self.provider.set_log_callback(log)
         self.provider.set_quest_callback(quest)
         self.provider.set_quest_password_callback(quest_password)

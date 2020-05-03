@@ -59,6 +59,7 @@ class Cli:  # pragma: no cover
     def progress(self, items_count: int, current_item: int, re_init: bool = False):
         if not items_count \
                 or self.args.no_progress \
+                or self.args.quiet \
                 or self.args.print_json \
                 or self.args.debug:
             return
