@@ -29,7 +29,7 @@ class MangaLifeUs(Provider, Std):
             uri = self.html_fromstring(uri, 'a.list-link', 0).get('href')
         return self.re.search(r'(?:\.\w{2,7})?/manga/([^/]+)', uri).group(1)
 
-    def get_chapters(self):
+    def _chapters_js(self):
         raw_chapters = self.re.search(r'vm.Chapters\s*=\s*(\[\{.+\}\])', self.content).group(1)
         chapters = self.json.loads(raw_chapters)
 
@@ -39,8 +39,16 @@ class MangaLifeUs(Provider, Std):
             self.__ch(ch['Chapter']),
         ) for ch in chapters][::-1]
 
-    def get_files(self):
-        content = self.http_get(self.chapter)
+    def _chapters_html(self):
+        return self._elements('.list a.list-group-item')
+
+    def get_chapters(self):
+        try:
+            return self._chapters_js()
+        except:
+            return self._chapters_html()
+
+    def _files_js(self, content):
         domain = self.re.search(r"""vm.CurPathName\s*=\s*["'](.+)['"]""", content).group(1)
         raw_chapter = self.json.loads(self.re.search(r"""vm.CurChapter\s*=\s*(\{.+\})""", content).group(1))
 
@@ -58,6 +66,20 @@ class MangaLifeUs(Provider, Std):
             self.__one_ch(chapter),
             '{:0>3}'.format(i)
         ) for i in range(1, pages + 1)]
+
+    def _files_html(self, content):
+        parser = self.document_fromstring(content)
+        return self._images_helper(parser, '.image-container-manga > .fullchapimage > img')
+
+    def get_files(self):
+        _chapter = self.re.search(r'(.+)-page-\d+\.html', self.chapter).group(1)
+
+        content = self.http_get('%s.html' % _chapter)
+
+        try:
+            return self._files_js(content)
+        except:
+            return self._files_html(content)
 
     @staticmethod
     def __one_ch(ch):
