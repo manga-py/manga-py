@@ -60,5 +60,5 @@ def cf_load(url) -> Optional[Tuple[dict, str, int]]:
             return None
 
         return data['cookies'], data['ua'], data['time']
-    except Exception:
+    except (FileNotFoundError, NameError, ValueError, TypeError):
         return None

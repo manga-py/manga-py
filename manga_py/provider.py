@@ -95,9 +95,12 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self.chapters = self._storage['chapters'][::-1]
 
         self._storage['init_cookies'] = self._storage['cookies']
-        __ua = self._info.set_ua(self.http().user_agent)
 
-        info('User-agent: %s' % __ua)
+        __ua = self.http().user_agent
+
+        self._info.set_ua(__ua)
+
+        info('User-agent: "%s"' % __ua)
 
         self.loop_chapters()
 

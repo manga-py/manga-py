@@ -117,14 +117,14 @@ providers_list = {
         r'gmanga\.me/mangas/.',
     ],
     'gomanga_co': [
-        r'gomanga\.co/reader/.',
+        # r'gomanga\.co/reader/.',
         r'jaiminisbox\.com/reader/.',
         r'kobato\.hologfx\.com/reader/.',
-        r'seinagi\.org/reader/.',
+        # r'seinagi\.org/reader/.',
     ],
-    'goodmanga_net': [
-        r'goodmanga\.net/.',
-    ],
+    # 'goodmanga_net': [
+    #     r'goodmanga\.net/.',
+    # ],
     'helveticascans_com': [
         r'helveticascans\.com/r/(series|read)/.',
     ],
