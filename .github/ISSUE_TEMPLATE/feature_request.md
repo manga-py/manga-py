@@ -4,6 +4,13 @@ about: Suggest an idea for this project
 
 ---
 # Feature request
+
+<!--
+Please remember that developers cannot guess what exactly does not work for you.
+You will seem more responsible if you describe the error more fully.
+-->
+
+
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 

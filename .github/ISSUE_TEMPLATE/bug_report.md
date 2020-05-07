@@ -6,6 +6,11 @@ about: Create a report to help us improve
 # Bug report
 Environment (please complete the following information):
 
+<!--
+Please remember that developers cannot guess what exactly does not work for you.
+You will seem more responsible if you describe the error more fully.
+-->
+
 Description | Data
 ---|---
 OS | Ubuntu 18.04 \ Windows 10
