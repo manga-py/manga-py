@@ -4,7 +4,7 @@ from .helpers.manganelo_com_helper import check_alternative_server
 
 
 class MangaKakalotCom(Provider, Std):
-    __alternative_cdn = 'https://bu2.mkklcdnbuv1.com'
+    # __alternative_cdn = 'https://bu2.mkklcdnbuv1.com'
 
     def get_chapter_index(self) -> str:
         re = self.re.search('/chapter_([^/]+)', self.chapter)
@@ -33,9 +33,14 @@ class MangaKakalotCom(Provider, Std):
         return self._elements('.chapter-list span a')
 
     def get_files(self):
-        result = self.html_fromstring(self.chapter, '#vungdoc img')
+        chapter = self.chapter
+        result = self.html_fromstring(chapter, '#vungdoc img')
         images = [i.get('src') for i in result]
-        return check_alternative_server(images, self.__alternative_cdn)
+        return images
+        # check_alternative_server(images, self.__alternative_cdn, headers={
+        #     'Referer': chapter,
+        #     'Accept': 'image/webp,*/*',
+        # })
 
     def book_meta(self) -> dict:
         # todo meta
