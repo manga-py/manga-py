@@ -76,16 +76,16 @@ class Cli:  # pragma: no cover
         self.args.quiet or print(text, **kwargs)
 
     def _single_quest(self, variants, title):
-        self.print(title)
+        print(title)
         for v in variants:
-            self.print(v)
+            print(v)
         return input()
 
     def _multiple_quest(self, variants, title):
-        self.print('Accept - blank line + enter')
-        self.print(title)
+        print('Accept - blank line + enter')
+        print(title)
         for v in variants:
-            self.print(v)
+            print(v)
         result = []
         while True:
             _ = input().strip()

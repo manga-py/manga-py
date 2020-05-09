@@ -1,7 +1,9 @@
-from sys import stderr
-from pathlib import Path
 from json import loads
 from logging import error, info
+from sys import stderr
+from time import strftime
+
+from requests import request
 
 from manga_py import meta
 from manga_py.crypt.viz_com import solve
@@ -15,6 +17,7 @@ class VizCom(Provider, Std):
     __cookies = {}
     __has_auth = False
     _continue = True
+    _metadata = None
 
     def get_chapter_index(self) -> str:
         # return str(self.chapter_id)
@@ -56,6 +59,9 @@ class VizCom(Provider, Std):
         return chapters
 
     def get_files(self):
+        _proxies = self.http().proxies.copy()
+        self.http().proxies = dict([])
+
         self._continue = True
         ch = self.chapter
 
@@ -81,6 +87,8 @@ class VizCom(Provider, Std):
             info('Logged client!')
         else:
             info('Anon client!')
+
+        self.http().proxies = _proxies.copy()
 
         return [url.format(page=i) for i in range(250)]  # fixme: max 250 images per chapter
 
@@ -109,8 +117,8 @@ class VizCom(Provider, Std):
     def auth(self):
         token = self.get_token()
 
-        name = self.quest([], 'Request login on viz.com')
-        password = self.quest_password('Request password on viz.com\n')
+        name = self.arg('login') or self.quest([], 'Request login on viz.com')
+        password = self.arg('password') or self.quest_password('Request password on viz.com\n')
 
         if len(name) == 0 or len(password) == 0:
             return
@@ -153,7 +161,7 @@ class VizCom(Provider, Std):
         return {}
 
     def get_token(self):
-        auth_token_url = '/account/refresh_login_links'.format(self.domain)
+        auth_token_url = '{}/account/refresh_login_links'.format(self.domain)
         auth_token = self.http().get(auth_token_url, cookies=self.__cookies)
         token = self.re.search(r'AUTH_TOKEN\s*=\s*"(.+?)"', auth_token)
         return token.group(1)
@@ -184,7 +192,17 @@ class VizCom(Provider, Std):
 
         info('File params:\n PATH: {}\n IDX: {}\n URL: {}'.format(_path, idx, _url))
 
-        __url = self.http_get(self.http().normalize_uri(url)).strip()
+        self.http().cookies['chapter-series-5-follow-modal'] = strftime('%Y-%m-%d')
+
+        __url = request(
+            'get',
+            self.http().normalize_uri(url),
+            headers={
+                'X-Requested-With': 'XMLHttpRequest',
+                'Referer': 'https://www.viz.com',
+                'User-Agent': self.http().user_agent,
+            }
+        ).text.strip()
 
         if __url.find('http') != 0:
             error('\nURL is wrong: \n {}\n'.format(__url))
@@ -192,8 +210,9 @@ class VizCom(Provider, Std):
 
         self.http().download_file(__url, _path, idx)
 
-        if file_size(_path) < 32:
-            info('File not found. Stop for this chapter')
+        if file_size(_path) < 100:
+            if self._continue:
+                info('File not found. Stop for this chapter')
             self._continue = False
             is_file(_path) and unlink(_path)
             return
