@@ -22,9 +22,14 @@ class MangaNeloCom(Provider, Std):
         return self._elements('.panel-story-chapter-list a')
 
     def get_files(self):
-        parser = self.html_fromstring(self.get_chapter())
+        chapter = self.get_chapter()
+
+        parser = self.html_fromstring(chapter)
         images = self._images_helper(parser, '.container-chapter-reader img')
-        return check_alternative_server(images, self.__alternative_cdn)
+        return check_alternative_server(images, self.__alternative_cdn, headers={
+            'Referer': chapter,
+            'Accept': 'image/webp,*/*',
+        })
 
     def get_cover(self) -> str:
         return self._cover_from_content('.manga-info-pic img')

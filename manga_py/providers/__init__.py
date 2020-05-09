@@ -306,6 +306,7 @@ providers_list = {
     ],
     'mangabat_com': [
         r'mangabat\.com/(manga|chapter)/.',
+        r'mangabat\.com/read-.',
     ],
     'mangabb_co': [
         r'mangabb\.co/.',

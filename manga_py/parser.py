@@ -3,6 +3,9 @@ from argparse import ArgumentParser
 from .info import Info
 from .providers import get_provider
 
+from requests import get
+from logging import warning
+
 
 class Parser:
     params = None
@@ -32,6 +35,13 @@ class Parser:
         real_url = self.params.get('url', '')
         provider_url = self.params.get('force_provider', None)
         provider = get_provider(provider_url or real_url)
+
+        # update url (if redirect)
+        with get(real_url, stream=True) as response:
+            _url = response.url
+            if self.params['url'] != _url:
+                warning('Manga url changed! New url: {}'.format(_url))
+                self.params['url'] = response.url
 
         if isinstance(provider, bool):
             raise AttributeError('Provider not found')
