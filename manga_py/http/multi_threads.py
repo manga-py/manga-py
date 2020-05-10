@@ -3,17 +3,12 @@ from threading import Thread
 
 class MultiThreads:
     threads = None
-    max_threads = 2
+    max_threads = 4
     to_run = None
 
     def __init__(self):
         self.threads = []
         self.to_run = []
-        try:
-            import multiprocessing
-            self.max_threads = multiprocessing.cpu_count()
-        except Exception:
-            pass
 
     def add(self, target: callable, args: tuple):
         self.threads.append(Thread(target=target, args=args))

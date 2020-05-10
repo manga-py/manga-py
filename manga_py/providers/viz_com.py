@@ -4,6 +4,7 @@ from sys import stderr
 from time import strftime
 
 from requests import request
+from requests.cookies import cookiejar_from_dict
 
 from manga_py import meta
 from manga_py.crypt.viz_com import solve
@@ -12,7 +13,27 @@ from manga_py.provider import Provider
 from .helpers.std import Std
 
 
-class VizCom(Provider, Std):
+class VizDownloader:
+    def viz_downloader(self, file_name, url, method):
+
+        with open(file_name, 'wb') as out_file:
+            response = request(
+                method, url, timeout=20,
+                allow_redirects=True,
+                headers={
+                    'Referer': 'https://www.viz.com/shonenjump/',
+                    'User-Agent': self.http().user_agent,
+                },
+                cookies=cookiejar_from_dict(self.http().cookies),
+            )
+
+            if 200 >= response.status_code < 300:
+                out_file.write(response.content)
+                response.close()
+                out_file.close()
+
+
+class VizCom(Provider, Std, VizDownloader):
     cookie_file = None
     __cookies = {}
     __has_auth = False
@@ -96,6 +117,9 @@ class VizCom(Provider, Std):
         self._cover_from_content('.o_hero-media')
 
     def prepare_cookies(self):
+        self._params['max_threads'] = 2
+        self.http()._download = self.viz_downloader
+
         self.http().mute = True
         self.cookie_file = path_join(get_util_home_path(), 'cookies_viz_com.dat')
         cookies = self.load_cookies()
@@ -201,11 +225,15 @@ class VizCom(Provider, Std):
                 'X-Requested-With': 'XMLHttpRequest',
                 'Referer': 'https://www.viz.com',
                 'User-Agent': self.http().user_agent,
-            }
+            },
+            cookies=cookiejar_from_dict(self.http().cookies),
+            allow_redirects=True
         ).text.strip()
 
         if __url.find('http') != 0:
-            error('\nURL is wrong: \n {}\n'.format(__url))
+            if self._continue:
+                error('\nURL is wrong: \n {}\n'.format(__url))
+            self._continue = False
             return
 
         self.http().download_file(__url, _path, idx)
