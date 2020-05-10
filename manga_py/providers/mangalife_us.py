@@ -72,7 +72,11 @@ class MangaLifeUs(Provider, Std):
         return self._images_helper(parser, '.image-container-manga > .fullchapimage > img')
 
     def get_files(self):
-        _chapter = self.re.search(r'(.+)-page-\d+\.html', self.chapter).group(1)
+        _chapter = self.chapter
+        try:
+            _chapter = self.re.search(r'(.+)-page-\d+\.html', _chapter).group(1)
+        except AttributeError:
+            pass
 
         content = self.http_get('%s.html' % _chapter)
 
