@@ -27,14 +27,14 @@ class AcQqCom(Provider, Std):
         content = self.http_get(self.chapter)
         data = self._re.search(content).group(1)
         data = self._decoder.decode(data)
-        return [i.get('url') for i in data.get('picture', [])][0:1]
+        return [i.get('url') for i in data]
 
     def get_cover(self) -> str:
         return self._cover_from_content('.works-cover img')
 
     def prepare_cookies(self):
         self._re = self.re.compile(r'var\s+DATA\s*=\s*[\'"](.*?)[\'"]')
-        self._decoder = AcQqComCrypt(self)
+        self._decoder = AcQqComCrypt()
         self._base_cookies()
 
     def book_meta(self) -> dict:

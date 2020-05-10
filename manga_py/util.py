@@ -92,7 +92,6 @@ __old_factory = getLogRecordFactory()
 
 def __log_factory(*args, **kwargs):
     record = __old_factory(*args, **kwargs)
-    record.level_name = record.levelname[0]
     record.my_pathname = record.pathname[__root:]
     record.custom_attribute = "my-attr"
     return record
@@ -102,7 +101,7 @@ def main():
     args = get_cli_arguments()
     setLogRecordFactory(__log_factory)
 
-    log_format = '"%(level_name)s:%(my_pathname)s:%(lineno)s:%(asctime)s:%(message)s"'
+    log_format = '"%(levelname)s:%(my_pathname)s:%(lineno)s:%(asctime)s:%(message)s"'
     basicConfig(level=(INFO if args.parse_args().debug else WARN), format=log_format)
 
     if ~version.find('alpha'):

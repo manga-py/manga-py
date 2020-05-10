@@ -1,38 +1,47 @@
-class AcQqComCrypt:
-    _provider = None
-    _site_key = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+import re
+import json
 
-    def __init__(self, provider):
-        self._provider = provider
+_site_key = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+
+
+def key(char: str):
+    position = _site_key.find(char)
+    return position
+
+
+class AcQqComCrypt:
+    __slots__ = []
 
     def decode(self, data):
-        data = self._provider.re.sub('[^A-Za-z0-9%+/=]', '', data)
-        a = ''
+        data = re.sub(r'[^A-Za-z0-9%+/=\\]', '', data)
+        a = []
         e = 0
-        while e < len(data) - 4:
+        while e < len(data) - 3:
+            b = key(data[e])
             e += 1
-            b = self._site_key.find(data[e])
+            d = key(data[e])
             e += 1
-            d = self._site_key.find(data[e])
+            f = key(data[e])
             e += 1
-            f = self._site_key.find(data[e])
+            g = key(data[e])
             e += 1
-            g = self._site_key.find(data[e])
 
             b = b << 2 | d >> 4
             d = (d & 15) << 4 | f >> 2
             h = (f & 3) << 6 | g
-            a += chr(b)
+            a.append(chr(b))
 
             if f != 64:
-                a += chr(d)
-            if g != 64:
-                a += chr(h)
-        return self._protect(a)
+                a.append(chr(d))
 
-    def _protect(self, data):
+            if g != 64:
+                a.append(chr(h))
+
+        return self._sub_dict(''.join(a))
+
+    def _sub_dict(self, data):
         try:
-            data = self._provider.re.search('({.+}})', data).group(1)
-            return self._provider.json.loads(data)
-        except Exception:
+            data = re.search(r'picture.*?(\[{.+}\])', data).group(1)
+            return json.loads(data)
+        except Exception as e:
             return {}
