@@ -183,6 +183,6 @@ For `manga-py >= 1.18`, the transfer of login / password / language / translatio
    :alt: GitHub repo size
 .. |PyPI - Downloads| image:: https://img.shields.io/pypi/dm/manga-py
    :alt: PyPI - Downloads
-.. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?color=success&label=PyPI+size&query=%24.size&url=https://sttv.me/repo-size/manga-py.json&suffix=+Kb
+.. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?color=success&label=PyPI+size&query=%24.size&url=https://sttv.me/repo-size/manga-py.json?human-size
    :alt: PyPI - size
 
