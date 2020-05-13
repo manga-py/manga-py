@@ -37,7 +37,7 @@ class MangaLifeUs(Provider, Std):
             self.domain,
             self.manga_name,
             self.__ch(ch['Chapter']),
-        ) for ch in chapters][::-1]
+        ) for ch in chapters]
 
     def _chapters_html(self):
         return self._elements('.list a.list-group-item')

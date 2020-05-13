@@ -780,6 +780,7 @@ providers_list = {
     ],
     'zeroscans_com': [
         r'zeroscans\.com/comics/.',
+        r'reaperscans\.com/comics/.',
     ],
     'zingbox_me': [
         r'zingbox\.me/.',
