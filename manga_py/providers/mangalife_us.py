@@ -96,7 +96,7 @@ class MangaLifeUs(Provider, Std):
         n = ch[1:-1].lstrip('0')
         if ch[-1] != '0':
             return '%s.%s' % (n, ch[-1])
-        return n
+        return '{:0>1}'.format(n)
 
     def prepare_cookies(self):
         self.http().cookies['FullPage'] = 'yes'
