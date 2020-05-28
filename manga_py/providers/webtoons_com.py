@@ -72,7 +72,11 @@ class WebToonsCom(Provider, Std):
         return self.parse_background(img)
 
     def prepare_cookies(self):
+        self.http().cookies['locale'] = 'en'
+        self.http().cookies['needGDPR'] = 'false'
+        self.http().cookies['hadSavedCookie'] = 'true'
         self.http().cookies['ageGatePass'] = 'true'
+        self.http().cookies['timezoneOffset'] = '+1'
 
 
 main = WebToonsCom
