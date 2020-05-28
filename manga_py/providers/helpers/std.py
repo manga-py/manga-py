@@ -81,7 +81,10 @@ class Std:
         doc = self.document_fromstring(content, selector)
         if not doc:
             return None
-        text = doc[idx].text_content()
+        return self.element_text_content(doc[idx], strip)
+
+    def element_text_content(self, element, strip: bool = True):
+        text = element.text_content()
         if strip:
             text = text.strip()
         return text

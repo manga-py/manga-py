@@ -622,6 +622,9 @@ providers_list = {
         r'digitalteamreader\.netsons\.org/(series|read)/.',
         r'reader\.manga-download\.org/(series|read)/.',
     ],
+    'read_ptscans_com': [
+        r'read\.ptscans\.com/series/.'
+    ],
     'read_yagami_me': [
         r'read\.yagami\.me/series/\w',
     ],
