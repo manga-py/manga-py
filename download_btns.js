@@ -52,7 +52,9 @@
 
                 const sitesLen = sites.length;
                 const buttonElement = document.querySelector('#random-site');
-                const lastSiteLink = document.querySelector('#last-site');
+
+                const lastSiteWrapper = document.querySelector('#last-site');
+                const lastSiteLink = document.querySelector('#last-site > a');
 
                 buttonElement.setAttribute('target', '_blank');
 
@@ -63,7 +65,7 @@
                     buttonElement.setAttribute('href', sites[idx]);
 
                     lastSiteLink.setAttribute('href', sites[idx]);
-                    lastSiteLink.style.display = null;
+                    lastSiteWrapper.style.display = null;
 
                     return true;
                 });
