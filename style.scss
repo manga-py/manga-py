@@ -67,6 +67,9 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 31.875rem;
   }
 }
+.header .panel {
+  padding-bottom: 1.5rem;
+}
 .header h2.h2-panel {
   font-size: 1.9rem;
   max-width: 100%;
@@ -352,4 +355,10 @@ span.subcontent {
   font-size: .7rem;
   color: #ccc;
   padding-bottom: 1rem;
+}
+
+@media (max-width: 767px) {
+  .links > li {
+    display: flex;
+  }
 }
