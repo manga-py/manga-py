@@ -63,7 +63,7 @@
                     buttonElement.setAttribute('href', sites[idx]);
 
                     lastSiteLink.setAttribute('href', sites[idx]);
-                    lastSiteLink.style.display = 'block';
+                    lastSiteLink.style.display = null;
 
                     return true;
                 });
