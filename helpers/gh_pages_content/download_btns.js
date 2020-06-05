@@ -8,6 +8,7 @@
             // example: https://api.github.com/repos/yuru-yuri/manga-py/releases/latest
             return;
         }
+
         fetch(repoUrl)
             .then(r => r.json())
             .then((r) => {
@@ -20,11 +21,14 @@
                 zip.setAttribute('href', r.zipball_url);
                 zip.setAttribute('active', 'true');
             });
+
         const ul = d.querySelector('#supported-list');
+
         if(!ul)
         {
             return;
         }
+
         fetch('./providers.json')
             .then(r => r.json())
             .then((r) => {
@@ -43,14 +47,24 @@
                     done += r[i][1] ? 1 : 0;
                     r[i][1] && sites.push(r[i][0]);
                 }
+
                 ul.innerHTML = ('<!-- ' + r.length + ' ( ' + done + ' ) -->') + html;
 
-                let sitesLen = sites.length;
+                const sitesLen = sites.length;
                 const buttonElement = document.querySelector('#random-site');
+                const lastSiteLink = document.querySelector('#last-site');
+
                 buttonElement.setAttribute('target', '_blank');
+
                 buttonElement.addEventListener('click', () => {
+
                     const idx = parseInt(Math.random() * sitesLen);
+
                     buttonElement.setAttribute('href', sites[idx]);
+
+                    lastSiteLink.setAttribute('href', sites[idx]);
+                    lastSiteLink.style.display = 'block';
+
                     return true;
                 });
             });
