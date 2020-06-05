@@ -78,5 +78,8 @@ class WebToonsCom(Provider, Std):
         self.http().cookies['ageGatePass'] = 'true'
         self.http().cookies['timezoneOffset'] = '+1'
 
+    def allow_auto_change_url(self):
+        return False
+
 
 main = WebToonsCom

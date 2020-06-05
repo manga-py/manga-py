@@ -17,6 +17,7 @@ class Base(ProviderParams):
     __arguments = None
     chapter_id = 0
     quiet = False
+    original_url = None
 
     def __init__(self):
 
@@ -145,3 +146,5 @@ class Base(ProviderParams):
             return None
         return self.__arguments.get(key)
 
+    def allow_auto_change_url(self):
+        return True

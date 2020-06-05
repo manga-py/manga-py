@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 
 from .info import Info
 from .providers import get_provider
+from .provider import Provider
 
 from requests import get
 from logging import warning
@@ -32,21 +33,23 @@ class Parser:
             quest_password: callable = None,
     ):
 
-        real_url = self.params.get('url', '')
+        original_url = self.params.get('url', '')
         provider_url = self.params.get('force_provider', None)
-        provider = get_provider(provider_url or real_url)
-
-        # update url (if redirect)
-        with get(real_url, stream=True) as response:
-            _url = response.url
-            if self.params['url'] != _url:
-                warning('Manga url changed! New url: {}'.format(_url))
-                self.params['url'] = response.url
+        provider = get_provider(provider_url or original_url)
 
         if isinstance(provider, bool):
             raise AttributeError('Provider not found')
 
-        self.provider = provider(info)  # provider __init__
+        # update url (if redirect)
+        self.provider = provider(info)  # type: Provider
+
+        self.provider.original_url = original_url
+
+        real_url = self.check_url(original_url)
+
+        if self.provider.allow_auto_change_url():
+            warning('Manga url changed! New url: {}'.format(real_url))
+            self.params['url'] = real_url
 
         self.provider.quiet = self.params.get('quiet', False)
 
@@ -57,3 +60,11 @@ class Parser:
 
     def start(self):
         self.provider.process(self.params['url'], self.params)
+
+    def check_url(self, url):
+        with get(url, stream=True) as response:
+            _url = response.url
+            if url != _url:
+                url = _url
+        return url
+

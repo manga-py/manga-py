@@ -5,7 +5,7 @@ from .helpers.std import Std
 class ReadPtscansCom(Provider, Std):
     def get_chapter_index(self) -> str:
         chapter = self.chapter['title']
-        return self.re.search(r'.+?(\d+(?:\.\d+))\s*$', chapter)\
+        return self.re.search(r'.+?(\d+(?:\.\d+)?)\s*$', chapter)\
             .group(1).replace('.', '-')
 
     def get_main_content(self):
