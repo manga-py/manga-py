@@ -308,9 +308,9 @@ providers_list = {
         r'mangabat\.com/(manga|chapter)/.',
         r'mangabat\.com/read-.',
     ],
-    'mangabb_co': [
-        r'mangabb\.co/.',
-    ],
+    # 'mangabb_co': [  removed #306
+    #     r'mangabb\.co/.',
+    # ],
     'mangabox_me': [
         r'mangabox\.me/reader/.',
     ],
@@ -347,9 +347,9 @@ providers_list = {
     'mangafull_org': [
         r'mangafull\.org/manga/.',
     ],
-    'mangahasu_se': [
-        r'mangahasu\.se/.',
-    ],
+    # 'mangahasu_se': [  removed #306
+    #     r'mangahasu\.se/.',
+    # ],
     'mangaheaven_club': [
         r'mangaheaven\.club/read-manga/.',
     ],
@@ -540,7 +540,7 @@ providers_list = {
         r'godsrealmscan\.com/public(/index\.php)?/manga/.',
     ],
     'otakusmash_com': [
-        r'otakusmash\.com/.',
+        #r'otakusmash\.com/.',  removed #306
         r'mrsmanga\.com/.',
         r'mentalmanga\.com/.',
         r'mangasmash\.com/.',
@@ -600,7 +600,7 @@ providers_list = {
         r'lector\.dangolinenofansub\.com/(series|read)/.',
         r'read\.powermanga\.org/(series|read)/.',
         r'reader\.kireicake\.com/(series|read)/.',
-        r'reader\.shoujosense\.com/(series|read)/.',
+        #r'reader\.shoujosense\.com/(series|read)/.',  removed #306
         r'reader\.whiteoutscans\.com/(series|read)/.',
         r'slide\.world-three\.org/(series|read)/.',
         r'reader\.s2smanga\.com/(series|read)/.',
@@ -637,9 +637,9 @@ providers_list = {
     'reader_championscans_com': [
         r'reader\.championscans\.com/(series|read)/.',
     ],
-    'reader_imangascans_org': [
-        r'reader\.imangascans\.org/.',
-    ],
+    # 'reader_imangascans_org': [  removed #306
+    #     r'reader\.imangascans\.org/.',
+    # ],
     'readcomiconline_to': [
         r'readcomiconline\.to/Comic/.',
     ],
