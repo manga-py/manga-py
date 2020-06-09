@@ -17,19 +17,19 @@ class MangaHubRu(Provider, Std):
         return self._get_name(r'\.\w{2,7}/([^/]+)/?')
 
     def get_chapters(self):
-        return self._elements('.b-catalog-list__name a[href^="/"]')
+        return self._elements('.d-flex > a[href*="/read/"]')
 
     def get_files(self):
-        parser = self.html_fromstring(self.chapter, '.b-main-container .b-reader__full')
+        parser = self.html_fromstring(self.chapter, 'reader')
         if not parser:
             return []
-        result = parser[0].get('data-js-scans')
-        result = self.json.loads(html.unescape(result.replace(r'\/', '/')))
+        result = parser[0].get('data-reader-store')
+        result = self.json.loads(html.unescape(result))['scans']
         n = self.http().normalize_uri
         return [n(i['src']) for i in result]
 
     def get_cover(self):
-        return self._cover_from_content('.manga-section-image__img img')
+        return self._cover_from_content('img.cover-detail-img')
 
     def book_meta(self) -> dict:
         # todo meta
