@@ -495,6 +495,9 @@ providers_list = {
     'manhwa18_net': [
         r'manhwa18\.net/manga-.',
     ],
+    'manhwa_club': [
+        r'manhwa\.club/manhwa/.',
+    ],
     'manhwareader_com': [
         r'manhwareader\.com/manga/.',
     ],
