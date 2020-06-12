@@ -12,8 +12,8 @@ class nHentaiNet(HentaiFoxCom):
         page = self._elements('#thumbnail-container a')[0]
         n = self.http().normalize_uri
         content = self.http_get(n(page.get('href')))
-        imgs = self.re.search(r'gallery\s*:\s*(\{.+\}),', content)
-        imgs = self.json.loads(imgs.group(1))
+        imgs = self.re.search(r'gallery.+?JSON\.parse\("(\{.+\})', content)
+        imgs = self.json.loads(imgs.group(1).encode().decode('unicode_escape'))
         idx = imgs.get('media_id')
         images = []
         for n, i in enumerate(imgs.get('images', {}).get('pages', [])):
