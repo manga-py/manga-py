@@ -86,7 +86,6 @@ def main():
     with open(path + 'providers.json', 'w') as w:
         w.write(build_providers())
     prepare_html(path + 'index.html')
-    prepare_html(path + 'improvement.html')
 
 
 # print(len(build_providers()))
