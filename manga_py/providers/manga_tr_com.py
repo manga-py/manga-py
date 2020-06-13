@@ -1,5 +1,6 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
+from time import sleep
 
 
 class MangaTrCom(Provider, Std):
@@ -36,9 +37,10 @@ class MangaTrCom(Provider, Std):
     def get_cover(self) -> str:
         return self._cover_from_content('img.thumbnail')
 
-    def book_meta(self) -> dict:
-        # todo meta
-        pass
+    def prepare_cookies(self):
+        self.http().get(self.get_url())
+        self.log('Anti-ddos...')
+        sleep(3)
 
 
 main = MangaTrCom

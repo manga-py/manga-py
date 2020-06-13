@@ -34,10 +34,6 @@ class MangaFreakNet(Provider, Std):
     def get_cover(self) -> str:
         return self._cover_from_content('.manga_series_image img')
 
-    def book_meta(self) -> dict:
-        # todo meta
-        pass
-
     def chapter_for_json(self):
         return self.chapter[1]
 

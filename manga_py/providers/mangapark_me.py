@@ -5,7 +5,7 @@ from .helpers.std import Std
 class MangaParkMe(Provider, Std):
 
     def get_chapter_index(self) -> str:
-        selector = r'/manga/[^/]+/s.+?(?:/v(\d+))?/c(\d+[^/]*)'
+        selector = r'/manga/[^/]+/[^/]+(?:/v(\d+))?/c(\d+[^/]*)'
         idx = self.re.search(selector, self.chapter).groups()
         if idx[0] is None:
             return '0-' + idx[1]
@@ -21,18 +21,16 @@ class MangaParkMe(Provider, Std):
         return self._elements('#list a.ch')
 
     def get_files(self):
-        content = self.http_get(self.chapter)
-        data = self.re.search(r'var\simages\s?=\s?(\[.+\])', content)
+        chapter = self.re.search(r'^(.+/c\d+)', self.chapter).group(1)
+        content = self.http_get(chapter)
+        data = self.re.search(r'var\s_load_page\s?=\s?(\[.+\])', content)
         if not data:
             return []
-        return self.json.loads(data.group(1))
+        json = self.json.loads(data.group(1))
+        return [i['u'] for i in json]
 
     def get_cover(self):
         return self._cover_from_content('.cover img')
-
-    def book_meta(self) -> dict:
-        # todo meta
-        pass
 
 
 main = MangaParkMe
