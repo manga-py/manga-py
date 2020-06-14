@@ -6,6 +6,9 @@ from requests import get
 
 
 class Std:
+    _download_cookies = None
+    _download_headers = None
+
     def _elements(self, selector, content=None) -> list:
         if not content:
             content = self.content
@@ -91,11 +94,14 @@ class Std:
 
     def _download(self, file_name, url, method):
         # clean file downloader
+        cookies = self._download_cookies or {}
+        headers = self._download_headers or {}
+
         now_try_count = 0
         while now_try_count < 5:
             with open(file_name, 'wb') as out_file:
                 now_try_count += 1
-                response = get(url, timeout=60, allow_redirects=True)
+                response = get(url, timeout=60, allow_redirects=True, headers=headers, cookies=cookies)
                 if response.status_code >= 400:
                     error('ERROR! Code {}\nUrl: {}'.format(
                         response.status_code,
