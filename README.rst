@@ -65,9 +65,9 @@ See:
 Downloading manga
 -----------------
 
-**:warning:For sites with cloudflare protect need installed Node.js**
+**:warning: For sites with cloudflare protect need installed Node.js**
 
-**:warning:Notice! By default, the mode of multithreaded image loading is enabled**
+**:warning: Notice! By default, the mode of multithreaded image loading is enabled**
 
 **To change this behavior, add the key --no-multi-threads**
 
