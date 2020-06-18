@@ -95,7 +95,6 @@ providers_list = {
         r'gmanga\.me/mangas/.',
     ],
     'gomanga_co': [
-        r'jaiminisbox\.com/reader/.',
         r'kobato\.hologfx\.com/reader/.',
     ],
     'helveticascans_com': [
@@ -165,6 +164,9 @@ providers_list = {
     ],
     'isekaiscan_com': [
         r'isekaiscan\.com/manga/.',
+    ],
+    'jaiminisbox_com': [
+        r'jaiminisbox\.com/reader/series/.',
     ],
     'japscan_com': [
         r'japscan\.(cc|com|co|to)/.',

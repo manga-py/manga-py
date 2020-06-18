@@ -3,7 +3,7 @@ from .helpers.std import Std
 
 
 class GoMangaCo(Provider, Std):
-    _name_re = '/reader/[^/]+/([^/]+)/'
+    _name_re = r'/reader/[^/]+/([^/?]+)'
     _content_str = '{}/reader/series/{}/'
     _chapters_selector = '.list .element .title a'
     _chapter_re = r'/rea\w+/[^/]+/[^/]+/(?:[^/]+/)?(\d+/\d+(?:/\d+)?)'
