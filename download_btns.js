@@ -29,7 +29,7 @@
             return;
         }
 
-        fetch('./providers.json')
+        fetch('/manga-py/providers.json')
             .then(r => r.json())
             .then((r) => {
                 let html = '', m = 0, done = 0;
