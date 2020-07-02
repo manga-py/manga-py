@@ -18,6 +18,8 @@ RUN touch $HOME/.bashrc; \
     chown $HOST_USER:$HOST_GROUP $HOME/.bashrc; \
     chown $HOST_USER:$HOST_GROUP $HOME/Manga
 
+RUN apt install curl -y
+
 RUN python3 --version
 RUN python3 -mpip install manga-py -U --no-cache-dir \
 # Because it requires gcc
