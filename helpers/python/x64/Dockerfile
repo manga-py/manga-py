@@ -158,4 +158,3 @@ RUN echo 'Manga-py version: '; \
 # docker run -it -v /tmp/destination:/home/manga mangadl/manga-py
 
 CMD ["bash"]
-
