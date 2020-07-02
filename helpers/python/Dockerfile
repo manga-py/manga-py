@@ -1,4 +1,4 @@
-FROM python:3.7.8-slim-stretch
+FROM python:3.7.8-stretch
 
 ARG HOST_UID=1000
 ARG HOST_GID=1000
@@ -17,8 +17,6 @@ RUN touch $HOME/.bashrc; \
     mkdir $HOME/Manga; \
     chown $HOST_USER:$HOST_GROUP $HOME/.bashrc; \
     chown $HOST_USER:$HOST_GROUP $HOME/Manga
-
-RUN apt install curl -y
 
 RUN python3 --version
 RUN python3 -mpip install manga-py -U --no-cache-dir \
