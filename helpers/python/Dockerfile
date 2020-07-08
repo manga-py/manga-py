@@ -23,7 +23,7 @@ RUN python3 -mpip install manga-py -U --no-cache-dir \
 # Because it requires gcc
         && python3 -mpip install manga-py -U --no-cache-dir \
         && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
-	&& apt-get install -y nodejs
+	&& apt-get install -y nodejs npm
 
 USER $HOST_USER
 WORKDIR $HOME
