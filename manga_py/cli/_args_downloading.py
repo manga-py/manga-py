@@ -32,8 +32,17 @@ def _args_downloading(args_parser):  # pragma: no cover
         type=str,
         help=(
             'Set an user-agent. '
-            'Don\'t work from protected sites.'
+            # 'Don\'t work from protected sites.'
         )
+    )
+
+    args.add_argument(
+        '--cookies',
+        type=str,
+        help=(
+            'Set specified cookies. Example: --cookies cf_clearance=9c.. test=5a..'
+        ),
+        nargs='*',
     )
 
     args.add_argument(

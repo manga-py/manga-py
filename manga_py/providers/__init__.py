@@ -100,10 +100,10 @@ providers_list = {
     'helveticascans_com': [
         r'helveticascans\.com/r/(series|read)/.',
     ],
-    'hatigarmscans_eu': [
-        r'hatigarmscans\.net/hs/(series|read).',
-        r'hatigarmscans\.net/manga/.',
-    ],
+    # 'hatigarmscans_eu': [
+    #     r'hatigarmscans\.net/hs/(series|read).',
+    #     r'hatigarmscans\.net/manga/.',
+    # ],
     'heavenmanga_biz': [
         r'heavenmanga\.com/.',
     ],
@@ -133,6 +133,9 @@ providers_list = {
     ],
     'hentairead_com': [
         r'hentairead\.com/.',
+    ],
+    'hentaivn_net': [
+        r'hentaivn\.net/\d+-doc-.',
     ],
     'hitomi_la': [
         r'hitomi\.la/(galleries|reader)/.',
@@ -547,8 +550,8 @@ providers_list = {
         r'readcomicsonline\.ru/comic/.',
     ],
     'readmanga_me': [
-        r'readmanga\.me/.',
-        r'mintmanga\.com/.',
+        r'readmanga\.live/.',
+        r'mintmanga\.live/.',
         r'selfmanga\.ru/.',
     ],
     'readmng_com': [
@@ -654,6 +657,15 @@ providers_list = {
     'zeroscans_com': [
         r'zeroscans\.com/comics/.',
         r'reaperscans\.com/comics/.',
+        r'secretscans\.co/comics/.',
+        r'kkjscans\.co/comics/.',
+        r'kkjscans\.co/comics/.',
+        r'edelgardescans\.com/comics/.',
+        r'hunlight-scans\.info/comics/.',
+        r'hatigarmscanz\.net/comics/.',
+        r'the-nonames\.com/comics/.',
+        r'methodscans\.com/comics/.',
+        r'leviatanscans\.com/comics/.'
     ],
 }
 

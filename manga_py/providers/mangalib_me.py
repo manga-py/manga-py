@@ -26,7 +26,7 @@ class MangaLibMe(Provider, Std):
         info = self.json.loads(info)
         _manga = info['img']['url']
         _s = info['servers']
-        _server = _s.get('main', _s.get('secondary'))
+        _server = _s.get('fourth', _s.get('compress'))
 
         return ['{}{}{}'.format(_server, _manga, i['u']) for i in images]
 

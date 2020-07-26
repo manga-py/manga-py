@@ -84,6 +84,12 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
                 'https': proxy,
             }
 
+        if self.__manual_ua():
+            self.update_ua(self._params['user_agent'])
+
+            cookies = (c.split('=', 1) for c in self._params['cookies'])
+            self.update_cookies({c[0]: c[1] for c in cookies})
+
         self.prepare_cookies()
 
         info('Manga name: %s' % self.manga_name)
@@ -264,11 +270,18 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         :param url: str
         :return:
         """
-        params = cf_scrape(url)
-        if len(params):
-            self.update_cookies(params[0])
-            self.update_ua(params[1])
-            self._params['cf-protect'] = True
+        try:
+            params = cf_scrape(url)
+            if len(params):
+                self.update_cookies(params[0])
+                self.update_ua(params[1])
+                self._params['cf-protect'] = True
+        except Exception:
+            if not self.__manual_ua():
+                self.log('Please, use --cookie and --user-agent options')
+
+    def __manual_ua(self) -> bool:
+        return self._params['cookies'] and len(self._params['cookies']) and self._params['user_agent'] and len(self._params['user_agent'])
 
     def update_ua(self, ua):
         self._storage['user_agent'] = ua

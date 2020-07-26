@@ -37,7 +37,7 @@ How to use
 Installation
 ~~~~~~~~~~~~
 
-1) Download python 3.5+ https://docs.conda.io/en/latest/miniconda.html#windows-installers
+1) Download python 3.6+ https://docs.conda.io/en/latest/miniconda.html
 2) Install pip package:
 
    .. code:: bash
@@ -59,7 +59,6 @@ Docker image:
 See:
 
 - https://hub.docker.com/r/mangadl/manga-py/tags?page=1&ordering=last_updated
-- https://github.com/manga-py/manga-py-docker
 
 
 Downloading manga
@@ -128,24 +127,6 @@ Manga-py Docker
 .. code:: bash
 
     docker run -it -v ${PWD}:/home/manga mangadl/manga-py
-
-
-Or docker-compose:
-
-1. Install docker compose https://docs.docker.com/compose/install/
-
-2. Download manga-py-docker https://github.com/manga-py/manga-py-docker/archive/master.zip
-
-3. Unzip it
-
-4. Run compose
-
-.. code:: bash
-
-    # build docker
-    docker-compose build
-    # run it
-    docker-compose run manga_py
 
 
 For `manga-py >= 1.18`, the transfer of login / password / language / translation group has been added:

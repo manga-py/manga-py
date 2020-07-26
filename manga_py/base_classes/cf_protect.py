@@ -1,5 +1,9 @@
-import cloudscraper
-from logging import error
+try:
+    import cloudscraper as cfscrape
+except ModuleNotFoundError:
+    import cfscrape
+
+# from logging import error
 from pathlib import Path
 from urllib.parse import urlparse, ParseResult
 import json
@@ -17,7 +21,7 @@ def cf_scrape(url):  # pragma: no cover
     if cf is not None:
         return cf
 
-    scraper = cloudscraper.create_scraper()
+    scraper = cfscrape.create_scraper()
     try:
         cookies, ua = scraper.get_tokens(url)
 
@@ -25,8 +29,9 @@ def cf_scrape(url):  # pragma: no cover
 
         return cookies, ua
     except Exception as e:
-        error(e)
-        raise e
+        raise RuntimeError('cloudflare module not supported')
+        # error(e)
+        # raise e
 
 
 def __domain(url: str) -> str:
