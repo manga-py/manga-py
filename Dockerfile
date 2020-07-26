@@ -33,7 +33,7 @@ RUN touch $HOME/.bashrc; \
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install \
         libxml2-dev libxslt1-dev python3.6 python3-pip python-lxml python-pil \
-        python-pil.imagetk nodejs node python3-argcomplete libjpeg-dev zlib1g-dev
+        python-pil.imagetk nodejs npm python3-argcomplete libjpeg-dev zlib1g-dev
 
 # make some useful symlinks that are expected to exist
 RUN cd /usr/local/bin \
