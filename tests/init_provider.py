@@ -12,7 +12,7 @@ class TestInitProvider(unittest.TestCase):
 
     # success
     def test_get_provider1(self):
-        provider = get_provider('http://readmanga.me/manga/name/here')
+        provider = get_provider('http://readmanga.live/manga/name/here')
         self.assertIsInstance(provider(), Provider)
 
     # failed
