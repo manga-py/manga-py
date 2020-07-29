@@ -32,7 +32,7 @@ RUN touch $HOME/.bashrc; \
     chown $HOST_USER:$HOST_GROUP $HOME/Manga
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install \
-    libxml2-dev libxslt1-dev python3.6 python3-pip python3-lxml nodejs npm python3-argcomplete libjpeg-dev \
+    libxml2-dev libxslt1-dev python3.7 python3-pip python3-lxml nodejs npm python3-argcomplete libjpeg-dev \
     zlib1g-dev libjpeg8-dev zlib1g-dev libtiff-dev libfreetype6 libfreetype6-dev libwebp-dev libopenjp2-7-dev
 
 RUN python3 -m pip install pillow --global-option="build_ext" --global-option="--enable-zlib" \
