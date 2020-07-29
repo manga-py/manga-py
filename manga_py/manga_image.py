@@ -2,9 +2,11 @@ import imghdr
 from os import path
 from typing import Tuple, Optional
 
-from PIL.Image import Image
-from PIL import Image as PilImage, ImageChops, UnidentifiedImageError
-from PIL import ImageFile
+from PIL import Image as PilImage, ImageChops, ImageFile
+try:
+    from PIL import UnidentifiedImageError
+except ModuleNotFoundError:
+    UnidentifiedImageError = OSError
 
 
 __all__ = ['MangaImage']
@@ -19,7 +21,7 @@ def _pil_fmt(_) -> Optional[str]:
 
 
 class MangaImage:
-    _image = None  # type: Image
+    _image = None  # type: PilImage.Image
     src_path = None  # type: str
 
     def __init__(self, src_path):
@@ -42,15 +44,15 @@ class MangaImage:
         return PilImage.new(mode, size)
 
     @property
-    def image(self) -> Image:
+    def image(self) -> PilImage.Image:
         """
-        :rtype: Image
+        :rtype: PilImage.Image
         :return:
         """
         return self._image
 
     @image.setter
-    def image(self, image: Image):
+    def image(self, image: PilImage.Image):
         self._image = image
 
     def gray(self, dest_path: str):
