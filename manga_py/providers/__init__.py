@@ -368,7 +368,8 @@ providers_list = {
     #     r'mangasaurus\.com/(manga|view).',
     # ],
     'mangaseeonline_us': [
-        r'mangaseeonline\.us/(read-online|manga)/.',
+        # r'mangaseeonline\.us/(read-online|manga)/.',
+        r'mangasee123\.com/(read-online|manga)/.',
     ],
     'mangashiro_net': [
         r'mangashiro\.net/.',
