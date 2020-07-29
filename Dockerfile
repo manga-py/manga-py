@@ -32,8 +32,8 @@ RUN touch $HOME/.bashrc; \
     chown $HOST_USER:$HOST_GROUP $HOME/Manga
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install \
-    libxml2-dev libxslt1-dev python3.6 python3-pip python3-lxml python-pil \
-    python-pil.imagetk nodejs npm python3-argcomplete libjpeg-dev zlib1g-dev
+    libxml2-dev libxslt1-dev python3.6 python3-pip python3-lxml python3-pil \
+    python3-pil.imagetk nodejs npm python3-argcomplete libjpeg-dev zlib1g-dev
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && DEBIAN_FRONTEND=noninteractive apt-get autoclean
 
