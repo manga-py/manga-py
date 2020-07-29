@@ -82,9 +82,10 @@ def run_util(args):
     try:
         _info = _run_util(args)
         parse_args.quiet or (parse_args.print_json and print(_info))
+        return 0
     except KeyboardInterrupt:
         warning('\nUser interrupt')
-        exit(1)
+        return 1
 
 
 __root = len(root_path())

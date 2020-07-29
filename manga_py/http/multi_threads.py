@@ -11,7 +11,7 @@ class MultiThreads:
         self.to_run = []
 
     def add(self, target: callable, args: tuple):
-        self.threads.append(Thread(target=target, args=args))
+        self.threads.append(Thread(target=target, args=args, daemon=True))
 
     def _run_processes(self, callback: callable = None, n: int = None):
         for t in self.to_run:
