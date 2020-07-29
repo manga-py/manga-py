@@ -1,10 +1,9 @@
-from manga_py.crypt import AcQqComCrypt
+from manga_py.crypt import AcQqComCrypt26, BaseLib
 from manga_py.provider import Provider
 from .helpers.std import Std
 
 
 class AcQqCom(Provider, Std):
-    _decoder = None
     _re = None
 
     def get_chapter_index(self) -> str:
@@ -25,16 +24,23 @@ class AcQqCom(Provider, Std):
 
     def get_files(self):
         content = self.http_get(self.chapter)
-        data = self._re.search(content).group(1)
-        data = self._decoder.decode(data)
-        return [i.get('url') for i in data]
+        _nonce = self.re.search(r'window\[".*o.*c.*"\]\s*=\s*(.+);', content).group(1)
+        _nonce = BaseLib.exec_js('var _P = {}'.format(_nonce), '_P')
+
+        raw_data = self._re.search(content).group(1)
+
+        data = AcQqComCrypt26.remap_content(_nonce, raw_data)
+        data = AcQqComCrypt26.decode(data)
+
+        json = self.json.loads(data)
+
+        return [i['url'] for i in json.get('picture', [])]
 
     def get_cover(self) -> str:
         return self._cover_from_content('.works-cover img')
 
     def prepare_cookies(self):
         self._re = self.re.compile(r'var\s+DATA\s*=\s*[\'"](.*?)[\'"]')
-        self._decoder = AcQqComCrypt()
         self._base_cookies()
 
     def book_meta(self) -> dict:

@@ -1,4 +1,5 @@
 from .ac_qq_com import AcQqComCrypt
+from .ac_qq_com import AcQqComCrypt26
 from .base_lib import BaseLib
 from .kissmanga_com import KissMangaComCrypt
 from .mangago_me import MangaGoMe
