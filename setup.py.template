@@ -15,6 +15,18 @@ repo_url = '__repo_url__'
 
 REQUIREMENTS = []
 
+try:
+    import lxml
+    REQUIREMENTS = [r for r in REQUIREMENTS if not r.startswith('lxml')]
+except ModuleNotFoundError:
+    pass
+
+try:
+    from PIL import Image
+    REQUIREMENTS = [r for r in REQUIREMENTS if not r.startswith('Pillow')]
+except ModuleNotFoundError:
+    pass
+
 
 long_description = """
 Universal manga downloader.
