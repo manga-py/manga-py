@@ -128,6 +128,9 @@ providers_list = {
     'hentaihere_com': [
         r'hentaihere\.com/m/.',
     ],
+    'hentailxx_com': [
+        r'hentailxx\.com/story/view\.php\?id=\d'
+    ],
     'hentaiporns_net': [
         r'hentaiporns\.net/.'
     ],

@@ -1,7 +1,7 @@
 from sys import stderr
 from time import sleep
 import requests
-from logging import warning, error
+from logging import warning, error, info
 
 from manga_py.fs import get_temp_path, make_dirs, remove_file_query_params, basename, path_join, dirname, file_size
 from .multi_threads import MultiThreads
@@ -96,6 +96,9 @@ class Http(Request):
         if not dst:
             name = basename(remove_file_query_params(url))
             dst = path_join(get_temp_path(), name)
+
+        info('Downloading ({}): {}'.format(idx, url))
+
         result = self._download_one_file_helper(url, dst, callback, success_callback, callback_args)
         if result is None and not self.mute:
             self.has_error = True  # issue 161

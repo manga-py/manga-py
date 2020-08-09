@@ -151,12 +151,16 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
     def loop_files(self):
         if isinstance(self._storage['files'], list):
+            info('Processing {} files'.format(len(self._storage['files'])))
+
             if self._show_chapter_info:
                 print('\n\nCurrent chapter url: %s\n' % (self.chapter,), file=stderr)
+
             if len(self._storage['files']) == 0:
                 # see Std
                 error('Error processing file: %s' % self.get_archive_name())
                 return
+
             self._archive = Archive()
             self._archive.not_change_files_extension = self._params.get('not_change_files_extension', False)
             self._archive.no_webp = self._image_params.get('no_webp', False)
@@ -165,6 +169,8 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self._multi_thread_save(self._storage['files'])
 
             self.make_archive()
+        else:
+            error('Bad files list type')
 
     def _save_file_params_helper(self, url, idx):
         if url is None:
