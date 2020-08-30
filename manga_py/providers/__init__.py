@@ -11,6 +11,9 @@ providers_list = {
     '7sama_com': [
         r'7sama\.com/manga/.',
     ],
+    '18comic_org': [
+        r'18comic\.org/album/\d'
+    ],
     'ac_qq_com': [
         r'ac\.qq\.com/Comic.+?/id/\d',
     ],
