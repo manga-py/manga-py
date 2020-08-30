@@ -1,7 +1,7 @@
-from .rawdevart_com import RawDevArtCom
+from .rawdevart_com_old import RawDevArtComOld
 
 
-class ManhwaReaderCom(RawDevArtCom):
+class ManhwaReaderCom(RawDevArtComOld):
     _chapter_selector = r'/chapter-(\d+(?:[^\d]\d+)?)'
 
     def get_chapter_index(self) -> str:

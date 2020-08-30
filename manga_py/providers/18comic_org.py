@@ -7,7 +7,7 @@ class ComicOrg(Provider, Std):
         return str(self.chapter_id)
 
     def get_main_content(self):
-        return self._get_content(self.get_url())
+        return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
         return 'Album_18comic {}'.format(self._get_name(r'/album/(\d+)'))

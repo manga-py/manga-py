@@ -1,7 +1,7 @@
-from .rawdevart_com import RawDevArtCom
+from .rawdevart_com_old import RawDevArtComOld
 
 
-class ManhwaClub(RawDevArtCom):
+class ManhwaClub(RawDevArtComOld):
     _chapter_selector = r'/chapter-(\d+(?:\.\d+)?)'
 
     def get_main_content(self):

@@ -1,7 +1,7 @@
-from .rawdevart_com import RawDevArtCom
+from .rawdevart_com_old import RawDevArtComOld
 
 
-class ThreeAsqOrg(RawDevArtCom):
+class ThreeAsqOrg(RawDevArtComOld):
 
     def get_chapter_index(self) -> str:
         return self.chapter.split('/')[-2]

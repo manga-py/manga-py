@@ -42,7 +42,8 @@ providers_list = {
         r'atfbooru\.ninja/posts.',
     ],
     'bato_to': [
-        r'bato\.to/(series|chapter)/\d',
+        r'bato\.to/series/\d',
+        r'mangawindow\.net/series/\d',
     ],
     'blogtruyen_com': [
         r'blogtruyen\.com/.',
@@ -211,7 +212,10 @@ providers_list = {
         r'leitor\.net/manga/.',
     ],
     'leviatanscans_com': [
-        r'leviatanscans\.com/comics/\d'
+        r'leviatanscans\.com/comics/\d',
+        r'es\.leviatanscans\.com/comics/\d',
+        r'krakenscans\.com/comics/\d',
+        r'skscans\.com/comics/\d',
     ],
     'lhtranslation_com': [
         r'read\.lhtranslation\.com/(truyen|manga)-.',
@@ -385,6 +389,7 @@ providers_list = {
     # ],
     'mangasushi_net': [
         r'mangasushi\.net/manga/.',
+        r'asurascans\.com/manga/.',
     ],
     'mangatail_com': [
         r'mangatail\.me/(manga|chapter|node|content)/.',
@@ -505,7 +510,7 @@ providers_list = {
         r'raw\.senmanga\.com/.',
     ],
     'rawdevart_com': [
-        r'rawdevart\.com/manga/.',
+        r'rawdevart\.com/comic/.',
     ],
     'rawlh_com': [
         r'lhscan\.net/(truyen|manga|read)-.',

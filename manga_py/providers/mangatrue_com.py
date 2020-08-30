@@ -1,8 +1,8 @@
-from manga_py.providers.rawdevart_com import RawDevArtCom
+from manga_py.providers.rawdevart_com_old import RawDevArtComOld
 from .helpers.std import Std
 
 
-class MangaTrueCom(RawDevArtCom, Std):
+class MangaTrueCom(RawDevArtComOld, Std):
     def get_chapter_index(self) -> str:
         re = self.re.compile(r'/manga/[^/]+/[^\d]*((?:\d+-?)+\d*)')
         idx = re.search(self.chapter).group(1).split('-')

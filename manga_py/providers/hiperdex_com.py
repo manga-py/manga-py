@@ -1,8 +1,8 @@
-from .rawdevart_com import RawDevArtCom
+from .rawdevart_com_old import RawDevArtComOld
 from requests import get
 
 
-class HiperDexCom(RawDevArtCom):
+class HiperDexCom(RawDevArtComOld):
     _chapter_selector = r'/manga/[^/]+/(\d+(?:\.\d+)?)/'
 
     def get_chapters(self):

@@ -1,7 +1,7 @@
-from .rawdevart_com import RawDevArtCom
+from .rawdevart_com_old import RawDevArtComOld
 
 
-class Manga41Com(RawDevArtCom):
+class Manga41Com(RawDevArtComOld):
     _chapter_selector = r'/chapter-(\d+(?:\.\d+)?)'
 
     def get_files(self):
