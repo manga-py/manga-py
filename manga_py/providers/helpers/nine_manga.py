@@ -10,6 +10,9 @@ from manga_py.provider import Provider
 class NineHelper(Provider, metaclass=ABCMeta):
     img_server = 'https://ta1.taadd.com'
 
+    def allow_auto_change_url(self):
+        return False
+
     def re_name(self, url):
         return self.re.search(r'/manga/(.+)\.html', url)
 
