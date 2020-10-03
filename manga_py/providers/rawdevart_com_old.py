@@ -24,7 +24,7 @@ class RawDevArtComOld(Provider, Std):
             items_content = requests.post('{}/wp-admin/admin-ajax.php'.format(self.domain), data={
                 'action': 'manga_get_chapters',
                 'manga': manga_id,
-            })
+            }).text
             items = self._elements('.wp-manga-chapter > a', items_content)
 
 
