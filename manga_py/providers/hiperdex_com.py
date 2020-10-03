@@ -3,7 +3,7 @@ from requests import get
 
 
 class HiperDexCom(RawDevArtComOld):
-    _chapter_selector = r'/manga/[^/]+/(\d+(?:\.\d+)?)/'
+    _chapter_selector = r'/manga/[^/]+/(?:chapter-)?(\d+(?:\.\d+)?)/'
 
     def get_chapters(self):
         manga_id = self.document_fromstring(self.content, '#manga-chapters-holder', 0).get('data-id')
