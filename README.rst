@@ -22,14 +22,10 @@ see:
 - https://manga-py.github.io/manga-py/#resources-list (alternative)
 - https://yuru-yuri.github.io/manga-py/#resources-list (deprecated)
 
-Plans for improvement:
-----------------------
 
-see:
-
-- https://manga-py.com/manga-py/improvement.html
-- https://manga-py.github.io/manga-py/improvement.html (alternative)
-
+Support is optional. Thanks.
+----------------------------
+ |Support|
 
 How to use
 ----------
@@ -166,4 +162,5 @@ For `manga-py >= 1.18`, the transfer of login / password / language / translatio
    :alt: PyPI - Downloads
 .. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?color=success&label=PyPI+size&query=%24.size&url=https://sttv.me/repo-size/manga-py.json?human-size
    :alt: PyPI - size
-
+.. |Support| image:: https://github.com/yuru-yuri/manga-py/raw/stable_1.x/support.webp
+   :target: https://www.buymeacoffee.com/mangapy
