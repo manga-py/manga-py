@@ -13,10 +13,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
                 netbase \
         && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd -g $HOST_GID $HOST_GROUP \
-    && groupadd sudonopswd \
-    && useradd -m -l -g $HOST_GROUP -u $HOST_UID $HOST_USER
-
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install \
     libxml2-dev libxslt1-dev python3.7 python3-pip python3-lxml nodejs npm python3-argcomplete libjpeg-dev \
     zlib1g-dev libjpeg8-dev zlib1g-dev libtiff-dev libfreetype6 libfreetype6-dev libwebp-dev libopenjp2-7-dev
@@ -44,10 +40,6 @@ RUN python3 -m pip install cloudscraper>1.2.33 \
     PyExecJS~=1.5.1 \
     requests~=2.23.0 \
     better_exceptions==0.2.2
-
-
-USER $HOST_USER
-WORKDIR $HOME
 
 # docker run -it -v /tmp/destination:/home/manga mangadl/manga-py_base
 
