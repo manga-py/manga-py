@@ -6,7 +6,7 @@ class MangaLifeUs(Provider, Std):
     img_selector = '.image-container .CurImage'
 
     def get_chapter_index(self) -> str:
-        selector = r'-chapter-(\d+).+-index-(\d+)'
+        selector = r'-chapter-(\d+)-index-(\d+)'
         chapter = self.re.search(selector, self.chapter)
 
         if chapter is None:  # http://mangalife.us/manga/Ubau-Mono-Ubawareru-Mono  #51
@@ -14,8 +14,10 @@ class MangaLifeUs(Provider, Std):
             chapter = self.re.search(selector, self.chapter).group(1).split('.')
             return '-'.join(chapter)
 
+        chapter = chapter.groups()
+
         return '{}-{}'.format(
-            1 if chapter[1] is None else chapter[1],  # todo: maybe 0 ?
+            1 if chapter[1] is None else chapter[1],
             chapter[0]
         )
 
@@ -33,10 +35,11 @@ class MangaLifeUs(Provider, Std):
         raw_chapters = self.re.search(r'vm.Chapters\s*=\s*(\[\{.+\}\])', self.content).group(1)
         chapters = self.json.loads(raw_chapters)
 
-        return ['{}/read-online/{}-chapter-{}.html'.format(
+        return ['{}/read-online/{}-chapter-{}-index-{}.html'.format(
             self.domain,
             self.manga_name,
             self.__ch(ch['Chapter']),
+            ch['Chapter'][0],  # example mangasee123.com/manga/Tower-Of-God
         ) for ch in chapters]
 
     def _chapters_html(self):
@@ -92,7 +95,8 @@ class MangaLifeUs(Provider, Std):
             return chapter
         return '%s.%s' % (chapter, ch[-1])
 
-    def __ch(self, ch):
+    @staticmethod
+    def __ch(ch):
         n = ch[1:-1].lstrip('0')
         if ch[-1] != '0':
             return '%s.%s' % (n, ch[-1])

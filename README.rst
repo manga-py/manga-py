@@ -23,9 +23,10 @@ see:
 - https://yuru-yuri.github.io/manga-py/#resources-list (deprecated)
 
 
-Support is optional. Thanks.
-----------------------------
- |Support|
+Thanks for support
+~~~~~~~~~~~~~~~~~~
+1. Robert M.
+
 
 How to use
 ----------
@@ -36,9 +37,9 @@ Installation
 1) Download python 3.6+ https://docs.conda.io/en/latest/miniconda.html
 2) Install pip package:
 
-   .. code:: bash
+.. code:: bash
 
-       pip install manga-py
+   pip install manga-py
 
 3) Run program:
 
@@ -115,6 +116,7 @@ Manga-py Docker
 2. Install manga-py
 
 .. code:: bash
+
     docker pull mangadl/manga-py
 
 
@@ -162,5 +164,3 @@ For `manga-py >= 1.18`, the transfer of login / password / language / translatio
    :alt: PyPI - Downloads
 .. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?color=success&label=PyPI+size&query=%24.size&url=https://sttv.me/repo-size/manga-py.json?human-size
    :alt: PyPI - size
-.. |Support| image:: https://github.com/yuru-yuri/manga-py/raw/stable_1.x/support.webp
-   :target: https://www.buymeacoffee.com/mangapy
