@@ -37,6 +37,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     _simulate = False
     _volume = None
     _show_chapter_info = False
+    _save_chapter_info = False
     _debug = False
     _override_name = ''
 
@@ -64,6 +65,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         self._with_manga_name = params.get('with_manga_name')
         self._simulate = params.get('simulate')
         self._show_chapter_info = params.get('show_current_chapter_info', False)
+        self._save_chapter_info = params.get('save_current_chapter_info', False)
         self._debug = params.get('debug', False)
         self._override_name = self._params.get('override_archive_name')
         if self._with_manga_name and self._override_name:
@@ -164,6 +166,10 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self._archive = Archive()
             self._archive.not_change_files_extension = self._params.get('not_change_files_extension', False)
             self._archive.no_webp = self._image_params.get('no_webp', False)
+
+            if self._save_chapter_info:
+                self._archive.write_file('info.json', json.dumps(self.chapter))
+
             self._call_files_progress_callback()
 
             self._multi_thread_save(self._storage['files'])
