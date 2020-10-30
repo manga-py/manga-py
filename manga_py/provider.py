@@ -284,6 +284,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         """
         try:
             params = cf_scrape(url)
+            print(params)
             if len(params):
                 self.update_cookies(params[0])
                 self.update_ua(params[1])

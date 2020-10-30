@@ -1,5 +1,6 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
+from ..crypt.bato_to_crypt import BatoToCrypt
 
 
 class BatoTo(Provider, Std):
@@ -34,10 +35,6 @@ class BatoTo(Provider, Std):
                 title,
             ))
         return result
-        # [(
-        #     n(i.get('href')),
-        #     i.cssselect('b')[0].text_content().strip(' \n\t\r'),
-        # )]
 
     @staticmethod
     def _sort_files(data):
@@ -45,10 +42,22 @@ class BatoTo(Provider, Std):
         return [data[i] for i in keys]
 
     def get_files(self):
-        data = self.re.search(r'\simages\s*=\s*({.+});', self.http_get(self.chapter[0]))
+        content = self.http_get(self.chapter[0])
+        data = self.re.search(r'\simages\s*=\s*(\{.+});', content)
         try:
             return self._sort_files(self.json.loads(data.group(1)))
-        except ValueError:
+        except AttributeError:  # new format
+            server = BatoToCrypt.decrypt_server(content)
+            server = self.json.loads(server)
+
+            images = self.re.search(r'\simages\s*=\s*(\[.+\]);', content).group(1)
+            images = self.json.loads(images)
+
+            n = self.http().normalize_uri
+            print([n(f'{server}{img}') for img in images])
+            return [n(f'{server}{img}') for img in images]
+        except ValueError as e:
+            self.log(f'Bato.to get_files error: {e}')
             return []
 
     def get_cover(self) -> str:
