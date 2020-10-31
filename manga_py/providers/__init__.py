@@ -582,6 +582,9 @@ providers_list = {
     'senmanga_com': [
         r'senmanga\.com/.',
     ],
+    'serimanga_com': [
+        r'serimanga.com/manga/.'
+    ],
     'shakai_ru': [
         r'shakai\.ru/manga.*?/\d',
     ],

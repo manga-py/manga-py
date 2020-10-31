@@ -17,8 +17,8 @@ class MangaLifeUs(Provider, Std):
         chapter = chapter.groups()
 
         return '{}-{}'.format(
+            chapter[0],
             1 if chapter[1] is None else chapter[1],
-            chapter[0]
         )
 
     def get_main_content(self):
