@@ -1,8 +1,10 @@
 import json
+import os
 import re
 from abc import ABC
-from sys import stderr
 from logging import info, warning, error
+from os import path
+from sys import stderr
 from typing import Tuple
 
 from .base_classes import (
@@ -38,6 +40,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     _volume = None
     _show_chapter_info = False
     _save_chapter_info = False
+    _save_manga_info = False
     _debug = False
     _override_name = ''
 
@@ -66,6 +69,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         self._simulate = params.get('simulate')
         self._show_chapter_info = params.get('show_current_chapter_info', False)
         self._save_chapter_info = params.get('save_current_chapter_info', False)
+        self._save_manga_info = params.get('save_manga_info', False)
         self._debug = params.get('debug', False)
         self._override_name = self._params.get('override_archive_name')
         if self._with_manga_name and self._override_name:
@@ -110,7 +114,23 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         info('User-agent: "%s"' % __ua)
 
-        self.loop_chapters()
+        any_chapter_downloaded = self.loop_chapters()
+        if any_chapter_downloaded and self._save_manga_info and 'manga' in self.content:
+            try:
+                information = json.loads(json.dumps(self.content))['manga']
+
+            except ValueError:
+                warning('Content is not a JSON! Not saving manga info')
+            else:
+                manga_info_path = path.abspath(path.join(self.get_archive_path()[0], os.pardir))
+                path.isdir(manga_info_path) or os.makedirs(manga_info_path)
+
+                with open(path.join(manga_info_path, 'info.json'), 'w') as manga_info_file:
+                    information['sauce'] = self.original_url
+                    information['cover_url'] = self.get_cover()
+                    information['covers'] = ['{}{}'.format(self.domain, inf) for inf in information['covers']]
+
+                    manga_info_file.write(json.dumps(information))
 
     def _check_archive(self):
         # check
@@ -150,6 +170,8 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         if count == 0 and not self.quiet:
             print('No new chapters found', file=stderr)
+
+        return count != 0
 
     def loop_files(self):
         if isinstance(self._storage['files'], list):

@@ -47,6 +47,14 @@ def _args_debug(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
+        '--save-manga-info',
+        action='store_true',
+        help=(
+            'Saves the manga data in a into a JSON file at the root of the download folder.'
+        )
+    )
+
+    args.add_argument(
         '--debug',
         action='store_true',
         help=(
@@ -62,4 +70,3 @@ def _args_debug(args_parser):  # pragma: no cover
             'Dont show any messages.'
         )
     )
-
