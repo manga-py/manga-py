@@ -1,3 +1,4 @@
+import re
 from manga_py.provider import Provider
 from .helpers.std import Std
 from html import escape
@@ -160,15 +161,27 @@ class MangaDexOrg(Provider, Std):
 
     def manga_details(self) -> dict:
         information = self.content['manga']
-        covers = ['{}{}'.format(self.domain, inf) for inf in information['covers']]
+        manga_code = self.original_url.rsplit('/', 2)[1]
+        covers = {
+            MangaDexOrg.extract_cover_volume_number(cover): '{}{}'.format(self.domain, cover)
+            for cover in information['covers'] if MangaDexOrg.standard_cover_url_pattern(cover, manga_code)
+        }
 
         return {
             "title": information['title'],
             "description": information['description'],
             "authors": [author for author in {information['author'], information['artist']} if author != ''],
             "sauce": self.original_url,
-            "volume_covers": {str(i + 1): covers[i] for i in range(0, len(covers))},
+            "volume_covers": covers,
         }
+
+    @staticmethod
+    def standard_cover_url_pattern(inf, manga_code):
+        return re.search(r'.*{}v\d+$'.format(manga_code), inf.rsplit('.', 1)[0]) is not None
+
+    @staticmethod
+    def extract_cover_volume_number(inf):
+        return inf.rsplit('.', 1)[0].rsplit('v', 1)[1]
 
 
 main = MangaDexOrg
