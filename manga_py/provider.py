@@ -68,7 +68,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         self._with_manga_name = params.get('with_manga_name')
         self._simulate = params.get('simulate')
         self._show_chapter_info = params.get('show_current_chapter_info', False)
-        self._save_chapter_info = params.get('save_current_chapter_info', False)
+        self._save_chapter_info = params.get('save_chapter_info', False)
         self._save_manga_info = params.get('save_manga_info', False)
         self._debug = params.get('debug', False)
         self._override_name = self._params.get('override_archive_name')
@@ -115,22 +115,12 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         info('User-agent: "%s"' % __ua)
 
         any_chapter_downloaded = self.loop_chapters()
-        if any_chapter_downloaded and self._save_manga_info and 'manga' in self.content:
-            try:
-                information = json.loads(json.dumps(self.content))['manga']
+        if any_chapter_downloaded and self._save_manga_info and self.manga_details() is not None:
+            manga_info_path = path.abspath(path.join(self.get_archive_path()[0], os.pardir))
+            path.isdir(manga_info_path) or os.makedirs(manga_info_path)
 
-            except ValueError:
-                warning('Content is not a JSON! Not saving manga info')
-            else:
-                manga_info_path = path.abspath(path.join(self.get_archive_path()[0], os.pardir))
-                path.isdir(manga_info_path) or os.makedirs(manga_info_path)
-
-                with open(path.join(manga_info_path, 'info.json'), 'w') as manga_info_file:
-                    information['sauce'] = self.original_url
-                    information['cover_url'] = self.get_cover()
-                    information['covers'] = ['{}{}'.format(self.domain, inf) for inf in information['covers']]
-
-                    manga_info_file.write(json.dumps(information))
+            with open(path.join(manga_info_path, 'info.json'), 'w') as manga_info_file:
+                manga_info_file.write(json.dumps(self.manga_details()))
 
     def _check_archive(self):
         # check
@@ -189,8 +179,9 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self._archive.not_change_files_extension = self._params.get('not_change_files_extension', False)
             self._archive.no_webp = self._image_params.get('no_webp', False)
 
-            if self._save_chapter_info:
-                self._archive.write_file('info.json', json.dumps(self.chapter))
+            chapter_info = self.chapter_details(self.chapter)
+            if self._save_chapter_info and chapter_info is not None:
+                self._archive.write_file('info.json', json.dumps(chapter_info))
 
             self._call_files_progress_callback()
 
@@ -326,3 +317,13 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         for k in cookies:
             self._storage['cookies'][k] = cookies[k]
             self.http().cookies[k] = cookies[k]
+
+    def chapter_details(self, chapter) -> dict:
+        # Following the pattern specified in
+        # https://github.com/eduhoribe/manga-py-assembler/blob/main/samples/chapter-metadata-sample.json
+        pass
+
+    def manga_details(self) -> dict:
+        # Following the pattern specified in
+        # https://github.com/eduhoribe/manga-py-assembler/blob/main/samples/comic-metadata-sample.json
+        pass

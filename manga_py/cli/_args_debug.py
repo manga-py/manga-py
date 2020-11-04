@@ -39,7 +39,7 @@ def _args_debug(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
-        '--save-current-chapter-info',
+        '--save-chapter-info',
         action='store_true',
         help=(
             'Save current processing chapter info into a JSON file.'

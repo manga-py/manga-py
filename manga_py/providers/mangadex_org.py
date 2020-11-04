@@ -149,5 +149,26 @@ class MangaDexOrg(Provider, Std):
     def chapter_for_json(self) -> str:
         return '{}-{}'.format(self.chapter['volume'] or '0', self.chapter['chapter'])
 
+    def chapter_details(self, chapter) -> dict:
+        return {
+            "chapter": chapter['chapter'],
+            "volume": chapter['volume'],
+            "title": chapter['title'],
+            "language": chapter['lang_name'],
+            "publisher": chapter['group_name']
+        }
+
+    def manga_details(self) -> dict:
+        information = self.content['manga']
+        covers = ['{}{}'.format(self.domain, inf) for inf in information['covers']]
+
+        return {
+            "title": information['title'],
+            "description": information['description'],
+            "authors": [author for author in {information['author'], information['artist']} if author != ''],
+            "sauce": self.original_url,
+            "volume_covers": {str(i + 1): covers[i] for i in range(0, len(covers))},
+        }
+
 
 main = MangaDexOrg
