@@ -159,7 +159,10 @@ class MangaDexOrg(Provider, Std):
             "publisher": chapter['group_name']
         }
 
-    def manga_details(self) -> dict:
+    def manga_details(self):
+        if 'manga' not in self.content:
+            return
+
         information = self.content['manga']
         manga_code = self.original_url.rsplit('/', 2)[1]
         covers = {

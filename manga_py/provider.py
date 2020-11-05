@@ -114,13 +114,14 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         info('User-agent: "%s"' % __ua)
 
-        any_chapter_downloaded = self.loop_chapters()
-        if any_chapter_downloaded and self._save_manga_info and self.manga_details() is not None:
+        if self._save_manga_info and self.manga_details() is not None:
             manga_info_path = path.abspath(path.join(self.get_archive_path()[0], os.pardir))
             path.isdir(manga_info_path) or os.makedirs(manga_info_path)
 
             with open(path.join(manga_info_path, 'info.json'), 'w') as manga_info_file:
                 manga_info_file.write(json.dumps(self.manga_details()))
+
+        self.loop_chapters()
 
     def _check_archive(self):
         # check
@@ -160,8 +161,6 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         if count == 0 and not self.quiet:
             print('No new chapters found', file=stderr)
-
-        return count != 0
 
     def loop_files(self):
         if isinstance(self._storage['files'], list):
