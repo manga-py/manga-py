@@ -319,10 +319,10 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
     def chapter_details(self, chapter) -> dict:
         # Following the pattern specified in
-        # https://github.com/eduhoribe/manga-py-assembler/blob/main/samples/chapter-metadata-sample.json
+        # https://github.com/eduhoribe/comic-builder/blob/goshujin-sama/samples/chapter-metadata-sample.json
         pass
 
     def manga_details(self) -> dict:
         # Following the pattern specified in
-        # https://github.com/eduhoribe/manga-py-assembler/blob/main/samples/comic-metadata-sample.json
+        # https://github.com/eduhoribe/comic-builder/blob/goshujin-sama/samples/comic-metadata-sample.json
         pass
