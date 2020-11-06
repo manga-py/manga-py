@@ -114,12 +114,17 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         info('User-agent: "%s"' % __ua)
 
-        if self._save_manga_info and self.manga_details() is not None:
-            manga_info_path = path.abspath(path.join(self.get_archive_path()[0], os.pardir))
-            path.isdir(manga_info_path) or os.makedirs(manga_info_path)
+        if self._save_manga_info:
+            if self.manga_details() is not None:
+                manga_info_path = path.abspath(path.join(self.get_archive_path()[0], os.pardir))
+                path.isdir(manga_info_path) or os.makedirs(manga_info_path)
 
-            with open(path.join(manga_info_path, 'info.json'), 'w') as manga_info_file:
-                manga_info_file.write(json.dumps(self.manga_details()))
+                with open(path.join(manga_info_path, 'info.json'), 'w') as manga_info_file:
+                    manga_info_file.write(json.dumps(self.manga_details()))
+
+            else:
+                warning('No manga details was found!')
+                warning('Possibly the provider has not yet been implemented to get this information')
 
         self.loop_chapters()
 
@@ -179,8 +184,12 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self._archive.no_webp = self._image_params.get('no_webp', False)
 
             chapter_info = self.chapter_details(self.chapter)
-            if self._save_chapter_info and chapter_info is not None:
-                self._archive.write_file('info.json', json.dumps(chapter_info))
+            if self._save_chapter_info:
+                if chapter_info is not None:
+                    self._archive.write_file('info.json', json.dumps(chapter_info))
+                else:
+                    warning('No chapter details was found!')
+                    warning('Possibly the provider has not yet been implemented to get this information')
 
             self._call_files_progress_callback()
 
