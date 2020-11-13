@@ -67,7 +67,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         self._zero_fill = params.get('zero_fill')
         self._with_manga_name = params.get('with_manga_name')
         self._simulate = params.get('simulate')
-        self._show_chapter_info = params.get('show_current_chapter_info', False)
+        self._show_chapter_info = params.get('show_chapter_info', False)
         self._save_chapter_info = params.get('save_chapter_info', False)
         self._save_manga_info = params.get('save_manga_info', False)
         self._debug = params.get('debug', False)
@@ -75,6 +75,15 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         if self._with_manga_name and self._override_name:
             raise RuntimeError('Conflict of parameters. Please use only --with-manga-name, or --override-archive-name')
         self._fill_arguments(params.get('arguments') or [])
+
+        # todo: remove it for version 1.25
+        if params.get('show_current_chapter_info'):
+            warning('Deprecated. Please, use --show-chapter-info instead')
+            self._show_chapter_info = True
+
+        if params.get('save_current_chapter_info'):
+            warning('Deprecated. Please, use --save-chapter-info instead')
+            self._save_chapter_info = True
 
     def process(self, url, params=None):  # Main method
         self._params['url'] = url
@@ -115,7 +124,8 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         info('User-agent: "%s"' % __ua)
 
         if self._save_manga_info:
-            if self.manga_details() is not None:
+            details = self.manga_details()
+            if details is not None:
                 manga_info_path = path.abspath(path.join(self.get_archive_path()[0], os.pardir))
                 path.isdir(manga_info_path) or os.makedirs(manga_info_path)
 
@@ -183,10 +193,13 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self._archive.not_change_files_extension = self._params.get('not_change_files_extension', False)
             self._archive.no_webp = self._image_params.get('no_webp', False)
 
+            if self._save_chapter_info:
+                self._archive.write_file('info.json', json.dumps(self.chapter))
+
             chapter_info = self.chapter_details(self.chapter)
             if self._save_chapter_info:
                 if chapter_info is not None:
-                    self._archive.write_file('info.json', json.dumps(chapter_info))
+                    self._archive.write_file('eduhoribe.json', json.dumps(chapter_info))
                 else:
                     warning('No chapter details was found!')
                     warning('Possibly the provider has not yet been implemented to get this information')
@@ -326,12 +339,20 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self._storage['cookies'][k] = cookies[k]
             self.http().cookies[k] = cookies[k]
 
+    # region specified data for eduhoribe/comic-builder (see https://github.com/manga-py/manga-py/issues/347)
+
     def chapter_details(self, chapter) -> dict:
-        # Following the pattern specified in
-        # https://github.com/eduhoribe/comic-builder/blob/goshujin-sama/samples/chapter-metadata-sample.json
+        """
+        Following the pattern specified in
+        https://github.com/eduhoribe/comic-builder/blob/goshujin-sama/samples/chapter-metadata-sample.json
+        """
         pass
 
     def manga_details(self) -> dict:
-        # Following the pattern specified in
-        # https://github.com/eduhoribe/comic-builder/blob/goshujin-sama/samples/comic-metadata-sample.json
+        """
+        Following the pattern specified in
+        https://github.com/eduhoribe/comic-builder/blob/goshujin-sama/samples/comic-metadata-sample.json
+        """
         pass
+
+    # endregion

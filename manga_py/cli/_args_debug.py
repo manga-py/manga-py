@@ -30,8 +30,26 @@ def _args_debug(args_parser):  # pragma: no cover
         )
     )
 
+    # deprecated
     args.add_argument(
         '--show-current-chapter-info',
+        action='store_true',
+        help=(
+            'Show current processing chapter info.'
+        )
+    )
+
+    # deprecated
+    args.add_argument(
+        '--save-current-chapter-info',
+        action='store_true',
+        help=(
+            'Save current processing chapter info into a JSON file.'
+        )
+    )
+
+    args.add_argument(
+        '--show-chapter-info',
         action='store_true',
         help=(
             'Show current processing chapter info.'

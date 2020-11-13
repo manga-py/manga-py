@@ -150,6 +150,8 @@ class MangaDexOrg(Provider, Std):
     def chapter_for_json(self) -> str:
         return '{}-{}'.format(self.chapter['volume'] or '0', self.chapter['chapter'])
 
+    # region specified data for eduhoribe/comic-builder
+
     def chapter_details(self, chapter) -> dict:
         return {
             "chapter": chapter['chapter'],
@@ -185,6 +187,8 @@ class MangaDexOrg(Provider, Std):
     @staticmethod
     def extract_cover_volume_number(inf):
         return inf.rsplit('.', 1)[0].rsplit('v', 1)[1]
+
+    # endregion
 
 
 main = MangaDexOrg
