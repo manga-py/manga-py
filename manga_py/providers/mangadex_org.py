@@ -1,3 +1,4 @@
+import re
 from manga_py.provider import Provider
 from .helpers.std import Std
 from html import escape
@@ -148,6 +149,42 @@ class MangaDexOrg(Provider, Std):
 
     def chapter_for_json(self) -> str:
         return '{}-{}'.format(self.chapter['volume'] or '0', self.chapter['chapter'])
+
+    def chapter_details(self, chapter) -> dict:
+        return {
+            "chapter": chapter['chapter'],
+            "volume": chapter['volume'],
+            "title": chapter['title'],
+            "language": chapter['lang_name'],
+            "publisher": chapter['group_name']
+        }
+
+    def manga_details(self):
+        if 'manga' not in self.content:
+            return
+
+        information = self.content['manga']
+        manga_code = self.original_url.rsplit('/', 2)[1]
+        covers = {
+            MangaDexOrg.extract_cover_volume_number(cover): '{}{}'.format(self.domain, cover)
+            for cover in information['covers'] if MangaDexOrg.standard_cover_url_pattern(cover, manga_code)
+        }
+
+        return {
+            "title": information['title'],
+            "description": information['description'],
+            "authors": [author for author in {information['author'], information['artist']} if author != ''],
+            "sauce": self.original_url,
+            "volume_covers": covers,
+        }
+
+    @staticmethod
+    def standard_cover_url_pattern(inf, manga_code):
+        return re.search(r'.*{}v\d+$'.format(manga_code), inf.rsplit('.', 1)[0]) is not None
+
+    @staticmethod
+    def extract_cover_volume_number(inf):
+        return inf.rsplit('.', 1)[0].rsplit('v', 1)[1]
 
 
 main = MangaDexOrg

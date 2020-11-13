@@ -39,10 +39,18 @@ def _args_debug(args_parser):  # pragma: no cover
     )
 
     args.add_argument(
-        '--save-current-chapter-info',
+        '--save-chapter-info',
         action='store_true',
         help=(
             'Save current processing chapter info into a JSON file.'
+        )
+    )
+
+    args.add_argument(
+        '--save-manga-info',
+        action='store_true',
+        help=(
+            'Saves the manga data in a into a JSON file at the root of the download folder.'
         )
     )
 
@@ -62,4 +70,3 @@ def _args_debug(args_parser):  # pragma: no cover
             'Dont show any messages.'
         )
     )
-
