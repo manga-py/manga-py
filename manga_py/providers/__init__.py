@@ -272,7 +272,8 @@ providers_list = {
         r'mangadeep\.com/.',
         r'manga99\.com/.',
     ],
-    'mangadex_org': [
+    # 'mangadex_org': [
+    'mangadex_org_v2': [
         r'mangadex\.org/(manga|title)/.',
     ],
     'mangaeden_com': [

@@ -92,9 +92,10 @@ class MangaDexOrg(Provider, Std):
         return _ch
 
     def get_files(self):
-        content = self._get('chapter/{}'.format(self.chapter['hash'])).get('data', {})
+        content = self._get(f'chapter/{self.chapter["hash"]}').get('data', {})
         server = content['server']
-        return ['{}{}'.format(server, img) for img in content['pages']]
+        _hash = content['hash']
+        return [f'{server}{_hash}/{img}' for img in content['pages']]
 
     def get_cover(self) -> str:
         return self.content['mainCover']
@@ -113,7 +114,8 @@ class MangaDexOrg(Provider, Std):
         if arg_language is None:
             languages = self.quest(
                 [],
-                'Available languages:\n{}\n\nPlease, select your lang (empty for all, comma for delimiter lang):'.format(
+                'Available languages:\n{}\n\n'
+                'Please, select your lang (empty for all, comma for delimiter lang):'.format(
                     '\n'.join(self._languages)
                 ))
         else:
