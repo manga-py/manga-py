@@ -7,7 +7,7 @@ class GoodMangaNet(Provider, Std):
     def get_chapter_index(self) -> str:
         return self.re.search(r'/chapter/(\d+)', self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         url = self.get_url()
         if ~url.find('/chapter/'):
             url = self.html_fromstring(url, '#manga_head h3 > a', 0).get('href')

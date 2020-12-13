@@ -15,7 +15,7 @@ class MangaRussiaCom(Provider, Std):
         result = self.re.search(r'\+(\d+)\+-\+(\d+)', chapter)
         return '-'.join(result.groups())
 
-    def get_main_content(self):
+    def get_content(self):
         url = '{}/manga/{}.html'.format(self.domain, quote(self.manga_name))
         self._storage['referer'] = self.path_url(self.get_url())
         return self.http_get(url)

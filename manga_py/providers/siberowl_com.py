@@ -10,7 +10,7 @@ class SiberOwlCom(Provider, Std):
         re = self.re.compile(r'/mangas/[^/]+/([^/]+)')
         return re.search(self.chapter).group(1).replace('.', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content(self._main_fmt)
 
     def get_manga_name(self) -> str:

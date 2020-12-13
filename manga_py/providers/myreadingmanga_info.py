@@ -7,7 +7,7 @@ class MyReadingMangaInfo(Provider, Std):
     def get_chapter_index(self, no_increment=False) -> str:
         return str(self.chapter_id)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/{}/')
 
     def get_manga_name(self) -> str:

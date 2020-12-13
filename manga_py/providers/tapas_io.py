@@ -16,7 +16,7 @@ class TapasIo(Provider, Std):  # TODO: Login\Password
     def get_chapter_index(self) -> str:
         return str(self.chapter['scene'])
 
-    def get_main_content(self):
+    def get_content(self):
         content = self._storage.get('main_content', False)
         return content if content else self.http_get(self.get_url())
 

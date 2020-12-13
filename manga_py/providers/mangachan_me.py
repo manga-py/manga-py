@@ -11,7 +11,7 @@ class MangaChanMe(Provider, Std):
         idx = self.re.search(r'_v(\d+)_ch(\d+)', name).groups()
         return '{}-{}'.format(*idx)
 
-    def get_main_content(self):
+    def get_content(self):
         pass
 
     def _online_(self, url):

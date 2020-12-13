@@ -11,7 +11,7 @@ class ZingBoxMe(Provider, Std):
     def get_chapter_index(self) -> str:
         return str(self.chapter.get('title', '0'))
 
-    def get_main_content(self):
+    def get_content(self):
         idx = self.re.search('/manga/(?:[^/]+/)?(\d+)/', self.get_url())
         data = {
             'url': '/manga/getBookDetail/{}'.format(idx.group(1)),

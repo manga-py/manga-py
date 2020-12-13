@@ -9,7 +9,7 @@ class ShakaiRu(Provider, Std):
         idx = self.chapter.get('data-first')
         return idx.replace('_', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         idx = self._get_name(r'/manga[^/]*/(\d+)')
         _ = {
             'dataRun': 'api-manga',

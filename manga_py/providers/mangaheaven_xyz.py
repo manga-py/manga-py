@@ -7,7 +7,7 @@ class MangaHeavenXyz(Provider, Std):
         ch = self.re.search(r'/chapter-(\d+(?:\.\d+)?)', self.chapter)
         return ch.group(1).replace('.', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:

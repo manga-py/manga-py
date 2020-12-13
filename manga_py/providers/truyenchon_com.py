@@ -9,7 +9,7 @@ class TruyenChonCom(Provider, Std):
         re = self.re.compile(r'/chap.*?-(\d+(?:\.\d+)?)')
         return re.search(self.chapter).group(1).replace('.', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         truyen = 'truyen'
         if ~self.domain.find('nettruyen.'):
             truyen = 'truyen-tranh'

@@ -14,7 +14,7 @@ class HentaiFoxCom(Provider, Std):
     def get_chapter_index(self) -> str:
         return self._archive_prefix + 'archive'
 
-    def get_main_content(self):
+    def get_content(self):
         idx = self._get_name(self._idx_re)
         url = self._url_str.format(self.domain, idx)
         return self.http_get(url)

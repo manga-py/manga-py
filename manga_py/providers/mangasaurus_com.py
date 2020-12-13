@@ -7,7 +7,7 @@ class MangaSaurusCom(Provider, Std):
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)
 
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get('{}/manga/{}/{}'.format(
             self.domain,
             *self.manga_name.split('_')

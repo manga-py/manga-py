@@ -6,7 +6,7 @@ class ReadYagamiMe(GoMangaCo):
     _content_str = '{}/series/{}/'
     _chapter_re = r'/rea\w+/[^/]+/(?:[^/]+/)?(\d+/\d+(?:/\d+)?)'
 
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:

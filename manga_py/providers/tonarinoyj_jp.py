@@ -12,7 +12,7 @@ class TonariNoYjJp(Provider, Std):
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)
 
-    def get_main_content(self):
+    def get_content(self):
         content = self._storage.get('main_content', None)
         if content is None:
             return self.http_get(self.get_url())

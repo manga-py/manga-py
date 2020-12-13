@@ -7,7 +7,7 @@ class ProviderParams:
     def content(self):
         content = self._storage.get('main_content', None)
         if content is None:
-            content = self.get_main_content()
+            content = self.get_content()
         return content
 
     @property

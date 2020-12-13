@@ -8,7 +8,7 @@ class NiAddCom(Provider, Std):
         re = self.re.compile(r'/chapter/.*?_(\d+(?:_\d+)?)/')
         return re.search(self.chapter).group(1).replace('_', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:

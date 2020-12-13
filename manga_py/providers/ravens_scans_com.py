@@ -6,7 +6,7 @@ class RavensScansCom(GoMangaCo, Std):
     _name_re = '/(?:serie|read)/([^/]+)'
     __api_url = '/lector/api/v2/comic?stub='
 
-    def get_main_content(self):
+    def get_content(self):
         url = '{}{}{}'.format(self.domain, self.__api_url, self.manga_name)
         return self.json.loads(self.http_get(url)).get('languages', [])
 

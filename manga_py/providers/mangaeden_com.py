@@ -11,7 +11,7 @@ class MangaEdenCom(Provider, Std):
     def get_chapter_index(self) -> str:
         return str(self.chapter[0]).replace('.', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get('{domain}/{lang}/{lang}-manga/{name}/'.format(
             domain=self.domain,
             lang=self.__lang,

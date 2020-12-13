@@ -7,7 +7,7 @@ class ReadComicsOnlineRu(Provider, Std):
         chapter = self.re.search(r'/([\w\d_-]+)$', self.chapter).group(1)
         return chapter.replace('.', '-').replace('_', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content(r'{}/comic/{}')
 
     def get_manga_name(self) -> str:

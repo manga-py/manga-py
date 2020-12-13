@@ -6,7 +6,7 @@ from manga_py.provider import Provider
 
 
 class M(Std, Provider):
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:

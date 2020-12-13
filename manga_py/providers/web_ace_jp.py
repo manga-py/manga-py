@@ -32,7 +32,7 @@ class WebAceJp(Provider, Std):
             self.get_url()
         ).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get(self.__url())
 
     def get_manga_name(self) -> str:

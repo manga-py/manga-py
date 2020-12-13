@@ -11,7 +11,7 @@ class DoujinsCom(Provider, Std):
     def get_chapter_index(self) -> str:
         return '0'
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/gallery/{}')
 
     def get_manga_name(self) -> str:

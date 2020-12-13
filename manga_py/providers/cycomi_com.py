@@ -10,7 +10,7 @@ class CycomiCom(Provider, Std):
     def get_chapter_index(self) -> str:
         return self.chapter[1]
 
-    def get_main_content(self):
+    def get_content(self):
         idx = self.re.search(
             r'/title/(\d+)',
             self.get_url()

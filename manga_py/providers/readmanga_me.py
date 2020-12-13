@@ -15,7 +15,7 @@ class ReadmangaMe(Provider, Std):
             name = name[:name.find('?')]
         return name.replace('/', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/{}?mature=1&mtr=1')
 
     def get_manga_name(self):

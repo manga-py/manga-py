@@ -9,7 +9,7 @@ class MangaHomeCom(Provider, Std):
         idx = self.re.search(selector, self.chapter).groups()
         return self._join_groups(idx)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:

@@ -7,7 +7,7 @@ class ComicPunchNetManga(Provider, Std):
         re = self.re.compile(r'/chapter_(\d+(?:\.\d+)?)')
         return re.search(self.chapter).group(1).replace('.', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:

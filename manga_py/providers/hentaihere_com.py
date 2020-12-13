@@ -10,7 +10,7 @@ class HentaiHereCom(Provider, Std):
         idx = self.re.search('/m/[^/]+/([^/]+(?:/[^/]+))', chapter)
         return idx.group(1).replace('/', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         url = self.re.search('(/m/[^/]+)', self.get_url())
         url = '{}{}'.format(self.domain, url.group(1))
         return self.http_get(url)

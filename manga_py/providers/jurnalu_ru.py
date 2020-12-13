@@ -7,7 +7,7 @@ class JurnaluRu(Provider, Std):
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)
 
-    def get_main_content(self):
+    def get_content(self):
         name = self._get_name(r'(online-reading/[^/]+/[^/]+)')
         url = self.html_fromstring(
             '{}/{}'.format(self.domain, name),

@@ -10,7 +10,7 @@ class SeriMangaCom(Provider, Std):
             idx[1] if len(idx) > 1 else '0',
         ])
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:

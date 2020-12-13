@@ -7,7 +7,7 @@ class KomikCastCom(Provider, Std):
         re = self.re.compile(r'-chapter-(\d+(?:-\d+)?)')
         return re.search(self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:

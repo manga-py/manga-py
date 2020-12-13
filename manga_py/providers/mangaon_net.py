@@ -28,7 +28,7 @@ class MangaOnNet(Provider, Std):
         re = self.re.search(selector, ch)
         return '0-{}'.format(re.group(1))
 
-    def get_main_content(self):
+    def get_content(self):
         url = '{}/manga-info/{}'.format(self.domain, self.manga_name)
         return self.http_get(url)
 

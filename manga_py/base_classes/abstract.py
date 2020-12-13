@@ -4,7 +4,7 @@ from abc import abstractmethod
 class Abstract:
 
     @abstractmethod
-    def get_main_content(self):  # call once
+    def get_content(self):  # call once
         pass
 
     @abstractmethod

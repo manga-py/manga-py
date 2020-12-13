@@ -8,7 +8,7 @@ class ReadMangaEu(Provider, Std):
         idx = self.re.search('/manga/\d+/[^/]+/([^/]+)', self.chapter)
         return '-'.join(idx.group(1).split('.'))
 
-    def get_main_content(self):
+    def get_content(self):
         name = self._get_name('/(manga/\d+/[^/]+)')
         return self.http_get('{}/{}'.format(self.domain, name))
 

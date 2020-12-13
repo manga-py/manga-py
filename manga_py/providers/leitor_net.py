@@ -15,7 +15,7 @@ class LeitorNet(Provider, Std):
     def get_chapter_index(self) -> str:
         return '-'.join(self.chapter['number'].split('.'))
 
-    def get_main_content(self):
+    def get_content(self):
         idx = self.html_fromstring(self.get_url(), '[data-id-serie]', 0)
         self.__idx = idx.get('data-id-serie')
         return b'0'

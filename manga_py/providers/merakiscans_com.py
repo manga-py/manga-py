@@ -13,7 +13,7 @@ class MerakiScansCom(Provider, Std):
     def _home_url(self):
         return self._content_url.format(self.domain, self.manga_name)
 
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get(self._home_url())
 
     def get_manga_name(self) -> str:

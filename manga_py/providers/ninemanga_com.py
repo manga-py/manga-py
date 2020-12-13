@@ -8,7 +8,7 @@ class NineMangaCom(NineHelper, Std):
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)
 
-    def get_main_content(self):
+    def get_content(self):
         name = self.get_manga_name(False)
         return self.http_get('{}/manga/{}.html?waring=1'.format(self.domain, name))
 

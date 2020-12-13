@@ -12,7 +12,7 @@ class DesuMe(Provider, Std):
         result = self.re.search(r'/vol(\d+)/ch(\d+)', self.chapter).groups()
         return '{}-{}'.format(result[0], result[1])
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}')
 
     def get_chapters(self):

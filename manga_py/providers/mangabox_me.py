@@ -6,7 +6,7 @@ class MangaBoxMe(Provider, Std):
     def get_chapter_index(self) -> str:
         return self.re.search(r'/episodes/(\d+)', self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         idx = self._get_name(r'/reader/(\d+)/episodes/')
         return self.http_get('{}/reader/{}/episodes/'.format(self.domain, idx))
 

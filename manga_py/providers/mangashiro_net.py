@@ -11,7 +11,7 @@ class MangaShiroNet(Provider, Std):
         chapter = self.chapter
         return self.re.search(self.chapter_re, chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}/')
 
     def get_manga_name(self) -> str:

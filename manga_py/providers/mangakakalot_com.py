@@ -10,7 +10,7 @@ class MangaKakalotCom(Provider, Std):
         re = self.re.search('/chapter_([^/]+)', self.chapter)
         return re.group(1).replace('.', '-', 2)
 
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get(self.get_url())
 
     def __new_url(self):

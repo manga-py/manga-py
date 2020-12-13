@@ -13,7 +13,7 @@ class MangaClubRu(Provider, Std):
         idx = self.re.search(r'/manga/view/[^/]+/v(\d+)-c(\d+).html')
         return '{}-{}'.format(*idx.groups())
 
-    def get_main_content(self):
+    def get_content(self):
         if not self.local_storage:
             self.get_manga_name()
         return self.http_get('{}/{}.html'.format(self.domain, self.local_storage[0]))

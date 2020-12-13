@@ -10,7 +10,7 @@ class ComicExtraCom(Provider, Std):
             return '{}-{}'.format(self.chapter_id, idx.group(1))
         return str(self.chapter_id)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/comic/{}')
 
     def get_manga_name(self):

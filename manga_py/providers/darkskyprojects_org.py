@@ -13,7 +13,7 @@ class DarkSkyProjectsOrg(Provider, Std):
     def get_chapter_index(self) -> str:
         return self.re.search('/biblioteca/[^/]+/([^/]+)', self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/biblioteca/{}')
 
     def get_manga_name(self) -> str:

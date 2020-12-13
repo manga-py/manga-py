@@ -12,7 +12,7 @@ class TsuminoCom(Provider, Std):
     def get_chapter_index(self) -> str:
         return '0'
 
-    def get_main_content(self):
+    def get_content(self):
         url = self.get_url()
         if ~url.find('/Read/'):
             url = self.html_fromstring(url, '#backToIndex + a', 0).get('href')

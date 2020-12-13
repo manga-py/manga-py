@@ -8,7 +8,7 @@ class MangaWindowNet(Provider, Std):
     def get_chapter_index(self) -> str:
         return self.chapter[0].replace('.', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get(self.__url)
 
     def get_manga_name(self) -> str:

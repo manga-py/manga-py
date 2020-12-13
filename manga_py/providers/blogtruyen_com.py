@@ -8,7 +8,7 @@ class BlogTruyenCom(Provider, Std):
         idx = self.re.search(r'\.\w{2,7}/c(\d+)/', self.chapter)
         return '{}-{}'.format(self.chapter_id, idx.group(1))
 
-    def get_main_content(self):
+    def get_content(self):
         url = self._test_main_url(self.get_url())
         return self.http_get(self.http().normalize_uri(url))
 

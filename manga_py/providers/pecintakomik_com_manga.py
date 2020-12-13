@@ -4,7 +4,7 @@ from .pecintakomik_com import PecintaKomikCom
 
 class PecintaKomikComManga(PecintaKomikCom, Std):
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}/')
 
     def get_manga_name(self) -> str:

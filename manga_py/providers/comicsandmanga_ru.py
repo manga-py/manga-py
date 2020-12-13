@@ -11,7 +11,7 @@ class ComicsAndMangaRu(Provider, Std):
     def get_chapter_index(self) -> str:
         return self.re.search(r'.+/[^/]+?(\d+)$', self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         name = self.re.search('/(online-reading/[^/]+/[^/]+)', self.get_url())
         return self.http_get('{}/{}'.format(self.domain, name.group(1)))
 

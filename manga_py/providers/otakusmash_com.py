@@ -11,7 +11,7 @@ class OtakuSmashCom(Provider, Std):
         idx = self.re.search(selector, self.chapter)
         return '-'.join(idx.group(3).split('.'))
 
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get(self._get_manga_url())
 
     def get_manga_name(self) -> str:

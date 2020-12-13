@@ -13,7 +13,7 @@ class ReadMngCom(Provider, Std):
             return self.re.search(r'\.\w{2,7}/[^/]+/([^/]+)', ch).group(1)
         return '-'.join(idx.group(1).split('.'))
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:

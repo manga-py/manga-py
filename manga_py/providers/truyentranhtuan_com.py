@@ -8,7 +8,7 @@ class TruyenTranhTuanCom(Provider, Std):
         idx = self.re.search(r'\.\w{2,7}/[^/]+?-(\d+(?:-\d+)?)', self.chapter)
         return idx.group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         content = self.http_get(self.get_url())
         parser = self.document_fromstring(content, '#read-title a.mangaName')
         if parser and len(parser):

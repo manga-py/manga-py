@@ -9,7 +9,7 @@ class TruyenVnsharingSite(Provider, Std):
         ch = self.chapter
         return '-'.join(re.search(ch).group(1).split('.'))
 
-    def get_main_content(self):
+    def get_content(self):
         name = self._get_name('/read/([^/]+/[^/]+/[^/]+)')
         url = '{}/index/read/{}'
         return self.http_get(url.format(

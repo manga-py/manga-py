@@ -22,7 +22,7 @@ class ManhuaTaiCom(Provider, Std):
         ch = self.chapter
         return self.re.search(r'/([^/]+)\.html', ch).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/{}/')
 
     def get_manga_name(self) -> str:

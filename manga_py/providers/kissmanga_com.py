@@ -21,7 +21,7 @@ class KissMangaCom(Provider, Std):
         name = self.re.search(r'/Manga/[^/]+/(.+)\?id=(\d+)', self.chapter)
         return '-'.join(name.groups())
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/Manga/{}')
 
     def get_manga_name(self) -> str:

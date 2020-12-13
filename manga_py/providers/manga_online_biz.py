@@ -13,7 +13,7 @@ class MangaOnlineBiz(Provider, Std):
         idx = self.re.search(r'/download/[^/]+/.+?_(\d+)_(\d+)', url).groups()
         return '{}-{}'.format(*idx)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/{}.html')
 
     def get_manga_name(self) -> str:

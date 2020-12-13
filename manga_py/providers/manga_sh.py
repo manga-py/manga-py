@@ -15,7 +15,7 @@ class MangaSh(Provider, Std):
             _ch_v = '_' + _ch_v
         return '{}-{}{}'.format(_vol, _ch, _ch_v)
 
-    def get_main_content(self):
+    def get_content(self):
         idx = self._get_name(r'/comics/(\d+)')
         url = '{}series_chapters?query=SeriesId.Id:{}&order=asc&sortby=TimeUploaded&limit=0&offset=0'
         content = self.http_get(url.format(self._api_url, idx))

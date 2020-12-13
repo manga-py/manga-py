@@ -9,7 +9,7 @@ class HakiHomeCom(Provider, Std):
         idx = self.re.search(selector, self.chapter)
         return idx.group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         selector = r'(https?://[^/]+/[^/]+/[^/]+-\d+/)'
         url = self.re.search(selector, self.get_url())
         return self.http_get(url.group(1))

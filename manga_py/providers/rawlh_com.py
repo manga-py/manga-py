@@ -9,7 +9,7 @@ class RawLHCom(Provider, Std):
         re = self.re.compile(r'-chapter-(.+)\.html')
         return re.search(self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         content = self._storage.get('main_content', None)
         if content is not None:
             return content

@@ -18,7 +18,7 @@ class MangaOnlineCom(Provider, Std):
             idx = (self.re.search(idx_reg, self.chapter).group(1), 0)
         return '{:0>3}-{:0>3}'.format(*idx)
 
-    def get_main_content(self):
+    def get_content(self):
         return ['0']
 
     def get_manga_name(self) -> str:

@@ -31,7 +31,7 @@ class ManhuaGuiCom(Provider, Std):
             return '{}-{}'.format(i, idx)
         return '0-{}'.format(idx)
 
-    def get_main_content(self):
+    def get_content(self):
         _ = self._get_name(r'/comic/(\d+)')
         return self.http_get('{}/comic/{}/'.format(self.domain, _))
 

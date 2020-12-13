@@ -55,7 +55,7 @@ class VizCom(Provider, Std, VizDownloader):
         info('Chapter idx: {}'.format(idx))
         return idx
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/shonenjump/chapters/{}')
 
     def get_manga_name(self) -> str:

@@ -11,7 +11,7 @@ class NineAnimeCom(Provider, Std):
             return ch_result.group(1).replace('_', '-')
         return '000-' + self.chapter_id
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}.html?waring=1')
 
     def get_manga_name(self) -> str:

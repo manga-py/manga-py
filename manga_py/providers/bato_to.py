@@ -11,7 +11,7 @@ class BatoTo(Provider, Std):
             self.chapter[1],
         )
 
-    def get_main_content(self):
+    def get_content(self):
         url = self.get_url()
         if ~url.find('/chapter/'):
             url = self.html_fromstring(url, '.nav-path .nav-title > a', 0).get('href')

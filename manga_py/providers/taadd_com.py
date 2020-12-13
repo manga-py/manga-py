@@ -19,7 +19,7 @@ class TaaddCom(Provider, Std):
         idx = self.re.search('/chapter/([^/]+)/', self.chapter).group(1)
         return idx
 
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get('{}/book/{}.html'.format(self.domain, self.manga_name))
 
     def _re_name(self, url):

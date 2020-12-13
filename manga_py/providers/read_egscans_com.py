@@ -8,7 +8,7 @@ class ReadEgScansCom(Provider, Std):
         idx = self.re.search(r'/Chapter_(\d+)(.*)', self.chapter)
         return self._join_groups(idx.groups())
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:

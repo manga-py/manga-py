@@ -8,7 +8,7 @@ class MangaChanMe(Provider, Std):
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)
 
-    def get_main_content(self):
+    def get_content(self):
         pass
 
     def get_manga_name(self) -> str:

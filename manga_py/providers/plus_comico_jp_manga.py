@@ -7,7 +7,7 @@ class PlusComicoJp(Provider, Std):
     def get_chapter_index(self) -> str:
         return self.re.search('/manga/\d+/(\d+)', self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         content = self._storage.get('main_content', None)
         if content:
             return content

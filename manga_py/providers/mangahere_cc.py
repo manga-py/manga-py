@@ -14,7 +14,7 @@ class MangaHereCc(Provider, Std):
         selector = r'/manga/[^/]+/[^\d]+(\d+)'
         return self.re.search(selector, chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:

@@ -11,7 +11,7 @@ class MangaParkMe(Provider, Std):
             return '0-' + idx[1]
         return '-'.join(idx)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:

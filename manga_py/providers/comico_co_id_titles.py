@@ -14,7 +14,7 @@ class ComicoCoIdTitles(Provider, Std):
         idx = self.re.search(r'/titles/(\d+)', self.get_url())
         return idx.group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         self._url = '{}/titles/{}'.format(
             self.domain,
             self._manga_id(),

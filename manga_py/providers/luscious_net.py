@@ -10,7 +10,7 @@ class LusciousNet(Provider, Std):
     def get_chapter_index(self) -> str:
         return '0'
 
-    def get_main_content(self):
+    def get_content(self):
         name = self._get_name('/albums?/([^/]+)/')
         return self.http_get('{}/albums/{}/'.format(self.domain, name))
 

@@ -8,7 +8,7 @@ class WhiteCloudPavilionCom(Provider, Std):
         re = self.re.compile(r'/manga/free/manga/[^/]+/([^/]+)')
         return re.search(self.chapter).group(1).replace('.', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/free/manga/{}')
 
     def get_manga_name(self) -> str:

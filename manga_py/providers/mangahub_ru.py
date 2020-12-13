@@ -10,7 +10,7 @@ class MangaHubRu(Provider, Std):
         idx = self.re.search(r'/read/[^/]+/[^\d]+(\d+)/(\d+)/', self.chapter).groups()
         return '{}-{}'.format(*idx)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/{}')
 
     def get_manga_name(self) -> str:

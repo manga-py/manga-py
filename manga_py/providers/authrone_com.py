@@ -14,7 +14,7 @@ class AuthroneCom(MangaOnlineToday, Std):
     def get_chapter_index(self) -> str:
         return self.re.search('/manga/[^/]+/([^/]+)', self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:

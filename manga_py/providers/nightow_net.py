@@ -14,7 +14,7 @@ class NightowNet(Provider, Std):
             return '-'.join(idx.group(1).split('.'))
         return self.re.search('chapter=(.+?)(?:&.+)?$', ch).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         name = self._get_name(self._name_re)
         return self.http_get('{}/online/?manga={}'.format(
             self.domain,

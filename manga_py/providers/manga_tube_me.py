@@ -11,7 +11,7 @@ class MangaTubeMe(Provider, Std):
             return str(self.chapter_id)
         return idx.group(1).replace('.', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/series/{}/')
 
     def get_manga_name(self) -> str:

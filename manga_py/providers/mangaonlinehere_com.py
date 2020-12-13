@@ -13,7 +13,7 @@ class MangaOnlineHereCom(Provider, Std):
             0 if idx[1] is None else idx[1]
         ])
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga-info/{}')
 
     def get_manga_name(self) -> str:

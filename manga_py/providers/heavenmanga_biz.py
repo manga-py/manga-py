@@ -12,7 +12,7 @@ class HeavenMangaBiz(Provider, Std):
                 return '0'
             raise e
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/{}/')
 
     def get_manga_name(self) -> str:

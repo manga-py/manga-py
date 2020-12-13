@@ -24,7 +24,7 @@ class MangaGoMe(Provider, Std):
             return fmt.format(*idx)
         return idx[0]
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content(self.get_url())
 
     def get_manga_name(self) -> str:

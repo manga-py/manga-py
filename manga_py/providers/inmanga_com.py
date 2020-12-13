@@ -8,7 +8,7 @@ class InMangaCom(Provider, Std):
     def get_chapter_index(self) -> str:
         return str(self.chapter['Number'])
 
-    def get_main_content(self):
+    def get_content(self):
         if not self.__local_storage.get('uri_hex', False):
             self.get_manga_name()
         url = '{}/chapter/getall?mangaIdentification={}'.format(

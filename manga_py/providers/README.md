@@ -18,7 +18,7 @@ class _Template(Provider):
     def get_chapter_index(self) -> str:
         pass
 
-    def get_main_content(self):  # call once
+    def get_content(self):  # call once
 #       return self._get_content('{}/manga/{}')
         pass
 

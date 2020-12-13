@@ -9,7 +9,7 @@ class MangaMewCom(Provider, Std):
         re = r'%s/[^/]+/.+?-(\d+(?:-\d+)?)-\d+' % self._type
         return self.re.search(re, self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         url = self.get_url()
         if url.find('/' + self._type + '/') == -1:  # not found
             a = self.html_fromstring(url, 'h1.name a', 0)

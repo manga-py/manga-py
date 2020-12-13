@@ -14,7 +14,7 @@ class _Template(Provider, Std):
         Example: "1-3"
         """
 
-    def get_main_content(self):
+    def get_content(self):
         """
         Called second. Returns the initial content to parse (just a cache)
         Can be obtained using self.content

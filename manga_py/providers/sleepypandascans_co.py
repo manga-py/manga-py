@@ -8,7 +8,7 @@ class ManhwaCo(Provider, Std):
         chapter = self.chapter
         return self.re.search(r'\.\w{2,7}/Reader/[^/]+/([^/]+)', chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/Series/{}')
 
     def get_manga_name(self) -> str:

@@ -11,7 +11,7 @@ class MangaHasuSe(Provider, Std):
             return '{}-{}'.format(*idx)
         return idx[0]
 
-    def get_main_content(self):
+    def get_content(self):
         url = self.get_url()
         if not self._test_url(url, r'/[^/]+-p\d+.html'):
             self.cf_scrape(self.get_url())

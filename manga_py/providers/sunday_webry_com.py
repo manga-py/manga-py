@@ -11,7 +11,7 @@ class SundayWebryCom(Provider, Std):
     def get_chapter_index(self) -> str:
         return self.re.search(r'cti=([^&]*)', self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get('{}/series/{}'.format(
             self.domain,
             self._get_name(r'/series/(\d+)')

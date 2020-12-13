@@ -8,7 +8,7 @@ class Manhwa18Net(Provider, Std):
         chapter = self.re.search(r'-chapter-(\d+(?:\.\d+)?)', self.chapter)
         return chapter.group(1).replace('.', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga-{}.html')
 
     def get_manga_name(self) -> str:

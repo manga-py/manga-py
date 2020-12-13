@@ -9,7 +9,7 @@ class MangaKatanaCom(Provider, Std):
         re = self.re.compile(r'/manga/.+?\d/c(\d+(?:\.\d)?(?:-v\d)?)')
         return re.search(self.chapter).group(1).replace('.', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get('{}/manga/{}'.format(
             self.domain, self._name()
         ))

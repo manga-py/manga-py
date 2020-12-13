@@ -11,7 +11,7 @@ class MangaXNet(Provider, Std):
         re = self.re.compile(r'\.\w{2,7}/\w/[^/]+/([^/]+)')
         return re.search(self.chapter).group(1).replace('.', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         url = '{}/m/{}'.format(
             self.domain,
             self.__name,

@@ -11,7 +11,7 @@ class ComicNnNet(Provider, Std):
         re = self.re.compile('/truyen-tranh-online/[^/]+/([^/]+)')
         return re.search(self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/truyen-tranh-online/{}')
 
     def _iframe_hook(self, url):

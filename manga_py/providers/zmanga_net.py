@@ -9,7 +9,7 @@ class ZMangaNet(Provider, Std):
         re = self.re.compile(r'%s-(\d+(?:-\d+)?)' % self._type)
         return re.search(self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga-online/{}/')
 
     def get_manga_name(self) -> str:

@@ -21,7 +21,7 @@ class MangaLifeUs(Provider, Std):
             1 if chapter[1] is None else chapter[1],
         )
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:

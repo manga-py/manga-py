@@ -8,7 +8,7 @@ class MangaOnlineComBr(Provider, Std):
         selector = r'\.\w{2,7}/[^/]+/[^/]+/([^/]+)'
         return self.re.search(selector, self.chapter).group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/{}/')
 
     def get_manga_name(self) -> str:

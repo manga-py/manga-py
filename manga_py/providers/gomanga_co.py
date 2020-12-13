@@ -14,7 +14,7 @@ class GoMangaCo(Provider, Std):
         group = self.re.search(self._chapter_re, self.chapter).group(1)
         return group.replace('/', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content(self._content_str)
 
     def get_manga_name(self) -> str:

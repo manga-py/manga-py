@@ -11,7 +11,7 @@ class ZeroScansCom(Provider, Std):
             self.chapter
         ).group(1).replace('/', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         name = self._get_name(r'%s([^/]+)' % self._key)
         return self.http_get('%s%s%s/' % (
             self.domain,

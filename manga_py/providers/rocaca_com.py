@@ -13,7 +13,7 @@ class RocacaCom(MangaGoMe):
             re = self.re.search(r'/(\d+(?:\.\d+)?)/', self.chapter)
         return re.group(1).replace('.', '-')
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}/')
 
     def get_manga_name(self) -> str:

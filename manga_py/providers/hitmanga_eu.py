@@ -15,7 +15,7 @@ class HitMangaEu(Provider, Std):
         idx = self.re.search('[^/]+/[^/]+/[^/]+?-([^/]+)', chapter)
         return idx.group(1)
 
-    def get_main_content(self):
+    def get_content(self):
         return self._content(self._get_content('{}/mangas/{}/'))
 
     def get_manga_name(self) -> str:

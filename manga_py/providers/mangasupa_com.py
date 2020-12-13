@@ -8,7 +8,7 @@ class MangaSupaCom(Provider, Std):
         idx = self.re.search('/chapter_([^/]+)', self.chapter)
         return '-'.join(idx.group(1).split('.'))
 
-    def get_main_content(self):
+    def get_content(self):
         return self._get_content('{}/manga/{}')
 
     def get_manga_name(self) -> str:

@@ -23,7 +23,7 @@ class MangaTailCom(Provider, Std):
             return re.group(1)
         return chapter
 
-    def get_main_content(self):
+    def get_content(self):
         url = self.get_url()
         if self.__local_storage:
             url = self.__local_storage

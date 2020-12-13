@@ -2,7 +2,7 @@ from .manganelo_com import MangaNeloCom
 
 
 class MangaBatCom(MangaNeloCom):
-    def get_main_content(self):
+    def get_content(self):
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
