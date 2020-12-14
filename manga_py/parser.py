@@ -63,7 +63,12 @@ class Parser:
         self.provider.process(self.params['url'], self.params)
 
     def check_url(self, url):
-        with get(url, stream=True) as response:
+        proxy = self.params.get('proxy', None)
+
+        with get(url, stream=True, proxies=({
+                'http': proxy,
+                'https': proxy,
+            } if proxy else None)) as response:
             _url = response.url
             if url != _url:
                 url = _url
