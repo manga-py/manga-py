@@ -135,6 +135,9 @@ providers_list = {
     'hentailxx_com': [
         r'hentailxx\.com/story/view\.php\?id=\d'
     ],
+    'hentainexus_com': [
+        r'hentainexus\.com/(read|view)/\d'
+    ],
     'hentaiporns_net': [
         r'hentaiporns\.net/.'
     ],
