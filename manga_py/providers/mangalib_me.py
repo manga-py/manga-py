@@ -33,9 +33,8 @@ class MangaLibMe(Provider, Std):
     def get_cover(self):
         return self._cover_from_content('img.manga__cover')
 
-    def book_meta(self) -> dict:
-        # todo meta
-        pass
+    def prepare_cookies(self):
+        self.cf_scrape(self.get_url())
 
 
 main = MangaLibMe
