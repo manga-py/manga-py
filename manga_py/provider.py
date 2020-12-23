@@ -75,6 +75,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         if self._with_manga_name and self._override_name:
             raise RuntimeError('Conflict of parameters. Please use only --with-manga-name, or --override-archive-name')
         self._fill_arguments(params.get('arguments') or [])
+        self._skip_incomplete_chapters = params.get('skip_incomplete_chapters', False)
 
         # todo: remove it for version 1.25
         if params.get('show_current_chapter_info'):
@@ -278,6 +279,10 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         if self._archive.has_error:
             full_path = '%s.IMAGES_SKIP_ERROR.%s' % _path
+            self._info.set_last_volume_error(str(self._archive.error_list))
+            if self._skip_incomplete_chapters:
+                warning("Skipping incomplete chapter: %s.%s" % _path)
+                return
         else:
             full_path = '%s.%s' % _path
 
