@@ -12,7 +12,11 @@ class Archive:
     files = None
     not_change_files_extension = False
     no_webp = False
-    has_error = False
+    error_list = []
+
+    @property
+    def has_error(self):
+        return self.error_list != []
 
     def __init__(self):
         self.files = []
@@ -51,7 +55,7 @@ class Archive:
 
     def __test_is_image(self, _path):
         if not MangaImage.is_image(_path):
-            self.has_error = True
+            self.error_list.append('File "%s" isn\'t image' % _path)
             warning('File "%s" isn\'t image' % _path)
             return False
         return True
@@ -70,7 +74,7 @@ class Archive:
 
         if self.has_error:
             warning('Archive %s have missed files' % dst)
-            self.has_error = False
+            self.error_list = []
 
         make_dirs(dirname(dst))
 

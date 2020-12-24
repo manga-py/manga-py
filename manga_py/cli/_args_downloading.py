@@ -151,3 +151,11 @@ def _args_downloading(args_parser):  # pragma: no cover
         )
     )
 
+    args.add_argument(
+        '--skip-incomplete-chapters',
+        action='store_true',
+        help=(
+            'Incomplete chapters are not written to disk instead of saving them as "IMAGES_SKIP_ERROR"'
+        )
+    )
+
