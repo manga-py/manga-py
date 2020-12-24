@@ -84,7 +84,7 @@ class Info:
     def set_ua(self, ua):
         self._data['user_agent'] = ua
 
-    def set_error(self, e, rc: int = 1):
+    def set_error(self, e: bool, message: str, rc: int = 1):
         self._data['return_code'] = rc
         self._data['error'] = e
 
@@ -98,6 +98,7 @@ class Info:
         self._data['volumes'] = volumes
 
     def set_last_volume_error(self, error_message):
+        self.set_error(True, error_message)
         try:
             self._data['volumes'][-1]['error'] = True
             self._data['volumes'][-1]['error_message'] = error_message
