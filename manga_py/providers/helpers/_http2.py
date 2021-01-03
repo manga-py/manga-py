@@ -22,7 +22,7 @@ class Http2:
         )
 
     def __download(self, idx, name, url):
-        _min, _max = self._min_max_calculate()
+        _min, _max = self.provider._min_max_calculate()
         self.provider._info.add_volume(
             self.provider.chapter,
             '%s.%s' % self.provider.get_archive_path()
@@ -38,20 +38,6 @@ class Http2:
                 self.provider.http().download_file(url, name, idx)
             except Exception as e:
                 self.provider._info.set_last_volume_error(e)
-
-    def _min_max_calculate(self):
-        _min = self.provider._params.get('skip_volumes', 0)
-        _max = self.provider._params.get('max_volumes', 0)
-        self.chapters_count = len(self.chapters)
-        if _max > 0 or _min > 0:
-            if _max < self.chapters_count:
-                _max = self.chapters_count - _max
-            else:
-                _max = 0
-            self.chapters_count = self.chapters_count - _min - _max
-        if _max > 0 and _min > 0:
-            _max += _min - 1
-        return _min, _max
 
     def download_archives(self, chapters=None):
         if chapters is None:

@@ -161,13 +161,29 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
                 self.log([e], file=stderr)
                 self._info.set_last_volume_error(e)
 
+    def _min_max_calculate(self):
+        _min = self.provider._params.get('skip_volumes', 0)
+        _max = self.provider._params.get('max_volumes', 0)
+        self.chapters_count = len(self.chapters)
+        if _max > 0 or _min > 0:
+            if _max < self.chapters_count:
+                _max = self.chapters_count - _max
+            else:
+                _max = 0
+            self.chapters_count = self.chapters_count - _min - _max
+        if _max > 0 and _min > 0:
+            _max += _min - 1
+        return _min, _max
+
     def loop_chapters(self):
-        _min = self._params.get('skip_volumes', 0)
-        _max = self._params.get('max_volumes', 0)
+        _min, _max = self._min_max_calculate()
         count = 0  # count downloaded chapters
-        for idx, __url in enumerate(self.chapters):
+        for idx, __url in enumerate(self.chapters[0:_min]):
+            info('Skip chapter %d / %s' % (idx, __url))
+
+        for idx, __url in enumerate(self.chapters[_min, _max], start=_min):
             self.chapter_id = idx
-            if idx < _min or (count >= _max > 0) or self._check_archive():
+            if self._check_archive():
                 info('Skip chapter %d / %s' % (idx, __url))
                 continue
 
@@ -176,6 +192,9 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             count += 1
             self._info.add_volume(self.chapter_for_json(), '%s.%s' % self.get_archive_path())
             self._download_chapter()
+
+        for idx, __url in enumerate(self.chapters[_max:]):
+            info('Skip chapter %d / %s' % (idx, __url))
 
         if count == 0 and not self.quiet:
             print('No new chapters found', file=stderr)
