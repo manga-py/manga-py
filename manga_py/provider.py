@@ -162,17 +162,11 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
                 self._info.set_last_volume_error(e)
 
     def _min_max_calculate(self):
+        nb_chapters = len(self.chapters)
         _min = self.provider._params.get('skip_volumes', 0)
         _max = self.provider._params.get('max_volumes', 0)
-        self.chapters_count = len(self.chapters)
-        if _max > 0 or _min > 0:
-            if _max < self.chapters_count:
-                _max = self.chapters_count - _max
-            else:
-                _max = 0
-            self.chapters_count = self.chapters_count - _min - _max
-        if _max > 0 and _min > 0:
-            _max += _min - 1
+        _max = min(nb_chapters, _max + _min)
+        self.chapters_count = _max - _min
         return _min, _max
 
     def loop_chapters(self):

@@ -24,7 +24,7 @@ class MangaOnlineBiz(Provider, Std):
 
     def loop_chapters(self):
         http2 = Http2(self)
-        http2.download_archives(self.chapters)
+        http2.download_archives()
         http2.after_download = self._after_download
 
     def get_chapters(self):

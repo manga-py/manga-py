@@ -39,11 +39,13 @@ class Http2:
             except Exception as e:
                 self.provider._info.set_last_volume_error(e)
 
-    def download_archives(self, chapters=None):
-        if chapters is None:
-            chapters = self.provider.chapters
-        self.chapters = chapters
-        for idx, url in enumerate(chapters):
+    def download_archives(self):
+        for idx, chap_inf in enumerate(self.provider.chapters):
+            try:
+                url = chap_inf['download_link']
+            except TypeError:
+                url = chap_inf
+
             self.provider.before_download_chapter()
             self.provider.chapter_id = idx
             name = self._get_name(idx)

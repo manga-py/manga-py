@@ -16,15 +16,16 @@ class MangaChanMe(Provider, Std):
         return self._get_name(name)
 
     def loop_chapters(self):
-        items = self.chapters[::-1]
-        n = self.http().normalize_uri
-        Http2(self).download_archives([n(i) for i in items])
+        # Could not test, website does not seem to exist anymore...
+        # previously there was a normalize_uri on every chapters,
+        # but it should already be handled in __normalize_chapters in Base class
+        Http2(self).download_archives()
 
     def get_chapters(self):
         selector = r'\.\w{2,7}/[^/]+/(\d+-.+\.html)'
         url = self._get_name(selector)
         url = '{}/download/{}'.format(self.domain, url)
-        return self.html_fromstring(url, 'table#download_table tr td + td > a')
+        return self.html_fromstring(url, 'table#download_table tr td + td > a')[::-1]
 
     def get_files(self):
         return []
