@@ -87,6 +87,10 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self._save_chapter_info = True
 
     def process(self, url, params=None):  # Main method
+        self.prepare_download(url, params)
+        self.loop_chapters()
+
+    def prepare_download(self, url, params=None):
         self._params['url'] = url
         params = params if isinstance(params, dict) else {}
         self._params_parser(params)
@@ -136,8 +140,6 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             else:
                 warning('No manga details was found!')
                 warning('Possibly the provider has not yet been implemented to get this information')
-
-        self.loop_chapters()
 
     def _check_archive(self):
         # check
