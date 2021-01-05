@@ -1,15 +1,15 @@
-from manga_py.provider import Provider
-from .helpers.std import Std
-from .helpers._http2 import Http2
 
+from manga_py.provider import Provider
+from manga_py.download_methods import WholeArchiveDownloader
+from .helpers.std import Std
 
 # Archive downloading example. Without images
 class MangaOnlineBiz(Provider, Std):
+    _downloader = WholeArchiveDownloader
     chapter_url = ''
-    _idx = 0
 
     def get_chapter_index(self) -> str:
-        url = self.chapters[self._idx]
+        url = self.chapter
         idx = self.re.search(r'/download/[^/]+/.+?_(\d+)_(\d+)', url).groups()
         return '{}-{}'.format(*idx)
 
@@ -21,11 +21,6 @@ class MangaOnlineBiz(Provider, Std):
 
     def _after_download(self, idx, _path):
         self._idx = idx + 1
-
-    def loop_chapters(self):
-        http2 = Http2(self)
-        http2.download_archives()
-        http2.after_download = self._after_download
 
     def get_chapters(self):
         s, c = r'MangaChapter\((.+)\);', self.content

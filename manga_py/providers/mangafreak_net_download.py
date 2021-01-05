@@ -1,9 +1,9 @@
 from manga_py.provider import Provider
+from manga_py.download_methods import WholeArchiveDownloader
 from .helpers.std import Std
-from .helpers._http2 import Http2
-
 
 class MangaFreakNet(Provider, Std):
+    _downloader = WholeArchiveDownloader
 
     def get_archive_name(self):
         return self.chapter['archive_name']
@@ -20,9 +20,6 @@ class MangaFreakNet(Provider, Std):
     def get_chapters(self):
         items = self._elements('.manga_series_list td a[download]')
         return [{'archive_name': i.get('download'), 'download_link': i.get('href')} for i in items][::-1]
-
-    def loop_chapters(self):
-        Http2(self).download_archives()
 
     def get_files(self):
         pass
