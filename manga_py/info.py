@@ -61,7 +61,7 @@ class Info:
         return dt.strftime(fmt)
 
     def __init__(self, args: Union[Namespace, dict]):  # see manga_py.cli arguments
-        _args = args.__dict__ if args is not dict else args
+        _args = args.__dict__ if not isinstance(args, dict) else args
         _args['_raw_params'] = ' '.join(argv)
         self._data = {
             'site': args.url,
