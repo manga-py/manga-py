@@ -175,9 +175,9 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self._info.add_volume(chapter, path)
 
             if not self._simulate:
-                idx, url, path = dl.before_download(idx, __url, path)
-                dl.download_chapter(idx, url, path)
-                dl.after_download(idx, path)
+                self.before_download_chapter()
+                dl.download_chapter(idx, __url, path)
+                self.after_download_chapter()
 
             if callable(self.global_progress):
                 self.global_progress(self.chapters_count, idx - _min)

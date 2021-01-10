@@ -22,12 +22,6 @@ class BaseDownloadMethod(object):
     def download_chapter(self, idx, url, path):
         pass
 
-    def before_download(self, idx, url, path):
-        return idx, url, path
-
-    def after_download(self, idx, path):
-        pass
-
     def already_downloaded(self, idx):
         # check
         _path = '%s.%s' % self.provider.get_archive_path()
@@ -42,7 +36,6 @@ class OnePerOneDownloader(BaseDownloadMethod):
 
     def download_chapter(self, idx, url, path):
         try:
-            self.provider.before_download_chapter()
             self.files = self.provider.get_files()
             self.provider._storage['files'] = self.files
             self._loop_files()
@@ -155,7 +148,6 @@ class OnePerOneDownloader(BaseDownloadMethod):
 class WholeArchiveDownloader(BaseDownloadMethod):
     def download_chapter(self, idx, url, path):
         self.provider.chapter_progress(1, 0, True)
-        self.provider.before_download_chapter()
         try:
             self.provider.http().download_file(url, path, idx)
         except Exception as e:
