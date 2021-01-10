@@ -24,7 +24,6 @@ from .fs import (
     path_join,
     file_size,
 )
-from .http import MultiThreads
 from .info import Info
 from .meta import repo_url, version
 from .download_methods import OnePerOneDownloader

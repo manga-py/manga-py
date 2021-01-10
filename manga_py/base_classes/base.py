@@ -26,7 +26,6 @@ class Base(ProviderParams):
             'main_content': None,
             'chapters': [],
             'current_chapter': 0,
-            'current_file': 0,
             'proxies': {},
             'domain_uri': None,
         }
@@ -103,15 +102,10 @@ class Base(ProviderParams):
             warning('Chapters list empty. Check %s' % self.get_url())
         return items
 
-    def get_current_file(self):
-        return self._storage['files'][self._storage['current_file']]
-
     def book_meta(self) -> dict:
         return {}
 
     def _image_name(self, idx, filename):
-        if idx is None:
-            idx = self._storage['current_file']
         fn, extension = path.splitext(filename)
         _path = '{:0>3}_{}'.format(idx, fn)
         if self._params['rename_pages']:

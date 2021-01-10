@@ -81,7 +81,7 @@ def _args_downloading(args_parser):  # pragma: no cover
         '-t',
         '--max-threads',
         type=int,
-        default=None,
+        default=4,
         help=(
             'Set the maximum number of threads, i.e. MAX_THREADS, to be avaliable to manga-py. '
             'Threads run in pseudo-parallel when execute the process to download the manga images.'

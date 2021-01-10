@@ -1,6 +1,7 @@
 import json
 from logging import info, warning, error
 from sys import stderr
+from concurrent.futures import ThreadPoolExecutor
 
 from .base_classes import Archive
 from .fs import (
@@ -11,13 +12,16 @@ from .fs import (
     path_join,
     file_size,
 )
-from .http import MultiThreads
 from .meta import repo_url, version
+from .base_classes.static import Static
 
 class BaseDownloadMethod(object):
     def __init__(self, provider):
         self.provider = provider
+        self.log = provider.log
         self.http = self.provider.http
+        self.chapter_progress = self.provider.chapter_progress
+
 
     def download_chapter(self, idx, url, path):
         pass
@@ -32,7 +36,6 @@ class BaseDownloadMethod(object):
 class OnePerOneDownloader(BaseDownloadMethod):
     def __init__(self, provider):
         super().__init__(provider)
-        self._call_files_progress_callback = provider._call_files_progress_callback
 
     def download_chapter(self, idx, url, path):
         try:
@@ -43,7 +46,7 @@ class OnePerOneDownloader(BaseDownloadMethod):
             # Main debug here
             if self.provider._debug:
                 raise e
-            self.provider.log([e], file=stderr)
+            self.log([e], file=stderr)
             self.provider._info.set_last_volume_error(e)
 
     def _loop_files(self):
@@ -71,7 +74,7 @@ class OnePerOneDownloader(BaseDownloadMethod):
                     warning('No chapter details was found!')
                     warning('Possibly the provider has not yet been implemented to get this information')
 
-            self._call_files_progress_callback()
+            self.chapter_progress(len(self.files), 0, True)
 
             self._multi_thread_save(self.files)
 
@@ -108,34 +111,23 @@ class OnePerOneDownloader(BaseDownloadMethod):
             self._info.set_last_volume_error(str(e))
             raise e
 
-    def _multi_thread_callback(self):
-        self._call_files_progress_callback()
-        self.provider._storage['current_file'] += 1
-
     def _multi_thread_save(self, files):
-        threading = MultiThreads()
-        # hack
-        self.provider._storage['current_file'] = 0
-        if self.provider._params.get('max_threads', None) is not None:
-            threading.max_threads = int(self.provider._params.get('max_threads'))
-        for idx, url in enumerate(files):
-            threading.add(self.save_file, (idx, self._multi_thread_callback, url, None))
+        max_threads = int(self.provider._params.get('max_threads', 0))
 
-        threading.start()
+        with ThreadPoolExecutor(max_workers=max_threads) as executor:
+            m = executor.map(self.save_file, *zip(*enumerate(files)))
+            for i, p in enumerate(m, start = 1):
+                self.chapter_progress(len(self.files), i)
 
-    def _save_file_params_helper(self, url, idx):
-        if url is None:
-            _url = self.http().normalize_uri(self.get_current_file())
-        else:
-            _url = url
-        _url = self.provider.before_file_save(_url, idx)
-        filename = remove_file_query_params(basename(_url))
-        _path = self.provider.remove_not_ascii(self.provider._image_name(idx, filename))
+    def _save_file_params_helper(self, idx, url):
+        url = self.provider.before_file_save(url, idx)
+        filename = remove_file_query_params(basename(url))
+        _path = Static.remove_not_ascii(self.provider._image_name(idx, filename))
         _path = get_temp_path(_path)
-        return _path, idx, _url
+        return _path, idx, url
 
-    def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
-        _path, idx, _url = self._save_file_params_helper(url, idx)
+    def save_file(self, idx=None, url=None, callback=None, in_arc_name=None):
+        _path, idx, _url = self._save_file_params_helper(idx, url)
 
         if not is_file(_path) or file_size(_path) < 32:
             self.http().download_file(_url, _path, idx)
@@ -153,6 +145,6 @@ class WholeArchiveDownloader(BaseDownloadMethod):
         except Exception as e:
             if self.provider._debug:
                 raise e
-            self.provider.log([e], file=stderr)
+            self.log([e], file=stderr)
             self.provider._info.set_last_volume_error(e)
         self.provider.chapter_progress(1, 1)
