@@ -144,6 +144,8 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         nb_chapters = len(self.chapters)
         _min = self._params.get('skip_volumes', 0)
         _max = self._params.get('max_volumes', 0)
+        # Beware, 0 can also come from command line param
+        _max = _max if _max else nb_chapters
         _max = min(nb_chapters, _max + _min)
         self.chapters_count = _max - _min
         return _min, _max
