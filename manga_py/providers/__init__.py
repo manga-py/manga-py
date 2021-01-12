@@ -84,6 +84,7 @@ providers_list = {
         r'desu\.me/manga/.',
     ],
     'doujins_com': [
+        r'doujins\.com/hentai-manga/.',
         r'doujins\.com/gallery/.',
         r'doujin-moe\.us/gallery/.',
     ],
@@ -122,6 +123,7 @@ providers_list = {
         r'hentai-chan\.me/(related|manga|online)/.',  # todo
     ],
     'hentai_image_com': [
+        r'hentai-img\.com/image/.',
         r'hentai-image\.com/image/.',
     ],
     'hentaihand_com': [
