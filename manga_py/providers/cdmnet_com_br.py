@@ -28,6 +28,7 @@ class CdmNetComBr(Provider, Std):
         return self._elements('.ui .content .table td > a')
 
     def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
+        # Unused, kept for science
         if ~url.find('/manga/'):
             return super().save_file(idx, callback, url, in_arc_name)
         if ~url.find('/novel/'):

@@ -50,6 +50,7 @@ providers_list = {
     ],
     'cdmnet_com_br': [
         r'cdmnet\.com\.br/titulos/.',
+        r'centraldemangas.online/titulos/.'
     ],
     'chochox_com': [
         r'chochox\.com/.',
@@ -182,7 +183,7 @@ providers_list = {
         r'jaiminisbox\.com/reader/series/.',
     ],
     'japscan_com': [
-        r'japscan\.(cc|com|co|to)/.',
+        r'japscan\.(cc|com|co|to|se)/.',
     ],
     'jurnalu_ru': [
         r'jurnalu\.ru/online-reading/.',
