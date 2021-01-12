@@ -56,7 +56,7 @@ class OnePerOneDownloader(BaseDownloadMethod):
 
             if len(self.files) == 0:
                 # see Std
-                error('Error processing file: %s' % self.get_archive_name())
+                error('Error processing file: %s' % self.provider.get_archive_name())
                 return
 
             self._archive = Archive()
