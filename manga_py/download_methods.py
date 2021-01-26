@@ -37,10 +37,11 @@ class OnePerOneDownloader(BaseDownloadMethod):
     def __init__(self, provider):
         super().__init__(provider)
 
-    def download_chapter(self, idx, url, path):
+    def download_chapter(self, chapter_url, path):
+        self.chapter_url = chapter_url
+        self.path = path
         try:
             self.files = self.provider.get_files()
-            self.provider._storage['files'] = self.files
             self._loop_files()
         except Exception as e:
             # Main debug here
@@ -50,7 +51,6 @@ class OnePerOneDownloader(BaseDownloadMethod):
             self.provider._info.set_last_volume_error(e)
 
     def _loop_files(self):
-        self.chapter = self.provider.chapter
         if isinstance(self.files, list):
             info('Processing {} files'.format(len(self.files)))
 
@@ -64,9 +64,9 @@ class OnePerOneDownloader(BaseDownloadMethod):
             self._archive.no_webp = self.provider._image_params.get('no_webp', False)
 
             if self.provider._save_chapter_info:
-                self._archive.write_file('info.json', json.dumps(self.chapter))
+                self._archive.write_file('info.json', json.dumps(self.chapter_url))
 
-            chapter_info = self.provider.chapter_details(self.chapter)
+            chapter_info = self.provider.chapter_details(self.chapter_url)
             if self.provider._save_chapter_info:
                 if chapter_info is not None:
                     self._archive.write_file('eduhoribe.json', json.dumps(chapter_info))
@@ -83,7 +83,6 @@ class OnePerOneDownloader(BaseDownloadMethod):
             error('Bad files list type')
 
     def _make_archive(self):
-        _path = self.provider.get_archive_path()
 
         info = 'Site: {}\nDownloader: {}\nVersion: {}'.format(self.provider.get_url(), repo_url, version)
 
@@ -96,13 +95,13 @@ class OnePerOneDownloader(BaseDownloadMethod):
         self._archive.add_info(info)
 
         if self._archive.has_error:
-            full_path = '%s.IMAGES_SKIP_ERROR.%s' % _path
+            full_path = '%s.IMAGES_SKIP_ERROR.%s' % self.path
             self._info.set_last_volume_error(str(self._archive.error_list))
             if self._skip_incomplete_chapters:
-                warning("Skipping incomplete chapter: %s.%s" % _path)
+                warning("Skipping incomplete chapter: %s.%s" % self.path)
                 return
         else:
-            full_path = '%s.%s' % _path
+            full_path = '%s.%s' % self.path
 
         try:
             self._archive.make(full_path)
@@ -138,10 +137,10 @@ class OnePerOneDownloader(BaseDownloadMethod):
         return _path
 
 class WholeArchiveDownloader(BaseDownloadMethod):
-    def download_chapter(self, idx, url, path):
+    def download_chapter(self, chapter_url, path):
         self.provider.chapter_progress(1, 0, True)
         try:
-            self.provider.http().download_file(url, path, idx)
+            self.provider.http().download_file(chapter_url, '%s.%s' % path)
         except Exception as e:
             if self.provider._debug:
                 raise e

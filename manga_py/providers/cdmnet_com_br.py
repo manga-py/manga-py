@@ -52,8 +52,6 @@ class CdmNetComBr(Provider, Std):
         images = self.re.sub("'", '"', images)
         images = self.json.loads(self.re.sub(r'",\]', '"]', images))
 
-        self.log(['{}{}{}'.format(suffix, i, file_type) for i in images])
-
         return ['{}{}{}'.format(suffix, i, file_type) for i in images]
 
     def get_files(self):

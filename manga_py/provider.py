@@ -172,12 +172,12 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             count += 1
 
             chapter = self.chapter_for_json() if self.chapter_for_json() is not None else self.chapter
-            path = '%s.%s' % self.get_archive_path()
-            self._info.add_volume(chapter, path)
+            _path = '%s.%s' % self.get_archive_path()
+            self._info.add_volume(chapter, _path)
 
             if not self._simulate:
                 self.before_download_chapter()
-                dl.download_chapter(idx, __url, path)
+                dl.download_chapter(self.chapter, self.get_archive_path())
                 self.after_download_chapter()
 
             if callable(self.global_progress):
