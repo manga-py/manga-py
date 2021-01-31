@@ -37,6 +37,9 @@ class Abstract:
     def before_download_chapter(self):
         pass
 
+    def after_download_chapter(self):
+        pass
+
     def get_cover(self):
         pass
 

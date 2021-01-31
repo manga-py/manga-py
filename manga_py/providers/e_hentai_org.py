@@ -9,14 +9,6 @@ from time import sleep
 class EHentaiOrg(Provider, Std):
     helper = None
 
-    def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
-        _url = None
-        if isinstance(url, HtmlElement):
-            _url = self.helper.get_image(url)
-        else:
-            _url = url
-        return super().save_file(idx=idx, callback=callback, url=_url, in_arc_name=in_arc_name)
-
     def get_chapter_index(self) -> str:
         return str(self.chapter_id)
 

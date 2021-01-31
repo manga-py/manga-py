@@ -50,6 +50,7 @@ providers_list = {
     ],
     'cdmnet_com_br': [
         r'cdmnet\.com\.br/titulos/.',
+        r'centraldemangas.online/titulos/.'
     ],
     'chochox_com': [
         r'chochox\.com/.',
@@ -83,6 +84,7 @@ providers_list = {
         r'desu\.me/manga/.',
     ],
     'doujins_com': [
+        r'doujins\.com/hentai-manga/.',
         r'doujins\.com/gallery/.',
         r'doujin-moe\.us/gallery/.',
     ],
@@ -121,6 +123,7 @@ providers_list = {
         r'hentai-chan\.me/(related|manga|online)/.',  # todo
     ],
     'hentai_image_com': [
+        r'hentai-img\.com/image/.',
         r'hentai-image\.com/image/.',
     ],
     'hentaihand_com': [
@@ -182,7 +185,7 @@ providers_list = {
         r'jaiminisbox\.com/reader/series/.',
     ],
     'japscan_com': [
-        r'japscan\.(cc|com|co|to)/.',
+        r'japscan\.(cc|com|co|to|se)/.',
     ],
     'jurnalu_ru': [
         r'jurnalu\.ru/online-reading/.',

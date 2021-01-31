@@ -19,9 +19,10 @@ class AllHentaiRu(Provider, Std):
         return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
-        return self._elements('.expandable .cTable tr > td > a')
+        return self._elements('.expandable.chapters-link tr > td > a')
 
     def get_files(self):
+        # Currently doesn't work; I assume viewer was changed, the following does not look like the current structure.
         _uri = self.http().normalize_uri(self.chapter)
         content = self.http_get(_uri)
         result = self.re.search(r'var pictures.+?(\[\{.+\}\])', content, self.re.M)

@@ -24,11 +24,9 @@ from .fs import (
     path_join,
     file_size,
 )
-from .http import MultiThreads
 from .info import Info
-from .meta import repo_url
-from .meta import version
-
+from .meta import repo_url, version
+from .download_methods import OnePerOneDownloader
 
 class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     _volumes_count = 0
@@ -43,6 +41,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     _save_manga_info = False
     _debug = False
     _override_name = ''
+    _downloader = OnePerOneDownloader
 
     def __init__(self, info: Info = None):
         super().__init__()
@@ -87,6 +86,10 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self._save_chapter_info = True
 
     def process(self, url, params=None):  # Main method
+        self.prepare_download(url, params)
+        self.loop_chapters()
+
+    def prepare_download(self, url, params=None):
         self._params['url'] = url
         params = params if isinstance(params, dict) else {}
         self._params_parser(params)
@@ -137,104 +140,55 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
                 warning('No manga details was found!')
                 warning('Possibly the provider has not yet been implemented to get this information')
 
-        self.loop_chapters()
-
-    def _check_archive(self):
-        # check
-        _path = '%s.%s' % self.get_archive_path()
-        not_allow_archive = not self._params.get('rewrite_exists_archives', False)
-
-        return not_allow_archive and is_file(_path)
-
-    def _download_chapter(self):
-        if not self._simulate:
-            try:
-                self.before_download_chapter()
-                self._storage['files'] = self.get_files()
-                self.loop_files()
-            except Exception as e:
-                # Main debug here
-                if self._debug:
-                    raise e
-                self.log([e], file=stderr)
-                self._info.set_last_volume_error(e)
-
-    def loop_chapters(self):
+    def _min_max_calculate(self):
+        nb_chapters = len(self.chapters)
         _min = self._params.get('skip_volumes', 0)
         _max = self._params.get('max_volumes', 0)
+        # Beware, 0 can also come from command line param
+        _max = _max if _max else nb_chapters
+        _max = min(nb_chapters, _max + _min)
+        self.chapters_count = _max - _min
+        return _min, _max
+
+    def loop_chapters(self):
+        _min, _max = self._min_max_calculate()
         count = 0  # count downloaded chapters
-        for idx, __url in enumerate(self.chapters):
-            self.chapter_id = idx
-            if idx < _min or (count >= _max > 0) or self._check_archive():
+        for idx, __url in enumerate(self.chapters[:_min], start=1):
+            info('Skip chapter %d / %s' % (idx, __url))
+
+        dl = self._downloader(self)
+
+        if callable(self.global_progress):
+            self.global_progress(self.chapters_count, 0, True)
+
+        for idx, __url in enumerate(self.chapters[_min:_max], start=_min+1):
+            self.chapter_id = idx - 1
+            if dl.already_downloaded(idx):
                 info('Skip chapter %d / %s' % (idx, __url))
                 continue
-
-            info('Processed chapter %d / %s' % (idx, __url))
-
-            count += 1
-            self._info.add_volume(self.chapter_for_json(), '%s.%s' % self.get_archive_path())
-            self._download_chapter()
-
-        if count == 0 and not self.quiet:
-            print('No new chapters found', file=stderr)
-
-    def loop_files(self):
-        if isinstance(self._storage['files'], list):
-            info('Processing {} files'.format(len(self._storage['files'])))
-
             if self._show_chapter_info:
                 print('\n\nCurrent chapter url: %s\n' % (self.chapter,), file=stderr)
 
-            if len(self._storage['files']) == 0:
-                # see Std
-                error('Error processing file: %s' % self.get_archive_name())
-                return
+            count += 1
 
-            self._archive = Archive()
-            self._archive.not_change_files_extension = self._params.get('not_change_files_extension', False)
-            self._archive.no_webp = self._image_params.get('no_webp', False)
+            chapter = self.chapter_for_json() if self.chapter_for_json() is not None else self.chapter
+            _path = '%s.%s' % self.get_archive_path()
+            self._info.add_volume(chapter, _path)
 
-            if self._save_chapter_info:
-                self._archive.write_file('info.json', json.dumps(self.chapter))
+            if not self._simulate:
+                self.before_download_chapter()
+                dl.download_chapter(self.chapter, self.get_archive_path())
+                self.after_download_chapter()
 
-            chapter_info = self.chapter_details(self.chapter)
-            if self._save_chapter_info:
-                if chapter_info is not None:
-                    self._archive.write_file('eduhoribe.json', json.dumps(chapter_info))
-                else:
-                    warning('No chapter details was found!')
-                    warning('Possibly the provider has not yet been implemented to get this information')
+            if callable(self.global_progress):
+                self.global_progress(self.chapters_count, idx - _min)
+            info('Processed chapter %d / %s' % (idx, __url))
 
-            self._call_files_progress_callback()
+        for idx, __url in enumerate(self.chapters[_max:], start=_max+1):
+            info('Skip chapter %d / %s' % (idx, __url))
 
-            self._multi_thread_save(self._storage['files'])
-
-            self.make_archive()
-        else:
-            error('Bad files list type')
-
-    def _save_file_params_helper(self, url, idx):
-        if url is None:
-            _url = self.http().normalize_uri(self.get_current_file())
-        else:
-            _url = url
-        _url = self.before_file_save(_url, idx)
-        filename = remove_file_query_params(basename(_url))
-        _path = self.remove_not_ascii(self._image_name(idx, filename))
-        _path = get_temp_path(_path)
-        return _path, idx, _url
-
-    def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
-        _path, idx, _url = self._save_file_params_helper(url, idx)
-
-        if not is_file(_path) or file_size(_path) < 32:
-            self.http().download_file(_url, _path, idx)
-        self.after_file_save(_path, idx)
-        self._archive.add_file(_path)
-
-        callable(callback) and callback()
-
-        return _path
+        if count == 0 and not self.quiet:
+            print('No new chapters found', file=stderr)
 
     def get_archive_path(self) -> Tuple[str, str]:
         if self._override_name:
@@ -247,51 +201,26 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         if not _path:
             _path = str(self.chapter_id)
 
-        name = self.name
-
         additional_data_name = ''
         if self.http().has_error:
             additional_data_name = '.ERROR'
             self.http().has_error = False
             warning('Error processing chapter.')
 
+        # Manga online biz use this naming scheme (see http2). Not sure if wanted
+        # arc_name =  '{:0>3}-{}'.format(idx, self.get_archive_name())
+        # If we want to keep it, maybe instead override self.get_archive_name ?
+        arc_name = '%s%s' % (_path, additional_data_name)
+
         return (
             path_join(
                 self._params.get('destination', 'Manga'),
-                name,
-                '%s%s' % (_path, additional_data_name)
+                self.name,
+                arc_name
             ).replace('?', '_').replace('"', '_').replace('>', '_').replace('<', '_').replace('|', '_')  # Windows...
             , self._archive_type()
         )
 
-    def make_archive(self):
-        _path = self.get_archive_path()
-
-        info = 'Site: {}\nDownloader: {}\nVersion: {}'.format(self.get_url(), repo_url, version)
-
-        # """
-        # make book info
-        # """
-        # if self._params['cbz']:
-        #     self._archive.add_book_info(self._arc_meta_info())
-
-        self._archive.add_info(info)
-
-        if self._archive.has_error:
-            full_path = '%s.IMAGES_SKIP_ERROR.%s' % _path
-            self._info.set_last_volume_error(str(self._archive.error_list))
-            if self._skip_incomplete_chapters:
-                warning("Skipping incomplete chapter: %s.%s" % _path)
-                return
-        else:
-            full_path = '%s.%s' % _path
-
-        try:
-            self._archive.make(full_path)
-        except OSError as e:
-            error(e)
-            self._info.set_last_volume_error(str(e))
-            raise e
 
     def html_fromstring(self, url, selector: str = None, idx: int = None):
         params = {}
@@ -299,21 +228,6 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             params = url['params']
             url = url['url']
         return self.document_fromstring(self.http_get(url, **params), selector, idx)
-
-    def _multi_thread_callback(self):
-        self._call_files_progress_callback()
-        self._storage['current_file'] += 1
-
-    def _multi_thread_save(self, files):
-        threading = MultiThreads()
-        # hack
-        self._storage['current_file'] = 0
-        if self._params.get('max_threads', None) is not None:
-            threading.max_threads = int(self._params.get('max_threads'))
-        for idx, url in enumerate(files):
-            threading.add(self.save_file, (idx, self._multi_thread_callback, url, None))
-
-        threading.start()
 
     def cf_scrape(self, url):
         """

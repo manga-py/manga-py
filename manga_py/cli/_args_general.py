@@ -56,6 +56,14 @@ def _args_general(args_parser: ArgumentParser, version):  # pragma: no cover
     )
 
     args.add_argument(
+        '--global-progress',
+        action='store_true',
+        help=(
+            'Show a global progress bar instead of a file-by-file progress.'
+        )
+    )
+
+    args.add_argument(
         '--arguments',
         type=str,
         nargs='*',

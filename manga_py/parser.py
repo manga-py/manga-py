@@ -26,7 +26,8 @@ class Parser:
 
     def init_provider(
             self,
-            progress: callable = None,
+            chapter_progress: callable = None,
+            global_progress: callable = None,
             log: callable = None,
             quest: callable = None,
             info: Info = None,
@@ -54,7 +55,8 @@ class Parser:
 
         self.provider.quiet = self.params.get('quiet', False)
 
-        self.provider.set_progress_callback(progress)
+        self.provider.set_chapter_progress_callback(chapter_progress)
+        self.provider.set_global_progress_callback(global_progress)
         self.provider.set_log_callback(log)
         self.provider.set_quest_callback(quest)
         self.provider.set_quest_password_callback(quest_password)

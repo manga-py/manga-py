@@ -28,7 +28,8 @@ class Cli:  # pragma: no cover
     def start(self):
         try:
             self.parser.init_provider(
-                progress=self.progress,
+                chapter_progress=self.chapter_progress,
+                global_progress=self.global_progress,
                 log=self.print,
                 quest=self.quest,
                 quest_password=self.quest_password,
@@ -56,14 +57,27 @@ class Cli:  # pragma: no cover
             self.__progress_bar = bar(range(items_count))
             self.__progress_bar.init()
 
-    def progress(self, items_count: int, current_item: int, re_init: bool = False):
+    def chapter_progress(self, items_count: int, current_item: int, re_init: bool = False):
         if not items_count \
                 or self.args.no_progress \
+                or self.args.global_progress \
                 or self.args.quiet \
                 or self.args.print_json \
                 or self.args.debug:
             return
+        self._progress(items_count, current_item, re_init)
 
+    def global_progress(self, items_count: int, current_item: int, re_init: bool = False):
+        if not items_count \
+                or self.args.no_progress \
+                or not self.args.global_progress \
+                or self.args.quiet \
+                or self.args.print_json \
+                or self.args.debug:
+            return
+        self._progress(items_count, current_item, re_init)
+
+    def _progress(self, items_count: int, current_item: int, re_init: bool = False):
         current_val = 0
         if self.__progress_bar:
             current_val = self.__progress_bar.value
