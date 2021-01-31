@@ -2,6 +2,7 @@ import json
 from logging import info, warning, error
 from sys import stderr
 from concurrent.futures import ThreadPoolExecutor
+from PIL import Image
 
 from .base_classes import Archive
 from .fs import (
@@ -9,11 +10,12 @@ from .fs import (
     is_file,
     basename,
     remove_file_query_params,
-    path_join,
     file_size,
 )
 from .meta import repo_url, version
 from .base_classes.static import Static
+from .base_classes.comic_info_builder import Page, ComicInfo
+
 
 class BaseDownloadMethod(object):
     def __init__(self, provider):
@@ -21,21 +23,28 @@ class BaseDownloadMethod(object):
         self.log = provider.log
         self.http = self.provider.http
         self.chapter_progress = self.provider.chapter_progress
+        self.global_progress = self.provider.global_progress
+        self.volume = "0"
 
-
-    def download_chapter(self, idx, url, path):
+    def download_chapter(self, url, path):
         pass
 
-    def already_downloaded(self, idx):
+    def already_downloaded(self):
         # check
         _path = '%s.%s' % self.provider.get_archive_path()
         not_allow_archive = not self.provider._params.get('rewrite_exists_archives', False)
 
         return not_allow_archive and is_file(_path)
 
+
 class OnePerOneDownloader(BaseDownloadMethod):
+    chapter_url = None
+    path = None
+    _archive = None
+
     def __init__(self, provider):
         super().__init__(provider)
+        self.__pages_cache = []
 
     def download_chapter(self, chapter_url, path):
         self.chapter_url = chapter_url
@@ -83,21 +92,21 @@ class OnePerOneDownloader(BaseDownloadMethod):
             error('Bad files list type')
 
     def _make_archive(self):
-
-        info = 'Site: {}\nDownloader: {}\nVersion: {}'.format(self.provider.get_url(), repo_url, version)
-
         # """
         # make book info
         # """
-        # if self._params['cbz']:
-        #     self._archive.add_book_info(self._arc_meta_info())
+        if self.provider._params['cbz']:
+            _info = self._book_info_xml()
+            self._archive.write_file('ComicInfo.xml', str(_info))
 
-        self._archive.add_info(info)
+        info = 'Site: {}\nDownloader: {}\nVersion: {}'.format(self.provider.get_url(), repo_url, version)
+
+        self._archive.write_file('info.txt', info)
 
         if self._archive.has_error:
             full_path = '%s.IMAGES_SKIP_ERROR.%s' % self.path
-            self._info.set_last_volume_error(str(self._archive.error_list))
-            if self._skip_incomplete_chapters:
+            self.provider._info.set_last_volume_error(str(self._archive.error_list))
+            if self.provider._skip_incomplete_chapters:
                 warning("Skipping incomplete chapter: %s.%s" % self.path)
                 return
         else:
@@ -107,7 +116,7 @@ class OnePerOneDownloader(BaseDownloadMethod):
             self._archive.make(full_path)
         except OSError as e:
             error(e)
-            self._info.set_last_volume_error(str(e))
+            self.provider._info.set_last_volume_error(str(e))
             raise e
 
     def _multi_thread_save(self, files):
@@ -115,7 +124,7 @@ class OnePerOneDownloader(BaseDownloadMethod):
 
         with ThreadPoolExecutor(max_workers=max_threads) as executor:
             m = executor.map(self.save_file, *zip(*enumerate(files)))
-            for i, p in enumerate(m, start = 1):
+            for i, p in enumerate(m, start=1):
                 self.chapter_progress(len(self.files), i)
 
     def _save_file_params_helper(self, idx, url):
@@ -131,10 +140,32 @@ class OnePerOneDownloader(BaseDownloadMethod):
         if not is_file(_path) or file_size(_path) < 32:
             self.http().download_file(_url, _path, idx)
         self.provider.after_file_save(_path, idx)
-        self._archive.add_file(_path)
+        self._archive.add_file(_path, in_arc_name=in_arc_name)
         callable(callback) and callback()
 
+        if self.provider._params['cbz']:
+            with Image.open(_path) as r:  # type: Image.Image
+                w, h = r.size
+
+            self.__pages_cache.append(Page(
+                index=idx,
+                size=file_size(_path),
+                width=w,
+                height=h,
+            ))
+
         return _path
+
+    def _book_info_xml(self):
+        comic_info = ComicInfo()
+
+        comic_info.volume(self.provider.get_chapter_index())
+        comic_info.title(self.provider.name)
+        comic_info.pages(self.__pages_cache)
+        comic_info.page_count(str(len(self.__pages_cache)))
+
+        return comic_info
+
 
 class WholeArchiveDownloader(BaseDownloadMethod):
     def download_chapter(self, chapter_url, path):
@@ -147,3 +178,65 @@ class WholeArchiveDownloader(BaseDownloadMethod):
             self.log([e], file=stderr)
             self.provider._info.set_last_volume_error(e)
         self.provider.chapter_progress(1, 1)
+
+        # if isinstance(self._storage['files'], list):
+        #     info('Processing {} files'.format(len(self._storage['files'])))
+        #
+        # self.__images_cache = []
+        #
+        # # ///
+        #
+        # if not is_file(_path) or file_size(_path) < 32:
+        #     self.http().download_file(_url, _path, idx)
+        #
+        # self.after_file_save(_path, idx)
+        # self._archive.add_file(_path)
+        #
+        # with Image.open(_path) as r:  # type: Image.Image
+        #     w, h = r.size
+        #
+        # self.__images_cache.append(Page(
+        #     index=idx,
+        #     size=file_size(_path),
+        #     width=w,
+        #     height=h,
+        # ))
+        #
+        # callable(callback) and callback()
+
+    def make_archive(self):
+        _path = self.get_archive_path()
+
+        info = 'Site: {}\nDownloader: {}\nVersion: {}'.format(self.get_url(), repo_url, version)
+
+        # """
+        # make book info
+        # """
+        # if self._params['cbz']:
+        #     self._archive.add_book_info(self._arc_meta_info())
+
+        self._archive.write_file('info.txt', info)
+
+        if 'cbz' in self._params and self._params['cbz']:
+            book_info = ComicInfo()
+            book_info.title(self.get_manga_name()) # todo: normal title maybe?
+            book_info.pages(self.__images_cache)
+
+            self._archive.write_file('ComicInfo.xml', str(book_info))
+
+        if self._archive.has_error:
+            full_path = '%s.IMAGES_SKIP_ERROR.%s' % _path
+            self._info.set_last_volume_error(str(self._archive.error_list))
+            if self._skip_incomplete_chapters:
+                warning("Skipping incomplete chapter: %s.%s" % _path)
+                return
+        else:
+            full_path = '%s.%s' % _path
+
+        try:
+            self._archive.make(full_path)
+        except OSError as e:
+            error(e)
+            self._info.set_last_volume_error(str(e))
+            raise e
+

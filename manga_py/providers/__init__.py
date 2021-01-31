@@ -336,6 +336,7 @@ providers_list = {
     ],
     'mangaku_web_id': [
         r'mangaku\.in/.',
+        r'mangaku\.pro/.',
     ],
     'mangalib_me': [
         r'mangalib\.me/.',

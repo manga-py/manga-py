@@ -31,9 +31,6 @@ class Archive:
         if self.__test_is_image(file):
             self.files.append((file, in_arc_name))
 
-    # def add_book_info(self, data):
-    #     self.write_file('comicbook.xml', data)
-
     def __add_files(self):
         for file in self.files:
             if is_file(file[0]):
@@ -63,9 +60,6 @@ class Archive:
     def __add_writes(self):
         for file in self._writes:
             self._archive.writestr(file, self._writes[file])
-
-    def add_info(self, data):
-        self.write_file('info.txt', data)
 
     def make(self, dst: str):
         if not len(self.files):

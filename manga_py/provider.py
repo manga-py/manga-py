@@ -6,6 +6,8 @@ from logging import info, warning, error
 from os import path
 from sys import stderr
 from typing import Tuple
+from .base_classes.comic_info_builder import *
+from PIL import Image
 
 from .base_classes import (
     Abstract,
@@ -28,6 +30,7 @@ from .info import Info
 from .meta import repo_url, version
 from .download_methods import OnePerOneDownloader
 
+
 class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     _volumes_count = 0
     _archive = None
@@ -42,6 +45,9 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     _debug = False
     _override_name = ''
     _downloader = OnePerOneDownloader
+    global_progress = None
+
+    __images_cache = []
 
     def __init__(self, info: Info = None):
         super().__init__()
@@ -75,15 +81,6 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             raise RuntimeError('Conflict of parameters. Please use only --with-manga-name, or --override-archive-name')
         self._fill_arguments(params.get('arguments') or [])
         self._skip_incomplete_chapters = params.get('skip_incomplete_chapters', False)
-
-        # todo: remove it for version 1.25
-        if params.get('show_current_chapter_info'):
-            warning('Deprecated. Please, use --show-chapter-info instead')
-            self._show_chapter_info = True
-
-        if params.get('save_current_chapter_info'):
-            warning('Deprecated. Please, use --save-chapter-info instead')
-            self._save_chapter_info = True
 
     def process(self, url, params=None):  # Main method
         self.prepare_download(url, params)
@@ -161,9 +158,9 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         if callable(self.global_progress):
             self.global_progress(self.chapters_count, 0, True)
 
-        for idx, __url in enumerate(self.chapters[_min:_max], start=_min+1):
+        for idx, __url in enumerate(self.chapters[_min:_max], start=_min + 1):
             self.chapter_id = idx - 1
-            if dl.already_downloaded(idx):
+            if dl.already_downloaded():
                 info('Skip chapter %d / %s' % (idx, __url))
                 continue
             if self._show_chapter_info:
@@ -171,12 +168,17 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
             count += 1
 
-            chapter = self.chapter_for_json() if self.chapter_for_json() is not None else self.chapter
+            chapter_for_json = self.chapter_for_json()
+
+            chapter = chapter_for_json if chapter_for_json is not None else self.chapter
+
             _path = '%s.%s' % self.get_archive_path()
+
             self._info.add_volume(chapter, _path)
 
             if not self._simulate:
                 self.before_download_chapter()
+                dl.volume = chapter
                 dl.download_chapter(self.chapter, self.get_archive_path())
                 self.after_download_chapter()
 
@@ -184,7 +186,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
                 self.global_progress(self.chapters_count, idx - _min)
             info('Processed chapter %d / %s' % (idx, __url))
 
-        for idx, __url in enumerate(self.chapters[_max:], start=_max+1):
+        for idx, __url in enumerate(self.chapters[_max:], start=_max + 1):
             info('Skip chapter %d / %s' % (idx, __url))
 
         if count == 0 and not self.quiet:
@@ -221,7 +223,6 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             , self._archive_type()
         )
 
-
     def html_fromstring(self, url, selector: str = None, idx: int = None):
         params = {}
         if isinstance(url, dict):
@@ -246,7 +247,8 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
                 self.log('Please, use --cookie and --user-agent options')
 
     def __manual_ua(self) -> bool:
-        return self._params['cookies'] and len(self._params['cookies']) and self._params['user_agent'] and len(self._params['user_agent'])
+        return self._params['cookies'] and len(self._params['cookies']) and self._params['user_agent'] and len(
+            self._params['user_agent'])
 
     def update_ua(self, ua):
         self._storage['user_agent'] = ua
