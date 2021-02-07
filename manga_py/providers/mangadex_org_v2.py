@@ -154,12 +154,24 @@ class MangaDexOrg(Provider, Std):
             'publishers': self._translators(chapter)
         }
 
+    @staticmethod
+    def _flat_array(arg):
+        if arg is None:
+            return ['']
+        if type(arg) == list:
+            return arg
+        if type(arg) == str:
+            return [arg]
+        raise TypeError('Unknown type!')
+
     def manga_details(self):
+        author = self._flat_array(self.__content.get('author', ''))
+        artist = self._flat_array(self.__content.get('artist', ''))
         return {
             'id': self.manga_idx(),
             'title': self.__content['title'],
             'description': self.__content['description'],
-            'authors': [author for author in {self.__content['author'], self.__content['artist']} if author != ''],
+            'authors': [author for author in {*author, *artist} if author != ''],
             'sauce': self.original_url,
             'covers': {'main': self.__content.get('mainCover')}
         }
