@@ -89,6 +89,7 @@ class PlusComicoJp(Provider, Std):
         p.need_copy_orig = True
         p.de_scramble(_path, '{}.jpg'.format(_path))
         rename('{}.jpg'.format(_path), _path)
+        return _path, None
 
     def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
         if in_arc_name is None:

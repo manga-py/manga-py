@@ -46,6 +46,7 @@ class TonariNoYjJp(Provider, Std):
     def after_file_save(self, _path: str, idx: int):
         if idx:
             self.helper.solve_image(_path, idx)
+        return super().after_file_save(_path, idx)
 
     def book_meta(self) -> dict:
         # todo meta
