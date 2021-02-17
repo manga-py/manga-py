@@ -260,6 +260,13 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self._storage['cookies'][k] = cookies[k]
             self.http().cookies[k] = cookies[k]
 
+    def before_download_file(self, idx, url):
+        url = self.before_file_save(url, idx)
+        filename = remove_file_query_params(basename(url))
+        _path = Static.remove_not_ascii(self._image_name(idx, filename))
+        _path = get_temp_path(_path)
+        return _path, idx, url
+
     # region specified data for eduhoribe/comic-builder (see https://github.com/manga-py/manga-py/issues/347)
 
     def chapter_details(self, chapter) -> dict:

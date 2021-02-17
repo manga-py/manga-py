@@ -205,14 +205,14 @@ class VizCom(Provider, Std, VizDownloader):
     def has_chapters(parser):
         return len(parser.cssselect('.o_chapter-container')) > 0
 
-    def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):
+
+    def before_download_file(self, idx, url):
+        _path, idx, _url = super().before_download_file(idx, url)
         if not self._continue:
-            return
-
+            return None, None, None
         info('\nSave file: {}'.format(idx))
-        info('File url: {}'.format(url))
+        info('File url: {}'.format(_url))
 
-        _path, idx, _url = self._save_file_params_helper(url, idx)
 
         info('File params:\n PATH: {}\n IDX: {}\n URL: {}'.format(_path, idx, _url))
 
@@ -220,7 +220,7 @@ class VizCom(Provider, Std, VizDownloader):
 
         __url = request(
             'get',
-            self.http().normalize_uri(url),
+            self.http().normalize_uri(_url),
             headers={
                 'X-Requested-With': 'XMLHttpRequest',
                 'Referer': 'https://www.viz.com',
@@ -234,10 +234,10 @@ class VizCom(Provider, Std, VizDownloader):
             if self._continue:
                 error('\nURL is wrong: \n {}\n'.format(__url))
             self._continue = False
-            return
+            return None, None, None
+        return _path, idx, __url
 
-        self.http().download_file(__url, _path, idx)
-
+    def after_file_save(self, _path, idx):
         if file_size(_path) < 100:
             if self._continue:
                 info('File not found. Stop for this chapter')
@@ -245,14 +245,13 @@ class VizCom(Provider, Std, VizDownloader):
             is_file(_path) and unlink(_path)
             return
 
-        self.after_file_save(_path, idx)
+        _path, arc_name = super().after_file_save(_path, idx)
 
         ref = solve(_path, self._metadata)
         if ref is not None:
             solved_path = _path + '-solved.jpeg'
             ref.save(solved_path)
-            self._archive.add_file(solved_path, 'solved{}.jpeg'.format(idx))
-            callable(callback) and callback()
-
+            return solved_path, 'solved{}.jpeg'.format(idx)
+        return _path, arc_name
 
 main = VizCom

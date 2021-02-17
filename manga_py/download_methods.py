@@ -121,26 +121,19 @@ class OnePerOneDownloader(BaseDownloadMethod):
 
     def _multi_thread_save(self, files):
         max_threads = int(self.provider._params.get('max_threads', 0))
-
         with ThreadPoolExecutor(max_workers=max_threads) as executor:
             m = executor.map(self.save_file, *zip(*enumerate(files)))
             for i, p in enumerate(m, start=1):
                 self.chapter_progress(len(self.files), i)
 
-    def _save_file_params_helper(self, idx, url):
-        url = self.provider.before_file_save(url, idx)
-        filename = remove_file_query_params(basename(url))
-        _path = Static.remove_not_ascii(self.provider._image_name(idx, filename))
-        _path = get_temp_path(_path)
-        return _path, idx, url
-
     def save_file(self, idx=None, url=None, callback=None, in_arc_name=None):
-        _path, idx, _url = self._save_file_params_helper(idx, url)
+        _path, idx, _url = self.provider.before_download_file(idx, url)
 
         if not is_file(_path) or file_size(_path) < 32:
             self.http().download_file(_url, _path, idx)
-        self.provider.after_file_save(_path, idx)
-        self._archive.add_file(_path, in_arc_name=in_arc_name)
+
+        _path, _in_arc_name = self.provider.after_file_save(_path, idx)
+        self._archive.add_file(_path, in_arc_name=(_in_arc_name or in_arc_name))
         callable(callback) and callback()
 
         if self.provider._params['cbz']:

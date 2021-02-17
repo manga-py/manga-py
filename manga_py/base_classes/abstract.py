@@ -47,7 +47,7 @@ class Abstract:
         return url
 
     def after_file_save(self, _path: str, idx: int):
-        pass
+        return _path, None
 
     @abstractmethod
     def chapter_for_json(self) -> str:
