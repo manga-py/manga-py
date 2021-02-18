@@ -67,6 +67,7 @@ class MangaGoMe(Provider, Std):
             self._crypt.puzzle(_path, _dst, url)
             unlink(_path)
             rename(_dst, _path)
+        return _path, None
 
     def get_cover(self):
         return self._cover_from_content('#information .cover img')

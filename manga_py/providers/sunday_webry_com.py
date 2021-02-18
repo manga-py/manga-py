@@ -48,7 +48,7 @@ class SundayWebryCom(Provider, Std):
         return items
 
     def after_file_save(self, _path: str, idx: int):  # todo issue #36
-        pass
+        return super().after_file_save(_path, idx)
 
     def get_cover(self) -> str:
         return self._cover_from_content('#series .image > img')
