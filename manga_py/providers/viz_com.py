@@ -244,7 +244,7 @@ class VizCom(Provider, Std, VizDownloader):
                 info('File not found. Stop for this chapter')
             self._continue = False
             is_file(_path) and unlink(_path)
-            return
+            return None, None
 
         _path, arc_name = super().after_file_save(_path, idx)
 

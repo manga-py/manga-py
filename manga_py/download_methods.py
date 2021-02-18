@@ -1,20 +1,17 @@
 import json
+from concurrent.futures import ThreadPoolExecutor
 from logging import info, warning, error
 from sys import stderr
-from concurrent.futures import ThreadPoolExecutor
+
 from PIL import Image
 
 from .base_classes import Archive
+from .base_classes.comic_info_builder import Page, ComicInfo
 from .fs import (
-    get_temp_path,
     is_file,
-    basename,
-    remove_file_query_params,
     file_size,
 )
 from .meta import repo_url, version
-from .base_classes.static import Static
-from .base_classes.comic_info_builder import Page, ComicInfo
 
 
 class BaseDownloadMethod(object):
@@ -121,6 +118,8 @@ class OnePerOneDownloader(BaseDownloadMethod):
 
     def _multi_thread_save(self, files):
         max_threads = int(self.provider._params.get('max_threads', 0))
+        max_threads = min(max(max_threads, 1), 10)
+
         with ThreadPoolExecutor(max_workers=max_threads) as executor:
             m = executor.map(self.save_file, *zip(*enumerate(files)))
             for i, p in enumerate(m, start=1):
@@ -129,10 +128,18 @@ class OnePerOneDownloader(BaseDownloadMethod):
     def save_file(self, idx=None, url=None, callback=None, in_arc_name=None):
         _path, idx, _url = self.provider.before_download_file(idx, url)
 
+        if _path is None:
+            return
+
         if not is_file(_path) or file_size(_path) < 32:
             self.http().download_file(_url, _path, idx)
 
         _path, _in_arc_name = self.provider.after_file_save(_path, idx)
+
+        if _path is None:
+            info('after_file_save is None. Idx: {} / Url: {}'.format(idx, url), file=stderr)
+            return None
+
         self._archive.add_file(_path, in_arc_name=(_in_arc_name or in_arc_name))
         callable(callback) and callback()
 

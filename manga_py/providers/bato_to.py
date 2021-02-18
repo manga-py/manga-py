@@ -1,3 +1,4 @@
+from logging import info
 from manga_py.provider import Provider
 from .helpers.std import Std
 from ..crypt.bato_to_crypt import BatoToCrypt
@@ -54,7 +55,7 @@ class BatoTo(Provider, Std):
             images = self.json.loads(images)
 
             n = self.http().normalize_uri
-            print([n(f'{server}{img}') for img in images])
+            info([n(f'{server}{img}') for img in images])
             return [n(f'{server}{img}') for img in images]
         except ValueError as e:
             self.log(f'Bato.to get_files error: {e}')
