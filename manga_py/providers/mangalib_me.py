@@ -5,9 +5,10 @@ from .helpers.std import Std
 class MangaLibMe(Provider, Std):
 
     def get_chapter_index(self) -> str:
-        selector = r'\.\w{2,7}/[^/]+/[^\d]+(\d+)/[^\d]+([^/]+)'
-        idx = self.re.search(selector, self.chapter).groups()
-        return '-'.join(idx)
+        return '{}_{}'.format(
+            self.chapter_for_json(),
+            self.chapter['chapter_name']
+        )
 
     def get_content(self):
         return self._get_content('{}/{}')
@@ -16,7 +17,12 @@ class MangaLibMe(Provider, Std):
         return self._get_name(r'\.\w{2,7}/([^/]+)')
 
     def get_chapters(self):
-        return self._elements('.chapters-list .chapter-item__name a')
+        _json = self.re.search(r'__DATA__\s*=\s*(\{.+?\});', self.content)
+
+        if _json is None:
+            return []
+
+        return self.json.loads(_json.group(1)).get('chapters', {}).get('list', [])
 
     def get_files(self):
         content = self.http_get(self.chapter)
@@ -26,15 +32,21 @@ class MangaLibMe(Provider, Std):
         info = self.json.loads(info)
         _manga = info['img']['url']
         _s = info['servers']
-        _server = _s.get('fourth', _s.get('compress'))
+        _server = _s.get('main', _s.get('secondary'))
 
         return ['{}{}{}'.format(_server, _manga, i['u']) for i in images]
 
     def get_cover(self):
-        return self._cover_from_content('img.manga__cover')
+        return self._cover_from_content('.media-sidebar__cover > img')
 
     def prepare_cookies(self):
         self.cf_scrape(self.get_url())
+
+    def chapter_for_json(self) -> str:
+        return '{}-{}'.format(
+            self.chapter['chapter_volume'] or '',
+            self.chapter['chapter_number'],
+        ).rstrip('-')
 
 
 main = MangaLibMe

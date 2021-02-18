@@ -14,8 +14,8 @@ from .helpers.std import Std
 
 
 class VizDownloader:
-    def viz_downloader(self, file_name, url, method):
 
+    def viz_downloader(self, file_name, url, method):
         with open(file_name, 'wb') as out_file:
             response = request(
                 method, url, timeout=20,
@@ -164,7 +164,10 @@ class VizCom(Provider, Std, VizDownloader):
 
         try:
             remember = self.json.loads(req.text)
-            self.__cookies['remember_token'] = remember.get('trust_user_id_token_web', remember.get('remember_token', ''))
+            self.__cookies['remember_token'] = remember.get(
+                'trust_user_id_token_web',
+                remember.get('remember_token', '')
+            )
         except ValueError:
             error('Remember error!')
             error('Please, report this error {}{}'.format(
@@ -205,14 +208,12 @@ class VizCom(Provider, Std, VizDownloader):
     def has_chapters(parser):
         return len(parser.cssselect('.o_chapter-container')) > 0
 
-
     def before_download_file(self, idx, url):
         _path, idx, _url = super().before_download_file(idx, url)
         if not self._continue:
             return None, None, None
         info('\nSave file: {}'.format(idx))
         info('File url: {}'.format(_url))
-
 
         info('File params:\n PATH: {}\n IDX: {}\n URL: {}'.format(_path, idx, _url))
 
@@ -253,5 +254,6 @@ class VizCom(Provider, Std, VizDownloader):
             ref.save(solved_path)
             return solved_path, 'solved{}.jpeg'.format(idx)
         return _path, arc_name
+
 
 main = VizCom
