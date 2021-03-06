@@ -38,7 +38,7 @@ def _run_util(args):
     _info = Info(parse_args)
 
     _info.start()
-    Cli(args, _info).start()
+    Cli(parse_args.__dict__, _info).start()
 
     if parse_args.print_json:
         _info = dumps(

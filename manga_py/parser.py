@@ -1,28 +1,15 @@
-from argparse import ArgumentParser
-
-from .info import Info
-from .providers import get_provider
-from .provider import Provider
+from logging import warning
 
 from requests import get
-from logging import warning
+
+from .info import Info
+from .provider import Provider
+from .providers import get_provider
 
 
 class Parser:
-    params = None
-    provider = None
-
-    def __init__(self, args):
-        self.params = {}
-        self.args = args
-        self._add_params(args)
-
-    def _add_params(self, params: ArgumentParser = None):
-        if params is None:
-            params = self.args.parse_args()
-        else:
-            params = params.parse_args()
-        self.params = params.__dict__
+    def __init__(self, args: dict):
+        self.params = args
 
     def init_provider(
             self,
@@ -67,10 +54,12 @@ class Parser:
     def check_url(self, url):
         proxy = self.params.get('proxy', None)
 
-        with get(url, stream=True, proxies=({
-                'http': proxy,
-                'https': proxy,
-            } if proxy else None)) as response:
+        proxies = {
+            'http': proxy,
+            'https': proxy,
+        } if proxy else None
+
+        with get(url, stream=True, proxies=proxies) as response:
             _url = response.url
             if url != _url:
                 url = _url
