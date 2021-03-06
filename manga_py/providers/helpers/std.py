@@ -1,6 +1,7 @@
 import re
 from logging import error
 from time import sleep
+from typing import Optional
 
 from requests import get
 
@@ -86,7 +87,7 @@ class Std:
             return None
         return self.element_text_content(doc[idx], strip)
 
-    def element_text_content(self, element, strip: bool = True):
+    def element_text_content(self, element, strip: bool = True) -> Optional[str]:
         text = element.text_content()
         if strip:
             text = text.strip()

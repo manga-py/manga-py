@@ -372,6 +372,9 @@ providers_list = {
     'mangapark_me': [
         r'mangapark\.net/manga/.',
     ],
+    'mangareader_cc': [
+        r'mangareader\.cc/manga/.',
+    ],
     'mangareader_net': [
         r'mangareader\.net/.',
     ],
