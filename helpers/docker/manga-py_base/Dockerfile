@@ -11,9 +11,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && DEBIAN_FRONTEND=noninteract
     ca-certificates netbase \
     python3.9 python3-pip python3-lxml nodejs npm python3-argcomplete
 
-# make some useful symlinks that are expected to exist
-RUN DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && DEBIAN_FRONTEND=noninteractive apt-get autoclean && rm -rf /var/lib/apt/lists/*
-
 RUN cd /usr/local/bin \
     ; ln -s idle3 idle \
     ; ln -s pydoc3 pydoc \
@@ -32,7 +29,7 @@ RUN python3 -m pip install PyExecJS~=1.5
 RUN python3 -m pip install requests~=2.23
 RUN python3 -m pip install better_exceptions~=0.2
 
-RUN apt-get remove build-essential -y && DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && \
-    DEBIAN_FRONTEND=noninteractive apt-get autoclean && rm -rf /var/lib/apt/lists/*
+# make some useful symlinks that are expected to exist
+RUN DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && DEBIAN_FRONTEND=noninteractive apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
 CMD ["bash"]
