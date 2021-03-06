@@ -363,8 +363,11 @@ providers_list = {
     # 'mangaonlinehere_com': [
     #     r'mangaonlinehere\.com/(manga-info|read-online)/.',
     # ],
-    'mangapanda_com': [
-        r'mangapanda\.com/.',
+    # 'mangapanda_com': [
+    #     r'mangapanda\.com/.',
+    # ],
+    'mangapanda_onl': [
+        r'mangapanda\.onl/.',
     ],
     'mangapark_me': [
         r'mangapark\.net/manga/.',
