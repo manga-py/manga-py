@@ -8,13 +8,15 @@ class RavensScansCom(GoMangaCo, Std):
 
     def get_content(self):
         url = '{}{}{}'.format(self.domain, self.__api_url, self.manga_name)
-        return self.json.loads(self.http_get(url)).get('languages', [])
+        with self.http().get(url) as resp:
+            return resp.json().get('languages', [])
 
     def get_chapters(self):
         items = []
         for i in self.content:
             url = '{}{}{}&lang={}'.format(self.domain, self.__api_url, self.manga_name, i)
-            items += self.json.loads(self.http_get(url)).get('chapters', [])
+            with self.http().get(url) as resp:
+                items += resp.json().get('chapters', [])
         return [i.get('href') for i in items[::-1]]  # DON'T TOUCH THIS!
 
     def get_cover(self) -> str:

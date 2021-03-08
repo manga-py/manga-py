@@ -25,26 +25,25 @@ class MangaEdenCom(Provider, Std):
 
     def get_chapters(self):  # issue #61
         manga_idx = self.re.search(r'.manga_id2\s?=\s?"(.+?)";', self.content).group(1)
-        return self.json.loads(self.http_get(self.apiUri.format(
+        with self.http().get(self.apiUri.format(
             self.domain,
             'manga',
             manga_idx,
-        ))).get('chapters', [])
+        )) as resp:
+            data = resp.json()
+        return data.get('chapters', [])
 
     def get_files(self):
-        items = self.json.loads(self.http_get(self.apiUri.format(
+        with self.http().get(self.apiUri.format(
             self.domain,
             'chapter',
             self.chapter[3]
-        ))).get('images', [])
+        )) as resp:
+            items = resp.json().get('images', [])
         return [self.__cdn_url + i[1] for i in items]
 
     def get_cover(self) -> str:
         return self._cover_from_content('#rightContent .info img')
-
-    def book_meta(self) -> dict:
-        # todo meta
-        pass
 
 
 main = MangaEdenCom

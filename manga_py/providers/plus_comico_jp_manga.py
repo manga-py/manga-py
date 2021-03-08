@@ -20,12 +20,12 @@ class PlusComicoJp(Provider, Std):
 
     def get_chapters(self):
         idx = self.re.search(r'/manga/(\d+)', self.get_url()).group(1)
-        data = self.http_post('{}/api/getArticleList.nhn'.format(
+        with self.http().post('{}/api/getArticleList.nhn'.format(
             self.domain
         ), data={
             'titleNo': idx
-        })
-        json = self.json.loads(data)
+        }) as resp:
+            json = resp.json()
         items = []
         for i in json.get('result', {}).get('list', {}):
             if i.get('freeFlg', 'N') == 'Y':
@@ -47,10 +47,6 @@ class PlusComicoJp(Provider, Std):
         if in_arc_name is None:
             in_arc_name = '{}_image.jpg'.format(idx)
         super().save_file(idx, callback, url, in_arc_name)
-
-    def book_meta(self) -> dict:
-        # todo meta
-        pass
 
 
 main = PlusComicoJp

@@ -9,9 +9,10 @@ class MangaReaderSite(MangaHubIo):
         return self.chapter_for_json().replace('.', '-')
 
     def get_chapters(self):
-        chapters = self.json.loads(self.http_get(self.__graphql.format(
+        with self.http().get(self.__graphql.format(
             '{manga(x:mr01,slug:"%s"){chapters{id,number,title,slug,date}}}' % self.manga_name
-        )))
+        )) as resp:
+            chapters = resp.json()
         return chapters.get('data', {}).get('manga', {}).get('chapters', [])[::-1]
 
     def get_files(self):

@@ -1,4 +1,5 @@
 import requests
+from requests import Response
 
 from .url_normalizer import normalize_uri
 
@@ -100,20 +101,17 @@ class Request:
         )
         return self.response
 
-    def get(self, url: str, headers: dict = None, cookies: dict = None, **kwargs) -> str:
-        response = self.requests(
+    def get(self, url: str, headers: dict = None, cookies: dict = None, **kwargs) -> Response:
+        return self.requests(
             url=url,
             headers=headers,
             cookies=cookies,
             method='get',
             **kwargs
         )
-        text = response.text
-        response.close()
-        return text
 
-    def post(self, url: str, headers: dict = None, cookies: dict = None, data: dict = (), files=None, **kwargs) -> str:
-        response = self.requests(
+    def post(self, url: str, headers: dict = None, cookies: dict = None, data: dict = (), files=None, **kwargs) -> Response:
+        return self.requests(
             url=url,
             headers=headers,
             cookies=cookies,
@@ -122,9 +120,10 @@ class Request:
             files=files,
             **kwargs
         )
-        text = response.text
-        response.close()
-        return text
+
+    def get_stream(self, url: str, headers: dict = None, cookies: dict = None, **kwargs) -> Response:
+        kwargs['stream'] = True
+        return self.get(url, headers, cookies, **kwargs)
 
     def reset_proxy(self):
         self.proxies = {}

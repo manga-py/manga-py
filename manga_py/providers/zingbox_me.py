@@ -12,42 +12,36 @@ class ZingBoxMe(Provider, Std):
         return str(self.chapter.get('title', '0'))
 
     def get_content(self):
-        idx = self.re.search('/manga/(?:[^/]+/)?(\d+)/', self.get_url())
+        idx = self.re.search(r'/manga/(?:[^/]+/)?(\d+)/', self.get_url())
         data = {
             'url': '/manga/getBookDetail/{}'.format(idx.group(1)),
             'method': 'GET',
             'api': '/mangaheatapi/web',
         }
-        return self.http_post(self.domain + '/api', data=data)
+        with self.http().post(self.domain + '/api', data=data) as resp:
+            return resp.json()
 
     def get_manga_name(self) -> str:
         return self._get_name(r'\.\w{2,7}/manga/(?:\d+/)?([^/]+)')
 
     def get_chapters(self):
-        try:
-            return self.json.loads(self.content).get('child', [])
-        except self.json.JSONDecodeError:
-            return []
+        return self.content.get('child', [])
 
     def _chapter_url(self):
         idx = self.chapter.get('chapterId', 0)
         return '/manga/getChapterImages/{}'.format(idx)
 
     def get_files(self):
-        _ = {
+        data = {
             'url': self._chapter_url(),
             'method': 'GET',
             'api': '/mangaheatapi/web',
         }
-        images = self.http_post(self.domain + '/api', data=_)
-        return self.json.loads(images).get('images', [])
+        with self.http().post(self.domain + '/api', data=data) as resp:
+            return resp.json().get('images', [])
 
     def get_cover(self):
         return self._cover_from_content('.comicImg img')
-
-    def book_meta(self) -> dict:
-        # todo meta
-        pass
 
     def chapter_for_json(self):
         return self._chapter_url()

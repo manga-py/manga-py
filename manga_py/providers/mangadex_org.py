@@ -66,8 +66,8 @@ class MangaDexOrg(Provider, Std):
 
     def get_content(self):
         if self.__content is None:
-            content = self.http_get('{}/api/?id={}&type=manga'.format(self.domain, self.manga_idx()))
-            self.__content = self.json.loads(content)
+            with self.http().get('{}/api/?id={}&type=manga'.format(self.domain, self.manga_idx())) as resp:
+                self.__content = resp.json()
         return self.__content
 
     def get_manga_name(self) -> str:
@@ -135,10 +135,12 @@ class MangaDexOrg(Provider, Std):
         )]
 
     def get_files(self):
-        content = self.json.loads(self.http_get('{}/api/?id={}&server=null&type=chapter'.format(
+        with self.http().get('{}/api/?id={}&server=null&type=chapter'.format(
             self.domain,
             self.chapter['key']
-        )))
+        )) as resp:
+            content = resp.json()
+
         return ['{}{}/{}'.format(content['server'], content['hash'], img) for img in content['page_array']]
 
     def get_cover(self) -> str:

@@ -71,10 +71,12 @@ class Base(ProviderParams):
         return self.__http
 
     def http_get(self, url: str, headers: dict = None, cookies: dict = None):
-        return self.http().get(url=url, headers=headers, cookies=cookies)
+        with self.http().get(url=url, headers=headers, cookies=cookies) as resp:
+            return resp.text
 
     def http_post(self, url: str, headers: dict = None, cookies: dict = None, data=()):
-        return self.http().post(url=url, headers=headers, cookies=cookies, data=data)
+        with self.http().post(url=url, headers=headers, cookies=cookies, data=data) as resp:
+            return resp
 
     def _get_user_agent(self):
         ua_storage = self._storage.get('user_agent', None)

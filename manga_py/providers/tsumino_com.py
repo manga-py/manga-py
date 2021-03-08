@@ -35,7 +35,7 @@ class TsuminoCom(Provider, Std):
             for i in cookies:
                 self._storage['cookies'][i] = cookies[i]
 
-        content = self.http_post(
+        with self.http().post(
             '{}/Read/Load'.format(self.domain, idx),
             headers={
                 'X-Requested-With': 'XMLHttpRequest',
@@ -45,8 +45,8 @@ class TsuminoCom(Provider, Std):
                 'Accept-Language': 'en-US;q=0.8,en;q=0.7',
             },
             data={'q': idx}
-        )
-        items = self.json.loads(content).get('reader_page_urls')
+        ) as resp:
+            items = resp.json().get('reader_page_urls', [])
         d = str(self.domain)
         return [d + '/Image/Object?name=' + i for i in items]
 

@@ -19,10 +19,9 @@ class ComicWebNewTypeCom(Provider, Std):
 
     def get_files(self):
         url = self.chapter
-        items = self.http_get(url + 'json/', headers={'x-requested-with': 'XMLHttpRequest'})
-        imgs = self.json.loads(items)
-        imgs = [self.re.sub(r'jpg.+', 'jpg', img) for img in imgs]
-        return imgs
+        with self.http().get(url + 'json/', headers={'x-requested-with': 'XMLHttpRequest'}) as req:
+            images = [self.re.sub(r'jpg.+', 'jpg', img) for img in req.json()]
+        return images
 
     def get_cover(self) -> str:
         return self._cover_from_content('.WorkSummary-content img')

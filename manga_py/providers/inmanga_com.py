@@ -15,7 +15,9 @@ class InMangaCom(Provider, Std):
             self.domain,
             self.__local_storage['uri_hex']
         )
-        data = self.json.loads(self.http_get(url))['data']
+        with self.http().get(url) as resp:
+            data = resp.json()['data']
+
         return self.json.loads(data)
 
     def get_manga_name(self) -> str:

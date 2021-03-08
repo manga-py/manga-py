@@ -22,15 +22,15 @@ class ReadPtscansCom(Provider, Std):
 
         content = self.http_get(self.http().normalize_uri(elements[0].get('href')))
         re = self.re.search(r'"(/api/chapters.json.+?)"', content).group(1)
-        json = self.http_get(self.http().normalize_uri(re))
-
-        return self.json.loads(json)['results']
+        with self.http().get(self.http().normalize_uri(re)) as resp:
+            images = resp.json()
+        return images['results']
 
     def get_files(self):
-        content = self.http_get(self.http().normalize_uri(self.chapter['manifest']))
-        json = self.json.loads(content)
+        with self.http().get(self.http().normalize_uri(self.chapter['manifest'])) as resp:
+            json = resp.json()['readingOrder']
 
-        return [i['href'] for i in json['readingOrder']]
+        return [i['href'] for i in json]
 
     def get_cover(self) -> str:
         return self._cover_from_content('.mdc-layout-grid__cell > img')

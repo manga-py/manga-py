@@ -42,9 +42,10 @@ class LeitorNet(Provider, Std):
         url = '{}/series/chapters_list.json?page={}&id_serie={}'
         items = []
         for i in range(1, 100):
-            content = self.json.loads(self.http_get(url.format(
+            with self.http().get(url.format(
                 self.domain, i, self.__idx
-            ), headers={'x-requested-with': 'XMLHttpRequest'}))
+            ), headers={'x-requested-with': 'XMLHttpRequest'}) as resp:
+                content = resp.json()
             chapters = content.get('chapters', False)
             if not chapters:
                 break
@@ -55,10 +56,11 @@ class LeitorNet(Provider, Std):
         content = self.http_get(self.domain + self.chapter['link'])
         token = self.re.search(r'token=([^&]+)', content).group(1)
         url = '{}/leitor/pages.json?key={}&id_release={}'
-        images = self.json.loads(self.http_get(url.format(
+        with self.http().get(url.format(
             self.domain,
             token, self.chapter['id_release']
-        ), headers={'x-requested-with': 'XMLHttpRequest'}))
+        ), headers={'x-requested-with': 'XMLHttpRequest'}) as resp:
+            images = resp.json()
         return images.get('images', {})
 
     def get_cover(self) -> str:

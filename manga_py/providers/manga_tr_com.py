@@ -38,7 +38,7 @@ class MangaTrCom(Provider, Std):
         return self._cover_from_content('img.thumbnail')
 
     def prepare_cookies(self):
-        self.http().get(self.get_url())
+        self.http().requests(self.get_url(), method='head')
         self.log('Anti-ddos...')
         sleep(3)
 

@@ -39,13 +39,13 @@ class ComicoCoIdTitles(Provider, Std):
     def get_chapters(self):
         items = []
         for page in range(1, 10):
-            content = self.http_get('{}/chapters?page={}&_={}'.format(
-                self._url,
-                page,
-                int(time()),
-            ))
             try:
-                content = self.json.loads(content)
+                with self.http().get('{}/chapters?page={}&_={}'.format(
+                    self._url,
+                    page,
+                    int(time()),
+                )) as req:
+                    content = req.json()
                 if content.get('header', {}).get('resultCode', -1) < 0:
                     break
                 items += self.__parse_page(content)

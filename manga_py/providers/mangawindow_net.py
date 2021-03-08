@@ -1,5 +1,9 @@
 from manga_py.provider import Provider
 from .helpers.std import Std
+import re
+
+
+RE_IMAGES = re.compile(r'images\s*=\s*({.+});')
 
 
 class MangaWindowNet(Provider, Std):
@@ -31,9 +35,8 @@ class MangaWindowNet(Provider, Std):
         return result
 
     def get_files(self):
-        re = self.re.compile(r'images\s*=\s*({.+});')
         content = self.http_get(self.chapter[1])
-        items = self.json.loads(re.search(content).group(1))
+        items = self.json.loads(RE_IMAGES.search(content).group(1))
         return [items[i] for i in sorted(items, key=lambda i: int(i))]
 
     def get_cover(self) -> str:

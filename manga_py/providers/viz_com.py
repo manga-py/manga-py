@@ -189,7 +189,7 @@ class VizCom(Provider, Std, VizDownloader):
 
     def get_token(self):
         auth_token_url = '{}/account/refresh_login_links'.format(self.domain)
-        auth_token = self.http().get(auth_token_url, cookies=self.__cookies)
+        auth_token = self.http_get(auth_token_url, cookies=self.__cookies)
         token = self.re.search(r'AUTH_TOKEN\s*=\s*"(.+?)"', auth_token)
         return token.group(1)
 

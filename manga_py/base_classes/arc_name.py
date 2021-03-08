@@ -13,8 +13,8 @@ class ArchiveName(metaclass=ABCMeta):
         self._vol_fill = True
         return self.normal_arc_name({'vol': idx.split('-')})
 
-    def normal_arc_name(self, idx):
-        if isinstance(idx, str):
+    def normal_arc_name(self, idx) -> str:
+        if isinstance(idx, (str, int)):
             idx = [idx]
         if isinstance(idx, list):
             self._vol_fill = True
@@ -23,7 +23,7 @@ class ArchiveName(metaclass=ABCMeta):
             return self.__normal_name_dict(idx)
         raise DeprecationWarning('Wrong arc name type: %s' % type(idx))
 
-    def __normal_name_dict(self, idx: dict):
+    def __normal_name_dict(self, idx: dict) -> str:
         vol = idx.get('vol', None)
         ch = idx.get('ch', None)
         result = ''
@@ -43,7 +43,7 @@ class ArchiveName(metaclass=ABCMeta):
 
         return result
 
-    def __normal_name_list(self, idx: list):
+    def __normal_name_list(self, idx: list) -> str:
         fmt = 'vol_{:0>3}'
         if len(idx) > 1:
             fmt += '-{}' * (len(idx) - 1)
@@ -53,7 +53,7 @@ class ArchiveName(metaclass=ABCMeta):
         return fmt.format(*idx)
 
     @staticmethod
-    def __fill(var, fmt: str = '-{}'):
+    def __fill(var, fmt: str = '-{}') -> str:
         if isinstance(var, str):
             var = [var]
         return (fmt * len(var)).format(*var).lstrip('-')

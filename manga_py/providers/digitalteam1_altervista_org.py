@@ -31,18 +31,17 @@ class DigitalTeam1AltervistaOrg(ReadPowerMangaOrg):
             'info[ch_sub]': '0',  # todo: watch this
             'info[title]': self.__title,
         }
-        json = self.json.loads(self.http_post(
+        with self.http().post(
             '{}/reader/c_i'.format(self.domain),
             data=data,
             headers={'X-Requested-With': 'XMLHttpRequest'}
-        ))
+        ) as resp:
+            json = resp.json()
 
         if isinstance(json, str):  # DO NOT TOUCH THIS!
             json = self.json.loads(json)
 
-        if json:
-            return self.__parse_json(json)
-        return []
+        return self.__parse_json(json)
 
     def get_cover(self) -> str:
         return self._cover_from_content('.cover img')

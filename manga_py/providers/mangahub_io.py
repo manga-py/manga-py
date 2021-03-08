@@ -24,9 +24,10 @@ class MangaHubIo(Provider, Std):
                 "{id,title,mangaID,number,slug,date,pages,noAd,manga" \
                 "{id,title,slug,mainSlug,author,isWebtoon,isYaoi,isPorn,isSoftPorn,unauthFile,isLicensed" \
                 "}}}" % {'name': self.manga_name, 'num': self.chapter_id + 1}
-        content = self.json.loads(self.http_post(self._api, data={
+        with self.http_post(self._api, data={
             "query": query
-        }))
+        }) as resp:
+            content = resp.json()
 
         pages = content.get('data', {}).get('chapter', {}).get('pages', '{}')
         pages = self.json.loads(pages)

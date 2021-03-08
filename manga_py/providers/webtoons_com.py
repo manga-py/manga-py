@@ -45,7 +45,7 @@ class WebToonsCom(Provider, Std):
         n = self.http().normalize_uri
         if len(urls):
             self.__next_page_urls.append(n(urls[0].get('href')))
-            _content = self.http().get(n(urls[0].get('href')))
+            _content = self.http_get(n(urls[0].get('href')))
             self.get_next_page_urls(_content)
 
     def get_chapters(self):
@@ -57,7 +57,7 @@ class WebToonsCom(Provider, Std):
 
         self.get_next_page_urls(self.content)
         for url in self.__next_page_urls:
-            content = self.http().get(n(url))
+            content = self.http_get(n(url))
             chapters += self._chapters(content)
             chapters += self._get_pages_urls(content)
 

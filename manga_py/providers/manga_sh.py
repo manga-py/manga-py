@@ -18,8 +18,8 @@ class MangaSh(Provider, Std):
     def get_content(self):
         idx = self._get_name(r'/comics/(\d+)')
         url = '{}series_chapters?query=SeriesId.Id:{}&order=asc&sortby=TimeUploaded&limit=0&offset=0'
-        content = self.http_get(url.format(self._api_url, idx))
-        return self.json.loads(content)
+        with self.http().get(url.format(self._api_url, idx)) as resp:
+            return resp.json()
 
     def get_manga_name(self) -> str:
         content = self.content.get('response')[0]
@@ -36,7 +36,8 @@ class MangaSh(Provider, Std):
 
     def get_files(self):
         url = self._url_helper(self.chapter)
-        items = self.json.loads(self.http_get(url))
+        with self.http().get(url) as resp:
+            items = resp.json()
         items = items.get('response', [{}])[0].get('SeriesChaptersFiles', {})
         return [self._cdn_url + i.get('Name') for i in items]
 

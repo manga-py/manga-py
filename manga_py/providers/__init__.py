@@ -367,7 +367,8 @@ providers_list = {
     #     r'mangapanda\.com/.',
     # ],
     'mangapanda_onl': [
-        r'mangapanda\.onl/.',
+        r'mangapanda\.onl/manga/.',
+        r'mangareader\.site/manga/.',
     ],
     'mangapark_me': [
         r'mangapark\.net/manga/.',
@@ -378,9 +379,9 @@ providers_list = {
     'mangareader_net': [
         r'mangareader\.net/.',
     ],
-    'mangareader_site': [
-        r'mangareader\.site',
-    ],
+    # 'mangareader_site': [
+    #     r'mangareader\.site',
+    # ],
     # 'mangareader_xyz': [
     #     r'mangareader\.xyz/manga/.',
     #     r'mangareader\.xyz/.+?/chapter-\d',

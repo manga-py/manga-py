@@ -51,7 +51,8 @@ class WebAceJp(Provider, Std):
 
     def get_files(self):
         n = self.http().normalize_uri
-        items = self.json.loads(self.http_get(self.chapter[0] + '/json/'))
+        with self.http().get(self.chapter[0] + '/json/') as resp:
+            items = resp.json()
         return [n(i) for i in items]
 
     def get_cover(self) -> str:

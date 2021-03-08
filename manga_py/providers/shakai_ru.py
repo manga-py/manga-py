@@ -15,8 +15,8 @@ class ShakaiRu(Provider, Std):
             'dataRun': 'api-manga',
             'dataRequest': idx
         }
-        page_content = str(self.http_post(self._api_url, data=_))
-        return self.json.loads(page_content)
+        with self.http().post(self._api_url, data=_) as resp:
+            return resp.json()
 
     def get_manga_name(self) -> str:
         parser = self.content.get('post', [])

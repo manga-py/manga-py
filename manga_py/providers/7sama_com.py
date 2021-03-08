@@ -26,10 +26,10 @@ class SevenSamaCom(Provider, Std):
         idx = self.re.search(r'/manga/.+?/(\d+)', self.get_url()).group(1)
         chapters = []
         for i in range(1, 1000):
-            content = self.http_get('{}/series/chapters_list.json?page={}&id_serie={}'.format(
+            with self.http().get('{}/series/chapters_list.json?page={}&id_serie={}'.format(
                 self.domain, i, idx
-            ), {'x-requested-with': 'XMLHttpRequest'})
-            data = self.json.loads(content)
+            ), {'x-requested-with': 'XMLHttpRequest'}) as content:
+                data = content.json()
             if data['chapters'] is False:
                 break
             chapters += self.__prepare_chapters(data['chapters'])
@@ -53,7 +53,8 @@ class SevenSamaCom(Provider, Std):
         url = '{}/leitor/pages/{}.json?key={}'.format(
             self.domain, self.chapter['release']['id_release'], api_key
         )
-        images = self.json.loads(self.http_get(url, {'x-requested-with': 'XMLHttpRequest'}))
+        with self.http().get(url, {'x-requested-with': 'XMLHttpRequest'}) as req:
+            images = req.json()
         return images['images']
 
     def get_cover(self) -> str:
