@@ -76,7 +76,7 @@ class Base(ProviderParams):
 
     def http_post(self, url: str, headers: dict = None, cookies: dict = None, data=()):
         with self.http().post(url=url, headers=headers, cookies=cookies, data=data) as resp:
-            return resp
+            return resp.text
 
     def _get_user_agent(self):
         ua_storage = self._storage.get('user_agent', None)
