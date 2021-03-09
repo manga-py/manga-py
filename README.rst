@@ -1,5 +1,5 @@
-Manga-py |Travis CI result|
-===================================
+Manga-py |Travis CI result stable1.x|
+==========================================
 
 Universal assistant download manga.
 '''''''''''''''''''''''''''''''''''
@@ -7,9 +7,11 @@ Universal assistant download manga.
 Approximately 200+ providers are available now.
 '''''''''''''''''''''''''''''''''''''''''''''''
 
-|Scrutinizer CI result| |Scrutinizer CI coverage| |GitHub issues|  |Travis CI result stable1.x|
+|Scrutinizer CI result| |Scrutinizer CI coverage| |GitHub issues| |Travis CI result|
 
-|Code Climate| |Issue Count| |GitHub repo size| |PyPI - size|
+|Code Climate| |Issue Count|
+
+|GitHub repo size| |PyPI - size|
 
 |PyPI - Python Version| |PyPi version| |PyPI - Downloads|
 
