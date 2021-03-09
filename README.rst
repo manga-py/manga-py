@@ -7,7 +7,7 @@ Universal assistant download manga.
 Approximately 200+ providers are available now.
 '''''''''''''''''''''''''''''''''''''''''''''''
 
-|Scrutinizer CI result| |Scrutinizer CI coverage| |GitHub issues|
+|Scrutinizer CI result| |Scrutinizer CI coverage| |GitHub issues|  |Travis CI result stable1.x|
 
 |Code Climate| |Issue Count| |GitHub repo size| |PyPI - size|
 
@@ -134,8 +134,12 @@ For `manga-py >= 1.18`, the transfer of login / password / language / translatio
     manga-py http://... --arguments language=en login=my-login "password=secured-#\!Password" "translator=Awesome group"
 
 
-.. |Travis CI result| image:: https://travis-ci.com/manga-py/manga-py.svg?branch=stable_1.x
+.. |Travis CI result stable1.x| image:: https://travis-ci.com/manga-py/manga-py.svg?branch=stable_1.x
    :target: https://travis-ci.com/manga-py/manga-py/branches
+   :alt: Latest push
+.. |Travis CI result| image:: https://travis-ci.com/manga-py/manga-py.svg?branch=1.28.0
+   :target: https://travis-ci.com/manga-py/manga-py/branches
+   :alt: Latest tag
 .. |Code Climate| image:: https://codeclimate.com/github/manga-py/manga-py/badges/gpa.svg
    :target: https://codeclimate.com/github/manga-py/manga-py
 .. |Issue Count| image:: https://codeclimate.com/github/manga-py/manga-py/badges/issue_count.svg
@@ -162,5 +166,5 @@ For `manga-py >= 1.18`, the transfer of login / password / language / translatio
    :alt: GitHub repo size
 .. |PyPI - Downloads| image:: https://img.shields.io/pypi/dm/manga-py
    :alt: PyPI - Downloads
-.. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?color=success&label=PyPI+size&query=%24.size&url=https://sttv.me/repo-size/manga-py.json?human-size
+.. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?label=PyPI%20size&query=%24.size&url=https%3A%2F%2Fpip.sttv.me%2Fmanga-py.json%3Fhuman-size%3Dtrue%26index%3D0%26version%3D1.28.0
    :alt: PyPI - size

@@ -6,8 +6,10 @@ addons:
 language: python
 dist: bionic
 python:
-  - "3.6"
-  - "3.8"
+  - "3.6" # Dec 2021
+  - "3.7" # Jun 2023
+  - "3.8" # Oct 2024
+  - "3.9" # Oct 2025
 cache: pip
 before_install:
   - sudo apt-get update
@@ -47,9 +49,10 @@ deploy:
     skip_cleanup: true
     on:
       branch: stable_1.x
-      condition: $TRAVIS_PYTHON_VERSION == "3.6"
+      condition: $TRAVIS_PYTHON_VERSION == "3.8"
       tags: false
   - provider: pypi
+    distributions: "sdist bdist_wheel"
     server: https://upload.pypi.org/legacy/
     user: "1271"
     password: $PYPI_PASS
@@ -57,12 +60,4 @@ deploy:
     on:
       branch: stable_1.x
       tags: true
-      condition: $TRAVIS_PYTHON_VERSION == "3.6"
-  - provider: script
-    #run docker deploy
-    script:  if  echo $TRAVIS_TAG | grep '^[0-9]\.[0-9]*\.*[0-9]*\.*[0-9]*$'; then curl -XPOST https://hub.docker.com/api/build/v1/source/$DOCKER_SOURCE/trigger/$DOCKER_TRIGGER/call/; fi
-    on:
-      branch: stable_1.x
-      tags: true
-      condition: $TRAVIS_PYTHON_VERSION == "3.6"
-#    fqdn: yuru-yuri.sttv.me
+      condition: $TRAVIS_PYTHON_VERSION == "3.8"
