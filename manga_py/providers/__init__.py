@@ -313,7 +313,7 @@ providers_list = {
         r'mangalib\.me/.',
     ],
     'mangalife_us': [
-        r'mangalife\.us/(read-online|manga)/.',
+        # r'mangalife\.us/(read-online|manga)/.',  # site dead
         r'manga4life\.com/(read-online|manga)/.',
     ],
     'mangamew_com': [
