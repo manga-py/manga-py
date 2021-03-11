@@ -52,7 +52,8 @@ class MangaLifeUs(Provider, Std):
             return self._chapters_html()
 
     def _files_js(self, content):
-        domain = self.re.search(r"""vm.CurPathName\s*=\s*["'](.+)['"]""", content).group(1)
+        re_domain = self.re.search(r'ng-src="https://\{\{(.+?)}}', content).group(1)
+        domain = self.re.search(fr"""{re_domain}\s*=\s*["'](.+)['"]""", content).group(1)
         raw_chapter = self.json.loads(self.re.search(r"""vm.CurChapter\s*=\s*(\{.+\})""", content).group(1))
 
         chapter = raw_chapter['Chapter']

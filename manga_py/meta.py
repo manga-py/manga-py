@@ -1,7 +1,7 @@
 author = 'Sergey Zharkov'
 license_type = 'MIT'
 email = 'sttv-pc@mail.ru'
-version = '1.28.0'
+version = '1.28.1'
 repo_name = 'manga-py/manga-py'
 repo_url = 'https://github.com/%s' % repo_name
 

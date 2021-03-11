@@ -2,7 +2,7 @@ from manga_py.provider import Provider
 from .helpers.std import Std
 
 
-class RawDevArtComOld(Provider, Std):
+class RawDevArtCom(Provider, Std):
     def get_chapter_index(self) -> str:
         return self.re.search(r'/chapter-(\d+(?:-\d+)?)', self.chapter).group(1)
 
@@ -40,4 +40,4 @@ class RawDevArtComOld(Provider, Std):
         return self._images_helper(parser, 'img.img-fluid')[0]
 
 
-main = RawDevArtComOld
+main = RawDevArtCom
