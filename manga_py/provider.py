@@ -2,33 +2,27 @@ import json
 import os
 import re
 from abc import ABC
-from logging import info, warning, error
+from logging import info, warning
 from os import path
 from sys import stderr
 from typing import Tuple
-from .base_classes.comic_info_builder import *
-from PIL import Image
 
 from .base_classes import (
     Abstract,
-    Archive,
     Base,
     Callbacks,
     cf_scrape,
     Static,
     ArchiveName,
 )
+from .download_methods import OnePerOneDownloader
 from .fs import (
     get_temp_path,
-    is_file,
     basename,
     remove_file_query_params,
     path_join,
-    file_size,
 )
 from .info import Info
-from .meta import repo_url, version
-from .download_methods import OnePerOneDownloader
 
 
 class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
@@ -185,6 +179,8 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             if callable(self.global_progress):
                 self.global_progress(self.chapters_count, idx - _min)
             info('Processed chapter %d / %s' % (idx, __url))
+
+            self._wait_after_chapter()
 
         for idx, __url in enumerate(self.chapters[_max:], start=_max + 1):
             info('Skip chapter %d / %s' % (idx, __url))

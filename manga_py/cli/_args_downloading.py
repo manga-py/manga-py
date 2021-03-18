@@ -159,3 +159,21 @@ def _args_downloading(args_parser):  # pragma: no cover
         )
     )
 
+    args.add_argument(
+        '--wait-after-page',
+        type=int,
+        default=0,
+        help=(
+            'Adds a wait after downloading each image (sec)'
+        )
+    )
+
+    args.add_argument(
+        '--wait-after-chapter',
+        type=int,
+        default=0,
+        help=(
+            'Adds a wait after downloading each chapter (sec)'
+        )
+    )
+

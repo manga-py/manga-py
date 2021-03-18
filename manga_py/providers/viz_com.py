@@ -1,7 +1,7 @@
+import time
 from json import loads
 from logging import error, info
 from sys import stderr
-from time import strftime
 
 from requests import request
 from requests.cookies import cookiejar_from_dict
@@ -217,7 +217,7 @@ class VizCom(Provider, Std, VizDownloader):
 
         info('File params:\n PATH: {}\n IDX: {}\n URL: {}'.format(_path, idx, _url))
 
-        self.http().cookies['chapter-series-5-follow-modal'] = strftime('%Y-%m-%d')
+        self.http().cookies['chapter-series-5-follow-modal'] = time.strftime('%Y-%m-%d')
 
         __url = request(
             'get',
@@ -249,6 +249,9 @@ class VizCom(Provider, Std, VizDownloader):
         _path, arc_name = super().after_file_save(_path, idx)
 
         ref = solve(_path, self._metadata)
+
+        self._wait_after_file()
+
         if ref is not None:
             solved_path = _path + '-solved.jpeg'
             ref.save(solved_path)
