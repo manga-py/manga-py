@@ -5,7 +5,7 @@ from typing import Tuple, Optional
 from PIL import Image as PilImage, ImageChops, ImageFile
 try:
     from PIL import UnidentifiedImageError
-except ModuleNotFoundError:
+except (ModuleNotFoundError, ImportError):
     UnidentifiedImageError = OSError
 
 
