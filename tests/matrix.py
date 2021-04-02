@@ -199,6 +199,7 @@ class TestMatrix(unittest.TestCase):
             self.assertTrue(deviation < 10)
 
     def test_solve_viz_com(self):
+        deviations = []
         for i in range(7):
             src_path = root_path + '/mosaic/viz/index{}.jfif'.format(i)
             ref_path = root_path + '/temp/canvas{}.png'.format(i)
@@ -209,4 +210,7 @@ class TestMatrix(unittest.TestCase):
             deviation = self._rmsdiff(solved, ref)
             solved.close()
             print(f"Deviation: {deviation}")
-            self.assertTrue(deviation < 10)
+
+            deviations.append(deviation < 10)
+
+        self.assertTrue(all(deviations))
