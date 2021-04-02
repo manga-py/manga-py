@@ -599,7 +599,8 @@ providers_list = {
     'zeroscans_com': [
         r'zeroscans\.com/comics/.',
         r'reaperscans\.com/comics/.',
-        r'secretscans\.co/comics/.',
+        r'secretscan\.co/comics/.',
+        r'lynxscans\.com/comics/.',
         r'kkjscans\.co/comics/.',
         r'kkjscans\.co/comics/.',
         r'edelgardescans\.com/comics/.',
