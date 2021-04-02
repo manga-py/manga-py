@@ -15,9 +15,5 @@ class SubaPicsCom(MangaShiroNet, Std):
         items = parser.cssselect('#readerarea img')
         return [i.get('src') for i in items]
 
-    def book_meta(self) -> dict:
-        # todo meta
-        pass
-
 
 main = SubaPicsCom

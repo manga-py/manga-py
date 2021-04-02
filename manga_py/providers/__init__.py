@@ -536,6 +536,8 @@ providers_list = {
         r'komikstation\.com/.+-chapter-.',
         r'mangavy\.com/manga/.',
         r'mangavy\.com/.+-chapter-.',
+        r'asurascans\.com/comics/.',
+        r'asurascans\.com/.+-chapter-.',
     ],
     'submanga_online': [
         r'submanga\.online/manga/.',

@@ -208,4 +208,5 @@ class TestMatrix(unittest.TestCase):
             solved = PilImage.open(solved_path)
             deviation = self._rmsdiff(solved, ref)
             solved.close()
+            print(f"Deviation: {deviation}")
             self.assertTrue(deviation < 10)
