@@ -39,6 +39,8 @@ before_deploy:
   - python gh_build.py
   - ./helpers/before_deploy.sh
   - python build_setup.py
+  - mkdir helpers/gh_pages_content/_test
+  - cp -r tests/temp helpers/gh_pages_content/_test/
 deploy:
   - provider: pages
     edge: true
