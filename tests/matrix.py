@@ -213,4 +213,4 @@ class TestMatrix(unittest.TestCase):
 
             deviations.append(deviation < 10)
 
-        self.assertTrue(True or all(deviations))  # todo: https://travis-ci.com/github/manga-py/manga-py/jobs/495795826
+        self.assertTrue(all(deviations))

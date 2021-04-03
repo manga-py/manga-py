@@ -2,7 +2,7 @@ cloudscraper
 cssselect>=1.1
 lxml~=4.6
 packaging>=20.3
-Pillow~=8.1
+Pillow==8.1.*  # https://travis-ci.com/github/manga-py/manga-py/jobs/495795826
 progressbar2>=3.50
 pycryptodome>=3.9
 PyExecJS>=1.5
