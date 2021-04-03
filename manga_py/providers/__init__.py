@@ -176,7 +176,7 @@ providers_list = {
         r'animangaes\.com/manga/.',
         r'aoc\.moe/manga/.',
         r'arangscans\.com/manga/.',
-        r'astrallibrary.net
+        r'astrallibrary\.net/manga/.',
         r'bestmanhua\.com/manga/.',
         r'boyslove\.me/manga/.',
         r'catonhead\.com/manga/.',
