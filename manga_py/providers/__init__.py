@@ -303,7 +303,7 @@ providers_list = {
         r'skscans\.com/manga/.',
         r'leviatanscans\.com/manga/.',
         r'manga1st\.com/manga/.',
-        r'manga1st\.online
+        r'manga1st\.online/manga/.',
         r'imperfectcomic\.com/manga/.',
         r'mortalsgroove\.com/manga/.',
     ],
