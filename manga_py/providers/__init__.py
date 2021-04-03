@@ -170,6 +170,7 @@ providers_list = {
     ],
     'isekaiscan_com': [
         r'isekaiscan\.com/manga/.',
+        r'leviatanscans\.com/manga/.',
     ],
     'jaiminisbox_com': [
         r'jaiminisbox\.com/reader/series/.',
