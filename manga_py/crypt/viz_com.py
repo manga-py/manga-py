@@ -1,12 +1,14 @@
 import re
-from typing import List, Optional, Tuple
+from typing import Optional, Tuple
 from PIL import Image
-from sys import stderr
 
 
 WIDTH = 256
 HEIGHT = 257
 KEY = 42016
+
+RE = re.compile(b'.+?([a-f0-9]{2}(?::[a-f0-9]{2})+)')
+
 
 class VizComMatrix:
     @classmethod
@@ -17,12 +19,19 @@ class VizComMatrix:
         ref.paste(orig)
 
         exif = orig.getexif()
+
         if KEY in exif:
             key = [int(i, 16) for i in exif[KEY].split(':')]
             width, height = exif[WIDTH], exif[HEIGHT]
         else:
-            key = []
-            width, height = metadata['width'], metadata['height']
+            exif_ = RE.search(orig.info.get('exif'))
+            if exif_ is not None:
+                key = [int(i, 16) for i in exif_.group(1).decode().split(':')]
+                width, height = exif[WIDTH], exif[HEIGHT]
+            else:
+                key = []
+                width, height = metadata['width'], metadata['height']
+
         small_width = int(width / 10)
         small_height = int(height / 15)
 
