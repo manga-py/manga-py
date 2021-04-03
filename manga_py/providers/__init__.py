@@ -306,7 +306,6 @@ providers_list = {
         r'manga1st\.online
         r'imperfectcomic\.com/manga/.',
         r'mortalsgroove\.com/manga/.',
-        
     ],
     'jaiminisbox_com': [
         r'jaiminisbox\.com/reader/series/.',
