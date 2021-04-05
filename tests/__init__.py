@@ -6,3 +6,4 @@ from .matrix import TestMatrix
 from .web_driver import TestWebDriver
 from .crypt import TestCrypt
 from .std import TestStd
+from .providers_unique import TestProvidersUnique
