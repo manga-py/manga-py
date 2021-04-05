@@ -139,7 +139,7 @@ For `manga-py >= 1.18`, the transfer of login / password / language / translatio
 .. |Travis CI result stable1.x| image:: https://travis-ci.com/manga-py/manga-py.svg?branch=stable_1.x
    :target: https://travis-ci.com/manga-py/manga-py/branches
    :alt: Latest push
-.. |Travis CI result| image:: https://travis-ci.com/manga-py/manga-py.svg?branch=1.29.4
+.. |Travis CI result| image:: https://travis-ci.com/manga-py/manga-py.svg?branch=1.29.5
    :target: https://travis-ci.com/manga-py/manga-py/branches
    :alt: Latest tag
 .. |Code Climate| image:: https://codeclimate.com/github/manga-py/manga-py/badges/gpa.svg
@@ -168,5 +168,5 @@ For `manga-py >= 1.18`, the transfer of login / password / language / translatio
    :alt: GitHub repo size
 .. |PyPI - Downloads| image:: https://img.shields.io/pypi/dm/manga-py
    :alt: PyPI - Downloads
-.. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?label=PyPI%20size&query=%24.size&url=https%3A%2F%2Fpip.sttv.me%2Fmanga-py.json%3Fhuman-size%3Dtrue%26index%3D0%26version%3D1.29.4
+.. |PyPI - size| image:: https://img.shields.io/badge/dynamic/json?label=PyPI%20size&query=%24.size&url=https%3A%2F%2Fpip.sttv.me%2Fmanga-py.json%3Fhuman-size%3Dtrue%26index%3D0%26version%3D1.29.5
    :alt: PyPI - size
