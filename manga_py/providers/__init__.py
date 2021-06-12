@@ -299,8 +299,11 @@ providers_list = {
         r'mangarave\.com/manga/.',
         r'thetopcomic\.com/manga/.',
     ],
-    'jaiminisbox_com': [
-        r'jaiminisbox\.com/reader/series/.',
+    # 'jaiminisbox_com': [
+    #     r'jaiminisbox\.com/reader/series/.',
+    # ],
+    'jaiminisbox_net': [
+        r'jaiminisbox\.net/manga/.',
     ],
     'japscan_com': [
         r'japscan\.(cc|com|co|to|se)/.',
