@@ -16,6 +16,7 @@ from .meta import repo_url, version
 
 class BaseDownloadMethod(object):
     def __init__(self, provider):
+        self.files = []
         self.provider = provider
         self.log = provider.log
         self.http = self.provider.http
@@ -46,6 +47,7 @@ class OnePerOneDownloader(BaseDownloadMethod):
     def download_chapter(self, chapter_url, path):
         self.chapter_url = chapter_url
         self.path = path
+        self.__pages_cache = []
         try:
             self.files = self.provider.get_files()
             self._loop_files()
