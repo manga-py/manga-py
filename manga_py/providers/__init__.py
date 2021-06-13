@@ -345,6 +345,9 @@ providers_list = {
         r'read\.lhtranslation\.com/(truyen|manga)-.',
         r'lhtranslation\.net/(truyen|manga)-.',
     ],
+    'littlexgarden_com': [
+        r'littlexgarden\.com/(?!mangas|infos|likes|notifications)'
+    ],
     'lolibooru_moe': [
         r'lolibooru\.moe/post.',
     ],

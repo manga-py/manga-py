@@ -53,7 +53,7 @@ class Base(ProviderParams):
     def _build_http_params(self, params):
         if params is None:
             params = {}
-        params.setdefault('allow_webp', not self._params.get('disallow_webp', None))
+        params.setdefault('allow_webp', not self._params.get('no_webp', False))
         params.setdefault('referer', self._storage.get('referer', self.domain))
         params.setdefault('user_agent', self._get_user_agent())
         params.setdefault('proxies', self._storage.get('proxies', None))
