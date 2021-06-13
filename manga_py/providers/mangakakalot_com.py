@@ -34,7 +34,7 @@ class MangaKakalotCom(Provider, Std):
 
     def get_files(self):
         chapter = self.chapter
-        result = self.html_fromstring(chapter, '#vungdoc img')
+        result = self.html_fromstring(chapter, '#vungdoc img, .container-chapter-reader > img')
         images = [i.get('src') for i in result]
         return images
         # check_alternative_server(images, self.__alternative_cdn, headers={
