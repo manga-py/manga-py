@@ -177,3 +177,11 @@ def _args_downloading(args_parser):  # pragma: no cover
         )
     )
 
+    args.add_argument(
+        '--create-empty-files',
+        action='store_true',
+        help=(
+            'Create empty chapter files instead of skipping (i.e. chapter files will always be created)'
+        )
+    )
+

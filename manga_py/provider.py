@@ -21,6 +21,9 @@ from .fs import (
     basename,
     remove_file_query_params,
     path_join,
+    make_dirs,
+    dirname,
+    touch,
 )
 from .info import Info
 
@@ -145,6 +148,12 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         _min, _max = self._min_max_calculate()
         count = 0  # count downloaded chapters
         for idx, __url in enumerate(self.chapters[:_min], start=1):
+            if self._params.get('create_empty_files', False):
+                self.chapter_id = idx - 1
+                _path = '%s.%s' % self.get_archive_path()
+                make_dirs(dirname(_path))
+                touch(_path)
+
             info('Skip chapter %d / %s' % (idx, __url))
 
         dl = self._downloader(self)

@@ -207,3 +207,7 @@ def check_free_space(_path: str, min_size: int = 100, percent: bool = False) -> 
         if _free < min_size:
             return False
         return True
+
+
+def touch(_path: str, mode=0o666, exist_ok=True):
+    Path(_path).touch(mode, exist_ok)
