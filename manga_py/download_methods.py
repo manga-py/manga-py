@@ -161,7 +161,7 @@ class OnePerOneDownloader(BaseDownloadMethod):
     def _book_info_xml(self):
         comic_info = ComicInfo()
 
-        comic_info.volume(self.provider.get_chapter_index())
+        comic_info.number(self.provider.get_chapter_index())
         comic_info.title(self.provider.name)
         comic_info.pages(self.__pages_cache)
         comic_info.page_count(str(len(self.__pages_cache)))

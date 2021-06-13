@@ -456,6 +456,10 @@ providers_list = {
     'mangamew_com_vn': [
         r'mangamew\.com/(\w+-)?truyen/.',
     ],
+    'manganato_com': [
+        r'manganato\.com/manga-',
+        r'readmanganato\.com/manga-',
+    ],
     'manganelo_com': [
         r'manganelo\.com/(manga|chapter)/.',
     ],
