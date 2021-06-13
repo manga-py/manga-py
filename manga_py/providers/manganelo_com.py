@@ -5,7 +5,7 @@ from .helpers.manganelo_com_helper import check_alternative_server
 
 class MangaNeloCom(Provider, Std):
     chapter_re = r'[/-]chap(?:ter)?[_-](\d+(?:\.\d+)?)'
-    _prefix = '/manga/'
+    _prefix = '/manga-'
     __alternative_cdn = 'https://bu2.mkklcdnbuv1.com'
 
     def get_chapter_index(self) -> str:
@@ -16,7 +16,7 @@ class MangaNeloCom(Provider, Std):
         return self._get_content('{}%s{}' % self._prefix)
 
     def get_manga_name(self) -> str:
-        return self._get_name('/(?:manga|chapter)/([^/]+)')
+        return self._get_name('/manga-([^/]+)')
 
     def get_chapters(self):
         return self._elements('.panel-story-chapter-list a')
