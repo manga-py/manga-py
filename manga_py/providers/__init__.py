@@ -98,6 +98,9 @@ providers_list = {
     'funmanga_com': [
         r'funmanga\.com/.',
     ],
+    'genkan_io': [
+        r'genkan\.io/manga/.'
+    ],
     'gmanga_me': [
         r'gmanga\.me/mangas/.',
     ],
