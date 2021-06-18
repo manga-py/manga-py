@@ -1,3 +1,85 @@
+import argparse
+import platform
+import sys
+import re
+import pathlib
+
+import pkg_resources
+from ..meta import version
+
+requires = []
+
+RE = re.compile(r'^([a-zA-Z-_]+)')
+
+requirements = pathlib.Path(__file__).parents[2].joinpath('requirements.txt')
+
+
+def manga_py_requirements() -> list:
+    with requirements.open() as r:
+        return [name.group(1) for name in [RE.search(line) for line in r.readlines()] if name is not None]
+
+
+def package_version(name: str) -> str:
+    try:
+        pkg = __import__(name)
+        return pkg.__version__
+    except ImportError:
+        try:
+            return pkg_resources.get_distribution(name).version
+        except pkg_resources.DistributionNotFound:
+            return ''
+
+
+def print_versions(versions):
+    length = [max(len(v[i]) for v in versions) for i in [0, 1]]
+
+    for line in versions:
+        print(f"{line[0]:{length[0]}} | {line[1]:{length[1]}}")
+
+
+class DebugVersionAction(argparse.Action):
+    def __init__(
+            self,
+            option_strings,
+            dest,
+            default=None,
+            required=False,
+            help=None,
+    ):
+        super().__init__(
+            option_strings=option_strings,
+            dest=dest,
+            nargs=0,
+            default=default,
+            required=required,
+            help=help
+        )
+
+    def print_versions_help(self):
+        versions = [
+            ("Component", "Version"),
+            ("---", "---"),
+            ("OS", platform.platform(aliased=True)),
+            ("python", platform.python_version()),
+            ("pip", package_version('pip')),
+            ("manga-py", version),
+        ]
+        print_versions(versions)
+        print("")
+        module_versions = [
+            ("Module", "Version"),
+            ("---", "---"),
+        ]
+        module_versions.extend(
+            sorted(
+                [(req, package_version(req)) for req in manga_py_requirements()]
+            )
+        )
+        print_versions(module_versions)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        self.print_versions_help()
+        exit(0)
 
 
 def _args_debug(args_parser):  # pragma: no cover
@@ -77,6 +159,14 @@ def _args_debug(args_parser):  # pragma: no cover
         action='store_true',
         help=(
             'Debug %(prog)s.'
+        )
+    )
+
+    args.add_argument(
+        '--debug-version',
+        action=DebugVersionAction,
+        help=(
+            'Print debug version info.'
         )
     )
 

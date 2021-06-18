@@ -46,6 +46,9 @@ providers_list = {
     'blogtruyen_com': [
         r'blogtruyen\.com/.',
     ],
+    'catmanga_org': [
+        r'catmanga\.org/series/.'
+    ],
     'cdmnet_com_br': [
         r'cdmnet\.com\.br/titulos/.',
         r'centraldemangas.online/titulos/.'

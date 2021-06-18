@@ -32,7 +32,9 @@ class ArchiveName(metaclass=ABCMeta):
                 vol = [vol]
             result = self.__normal_name_list(vol)
         if ch:
-            result += '-ch_' + self.__fill(ch)
+            if vol:
+                result += '-'
+            result += 'ch_' + self.__fill(ch)
 
         if self._with_manga_name:
             name = self._params.get('name', '')
