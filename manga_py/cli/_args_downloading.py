@@ -185,3 +185,11 @@ def _args_downloading(args_parser):  # pragma: no cover
         )
     )
 
+    args.add_argument(
+        '--auto-skip-deleted',
+        action='store_true',
+        help=(
+            'Allow saving and restoring chapters downloading progress (ignore locally deleted chapters)'
+        )
+    )
+

@@ -24,6 +24,8 @@ from .fs import (
     make_dirs,
     dirname,
     touch,
+    get_util_home_path,
+    is_file,
 )
 from .info import Info
 
@@ -43,11 +45,13 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     _override_name = ''
     _downloader = OnePerOneDownloader
     global_progress = None
+    _state = None
 
     __images_cache = []
 
     def __init__(self, info: Info = None):
         super().__init__()
+        self._state = {}
         self.re = re
         self.json = json
         self._params['temp_directory'] = get_temp_path()
@@ -80,12 +84,15 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         self._skip_incomplete_chapters = params.get('skip_incomplete_chapters', False)
 
     def process(self, url, params=None):  # Main method
-        self.prepare_download(url, params)
-        self.loop_chapters()
-
-    def prepare_download(self, url, params=None):
         self._params['url'] = url
-        params = params if isinstance(params, dict) else {}
+        params = self.__restore_params(params if isinstance(params, dict) else {})
+        self.prepare_download(params)
+        try:
+            self.loop_chapters()
+        finally:
+            self.__save_params(params)
+
+    def prepare_download(self, params=None):
         self._params_parser(params)
         for i in params:
             self._params.setdefault(i, params[i])
@@ -185,6 +192,8 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
                 dl.download_chapter(self.chapter, self.get_archive_path())
                 self.after_download_chapter()
 
+                self._state['chapter_index'] = idx
+
             if callable(self.global_progress):
                 self.global_progress(self.chapters_count, idx - _min)
             info('Processed chapter %d / %s' % (idx, __url))
@@ -271,6 +280,55 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         _path = Static.remove_not_ascii(self._image_name(idx, filename))
         _path = get_temp_path(_path)
         return _path, idx, url
+
+    def __restore_params(self, params) -> dict:
+        # issue 400
+        if params.get('auto_skip_deleted', False):
+            with open(self.auto_params_file, 'r') as r:
+                try:
+                    _content = json.loads(r.read())
+                except:
+                    _content = {}
+            data = _content.get(self.auto_params_key, {})
+            params['skip_volumes'] = data.get('skip_volumes', params.get('skip_volumes', 0))
+            params['reverse_downloading'] = data.get('reverse_downloading', params.get('reverse_downloading', False))
+
+        return params
+
+    def __save_params(self, params):
+        # issue 400
+        if params.get('auto_skip_deleted', False):
+            with open(self.auto_params_file, 'r') as r:
+                try:
+                    data = json.loads(r.read())
+                except:
+                    data = {}
+            with open(self.auto_params_file, 'w') as w:
+                try:
+                    _params = {}
+                    for k in params:
+                        if k not in ['_raw_params', 'auto_skip_deleted'] and params[k] is not None:
+                            _params[k] = params[k]
+                    _params['skip_volumes'] = self._state.get('chapter_index', 0)
+                    data[self.auto_params_key] = _params
+                    w.write(json.dumps(data))
+                except:
+                    self.log('Error of automatic save parameters')
+
+    @property
+    def auto_params_file(self) -> str:
+        _file = path.join(get_util_home_path(), 'auto_params.json')
+        if not is_file(_file):
+            make_dirs(dirname(_file))
+            touch(_file)
+        return _file
+
+    @property
+    def auto_params_key(self) -> str:
+        return '{}|{}'.format(
+            self.domain,
+            self.manga_name,
+        )
 
     # region specified data for eduhoribe/comic-builder (see https://github.com/manga-py/manga-py/issues/347)
 

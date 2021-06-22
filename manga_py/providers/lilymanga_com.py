@@ -20,6 +20,9 @@ class LilyMangaCom(RawDevArtComOld):
 
         return self._elements('.wp-manga-chapter > a', items_content)
 
+    def prepare_cookies(self):
+        self.cf_scrape(self.get_url())
+
     def _name(self):
         return self._get_name('/ys/([^/]+)')
 
