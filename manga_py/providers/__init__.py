@@ -191,7 +191,6 @@ providers_list = {
         r'sixiangscans\.com/manga/.',
         r'toonpoint\.com/manga/.',
         r'mangasco\.com/manga/.',
-        r'lilymanga\.com/manga/.',
         r'mangacultivator\.com/manga/.',
         r'365manga\.com/manga/.',
         r'freewebtooncoins\.com/manga/.',
@@ -345,6 +344,9 @@ providers_list = {
     'lhtranslation_com': [
         r'read\.lhtranslation\.com/(truyen|manga)-.',
         r'lhtranslation\.net/(truyen|manga)-.',
+    ],
+    'lilymanga_com': [
+        r'lilymanga\.com/ys/.'
     ],
     'littlexgarden_com': [
         r'littlexgarden\.com/(?!mangas|infos|likes|notifications)'

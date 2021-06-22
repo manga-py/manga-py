@@ -1,3 +1,4 @@
+from manga_py.http import Http
 from manga_py.provider import Provider
 from .helpers.std import Std
 import requests
@@ -27,7 +28,6 @@ class RawDevArtComOld(Provider, Std):
             }).text
             items = self._elements('.wp-manga-chapter > a', items_content)
 
-
         return items
 
     def get_files(self):
@@ -35,6 +35,9 @@ class RawDevArtComOld(Provider, Std):
         return self._images_helper(parser, '.page-break img.wp-manga-chapter-img')
 
     def get_cover(self) -> str:
+        data_src = self._cover_from_content('.summary_image img.img-responsive', 'data-src')
+        if '' != data_src:
+            return data_src
         return self._cover_from_content('.summary_image img.img-responsive')
 
 

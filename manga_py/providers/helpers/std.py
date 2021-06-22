@@ -15,10 +15,11 @@ class Std:
             content = self.content
         return self.document_fromstring(content, selector)
 
-    def _cover_from_content(self, selector, attr='src') -> str:
+    def _cover_from_content(self, selector, attr='src') -> Optional[str]:
         image = self._elements(selector)
         if image is not None and len(image):
             return self.http().normalize_uri(image[0].get(attr))
+        return ''
 
     @staticmethod
     def _first_select_options(parser, selector, skip_first=True) -> list:
@@ -59,12 +60,22 @@ class Std:
             url = self.get_url()
         return re.search(selector, url).group(1)
 
-    def _get_content(self, tpl, **kwargs) -> str:
+    def _get_content(self, tpl, domain=None, manga_name=None, name=None, **kwargs) -> str:
+        """
+        :param tpl:
+        :param domain:
+        :param manga_name:
+        :param name:
+        :param kwargs:
+        :return:
+        """
         try:
-            _kw = kwargs.copy()
-            _kw.setdefault('domain', self.domain)
-            _kw.setdefault('manga_name', self.manga_name)
-            return self.http_get(tpl.format(**_kw))
+            return self.http_get(tpl.format(
+                domain=(domain or self.domain),
+                manga_name=(manga_name or self.manga_name),
+                name=(name or self.name),
+                **kwargs
+            ))
         except Exception:
             return self.http_get(tpl.format(self.domain, self.manga_name))
 
