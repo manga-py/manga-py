@@ -112,8 +112,6 @@ def main():
         if k not in default_config:
             continue
 
-        print({k, args[k] == args_.get_default(k)})
-
         if args[k] == args_.get_default(k):
             args[k] = default_config[k]
 

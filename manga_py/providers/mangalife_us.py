@@ -104,6 +104,7 @@ class MangaLifeUs(Provider, Std):
         return '{:0>1}'.format(n)
 
     def prepare_cookies(self):
+        self.cf_scrape(self.get_url())
         self.http().cookies['FullPage'] = 'yes'
 
     def get_cover(self) -> str:
