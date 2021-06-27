@@ -20,7 +20,7 @@ class AComicsRu(Provider, Std):
         return ['~' + self.manga_name]
 
     def get_files(self):
-        pages_max = self.text_content(self.content, 'span.issueNumber').split('/')[1]
+        pages_max = self.text_content_full(self.content, 'span.issueNumber').split('/')[1]
         _min = self._params['skip_volumes']
         _max = self._params['max_volumes']
         if _max > 0 and _min > 0:

@@ -16,7 +16,7 @@ class PlusComicoJp(Provider, Std):
         return self.http_get(url)
 
     def get_manga_name(self) -> str:
-        return self.text_content(self.content, '.stage__body h1')
+        return self.text_content_full(self.content, '.stage__body h1')
 
     def get_chapters(self):
         idx = self.re.search(r'/manga/(\d+)', self.get_url()).group(1)

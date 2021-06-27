@@ -15,7 +15,7 @@ class MangaMexatCom(Provider, Std):
 
     def get_chapters(self):
         items = self._elements('.content .entry td + td > a')
-        return [(i.get('href', i.text_content().strip())) for i in items]
+        return [(i.get('href', i.text_content_full().strip())) for i in items]
 
     def _get_img(self, parser):
         return self._images_helper(parser, '.pic > a > img')

@@ -14,12 +14,12 @@ class MangaParkOrg(Provider, Std):
     def get_manga_name(self) -> str:
         title = self.html_fromstring(self.get_url(), 'h3 > a, h4 > a', 0)
         self.__url = self.http().normalize_uri(title.get('href'))
-        return title.text_content().strip()
+        return title.text_content_full().strip()
 
     def _print_variants(self, variants):
         self.log('Please, select lang. (empty for all langs)')
         for n, i in enumerate(variants):
-            lng = i.cssselect('.card-header a')[0].text_content()
+            lng = i.cssselect('.card-header a')[0].text_content_full()
             self.log('\n%d: ' % (n + 1) + lng, end='')
 
     def _answer(self, max_digit):
@@ -36,7 +36,7 @@ class MangaParkOrg(Provider, Std):
         if language is not None:
 
             for n, variant in enumerate(variants):
-                text = variant.cssselect('.flag + a.ml-1')[0].text_content()  # type: str
+                text = variant.cssselect('.flag + a.ml-1')[0].text_content_full()  # type: str
 
                 if ~text.find('[' + language + ']'):
                     return n + 1
@@ -49,7 +49,7 @@ class MangaParkOrg(Provider, Std):
         if translator is not None:
 
             for n, variant in enumerate(variants):
-                text = variant.cssselect('.flag + a.ml-1')[0].text_content()  # type: str
+                text = variant.cssselect('.flag + a.ml-1')[0].text_content_full()  # type: str
 
                 lng = text.find(']')
                 if ~text.find(translator, lng):
@@ -88,7 +88,7 @@ class MangaParkOrg(Provider, Std):
         re = self.re.compile(r'[Cc]h\.(\d+(?:\.\d+)?)')
         n = self.http().normalize_uri
         for i in items:
-            text = i.text_content()
+            text = i.text_content_full()
             result.append((
                 re.search(text).group(1),
                 n(i.get('href')),

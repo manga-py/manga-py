@@ -19,7 +19,7 @@ class SeriMangaCom(Provider, Std):
     def get_chapters(self):
         items = self._elements('li.spl-list-item a')
         n = self.http().normalize_uri
-        return [(n(i.get('href')), i.cssselect('span')[0].text_content().strip()) for i in items]
+        return [(n(i.get('href')), i.cssselect('span')[0].text_content_full().strip()) for i in items]
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter[0])

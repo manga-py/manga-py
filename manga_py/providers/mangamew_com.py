@@ -18,7 +18,7 @@ class MangaMewCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         content = self.http_get(self.get_url())
-        return self.text_content(content, 'h1.name a,h1.title')
+        return self.text_content_full(content, 'h1.name a,h1.title')
 
     def get_chapters(self):
         return self._elements('.chapter .item a')[::-1]

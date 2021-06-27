@@ -11,7 +11,7 @@ class LeviatanScansCom(Provider, Std):
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
-        return self.text_content(self.content, '.text-highlight')
+        return self.text_content_full(self.content, '.text-highlight')
 
     def get_chapters(self):
         return self._elements('.list a.item-author')

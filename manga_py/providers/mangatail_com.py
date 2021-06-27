@@ -37,7 +37,7 @@ class MangaTailCom(Provider, Std):
             link = self.http().normalize_uri(link.get('href'))
             self.__local_storage = link
             header = self.html_fromstring(link, selector, 0)
-        return header.text_content().strip().replace('/', '_')  # http://www.mangasail.com/content/12-prince-manga
+        return header.text_content_full().strip().replace('/', '_')  # http://www.mangasail.com/content/12-prince-manga
 
     def _fix_chapters(self, items):
         # http://www.mangasail.com/content/go-toubun-no-hanayome-30-%E2%80%93-fixed
@@ -46,12 +46,12 @@ class MangaTailCom(Provider, Std):
         result = []
         n = self.http().normalize_uri
         for i in items:
-            name, url = i.text_content().strip(), i.get('href')
+            name, url = i.text_content_full().strip(), i.get('href')
             _name = self._parse_ch(name)
             if ~url.find('-fixed'):
                 found.append(_name)
         for i in items:
-            name = i.text_content().strip()
+            name = i.text_content_full().strip()
             _name = self._parse_ch(name)
             url = i.get('href')
             if _name not in found or ~url.find('-fixed'):
@@ -74,7 +74,7 @@ class MangaTailCom(Provider, Std):
 
     def get_cover(self) -> str:  # TODO
         cover = self.document_fromstring(self.content, 'iframe.authcache-esi-assembly', 0)
-        cover = self.json.loads(cover.text_content().strip()).get('field')
+        cover = self.json.loads(cover.text_content_full().strip()).get('field')
         key = cover.keys()[0]
         cover = self.document_fromstring(cover.get(key), '.field-type-image img', 0)
         return self.http().normalize_uri(cover.get('src'))

@@ -13,7 +13,7 @@ class TranslateWebToonsCom(Provider, Std):
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
-        return self.text_content(self.content, 'h3.subj')
+        return self.text_content_full(self.content, 'h3.subj')
 
     def _chapters(self, content):
         return self._elements('.detail_lst > ul > li > a', content)
@@ -22,7 +22,7 @@ class TranslateWebToonsCom(Provider, Std):
     def _filter_chapters(chapters):
         result = []
         for item in chapters:
-            content = item.cssselect('.rate_num.cplt')[0].text_content().strip('\n\t\r \0')
+            content = item.cssselect('.rate_num.cplt')[0].text_content_full().strip('\n\t\r \0')
             if content == '100%':
                 result.append(item)
         return result

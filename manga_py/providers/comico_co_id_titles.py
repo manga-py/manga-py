@@ -24,7 +24,7 @@ class ComicoCoIdTitles(Provider, Std):
     def get_manga_name(self) -> str:
         h2 = self.document_fromstring(self.content, '.con > h2', 0)
         return '{} - {}'.format(
-            h2.text_content(),
+            h2.text_content_full(),
             self._manga_id()
         )
 

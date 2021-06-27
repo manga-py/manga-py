@@ -14,11 +14,11 @@ class HentaiLxxCom(Provider, Std):
 
     def get_manga_name(self) -> str:
         el = self.document_fromstring(self.content, '.title-detail', 0)
-        return self.element_text_content(el)
+        return self.element_text_content_full(el)
 
     def get_chapters(self):
         n = self.http().normalize_uri
-        return [(n(e.get('href')), self.element_text_content(e)) for e in self._elements('li a.seen')]
+        return [(n(e.get('href')), self.element_text_content_full(e)) for e in self._elements('li a.seen')]
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter[0])

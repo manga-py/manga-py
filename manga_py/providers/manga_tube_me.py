@@ -19,7 +19,7 @@ class MangaTubeMe(Provider, Std):
 
     def get_chapters(self):
         items = self._elements('#chapter li > a')
-        return [(i.text_content(), i.get('href')) for i in items]
+        return [(i.text_content_full(), i.get('href')) for i in items]
 
     def get_files(self):
         n = self.http().normalize_uri

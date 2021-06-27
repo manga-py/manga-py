@@ -14,7 +14,7 @@ class AsmHentaiCom(Provider, Std):
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
-        title = self.text_content(self.content, '.info > h1,title')
+        title = self.text_content_full(self.content, '.info > h1,title')
         if ~title.find(' Page '):
             title = self.re.search(r'(.+) Page ', title).group(1)
         return title

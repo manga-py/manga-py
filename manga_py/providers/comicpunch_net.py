@@ -12,7 +12,7 @@ class ComicPunchNet(Provider, Std):
         return self.http_get(self.get_url())
 
     def get_manga_name(self) -> str:
-        return self.text_content(self.content, '.page-title')
+        return self.text_content_full(self.content, '.page-title')
 
     def get_chapters(self):
         return self._elements('.chapter > a')

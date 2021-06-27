@@ -18,7 +18,7 @@ class MangaWindowNet(Provider, Std):
     def get_manga_name(self) -> str:
         title = self.html_fromstring(self.get_url(), '.item-title > a, .nav-title > a', 0)
         self.__url = self.http().normalize_uri(title.get('href'))
-        return title.text_content().strip()
+        return title.text_content_full().strip()
 
     def get_chapters(self):
         items = self._elements('.chapter-list a.chapt')
@@ -26,7 +26,7 @@ class MangaWindowNet(Provider, Std):
         re = self.re.compile(r'[Cc]h\.(\d+(?:\.\d+)?)')
         n = self.http().normalize_uri
         for i in items:
-            text = i.cssselect('b')[0].text_content()
+            text = i.cssselect('b')[0].text_content_full()
             if 'deleted' not in text.casefold():
                 result.append((
                     re.search(text).group(1),

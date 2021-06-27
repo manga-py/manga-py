@@ -27,7 +27,7 @@ class LittleXGardenCom(Provider, Std):
         image_re = self.re.compile(r'"([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\.jpg)"')
 
         for script in scripts:
-            source = self.element_text_content(script)
+            source = self.element_text_content_full(script)
             if nuxt_re.search(source):
                 script_content = source
                 break

@@ -26,9 +26,9 @@ class SubMangaOnline(Provider, Std):
 
     def book_meta(self) -> dict:
         return {
-            'author': self.text_content(self.content, '.manga .col-sm-8 h5 + h5'),
-            'title': self.text_content(self.content, '.manga .col-sm-8 > h2'),
-            'annotation': self.text_content(self.content, '.manga .col-sm-8 h5 + .clear20 + div'),
+            'author': self.text_content_full(self.content, '.manga .col-sm-8 h5 + h5'),
+            'title': self.text_content_full(self.content, '.manga .col-sm-8 > h2'),
+            'annotation': self.text_content_full(self.content, '.manga .col-sm-8 h5 + .clear20 + div'),
             'keywords': None,
             'cover': self.get_cover(),
             'rating': None,

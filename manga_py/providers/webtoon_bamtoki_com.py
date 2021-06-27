@@ -27,7 +27,7 @@ class WebtoonBamtokiCom(Provider, Std):
 
     def get_files(self):
         data = self.html_fromstring(self.chapter, '#tooncontentdata', 0)
-        content = BaseLib.base64decode(data.text_content().strip('\n\t\r\0 '))
+        content = BaseLib.base64decode(data.text_content_full().strip('\n\t\r\0 '))
         parser = self.document_fromstring(content)
         return self._images_helper(parser, 'img')
 

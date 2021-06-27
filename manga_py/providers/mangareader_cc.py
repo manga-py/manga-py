@@ -17,7 +17,7 @@ class _Template(Provider, Std):
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter, '#arraydata', 0)
-        content = self.element_text_content(parser)
+        content = self.element_text_content_full(parser)
 
         if content is None:
             return []

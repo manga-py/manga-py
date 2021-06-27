@@ -56,6 +56,9 @@ providers_list = {
     'chochox_com': [
         r'chochox\.com/.',
     ],
+    'comic_naver_com': [
+        r'comic\.naver\.com/[^/]+/list\.nhn\?.',
+    ],
     'comicextra_com': [
         r'comicextra\.com/.',
     ],

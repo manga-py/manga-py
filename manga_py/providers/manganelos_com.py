@@ -18,7 +18,7 @@ class MangaNelosCom(Provider, Std):
         return self._elements('.content .chapter a')
 
     def get_files(self):
-        content = self.text_content(self.http_get(self.chapter), '#arraydata')
+        content = self.text_content_full(self.http_get(self.chapter), '#arraydata')
         images = content.split(',')
 
         if len(images) == 0:

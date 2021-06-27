@@ -23,7 +23,7 @@ class RawLHCom(Provider, Std):
         else:
             self._root_uri = url
             title = self.document_fromstring(self.content, '.manga-info h1', 0)
-        return title.text_content().strip(' \t\r\n\0')
+        return title.text_content_full().strip(' \t\r\n\0')
 
     def get_chapters(self):
         return self._elements('#tab-chapper a.chapter')

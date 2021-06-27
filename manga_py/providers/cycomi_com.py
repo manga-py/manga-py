@@ -24,7 +24,7 @@ class CycomiCom(Provider, Std):
         return self.http_get(url)
 
     def get_manga_name(self) -> str:
-        return self.text_content(self.content, '.title-texts h3')
+        return self.text_content_full(self.content, '.title-texts h3')
 
     def get_chapters(self):
         selector = 'a.chapter-item:not(.is-preread)'
@@ -32,7 +32,7 @@ class CycomiCom(Provider, Std):
         n = self.http().normalize_uri
         for el in self._elements(selector, self.content):
             title = el.cssselect('p.chapter-title')[0]
-            title = title.text_content().strip(' \n\r\t\0')
+            title = title.text_content_full().strip(' \n\r\t\0')
             episode_id = self.re.sub(r'.+pages/(.+)', r'\1', n(el.get('href')))
             title = episode_id + '_' + title
             items.append((n(el.get('href')), title))

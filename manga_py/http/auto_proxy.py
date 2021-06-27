@@ -7,7 +7,7 @@ class AutoProxy:
 
     @staticmethod
     def __strip(text):
-        return text.text_content().strip(' \n\t\r\0')
+        return text.text_content_full().strip(' \n\t\r\0')
 
     def _s(self, item):
         td = item.cssselect('td')

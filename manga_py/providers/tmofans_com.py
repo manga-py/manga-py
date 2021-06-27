@@ -31,7 +31,7 @@ class TmoFansCom(Provider, Std):
         chapters = []
         for i in raw_chapters:
             try:
-                text = i.cssselect('.btn-collapse')[0].text_content()
+                text = i.cssselect('.btn-collapse')[0].text_content_full()
                 link = i.cssselect('.list-group .list-group-item .row a')[-1]
             except IndexError:
                 self.log('Error extract chapter', file=stderr)

@@ -36,7 +36,7 @@ class WebAceJp(Provider, Std):
         return self.http_get(self.__url())
 
     def get_manga_name(self) -> str:
-        return self.text_content(self.content, '.credit h1')
+        return self.text_content_full(self.content, '.credit h1')
 
     def get_chapters(self):
         content = self.http_get(self.__url() + 'episode/')
@@ -45,7 +45,7 @@ class WebAceJp(Provider, Std):
         n = self.http().normalize_uri
         for el in self._elements(selector, content):
             title = el.cssselect('.media-body p')[0]
-            title = title.text_content().strip(' \n\r\t\0')
+            title = title.text_content_full().strip(' \n\r\t\0')
             items.append((n(el.get('href')), title))
         return items
 

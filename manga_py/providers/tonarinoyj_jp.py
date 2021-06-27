@@ -21,7 +21,7 @@ class TonariNoYjJp(Provider, Std):
     def get_manga_name(self) -> str:
         h1 = self.document_fromstring(self.content, 'h1.series-header-title')
         if h1:
-            return h1[0].text_content()
+            return h1[0].text_content_full()
         return '__Manga__'
 
     def get_chapters(self):

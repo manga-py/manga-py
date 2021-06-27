@@ -21,7 +21,7 @@ class HentaiHereCom(Provider, Std):
         if not name:
             selector = '#detail span[itemprop="title"]'
             name = self.document_fromstring(self.content, selector)
-        return name[0].text_content().strip()
+        return name[0].text_content_full().strip()
 
     def get_chapters(self):
         return self._elements('ul.arf-list > li > a')

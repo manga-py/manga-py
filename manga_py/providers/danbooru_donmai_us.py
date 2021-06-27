@@ -36,7 +36,7 @@ class DanbooruDonmaiUs(Provider, Std):
                 count = self.html_fromstring('{}/counts/posts?tags={}'.format(
                     self.domain,
                     self.manga_name,
-                ), '#a-posts', 0).text_content()
+                ), '#a-posts', 0).text_content_full()
                 page = self.re.search(r'\n\s+(\d+)', count).group(1)
                 max_page = int(int(page) / images_on_page) + 1
                 if max_page > 1001:

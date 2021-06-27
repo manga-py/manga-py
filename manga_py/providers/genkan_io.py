@@ -14,10 +14,10 @@ class GenkanIo(Provider, Std):
 
     def get_manga_name(self) -> str:
         parser = self.document_fromstring(self.content, 'h2', 0)
-        return self.element_text_content(parser)
+        return self.element_text_content_full(parser)
 
     def get_chapters(self):
-        return [(el.get('href'), self.element_text_content(el)) for el in self._elements('section table td:nth-child(1) > a')]
+        return [(el.get('href'), self.element_text_content_full(el)) for el in self._elements('section table td:nth-child(1) > a')]
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter[0])

@@ -17,7 +17,7 @@ class HentaiNexusCom(Provider, Std):
         return self.http_get('{}/view/{}'.format(self.domain, self._code()))
 
     def get_manga_name(self) -> str:
-        return self.text_content(self.content, 'h1.title')
+        return self.text_content_full(self.content, 'h1.title')
 
     def get_chapters(self):
         return [b'0']

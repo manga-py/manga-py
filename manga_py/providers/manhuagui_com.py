@@ -26,7 +26,7 @@ class ManhuaGuiCom(Provider, Std):
         span = chapter.cssselect('span')
         idx = self._get_ch_idx()
         if span:
-            span = span[0].text_content()
+            span = span[0].text_content_full()
             i = self.re.search(r'(\d+)', span).group(1)
             return '{}-{}'.format(i, idx)
         return '0-{}'.format(idx)
@@ -40,7 +40,7 @@ class ManhuaGuiCom(Provider, Std):
         selector = 'h1'
         if self.re.search(r'/comic/\d+/\d+\.html', url):
             selector = 'h1 > a'
-        return self.html_fromstring(url, selector, 0).text_content()
+        return self.html_fromstring(url, selector, 0).text_content_full()
 
     def get_chapters(self):
         parser = self.document_fromstring(self.content)

@@ -21,14 +21,14 @@ class BatoTo(Provider, Std):
     def get_manga_name(self) -> str:
         selector = '.nav-path .nav-title > a,.title-set .item-title > a'
         content = self.http_get(self.get_url())
-        return self.text_content(content, selector, 0)
+        return self.text_content_full(content, selector, 0)
 
     def get_chapters(self):
         items = self._elements('.main > .item > a')
         n = self.http().normalize_uri
         result = []
         for i in items:
-            title = i.cssselect('b')[0].text_content().strip(' \n\t\r')
+            title = i.cssselect('b')[0].text_content_full().strip(' \n\t\r')
             if ~title.find('DELETED'):  # SKIP DELETED
                 continue
             result.append((

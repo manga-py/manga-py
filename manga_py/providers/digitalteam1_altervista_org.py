@@ -8,7 +8,7 @@ class DigitalTeam1AltervistaOrg(ReadPowerMangaOrg):
     _chapters_selector = '.chapter_list li > div > a'
 
     def get_chapters(self):
-        self.__title = self.text_content(self.content, 'title')
+        self.__title = self.text_content_full(self.content, 'title')
         return super().get_chapters()
 
     def __parse_json(self, data) -> list:

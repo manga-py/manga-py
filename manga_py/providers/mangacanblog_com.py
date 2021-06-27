@@ -25,7 +25,7 @@ class MangaCanBlogCom(Provider, Std):
 
     @staticmethod
     def _clear_name(a):
-        name = a.text_content()
+        name = a.text_content_full()
         name = unquote_plus(name.split('|')[0].strip())
         if ~name.find(' Indonesia'):
             name = name[:name.find(' Indonesia')]

@@ -17,7 +17,7 @@ class AcQqCom(Provider, Std):
         return self.http_get('{}/Comic/comicInfo/id/{}'.format(self.domain, idx))
 
     def get_manga_name(self) -> str:
-        return self.text_content(self.content, '.works-intro-title strong', 0)
+        return self.text_content_full(self.content, '.works-intro-title strong', 0)
 
     def get_chapters(self):
         return self._elements('.chapter-page-all li a')[::-1]
@@ -45,10 +45,10 @@ class AcQqCom(Provider, Std):
 
     def book_meta(self) -> dict:
         result = {
-            'author': self.text_content(self.content, '.works-intro-digi em'),
-            'rating': self.text_content(self.content, 'p.ui-left strong'),
+            'author': self.text_content_full(self.content, '.works-intro-digi em'),
+            'rating': self.text_content_full(self.content, 'p.ui-left strong'),
             'cover': self.get_cover(),
-            'annotation': self.text_content(self.content, '.works-intro-short'),
+            'annotation': self.text_content_full(self.content, '.works-intro-short'),
             'language': 'cn',
         }
 

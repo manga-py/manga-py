@@ -92,6 +92,18 @@ class Std:
         )
         return self.http().normalize_uri(url.group(1))
 
+    def text_content_full(self, content, selector, idx: int = 0, strip: bool = True) -> Optional[str]:
+        doc = self.document_fromstring(content, selector)
+        if not doc:
+            return None
+        return self.element_text_content_full(doc[idx], strip)
+
+    def element_text_content_full(self, element, strip: bool = True) -> str:
+        text = element.text_content()
+        if strip:
+            text = text.strip()
+        return text
+
     def text_content(self, content, selector, idx: int = 0, strip: bool = True) -> Optional[str]:
         doc = self.document_fromstring(content, selector)
         if not doc:
@@ -99,7 +111,7 @@ class Std:
         return self.element_text_content(doc[idx], strip)
 
     def element_text_content(self, element, strip: bool = True) -> str:
-        text = element.text_content()
+        text = element.text
         if strip:
             text = text.strip()
         return text
