@@ -38,7 +38,7 @@ before_deploy:
   - echo "Start make gh-pages content"
   - python gh_build.py
   - ./helpers/before_deploy.sh
-  - python build_setup.py
+  - python prepare_setup.py
 deploy:
   - provider: pages
     edge: true

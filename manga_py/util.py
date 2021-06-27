@@ -12,6 +12,8 @@ from .cli.args import get_cli_arguments
 from .meta import version
 from .fs import get_temp_path, root_path
 from .base_classes.web_driver import get_display, get_driver
+from .default_config import dump_init_content
+from .default_config.actions import load_config
 
 from .fs import get_info
 from .cli import Cli
@@ -34,13 +36,12 @@ def _run_util(args):
     :return:
     :rtype Info|str
     """
-    parse_args = args.parse_args()
-    _info = Info(parse_args)
+    _info = Info(args)
 
     _info.start()
-    Cli(parse_args.__dict__, _info).start()
+    Cli(args, _info).start()
 
-    if parse_args.print_json:
+    if args.get('print_json', False):
         _info = dumps(
             _info.get(),
             indent=2,
@@ -77,11 +78,9 @@ def run_util(args):
     temp_path = get_temp_path()
     path.isdir(temp_path) or makedirs(temp_path)
 
-    parse_args = args.parse_args()
-
     try:
         _info = _run_util(args)
-        parse_args.quiet or (parse_args.print_json and print(_info))
+        args.get('quiet', False) or (args.get('print_json', False) and print(_info))
         return 0
     except KeyboardInterrupt:
         warning('\nUser interrupt')
@@ -100,11 +99,26 @@ def __log_factory(*args, **kwargs):
 
 
 def main():
-    args = get_cli_arguments()
+    dump_init_content()
+
+    args_ = get_cli_arguments()
+
+    args = args_.parse_args().__dict__
     setLogRecordFactory(__log_factory)
 
+    default_config = load_config().get_all()
+
+    for k in args:
+        if k not in default_config:
+            continue
+
+        print({k, args[k] == args_.get_default(k)})
+
+        if args[k] == args_.get_default(k):
+            args[k] = default_config[k]
+
     log_format = '"%(levelname)s:%(my_pathname)s:%(lineno)s:%(asctime)s:%(message)s"'
-    basicConfig(level=(INFO if args.parse_args().debug else WARN), format=log_format)
+    basicConfig(level=(INFO if args.get('debug', False) else WARN), format=log_format)
 
     if ~version.find('alpha'):
         warning('Alpha release! There may be errors!')

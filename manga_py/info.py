@@ -61,10 +61,9 @@ class Info:
         return dt.strftime(fmt)
 
     def __init__(self, args: Union[Namespace, dict]):  # see manga_py.cli arguments
-        _args = args.__dict__ if not isinstance(args, dict) else args
-        _args['_raw_params'] = ' '.join(argv)
+        args['_raw_params'] = ' '.join(argv)
         self._data = {
-            'site': args.url,
+            'site': args['url'],
             'downloader': meta.repo_url,
             'version': meta.version,
             'delta': None,
@@ -73,7 +72,7 @@ class Info:
             'end': None,
             'user_agent': None,
             'cookies': None,
-            'args': _args,
+            'args': args,
             'return_code': 0,
             'error': False,
             'error_msg': None,

@@ -1,22 +1,11 @@
 import argparse
 import platform
-import sys
-import re
-import pathlib
 
 import pkg_resources
 from ..meta import version
+from ._requirements import requirements
 
 requires = []
-
-RE = re.compile(r'^([a-zA-Z-_]+)')
-
-requirements = pathlib.Path(__file__).parents[2].joinpath('requirements.txt')
-
-
-def manga_py_requirements() -> list:
-    with requirements.open() as r:
-        return [name.group(1) for name in [RE.search(line) for line in r.readlines()] if name is not None]
 
 
 def package_version(name: str) -> str:
@@ -72,7 +61,7 @@ class DebugVersionAction(argparse.Action):
         ]
         module_versions.extend(
             sorted(
-                [(req, package_version(req)) for req in manga_py_requirements()]
+                [(req, package_version(req)) for req in requirements]
             )
         )
         print_versions(module_versions)

@@ -9,4 +9,5 @@ PyExecJS>=1.5
 requests>=2.23
 better_exceptions>=0.2
 pysocks>=1.7
+toml>=0.10
 # aiocfscrape  # cf
