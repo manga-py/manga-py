@@ -300,7 +300,7 @@ providers_list = {
         r'onmanga\.com/manga/.',
         r'painfulnightzscan\.com/manga/.',
         r'manga68\.com/manga/.',
-        r'sleepytranslations\.com/manga/.',
+        r'sleepytranslations\.com/series/.',
         r'manhwahentai\.me/manga/.',
         r'jjutsuscans\.com/manga/.',
         r'mysticalmerries\.com/manga/.',
