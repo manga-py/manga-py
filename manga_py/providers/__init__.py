@@ -8,9 +8,6 @@ providers_list = {
     '_3asq_org': [
         r'3asq\.org/.',
     ],
-    '7sama_com': [
-        r'7sama\.com/manga/.',
-    ],
     '18comic_org': [
         r'18comic\.org/album/\d'
     ],
@@ -25,7 +22,7 @@ providers_list = {
         r'reader\.evilflowers\.com/(series|read)/.',
     ],
     'allhentai_ru': [
-        r'allhentai\.ru/.',
+        r'allhen\.live/.',
     ],
     'animextremist_com': [
         r'animextremist\.com/mangas-online/.',
@@ -48,10 +45,6 @@ providers_list = {
     ],
     'catmanga_org': [
         r'catmanga\.org/series/.'
-    ],
-    'cdmnet_com_br': [
-        r'cdmnet\.com\.br/titulos/.',
-        r'centraldemangas.online/titulos/.'
     ],
     'chochox_com': [
         r'chochox\.com/.',
@@ -77,9 +70,6 @@ providers_list = {
     'danbooru_donmai_us': [
         r'danbooru\.donmai\.us/posts.',
     ],
-    'darkskyprojects_org': [
-        r'darkskyprojects\.org/biblioteca/.',
-    ],
     'dejameprobar_es': [
         r'menudo-fansub\.com/slide/.',
         r'yuri-ism\.net/slide/.',
@@ -89,8 +79,7 @@ providers_list = {
     ],
     'doujins_com': [
         r'doujins\.com/hentai-manga/.',
-        r'doujins\.com/gallery/.',
-        r'doujin-moe\.us/gallery/.',
+        r'doujins\.com/gallery/.'
     ],
     'e_hentai_org': [
         r'e-hentai\.org/g/\d',
@@ -107,27 +96,14 @@ providers_list = {
     'gmanga_me': [
         r'gmanga\.me/mangas/.',
     ],
-    'gomanga_co': [
-        r'kobato\.hologfx\.com/reader/.',
-    ],
     'helveticascans_com': [
         r'helveticascans\.com/r/(series|read)/.',
-    ],
-    'heavenmanga_biz': [
-        r'heavenmanga\.com/.',
     ],
     'hentai2read_com': [
         r'hentai2read\.com/.',
     ],
-    'hentai_cafe': [
-        r'hentai\.cafe/.',
-    ],
-    'hentai_chan_me': [
-        r'hentai-chan\.me/(related|manga|online)/.',  # todo
-    ],
     'hentai_image_com': [
         r'hentai-img\.com/image/.',
-        r'hentai-image\.com/image/.',
     ],
     'hentaihand_com': [
         r'hentaihand\.com/comic/\d',
@@ -139,10 +115,8 @@ providers_list = {
         r'hentaihere\.com/m/.',
     ],
     'hentailxx_com': [
-        r'hentailxx\.com/story/view\.php\?id=\d'
-    ],
-    'hentainexus_com': [
-        r'hentainexus\.com/(read|view)/\d'
+        r'hentailxx\.com/story/view\.php\?id=\d',
+        r'lxhentai\.com/story/view\.php\?id=\d'
     ],
     'hentaiporns_net': [
         r'hentaiporns\.net/.'
@@ -187,12 +161,10 @@ providers_list = {
         r'toongod\.com/manga/.',
         r'mangakik\.com/manga/.',
         r'kissmanga\.in/manga/.',
-        r'soloscanlation\.site/manga/.',
         r'manhuaes\.com/manga/.',
         r'manhuasy\.com/manga/.',
         r'grazescans\.com/manga/.',
         r'sixiangscans\.com/manga/.',
-        r'toonpoint\.com/manga/.',
         r'mangasco\.com/manga/.',
         r'mangacultivator\.com/manga/.',
         r'365manga\.com/manga/.',
@@ -216,17 +188,14 @@ providers_list = {
         r'mixedmanga\.com/manga/.',
         r'mangaturf\.com/manga/.',
         r'manganelo\.link/manga/.',
-        r'webtoonily\.com/manga/.',
         r'mangabin\.com/manga/.',
         r'vanguardbun\.com/manga/.',
         r'webnovel\.live/manga/.',
         r'mangarocky\.com/manga/.',
         r'catonhead\.com/manga/.',
-        r'voidscans\.com/manga/.',
         r'mm-scans\.com/manga/.',
         r'shoujohearts\.com/manga/.',
         r'wuxiaworld\.site/manga/.',
-        r'ntsvoidscans\.com/manga/.',
         r'toonily\.com/manga/.',
         r'manhuasworld\.com/manga/.',
         r'mangatx\.com/manga/.',
@@ -249,7 +218,6 @@ providers_list = {
         r'twilightscans\.com/manga/.',
         r'manga3s\.com/manga/.',
         r'skymanga\.co/manga/.',
-        r'leviatanscans\.com/manga/.',
         r'isekaiscanmanga\.com/manga/.',
         r'itsyourightmanhua\.com/manga/.',
         r'1stkissmanhua\.com/manga/.',
@@ -285,7 +253,6 @@ providers_list = {
         r'boyslove\.me/manga/.',
         r'heromanhua\.com/manga/.',
         r'mangabob\.com/manga/.',
-        r'wescans\.xyz/manga/.',
         r'arangscans\.com/manga/.',
         r'mangaroma\.com/manga/.',
         r'readmanhua\.net/manga/.',
@@ -305,7 +272,6 @@ providers_list = {
         r'jjutsuscans\.com/manga/.',
         r'mysticalmerries\.com/manga/.',
         r'mangarave\.com/manga/.',
-        r'thetopcomic\.com/manga/.',
         r'jaiminisbox\.net/manga/.',
     ],
     'japscan_com': [
@@ -327,9 +293,7 @@ providers_list = {
         r'cmreader\.info/manga/.',
         r'rawmangaupdate\.com/manga/.',
         r'manga-v2\.mangavadisi\.org/manga/.',
-        r'universoyuri\.com/manga/.',
         r'digitalteam1\.altervista\.org/manga/.',
-        r'komikgue\.com/manga/.',
         r'onma\.me/manga/.',
     ],
     'kumanga_com': [
@@ -341,7 +305,6 @@ providers_list = {
     'leviatanscans_com': [
         r'leviatanscans\.com/comics/\d',
         r'es\.leviatanscans\.com/comics/\d',
-        r'krakenscans\.com/comics/\d',
         r'skscans\.com/comics/\d',
     ],
     'lhtranslation_com': [
@@ -591,16 +554,11 @@ providers_list = {
     'ravens_scans_com': [
         r'ravens-scans\.com(/lector)?/(serie/|read/).',
     ],
-    'raw_senmanga_com': [
-        r'raw\.senmanga\.com/.',
-    ],
     'rawdevart_com': [
         r'rawdevart\.com/comic/.',
     ],
     'rawlh_com': [
-        r'lhscan\.net/(truyen|manga|read)-.',
         r'kisslove\.net/(truyen|manga|read)-.',
-        r'loveheaven\.net/(truyen|manga|read)-.',
     ],
     'read_egscans_com': [
         r'read\.egscans\.com/.',
@@ -611,12 +569,10 @@ providers_list = {
         r'slide\.world-three\.org/(series|read)/.',
         r'reader\.thecatscans\.com/(series|read)/.',
         r'reader\.deathtollscans\.net/(series|read)/.',
-        r'reader\.jokerfansub\.com/(series|read)/.',
         r'lector\.patyscans\.com/(series|read)/.',
         r'truecolorsscans\.miocio\.org/(series|read)/.',
         r'reader\.letitgo\.scans\.today/(series|read)/.',
         r'reader\.fos-scans\.com/(series|read)/.',
-        r'reader\.serenade\.moe/(series|read)/.',
         r'reader\.vortex-scans\.com/(series|read)/.',
         r'reader\.silentsky-scans\.net/(series|read)/.',
         r'reader\.manga-download\.org/(series|read)/.',
@@ -669,9 +625,6 @@ providers_list = {
     ],
     'siberowl_com': [
         r'siberowl\.com/mangas/.',
-    ],
-    'sleepypandascans_co': [
-        r'sleepypandascans\.co/(Series|Reader)/.',
     ],
     'subapics_com': [
         r'mangakita\.net/manga/.',
@@ -745,7 +698,6 @@ providers_list = {
     'zeroscans_com': [
         r'zeroscans\.com/comics/.',
         r'reaperscans\.com/comics/.',
-        r'secretscan\.co/comics/.',
         r'lynxscans\.com/comics/.',
         r'kkjscans\.co/comics/.',
         r'edelgardescans\.com/comics/.',
@@ -753,7 +705,6 @@ providers_list = {
         r'hatigarmscanz\.net/comics/.',
         r'the-nonames\.com/comics/.',
         r'methodscans\.com/comics/.',
-        r'leviatanscans\.com/comics/.'
     ],
 }
 
