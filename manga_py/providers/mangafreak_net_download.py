@@ -2,6 +2,7 @@ from manga_py.provider import Provider
 from manga_py.download_methods import WholeArchiveDownloader
 from .helpers.std import Std
 
+
 class MangaFreakNet(Provider, Std):
     _downloader = WholeArchiveDownloader
 
@@ -23,9 +24,6 @@ class MangaFreakNet(Provider, Std):
 
     def get_files(self):
         pass
-
-    def prepare_cookies(self):
-        self.cf_scrape(self.get_url())
 
     def get_cover(self) -> str:
         return self._cover_from_content('.manga_series_image img')

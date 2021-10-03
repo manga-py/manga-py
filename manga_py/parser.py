@@ -8,6 +8,8 @@ from .providers import get_provider
 
 
 class Parser:
+    provider = None
+
     def __init__(self, args: dict):
         self.params = args
 

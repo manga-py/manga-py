@@ -38,8 +38,13 @@ class GoMangaCo(Provider, Std):
 
     def prepare_cookies(self):
         url = self.get_url()
-        self.cf_scrape(url)
         data = {'adult': 'true'}
+        if self._use_flare_solver:
+            self.http_post(url, data=data)
+        else:
+            self.__normal_cookies(url, data)
+
+    def __normal_cookies(self, url, data):
         try:
             response = self.http().requests(method='post', data=data, url=url)
             cookies = response.cookies.items()

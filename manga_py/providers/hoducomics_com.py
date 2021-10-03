@@ -47,8 +47,5 @@ class HoduComicsCom(Provider, Std):
     def book_meta(self) -> dict:
         pass
 
-    def prepare_cookies(self):
-        self.cf_scrape(self.get_url())
-
 
 main = HoduComicsCom

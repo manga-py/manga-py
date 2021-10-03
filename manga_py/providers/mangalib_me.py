@@ -39,9 +39,6 @@ class MangaLibMe(Provider, Std):
     def get_cover(self):
         return self._cover_from_content('.media-sidebar__cover > img')
 
-    def prepare_cookies(self):
-        self.cf_scrape(self.get_url())
-
     def chapter_for_json(self) -> str:
         return '{}-{}'.format(
             self.chapter['chapter_volume'] or '',

@@ -48,8 +48,5 @@ class MangaWindowNet(Provider, Std):
     def chapter_for_json(self) -> str:
         return self.chapter[1]
 
-    def prepare_cookies(self):
-        self.cf_scrape(self.get_url())
-
 
 main = MangaWindowNet

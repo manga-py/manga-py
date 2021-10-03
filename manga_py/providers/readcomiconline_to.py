@@ -20,8 +20,7 @@ class ReadComicOnlineTo(Provider, Std):
         return self._elements('table.listing td > a')
 
     def prepare_cookies(self):
-        self.cf_scrape(self.get_url())
-        self._storage['cookies']['rco_quality'] = 'hq'
+        self.http().cookies['rco_quality'] = 'hq'
 
     def get_files(self):
         content = self.http_get(self.chapter + '&readType=1')

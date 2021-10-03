@@ -25,9 +25,9 @@ class HiperDexCom(RawDevArtComOld, Std):
         return True
 
     def prepare_cookies(self):
-        self.http()._safe_downloader = self.__downloader
-        self.http().referer = self.get_url()
-        self.cf_scrape(self.get_url())
+        if not self._use_flare_solver:
+            self.http()._safe_downloader = self.__downloader
+            self.http().referer = self.get_url()
 
 
 main = HiperDexCom

@@ -21,9 +21,6 @@ class MyReadingMangaInfo(Provider, Std):
         v += parser
         return v[::-1]
 
-    def prepare_cookies(self):
-        self.cf_scrape(self.get_url())
-
     def get_files(self):
         selector = '.entry-content div img,.entry-content p img'
         parser = self.html_fromstring(self.chapter)

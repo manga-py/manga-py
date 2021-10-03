@@ -1,10 +1,12 @@
 from logging import warning
 from os import path
-from typing import Optional, List
+from typing import Optional, List, Union
+from requests import Response
 
 from lxml.html import HtmlElement
 
 from manga_py.http import Http
+from manga_py.http.flare_solver import Http as FS_Http
 from .params import ProviderParams
 
 
@@ -15,6 +17,9 @@ class Base(ProviderParams):
     _http_kwargs = None
     __http = None
     __arguments = None
+    _use_flare_solver = False
+    __flare_solver_http = None
+    _flare_solver_url = None
     chapter_id = 0
     quiet = False
     original_url = None
@@ -61,7 +66,25 @@ class Base(ProviderParams):
         params.setdefault('kwargs', self._http_kwargs)
         return params
 
-    def http(self, new=False, params=None) -> Http:
+    def http(self, new=False, params=None) -> Union[FS_Http, Http]:
+        if self._use_flare_solver:
+            return self.http_normal(new, params)
+        else:
+            return self.flare_solver_http(new, params)
+
+    def flare_solver_http(self, new=False, params=None) -> FS_Http:
+        allow_webp = True == (params or {}).get('no_webp', False)
+        headers = {}
+        if allow_webp:
+            headers['Accept'] = Http.webp_header
+        if self.__flare_solver_http is not None:
+            self.__flare_solver_http = FS_Http(self._flare_solver_url, self.http_normal())
+            self.__flare_solver_http.create_session()
+        if new:
+            return FS_Http(self._flare_solver_url, self.http_normal())
+        return self.__flare_solver_http
+
+    def http_normal(self, new=False, params=None) -> Http:
         http_params = self._build_http_params(params)
         if new:
             http = Http(**http_params)
@@ -71,19 +94,23 @@ class Base(ProviderParams):
         return self.__http
 
     def http_get(self, url: str, headers: dict = None, cookies: dict = None):
-        with self.http().get(url=url, headers=headers, cookies=cookies) as resp:
-            return resp.text
+        http = self.http()
+        with http.get(url=url, headers=headers, cookies=cookies) as resp:
+            if type(http) == Http:
+                return resp.text
+            else:
+                return resp.json().get('solution', {}).get('response', b'').decode()
 
     def http_post(self, url: str, headers: dict = None, cookies: dict = None, data=()):
-        with self.http().post(url=url, headers=headers, cookies=cookies, data=data) as resp:
-            return resp.text
+        http = self.http()
+        with http.post(url=url, headers=headers, cookies=cookies, data=data) as resp:
+            if type(http) == Http:
+                return resp.text
+            else:
+                return resp.json().get('solution', {}).get('response', b'').decode()
 
     def _get_user_agent(self):
-        ua_storage = self._storage.get('user_agent', None)
-        ua_params = self._params.get('user_agent', None)
-        if self._params.get('cf_scrape', False):
-            return ua_storage
-        return ua_params
+        return self._params.get('user_agent', None)
 
     @classmethod
     def __normalize_chapters(cls, n, element):
@@ -144,3 +171,9 @@ class Base(ProviderParams):
 
     def allow_auto_change_url(self):
         return True
+
+    def cookies(self, response: Response) -> dict:
+        if self._use_flare_solver:
+            return response.json().get('solution', {}).get('cookies')
+        return response.cookies.__dict__
+

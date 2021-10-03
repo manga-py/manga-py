@@ -20,6 +20,7 @@ class Request:
     response = None
     _history = None
     allow_send_referer = True
+    webp_header = 'text/html,application/xhtml+xml,application/xml;q=1.0,image/webp,image/apng,*/*;q=1.0'
 
     def __init__(self):
         self.proxies = {}
@@ -92,7 +93,7 @@ class Request:
             headers.setdefault('Referer', self.referer)
         headers.setdefault('Accept-Language', self.default_lang)
         if self.allow_webp:
-            headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=1.0,image/webp,image/apng,*/*;q=1.0'
+            headers['Accept'] = self.webp_header
         kwargs.setdefault('proxies', self.proxies)
         self.response = self._requests_helper(
             method=method, url=url, headers=headers, cookies=cookies,

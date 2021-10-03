@@ -43,7 +43,5 @@ class MangaZukiMe(Provider, Std):
     def prepare_cookies(self):
         self._prefix = self.re.search('(/mangas?/)', self.get_url()).group(1)
 
-        self.cf_scrape(self.get_url())
-
 
 main = MangaZukiMe

@@ -17,7 +17,6 @@ class HentaiVnNet(Provider, Std):
 
     def prepare_cookies(self):
         self.update_cookies({'page_ads_right': '1'})
-        self.cf_scrape(self.get_url())
 
     def get_files(self):
         content = self.http_get(self.chapter)

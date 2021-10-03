@@ -11,7 +11,6 @@ from .base_classes import (
     Abstract,
     Base,
     Callbacks,
-    cf_scrape,
     Static,
     ArchiveName,
 )
@@ -92,7 +91,16 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
         finally:
             self.__save_params(params)
 
+    def prepare_cf(self, url):
+        if self.http().requests(url).status_code != 200:
+            self._use_flare_solver = True
+            self.log('Used ')
+
     def prepare_download(self, params=None):
+        params = params or {}
+
+        self._flare_solver_url = params.pop('flare_solver_url')
+
         self._params_parser(params)
         for i in params:
             self._params.setdefault(i, params[i])
@@ -110,6 +118,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             cookies = (c.split('=', 1) for c in self._params['cookies'])
             self.update_cookies({c[0]: c[1] for c in cookies})
 
+        self.prepare_cf(self.get_url())
         self.prepare_cookies()
 
         info('Manga name: %s' % self.manga_name)
@@ -244,22 +253,6 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             url = url['url']
         return self.document_fromstring(self.http_get(url, **params), selector, idx)
 
-    def cf_scrape(self, url):
-        """
-        WARNING! Thins function replace cookies!
-        :param url: str
-        :return:
-        """
-        try:
-            params = cf_scrape(url)
-            if len(params):
-                self.update_cookies(params[0])
-                self.update_ua(params[1])
-                self._params['cf-protect'] = True
-        except Exception:
-            if not self.__manual_ua():
-                self.log('Please, use --cookie and --user-agent options')
-
     def __manual_ua(self) -> bool:
         return self._params['cookies'] and len(self._params['cookies']) and self._params['user_agent'] and len(
             self._params['user_agent'])
@@ -272,7 +265,7 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
     def update_cookies(self, cookies):
         for k in cookies:
             self._storage['cookies'][k] = cookies[k]
-            self.http().cookies[k] = cookies[k]
+            self.http_normal().cookies[k] = cookies[k]
 
     def before_download_file(self, idx, url):
         url = self.before_file_save(url, idx)

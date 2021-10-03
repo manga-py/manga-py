@@ -26,9 +26,6 @@ class MyMangaListOrg(Provider, Std):
     def get_files(self):
         return []
 
-    def prepare_cookies(self):
-        self.cf_scrape(self.get_url())
-
     def get_cover(self) -> str:
         return self._cover_from_content('img.manga_info_image')
 

@@ -28,8 +28,5 @@ class FunMangaCom(Provider, Std):
     def get_cover(self):
         return self._cover_from_content('img.img-responsive.mobile-img')
 
-    def prepare_cookies(self):
-        self.cf_scrape(self.get_url())
-
 
 main = FunMangaCom
