@@ -17,7 +17,7 @@ class M(Std, Provider):
 
     def get_files(self) -> list:
         parser = self.document_fromstring(self.content)
-        return self._images_helper(parser, 'a', 'href')
+        return self._images_helper(parser, 'img')
 
     def get_archive_name(self) -> str:
         return 'archive'
@@ -55,8 +55,8 @@ class TestStd(unittest.TestCase):
     def test_iterators(self):
         provider = self._provider
         provider._storage['manga_name'] = provider.manga_name
-        self.assertTrue(len(provider.get_chapters()) > 0)
-        self.assertTrue(~provider.get_files()[0].find('.google.'))
+        self.assertGreater(len(provider.get_chapters()), 0)
+        self.assertGreater(len(provider.get_files()), 0)
 
     def test_cover_from_content(self):
         self.content = '<html>'

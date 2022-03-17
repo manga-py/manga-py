@@ -18,8 +18,7 @@ with open('manga_py/cli/_requirements.py', 'w') as w:
 
 
 def req(lines: list):
-    with open('requirements.txt', 'r') as _r:
-        requirements = ''.join(["'%s', " % line.strip() for line in _r.readlines()])
+    requirements = ''.join(["'%s', " % line for line in req_lines()])
 
     for n, line in enumerate(lines):
         matched = RE_REPLACE_SETUP_REQ.search(line)
