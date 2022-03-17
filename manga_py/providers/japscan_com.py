@@ -1,7 +1,6 @@
 from ..provider import Provider
 from .helpers.std import Std
 from manga_py.base_classes.web_driver import make_driver
-from manga_py.base_classes.web_driver.web_driver import WebDriver
 from time import sleep
 
 

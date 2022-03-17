@@ -52,7 +52,7 @@ def _init_display():
         from pyvirtualdisplay import Display
         _display = Display(visible=False, size=(1920, 1080))
         _display.start()
-    except ImportError:
+    except (ImportError, FileNotFoundError):
         _display = None
         info('Use real display. See here: https://github.com/ponty/PyVirtualDisplay/blob/master/README.rst')
     return _display

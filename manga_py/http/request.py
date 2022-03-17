@@ -11,8 +11,8 @@ class Request:
     proxies = None
     allow_webp = True
     user_agent = '{} {}'.format(
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0)',
-        'Gecko/20100101 Firefox/76.0'
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)',
+        'Gecko/20100101 Firefox/91.0'
     )
     default_lang = 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
     cookies = None

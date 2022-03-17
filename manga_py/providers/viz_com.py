@@ -13,27 +13,7 @@ from manga_py.provider import Provider
 from .helpers.std import Std
 
 
-class VizDownloader:
-
-    def viz_downloader(self, file_name, url, method):
-        with open(file_name, 'wb') as out_file:
-            response = request(
-                method, url, timeout=20,
-                allow_redirects=True,
-                headers={
-                    'Referer': 'https://www.viz.com/shonenjump/',
-                    'User-Agent': self.http().user_agent,
-                },
-                cookies=cookiejar_from_dict(self.http().cookies),
-            )
-
-            if 200 >= response.status_code < 300:
-                out_file.write(response.content)
-                response.close()
-                out_file.close()
-
-
-class VizCom(Provider, Std, VizDownloader):
+class VizCom(Provider, Std):
     cookie_file = None
     __cookies = {}
     __has_auth = False
@@ -257,6 +237,23 @@ class VizCom(Provider, Std, VizDownloader):
             ref.save(solved_path)
             return solved_path, 'solved{}.jpeg'.format(idx)
         return _path, arc_name
+
+    def viz_downloader(self, file_name, url, method):
+        with open(file_name, 'wb') as out_file:
+            response = request(
+                method, url, timeout=20,
+                allow_redirects=True,
+                headers={
+                    'Referer': 'https://www.viz.com/shonenjump/',
+                    'User-Agent': self.http().user_agent,
+                },
+                cookies=cookiejar_from_dict(self.http().cookies),
+            )
+
+            if 200 >= response.status_code < 300:
+                out_file.write(response.content)
+                response.close()
+                out_file.close()
 
 
 main = VizCom

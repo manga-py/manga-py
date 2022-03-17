@@ -87,6 +87,10 @@ providers_list = {
     'fanfox_net': [
         r'fanfox\.net/manga/.',
     ],
+    # IN PROGRESS
+    # 'firecross_jp': [
+    #     r'firecross\.jp/ebook/series/\d',
+    # ],
     'funmanga_com': [
         r'funmanga\.com/.',
     ],
@@ -438,6 +442,9 @@ providers_list = {
     ],
     'mangaonline_com_br': [
         r'mangaonline\.com\.br/.',
+    ],
+    'mangaowl_net': [
+        r'mangaowl\.net/',
     ],
     'mangapanda_onl': [
         r'mangapanda\.onl/manga/.',

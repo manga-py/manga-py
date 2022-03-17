@@ -2,12 +2,16 @@ from logging import warning
 from os import path
 from typing import Optional, List, Union
 from requests import Response
+import re
 
 from lxml.html import HtmlElement
 
 from manga_py.http import Http
 from manga_py.http.flare_solver import Http as FS_Http
 from .params import ProviderParams
+
+
+CF_PROXY_RE = re.compile(r'(https?://[^/]+)')
 
 
 class Base(ProviderParams):
@@ -68,9 +72,9 @@ class Base(ProviderParams):
 
     def http(self, new=False, params=None) -> Union[FS_Http, Http]:
         if self._use_flare_solver:
-            return self.http_normal(new, params)
-        else:
             return self.flare_solver_http(new, params)
+        else:
+            return self.http_normal(new, params)
 
     def flare_solver_http(self, new=False, params=None) -> FS_Http:
         allow_webp = True == (params or {}).get('no_webp', False)
@@ -89,8 +93,10 @@ class Base(ProviderParams):
         if new:
             http = Http(**http_params)
             return http
-        elif not self.__http:
+
+        if self.__http is None:
             self.__http = Http(**http_params)
+
         return self.__http
 
     def http_get(self, url: str, headers: dict = None, cookies: dict = None):
@@ -177,3 +183,9 @@ class Base(ProviderParams):
             return response.json().get('solution', {}).get('cookies')
         return response.cookies.__dict__
 
+    @property
+    def cf_proxy(self) -> Optional[str]:
+        cf = self._params.get('cf_proxy')
+        if cf is not None:
+            cf = CF_PROXY_RE.search(cf)
+        return cf.group(1) if cf else None

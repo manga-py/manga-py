@@ -50,9 +50,17 @@ def _args_downloading(args_parser):  # pragma: no cover
         '--proxy',
         type=str,
         help=(
-            'Set a http proxy.'
+            'Set a http proxy. (not worked with --cf-proxy)'
         )
     )
+
+    # args.add_argument(
+    #     '--cf-proxy',
+    #     type=str,
+    #     help=(
+    #         'Set a cloudflare proxy. (thanks https://github.com/FlareSolverr/FlareSolverr)'
+    #     )
+    # )
 
     args.add_argument(
         '-r',
