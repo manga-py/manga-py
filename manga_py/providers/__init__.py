@@ -431,6 +431,7 @@ providers_list = {
     ],
     'manganelo_com': [
         r'manganelo\.com/(manga|chapter)/.',
+        r'manganelo\.tv/(manga|chapter)/.',
     ],
     'manganelos_com': [
         r'manganelos\.com/manga/.',
