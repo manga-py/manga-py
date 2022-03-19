@@ -41,6 +41,7 @@ class Base(ProviderParams):
         self._params = {
             'destination': 'Manga',
             'cf-protect': False,
+            'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
         }
         self._image_params = {
             'crop': (0, 0, 0, 0),
@@ -82,10 +83,12 @@ class Base(ProviderParams):
         if allow_webp:
             headers['Accept'] = Http.webp_header
         if self.__flare_solver_http is not None:
-            self.__flare_solver_http = FS_Http(self._flare_solver_url, self.http_normal())
+            self.__flare_solver_http = FS_Http(self._flare_solver_url, self._get_user_agent())
             self.__flare_solver_http.create_session()
         if new:
-            return FS_Http(self._flare_solver_url, self.http_normal())
+            http = FS_Http(self._flare_solver_url, self._get_user_agent())
+            http.create_session()
+            return http
         return self.__flare_solver_http
 
     def http_normal(self, new=False, params=None) -> Http:
@@ -189,3 +192,7 @@ class Base(ProviderParams):
         if cf is not None:
             cf = CF_PROXY_RE.search(cf)
         return cf.group(1) if cf else None
+
+    def __del__(self):
+        if self.__flare_solver_http is not None:
+            self.flare_solver_http().destroy_session()

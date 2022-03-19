@@ -7,10 +7,10 @@ from base64 import b64decode
 class Http:
     sid: str = None
 
-    def __init__(self, solver_url: str, http: Http_):
+    def __init__(self, solver_url: str, user_agent: str):
         self.headers = {'Content-Type': 'application/json'}
         self.solver_url = solver_url
-        self.user_agent = http.user_agent
+        self.user_agent = user_agent
         self.cookies = {}
 
     def create_session(self, sid: str = None) -> Optional[str]:
@@ -19,7 +19,7 @@ class Http:
             'userAgent': self.user_agent,
             'session': sid,
         }).json().get('session', None)
-        return sid
+        return self.sid
 
     def destroy_session(self):
         post(self.solver_url, json={
@@ -54,8 +54,9 @@ class Http:
             'headers': headers,
             'postData': encoded_data,
             'cookies': cookies,
+            **kwargs,
         }, headers=self.headers)
 
     def file(self, url, headers: dict = None, cookies: dict = None, **kwargs) -> bytes:
-        response = self.get(url, headers, download=True, cookies=cookies)
+        response = self.get(url, headers, download=True, cookies=cookies, **kwargs)
         return b64decode(response.json().get('solution', {}).get('response'))

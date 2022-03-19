@@ -7,3 +7,4 @@ from .matrix import TestMatrix
 from .crypt import TestCrypt
 from .std import TestStd
 from .providers_unique import TestProvidersUnique
+# from .flaresolver import TestFlareSolverHttp

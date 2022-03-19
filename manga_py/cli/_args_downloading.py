@@ -58,7 +58,7 @@ def _args_downloading(args_parser):  # pragma: no cover
     #     '--cf-proxy',
     #     type=str,
     #     help=(
-    #         'Set a cloudflare proxy. (thanks https://github.com/FlareSolverr/FlareSolverr)'
+    #         'Set a cloudflare proxy.'
     #     )
     # )
 
@@ -206,7 +206,7 @@ def _args_downloading(args_parser):  # pragma: no cover
         metavar='URL',
         type=str,
         help=(
-            'Flare solver url (see https://github.com/manga-py/manga-py/issues/413'
+            'Flare solver url (see https://github.com/manga-py/manga-py/issues/413 )'
         )
     )
 
