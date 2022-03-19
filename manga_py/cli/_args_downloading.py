@@ -204,6 +204,7 @@ def _args_downloading(args_parser):  # pragma: no cover
     args.add_argument(
         '--flare-solver-url',
         metavar='URL',
+        type=str,
         help=(
             'Flare solver url (see https://github.com/manga-py/manga-py/issues/413'
         )
