@@ -60,7 +60,13 @@
 
                 buttonElement.addEventListener('click', () => {
 
-                    const idx = parseInt(Math.random() * sitesLen);
+                    let idx;
+                    while (true) {
+                        idx = parseInt(Math.random() * sitesLen);
+                        if (-1 === sites[idx].search('&lt;')) {
+                            break;
+                        }
+                    }
 
                     buttonElement.setAttribute('href', sites[idx]);
 

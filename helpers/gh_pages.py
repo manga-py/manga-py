@@ -51,7 +51,7 @@ def clean(providers):
             _ = i.strip('()')
         else:
             _ = i[:_].strip('()')
-        _list['http://' + _.replace(r'\.', '.')] = ''
+        _list['http://' + _.replace(r'\.', '.').replace(r'\d+', '&lt;d&gt;')] = ''
     return list(_list.keys())
 
 

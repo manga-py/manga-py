@@ -281,6 +281,9 @@ providers_list = {
     'japscan_com': [
         r'japscan\.(cc|com|co|to|se)/.',
     ],
+    'jmana_net': [
+        r'jmana\d+\.net/book\?bookid=\d',
+    ],
     'jurnalu_ru': [
         r'jurnalu\.ru/online-reading/.',
     ],
