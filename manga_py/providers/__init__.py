@@ -611,8 +611,10 @@ providers_list = {
     ],
     'readmanga_me': [
         r'readmanga\.live/.',
+        r'readmanga\.io/.',
         r'mintmanga\.live/.',
         r'selfmanga\.ru/.',
+        r'selfmanga\.live/.',
     ],
     'readmng_com': [
         r'readmng\.com/.',
