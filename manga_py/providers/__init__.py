@@ -475,6 +475,9 @@ providers_list = {
     'mangatail_com': [
         r'mangatail\.me/(manga|chapter|node|content)/.',
     ],
+    'manatoki_net': [
+        r'manatoki\d+\.net/comic/\d',
+    ],
     'mangatown_com': [
         r'mangatown\.com/manga/.',
     ],

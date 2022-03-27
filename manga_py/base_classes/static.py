@@ -1,4 +1,5 @@
-from lxml.html import document_fromstring
+from typing import Union, List
+from lxml.html import document_fromstring, HtmlElement
 # from purifier.purifier import HTMLPurifier
 
 
@@ -16,7 +17,7 @@ class Static:
     #     return purifier.feed(body)
 
     @staticmethod
-    def document_fromstring(body, selector: str = None, idx: int = None):  # pragma: no cover
+    def document_fromstring(body, selector: str = None, idx: int = None) -> Union[HtmlElement, List[HtmlElement]]:  # pragma: no cover
         result = document_fromstring(body)  # todo
         if isinstance(selector, str):
             result = result.cssselect(selector)
