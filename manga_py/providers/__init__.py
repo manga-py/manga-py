@@ -3,6 +3,7 @@ import importlib
 
 providers_list = {
     '1stkissmanga_com': [
+        r'1stkissmanga\.io/manga/.',
         r'1stkissmanga\.com/manga/.',
     ],
     '_3asq_org': [

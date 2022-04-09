@@ -1,6 +1,8 @@
 from pathlib import Path
+from ..fs import get_util_home_path
 
 
+CONFIG_CREATED_FLAG = Path(get_util_home_path()).joinpath('.manga-py.toml.lock')
 CONFIG_FILE = Path.home().joinpath('manga-py.toml')
 
 
@@ -14,6 +16,11 @@ def _available_keys():
 
 
 def dump_init_content():
+    if CONFIG_CREATED_FLAG.is_file():
+        return
+
+    CONFIG_CREATED_FLAG.touch()
+
     if CONFIG_FILE.is_file():
         return
 

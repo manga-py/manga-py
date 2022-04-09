@@ -21,7 +21,13 @@ class RawDevArtComOld(Provider, Std):
         items = self._elements('.wp-manga-chapter > a')
 
         if len(items) == 0:  # example: https://mangasushi.net
-            manga_id = self._elements('#manga-chapters-holder')[0].get('data-id')
+            holders = self._elements('#manga-chapters-holder')
+
+            if len(holders) == 0:
+                self.log('#manga-chapters-holder not found. Break')
+                return []
+
+            manga_id = holders[0].get('data-id')
             items_content = requests.post('{}/wp-admin/admin-ajax.php'.format(self.domain), data={
                 'action': 'manga_get_chapters',
                 'manga': manga_id,

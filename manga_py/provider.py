@@ -92,14 +92,25 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
             self.__save_params(params)
 
     def prepare_cf(self, url):
-        if self.http().requests(url).status_code != 200:
-            self._use_flare_solver = True
-            self.log('Used ')
+        response = self.http().requests(url)
+        if response.status_code != 200:
+            if self._flare_solver_url is None:
+                self.log(f'Found status code {response.status_code}')
+                if ~response.content.find(b'| Cloudflare</title>'):
+                    self.log('Found Cloudflare, but --flare-solver-url param not set')
+                elif self._debug:
+                    with open('dump.html', 'wb') as w:
+                        w.write(response.content)
+                    self.log('See dump.html in your current path')
+                exit(1)
+            else:
+                self._use_flare_solver = True
+                self.log('Try use flare-solver...')
 
     def prepare_download(self, params=None):
         params = params or {}
 
-        self._flare_solver_url = params.pop('flare_solver_url')
+        self._flare_solver_url = params.pop('flare_solver_url', None)
 
         self._params_parser(params)
         for i in params:
