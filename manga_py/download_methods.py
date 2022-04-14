@@ -221,7 +221,7 @@ class WholeArchiveDownloader(BaseDownloadMethod):
 
         if 'cbz' in self._params and self._params['cbz']:
             book_info = ComicInfo()
-            book_info.title(self.get_manga_name()) # todo: normal title maybe?
+            book_info.title(self.manga_name)  # todo: normal title maybe?
             book_info.pages(self.__images_cache)
 
             self._archive.write_file('ComicInfo.xml', str(book_info))

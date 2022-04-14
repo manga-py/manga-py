@@ -190,17 +190,16 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
         for idx, __url in enumerate(self.chapters[_min:_max], start=_min + 1):
             self.chapter_id = idx - 1
+            chapter_for_json = self.chapter_for_json()
+            chapter = chapter_for_json if chapter_for_json is not None else self.chapter
+
             if dl.already_downloaded():
-                info('Skip chapter %d / %s' % (idx, __url))
+                info('Skip chapter %d / %s' % (idx, chapter))
                 continue
             if self._show_chapter_info:
-                print('\n\nCurrent chapter url: %s\n' % (self.chapter,), file=stderr)
+                print(f'\n\nCurrent chapter info: {chapter}\n', file=stderr)
 
             count += 1
-
-            chapter_for_json = self.chapter_for_json()
-
-            chapter = chapter_for_json if chapter_for_json is not None else self.chapter
 
             _path = '%s.%s' % self.get_archive_path()
 
@@ -216,12 +215,16 @@ class Provider(Base, Abstract, Static, Callbacks, ArchiveName, ABC):
 
             if callable(self.global_progress):
                 self.global_progress(self.chapters_count, idx - _min)
-            info('Processed chapter %d / %s' % (idx, __url))
+            info('Processed chapter %d / %s' % (idx, chapter))
 
             self._wait_after_chapter()
 
         for idx, __url in enumerate(self.chapters[_max:], start=_max + 1):
-            info('Skip chapter %d / %s' % (idx, __url))
+            self.chapter_id = idx - 1
+            chapter_for_json = self.chapter_for_json()
+            chapter = chapter_for_json if chapter_for_json is not None else self.chapter
+
+            info('Skip chapter %d / %s' % (idx, chapter))
 
         if count == 0 and not self.quiet:
             print('No new chapters found', file=stderr)
