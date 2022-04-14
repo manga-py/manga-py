@@ -71,7 +71,13 @@ class MangaDexOrg(Provider, Std):
     def get_archive_name(self) -> str:
         prev = super().get_archive_name()
         code = self.chapter['attributes']['translatedLanguage']
-        return 'vol_{}-{}'.format(prev, self.__countries.get(code, 'Other'))
+
+        translator = self._translators(self.chapter)
+        translator_name = ''
+        if len(translator) == 1:
+            translator_name = '-' + translator[0]
+
+        return '{}-{}{}'.format(prev, translator_name, self.__countries.get(code, 'Other'))
 
     def get_chapter_index(self) -> str:
         return '{}-{}'.format((self.volume_num(self.chapter) or ''), self.chapter_num(self.chapter)).strip('-')
