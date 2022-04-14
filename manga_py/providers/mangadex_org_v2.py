@@ -75,7 +75,7 @@ class MangaDexOrg(Provider, Std):
         translator = self._translators(self.chapter)
         translator_name = ''
         if len(translator) == 1:
-            translator_name = '-' + translator[0]
+            translator_name = translator[0] + '-'
 
         return '{}-{}{}'.format(prev, translator_name, self.__countries.get(code, 'Other'))
 
