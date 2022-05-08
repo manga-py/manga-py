@@ -42,7 +42,7 @@ class WebAceJp(Provider, Std):
         content = self.http_get(self.__url() + 'episode/')
         selector = '.media:not(.yudo) > a.navigate-right'
         items = []
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         for el in self._elements(selector, content):
             title = el.cssselect('.media-body p')[0]
             title = title.text_content_full().strip(' \n\r\t\0')
@@ -50,7 +50,7 @@ class WebAceJp(Provider, Std):
         return items
 
     def get_files(self):
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         with self.http().get(self.chapter[0] + '/json/') as resp:
             items = resp.json()
         return [n(i) for i in items]

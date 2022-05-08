@@ -26,7 +26,7 @@ class TmoFansCom(Provider, Std):
 
     def get_chapters(self):
         raw_chapters = self._elements('.list-group .upload-link')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         re = self.re.compile(r'(.+/)')
         chapters = []
         for i in raw_chapters:

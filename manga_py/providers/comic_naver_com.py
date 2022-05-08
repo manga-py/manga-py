@@ -43,7 +43,7 @@ class ComicNaverCom(Provider, Std):
 
             page += 1
 
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return [(n(chapter.get('href')), self.element_text_content(chapter)) for chapter in chapters]
 
     def get_files(self):

@@ -28,7 +28,7 @@ class ReadMangaEu(Provider, Std):
         pages = parser.cssselect('#jumpto > option + option')
         images = self.parse_files(parser)
         for i in pages:
-            url = self.http().normalize_uri(i.get('value'))
+            url = self.normalize_uri(i.get('value'))
             parser = self.html_fromstring(url)
             images += self.parse_files(parser)
         return images

@@ -13,7 +13,7 @@ class MangaParkOrg(Provider, Std):
 
     def get_manga_name(self) -> str:
         title = self.html_fromstring(self.get_url(), 'h3 > a, h4 > a', 0)
-        self.__url = self.http().normalize_uri(title.get('href'))
+        self.__url = self.normalize_uri(title.get('href'))
         return title.text_content_full().strip()
 
     def _print_variants(self, variants):
@@ -86,7 +86,7 @@ class MangaParkOrg(Provider, Std):
         items = parser.cssselect('.card-body i + a')
         result = []
         re = self.re.compile(r'[Cc]h\.(\d+(?:\.\d+)?)')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         for i in items:
             text = i.text_content_full()
             result.append((

@@ -19,13 +19,13 @@ class JapScanCom(Provider, Std):
 
     def get_chapters(self) -> list:
         chapters = self._elements(self._chapters_selector)
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return [n(i.get('href')) for i in chapters]
 
     def get_files(self):
         content = self.http_get(self.chapter)
         pages = self.document_fromstring(content, 'select#pages option')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return [n(i.get('value')) for i in pages]
 
     def save_file(self, idx=None, callback=None, url=None, in_arc_name=None):

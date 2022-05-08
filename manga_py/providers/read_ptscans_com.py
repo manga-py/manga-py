@@ -20,14 +20,14 @@ class ReadPtscansCom(Provider, Std):
         if len(elements) == 0:
             return []
 
-        content = self.http_get(self.http().normalize_uri(elements[0].get('href')))
+        content = self.http_get(self.normalize_uri(elements[0].get('href')))
         re = self.re.search(r'"(/api/chapters.json.+?)"', content).group(1)
-        with self.http().get(self.http().normalize_uri(re)) as resp:
+        with self.http().get(self.normalize_uri(re)) as resp:
             images = resp.json()
         return images['results']
 
     def get_files(self):
-        with self.http().get(self.http().normalize_uri(self.chapter['manifest'])) as resp:
+        with self.http().get(self.normalize_uri(self.chapter['manifest'])) as resp:
             json = resp.json()['readingOrder']
 
         return [i['href'] for i in json]

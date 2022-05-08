@@ -15,7 +15,7 @@ class HocVienTruyenTranhCom(Provider, Std):
 
     def get_content(self):
         url = self._test_main_url(self.get_url())
-        return self.http_get(self.http().normalize_uri(url))
+        return self.http_get(self.normalize_uri(url))
 
     def get_manga_name(self) -> str:
         url = self._test_main_url(self.get_url())

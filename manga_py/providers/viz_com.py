@@ -72,8 +72,8 @@ class VizCom(Provider, Std):
             'metadata=1',
         ]
         url = '{}/manga/get_manga_url?'.format(self.domain) + '&'.join(params)
-        self.log(self.http_get(self.http().normalize_uri(url)))
-        __url = self.http_get(self.http().normalize_uri(url)).strip()
+        self.log(self.http_get(self.normalize_uri(url)))
+        __url = self.http_get(self.normalize_uri(url)).strip()
         self._metadata = loads(self.http_get(__url))
 
         params = [
@@ -201,7 +201,7 @@ class VizCom(Provider, Std):
 
         __url = request(
             'get',
-            self.http().normalize_uri(_url),
+            self.normalize_uri(_url),
             headers={
                 'X-Requested-With': 'XMLHttpRequest',
                 'Referer': 'https://www.viz.com',

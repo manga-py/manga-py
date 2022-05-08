@@ -28,7 +28,7 @@ class SundayWebryCom(Provider, Std):
         chapters = self._chapters(self.content)
         if pages:
             pages = pages[0].cssselect('a:not([class])')
-            n = self.http().normalize_uri
+            n = self.normalize_uri
             for i in pages:
                 chapters += self._chapters(n(i.get('href')))
         return chapters

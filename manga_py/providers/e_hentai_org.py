@@ -39,7 +39,7 @@ class EHentaiOrg(Provider, Std):
             content = self.http_get('{}{}'.format(url, idx))
         pages = self.document_fromstring(content, selector)
 
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         f = self.document_fromstring
 
         images = []

@@ -16,7 +16,7 @@ class TsuminoCom(Provider, Std):
         url = self.get_url()
         if ~url.find('/Read/'):
             url = self.html_fromstring(url, '#backToIndex + a', 0).get('href')
-        return self.http_get(self.http().normalize_uri(url))
+        return self.http_get(self.normalize_uri(url))
 
     def get_manga_name(self) -> str:
         return 'tsumino_' + self.re.search(r'/(?:Info|View)/(\d+)', self.get_url()).group(1)

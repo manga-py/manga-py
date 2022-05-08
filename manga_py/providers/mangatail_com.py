@@ -34,7 +34,7 @@ class MangaTailCom(Provider, Std):
         header = self.html_fromstring(self.get_url(), selector, 0)
         link = header.cssselect('a.active + a')
         if link:
-            link = self.http().normalize_uri(link.get('href'))
+            link = self.normalize_uri(link.get('href'))
             self.__local_storage = link
             header = self.html_fromstring(link, selector, 0)
         return header.text_content_full().strip().replace('/', '_')  # http://www.mangasail.com/content/12-prince-manga
@@ -44,7 +44,7 @@ class MangaTailCom(Provider, Std):
         # I wanted to sleep. Maybe fix it someday.
         found = []
         result = []
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         for i in items:
             name, url = i.text_content_full().strip(), i.get('href')
             _name = self._parse_ch(name)
@@ -69,7 +69,7 @@ class MangaTailCom(Provider, Std):
     def get_files(self):
         url = self.chapter[1]
         items = self.html_fromstring('{}{}'.format(url, '?page=all'), '#images img')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return [n(i.get('src')) for i in items]
 
     def get_cover(self) -> str:  # TODO
@@ -77,7 +77,7 @@ class MangaTailCom(Provider, Std):
         cover = self.json.loads(cover.text_content_full().strip()).get('field')
         key = cover.keys()[0]
         cover = self.document_fromstring(cover.get(key), '.field-type-image img', 0)
-        return self.http().normalize_uri(cover.get('src'))
+        return self.normalize_uri(cover.get('src'))
 
     def book_meta(self) -> dict:
         # todo meta

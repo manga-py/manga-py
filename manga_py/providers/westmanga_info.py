@@ -17,7 +17,7 @@ class WestMangaInfo(Provider, Std):
         if ~url.find('/manga/'):
             return self._get_name('/manga/([^/]+)')
         url = self.html_fromstring(url, '.allc a', 0).get('href')
-        self._params['url'] = self.http().normalize_uri(url)
+        self._params['url'] = self.normalize_uri(url)
         return self.get_manga_name()
 
     def get_chapters(self):

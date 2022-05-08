@@ -28,7 +28,7 @@ class HoduComicsCom(Provider, Std):
     def get_chapters(self):
         items = self._elements('.episode_list .episode_tr.not_need_pay')
         re = self.re.compile(r'(/webtoon/.+?/\d+)')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         if len(items) == 0:
             return []
         return [n(re.search(i.get('onclick')).group(1)) for i in items]

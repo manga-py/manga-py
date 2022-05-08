@@ -38,7 +38,7 @@ class ManaTokiNet(Provider, Std):
 
     def __chapter(self, i):
         return (
-            self.http().normalize_uri(i.cssselect('a.item-subject')[0].get('href')),
+            self.normalize_uri(i.cssselect('a.item-subject')[0].get('href')),
             self.element_text_content(i.cssselect('.wr-num')[0])
         )
 

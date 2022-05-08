@@ -15,7 +15,7 @@ class ManhwaReaderCom(RawDevArtComOld):
 
     def get_chapters(self):
         items = self._elements('.wp-manga-chapter > a')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return [n(i.get('href')).rstrip('/') + '/?style=list' for i in items]
 
     def get_files(self):

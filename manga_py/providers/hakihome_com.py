@@ -24,7 +24,7 @@ class HakiHomeCom(Provider, Std):
 
     def get_files(self):
         img_selector = '#con img'
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         uri = n(self.chapter)
         parser = self.html_fromstring(uri, '#contentchap', 0)
         pages = self._first_select_options(parser, '#botn span > select[onchange]')

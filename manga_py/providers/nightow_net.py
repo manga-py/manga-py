@@ -33,7 +33,7 @@ class NightowNet(Provider, Std):
     def get_files(self):
         content = self.http_get(self.chapter)
         items = self.re.findall(r'imageArray\[\d+\]\s*=\s*[\'"](.+)[\'"];', content)
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return [n(i) for i in items]
 
     def get_cover(self) -> str:

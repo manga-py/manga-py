@@ -34,13 +34,13 @@ class MangaTownCom(Provider, Std):
 
     def get_files(self):
         img_selector = 'img#image'
-        url = self.http().normalize_uri(self.chapter)
+        url = self.normalize_uri(self.chapter)
         parser = self.html_fromstring(url)
         pages = self._first_select_options(parser, '.page_select')
         images = self._images_helper(parser, img_selector)
 
         for i in pages:
-            url = self.http().normalize_uri(i.get('value'))
+            url = self.normalize_uri(i.get('value'))
             img = self.html_fromstring(url)
             images += self._images_helper(img, img_selector)
 

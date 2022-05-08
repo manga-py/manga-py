@@ -25,7 +25,7 @@ class BatoTo(Provider, Std):
 
     def get_chapters(self):
         items = self._elements('.main > .item > a')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         result = []
         for i in items:
             title = i.cssselect('b')[0].text_content_full().strip(' \n\t\r')
@@ -54,7 +54,7 @@ class BatoTo(Provider, Std):
             images = self.re.search(r'\simages\s*=\s*(\[.+\]);', content).group(1)
             images = self.json.loads(images)
 
-            n = self.http().normalize_uri
+            n = self.normalize_uri
             info([n(f'{server}{img}') for img in images])
             return [n(f'{server}{img}') for img in images]
         except ValueError as e:

@@ -20,7 +20,7 @@ class ToonKorCo(Provider, Std):
 
     def get_chapters(self):
         items = self._elements('#fboardlist td.episode__index')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return [n(i.get('data-role')) for i in items]
 
     def get_files(self):
@@ -29,7 +29,7 @@ class ToonKorCo(Provider, Std):
         if not imgs:
             return []
         content = BaseLib.base64decode(imgs.group(1)).decode()
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return [n(i.get('src')) for i in self._elements('img', content)]
 
     def get_cover(self) -> str:

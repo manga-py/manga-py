@@ -14,7 +14,7 @@ class KomikCastCom(Provider, Std):
         url = self.get_url()
         if ~url.find('/chapter/'):
             url = self.html_fromstring(url, '.allc a', 0).get('href')
-            self._params['url'] = self.http().normalize_uri(url)
+            self._params['url'] = self.normalize_uri(url)
             return self.get_manga_name()
         return self._get_name(r'\.com/([^/]+)')
 

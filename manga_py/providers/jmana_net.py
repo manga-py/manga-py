@@ -22,7 +22,7 @@ class JManaNet(Provider, Std):
 
     def __chapter(self, element, idx: int):
         return (
-            self.http().normalize_uri(element.get('href')),
+            self.normalize_uri(element.get('href')),
             self.element_text_content(element)[idx:].strip(),
         )
 

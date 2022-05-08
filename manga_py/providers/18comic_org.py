@@ -14,7 +14,7 @@ class ComicOrg(Provider, Std):
 
     def get_chapters(self):
         elements = self._elements('.episode > ul a[href^="/photo/"]')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return list(set(map(lambda x: n(x.get('href')), elements)))[::-1]
 
     def get_files(self):

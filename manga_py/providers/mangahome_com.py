@@ -19,7 +19,7 @@ class MangaHomeCom(Provider, Std):
         return self._elements('.detail-chlist a')
 
     def get_files(self):
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         img_selector = 'img#image'
         _url = n(self.chapter)
         parser = self.html_fromstring(_url)

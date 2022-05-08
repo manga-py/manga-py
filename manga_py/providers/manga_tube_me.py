@@ -22,7 +22,7 @@ class MangaTubeMe(Provider, Std):
         return [(i.text_content_full(), i.get('href')) for i in items]
 
     def get_files(self):
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         content = self.http_get(n(self.chapter[1]))
         img_path = self.re.search(r'img_path[\'"]?:\s[\'"](.+)[\'"]', content)
         img_path = n(img_path.group(1))

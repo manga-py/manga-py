@@ -28,7 +28,7 @@ class HentaiFoxCom(Provider, Std):
     def get_files(self):
         pages = self._elements('.gallery .preview_thumb a')
         items = []
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         for i in pages:
             url = self.html_fromstring(n(i.get('href')), '#gimg', 0).get('src')
             items.append(n(url))

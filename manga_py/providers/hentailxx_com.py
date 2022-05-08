@@ -17,7 +17,7 @@ class HentaiLxxCom(Provider, Std):
         return self.element_text_content_full(el)
 
     def get_chapters(self):
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return [(n(e.get('href')), self.element_text_content_full(e)) for e in self._elements('li a.seen')]
 
     def get_files(self):

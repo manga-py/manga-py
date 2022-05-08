@@ -48,7 +48,7 @@ class OtakuSmashCom(Provider, Std):
             return False
         image = image[0].get('src')
         if image[0] == '/':
-            return self.http().normalize_uri(image)
+            return self.normalize_uri(image)
         base_uri = parser.cssselect('base')
         if len(base_uri):
             base_uri = base_uri[0].get('href')

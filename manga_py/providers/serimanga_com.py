@@ -18,13 +18,13 @@ class SeriMangaCom(Provider, Std):
 
     def get_chapters(self):
         items = self._elements('li.spl-list-item a')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return [(n(i.get('href')), i.cssselect('span')[0].text_content_full().strip()) for i in items]
 
     def get_files(self):
         parser = self.html_fromstring(self.chapter[0])
         images = self._images_helper(parser, '.chapter-pages > img', 'data-src', 'src')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return [n(image) for image in images]
 
     def get_cover(self) -> str:

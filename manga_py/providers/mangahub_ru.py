@@ -25,7 +25,7 @@ class MangaHubRu(Provider, Std):
             return []
         result = parser[0].get('data-reader-store')
         result = self.json.loads(html.unescape(result))['scans']
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         return [n(i['src']) for i in result]
 
     def get_cover(self):

@@ -44,7 +44,7 @@ class TaaddCom(Provider, Std):
         pages = parser.cssselect(self._pages_selector)[0].cssselect('option + option')
         images = self._images_helper(parser, self.img_selector)
         for i in pages:
-            c = self.html_fromstring(self.http().normalize_uri(i.get('value')))
+            c = self.html_fromstring(self.normalize_uri(i.get('value')))
             images += self._images_helper(parser, self.img_selector)
         return images
 

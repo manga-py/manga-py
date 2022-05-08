@@ -43,7 +43,7 @@ class PururinIo(Provider, Std):
     def get_files(self):
         items = self._elements('.col-md-10 .well-pururin > div[class*="preview"] > a')
         if items:
-            url = self.http().normalize_uri(items[0].get('href'))
+            url = self.normalize_uri(items[0].get('href'))
             content = self.http_get(url)
             images = self.re.search(r'chapters\s*=\s*(\{.+\})\s*;', content)
             if images:

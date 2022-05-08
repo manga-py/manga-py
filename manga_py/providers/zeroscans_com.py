@@ -33,7 +33,7 @@ class ZeroScansCom(Provider, Std):
         ).group(1)
         images = self.json.loads(raw_images)
 
-        n = self.http().normalize_uri
+        n = self.normalize_uri
 
         return [n(i) for i in images]
 

@@ -69,7 +69,7 @@ class MangaFoxMe(Provider, Std):
         content = self.http_get(self.chapter)
         links = self._get_links(content)
 
-        n = self.http().normalize_uri
+        n = self.normalize_uri
 
         if ~links.find('key='):
             # chapters data example: http://fanfox.net/manga/the_hero_is_overpowered_but_overly_cautious/c001/chapterfun.ashx?cid=567602&page=6&key=6b5367d728d445a8

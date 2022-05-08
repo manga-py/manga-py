@@ -16,7 +16,7 @@ class LeoMangaCom(Provider, Std):
         return self._get_name('/manga/([^/]+)')
 
     def _get_first_href(self, parser):
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         url = n(parser[0].get('href'))
         select0 = self.html_fromstring(url, '.list-group .cap-option')
         if select0:
@@ -35,7 +35,7 @@ class LeoMangaCom(Provider, Std):
         return []
 
     def get_files(self):
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         items = self.html_fromstring(self.chapter, '.vertical .cap-images')
         return [n(i.get('src')) for i in items]
 

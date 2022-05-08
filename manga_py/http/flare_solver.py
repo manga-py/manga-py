@@ -6,6 +6,7 @@ from base64 import b64decode
 
 class Http:
     sid: str = None
+    has_error: bool = False
 
     def __init__(self, solver_url: str, user_agent: str):
         self.headers = {'Content-Type': 'application/json'}

@@ -18,6 +18,9 @@ class Static:
 
     @staticmethod
     def document_fromstring(body, selector: str = None, idx: int = None) -> Union[HtmlElement, List[HtmlElement]]:  # pragma: no cover
+        if len(body) == 0:
+            raise RuntimeError('Content has empty!')
+
         result = document_fromstring(body)  # todo
         if isinstance(selector, str):
             result = result.cssselect(selector)

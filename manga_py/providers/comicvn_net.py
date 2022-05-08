@@ -37,7 +37,7 @@ class ComicNnNet(Provider, Std):
         content = self._iframe_hook(self.chapter)
         files = content.cssselect('textarea#txtarea img')
         if files:
-            n = self.http().normalize_uri
+            n = self.normalize_uri
             return [n(i.get('src')) for i in files]
         return []
 

@@ -52,7 +52,7 @@ class DanbooruDonmaiUs(Provider, Std):
             self.chapter,
         )
         parser = self.html_fromstring(url, '#posts article a')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         images = []
         for i in parser:
             images += self._post_image(n(i.get('href')))
@@ -74,7 +74,7 @@ class DanbooruDonmaiUs(Provider, Std):
         links = parser.cssselect('#has-parent-relationship-preview article a')
         if links:
             images = []
-            n = self.http().normalize_uri
+            n = self.normalize_uri
             for i in links:
                 images += self._post_image(n(i.get('href')))
             return images

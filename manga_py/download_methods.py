@@ -20,6 +20,7 @@ class BaseDownloadMethod(object):
         self.provider = provider
         self.log = provider.log
         self.http = self.provider.http
+        self.http_normal = self.provider.http_normal
         self.chapter_progress = self.provider.chapter_progress
         self.global_progress = self.provider.global_progress
         self.volume = "0"
@@ -127,6 +128,9 @@ class OnePerOneDownloader(BaseDownloadMethod):
             for i, p in enumerate(m, start=1):
                 self.chapter_progress(len(self.files), i)
 
+    def download_file(self, *args, **kwargs):
+        return self.http_normal().download_file(*args, **kwargs)
+
     def save_file(self, idx=None, url=None, callback=None, in_arc_name=None):
         _path, idx, _url = self.provider.before_download_file(idx, url)
 
@@ -134,7 +138,7 @@ class OnePerOneDownloader(BaseDownloadMethod):
             return
 
         if not is_file(_path) or file_size(_path) < 32:
-            self.http().download_file(_url, _path, idx)
+            self.download_file(_url, _path, idx)
 
         _path, _in_arc_name = self.provider.after_file_save(_path, idx)
 

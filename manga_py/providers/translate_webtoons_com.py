@@ -31,7 +31,7 @@ class TranslateWebToonsCom(Provider, Std):
         pages = self._elements('.paginate > a:not([class])')
         chapters = self._chapters(self.content)
         if pages:
-            n = self.http().normalize_uri
+            n = self.normalize_uri
             for i in pages:
                 content = self.http_get(n(i.get('href')))
                 chapters += self._chapters(content)

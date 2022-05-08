@@ -22,7 +22,7 @@ class LusciousNet(Provider, Std):
 
     def get_files(self):
         items = self._elements('#album_meta_ds .item > a')
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         images = []
         for i in items:
             content = self.http_get(n(i.get('href')), headers={'x-requested-with': 'XMLHttpRequest'})

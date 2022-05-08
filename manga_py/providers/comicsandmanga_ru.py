@@ -26,7 +26,7 @@ class ComicsAndMangaRu(Provider, Std):
 
     def get_files(self):
         img_selector = 'a > img'
-        nu = self.http().normalize_uri
+        nu = self.normalize_uri
         uri = nu(self.chapter)
         parser = self.html_fromstring(uri, '.ForRead', 0)
         pages = parser.cssselect('.navigation select')[0].cssselect('option + option')

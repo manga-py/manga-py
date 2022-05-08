@@ -26,7 +26,7 @@ class MangAs(Provider, Std):
         if not items:
             self.log('Images not found!', file=stderr)
             return []
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         items = self.json.loads(items.group(1))
         return [n(i.get('page_image')) for i in items]
 

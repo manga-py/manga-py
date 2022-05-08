@@ -71,6 +71,9 @@ class Base(ProviderParams):
         params.setdefault('kwargs', self._http_kwargs)
         return params
 
+    def normalize_uri(self, uri, referer=None):
+        return self.http_normal().normalize_uri(uri=uri, referer=referer)
+
     def http(self, new=False, params=None) -> Union[FS_Http, Http]:
         if self._use_flare_solver:
             return self.flare_solver_http(new, params)
@@ -82,7 +85,7 @@ class Base(ProviderParams):
         headers = {}
         if allow_webp:
             headers['Accept'] = Http.webp_header
-        if self.__flare_solver_http is not None:
+        if self.__flare_solver_http is None:
             self.__flare_solver_http = FS_Http(self._flare_solver_url, self._get_user_agent())
             self.__flare_solver_http.create_session()
         if new:
@@ -108,7 +111,11 @@ class Base(ProviderParams):
             if type(http) == Http:
                 return resp.text
             else:
-                return resp.json().get('solution', {}).get('response', b'').decode()
+                content = resp.json().get('solution', {}).get('response', b'')
+                try:
+                    return content.decode()
+                except AttributeError:
+                    return content
 
     def http_post(self, url: str, headers: dict = None, cookies: dict = None, data=()):
         http = self.http()
@@ -130,7 +137,7 @@ class Base(ProviderParams):
         return element
 
     def _prepare_chapters(self, chapters):
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         items = []
         if chapters and len(chapters):
             for i in chapters:

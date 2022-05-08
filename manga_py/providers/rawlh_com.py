@@ -19,7 +19,7 @@ class RawLHCom(Provider, Std):
         url = self.get_url()
         if ~url.find('/read-'):
             title = self.html_fromstring(url, '.navbar-brand.manga-name', 0)
-            self._root_uri = self.http().normalize_uri(title.get('href'))
+            self._root_uri = self.normalize_uri(title.get('href'))
         else:
             self._root_uri = url
             title = self.document_fromstring(self.content, '.manga-info h1', 0)

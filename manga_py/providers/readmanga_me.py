@@ -25,7 +25,7 @@ class ReadmangaMe(Provider, Std):
         return self._elements('div.chapters-link tr > td > a')
 
     def get_files(self):
-        _uri = self.http().normalize_uri(self.chapter)
+        _uri = self.normalize_uri(self.chapter)
         content = self.http_get(_uri)
         result = self.re.search(r'rm_h\.init.+?(\[\[.+\]\])', content, self.re.M)
         if not result:

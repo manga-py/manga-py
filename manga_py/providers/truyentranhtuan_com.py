@@ -12,7 +12,7 @@ class TruyenTranhTuanCom(Provider, Std):
         content = self.http_get(self.get_url())
         parser = self.document_fromstring(content, '#read-title a.mangaName')
         if parser and len(parser):
-            return self.http_get(self.http().normalize_uri(parser[0].get('href')))
+            return self.http_get(self.normalize_uri(parser[0].get('href')))
         return content
 
     def get_manga_name(self) -> str:
@@ -29,7 +29,7 @@ class TruyenTranhTuanCom(Provider, Std):
         content = self.http_get(self.chapter)
         items = self.re.search(r'slides_page_url_path\s*=\s*(\[.+\])[;,]?', content)
         if items:
-            n = self.http().normalize_uri
+            n = self.normalize_uri
             items = self.json.loads(items.group(1))
             return [n(i) for i in items]
         return []

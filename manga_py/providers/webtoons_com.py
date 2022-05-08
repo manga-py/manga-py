@@ -34,7 +34,7 @@ class WebToonsCom(Provider, Std):
 
     def _get_pages_urls(self, content):
         chapters = []
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         for j in self._get_page_urls(content):  # page-urls
             _content = self.http_get(n(j.get('href')))
             chapters += self._chapters(_content)
@@ -42,7 +42,7 @@ class WebToonsCom(Provider, Std):
 
     def get_next_page_urls(self, content):
         urls = self._elements('a + a.pg_next', content)
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         if len(urls):
             self.__next_page_urls.append(n(urls[0].get('href')))
             _content = self.http_get(n(urls[0].get('href')))
@@ -52,7 +52,7 @@ class WebToonsCom(Provider, Std):
         self.log('Parse chapters. Please, wait')
         self.__next_page_urls = []
         chapters = self._chapters(self.content)
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         chapters += self._get_pages_urls(self.content)  # main page paginator
 
         self.get_next_page_urls(self.content)

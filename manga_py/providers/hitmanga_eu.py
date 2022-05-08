@@ -52,7 +52,7 @@ class HitMangaEu(Provider, Std):
     def prepare_cookies(self):
         domain = self.domain.split('.')
         self.postfix = r'\.' + domain[-1]
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         self._n = lambda u, r: n(u, r)
 
     def book_meta(self) -> dict:

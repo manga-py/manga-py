@@ -28,7 +28,7 @@ class MangaTrCom(Provider, Std):
         parser = self.html_fromstring(self.chapter)
         pages = self._first_select_options(parser, '.chapter-content select')
         images = self._images_helper(parser, img_selector)
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         for i in pages:
             parser = self.html_fromstring(n(i))
             images += self._images_helper(parser, img_selector)

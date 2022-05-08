@@ -18,7 +18,7 @@ class Std:
     def _cover_from_content(self, selector, attr='src') -> Optional[str]:
         image = self._elements(selector)
         if image is not None and len(image):
-            return self.http().normalize_uri(image[0].get(attr))
+            return self.normalize_uri(image[0].get(attr))
         return ''
 
     @staticmethod
@@ -90,7 +90,7 @@ class Std:
             r'background.+?url\([\'"]?([^\s]+?)[\'"]?\)',
             image.get('style')
         )
-        return self.http().normalize_uri(url.group(1))
+        return self.normalize_uri(url.group(1))
 
     def text_content_full(self, content, selector, idx: int = 0, strip: bool = True) -> Optional[str]:
         doc = self.document_fromstring(content, selector)

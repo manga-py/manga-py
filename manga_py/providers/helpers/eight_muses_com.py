@@ -6,7 +6,7 @@ class EightMusesCom:
 
     def __init__(self, provider: Provider):
         self.provider = provider
-        self._n = provider.http().normalize_uri
+        self._n = provider.http_normal().normalize_uri
 
     def is_images_page(self, parser) -> bool:
         if not parser:

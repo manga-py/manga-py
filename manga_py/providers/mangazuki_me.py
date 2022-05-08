@@ -22,7 +22,7 @@ class MangaZukiMe(Provider, Std):
 
     def get_chapters(self):
         chapters = []
-        n = self.http().normalize_uri
+        n = self.normalize_uri
         re = self.re.compile(r'(.+?)(?:\?style=list)?(?:/)?$')
         for ch in self._elements('.wp-manga-chapter > a'):
             href = re.search(ch.get('href')).group(1)
