@@ -6,7 +6,7 @@ class MangaLifeUs(Provider, Std):
     img_selector = '.image-container .CurImage'
 
     def get_chapter_index(self) -> str:
-        selector = r'-chapter-(\d+)-index-(\d+)'
+        selector = r'-chapter-(\d+)-(?:index|page)-(\d+)'
         chapter = self.re.search(selector, self.chapter)
 
         if chapter is None:  # http://mangalife.us/manga/Ubau-Mono-Ubawareru-Mono  #51
@@ -99,6 +99,8 @@ class MangaLifeUs(Provider, Std):
     @staticmethod
     def __ch(ch):
         n = ch[1:-1].lstrip('0')
+        if n == '':
+            n = '0'
         if ch[-1] != '0':
             return '%s.%s' % (n, ch[-1])
         return '{:0>1}'.format(n)
