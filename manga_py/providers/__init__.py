@@ -436,6 +436,7 @@ providers_list = {
     'manganato_com': [
         r'manganato\.com/manga-',
         r'readmanganato\.com/manga-',
+        r'chapmanganato\.com/manga-',
     ],
     'manganelo_com': [
         r'manganelo\.com/(manga|chapter)/.',
