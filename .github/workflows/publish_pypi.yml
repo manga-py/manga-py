@@ -29,4 +29,4 @@ jobs:
         uses: google-github-actions/release-please-action@c078ea33917ab8cfa5300e48f4b7e6b16606aede # google-github-actions/release-please-action@v3.7.8
         with:
           release-type: python
-          token: 'pypi-AgEIcHlwaS5vcmcCJDkyMjNjOGNlLWNiNGEtNGY5NC1hNzNlLTAwMTMyMWFkZGZkMAACEFsxLFsibWFuZ2EtcHkiXV0AAixbMixbIjFmZGZkNmViLTk3ZDktNDc1YS1iYjYzLTMzNTk2MjA4MzhlMCJdXQAABiCwq9Vi5e6fJHQK1X86LCQsBAI7JJ0dWuWZFt8WK3OJQA'
+          token: ${{ secrets.PYPI_API_TOKEN }}
