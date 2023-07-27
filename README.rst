@@ -36,7 +36,8 @@ How to use
 Installation
 ~~~~~~~~~~~~
 
-1) Download python 3.6+ https://docs.conda.io/en/latest/miniconda.html
+1) Download python 3.6 to 3.9
+   https://docs.conda.io/en/latest/miniconda.html 
 2) Install pip package:
 
 .. code:: bash
